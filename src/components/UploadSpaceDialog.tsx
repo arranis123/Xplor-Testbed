@@ -28,6 +28,7 @@ const uploadFormSchema = z.object({
   yachtSubtype: z.string().optional(),
   yachtUsePurpose: z.string().optional(),
   yachtUsePurposeSubtype: z.string().optional(),
+  yachtHullConfiguration: z.string().optional(),
   listingType: z.string().optional(),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
@@ -161,6 +162,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtSubtype: "",
       yachtUsePurpose: "",
       yachtUsePurposeSubtype: "",
+      yachtHullConfiguration: "",
       listingType: "",
       salePrice: "",
       rentalPriceRange: "",
@@ -331,6 +333,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "sportfisher", label: "Sportfisher" },
     { value: "convertible-fishing-yacht", label: "Convertible Fishing Yacht" },
     { value: "walkaround-fishing-yacht", label: "Walkaround Fishing Yacht" },
+  ];
+
+  const yachtHullConfigurations = [
+    { value: "monohull", label: "Monohull" },
+    { value: "catamaran", label: "Catamaran" },
+    { value: "trimaran", label: "Trimaran" },
+    { value: "power-catamaran", label: "Power Catamaran" },
+    { value: "multi-hull", label: "Multi-Hull" },
   ];
 
   const charterYachtSubtypes = [
@@ -738,6 +748,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   {sportLeisureYachtSubtypes.map((type) => (
                                     <SelectItem key={type.value} value={type.value}>
                                       {type.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                      
+                      {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="yachtHullConfiguration"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Hull Configuration</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select hull configuration" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {yachtHullConfigurations.map((config) => (
+                                    <SelectItem key={config.value} value={config.value}>
+                                      {config.label}
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
