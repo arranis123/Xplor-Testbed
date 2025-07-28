@@ -69,6 +69,15 @@ const uploadFormSchema = z.object({
   checkOutTime: z.string().optional(),
   hotelPolicies: z.string().optional(),
   nearbyAttractions: z.string().optional(),
+  // Location-specific fields
+  country: z.string().optional(),
+  region: z.string().optional(),
+  city: z.string().optional(),
+  neighborhood: z.string().optional(),
+  streetAddress: z.string().optional(),
+  postalCode: z.string().optional(),
+  latitude: z.string().optional(),
+  longitude: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -141,6 +150,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       checkOutTime: "",
       hotelPolicies: "",
       nearbyAttractions: "",
+      // Location-specific default values
+      country: "",
+      region: "",
+      city: "",
+      neighborhood: "",
+      streetAddress: "",
+      postalCode: "",
+      latitude: "",
+      longitude: "",
     },
   });
 
@@ -329,13 +347,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-5" : (category === "real-estate") ? "grid-cols-5" : "grid-cols-6"}`}>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-6" : (category === "real-estate") ? "grid-cols-6" : "grid-cols-7"}`}>
                   <TabsTrigger value="basic">Basic Info</TabsTrigger>
                   {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                     <TabsTrigger value="hotel-details">Hotel Details</TabsTrigger>
                   ) : (
                     <TabsTrigger value="details">Property Details</TabsTrigger>
                   )}
+                  <TabsTrigger value="location">Location Details</TabsTrigger>
                   {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
                   )}
@@ -858,9 +877,161 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                      </>
                    )}
                  </TabsContent>
-                )}
+                 )}
 
-                {!(category === "hotel" || category === "hotel/resort") && (
+                 <TabsContent value="location" className="space-y-4">
+                   <div className="space-y-4">
+                     <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                       <MapPin className="h-5 w-5" />
+                       Location Details
+                     </h3>
+                     
+                     <div className="grid grid-cols-2 gap-4">
+                       <FormField
+                         control={form.control}
+                         name="country"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Country</FormLabel>
+                             <FormControl>
+                               <Input placeholder="e.g., United States" {...field} />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                       <FormField
+                         control={form.control}
+                         name="region"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Region / State / Province</FormLabel>
+                             <FormControl>
+                               <Input placeholder="e.g., California" {...field} />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     </div>
+
+                     <div className="grid grid-cols-2 gap-4">
+                       <FormField
+                         control={form.control}
+                         name="city"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>City / Town</FormLabel>
+                             <FormControl>
+                               <Input placeholder="e.g., San Francisco" {...field} />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                       <FormField
+                         control={form.control}
+                         name="neighborhood"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Neighborhood / District</FormLabel>
+                             <FormControl>
+                               <Input placeholder="e.g., Mission District" {...field} />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     </div>
+
+                     <FormField
+                       control={form.control}
+                       name="streetAddress"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Street Address</FormLabel>
+                           <FormControl>
+                             <Input placeholder="e.g., 123 Main Street, Apt 4B" {...field} />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+
+                     <div className="grid grid-cols-2 gap-4">
+                       <FormField
+                         control={form.control}
+                         name="postalCode"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Postal / ZIP Code</FormLabel>
+                             <FormControl>
+                               <Input placeholder="e.g., 94103" {...field} />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     </div>
+
+                     <div className="space-y-4">
+                       <h4 className="text-md font-medium">Map Integration (Optional)</h4>
+                       <div className="grid grid-cols-2 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="latitude"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Latitude</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., 37.7749" {...field} />
+                               </FormControl>
+                               <FormDescription>
+                                 Optional: Used for precise map positioning
+                               </FormDescription>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="longitude"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Longitude</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., -122.4194" {...field} />
+                               </FormControl>
+                               <FormDescription>
+                                 Optional: Used for precise map positioning
+                               </FormDescription>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                       
+                       <Card className="p-4">
+                         <div className="flex items-center gap-2 mb-2">
+                           <MapPin className="h-4 w-4" />
+                           <span className="text-sm font-medium">Map Pin Drop / Location Picker</span>
+                         </div>
+                         <p className="text-sm text-muted-foreground mb-3">
+                           Click on the map below to set the exact location, or use the coordinates above.
+                         </p>
+                         <div className="bg-muted rounded-lg h-48 flex items-center justify-center">
+                           <div className="text-center">
+                             <MapPin className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                             <p className="text-sm text-muted-foreground">Interactive Map Coming Soon</p>
+                             <p className="text-xs text-muted-foreground">Use latitude/longitude fields above for now</p>
+                           </div>
+                         </div>
+                       </Card>
+                     </div>
+                   </div>
+                 </TabsContent>
+
+                 {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
                   <TabsContent value="amenities" className="space-y-4">
                   <div className="space-y-6">
                     <div>
