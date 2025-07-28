@@ -3,6 +3,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { Menu, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CartButton, CartSheet } from "@/components/Cart";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             </div>
             
             <div className="flex items-center gap-2">
+              <CartButton />
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/accounts">
                   <User className="h-4 w-4 mr-2" />
@@ -36,6 +38,8 @@ export function AppLayout({ children }: AppLayoutProps) {
               </Button>
             </div>
           </header>
+
+          <CartSheet />
 
           {/* Main Content */}
           <main className="flex-1 overflow-auto">
