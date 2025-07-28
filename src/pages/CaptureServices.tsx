@@ -21,6 +21,9 @@ import captureHeroImage from "@/assets/capture-services-hero.jpg";
 import pro3CameraImage from "@/assets/pro3-camera.jpg";
 
 const CaptureServices = () => {
+  const openCalendly = () => {
+    window.open('https://calendly.com', '_blank');
+  };
   const industryTabs = [
     { 
       id: "design", 
@@ -119,7 +122,7 @@ const CaptureServices = () => {
               so you can access, manage, and promote your properties anytime, from anywhere.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" onClick={openCalendly}>
                 Book Now
               </Button>
               <Button size="lg" variant="outline" onClick={() => window.location.href = '/vr-cameras'}>
@@ -207,7 +210,7 @@ const CaptureServices = () => {
             After your appointment, your digital twins will be ready for you to start using in as fast as 24-48 hours. 
             Use your digital twin to collaborate with your team and create transformative experiences for your customers.
           </p>
-          <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+          <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" onClick={openCalendly}>
             Book Now
           </Button>
         </div>
@@ -243,7 +246,7 @@ const CaptureServices = () => {
                     </div>
                   ))}
                 </div>
-                <Button className="w-full bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+                <Button className="w-full bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" onClick={openCalendly}>
                   Book Now
                 </Button>
               </CardContent>
@@ -417,7 +420,7 @@ const CaptureServices = () => {
                 Our team is ready to create your digital twins worldwide using the most innovative 
                 3D <strong>Lidar</strong> camera on the market.
               </p>
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" onClick={openCalendly}>
                 Book Now
               </Button>
             </div>
