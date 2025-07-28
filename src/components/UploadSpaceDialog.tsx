@@ -25,6 +25,7 @@ const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
+  yachtSubtype: z.string().optional(),
   listingType: z.string().optional(),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
@@ -155,6 +156,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       title: "",
       description: "",
       propertyType: "",
+      yachtSubtype: "",
       listingType: "",
       salePrice: "",
       rentalPriceRange: "",
@@ -295,6 +297,18 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const yachtPropertyTypes = [
     { value: "motor-yacht", label: "Motor Yacht" },
     { value: "sailing-yacht", label: "Sailing Yacht" },
+  ];
+
+  const motorYachtSubtypes = [
+    { value: "flybridge-motor-yacht", label: "Flybridge Motor Yacht" },
+    { value: "hardtop-motor-yacht", label: "Hardtop Motor Yacht" },
+    { value: "open-sport-yacht", label: "Open / Sport Yacht" },
+    { value: "semi-displacement-yacht", label: "Semi-Displacement Yacht" },
+    { value: "displacement-yacht", label: "Displacement Yacht" },
+    { value: "trawler-yacht", label: "Trawler Yacht" },
+    { value: "expedition-explorer-yacht", label: "Expedition / Explorer Yacht" },
+    { value: "fast-displacement-yacht", label: "Fast Displacement Yacht" },
+    { value: "planing-yacht", label: "Planing Yacht" },
   ];
 
   const amenities = [
@@ -498,6 +512,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         </FormItem>
                       )}
                     />
+                    
+                    {category === "yacht" && form.watch("propertyType") === "motor-yacht" && (
+                      <FormField
+                        control={form.control}
+                        name="yachtSubtype"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Motor Yacht Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select motor yacht type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {motorYachtSubtypes.map((type) => (
+                                  <SelectItem key={type.value} value={type.value}>
+                                    {type.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                   </div>
 
                   {category === "real-estate" && (
