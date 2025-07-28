@@ -67,16 +67,44 @@ const Dashboard = () => {
             <Crown className="h-4 w-4" />
             {subscriptionData.plan}
           </Badge>
-          <Button 
-            className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black"
-            onClick={() => {
-              setSelectedCategory("real-estate");
-              setUploadDialogOpen(true);
-            }}
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Space
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+                <Plus className="h-4 w-4 mr-2" />
+                New Space
+                <ChevronDown className="h-4 w-4 ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("real-estate");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Real Estate
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("yacht");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Yacht
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("hotel-resort");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Hotel/Resort
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
