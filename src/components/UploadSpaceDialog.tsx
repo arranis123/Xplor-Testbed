@@ -78,6 +78,7 @@ const uploadFormSchema = z.object({
   postalCode: z.string().optional(),
   latitude: z.string().optional(),
   longitude: z.string().optional(),
+  googlePlusCode: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -159,6 +160,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       postalCode: "",
       latitude: "",
       longitude: "",
+      googlePlusCode: "",
     },
   });
 
@@ -968,6 +970,22 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              <FormControl>
                                <Input placeholder="e.g., 94103" {...field} />
                              </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                       <FormField
+                         control={form.control}
+                         name="googlePlusCode"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Google Plus Code</FormLabel>
+                             <FormControl>
+                               <Input placeholder="e.g., 849VCWC8+R9" {...field} />
+                             </FormControl>
+                             <FormDescription>
+                               Optional: 10-11 character location code from Google Maps
+                             </FormDescription>
                              <FormMessage />
                            </FormItem>
                          )}
