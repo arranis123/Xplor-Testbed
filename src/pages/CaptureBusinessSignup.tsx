@@ -166,7 +166,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="businessType">Business Type *</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select business type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -180,7 +180,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="yearsInBusiness">Years in Business *</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select experience level" />
                       </SelectTrigger>
                       <SelectContent>
@@ -222,7 +222,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="serviceRadius">Service Radius (miles) *</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select service radius" />
                       </SelectTrigger>
                       <SelectContent>
@@ -256,7 +256,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="equipment">Camera Equipment *</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select your primary equipment" />
                       </SelectTrigger>
                       <SelectContent>
@@ -272,7 +272,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="experience">Years of 3D/360° Photography Experience *</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select experience level" />
                       </SelectTrigger>
                       <SelectContent>
@@ -344,7 +344,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="availability">Weekly Availability *</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select availability" />
                       </SelectTrigger>
                       <SelectContent>
@@ -358,7 +358,7 @@ const CaptureBusinessSignup = () => {
                   <div className="space-y-2">
                     <Label htmlFor="rates">Desired Rate per Session</Label>
                     <Select>
-                      <SelectTrigger className="border-2 border-border">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select rate range" />
                       </SelectTrigger>
                       <SelectContent>
