@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Camera, 
   Video, 
@@ -23,6 +25,8 @@ import vrHeadsetLiteImage from "@/assets/vr-headset-lite.jpg";
 import vrHeadsetEnterpriseImage from "@/assets/vr-headset-enterprise.jpg";
 
 const VRCameras = () => {
+  const { addItem, openCart } = useCart();
+  const { toast } = useToast();
   const cameraSpecs = [
     {
       name: "Matterport Pro3",
@@ -83,6 +87,20 @@ const VRCameras = () => {
     { name: "Carrying Case Pro", price: "$199", description: "Protective transport solution" },
     { name: "Lens Cleaning Kit", price: "$49", description: "Keep your camera pristine" }
   ];
+
+  const handleAddToCart = (item: any, type: 'camera' | 'headset' | 'accessory') => {
+    addItem({
+      id: `${type}-${item.name.replace(/\s+/g, '-').toLowerCase()}`,
+      name: item.name,
+      price: item.price,
+      image: item.image || '/placeholder.svg',
+      type: type
+    });
+    toast({
+      title: "Added to cart!",
+      description: `${item.name} has been added to your cart.`,
+    });
+  };
 
   const contentCreationTools = [
     "Matterport Cloud Processing",
@@ -187,6 +205,7 @@ const VRCameras = () => {
                   <Button 
                     className={`w-full ${camera.popular ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black' : ''}`}
                     variant={camera.popular ? 'default' : 'outline'}
+                    onClick={() => handleAddToCart(camera, 'camera')}
                   >
                     Add to Cart
                   </Button>
@@ -314,6 +333,7 @@ const VRCameras = () => {
                   <Button 
                     className={`w-full ${headset.popular ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black' : ''}`}
                     variant={headset.popular ? 'default' : 'outline'}
+                    onClick={() => handleAddToCart(headset, 'headset')}
                   >
                     Add to Cart
                   </Button>
@@ -350,7 +370,11 @@ const VRCameras = () => {
                   <p className="text-sm text-muted-foreground text-center mb-4">
                     {accessory.description}
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => handleAddToCart(accessory, 'accessory')}
+                  >
                     Add to Cart
                   </Button>
                 </CardContent>

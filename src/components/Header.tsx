@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import { CartButton, CartSheet } from "@/components/Cart";
 
 const Header = () => {
   const location = useLocation();
@@ -54,6 +55,7 @@ const Header = () => {
 
         {/* Auth buttons */}
         <div className="flex items-center space-x-3">
+          <CartButton />
           <Button variant="ghost" size="sm">
             Sign In
           </Button>
@@ -62,6 +64,7 @@ const Header = () => {
           </Button>
         </div>
       </div>
+      <CartSheet />
     </header>
   );
 };
