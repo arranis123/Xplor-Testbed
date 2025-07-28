@@ -13,6 +13,7 @@ import PublicSpaces from "./pages/PublicSpaces";
 import Accounts from "./pages/Accounts";
 import Settings from "./pages/Settings";
 import Statistics from "./pages/Statistics";
+import Users from "./pages/Users";
 import Trial from "./pages/Trial";
 import NotFound from "./pages/NotFound";
 
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/public-spaces" element={<AppLayout><PublicSpaces /></AppLayout>} />
           <Route path="/accounts" element={<AppLayout><Accounts /></AppLayout>} />
           <Route path="/statistics" element={<AppLayout><Statistics /></AppLayout>} />
+          <Route path="/users" element={<AppLayout><Users /></AppLayout>} />
           <Route path="/capture-services" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureServices /></Suspense></AppLayout>} />
           <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
           <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />

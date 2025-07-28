@@ -6,7 +6,8 @@ import {
   Camera, 
   Settings,
   ChevronRight,
-  Home
+  Home,
+  Users
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -28,6 +29,7 @@ const items = [
   { title: "All Spaces", url: "/spaces", icon: FolderOpen },
   { title: "Public & Unlisted Spaces", url: "/public-spaces", icon: Globe },
   { title: "Statistics", url: "/statistics", icon: BarChart3 },
+  { title: "Users", url: "/users", icon: Users },
   { title: "Capture Services", url: "/capture-services", icon: Camera },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
