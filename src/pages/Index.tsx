@@ -17,8 +17,8 @@ const Index = () => {
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src={scanningHeroImage} 
-              alt="3D Scanning Technology"
+              src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1920&q=80" 
+              alt="Luxury Yacht Experience"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-primary/60"></div>
@@ -26,17 +26,17 @@ const Index = () => {
           
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Explore Beyond Limits
+              Luxury Beyond Imagination
             </h1>
             <p className="text-xl md:text-2xl mb-8 opacity-90">
-              Discover thrilling adventures and unique experiences that push boundaries
+              Experience the finest yachts and properties in the world's most exclusive destinations
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black text-lg px-8 py-3">
-                Start Exploring
+                Explore Luxury
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-primary">
-                Watch Adventures
+                View Collection
               </Button>
             </div>
           </div>
@@ -47,10 +47,10 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-foreground mb-4">
-                Everything you need to explore and experience
+                Everything you need for luxury experiences
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                From planning to adventure, manage your entire journey in one platform
+                From exclusive yachts to stunning properties, curate your perfect luxury getaway
               </p>
             </div>
 
@@ -62,9 +62,9 @@ const Index = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <CardTitle>Adventure</CardTitle>
+                  <CardTitle>Yachts</CardTitle>
                   <CardDescription>
-                    Discover thrilling adventures and adrenaline-pumping experiences
+                    Charter world-class luxury yachts with professional crews and premium amenities
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -76,9 +76,9 @@ const Index = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </div>
-                  <CardTitle>Experience</CardTitle>
+                  <CardTitle>Properties</CardTitle>
                   <CardDescription>
-                    Create unforgettable memories with our guided tours and activities
+                    Stay in extraordinary luxury properties and exclusive architectural marvels
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -90,9 +90,9 @@ const Index = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <CardTitle>Community</CardTitle>
+                  <CardTitle>Concierge</CardTitle>
                   <CardDescription>
-                    Connect with fellow adventurers and share your experiences
+                    Personalized service and exclusive access to the world's finest experiences
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -106,28 +106,28 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-4xl font-bold text-foreground mb-6">
-                  Turn Your Passion Into <span className="text-xplor-yellow">Profit</span>
+                  Exclusive Property <span className="text-xplor-yellow">Partnerships</span>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Join our marketplace and connect with clients who need adventure guides, 
-                  tour operators, and experience creators. From outdoor expeditions to cultural tours, 
-                  find gigs that match your expertise.
+                  Partner with us to showcase your luxury properties to discerning clients worldwide. 
+                  From modern architectural masterpieces to historic estates, we connect property owners 
+                  with guests seeking extraordinary accommodations.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/gigs">
                     <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
-                      Browse Gigs
+                      List Your Property
                     </Button>
                   </Link>
                   <Button size="lg" variant="outline">
-                    Learn More
+                    Partnership Info
                   </Button>
                 </div>
               </div>
               <div className="relative">
                 <img 
-                  src={adventureParkImage} 
-                  alt="Adventure Experiences"
+                  src="https://images.unsplash.com/photo-1551038247-3d9af20df552?auto=format&fit=crop&w=800&q=80" 
+                  alt="Luxury Property Architecture"
                   className="rounded-lg shadow-medium w-full"
                 />
               </div>
@@ -141,47 +141,47 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="relative">
                 <img 
-                  src={vrTechImage} 
-                  alt="VR Cameras and Headsets"
+                  src="https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?auto=format&fit=crop&w=800&q=80" 
+                  alt="Luxury Glass Architecture"
                   className="rounded-lg shadow-medium w-full"
                 />
               </div>
               <div>
                 <h2 className="text-4xl font-bold text-foreground mb-6">
-                  Professional <span className="text-xplor-yellow">VR Equipment</span> Store
+                  Premium <span className="text-xplor-yellow">Virtual Tours</span> & Documentation
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Complete your virtual reality setup with professional Matterport cameras and VR headsets. 
-                  From 3D scanning to immersive viewing experiences, we have everything you need to create 
-                  and showcase digital twins.
+                  Showcase your luxury properties and yachts with cutting-edge virtual reality technology. 
+                  Our professional 3D scanning and VR services create immersive experiences that allow 
+                  clients to explore every detail before their visit.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
-                    <span className="text-sm text-muted-foreground">Matterport Pro3 & Pro2</span>
+                    <span className="text-sm text-muted-foreground">Property Virtual Tours</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
-                    <span className="text-sm text-muted-foreground">VR Headsets</span>
+                    <span className="text-sm text-muted-foreground">Yacht Documentation</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
-                    <span className="text-sm text-muted-foreground">Professional Accessories</span>
+                    <span className="text-sm text-muted-foreground">3D Interactive Experiences</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
-                    <span className="text-sm text-muted-foreground">Enterprise Solutions</span>
+                    <span className="text-sm text-muted-foreground">Premium Marketing Materials</span>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/vr-cameras">
                     <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
-                      Shop VR Equipment
+                      Request Virtual Tour
                     </Button>
                   </Link>
                   <Link to="/capture-services">
                     <Button size="lg" variant="outline">
-                      Capture Services
+                      Documentation Services
                     </Button>
                   </Link>
                 </div>
@@ -372,20 +372,20 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-xplor-yellow mb-2">1M+</div>
-                <div className="text-muted-foreground">Adventures Booked</div>
+                <div className="text-4xl font-bold text-xplor-yellow mb-2">500+</div>
+                <div className="text-muted-foreground">Luxury Properties</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-xplor-black mb-2">50+</div>
-                <div className="text-muted-foreground">Destinations</div>
+                <div className="text-4xl font-bold text-xplor-black mb-2">150+</div>
+                <div className="text-muted-foreground">Premium Yachts</div>
               </div>
               <div>
                 <div className="text-4xl font-bold text-xplor-yellow mb-2">5★</div>
-                <div className="text-muted-foreground">Average Rating</div>
+                <div className="text-muted-foreground">Exclusive Rating</div>
               </div>
               <div>
                 <div className="text-4xl font-bold text-xplor-black mb-2">24/7</div>
-                <div className="text-muted-foreground">Support Available</div>
+                <div className="text-muted-foreground">Concierge Service</div>
               </div>
             </div>
           </div>
