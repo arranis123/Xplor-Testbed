@@ -9,10 +9,10 @@ const Header = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">M</span>
+          <div className="w-8 h-8 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded flex items-center justify-center">
+            <span className="text-white font-bold text-sm">X</span>
           </div>
-          <span className="font-semibold text-xl text-foreground">Matterport</span>
+          <span className="font-semibold text-xl text-foreground">Xplor</span>
         </Link>
 
         {/* Navigation */}
@@ -33,8 +33,8 @@ const Header = () => {
           >
             Gigs
           </Link>
-          <span className="text-sm font-medium text-muted-foreground">Capture</span>
-          <span className="text-sm font-medium text-muted-foreground">Workshop</span>
+          <span className="text-sm font-medium text-muted-foreground">Adventures</span>
+          <span className="text-sm font-medium text-muted-foreground">Experiences</span>
           <span className="text-sm font-medium text-muted-foreground">Support</span>
         </nav>
 
@@ -43,7 +43,7 @@ const Header = () => {
           <Button variant="ghost" size="sm">
             Sign In
           </Button>
-          <Button size="sm" className="bg-matterport-blue hover:bg-matterport-blue/90">
+          <Button size="sm" className="bg-xplor-orange hover:bg-xplor-orange-light">
             Get Started
           </Button>
         </div>

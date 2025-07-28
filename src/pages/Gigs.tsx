@@ -10,44 +10,44 @@ const Gigs = () => {
   const gigs = [
     {
       id: 1,
-      title: "3D Scanning Specialist for Real Estate",
-      description: "Looking for experienced Matterport photographer to capture luxury homes in the Bay Area. Must have Pro2 camera and experience with real estate photography.",
-      budget: "$150 - $300 per scan",
-      category: "Real Estate",
-      skills: ["Matterport Pro2", "Real Estate", "Photography"],
+      title: "Adventure Tour Guide for Tropical Expeditions",
+      description: "Looking for experienced adventure guide to lead eco-tours through tropical rainforests. Must have wilderness first aid certification and experience with group leadership.",
+      budget: "$200 - $400 per day",
+      category: "Adventure Tourism",
+      skills: ["Tour Guiding", "Wilderness First Aid", "Group Leadership"],
       posted: "2 days ago",
       proposals: 12,
       image: gigWorkImage
     },
     {
       id: 2,
-      title: "Virtual Tour Creation for Museums",
-      description: "Create immersive virtual tours for art galleries and museums. Experience with Matterport Workshop and post-processing required.",
-      budget: "$500 - $1,200 per project",
-      category: "Cultural",
-      skills: ["Matterport Workshop", "Virtual Tours", "Museums"],
+      title: "Cultural Experience Coordinator",
+      description: "Create immersive cultural experiences for international visitors. Experience with local traditions and multilingual communication required.",
+      budget: "$300 - $600 per experience",
+      category: "Cultural Tourism",
+      skills: ["Cultural Knowledge", "Languages", "Event Planning"],
       posted: "1 week ago",
       proposals: 8,
       image: vrTechImage
     },
     {
       id: 3,
-      title: "Construction Progress Documentation",
-      description: "Document construction progress using 3D scanning technology. Weekly scans required for large commercial project.",
-      budget: "$200 - $400 per scan",
-      category: "Construction",
-      skills: ["Construction", "Progress Tracking", "3D Scanning"],
+      title: "Extreme Sports Instructor",
+      description: "Teach and guide extreme sports activities including zip-lining, rappelling, and rock climbing. Safety certification and insurance required.",
+      budget: "$150 - $350 per session",
+      category: "Extreme Sports",
+      skills: ["Safety Certification", "Rock Climbing", "Instruction"],
       posted: "3 days ago",
       proposals: 15,
       image: gigWorkImage
     },
     {
       id: 4,
-      title: "VR Experience Development",
-      description: "Create immersive VR experiences from Matterport scans for educational institutions. Unity and VR development experience required.",
-      budget: "$2,000 - $5,000 per project",
-      category: "Technology",
-      skills: ["VR Development", "Unity", "Educational Content"],
+      title: "Photography & Videography for Adventures",
+      description: "Capture stunning visuals of adventure experiences for marketing and social media. Drone operation and underwater filming experience preferred.",
+      budget: "$400 - $800 per project",
+      category: "Content Creation",
+      skills: ["Photography", "Videography", "Drone Operation"],
       posted: "5 days ago",
       proposals: 6,
       image: vrTechImage
@@ -62,20 +62,20 @@ const Gigs = () => {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Find Your Perfect <span className="text-matterport-blue">3D Gig</span>
+            Find Your Perfect <span className="text-xplor-orange">Adventure Gig</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Connect with clients who need professional 3D scanning, virtual tours, and Matterport expertise.
+            Connect with clients who need adventure guides, tour operators, and experience creators.
           </p>
         </div>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-4 mb-8">
           <Button variant="outline" size="sm">All Categories</Button>
-          <Button variant="outline" size="sm">Real Estate</Button>
-          <Button variant="outline" size="sm">Construction</Button>
-          <Button variant="outline" size="sm">Cultural</Button>
-          <Button variant="outline" size="sm">Technology</Button>
+          <Button variant="outline" size="sm">Adventure Tourism</Button>
+          <Button variant="outline" size="sm">Cultural Tourism</Button>
+          <Button variant="outline" size="sm">Extreme Sports</Button>
+          <Button variant="outline" size="sm">Content Creation</Button>
         </div>
 
         {/* Gigs Grid */}
@@ -97,7 +97,7 @@ const Gigs = () => {
               </div>
               
               <CardHeader>
-                <CardTitle className="text-lg group-hover:text-matterport-blue transition-colors">
+                <CardTitle className="text-lg group-hover:text-xplor-orange transition-colors">
                   {gig.title}
                 </CardTitle>
                 <CardDescription className="text-sm">
@@ -107,7 +107,7 @@ const Gigs = () => {
               
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-matterport-blue">{gig.budget}</span>
+                  <span className="font-semibold text-xplor-blue">{gig.budget}</span>
                   <span className="text-sm text-muted-foreground">{gig.posted}</span>
                 </div>
                 
@@ -123,7 +123,7 @@ const Gigs = () => {
                   <span className="text-sm text-muted-foreground">
                     {gig.proposals} proposals
                   </span>
-                  <Button size="sm" className="bg-matterport-blue hover:bg-matterport-blue/90">
+                  <Button size="sm" className="bg-xplor-orange hover:bg-xplor-orange-light">
                     Apply Now
                   </Button>
                 </div>
@@ -133,14 +133,14 @@ const Gigs = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center bg-accent/50 rounded-lg p-8">
+        <div className="text-center bg-gradient-card rounded-lg p-8">
           <h2 className="text-2xl font-bold text-foreground mb-4">
-            Ready to Start Your 3D Career?
+            Ready to Start Your Adventure Career?
           </h2>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Join thousands of professionals earning with their Matterport skills
+            Join thousands of professionals earning with their adventure and tourism skills
           </p>
-          <Button size="lg" className="bg-matterport-blue hover:bg-matterport-blue/90">
+          <Button size="lg" className="bg-xplor-orange hover:bg-xplor-orange-light">
             Create Your Profile
           </Button>
         </div>

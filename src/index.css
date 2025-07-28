@@ -2,52 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Matterport-inspired design system. Professional, clean, minimal.
+/* Xplor-inspired design system. Vibrant, adventurous, modern.
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 210 11% 15%;
+    --foreground: 220 14% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 11% 15%;
+    --card-foreground: 220 14% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 11% 15%;
+    --popover-foreground: 220 14% 15%;
 
-    --primary: 210 11% 15%;
+    --primary: 220 14% 15%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 210 11% 15%;
+    --secondary-foreground: 220 14% 15%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 220 13% 91%;
-    --accent-foreground: 210 11% 15%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 220 14% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 210 11% 15%;
+    --ring: 220 14% 15%;
 
-    --radius: 0.375rem;
+    --radius: 0.5rem;
 
-    /* Matterport brand colors */
-    --matterport-blue: 217 91% 60%;
-    --matterport-gray: 210 11% 15%;
-    --matterport-light-gray: 220 13% 91%;
+    /* Xplor brand colors - vibrant orange and deep blue */
+    --xplor-orange: 24 100% 50%;
+    --xplor-orange-light: 24 100% 60%;
+    --xplor-blue: 220 100% 50%;
+    --xplor-blue-dark: 220 100% 40%;
+    --xplor-gradient: linear-gradient(135deg, hsl(var(--xplor-orange)), hsl(var(--xplor-blue)));
     
     /* Custom gradients and effects */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--matterport-blue)));
-    --shadow-soft: 0 1px 3px 0 hsl(var(--primary) / 0.1), 0 1px 2px 0 hsl(var(--primary) / 0.06);
-    --shadow-medium: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
-    --transition-smooth: all 0.2s ease-in-out;
+    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-orange)), hsl(var(--xplor-blue)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--xplor-orange) / 0.1), hsl(var(--xplor-blue) / 0.1));
+    --shadow-soft: 0 1px 3px 0 hsl(var(--xplor-orange) / 0.1), 0 1px 2px 0 hsl(var(--xplor-blue) / 0.06);
+    --shadow-medium: 0 4px 6px -1px hsl(var(--xplor-orange) / 0.1), 0 2px 4px -1px hsl(var(--xplor-blue) / 0.06);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 

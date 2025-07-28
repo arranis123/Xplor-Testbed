@@ -25,17 +25,17 @@ const Index = () => {
           
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Digitize the Built World
+              Explore Beyond Limits
             </h1>
             <p className="text-xl md:text-2xl mb-8 opacity-90">
-              The most realistic 3D platform to change how people interact with buildings online
+              Discover thrilling adventures and unique experiences that push boundaries
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-matterport-blue hover:bg-matterport-blue/90 text-lg px-8 py-3">
-                Get Started Free
+              <Button size="lg" className="bg-xplor-orange hover:bg-xplor-orange-light text-lg px-8 py-3">
+                Start Exploring
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-primary">
-                Watch Demo
+                Watch Adventures
               </Button>
             </div>
           </div>
@@ -46,53 +46,52 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-foreground mb-4">
-                Everything you need to create and share
+                Everything you need to explore and experience
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                From capture to creation, manage your entire 3D workflow in one platform
+                From planning to adventure, manage your entire journey in one platform
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="text-center hover:shadow-medium transition-all duration-200">
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-matterport-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-matterport-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <div className="w-16 h-16 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <CardTitle>Capture</CardTitle>
+                  <CardTitle>Adventure</CardTitle>
                   <CardDescription>
-                    Easily capture 3D spaces with our professional cameras and mobile app
+                    Discover thrilling adventures and adrenaline-pumping experiences
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="text-center hover:shadow-medium transition-all duration-200">
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-matterport-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-matterport-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  <div className="w-16 h-16 bg-gradient-to-r from-xplor-blue to-xplor-orange rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </div>
-                  <CardTitle>Create</CardTitle>
+                  <CardTitle>Experience</CardTitle>
                   <CardDescription>
-                    Transform your scans into immersive virtual experiences with Workshop
+                    Create unforgettable memories with our guided tours and activities
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="text-center hover:shadow-medium transition-all duration-200">
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-matterport-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-matterport-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                  <div className="w-16 h-16 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <CardTitle>Share</CardTitle>
+                  <CardTitle>Community</CardTitle>
                   <CardDescription>
-                    Share and collaborate on your 3D models with teams and clients
+                    Connect with fellow adventurers and share your experiences
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -106,16 +105,16 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-4xl font-bold text-foreground mb-6">
-                  Earn with Your 3D Skills
+                  Turn Your Passion Into <span className="text-xplor-orange">Profit</span>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Join our marketplace and connect with clients who need professional 3D scanning, 
-                  virtual tours, and Matterport expertise. From real estate to construction, 
-                  find gigs that match your skills.
+                  Join our marketplace and connect with clients who need adventure guides, 
+                  tour operators, and experience creators. From outdoor expeditions to cultural tours, 
+                  find gigs that match your expertise.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/gigs">
-                    <Button size="lg" className="bg-matterport-blue hover:bg-matterport-blue/90">
+                    <Button size="lg" className="bg-xplor-orange hover:bg-xplor-orange-light">
                       Browse Gigs
                     </Button>
                   </Link>
@@ -127,7 +126,7 @@ const Index = () => {
               <div className="relative">
                 <img 
                   src={adventureParkImage} 
-                  alt="Professional 3D Scanning"
+                  alt="Adventure Experiences"
                   className="rounded-lg shadow-medium w-full"
                 />
               </div>
@@ -140,20 +139,20 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-matterport-blue mb-2">10M+</div>
-                <div className="text-muted-foreground">Spaces Scanned</div>
+                <div className="text-4xl font-bold text-xplor-orange mb-2">1M+</div>
+                <div className="text-muted-foreground">Adventures Booked</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-matterport-blue mb-2">150+</div>
-                <div className="text-muted-foreground">Countries</div>
+                <div className="text-4xl font-bold text-xplor-blue mb-2">50+</div>
+                <div className="text-muted-foreground">Destinations</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-matterport-blue mb-2">5B+</div>
-                <div className="text-muted-foreground">Square Feet Digitized</div>
+                <div className="text-4xl font-bold text-xplor-orange mb-2">5★</div>
+                <div className="text-muted-foreground">Average Rating</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-matterport-blue mb-2">99%</div>
-                <div className="text-muted-foreground">Customer Satisfaction</div>
+                <div className="text-4xl font-bold text-xplor-blue mb-2">24/7</div>
+                <div className="text-muted-foreground">Support Available</div>
               </div>
             </div>
           </div>
