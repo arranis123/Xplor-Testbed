@@ -24,7 +24,7 @@ const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
-  listingType: z.string().min(1, "Please select listing type"),
+  listingType: z.string().optional(),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
   rentalPeriod: z.string().optional(),
@@ -259,6 +259,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   };
 
   const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length;
+  const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -391,955 +392,976 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                 <TabsContent value="details" className="space-y-4">
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    {category === "real-estate" && (
-                      <>
+                    <FormField
+                      control={form.control}
+                      name="bedrooms"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Bed className="h-4 w-4" />
+                            Bedrooms
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select bedrooms" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="studio">Studio</SelectItem>
+                              <SelectItem value="1">1 bedroom</SelectItem>
+                              <SelectItem value="2">2 bedrooms</SelectItem>
+                              <SelectItem value="3">3 bedrooms</SelectItem>
+                              <SelectItem value="4">4 bedrooms</SelectItem>
+                              <SelectItem value="5+">5+ bedrooms</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="bathrooms"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Bath className="h-4 w-4" />
+                            Bathrooms
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select bathrooms" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="1">1 bathroom</SelectItem>
+                              <SelectItem value="1.5">1.5 bathrooms</SelectItem>
+                              <SelectItem value="2">2 bathrooms</SelectItem>
+                              <SelectItem value="2.5">2.5 bathrooms</SelectItem>
+                              <SelectItem value="3">3 bathrooms</SelectItem>
+                              <SelectItem value="3.5">3.5 bathrooms</SelectItem>
+                              <SelectItem value="4+">4+ bathrooms</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="area"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Ruler className="h-4 w-4" />
+                            Area (sq ft)
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 1,200" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="yearBuilt"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Year Built</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 2020" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {/* Enhanced fields for real estate */}
+                  {category === "real-estate" && (
+                    <>
+                      {form.watch("listingType") === "for-sale" && (
+                        <div className="grid grid-cols-1 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="salePrice"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <DollarSign className="h-4 w-4" />
+                                  Sale Price
+                                </FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., $500,000" {...field} />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
+
+                      {form.watch("listingType") === "for-rent" && (
+                        <>
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="rentalPriceRange"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="flex items-center gap-2">
+                                    <DollarSign className="h-4 w-4" />
+                                    Rental Price Range
+                                  </FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select price range" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="under-1000">Under $1,000/month</SelectItem>
+                                      <SelectItem value="1000-2000">$1,000 - $2,000/month</SelectItem>
+                                      <SelectItem value="2000-3000">$2,000 - $3,000/month</SelectItem>
+                                      <SelectItem value="3000-4000">$3,000 - $4,000/month</SelectItem>
+                                      <SelectItem value="4000-5000">$4,000 - $5,000/month</SelectItem>
+                                      <SelectItem value="over-5000">Over $5,000/month</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="rentalPeriod"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Rental Period</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select period" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="nightly">Nightly</SelectItem>
+                                      <SelectItem value="weekly">Weekly</SelectItem>
+                                      <SelectItem value="monthly">Monthly</SelectItem>
+                                      <SelectItem value="yearly">Yearly</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="beds"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="flex items-center gap-2">
+                                    <Bed className="h-4 w-4" />
+                                    Number of Beds
+                                  </FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select beds" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="1">1 bed</SelectItem>
+                                      <SelectItem value="2">2 beds</SelectItem>
+                                      <SelectItem value="3">3 beds</SelectItem>
+                                      <SelectItem value="4">4 beds</SelectItem>
+                                      <SelectItem value="5">5 beds</SelectItem>
+                                      <SelectItem value="6+">6+ beds</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="maxGuests"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="flex items-center gap-2">
+                                    <Users className="h-4 w-4" />
+                                    Max Guests
+                                  </FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select max guests" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="1">1 guest</SelectItem>
+                                      <SelectItem value="2">2 guests</SelectItem>
+                                      <SelectItem value="3">3 guests</SelectItem>
+                                      <SelectItem value="4">4 guests</SelectItem>
+                                      <SelectItem value="5">5 guests</SelectItem>
+                                      <SelectItem value="6">6 guests</SelectItem>
+                                      <SelectItem value="7">7 guests</SelectItem>
+                                      <SelectItem value="8">8 guests</SelectItem>
+                                      <SelectItem value="9+">9+ guests</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="adults"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Adults</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select adults" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(16)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'adult' : 'adults'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="children"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Children (Ages 2-12)</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select children" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(6)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'child' : 'children'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="infants"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Infants (Under 2)</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select infants" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(6)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'infant' : 'infants'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="pets"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pets</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select pets" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(6)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'pet' : 'pets'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="availableFrom"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Available From</FormLabel>
+                                  <Popover modal>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick start date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent 
+                                      className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                      align="start"
+                                      side="bottom"
+                                      avoidCollisions={true}
+                                      collisionPadding={8}
+                                    >
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                        className="p-3 pointer-events-auto"
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="availableTo"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Available To</FormLabel>
+                                  <Popover modal>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick end date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent 
+                                      className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                      align="start"
+                                      side="bottom"
+                                      avoidCollisions={true}
+                                      collisionPadding={8}
+                                    >
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
+                                        initialFocus
+                                        className="p-3 pointer-events-auto"
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="amenities" className="space-y-4">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <Coffee className="h-5 w-5" />
+                        Property Amenities
+                      </h3>
+                      <FormField
+                        control={form.control}
+                        name="amenities"
+                        render={() => (
+                          <FormItem>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                              {amenities.map((amenity) => (
+                                <FormField
+                                  key={amenity.id}
+                                  control={form.control}
+                                  name="amenities"
+                                  render={({ field }) => {
+                                    return (
+                                      <FormItem
+                                        key={amenity.id}
+                                        className="flex flex-row items-start space-x-3 space-y-0"
+                                      >
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value?.includes(amenity.id)}
+                                            onCheckedChange={(checked) => {
+                                              return checked
+                                                ? field.onChange([...field.value, amenity.id])
+                                                : field.onChange(
+                                                    field.value?.filter(
+                                                      (value) => value !== amenity.id
+                                                    )
+                                                  )
+                                            }}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                          <amenity.icon className="h-4 w-4" />
+                                          {amenity.label}
+                                        </FormLabel>
+                                      </FormItem>
+                                    )
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <Waves className="h-5 w-5" />
+                        Facilities
+                      </h3>
+                      <FormField
+                        control={form.control}
+                        name="facilities"
+                        render={() => (
+                          <FormItem>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                              {facilities.map((facility) => (
+                                <FormField
+                                  key={facility.id}
+                                  control={form.control}
+                                  name="facilities"
+                                  render={({ field }) => {
+                                    return (
+                                      <FormItem
+                                        key={facility.id}
+                                        className="flex flex-row items-start space-x-3 space-y-0"
+                                      >
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value?.includes(facility.id)}
+                                            onCheckedChange={(checked) => {
+                                              return checked
+                                                ? field.onChange([...field.value, facility.id])
+                                                : field.onChange(
+                                                    field.value?.filter(
+                                                      (value) => value !== facility.id
+                                                    )
+                                                  )
+                                            }}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                          <facility.icon className="h-4 w-4" />
+                                          {facility.label}
+                                        </FormLabel>
+                                      </FormItem>
+                                    )
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {isRentalProperty && (
+                      <div>
+                        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <Laptop className="h-5 w-5" />
+                          Work Features
+                        </h3>
                         <FormField
                           control={form.control}
-                          name="salePrice"
-                          render={({ field }) => (
+                          name="workFeatures"
+                          render={() => (
                             <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <DollarSign className="h-4 w-4" />
-                                Sale Price
-                              </FormLabel>
-                              <FormControl>
-                                <Input placeholder="e.g., $500,000" {...field} />
-                              </FormControl>
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {workFeatures.map((feature) => (
+                                  <FormField
+                                    key={feature.id}
+                                    control={form.control}
+                                    name="workFeatures"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={feature.id}
+                                          className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              checked={field.value?.includes(feature.id)}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([...field.value, feature.id])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (value) => value !== feature.id
+                                                      )
+                                                    )
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                            <feature.icon className="h-4 w-4" />
+                                            {feature.label}
+                                          </FormLabel>
+                                        </FormItem>
+                                      )
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                              <FormMessage />
                             </FormItem>
                           )}
                         />
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="rules" className="space-y-4">
+                  <div className="space-y-6">
+                    {isRentalProperty && (
+                      <>
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Shield className="h-5 w-5" />
+                            House Rules
+                          </h3>
+                          <FormField
+                            control={form.control}
+                            name="houseRules"
+                            render={() => (
+                              <FormItem>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  {houseRules.map((rule) => (
+                                    <FormField
+                                      key={rule.id}
+                                      control={form.control}
+                                      name="houseRules"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem
+                                            key={rule.id}
+                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                          >
+                                            <FormControl>
+                                              <Checkbox
+                                                checked={field.value?.includes(rule.id)}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([...field.value, rule.id])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                          (value) => value !== rule.id
+                                                        )
+                                                      )
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                              <rule.icon className="h-4 w-4" />
+                                              {rule.label}
+                                            </FormLabel>
+                                          </FormItem>
+                                        )
+                                      }}
+                                    />
+                                  ))}
+                                </div>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <HeartHandshake className="h-5 w-5" />
+                            Health & Safety
+                          </h3>
+                          <FormField
+                            control={form.control}
+                            name="healthSafety"
+                            render={() => (
+                              <FormItem>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  {healthSafety.map((safety) => (
+                                    <FormField
+                                      key={safety.id}
+                                      control={form.control}
+                                      name="healthSafety"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem
+                                            key={safety.id}
+                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                          >
+                                            <FormControl>
+                                              <Checkbox
+                                                checked={field.value?.includes(safety.id)}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([...field.value, safety.id])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                          (value) => value !== safety.id
+                                                        )
+                                                      )
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                              <safety.icon className="h-4 w-4" />
+                                              {safety.label}
+                                            </FormLabel>
+                                          </FormItem>
+                                        )
+                                      }}
+                                    />
+                                  ))}
+                                </div>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="hostLanguage"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <MessageCircle className="h-4 w-4" />
+                                  Host Language
+                                </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select host language" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="english">English</SelectItem>
+                                    <SelectItem value="spanish">Spanish</SelectItem>
+                                    <SelectItem value="french">French</SelectItem>
+                                    <SelectItem value="german">German</SelectItem>
+                                    <SelectItem value="italian">Italian</SelectItem>
+                                    <SelectItem value="portuguese">Portuguese</SelectItem>
+                                    <SelectItem value="chinese">Chinese</SelectItem>
+                                    <SelectItem value="japanese">Japanese</SelectItem>
+                                    <SelectItem value="other">Other</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="responseTime"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <Clock className="h-4 w-4" />
+                                  Response Time
+                                </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select response time" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="within-hour">Within an hour</SelectItem>
+                                    <SelectItem value="within-few-hours">Within a few hours</SelectItem>
+                                    <SelectItem value="within-day">Within a day</SelectItem>
+                                    <SelectItem value="few-days">A few days or more</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
                         <FormField
                           control={form.control}
-                          name="rentalPriceRange"
+                          name="bookingType"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <DollarSign className="h-4 w-4" />
-                                Rental Price Range
-                              </FormLabel>
+                              <FormLabel>Booking Type</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                   <SelectTrigger>
-                                    <SelectValue placeholder="Select price range" />
+                                    <SelectValue placeholder="Select booking type" />
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  <SelectItem value="under-1000">Under $1,000/month</SelectItem>
-                                  <SelectItem value="1000-2000">$1,000 - $2,000/month</SelectItem>
-                                  <SelectItem value="2000-3000">$2,000 - $3,000/month</SelectItem>
-                                  <SelectItem value="3000-4000">$3,000 - $4,000/month</SelectItem>
-                                  <SelectItem value="4000-5000">$4,000 - $5,000/month</SelectItem>
-                                  <SelectItem value="over-5000">Over $5,000/month</SelectItem>
+                                  <SelectItem value="instant-book">Instant Book</SelectItem>
+                                  <SelectItem value="request-book">Request to Book</SelectItem>
                                 </SelectContent>
                               </Select>
                             </FormItem>
                           )}
-                         />
-                         <FormField
-                           control={form.control}
-                           name="rentalPeriod"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel className="flex items-center gap-2">
-                                 <CalendarIcon className="h-4 w-4" />
-                                 Rental Period
-                               </FormLabel>
-                               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                 <FormControl>
-                                   <SelectTrigger>
-                                     <SelectValue placeholder="Select rental period" />
-                                   </SelectTrigger>
-                                 </FormControl>
-                                 <SelectContent>
-                                   <SelectItem value="daily">Daily</SelectItem>
-                                   <SelectItem value="weekly">Weekly</SelectItem>
-                                   <SelectItem value="bi-weekly">Bi-weekly (2 weeks)</SelectItem>
-                                   <SelectItem value="monthly">Monthly</SelectItem>
-                                   <SelectItem value="bi-monthly">Bi-monthly (2 months)</SelectItem>
-                                   <SelectItem value="quarterly">3 Months</SelectItem>
-                                   <SelectItem value="semi-annual">6 Months</SelectItem>
-                                   <SelectItem value="annual">Annual (12 months)</SelectItem>
-                                   <SelectItem value="custom">Custom Range</SelectItem>
-                                 </SelectContent>
-                               </Select>
-                             </FormItem>
-                           )}
-                         />
-                       </>
-                     )}
-                   </div>
+                        />
+                      </>
+                    )}
 
-                   {/* Custom Date Range for Rental Period */}
-                   {category === "real-estate" && form.watch("rentalPeriod") === "custom" && (
-                     <div className="grid grid-cols-2 gap-4">
-                       <FormField
-                         control={form.control}
-                         name="availableFrom"
-                         render={({ field }) => (
-                           <FormItem className="flex flex-col">
-                             <FormLabel>Available From</FormLabel>
-                              <Popover modal>
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    <Button
-                                      variant={"outline"}
-                                      className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
-                                    >
-                                      {field.value ? (
-                                        format(field.value, "PPP")
-                                      ) : (
-                                        <span>Pick start date</span>
-                                      )}
-                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent 
-                                  className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
-                                  align="start"
-                                  side="bottom"
-                                  avoidCollisions={true}
-                                  collisionPadding={8}
-                                >
-                                  <Calendar
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={field.onChange}
-                                    disabled={(date) => date < new Date()}
-                                    initialFocus
-                                    className="p-3 pointer-events-auto"
-                                  />
-                                </PopoverContent>
-                              </Popover>
-                           </FormItem>
-                         )}
-                       />
-                       <FormField
-                         control={form.control}
-                         name="availableTo"
-                         render={({ field }) => (
-                           <FormItem className="flex flex-col">
-                             <FormLabel>Available To</FormLabel>
-                              <Popover modal>
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    <Button
-                                      variant={"outline"}
-                                      className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
-                                    >
-                                      {field.value ? (
-                                        format(field.value, "PPP")
-                                      ) : (
-                                        <span>Pick end date</span>
-                                      )}
-                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent 
-                                  className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
-                                  align="start"
-                                  side="bottom"
-                                  avoidCollisions={true}
-                                  collisionPadding={8}
-                                >
-                                  <Calendar
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={field.onChange}
-                                    disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
-                                    initialFocus
-                                    className="p-3 pointer-events-auto"
-                                  />
-                                </PopoverContent>
-                             </Popover>
-                           </FormItem>
-                         )}
-                       />
-                     </div>
-                   )}
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <User className="h-5 w-5" />
+                        Accessibility Features
+                      </h3>
+                      <FormField
+                        control={form.control}
+                        name="accessibility"
+                        render={() => (
+                          <FormItem>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {accessibility.map((feature) => (
+                                <FormField
+                                  key={feature.id}
+                                  control={form.control}
+                                  name="accessibility"
+                                  render={({ field }) => {
+                                    return (
+                                      <FormItem
+                                        key={feature.id}
+                                        className="flex flex-row items-start space-x-3 space-y-0"
+                                      >
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value?.includes(feature.id)}
+                                            onCheckedChange={(checked) => {
+                                              return checked
+                                                ? field.onChange([...field.value, feature.id])
+                                                : field.onChange(
+                                                    field.value?.filter(
+                                                      (value) => value !== feature.id
+                                                    )
+                                                  )
+                                            }}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                          <feature.icon className="h-4 w-4" />
+                                          {feature.label}
+                                        </FormLabel>
+                                      </FormItem>
+                                    )
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                     <FormField
-                       control={form.control}
-                       name="bedrooms"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <Bed className="h-4 w-4" />
-                             Bedrooms
-                           </FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="0">Studio</SelectItem>
-                               <SelectItem value="1">1 Bedroom</SelectItem>
-                               <SelectItem value="2">2 Bedrooms</SelectItem>
-                               <SelectItem value="3">3 Bedrooms</SelectItem>
-                               <SelectItem value="4">4 Bedrooms</SelectItem>
-                               <SelectItem value="5">5+ Bedrooms</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-                     <FormField
-                       control={form.control}
-                       name="bathrooms"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <Bath className="h-4 w-4" />
-                             Bathrooms
-                           </FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="1">1 Bathroom</SelectItem>
-                               <SelectItem value="1.5">1.5 Bathrooms</SelectItem>
-                               <SelectItem value="2">2 Bathrooms</SelectItem>
-                               <SelectItem value="2.5">2.5 Bathrooms</SelectItem>
-                               <SelectItem value="3">3 Bathrooms</SelectItem>
-                               <SelectItem value="3.5">3.5 Bathrooms</SelectItem>
-                               <SelectItem value="4">4+ Bathrooms</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-                     
-                     <FormField
-                       control={form.control}
-                       name="beds"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <Bed className="h-4 w-4" />
-                             Beds
-                           </FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="1">1 Bed</SelectItem>
-                               <SelectItem value="2">2 Beds</SelectItem>
-                               <SelectItem value="3">3 Beds</SelectItem>
-                               <SelectItem value="4">4 Beds</SelectItem>
-                               <SelectItem value="5">5+ Beds</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-
-                     <FormField
-                       control={form.control}
-                       name="maxGuests"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <Users className="h-4 w-4" />
-                             Max Guests
-                           </FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="1">1 Guest</SelectItem>
-                               <SelectItem value="2">2 Guests</SelectItem>
-                               <SelectItem value="3">3 Guests</SelectItem>
-                               <SelectItem value="4">4 Guests</SelectItem>
-                               <SelectItem value="5">5 Guests</SelectItem>
-                               <SelectItem value="6">6 Guests</SelectItem>
-                               <SelectItem value="8">8 Guests</SelectItem>
-                               <SelectItem value="10">10+ Guests</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   {/* Guest Breakdown */}
-                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                     <FormField
-                       control={form.control}
-                       name="adults"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>Adults</FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="0" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               {[...Array(17)].map((_, i) => (
-                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
-                               ))}
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-
-                     <FormField
-                       control={form.control}
-                       name="children"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>Children (2-12)</FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="0" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               {[...Array(6)].map((_, i) => (
-                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
-                               ))}
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-
-                     <FormField
-                       control={form.control}
-                       name="infants"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>Infants (Under 2)</FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="0" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               {[...Array(6)].map((_, i) => (
-                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
-                               ))}
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-
-                     <FormField
-                       control={form.control}
-                       name="pets"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>Pets</FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="0" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               {[...Array(6)].map((_, i) => (
-                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
-                               ))}
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   <div className="grid grid-cols-2 gap-4">
-                     <FormField
-                       control={form.control}
-                       name="area"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <Ruler className="h-4 w-4" />
-                             Area (sq ft)
-                           </FormLabel>
-                           <FormControl>
-                             <Input placeholder="e.g., 1200" {...field} />
-                           </FormControl>
-                         </FormItem>
-                       )}
-                     />
-                     <FormField
-                       control={form.control}
-                       name="yearBuilt"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>Year Built</FormLabel>
-                           <FormControl>
-                             <Input placeholder="e.g., 2020" {...field} />
-                           </FormControl>
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-                 </TabsContent>
-
-                 <TabsContent value="amenities" className="space-y-6">
-                   {/* Property Amenities */}
-                   <div>
-                     <h3 className="text-lg font-semibold mb-4">Property Amenities</h3>
-                     <FormField
-                       control={form.control}
-                       name="amenities"
-                       render={() => (
-                         <FormItem>
-                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                             {amenities.map((amenity) => (
-                               <FormField
-                                 key={amenity.id}
-                                 control={form.control}
-                                 name="amenities"
-                                 render={({ field }) => {
-                                   return (
-                                     <FormItem
-                                       key={amenity.id}
-                                       className="flex flex-row items-start space-x-3 space-y-0"
-                                     >
-                                       <FormControl>
-                                         <Checkbox
-                                           checked={field.value?.includes(amenity.id)}
-                                           onCheckedChange={(checked) => {
-                                             return checked
-                                               ? field.onChange([...(field.value || []), amenity.id])
-                                               : field.onChange(
-                                                   field.value?.filter(
-                                                     (value) => value !== amenity.id
-                                                   )
-                                                 )
-                                           }}
-                                         />
-                                       </FormControl>
-                                       <div className="space-y-1 leading-none">
-                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
-                                           <amenity.icon className="h-4 w-4" />
-                                           {amenity.label}
-                                         </FormLabel>
-                                       </div>
-                                     </FormItem>
-                                   )
-                                 }}
-                               />
-                             ))}
-                           </div>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   {/* Facilities */}
-                   <div>
-                     <h3 className="text-lg font-semibold mb-4">Facilities</h3>
-                     <FormField
-                       control={form.control}
-                       name="facilities"
-                       render={() => (
-                         <FormItem>
-                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                             {facilities.map((facility) => (
-                               <FormField
-                                 key={facility.id}
-                                 control={form.control}
-                                 name="facilities"
-                                 render={({ field }) => {
-                                   return (
-                                     <FormItem
-                                       key={facility.id}
-                                       className="flex flex-row items-start space-x-3 space-y-0"
-                                     >
-                                       <FormControl>
-                                         <Checkbox
-                                           checked={field.value?.includes(facility.id)}
-                                           onCheckedChange={(checked) => {
-                                             return checked
-                                               ? field.onChange([...(field.value || []), facility.id])
-                                               : field.onChange(
-                                                   field.value?.filter(
-                                                     (value) => value !== facility.id
-                                                   )
-                                                 )
-                                           }}
-                                         />
-                                       </FormControl>
-                                       <div className="space-y-1 leading-none">
-                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
-                                           <facility.icon className="h-4 w-4" />
-                                           {facility.label}
-                                         </FormLabel>
-                                       </div>
-                                     </FormItem>
-                                   )
-                                 }}
-                               />
-                             ))}
-                           </div>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   {/* Travel for Work */}
-                   <div>
-                     <h3 className="text-lg font-semibold mb-4">Travel for Work</h3>
-                     <FormField
-                       control={form.control}
-                       name="workFeatures"
-                       render={() => (
-                         <FormItem>
-                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                             {workFeatures.map((feature) => (
-                               <FormField
-                                 key={feature.id}
-                                 control={form.control}
-                                 name="workFeatures"
-                                 render={({ field }) => {
-                                   return (
-                                     <FormItem
-                                       key={feature.id}
-                                       className="flex flex-row items-start space-x-3 space-y-0"
-                                     >
-                                       <FormControl>
-                                         <Checkbox
-                                           checked={field.value?.includes(feature.id)}
-                                           onCheckedChange={(checked) => {
-                                             return checked
-                                               ? field.onChange([...(field.value || []), feature.id])
-                                               : field.onChange(
-                                                   field.value?.filter(
-                                                     (value) => value !== feature.id
-                                                   )
-                                                 )
-                                           }}
-                                         />
-                                       </FormControl>
-                                       <div className="space-y-1 leading-none">
-                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
-                                           <feature.icon className="h-4 w-4" />
-                                           {feature.label}
-                                         </FormLabel>
-                                       </div>
-                                     </FormItem>
-                                   )
-                                 }}
-                               />
-                             ))}
-                           </div>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-                 </TabsContent>
-
-                 <TabsContent value="rules" className="space-y-6">
-                   {/* House Rules */}
-                   <div>
-                     <h3 className="text-lg font-semibold mb-4">House Rules</h3>
-                     <FormField
-                       control={form.control}
-                       name="houseRules"
-                       render={() => (
-                         <FormItem>
-                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                             {houseRules.map((rule) => (
-                               <FormField
-                                 key={rule.id}
-                                 control={form.control}
-                                 name="houseRules"
-                                 render={({ field }) => {
-                                   return (
-                                     <FormItem
-                                       key={rule.id}
-                                       className="flex flex-row items-start space-x-3 space-y-0"
-                                     >
-                                       <FormControl>
-                                         <Checkbox
-                                           checked={field.value?.includes(rule.id)}
-                                           onCheckedChange={(checked) => {
-                                             return checked
-                                               ? field.onChange([...(field.value || []), rule.id])
-                                               : field.onChange(
-                                                   field.value?.filter(
-                                                     (value) => value !== rule.id
-                                                   )
-                                                 )
-                                           }}
-                                         />
-                                       </FormControl>
-                                       <div className="space-y-1 leading-none">
-                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
-                                           <rule.icon className="h-4 w-4" />
-                                           {rule.label}
-                                         </FormLabel>
-                                       </div>
-                                     </FormItem>
-                                   )
-                                 }}
-                               />
-                             ))}
-                           </div>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   {/* Accessibility */}
-                   <div>
-                     <h3 className="text-lg font-semibold mb-4">Accessibility</h3>
-                     <FormField
-                       control={form.control}
-                       name="accessibility"
-                       render={() => (
-                         <FormItem>
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                             {accessibility.map((feature) => (
-                               <FormField
-                                 key={feature.id}
-                                 control={form.control}
-                                 name="accessibility"
-                                 render={({ field }) => {
-                                   return (
-                                     <FormItem
-                                       key={feature.id}
-                                       className="flex flex-row items-start space-x-3 space-y-0"
-                                     >
-                                       <FormControl>
-                                         <Checkbox
-                                           checked={field.value?.includes(feature.id)}
-                                           onCheckedChange={(checked) => {
-                                             return checked
-                                               ? field.onChange([...(field.value || []), feature.id])
-                                               : field.onChange(
-                                                   field.value?.filter(
-                                                     (value) => value !== feature.id
-                                                   )
-                                                 )
-                                           }}
-                                         />
-                                       </FormControl>
-                                       <div className="space-y-1 leading-none">
-                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
-                                           <feature.icon className="h-4 w-4" />
-                                           {feature.label}
-                                         </FormLabel>
-                                       </div>
-                                     </FormItem>
-                                   )
-                                 }}
-                               />
-                             ))}
-                           </div>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   {/* Health & Safety */}
-                   <div>
-                     <h3 className="text-lg font-semibold mb-4">Health & Safety</h3>
-                     <FormField
-                       control={form.control}
-                       name="healthSafety"
-                       render={() => (
-                         <FormItem>
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                             {healthSafety.map((feature) => (
-                               <FormField
-                                 key={feature.id}
-                                 control={form.control}
-                                 name="healthSafety"
-                                 render={({ field }) => {
-                                   return (
-                                     <FormItem
-                                       key={feature.id}
-                                       className="flex flex-row items-start space-x-3 space-y-0"
-                                     >
-                                       <FormControl>
-                                         <Checkbox
-                                           checked={field.value?.includes(feature.id)}
-                                           onCheckedChange={(checked) => {
-                                             return checked
-                                               ? field.onChange([...(field.value || []), feature.id])
-                                               : field.onChange(
-                                                   field.value?.filter(
-                                                     (value) => value !== feature.id
-                                                   )
-                                                 )
-                                           }}
-                                         />
-                                       </FormControl>
-                                       <div className="space-y-1 leading-none">
-                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
-                                           <feature.icon className="h-4 w-4" />
-                                           {feature.label}
-                                         </FormLabel>
-                                       </div>
-                                     </FormItem>
-                                   )
-                                 }}
-                               />
-                             ))}
-                           </div>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-
-                   {/* Host & Booking Information */}
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <FormField
-                       control={form.control}
-                       name="hostLanguage"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <MessageCircle className="h-4 w-4" />
-                             Host Language
-                           </FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select language" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="english">English</SelectItem>
-                               <SelectItem value="spanish">Spanish</SelectItem>
-                               <SelectItem value="french">French</SelectItem>
-                               <SelectItem value="german">German</SelectItem>
-                               <SelectItem value="italian">Italian</SelectItem>
-                               <SelectItem value="portuguese">Portuguese</SelectItem>
-                               <SelectItem value="chinese">Chinese</SelectItem>
-                               <SelectItem value="japanese">Japanese</SelectItem>
-                               <SelectItem value="other">Other</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-
-                     <FormField
-                       control={form.control}
-                       name="responseTime"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel className="flex items-center gap-2">
-                             <Clock className="h-4 w-4" />
-                             Response Time
-                           </FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select response time" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="within-hour">Within an hour</SelectItem>
-                               <SelectItem value="within-few-hours">Within a few hours</SelectItem>
-                               <SelectItem value="within-day">Within a day</SelectItem>
-                               <SelectItem value="few-days">A few days or more</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-
-                     <FormField
-                       control={form.control}
-                       name="bookingType"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>Booking Type</FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder="Select booking type" />
-                               </SelectTrigger>
-                             </FormControl>
-                             <SelectContent>
-                               <SelectItem value="instant-book">Instant Book</SelectItem>
-                               <SelectItem value="request-to-book">Request to Book</SelectItem>
-                             </SelectContent>
-                           </Select>
-                         </FormItem>
-                       )}
-                     />
-                   </div>
-                 </TabsContent>
-
-                <TabsContent value="media" className="space-y-6">
-                  <div className="grid gap-6">
-                    {/* Photos Upload */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <ImageIcon className="h-5 w-5" />
-                          Photos
-                        </CardTitle>
-                        <CardDescription>Upload property photos (JPG, PNG, WebP)</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                <TabsContent value="media" className="space-y-4">
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <ImageIcon className="h-5 w-5" />
+                        Photos
+                      </Label>
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Upload className="h-8 w-8" />
+                            <div className="text-center">
+                              <p className="text-sm font-medium">Upload Photos</p>
+                              <p className="text-xs">Drag and drop or click to browse</p>
+                            </div>
+                          </div>
                           <Input
                             type="file"
                             multiple
                             accept="image/*"
+                            className="max-w-xs"
                             onChange={(e) => handleFileUpload('photos', e.target.files)}
-                            className="hidden"
-                            id="photos-upload"
                           />
-                          <Label htmlFor="photos-upload" className="cursor-pointer">
-                            <div className="flex flex-col items-center gap-2">
-                              <ImageIcon className="h-8 w-8 text-muted-foreground" />
-                              <span className="text-sm font-medium">Click to upload photos</span>
-                              <span className="text-xs text-muted-foreground">or drag and drop</span>
-                            </div>
-                          </Label>
                         </div>
                         {uploadedFiles.photos.length > 0 && (
-                          <div className="mt-4 grid grid-cols-3 gap-2">
+                          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
                             {uploadedFiles.photos.map((file, index) => (
-                              <div key={index} className="relative">
-                                <Badge variant="secondary" className="w-full justify-between">
-                                  <span className="truncate">{file.name}</span>
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => removeFile('photos', index)}
-                                    className="h-4 w-4 p-0 ml-2"
-                                  >
-                                    <X className="h-3 w-3" />
-                                  </Button>
-                                </Badge>
+                              <div key={index} className="relative group">
+                                <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
+                                  <ImageIcon className="h-8 w-8 text-muted-foreground" />
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeFile('photos', index)}
+                                  className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
+                                <p className="text-xs truncate mt-1">{file.name}</p>
                               </div>
                             ))}
                           </div>
                         )}
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
 
-                    {/* Videos Upload */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <Video className="h-5 w-5" />
-                          Videos & Walkthrough
-                        </CardTitle>
-                        <CardDescription>Upload property videos and virtual walkthroughs (MP4, MOV, AVI)</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                    <div>
+                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <Video className="h-5 w-5" />
+                        Videos
+                      </Label>
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Upload className="h-8 w-8" />
+                            <div className="text-center">
+                              <p className="text-sm font-medium">Upload Videos</p>
+                              <p className="text-xs">Drag and drop or click to browse</p>
+                            </div>
+                          </div>
                           <Input
                             type="file"
                             multiple
                             accept="video/*"
+                            className="max-w-xs"
                             onChange={(e) => handleFileUpload('videos', e.target.files)}
-                            className="hidden"
-                            id="videos-upload"
                           />
-                          <Label htmlFor="videos-upload" className="cursor-pointer">
-                            <div className="flex flex-col items-center gap-2">
-                              <Video className="h-8 w-8 text-muted-foreground" />
-                              <span className="text-sm font-medium">Click to upload videos</span>
-                              <span className="text-xs text-muted-foreground">or drag and drop</span>
-                            </div>
-                          </Label>
                         </div>
                         {uploadedFiles.videos.length > 0 && (
                           <div className="mt-4 space-y-2">
                             {uploadedFiles.videos.map((file, index) => (
-                              <Badge key={index} variant="secondary" className="w-full justify-between">
-                                <span className="truncate">{file.name}</span>
-                                <Button
+                              <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                <div className="flex items-center gap-2">
+                                  <Video className="h-4 w-4" />
+                                  <span className="text-sm truncate">{file.name}</span>
+                                </div>
+                                <button
                                   type="button"
-                                  variant="ghost"
-                                  size="sm"
                                   onClick={() => removeFile('videos', index)}
-                                  className="h-4 w-4 p-0 ml-2"
+                                  className="text-destructive hover:text-destructive/80"
                                 >
-                                  <X className="h-3 w-3" />
-                                </Button>
-                              </Badge>
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </div>
                             ))}
                           </div>
                         )}
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
 
-                    {/* Drone Footage Upload */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <Video className="h-5 w-5" />
-                          Drone Footage
-                        </CardTitle>
-                        <CardDescription>Upload aerial drone footage and exterior shots</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                    <div>
+                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <Video className="h-5 w-5" />
+                        Drone Footage
+                      </Label>
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Upload className="h-8 w-8" />
+                            <div className="text-center">
+                              <p className="text-sm font-medium">Upload Drone Footage</p>
+                              <p className="text-xs">Drag and drop or click to browse</p>
+                            </div>
+                          </div>
                           <Input
                             type="file"
                             multiple
                             accept="video/*"
+                            className="max-w-xs"
                             onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
-                            className="hidden"
-                            id="drone-upload"
                           />
-                          <Label htmlFor="drone-upload" className="cursor-pointer">
-                            <div className="flex flex-col items-center gap-2">
-                              <Video className="h-8 w-8 text-muted-foreground" />
-                              <span className="text-sm font-medium">Click to upload drone footage</span>
-                              <span className="text-xs text-muted-foreground">or drag and drop</span>
-                            </div>
-                          </Label>
                         </div>
                         {uploadedFiles.droneFootage.length > 0 && (
                           <div className="mt-4 space-y-2">
                             {uploadedFiles.droneFootage.map((file, index) => (
-                              <Badge key={index} variant="secondary" className="w-full justify-between">
-                                <span className="truncate">{file.name}</span>
-                                <Button
+                              <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                <div className="flex items-center gap-2">
+                                  <Video className="h-4 w-4" />
+                                  <span className="text-sm truncate">{file.name}</span>
+                                </div>
+                                <button
                                   type="button"
-                                  variant="ghost"
-                                  size="sm"
                                   onClick={() => removeFile('droneFootage', index)}
-                                  className="h-4 w-4 p-0 ml-2"
+                                  className="text-destructive hover:text-destructive/80"
                                 >
-                                  <X className="h-3 w-3" />
-                                </Button>
-                              </Badge>
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </div>
                             ))}
                           </div>
                         )}
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
+
+                    {totalFiles > 0 && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Upload Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center justify-between">
+                            <div className="flex gap-4">
+                              <Badge variant="secondary">
+                                {uploadedFiles.photos.length} Photos
+                              </Badge>
+                              <Badge variant="secondary">
+                                {uploadedFiles.videos.length} Videos
+                              </Badge>
+                              <Badge variant="secondary">
+                                {uploadedFiles.droneFootage.length} Drone Footage
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              Total: {totalFiles} files
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
                   </div>
                 </TabsContent>
 
@@ -1360,9 +1382,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             <SelectContent>
                               <SelectItem value="available">Available Now</SelectItem>
                               <SelectItem value="coming-soon">Coming Soon</SelectItem>
-                              <SelectItem value="under-offer">Under Offer</SelectItem>
-                              <SelectItem value="sold">Sold</SelectItem>
-                              <SelectItem value="rented">Rented</SelectItem>
+                              <SelectItem value="under-construction">Under Construction</SelectItem>
+                              <SelectItem value="maintenance">Under Maintenance</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -1394,43 +1415,30 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                   </div>
                 </TabsContent>
               </Tabs>
-
-              {isUploading && (
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Uploading space...</span>
-                        <span>{Math.round(uploadProgress)}%</span>
-                      </div>
-                      <Progress value={uploadProgress} className="h-2" />
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
             </form>
           </Form>
         </div>
 
-        <DialogFooter className="border-t pt-4">
-          <div className="flex justify-between items-center w-full">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>{totalFiles} files selected</span>
+        <DialogFooter className="flex-shrink-0">
+          {isUploading && (
+            <div className="w-full">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">Uploading...</span>
+                <span className="text-sm text-muted-foreground">{Math.round(uploadProgress)}%</span>
+              </div>
+              <Progress value={uploadProgress} className="w-full" />
             </div>
+          )}
+          {!isUploading && (
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isUploading}>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
-              <Button 
-                type="submit" 
-                onClick={form.handleSubmit(onSubmit)}
-                disabled={isUploading}
-                className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black"
-              >
-                {isUploading ? "Uploading..." : "Create Space"}
+              <Button type="submit" onClick={form.handleSubmit(onSubmit)}>
+                Create Space
               </Button>
             </div>
-          </div>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
