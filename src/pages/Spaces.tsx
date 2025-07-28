@@ -5,6 +5,7 @@ import { Search, Filter, Grid, List, Plus, MoreVertical, X } from "lucide-react"
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import { ShareDialog } from "@/components/ShareDialog";
 import {
   Popover,
   PopoverContent,
@@ -14,6 +15,8 @@ import {
 const Spaces = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [selectedSpace, setSelectedSpace] = useState<any>(null);
   const [activeFilters, setActiveFilters] = useState({
     status: [],
     visibility: [],
@@ -124,6 +127,11 @@ const Spaces = () => {
            activeFilters.type.length +
            (activeFilters.dateRange ? 1 : 0) +
            (activeFilters.views ? 1 : 0);
+  };
+
+  const handleShare = (space: any) => {
+    setSelectedSpace(space);
+    setShareDialogOpen(true);
   };
 
   const getStatusColor = (status: string) => {
@@ -367,7 +375,7 @@ const Spaces = () => {
                     <Button variant="outline" size="sm" className="flex-1">
                       Edit
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button variant="outline" size="sm" className="flex-1" onClick={() => handleShare(space)}>
                       Share
                     </Button>
                   </div>
@@ -420,7 +428,7 @@ const Spaces = () => {
                         <Button variant="outline" size="sm">
                           Edit
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleShare(space)}>
                           Share
                         </Button>
                       </div>
@@ -431,6 +439,17 @@ const Spaces = () => {
             </Card>
           ))}
         </div>
+      )}
+
+      {/* Share Dialog */}
+      {selectedSpace && (
+        <ShareDialog
+          open={shareDialogOpen}
+          onOpenChange={setShareDialogOpen}
+          spaceName={selectedSpace.name}
+          spaceDescription={selectedSpace.description}
+          spaceUrl={`${window.location.origin}/space/${selectedSpace.id}`}
+        />
       )}
     </div>
   );
