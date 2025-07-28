@@ -24,7 +24,7 @@ const Spaces = () => {
       visibility: "Unlisted",
       views: 856,
       created: "2024-01-12",
-      thumbnail: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop"
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 2103,
       created: "2024-01-10",
-      thumbnail: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop"
     },
     {
       id: 4,
@@ -44,7 +44,7 @@ const Spaces = () => {
       visibility: "Private",
       views: 743,
       created: "2024-01-08",
-      thumbnail: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop"
     },
     {
       id: 5,
@@ -54,7 +54,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 689,
       created: "2024-01-06",
-      thumbnail: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1571508601851-4d5c82c93041?w=400&h=300&fit=crop"
     },
     {
       id: 6,
@@ -64,7 +64,7 @@ const Spaces = () => {
       visibility: "Unlisted",
       views: 456,
       created: "2024-01-04",
-      thumbnail: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop"
     },
   ];
 
