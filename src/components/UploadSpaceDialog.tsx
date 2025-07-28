@@ -364,7 +364,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       name="propertyType"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Property Type</FormLabel>
+                          <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Type" : "Property Type"}</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
