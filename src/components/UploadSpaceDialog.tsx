@@ -401,33 +401,39 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          render={({ field }) => (
                            <FormItem className="flex flex-col">
                              <FormLabel>Available From</FormLabel>
-                             <Popover>
-                               <PopoverTrigger asChild>
-                                 <FormControl>
-                                   <Button
-                                     variant={"outline"}
-                                     className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
-                                   >
-                                     {field.value ? (
-                                       format(field.value, "PPP")
-                                     ) : (
-                                       <span>Pick start date</span>
-                                     )}
-                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                   </Button>
-                                 </FormControl>
-                               </PopoverTrigger>
-                               <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-[100]" align="start">
-                                 <Calendar
-                                   mode="single"
-                                   selected={field.value}
-                                   onSelect={field.onChange}
-                                   disabled={(date) => date < new Date()}
-                                   initialFocus
-                                   className="p-3 pointer-events-auto"
-                                 />
-                               </PopoverContent>
-                             </Popover>
+                              <Popover modal>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant={"outline"}
+                                      className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                    >
+                                      {field.value ? (
+                                        format(field.value, "PPP")
+                                      ) : (
+                                        <span>Pick start date</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent 
+                                  className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                  align="start"
+                                  side="bottom"
+                                  avoidCollisions={true}
+                                  collisionPadding={8}
+                                >
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date()}
+                                    initialFocus
+                                    className="p-3 pointer-events-auto"
+                                  />
+                                </PopoverContent>
+                              </Popover>
                            </FormItem>
                          )}
                        />
@@ -437,32 +443,38 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          render={({ field }) => (
                            <FormItem className="flex flex-col">
                              <FormLabel>Available To</FormLabel>
-                             <Popover>
-                               <PopoverTrigger asChild>
-                                 <FormControl>
-                                   <Button
-                                     variant={"outline"}
-                                     className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
-                                   >
-                                     {field.value ? (
-                                       format(field.value, "PPP")
-                                     ) : (
-                                       <span>Pick end date</span>
-                                     )}
-                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                   </Button>
-                                 </FormControl>
-                               </PopoverTrigger>
-                               <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-[100]" align="start">
-                                 <Calendar
-                                   mode="single"
-                                   selected={field.value}
-                                   onSelect={field.onChange}
-                                   disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
-                                   initialFocus
-                                   className="p-3 pointer-events-auto"
-                                 />
-                               </PopoverContent>
+                              <Popover modal>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant={"outline"}
+                                      className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                    >
+                                      {field.value ? (
+                                        format(field.value, "PPP")
+                                      ) : (
+                                        <span>Pick end date</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent 
+                                  className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                  align="start"
+                                  side="bottom"
+                                  avoidCollisions={true}
+                                  collisionPadding={8}
+                                >
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
+                                    initialFocus
+                                    className="p-3 pointer-events-auto"
+                                  />
+                                </PopoverContent>
                              </Popover>
                            </FormItem>
                          )}
