@@ -648,6 +648,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <SelectContent>
                                  <SelectItem value="private">Private</SelectItem>
                                  <SelectItem value="charter">Charter</SelectItem>
+                                 <SelectItem value="sport-leisure">Sport & Leisure Yachts</SelectItem>
                                </SelectContent>
                              </Select>
                             <FormMessage />
