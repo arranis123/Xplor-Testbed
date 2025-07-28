@@ -34,7 +34,7 @@ const items = [
 
 const originalItems = [
   { title: "Home", url: "/", icon: Home },
-  { title: "Gigs", url: "/gigs", icon: FolderOpen },
+  { title: "Pricing", url: "/pricing", icon: FolderOpen },
 ];
 
 export function AppSidebar() {

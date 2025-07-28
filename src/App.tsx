@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import Index from "./pages/Index";
-import Gigs from "./pages/Gigs";
+import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
 import Statistics from "./pages/Statistics";
@@ -22,7 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout><Index /></AppLayout>} />
-          <Route path="/gigs" element={<AppLayout><Gigs /></AppLayout>} />
+          <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
           
           {/* Matterport-style workspace routes */}
           <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
