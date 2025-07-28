@@ -122,8 +122,8 @@ const CaptureServices = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                 Book Now
               </Button>
-              <Button size="lg" variant="outline">
-                Enterprise Solutions
+              <Button size="lg" variant="outline" onClick={() => window.location.href = '/vr-cameras'}>
+                VR Cameras & Equipment
               </Button>
             </div>
           </div>
