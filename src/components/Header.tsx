@@ -39,7 +39,7 @@ const Header = () => {
               location.pathname === "/vr-cameras" ? "text-primary" : "text-muted-foreground"
             }`}
           >
-            VR Store
+            VR Equipment Store
           </Link>
           <Link 
             to="/capture-services" 
