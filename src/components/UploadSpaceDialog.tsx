@@ -112,23 +112,45 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   });
 
   const propertyTypes = [
-    { value: "hotel-room", label: "Hotel Room – Standard guest room in a traditional hotel" },
-    { value: "boutique-hotel", label: "Boutique Hotel – Stylish, smaller hotel with personalized service" },
-    { value: "resort", label: "Resort – Full-service property with leisure amenities (pools, restaurants, etc.)" },
-    { value: "aparthotel", label: "Aparthotel – Apartment-style rooms with hotel services (kitchenette, cleaning)" },
-    { value: "hostel", label: "Hostel – Budget lodging, often with shared dormitories" },
-    { value: "motel", label: "Motel – Roadside lodging with easy car access" },
-    { value: "guesthouse", label: "Guesthouse – Small, privately owned accommodation" },
-    { value: "inn", label: "Inn – Traditional and cozy lodging, often with breakfast" },
-    { value: "bed-and-breakfast", label: "Bed and Breakfast (B&B) – Home-like stay with breakfast included" },
-    { value: "capsule-hotel", label: "Capsule Hotel – Compact, pod-style sleeping spaces" },
-    { value: "luxury-hotel", label: "Luxury Hotel – High-end property with premium features and services" },
-    { value: "business-hotel", label: "Business Hotel – Designed for professionals and travelers" },
-    { value: "extended-stay-hotel", label: "Extended Stay Hotel – Equipped for long-term stays with self-service features" },
-    { value: "eco-hotel", label: "Eco-Hotel – Environmentally sustainable lodging" },
-    { value: "casino-hotel", label: "Casino Hotel – Hotel with integrated casino and entertainment" },
+    { value: "entire-place", label: "Entire Place" },
+    { value: "private-room", label: "Private Room" },
+    { value: "shared-room", label: "Shared Room" },
+    { value: "hotel-room", label: "Hotel Room" },
+    { value: "residential-house", label: "Residential House" },
+    { value: "apartment", label: "Apartment" },
+    { value: "condo", label: "Condominium" },
+    { value: "townhouse", label: "Townhouse" },
+    { value: "villa", label: "Villa" },
+    { value: "treehouse", label: "Treehouse" },
+    { value: "castle", label: "Castle" },
+    { value: "boat", label: "Boat" },
+    { value: "cabin", label: "Cabin" },
+    { value: "commercial-office", label: "Commercial Office" },
+    { value: "retail-space", label: "Retail Space" },
+    { value: "warehouse", label: "Warehouse" },
+    { value: "land", label: "Land/Plot" },
+    { value: "hotel", label: "Hotel/Resort" },
+    { value: "restaurant", label: "Restaurant/Cafe" },
+    { value: "other", label: "Other" },
   ];
 
+  const hotelPropertyTypes = [
+    { value: "hotel-room", label: "Hotel Room" },
+    { value: "boutique-hotel", label: "Boutique Hotel" },
+    { value: "resort", label: "Resort" },
+    { value: "aparthotel", label: "Aparthotel" },
+    { value: "hostel", label: "Hostel" },
+    { value: "motel", label: "Motel" },
+    { value: "guesthouse", label: "Guesthouse" },
+    { value: "inn", label: "Inn" },
+    { value: "bed-and-breakfast", label: "Bed and Breakfast" },
+    { value: "capsule-hotel", label: "Capsule Hotel" },
+    { value: "luxury-hotel", label: "Luxury Hotel" },
+    { value: "business-hotel", label: "Business Hotel" },
+    { value: "extended-stay-hotel", label: "Extended Stay Hotel" },
+    { value: "eco-hotel", label: "Eco-Hotel" },
+    { value: "casino-hotel", label: "Casino Hotel" },
+  ];
 
   const amenities = [
     { id: "kitchen", label: "Kitchen", icon: Utensils },
@@ -311,7 +333,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {propertyTypes.map((type) => (
+                              {(category === "hotel" ? hotelPropertyTypes : propertyTypes).map((type) => (
                                 <SelectItem key={type.value} value={type.value}>
                                   {type.label}
                                 </SelectItem>
