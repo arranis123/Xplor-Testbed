@@ -56,10 +56,10 @@ const Header = () => {
         {/* Auth buttons */}
         <div className="flex items-center space-x-3">
           <CartButton />
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" className="text-black hover:text-black hover:bg-black/10">
             Sign In
           </Button>
-          <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+          <Button size="sm" className="bg-black hover:bg-black/90 text-white">
             Get Started
           </Button>
         </div>
