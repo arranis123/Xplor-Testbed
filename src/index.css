@@ -101,7 +101,7 @@ All colors MUST be HSL.
     /* Dark mode adjustments */
     --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-yellow) / 0.8));
     --gradient-card: linear-gradient(145deg, hsl(var(--xplor-yellow) / 0.1), hsl(var(--xplor-grey) / 0.1));
-    
+  }
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
