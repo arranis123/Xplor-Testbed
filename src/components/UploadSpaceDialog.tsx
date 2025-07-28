@@ -313,6 +313,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "daysailer", label: "Daysailer" },
   ];
 
+  const hybridElectricYachtSubtypes = [
+    { value: "hybrid-propulsion-yacht", label: "Hybrid Propulsion Yacht" },
+    { value: "electric-yacht", label: "Electric Yacht" },
+    { value: "solar-powered-yacht", label: "Solar-powered Yacht" },
+    { value: "hydrogen-powered-yacht", label: "Hydrogen-powered Yacht (emerging)" },
+  ];
+
   const motorYachtSubtypes = [
     { value: "flybridge-motor-yacht", label: "Flybridge Motor Yacht" },
     { value: "hardtop-motor-yacht", label: "Hardtop Motor Yacht" },
@@ -569,6 +576,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormControl>
                               <SelectContent>
                                 {sailingYachtSubtypes.map((type) => (
+                                  <SelectItem key={type.value} value={type.value}>
+                                    {type.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+
+                    {category === "yacht" && form.watch("propertyType") === "hybrid-electric-yacht" && (
+                      <FormField
+                        control={form.control}
+                        name="yachtSubtype"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Hybrid & Electric Yacht Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select hybrid/electric yacht type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {hybridElectricYachtSubtypes.map((type) => (
                                   <SelectItem key={type.value} value={type.value}>
                                     {type.label}
                                   </SelectItem>
