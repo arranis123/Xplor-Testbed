@@ -112,29 +112,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   });
 
   const propertyTypes = [
-    { value: "entire-place", label: "Entire Place" },
-    { value: "private-room", label: "Private Room" },
-    { value: "shared-room", label: "Shared Room" },
-    { value: "hotel-room", label: "Hotel Room" },
-    { value: "residential-house", label: "Residential House" },
-    { value: "apartment", label: "Apartment" },
-    { value: "condo", label: "Condominium" },
-    { value: "townhouse", label: "Townhouse" },
-    { value: "villa", label: "Villa" },
-    { value: "treehouse", label: "Treehouse" },
-    { value: "castle", label: "Castle" },
-    { value: "boat", label: "Boat" },
-    { value: "cabin", label: "Cabin" },
-    { value: "commercial-office", label: "Commercial Office" },
-    { value: "retail-space", label: "Retail Space" },
-    { value: "warehouse", label: "Warehouse" },
-    { value: "land", label: "Land/Plot" },
-    { value: "hotel", label: "Hotel/Resort" },
-    { value: "restaurant", label: "Restaurant/Cafe" },
-    { value: "other", label: "Other" },
-  ];
-
-  const hotelPropertyTypes = [
     { value: "hotel-room", label: "Hotel Room – Standard guest room in a traditional hotel" },
     { value: "boutique-hotel", label: "Boutique Hotel – Stylish, smaller hotel with personalized service" },
     { value: "resort", label: "Resort – Full-service property with leisure amenities (pools, restaurants, etc.)" },
@@ -151,6 +128,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "eco-hotel", label: "Eco-Hotel – Environmentally sustainable lodging" },
     { value: "casino-hotel", label: "Casino Hotel – Hotel with integrated casino and entertainment" },
   ];
+
 
   const amenities = [
     { id: "kitchen", label: "Kitchen", icon: Utensils },
@@ -333,7 +311,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : propertyTypes).map((type) => (
+                              {propertyTypes.map((type) => (
                                 <SelectItem key={type.value} value={type.value}>
                                   {type.label}
                                 </SelectItem>
