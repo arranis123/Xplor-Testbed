@@ -14,7 +14,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 1247,
       created: "2024-01-15",
-      thumbnail: "/api/placeholder/300/200"
+      thumbnail: "https://images.unsplash.com/photo-1667440027778-311080d08141?w=400&h=300&fit=crop"
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ const Spaces = () => {
       visibility: "Unlisted",
       views: 856,
       created: "2024-01-12",
-      thumbnail: "/api/placeholder/300/200"
+      thumbnail: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=300&fit=crop"
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 2103,
       created: "2024-01-10",
-      thumbnail: "/api/placeholder/300/200"
+      thumbnail: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=300&fit=crop"
     },
     {
       id: 4,
@@ -44,7 +44,27 @@ const Spaces = () => {
       visibility: "Private",
       views: 743,
       created: "2024-01-08",
-      thumbnail: "/api/placeholder/300/200"
+      thumbnail: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=400&h=300&fit=crop"
+    },
+    {
+      id: 5,
+      name: "Hotel Suite Walkthrough",
+      description: "Luxury hotel accommodation tour",
+      status: "Active",
+      visibility: "Public",
+      views: 689,
+      created: "2024-01-06",
+      thumbnail: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=300&fit=crop"
+    },
+    {
+      id: 6,
+      name: "Mountain Cabin Retreat",
+      description: "Remote vacation rental showcase",
+      status: "Active",
+      visibility: "Unlisted",
+      views: 456,
+      created: "2024-01-04",
+      thumbnail: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400&h=300&fit=crop"
     },
   ];
 
@@ -108,7 +128,11 @@ const Spaces = () => {
         {spaces.map((space) => (
           <Card key={space.id} className="border-border hover:shadow-medium transition-shadow">
             <div className="aspect-video bg-muted rounded-t-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-xplor-yellow/20 to-xplor-grey/20" />
+              <img 
+                src={space.thumbnail} 
+                alt={space.name}
+                className="w-full h-full object-cover"
+              />
               <div className="absolute top-2 right-2">
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0 bg-white/80 hover:bg-white">
                   <MoreVertical className="h-4 w-4" />
