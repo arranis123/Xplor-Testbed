@@ -139,11 +139,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     videos: File[];
     droneFootage: File[];
     documents: File[];
+    floorPlans: File[];
   }>({
     photos: [],
     videos: [],
     droneFootage: [],
     documents: [],
+    floorPlans: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -341,12 +343,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { id: "fire-extinguisher", label: "Fire Extinguisher", icon: Flame },
   ];
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents', files: FileList | null) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans', files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter(file => {
-      if (type === 'photos') {
+      if (type === 'photos' || type === 'floorPlans') {
         return file.type.startsWith('image/');
       } else if (type === 'documents') {
         return file.type === 'application/pdf' || file.type.includes('document') || file.type === 'text/plain';
@@ -366,7 +368,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -401,7 +403,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -415,7 +417,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
-  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length;
+  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length + uploadedFiles.floorPlans.length;
   const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
@@ -2672,6 +2674,50 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       </div>
                     </div>
 
+                    <div>
+                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <FileText className="h-5 w-5" />
+                        Floor Plans
+                      </Label>
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Upload className="h-8 w-8" />
+                            <div className="text-center">
+                              <p className="text-sm font-medium">Upload Floor Plans</p>
+                              <p className="text-xs">Drag and drop or click to browse</p>
+                            </div>
+                          </div>
+                          <Input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            className="max-w-xs"
+                            onChange={(e) => handleFileUpload('floorPlans', e.target.files)}
+                          />
+                        </div>
+                        {uploadedFiles.floorPlans.length > 0 && (
+                          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                            {uploadedFiles.floorPlans.map((file, index) => (
+                              <div key={index} className="relative group">
+                                <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
+                                  <FileText className="h-8 w-8 text-muted-foreground" />
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeFile('floorPlans', index)}
+                                  className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
+                                <p className="text-xs truncate mt-1">{file.name}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
                     {totalFiles > 0 && (
                       <Card>
                         <CardHeader>
@@ -2691,6 +2737,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </Badge>
                               <Badge variant="secondary">
                                 {uploadedFiles.documents.length} Documents
+                              </Badge>
+                              <Badge variant="secondary">
+                                {uploadedFiles.floorPlans.length} Floor Plans
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground">
