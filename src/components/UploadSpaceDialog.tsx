@@ -297,6 +297,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const yachtPropertyTypes = [
     { value: "motor-yacht", label: "Motor Yacht" },
     { value: "sailing-yacht", label: "Sailing Yacht" },
+    { value: "hybrid-electric-yacht", label: "Hybrid & Electric Yachts" },
   ];
 
   const sailingYachtSubtypes = [
