@@ -26,10 +26,10 @@ const Index = () => {
           
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              xplor
+              xplor The World's Map of Virtual Spaces
             </h1>
             <p className="text-xl md:text-2xl mb-8 opacity-90">
-              Experience the finest yachts and properties in the world's most exclusive destinations
+              Discover, share, and explore immersive 3D tours of real-world locations — from luxury homes and yachts to cultural landmarks and travel destinations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3">
