@@ -621,12 +621,20 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       <FormField
                         control={form.control}
                         name="yachtUsePurpose"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Use/Purpose</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Private leisure, Charter, Racing, Commercial" {...field} />
-                            </FormControl>
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Use/Purpose</FormLabel>
+                             <Select onValueChange={field.onChange} defaultValue={field.value}>
+                               <FormControl>
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select use/purpose" />
+                                 </SelectTrigger>
+                               </FormControl>
+                               <SelectContent>
+                                 <SelectItem value="private">Private</SelectItem>
+                                 <SelectItem value="charter">Charter</SelectItem>
+                               </SelectContent>
+                             </Select>
                             <FormMessage />
                           </FormItem>
                         )}
