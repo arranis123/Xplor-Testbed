@@ -359,14 +359,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
   const yachtStyleLayouts = [
-    { value: "flybridge", label: "Flybridge" },
-    { value: "hardtop", label: "Hardtop" },
-    { value: "open-cockpit", label: "Open Cockpit" },
-    { value: "sedan", label: "Sedan" },
-    { value: "pilothouse", label: "Pilothouse" },
-    { value: "center-console", label: "Center Console" },
-    { value: "walk-around", label: "Walk Around" },
-    { value: "express-cruiser", label: "Express Cruiser" },
+    { value: "open-express", label: "Open / Express Yacht" },
+    { value: "flybridge", label: "Flybridge Yacht" },
+    { value: "raised-pilothouse", label: "Raised Pilothouse Yacht" },
+    { value: "tri-deck-multi-deck", label: "Tri-deck / Multi-deck Yacht" },
+    { value: "convertible", label: "Convertible Yacht" },
+    { value: "beach-club", label: "Beach Club Yacht" },
+    { value: "explorer", label: "Explorer Yacht (long range, rugged)" },
+    { value: "retro-classic", label: "Retro Classic Yacht" },
+    { value: "minimalist-avant-garde", label: "Minimalist / Avant-garde Yacht" },
   ];
 
   const yachtSpecialPurposes = [
