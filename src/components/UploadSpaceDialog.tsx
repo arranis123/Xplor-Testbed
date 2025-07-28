@@ -329,14 +329,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-5" : "grid-cols-6"}`}>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-5" : (category === "real-estate") ? "grid-cols-5" : "grid-cols-6"}`}>
                   <TabsTrigger value="basic">Basic Info</TabsTrigger>
                   {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                     <TabsTrigger value="hotel-details">Hotel Details</TabsTrigger>
                   ) : (
                     <TabsTrigger value="details">Property Details</TabsTrigger>
                   )}
-                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
                   )}
                   <TabsTrigger value="rules">Rules & Access</TabsTrigger>
