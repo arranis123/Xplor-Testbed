@@ -333,7 +333,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {(category === "hotel" ? hotelPropertyTypes : propertyTypes).map((type) => (
+                              {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : propertyTypes).map((type) => (
                                 <SelectItem key={type.value} value={type.value}>
                                   {type.label}
                                 </SelectItem>
