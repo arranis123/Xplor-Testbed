@@ -13,6 +13,7 @@ import {
 
 const Spaces = () => {
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeFilters, setActiveFilters] = useState({
     status: [],
     visibility: [],
@@ -304,66 +305,133 @@ const Spaces = () => {
           </PopoverContent>
         </Popover>
         <div className="flex border border-border rounded-md">
-          <Button variant="ghost" size="sm" className="border-r">
+          <Button 
+            variant={viewMode === 'grid' ? 'default' : 'ghost'} 
+            size="sm" 
+            className="border-r"
+            onClick={() => setViewMode('grid')}
+          >
             <Grid className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm">
+          <Button 
+            variant={viewMode === 'list' ? 'default' : 'ghost'} 
+            size="sm"
+            onClick={() => setViewMode('list')}
+          >
             <List className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      {/* Spaces Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {spaces.map((space) => (
-          <Card key={space.id} className="border-border hover:shadow-medium transition-shadow">
-            <div className="aspect-video bg-muted rounded-t-lg relative overflow-hidden">
-              <img 
-                src={space.thumbnail} 
-                alt={space.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-2 right-2">
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 bg-white/80 hover:bg-white">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-lg text-foreground">{space.name}</CardTitle>
-                  <CardDescription>{space.description}</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex gap-2">
-                  <Badge className={getStatusColor(space.status)}>
-                    {space.status}
-                  </Badge>
-                  <Badge className={getVisibilityColor(space.visibility)}>
-                    {space.visibility}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>{space.views.toLocaleString()} views</span>
-                  <span>Created {space.created}</span>
-                </div>
-                <div className="flex gap-2 pt-2">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    Edit
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    Share
+      {/* Spaces Display */}
+      {viewMode === 'grid' ? (
+        /* Grid View */
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {spaces.map((space) => (
+            <Card key={space.id} className="border-border hover:shadow-medium transition-shadow">
+              <div className="aspect-video bg-muted rounded-t-lg relative overflow-hidden">
+                <img 
+                  src={space.thumbnail} 
+                  alt={space.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-2 right-2">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 bg-white/80 hover:bg-white">
+                    <MoreVertical className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <CardTitle className="text-lg text-foreground">{space.name}</CardTitle>
+                    <CardDescription>{space.description}</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    <Badge className={getStatusColor(space.status)}>
+                      {space.status}
+                    </Badge>
+                    <Badge className={getVisibilityColor(space.visibility)}>
+                      {space.visibility}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span>{space.views.toLocaleString()} views</span>
+                    <span>Created {space.created}</span>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <Button variant="outline" size="sm" className="flex-1">
+                      Edit
+                    </Button>
+                    <Button variant="outline" size="sm" className="flex-1">
+                      Share
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        /* List View */
+        <div className="space-y-4">
+          {spaces.map((space) => (
+            <Card key={space.id} className="border-border hover:shadow-medium transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex gap-4">
+                  <div className="w-32 h-24 bg-muted rounded-lg relative overflow-hidden flex-shrink-0">
+                    <img 
+                      src={space.thumbnail} 
+                      alt={space.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-lg text-foreground">{space.name}</CardTitle>
+                        <CardDescription className="mt-1">{space.description}</CardDescription>
+                      </div>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="flex gap-2">
+                      <Badge className={getStatusColor(space.status)}>
+                        {space.status}
+                      </Badge>
+                      <Badge className={getVisibilityColor(space.visibility)}>
+                        {space.visibility}
+                      </Badge>
+                      <Badge variant="outline">
+                        {space.type}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <span>{space.views.toLocaleString()} views</span>
+                        <span>Created {space.created}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          Share
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
