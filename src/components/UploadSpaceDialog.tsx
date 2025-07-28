@@ -371,15 +371,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
   const yachtSpecialPurposes = [
-    { value: "expedition-explorer", label: "Expedition/Explorer Yacht" },
-    { value: "ice-class", label: "Ice Class Yacht" },
-    { value: "research-vessel", label: "Research Vessel" },
-    { value: "dive-yacht", label: "Dive Yacht" },
-    { value: "tender-yacht", label: "Tender/Support Yacht" },
-    { value: "racing-yacht", label: "Racing Yacht" },
-    { value: "classic-vintage", label: "Classic/Vintage Yacht" },
-    { value: "eco-yacht", label: "Eco-Yacht" },
-    { value: "party-entertainment", label: "Party/Entertainment Yacht" },
+    { value: "ice-class-icebreaker", label: "Ice-Class Yacht / Icebreaker Yacht" },
+    { value: "amphibious", label: "Amphibious Yacht (land & water)" },
+    { value: "submersible", label: "Submersible Yacht (rare, conceptual)" },
+    { value: "stealth", label: "Stealth Yacht (military-derived designs)" },
+    { value: "autonomous-ai", label: "Autonomous / AI-Powered Yacht" },
+    { value: "sail-assisted-motor", label: "Sail-Assisted Motor Yacht (e.g. Perini Navi Falcon rigs)" },
   ];
 
   const charterYachtSubtypes = [
