@@ -17,8 +17,8 @@ const Index = () => {
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1920&q=80" 
-              alt="Luxury Yacht Experience"
+              src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" 
+              alt="Luxury Properties Worldwide Map"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/40"></div>
