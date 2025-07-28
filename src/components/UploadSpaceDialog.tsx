@@ -25,6 +25,7 @@ const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
+  yachtSaleOrCharter: z.string().optional(),
   yachtSubtype: z.string().optional(),
   yachtUsePurpose: z.string().optional(),
   yachtUsePurposeSubtype: z.string().optional(),
@@ -159,6 +160,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       title: "",
       description: "",
       propertyType: "",
+      yachtSaleOrCharter: "",
       yachtSubtype: "",
       yachtUsePurpose: "",
       yachtUsePurposeSubtype: "",
@@ -531,45 +533,70 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="basic" className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="propertyType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Type" : category === "yacht" ? "Yacht Type" : "Property Type"}</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : "Select property type"} />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : propertyTypes).map((type) => (
-                                <SelectItem key={type.value} value={type.value}>
-                                  {type.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                 <TabsContent value="basic" className="space-y-4">
+                   <div className="grid grid-cols-2 gap-4">
+                     <FormField
+                       control={form.control}
+                       name="title"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
+                           <FormControl>
+                             <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                     
+                     {category === "yacht" && (
+                       <FormField
+                         control={form.control}
+                         name="yachtSaleOrCharter"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Sale or Charter</FormLabel>
+                             <Select onValueChange={field.onChange} defaultValue={field.value}>
+                               <FormControl>
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select sale or charter" />
+                                 </SelectTrigger>
+                               </FormControl>
+                               <SelectContent>
+                                 <SelectItem value="sale">For Sale</SelectItem>
+                                 <SelectItem value="charter">For Charter</SelectItem>
+                               </SelectContent>
+                             </Select>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
+                     
+                     <FormField
+                       control={form.control}
+                       name="propertyType"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Type" : category === "yacht" ? "Yacht Type" : "Property Type"}</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : "Select property type"} />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : propertyTypes).map((type) => (
+                                 <SelectItem key={type.value} value={type.value}>
+                                   {type.label}
+                                 </SelectItem>
+                               ))}
+                             </SelectContent>
+                           </Select>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
                     
                     {category === "yacht" && form.watch("propertyType") === "motor-yacht" && (
                       <FormField
