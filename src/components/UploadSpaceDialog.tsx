@@ -8,8 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar, Ruler, Users, Car, Wifi, Shield, Bath, Bed } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed } from "lucide-react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +27,9 @@ const uploadFormSchema = z.object({
   listingType: z.string().min(1, "Please select listing type"),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
+  rentalPeriod: z.string().optional(),
+  availableFrom: z.date().optional(),
+  availableTo: z.date().optional(),
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
   area: z.string().optional(),
@@ -65,6 +71,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       listingType: "",
       salePrice: "",
       rentalPriceRange: "",
+      rentalPeriod: "",
       bedrooms: "",
       bathrooms: "",
       area: "",
@@ -350,9 +357,120 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </Select>
                             </FormItem>
                           )}
-                        />
-                      </>
-                    )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="rentalPeriod"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel className="flex items-center gap-2">
+                                 <CalendarIcon className="h-4 w-4" />
+                                 Rental Period
+                               </FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select rental period" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="daily">Daily</SelectItem>
+                                   <SelectItem value="weekly">Weekly</SelectItem>
+                                   <SelectItem value="bi-weekly">Bi-weekly (2 weeks)</SelectItem>
+                                   <SelectItem value="monthly">Monthly</SelectItem>
+                                   <SelectItem value="bi-monthly">Bi-monthly (2 months)</SelectItem>
+                                   <SelectItem value="quarterly">3 Months</SelectItem>
+                                   <SelectItem value="semi-annual">6 Months</SelectItem>
+                                   <SelectItem value="annual">Annual (12 months)</SelectItem>
+                                   <SelectItem value="custom">Custom Range</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                             </FormItem>
+                           )}
+                         />
+                       </>
+                     )}
+                   </div>
+
+                   {/* Custom Date Range for Rental Period */}
+                   {category === "real-estate" && form.watch("rentalPeriod") === "custom" && (
+                     <div className="grid grid-cols-2 gap-4">
+                       <FormField
+                         control={form.control}
+                         name="availableFrom"
+                         render={({ field }) => (
+                           <FormItem className="flex flex-col">
+                             <FormLabel>Available From</FormLabel>
+                             <Popover>
+                               <PopoverTrigger asChild>
+                                 <FormControl>
+                                   <Button
+                                     variant={"outline"}
+                                     className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                   >
+                                     {field.value ? (
+                                       format(field.value, "PPP")
+                                     ) : (
+                                       <span>Pick start date</span>
+                                     )}
+                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                   </Button>
+                                 </FormControl>
+                               </PopoverTrigger>
+                               <PopoverContent className="w-auto p-0" align="start">
+                                 <Calendar
+                                   mode="single"
+                                   selected={field.value}
+                                   onSelect={field.onChange}
+                                   disabled={(date) => date < new Date()}
+                                   initialFocus
+                                   className="p-3 pointer-events-auto"
+                                 />
+                               </PopoverContent>
+                             </Popover>
+                           </FormItem>
+                         )}
+                       />
+                       <FormField
+                         control={form.control}
+                         name="availableTo"
+                         render={({ field }) => (
+                           <FormItem className="flex flex-col">
+                             <FormLabel>Available To</FormLabel>
+                             <Popover>
+                               <PopoverTrigger asChild>
+                                 <FormControl>
+                                   <Button
+                                     variant={"outline"}
+                                     className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                   >
+                                     {field.value ? (
+                                       format(field.value, "PPP")
+                                     ) : (
+                                       <span>Pick end date</span>
+                                     )}
+                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                   </Button>
+                                 </FormControl>
+                               </PopoverTrigger>
+                               <PopoverContent className="w-auto p-0" align="start">
+                                 <Calendar
+                                   mode="single"
+                                   selected={field.value}
+                                   onSelect={field.onChange}
+                                   disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
+                                   initialFocus
+                                   className="p-3 pointer-events-auto"
+                                 />
+                               </PopoverContent>
+                             </Popover>
+                           </FormItem>
+                         )}
+                       />
+                     </div>
+                   )}
+
+                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <FormField
                       control={form.control}
                       name="bedrooms"
