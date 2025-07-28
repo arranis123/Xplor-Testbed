@@ -1,10 +1,34 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, Grid, List, Plus, MoreVertical } from "lucide-react";
+import { Search, Filter, Grid, List, Plus, MoreVertical, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const Spaces = () => {
+  const [showFilters, setShowFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({
+    status: [],
+    visibility: [],
+    type: [],
+    dateRange: "",
+    views: ""
+  });
+
+  const filterOptions = {
+    status: ["Active", "Processing", "Draft", "Inactive"],
+    visibility: ["Public", "Unlisted", "Private"],
+    type: ["Office", "Residential", "Restaurant", "Retail", "Hotel", "Vacation Rental", "Event Space", "Warehouse"],
+    dateRange: ["Last 7 days", "Last 30 days", "Last 3 months", "Last 6 months", "All time"],
+    views: ["0-100 views", "100-500 views", "500-1000 views", "1000+ views"]
+  };
+
   const spaces = [
     {
       id: 1,
@@ -14,6 +38,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 1247,
       created: "2024-01-15",
+      type: "Office",
       thumbnail: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop"
     },
     {
@@ -24,6 +49,7 @@ const Spaces = () => {
       visibility: "Unlisted",
       views: 856,
       created: "2024-01-12",
+      type: "Residential",
       thumbnail: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop"
     },
     {
@@ -34,6 +60,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 2103,
       created: "2024-01-10",
+      type: "Restaurant",
       thumbnail: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop"
     },
     {
@@ -44,6 +71,7 @@ const Spaces = () => {
       visibility: "Private",
       views: 743,
       created: "2024-01-08",
+      type: "Retail",
       thumbnail: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop"
     },
     {
@@ -54,6 +82,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 689,
       created: "2024-01-06",
+      type: "Hotel",
       thumbnail: "https://images.unsplash.com/photo-1571508601851-4d5c82c93041?w=400&h=300&fit=crop"
     },
     {
@@ -64,9 +93,37 @@ const Spaces = () => {
       visibility: "Unlisted",
       views: 456,
       created: "2024-01-04",
+      type: "Vacation Rental",
       thumbnail: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop"
     },
   ];
+
+  const handleFilterChange = (category: string, value: string, checked: boolean) => {
+    setActiveFilters(prev => ({
+      ...prev,
+      [category]: checked 
+        ? [...(prev[category] as string[]), value]
+        : (prev[category] as string[]).filter(item => item !== value)
+    }));
+  };
+
+  const clearAllFilters = () => {
+    setActiveFilters({
+      status: [],
+      visibility: [],
+      type: [],
+      dateRange: "",
+      views: ""
+    });
+  };
+
+  const getActiveFilterCount = () => {
+    return activeFilters.status.length + 
+           activeFilters.visibility.length + 
+           activeFilters.type.length +
+           (activeFilters.dateRange ? 1 : 0) +
+           (activeFilters.views ? 1 : 0);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -109,10 +166,143 @@ const Spaces = () => {
             className="pl-10"
           />
         </div>
-        <Button variant="outline" size="sm">
-          <Filter className="h-4 w-4 mr-2" />
-          Filter
-        </Button>
+        <Popover open={showFilters} onOpenChange={setShowFilters}>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="relative">
+              <Filter className="h-4 w-4 mr-2" />
+              Filter
+              {getActiveFilterCount() > 0 && (
+                <Badge className="ml-2 h-5 w-5 p-0 text-xs bg-primary text-primary-foreground rounded-full flex items-center justify-center">
+                  {getActiveFilterCount()}
+                </Badge>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" align="start">
+            <div className="p-4 border-b">
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold">Filters</h3>
+                <div className="flex items-center gap-2">
+                  {getActiveFilterCount() > 0 && (
+                    <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs h-7">
+                      Clear all
+                    </Button>
+                  )}
+                  <Button variant="ghost" size="sm" onClick={() => setShowFilters(false)} className="h-7 w-7 p-0">
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="max-h-96 overflow-y-auto">
+              {/* Status Filter */}
+              <div className="p-4 border-b">
+                <h4 className="font-medium mb-3">Status</h4>
+                <div className="space-y-2">
+                  {filterOptions.status.map((status) => (
+                    <div key={status} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`status-${status}`}
+                        checked={activeFilters.status.includes(status)}
+                        onCheckedChange={(checked) => handleFilterChange("status", status, checked as boolean)}
+                      />
+                      <label htmlFor={`status-${status}`} className="text-sm cursor-pointer">
+                        {status}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Visibility Filter */}
+              <div className="p-4 border-b">
+                <h4 className="font-medium mb-3">Visibility</h4>
+                <div className="space-y-2">
+                  {filterOptions.visibility.map((visibility) => (
+                    <div key={visibility} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`visibility-${visibility}`}
+                        checked={activeFilters.visibility.includes(visibility)}
+                        onCheckedChange={(checked) => handleFilterChange("visibility", visibility, checked as boolean)}
+                      />
+                      <label htmlFor={`visibility-${visibility}`} className="text-sm cursor-pointer">
+                        {visibility}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Type Filter */}
+              <div className="p-4 border-b">
+                <h4 className="font-medium mb-3">Space Type</h4>
+                <div className="space-y-2">
+                  {filterOptions.type.map((type) => (
+                    <div key={type} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`type-${type}`}
+                        checked={activeFilters.type.includes(type)}
+                        onCheckedChange={(checked) => handleFilterChange("type", type, checked as boolean)}
+                      />
+                      <label htmlFor={`type-${type}`} className="text-sm cursor-pointer">
+                        {type}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Views Filter */}
+              <div className="p-4 border-b">
+                <h4 className="font-medium mb-3">View Count</h4>
+                <div className="space-y-2">
+                  {filterOptions.views.map((viewRange) => (
+                    <div key={viewRange} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`views-${viewRange}`}
+                        checked={activeFilters.views === viewRange}
+                        onCheckedChange={(checked) => {
+                          setActiveFilters(prev => ({
+                            ...prev,
+                            views: checked ? viewRange : ""
+                          }));
+                        }}
+                      />
+                      <label htmlFor={`views-${viewRange}`} className="text-sm cursor-pointer">
+                        {viewRange}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Date Range Filter */}
+              <div className="p-4">
+                <h4 className="font-medium mb-3">Created</h4>
+                <div className="space-y-2">
+                  {filterOptions.dateRange.map((range) => (
+                    <div key={range} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`date-${range}`}
+                        checked={activeFilters.dateRange === range}
+                        onCheckedChange={(checked) => {
+                          setActiveFilters(prev => ({
+                            ...prev,
+                            dateRange: checked ? range : ""
+                          }));
+                        }}
+                      />
+                      <label htmlFor={`date-${range}`} className="text-sm cursor-pointer">
+                        {range}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
         <div className="flex border border-border rounded-md">
           <Button variant="ghost" size="sm" className="border-r">
             <Grid className="h-4 w-4" />
