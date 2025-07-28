@@ -1,0 +1,55 @@
+import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "react-router-dom";
+
+const Header = () => {
+  const location = useLocation();
+
+  return (
+    <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">M</span>
+          </div>
+          <span className="font-semibold text-xl text-foreground">Matterport</span>
+        </Link>
+
+        {/* Navigation */}
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link 
+            to="/" 
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              location.pathname === "/" ? "text-primary" : "text-muted-foreground"
+            }`}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/gigs" 
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              location.pathname === "/gigs" ? "text-primary" : "text-muted-foreground"
+            }`}
+          >
+            Gigs
+          </Link>
+          <span className="text-sm font-medium text-muted-foreground">Capture</span>
+          <span className="text-sm font-medium text-muted-foreground">Workshop</span>
+          <span className="text-sm font-medium text-muted-foreground">Support</span>
+        </nav>
+
+        {/* Auth buttons */}
+        <div className="flex items-center space-x-3">
+          <Button variant="ghost" size="sm">
+            Sign In
+          </Button>
+          <Button size="sm" className="bg-matterport-blue hover:bg-matterport-blue/90">
+            Get Started
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
