@@ -26,6 +26,7 @@ const uploadFormSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
   yachtSaleOrCharter: z.string().optional(),
+  yachtSizeClass: z.string().optional(),
   yachtSubtype: z.string().optional(),
   yachtUsePurpose: z.string().optional(),
   yachtUsePurposeSubtype: z.string().optional(),
@@ -161,6 +162,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       description: "",
       propertyType: "",
       yachtSaleOrCharter: "",
+      yachtSizeClass: "",
       yachtSubtype: "",
       yachtUsePurpose: "",
       yachtUsePurposeSubtype: "",
@@ -343,6 +345,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "trimaran-yacht", label: "Trimaran Yacht" },
     { value: "swath-yacht", label: "SWATH Yacht (Small Waterplane Area Twin Hull)" },
     { value: "hydrofoil-yacht", label: "Hydrofoil Yacht (rare)" },
+  ];
+
+  const yachtSizeClasses = [
+    { value: "under-24ft", label: "Under 24 ft (Small Boats)" },
+    { value: "24-39ft", label: "24-39 ft (Day Boats/Small Yachts)" },
+    { value: "40-59ft", label: "40-59 ft (Mid-Size Yachts)" },
+    { value: "60-79ft", label: "60-79 ft (Large Yachts)" },
+    { value: "80-119ft", label: "80-119 ft (Superyachts)" },
+    { value: "120-199ft", label: "120-199 ft (Large Superyachts)" },
+    { value: "200ft-plus", label: "200+ ft (Megayachts)" },
   ];
 
   const charterYachtSubtypes = [
@@ -805,12 +817,39 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      )}
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
+                       
+                       {category === "yacht" && (
+                         <FormField
+                           control={form.control}
+                           name="yachtSizeClass"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Size Class</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select size class" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   {yachtSizeClasses.map((sizeClass) => (
+                                     <SelectItem key={sizeClass.value} value={sizeClass.value}>
+                                       {sizeClass.label}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
                   </div>
 
                   {category === "real-estate" && (
