@@ -336,11 +336,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
   const yachtHullConfigurations = [
-    { value: "monohull", label: "Monohull" },
-    { value: "catamaran", label: "Catamaran" },
-    { value: "trimaran", label: "Trimaran" },
-    { value: "power-catamaran", label: "Power Catamaran" },
-    { value: "multi-hull", label: "Multi-Hull" },
+    { value: "monohull-yacht", label: "Monohull Yacht" },
+    { value: "catamaran-yacht", label: "Catamaran Yacht (Power or Sail)" },
+    { value: "trimaran-yacht", label: "Trimaran Yacht" },
+    { value: "swath-yacht", label: "SWATH Yacht (Small Waterplane Area Twin Hull)" },
+    { value: "hydrofoil-yacht", label: "Hydrofoil Yacht (rare)" },
   ];
 
   const charterYachtSubtypes = [
