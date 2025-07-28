@@ -26,6 +26,7 @@ const uploadFormSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
   yachtSubtype: z.string().optional(),
+  yachtUsePurpose: z.string().optional(),
   listingType: z.string().optional(),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
@@ -157,6 +158,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       description: "",
       propertyType: "",
       yachtSubtype: "",
+      yachtUsePurpose: "",
       listingType: "",
       salePrice: "",
       rentalPriceRange: "",
@@ -614,6 +616,22 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         )}
                       />
                     )}
+                    
+                    {category === "yacht" && (
+                      <FormField
+                        control={form.control}
+                        name="yachtUsePurpose"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Use/Purpose</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Private leisure, Charter, Racing, Commercial" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                     )}
                   </div>
 
                   {category === "real-estate" && (
