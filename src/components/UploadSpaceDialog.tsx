@@ -348,13 +348,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
   const yachtSizeClasses = [
-    { value: "under-24ft", label: "Under 24 ft (Small Boats)" },
-    { value: "24-39ft", label: "24-39 ft (Day Boats/Small Yachts)" },
-    { value: "40-59ft", label: "40-59 ft (Mid-Size Yachts)" },
-    { value: "60-79ft", label: "60-79 ft (Large Yachts)" },
-    { value: "80-119ft", label: "80-119 ft (Superyachts)" },
-    { value: "120-199ft", label: "120-199 ft (Large Superyachts)" },
-    { value: "200ft-plus", label: "200+ ft (Megayachts)" },
+    { value: "pocket-yacht", label: "Pocket Yacht < 24m (80 ft)" },
+    { value: "superyacht", label: "Superyacht 24m – 60m (80–197 ft)" },
+    { value: "megayacht", label: "Megayacht 60m – 90m (197–295 ft)" },
+    { value: "gigayacht", label: "Gigayacht / Ultra Large 90m+ (295+ ft)" },
   ];
 
   const charterYachtSubtypes = [
