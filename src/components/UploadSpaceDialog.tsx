@@ -79,6 +79,47 @@ const uploadFormSchema = z.object({
   latitude: z.string().optional(),
   longitude: z.string().optional(),
   googlePlusCode: z.string().optional(),
+  // Real Estate Property Specifications
+  price: z.string().optional(),
+  currency: z.string().optional(),
+  pricePerSqm: z.string().optional(),
+  areaSize: z.string().optional(),
+  areaUnit: z.string().optional(),
+  plotSize: z.string().optional(),
+  plotUnit: z.string().optional(),
+  parkingSpaces: z.string().optional(),
+  balconies: z.string().optional(),
+  floors: z.string().optional(),
+  floorNumber: z.string().optional(),
+  propertyCondition: z.string().optional(),
+  constructionStatus: z.string().optional(),
+  furnishing: z.string().optional(),
+  buildingType: z.string().optional(),
+  architectureStyle: z.string().optional(),
+  ownershipType: z.string().optional(),
+  titleDeedAvailable: z.string().optional(),
+  mortgageStatus: z.string().optional(),
+  occupancyStatus: z.string().optional(),
+  occupancyCertificate: z.string().optional(),
+  featuresAmenities: z.array(z.string()).optional(),
+  buildingFeatures: z.array(z.string()).optional(),
+  parkingType: z.string().optional(),
+  availabilityDate: z.date().optional(),
+  openHouseDates: z.string().optional(),
+  sellerName: z.string().optional(),
+  contactPhone: z.string().optional(),
+  contactEmail: z.string().optional(),
+  agencyName: z.string().optional(),
+  agentLicense: z.string().optional(),
+  preferredContact: z.string().optional(),
+  seoTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+  urlSlug: z.string().optional(),
+  listingId: z.string().optional(),
+  listingStatus: z.string().optional(),
+  priorityListing: z.string().optional(),
+  dateListed: z.date().optional(),
+  lastUpdated: z.date().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -161,6 +202,47 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       latitude: "",
       longitude: "",
       googlePlusCode: "",
+      // Real Estate Property Specifications default values
+      price: "",
+      currency: "USD",
+      pricePerSqm: "",
+      areaSize: "",
+      areaUnit: "sqm",
+      plotSize: "",
+      plotUnit: "sqm",
+      parkingSpaces: "",
+      balconies: "",
+      floors: "",
+      floorNumber: "",
+      propertyCondition: "",
+      constructionStatus: "",
+      furnishing: "",
+      buildingType: "",
+      architectureStyle: "",
+      ownershipType: "",
+      titleDeedAvailable: "",
+      mortgageStatus: "",
+      occupancyStatus: "",
+      occupancyCertificate: "",
+      featuresAmenities: [],
+      buildingFeatures: [],
+      parkingType: "",
+      availabilityDate: undefined,
+      openHouseDates: "",
+      sellerName: "",
+      contactPhone: "",
+      contactEmail: "",
+      agencyName: "",
+      agentLicense: "",
+      preferredContact: "",
+      seoTitle: "",
+      metaDescription: "",
+      urlSlug: "",
+      listingId: "",
+      listingStatus: "draft",
+      priorityListing: "",
+      dateListed: undefined,
+      lastUpdated: undefined,
     },
   });
 
@@ -457,140 +539,342 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     <HotelUploadForm form={form} />
                   </TabsContent>
                 ) : (
-                  <TabsContent value="details" className="space-y-4">
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="bedrooms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Bed className="h-4 w-4" />
-                            Bedrooms
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select bedrooms" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="studio">Studio</SelectItem>
-                              <SelectItem value="1">1 bedroom</SelectItem>
-                              <SelectItem value="2">2 bedrooms</SelectItem>
-                              <SelectItem value="3">3 bedrooms</SelectItem>
-                              <SelectItem value="4">4 bedrooms</SelectItem>
-                              <SelectItem value="5+">5+ bedrooms</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bathrooms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Bath className="h-4 w-4" />
-                            Bathrooms
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select bathrooms" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="1">1 bathroom</SelectItem>
-                              <SelectItem value="1.5">1.5 bathrooms</SelectItem>
-                              <SelectItem value="2">2 bathrooms</SelectItem>
-                              <SelectItem value="2.5">2.5 bathrooms</SelectItem>
-                              <SelectItem value="3">3 bathrooms</SelectItem>
-                              <SelectItem value="3.5">3.5 bathrooms</SelectItem>
-                              <SelectItem value="4+">4+ bathrooms</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="area"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Ruler className="h-4 w-4" />
-                            Area (sq ft)
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., 1,200" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="yearBuilt"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Year Built</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., 2020" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <TabsContent value="details" className="space-y-6">
+                    {category === "real-estate" && form.watch("listingType") === "for-sale" && (
+                      <>
+                        {/* Property Specifications */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold flex items-center gap-2">
+                            <DollarSign className="h-5 w-5" />
+                            Property Specifications
+                          </h3>
+                          
+                          {/* Price with Currency */}
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="col-span-2">
+                              <FormField
+                                control={form.control}
+                                name="price"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Price</FormLabel>
+                                    <FormControl>
+                                      <Input placeholder="e.g., 500000" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            <FormField
+                              control={form.control}
+                              name="currency"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Currency</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Currency" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="USD">USD ($)</SelectItem>
+                                      <SelectItem value="EUR">EUR (€)</SelectItem>
+                                      <SelectItem value="GBP">GBP (£)</SelectItem>
+                                      <SelectItem value="AED">AED (د.إ)</SelectItem>
+                                      <SelectItem value="SAR">SAR (ر.س)</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
 
-                  {/* Enhanced fields for real estate */}
-                  {category === "real-estate" && (
-                    <>
-                      {form.watch("listingType") === "for-sale" && (
-                        <div className="grid grid-cols-1 gap-4">
                           <FormField
                             control={form.control}
-                            name="salePrice"
+                            name="pricePerSqm"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="flex items-center gap-2">
-                                  <DollarSign className="h-4 w-4" />
-                                  Sale Price
-                                </FormLabel>
+                                <FormLabel>Price per sqm/sqft (optional)</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="e.g., $500,000" {...field} />
+                                  <Input placeholder="e.g., 2500" {...field} />
                                 </FormControl>
                               </FormItem>
                             )}
                           />
+
+                          {/* Area and Plot Size */}
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-3 gap-2">
+                              <div className="col-span-2">
+                                <FormField
+                                  control={form.control}
+                                  name="areaSize"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Area Size (interior)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 120" {...field} />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              <FormField
+                                control={form.control}
+                                name="areaUnit"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Unit</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="sqm">m²</SelectItem>
+                                        <SelectItem value="sqft">ft²</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                              <div className="col-span-2">
+                                <FormField
+                                  control={form.control}
+                                  name="plotSize"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Plot Size (for land/villas)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 200" {...field} />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              <FormField
+                                control={form.control}
+                                name="plotUnit"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Unit</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="sqm">m²</SelectItem>
+                                        <SelectItem value="sqft">ft²</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Property Details */}
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="bedrooms"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Bedrooms</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Bedrooms" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="studio">Studio</SelectItem>
+                                      <SelectItem value="1">1</SelectItem>
+                                      <SelectItem value="2">2</SelectItem>
+                                      <SelectItem value="3">3</SelectItem>
+                                      <SelectItem value="4">4</SelectItem>
+                                      <SelectItem value="5">5</SelectItem>
+                                      <SelectItem value="6+">6+</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="bathrooms"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Bathrooms</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Bathrooms" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="1">1</SelectItem>
+                                      <SelectItem value="1.5">1.5</SelectItem>
+                                      <SelectItem value="2">2</SelectItem>
+                                      <SelectItem value="2.5">2.5</SelectItem>
+                                      <SelectItem value="3">3</SelectItem>
+                                      <SelectItem value="3.5">3.5</SelectItem>
+                                      <SelectItem value="4+">4+</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="parkingSpaces"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Parking Spaces</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Parking" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="0">None</SelectItem>
+                                      <SelectItem value="1">1</SelectItem>
+                                      <SelectItem value="2">2</SelectItem>
+                                      <SelectItem value="3">3</SelectItem>
+                                      <SelectItem value="4+">4+</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="balconies"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Balconies/Terraces</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Balconies" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="0">None</SelectItem>
+                                      <SelectItem value="1">1</SelectItem>
+                                      <SelectItem value="2">2</SelectItem>
+                                      <SelectItem value="3+">3+</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="yearBuilt"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Year Built</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 2020" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="floors"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Floors/Levels</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Floors" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="1">1</SelectItem>
+                                      <SelectItem value="2">2</SelectItem>
+                                      <SelectItem value="3">3</SelectItem>
+                                      <SelectItem value="4+">4+</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="floorNumber"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Floor Number (apartments)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 5th floor" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="propertyCondition"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Property Condition</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Condition" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="new">New</SelectItem>
+                                      <SelectItem value="under-construction">Under Construction</SelectItem>
+                                      <SelectItem value="renovated">Renovated</SelectItem>
+                                      <SelectItem value="needs-renovation">Needs Renovation</SelectItem>
+                                      <SelectItem value="shell-core">Shell & Core</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
                         </div>
-                      )}
 
-                      {form.watch("listingType") === "for-rent" && (
-                        <>
-                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* Construction & Style */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold flex items-center gap-2">
+                            <Home className="h-5 w-5" />
+                            Construction & Style
+                          </h3>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                             <FormField
                               control={form.control}
-                              name="rentalPriceRange"
+                              name="constructionStatus"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel className="flex items-center gap-2">
-                                    <DollarSign className="h-4 w-4" />
-                                    Rental Price Range
-                                  </FormLabel>
+                                  <FormLabel>Construction Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select price range" />
+                                        <SelectValue placeholder="Status" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      <SelectItem value="under-1000">Under $1,000/month</SelectItem>
-                                      <SelectItem value="1000-2000">$1,000 - $2,000/month</SelectItem>
-                                      <SelectItem value="2000-3000">$2,000 - $3,000/month</SelectItem>
-                                      <SelectItem value="3000-4000">$3,000 - $4,000/month</SelectItem>
-                                      <SelectItem value="4000-5000">$4,000 - $5,000/month</SelectItem>
-                                      <SelectItem value="over-5000">Over $5,000/month</SelectItem>
+                                      <SelectItem value="off-plan">Off-plan</SelectItem>
+                                      <SelectItem value="ready-to-move">Ready to move</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -598,21 +882,20 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                             <FormField
                               control={form.control}
-                              name="rentalPeriod"
+                              name="furnishing"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Rental Period</FormLabel>
+                                  <FormLabel>Furnishing</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select period" />
+                                        <SelectValue placeholder="Furnishing" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      <SelectItem value="nightly">Nightly</SelectItem>
-                                      <SelectItem value="weekly">Weekly</SelectItem>
-                                      <SelectItem value="monthly">Monthly</SelectItem>
-                                      <SelectItem value="yearly">Yearly</SelectItem>
+                                      <SelectItem value="fully-furnished">Fully Furnished</SelectItem>
+                                      <SelectItem value="semi-furnished">Semi-Furnished</SelectItem>
+                                      <SelectItem value="unfurnished">Unfurnished</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -620,56 +903,23 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                             <FormField
                               control={form.control}
-                              name="beds"
+                              name="buildingType"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel className="flex items-center gap-2">
-                                    <Bed className="h-4 w-4" />
-                                    Number of Beds
-                                  </FormLabel>
+                                  <FormLabel>Building Type</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select beds" />
+                                        <SelectValue placeholder="Building type" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      <SelectItem value="1">1 bed</SelectItem>
-                                      <SelectItem value="2">2 beds</SelectItem>
-                                      <SelectItem value="3">3 beds</SelectItem>
-                                      <SelectItem value="4">4 beds</SelectItem>
-                                      <SelectItem value="5">5 beds</SelectItem>
-                                      <SelectItem value="6+">6+ beds</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={form.control}
-                              name="maxGuests"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="flex items-center gap-2">
-                                    <Users className="h-4 w-4" />
-                                    Max Guests
-                                  </FormLabel>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Select max guests" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                      <SelectItem value="1">1 guest</SelectItem>
-                                      <SelectItem value="2">2 guests</SelectItem>
-                                      <SelectItem value="3">3 guests</SelectItem>
-                                      <SelectItem value="4">4 guests</SelectItem>
-                                      <SelectItem value="5">5 guests</SelectItem>
-                                      <SelectItem value="6">6 guests</SelectItem>
-                                      <SelectItem value="7">7 guests</SelectItem>
-                                      <SelectItem value="8">8 guests</SelectItem>
-                                      <SelectItem value="9+">9+ guests</SelectItem>
+                                      <SelectItem value="detached">Detached</SelectItem>
+                                      <SelectItem value="semi-detached">Semi-Detached</SelectItem>
+                                      <SelectItem value="terraced">Terraced</SelectItem>
+                                      <SelectItem value="low-rise">Low-rise</SelectItem>
+                                      <SelectItem value="mid-rise">Mid-rise</SelectItem>
+                                      <SelectItem value="high-rise">High-rise</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -677,25 +927,56 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                           </div>
 
-                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="architectureStyle"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Architecture Style (optional)</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select style" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="modern">Modern</SelectItem>
+                                    <SelectItem value="mediterranean">Mediterranean</SelectItem>
+                                    <SelectItem value="colonial">Colonial</SelectItem>
+                                    <SelectItem value="contemporary">Contemporary</SelectItem>
+                                    <SelectItem value="traditional">Traditional</SelectItem>
+                                    <SelectItem value="minimalist">Minimalist</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Ownership & Legal */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold flex items-center gap-2">
+                            <Shield className="h-5 w-5" />
+                            Ownership & Legal
+                          </h3>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <FormField
                               control={form.control}
-                              name="adults"
+                              name="ownershipType"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Adults</FormLabel>
+                                  <FormLabel>Ownership Type</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select adults" />
+                                        <SelectValue placeholder="Ownership type" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      {[...Array(16)].map((_, i) => (
-                                        <SelectItem key={i} value={i.toString()}>
-                                          {i} {i === 1 ? 'adult' : 'adults'}
-                                        </SelectItem>
-                                      ))}
+                                      <SelectItem value="freehold">Freehold</SelectItem>
+                                      <SelectItem value="leasehold">Leasehold</SelectItem>
+                                      <SelectItem value="share-transfer">Share Transfer</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -703,22 +984,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                             <FormField
                               control={form.control}
-                              name="children"
+                              name="titleDeedAvailable"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Children (Ages 2-12)</FormLabel>
+                                  <FormLabel>Title Deed Available</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select children" />
+                                        <SelectValue placeholder="Yes/No" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      {[...Array(6)].map((_, i) => (
-                                        <SelectItem key={i} value={i.toString()}>
-                                          {i} {i === 1 ? 'child' : 'children'}
-                                        </SelectItem>
-                                      ))}
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -726,22 +1004,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                             <FormField
                               control={form.control}
-                              name="infants"
+                              name="mortgageStatus"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Infants (Under 2)</FormLabel>
+                                  <FormLabel>Mortgage Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select infants" />
+                                        <SelectValue placeholder="Mortgage status" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      {[...Array(6)].map((_, i) => (
-                                        <SelectItem key={i} value={i.toString()}>
-                                          {i} {i === 1 ? 'infant' : 'infants'}
-                                        </SelectItem>
-                                      ))}
+                                      <SelectItem value="no-mortgage">No Mortgage</SelectItem>
+                                      <SelectItem value="under-mortgage">Under Mortgage</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -749,22 +1024,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                             <FormField
                               control={form.control}
-                              name="pets"
+                              name="occupancyStatus"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Pets</FormLabel>
+                                  <FormLabel>Occupancy Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                       <SelectTrigger>
-                                        <SelectValue placeholder="Select pets" />
+                                        <SelectValue placeholder="Occupancy" />
                                       </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                      {[...Array(6)].map((_, i) => (
-                                        <SelectItem key={i} value={i.toString()}>
-                                          {i} {i === 1 ? 'pet' : 'pets'}
-                                        </SelectItem>
-                                      ))}
+                                      <SelectItem value="vacant">Vacant</SelectItem>
+                                      <SelectItem value="tenanted">Tenanted</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormItem>
@@ -772,13 +1044,170 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                           </div>
 
+                          <FormField
+                            control={form.control}
+                            name="occupancyCertificate"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Occupancy Certificate</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Yes/No" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="yes">Yes</SelectItem>
+                                    <SelectItem value="no">No</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Features & Amenities */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold">Features & Amenities</h3>
+                          <FormField
+                            control={form.control}
+                            name="featuresAmenities"
+                            render={() => (
+                              <FormItem>
+                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                                  {[
+                                    "Central Heating/Cooling", "Private Garden", "Private Pool", "Shared Pool",
+                                    "Gym/Fitness Center", "Elevator", "Security/Gated Community", "Sea View",
+                                    "Lake View", "Mountain View", "City View", "Smart Home Features",
+                                    "Fireplace", "Laundry Room", "Storage Room", "Basement",
+                                    "Rooftop Access", "Solar Panels", "Wheelchair Accessible"
+                                  ].map((feature) => (
+                                    <FormField
+                                      key={feature}
+                                      control={form.control}
+                                      name="featuresAmenities"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem
+                                            key={feature}
+                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                          >
+                                            <FormControl>
+                                              <Checkbox
+                                                checked={field.value?.includes(feature)}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([...field.value || [], feature])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                          (value) => value !== feature
+                                                        ) || []
+                                                      )
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormLabel className="text-sm font-normal">
+                                              {feature}
+                                            </FormLabel>
+                                          </FormItem>
+                                        )
+                                      }}
+                                    />
+                                  ))}
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Building Features */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold">Building / Community Features</h3>
+                          <FormField
+                            control={form.control}
+                            name="buildingFeatures"
+                            render={() => (
+                              <FormItem>
+                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                                  {[
+                                    "Concierge", "Children's Play Area", "BBQ Area", "Clubhouse",
+                                    "Business Center", "Co-working Space", "Pets Allowed"
+                                  ].map((feature) => (
+                                    <FormField
+                                      key={feature}
+                                      control={form.control}
+                                      name="buildingFeatures"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem
+                                            key={feature}
+                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                          >
+                                            <FormControl>
+                                              <Checkbox
+                                                checked={field.value?.includes(feature)}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([...field.value || [], feature])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                          (value) => value !== feature
+                                                        ) || []
+                                                      )
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormLabel className="text-sm font-normal">
+                                              {feature}
+                                            </FormLabel>
+                                          </FormItem>
+                                        )
+                                      }}
+                                    />
+                                  ))}
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="parkingType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Parking Type</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Parking type" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="covered">Covered</SelectItem>
+                                    <SelectItem value="street">Street</SelectItem>
+                                    <SelectItem value="valet">Valet</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Availability & Contact */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold flex items-center gap-2">
+                            <CalendarIcon className="h-5 w-5" />
+                            Availability & Contact
+                          </h3>
+                          
                           <div className="grid grid-cols-2 gap-4">
                             <FormField
                               control={form.control}
-                              name="availableFrom"
+                              name="availabilityDate"
                               render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                  <FormLabel>Available From</FormLabel>
+                                  <FormLabel>Availability Date</FormLabel>
                                   <Popover modal>
                                     <PopoverTrigger asChild>
                                       <FormControl>
@@ -789,19 +1218,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                           {field.value ? (
                                             format(field.value, "PPP")
                                           ) : (
-                                            <span>Pick start date</span>
+                                            <span>Pick availability date</span>
                                           )}
                                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                         </Button>
                                       </FormControl>
                                     </PopoverTrigger>
-                                    <PopoverContent 
-                                      className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
-                                      align="start"
-                                      side="bottom"
-                                      avoidCollisions={true}
-                                      collisionPadding={8}
-                                    >
+                                    <PopoverContent className="w-auto p-0" align="start">
                                       <Calendar
                                         mode="single"
                                         selected={field.value}
@@ -817,10 +1240,225 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                             <FormField
                               control={form.control}
-                              name="availableTo"
+                              name="openHouseDates"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Open House Dates (optional)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Saturdays 2-4 PM" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="sellerName"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Seller or Agent Name</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., John Smith" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="contactPhone"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Contact Phone</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., +1-555-123-4567" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="contactEmail"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Contact Email</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., contact@agency.com" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="agencyName"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Agency Name</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., ABC Real Estate" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="agentLicense"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Agent License Number (optional)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., RE123456" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="preferredContact"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Preferred Contact Method</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Contact method" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="call">Call</SelectItem>
+                                      <SelectItem value="email">Email</SelectItem>
+                                      <SelectItem value="whatsapp">WhatsApp</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        {/* SEO & Meta Fields */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold">SEO & Meta Fields</h3>
+                          
+                          <div className="grid grid-cols-1 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="seoTitle"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Page Title (SEO)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Modern 3BR Apartment for Sale in Downtown" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="metaDescription"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Meta Description</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      placeholder="Brief description for search engines (150-160 characters)"
+                                      className="min-h-[80px]"
+                                      {...field} 
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="urlSlug"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>URL Slug</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., modern-3br-apartment-downtown" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Internal Use */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold">Internal Use</h3>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="listingId"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Listing ID / Reference Code</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., RE-2024-001" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="listingStatus"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Listing Status</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Status" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="draft">Draft</SelectItem>
+                                      <SelectItem value="published">Published</SelectItem>
+                                      <SelectItem value="archived">Archived</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="priorityListing"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Priority / Featured Listing</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Priority" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="normal">Normal</SelectItem>
+                                      <SelectItem value="featured">Featured</SelectItem>
+                                      <SelectItem value="premium">Premium</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="dateListed"
                               render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                  <FormLabel>Available To</FormLabel>
+                                  <FormLabel>Date Listed</FormLabel>
                                   <Popover modal>
                                     <PopoverTrigger asChild>
                                       <FormControl>
@@ -831,24 +1469,52 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                           {field.value ? (
                                             format(field.value, "PPP")
                                           ) : (
-                                            <span>Pick end date</span>
+                                            <span>Pick date listed</span>
                                           )}
                                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                         </Button>
                                       </FormControl>
                                     </PopoverTrigger>
-                                    <PopoverContent 
-                                      className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
-                                      align="start"
-                                      side="bottom"
-                                      avoidCollisions={true}
-                                      collisionPadding={8}
-                                    >
+                                    <PopoverContent className="w-auto p-0" align="start">
                                       <Calendar
                                         mode="single"
                                         selected={field.value}
                                         onSelect={field.onChange}
-                                        disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
+                                        initialFocus
+                                        className="p-3 pointer-events-auto"
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="lastUpdated"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Last Updated</FormLabel>
+                                  <Popover modal>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick last updated</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
                                         initialFocus
                                         className="p-3 pointer-events-auto"
                                       />
@@ -858,11 +1524,394 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               )}
                             />
                           </div>
-                        </>
-                      )}
-                     </>
-                   )}
-                 </TabsContent>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Default property details for non-real-estate or non-for-sale */}
+                    {!(category === "real-estate" && form.watch("listingType") === "for-sale") && (
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="bedrooms"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Bed className="h-4 w-4" />
+                                Bedrooms
+                              </FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select bedrooms" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="studio">Studio</SelectItem>
+                                  <SelectItem value="1">1 bedroom</SelectItem>
+                                  <SelectItem value="2">2 bedrooms</SelectItem>
+                                  <SelectItem value="3">3 bedrooms</SelectItem>
+                                  <SelectItem value="4">4 bedrooms</SelectItem>
+                                  <SelectItem value="5+">5+ bedrooms</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="bathrooms"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Bath className="h-4 w-4" />
+                                Bathrooms
+                              </FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select bathrooms" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="1">1 bathroom</SelectItem>
+                                  <SelectItem value="1.5">1.5 bathrooms</SelectItem>
+                                  <SelectItem value="2">2 bathrooms</SelectItem>
+                                  <SelectItem value="2.5">2.5 bathrooms</SelectItem>
+                                  <SelectItem value="3">3 bathrooms</SelectItem>
+                                  <SelectItem value="3.5">3.5 bathrooms</SelectItem>
+                                  <SelectItem value="4+">4+ bathrooms</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="area"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Ruler className="h-4 w-4" />
+                                Area (sq ft)
+                              </FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., 1,200" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="yearBuilt"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Year Built</FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., 2020" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
+
+                    {/* Enhanced fields for real estate rental */}
+                    {category === "real-estate" && form.watch("listingType") === "for-rent" && (
+                      <>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="rentalPriceRange"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <DollarSign className="h-4 w-4" />
+                                  Rental Price Range
+                                </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select price range" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="under-1000">Under $1,000/month</SelectItem>
+                                    <SelectItem value="1000-2000">$1,000 - $2,000/month</SelectItem>
+                                    <SelectItem value="2000-3000">$2,000 - $3,000/month</SelectItem>
+                                    <SelectItem value="3000-4000">$3,000 - $4,000/month</SelectItem>
+                                    <SelectItem value="4000-5000">$4,000 - $5,000/month</SelectItem>
+                                    <SelectItem value="over-5000">Over $5,000/month</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="rentalPeriod"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Rental Period</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select period" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="nightly">Nightly</SelectItem>
+                                    <SelectItem value="weekly">Weekly</SelectItem>
+                                    <SelectItem value="monthly">Monthly</SelectItem>
+                                    <SelectItem value="yearly">Yearly</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="beds"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <Bed className="h-4 w-4" />
+                                  Number of Beds
+                                </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select beds" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="1">1 bed</SelectItem>
+                                    <SelectItem value="2">2 beds</SelectItem>
+                                    <SelectItem value="3">3 beds</SelectItem>
+                                    <SelectItem value="4">4 beds</SelectItem>
+                                    <SelectItem value="5">5 beds</SelectItem>
+                                    <SelectItem value="6+">6+ beds</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="maxGuests"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <Users className="h-4 w-4" />
+                                  Max Guests
+                                </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select max guests" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="1">1 guest</SelectItem>
+                                    <SelectItem value="2">2 guests</SelectItem>
+                                    <SelectItem value="3">3 guests</SelectItem>
+                                    <SelectItem value="4">4 guests</SelectItem>
+                                    <SelectItem value="5">5 guests</SelectItem>
+                                    <SelectItem value="6">6 guests</SelectItem>
+                                    <SelectItem value="7">7 guests</SelectItem>
+                                    <SelectItem value="8">8 guests</SelectItem>
+                                    <SelectItem value="9+">9+ guests</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="adults"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Adults</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select adults" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {[...Array(16)].map((_, i) => (
+                                      <SelectItem key={i} value={i.toString()}>
+                                        {i} {i === 1 ? 'adult' : 'adults'}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="children"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Children (Ages 2-12)</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select children" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {[...Array(6)].map((_, i) => (
+                                      <SelectItem key={i} value={i.toString()}>
+                                        {i} {i === 1 ? 'child' : 'children'}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="infants"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Infants (Under 2)</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select infants" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {[...Array(6)].map((_, i) => (
+                                      <SelectItem key={i} value={i.toString()}>
+                                        {i} {i === 1 ? 'infant' : 'infants'}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="pets"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Pets</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select pets" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {[...Array(6)].map((_, i) => (
+                                      <SelectItem key={i} value={i.toString()}>
+                                        {i} {i === 1 ? 'pet' : 'pets'}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="availableFrom"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-col">
+                                <FormLabel>Available From</FormLabel>
+                                <Popover modal>
+                                  <PopoverTrigger asChild>
+                                    <FormControl>
+                                      <Button
+                                        variant={"outline"}
+                                        className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                      >
+                                        {field.value ? (
+                                          format(field.value, "PPP")
+                                        ) : (
+                                          <span>Pick start date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                    </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent 
+                                    className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                    align="start"
+                                    side="bottom"
+                                    avoidCollisions={true}
+                                    collisionPadding={8}
+                                  >
+                                    <Calendar
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) => date < new Date()}
+                                      initialFocus
+                                      className="p-3 pointer-events-auto"
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="availableTo"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-col">
+                                <FormLabel>Available To</FormLabel>
+                                <Popover modal>
+                                  <PopoverTrigger asChild>
+                                    <FormControl>
+                                      <Button
+                                        variant={"outline"}
+                                        className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                      >
+                                        {field.value ? (
+                                          format(field.value, "PPP")
+                                        ) : (
+                                          <span>Pick end date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                    </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent 
+                                    className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                    align="start"
+                                    side="bottom"
+                                    avoidCollisions={true}
+                                    collisionPadding={8}
+                                  >
+                                    <Calendar
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
+                                      initialFocus
+                                      className="p-3 pointer-events-auto"
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </TabsContent>
                  )}
 
                  <TabsContent value="location" className="space-y-4">
