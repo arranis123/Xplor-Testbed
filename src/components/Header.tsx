@@ -26,12 +26,12 @@ const Header = () => {
             Home
           </Link>
           <Link 
-            to="/gigs" 
+            to="/pricing" 
             className={`text-sm font-medium transition-colors hover:text-primary ${
-              location.pathname === "/gigs" ? "text-primary" : "text-muted-foreground"
+              location.pathname === "/pricing" ? "text-primary" : "text-muted-foreground"
             }`}
           >
-            Gigs
+            Pricing
           </Link>
           <span className="text-sm font-medium text-muted-foreground">Adventures</span>
           <span className="text-sm font-medium text-muted-foreground">Experiences</span>
