@@ -44,6 +44,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -67,6 +68,12 @@ const userSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   role: z.enum(["Owner", "Admin", "Editor", "Viewer"]),
   status: z.enum(["Active", "Invited", "Inactive"]),
+});
+
+const inviteSchema = z.object({
+  emails: z.string().min(1, "At least one email is required"),
+  role: z.enum(["Admin", "Editor", "Viewer"]),
+  message: z.string().optional(),
 });
 
 interface User {
@@ -144,6 +151,7 @@ export default function Users() {
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
 
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -160,9 +168,60 @@ export default function Users() {
     },
   });
 
+  const inviteForm = useForm<z.infer<typeof inviteSchema>>({
+    resolver: zodResolver(inviteSchema),
+    defaultValues: {
+      emails: "",
+      role: "Viewer",
+      message: "",
+    },
+  });
+
   const handleInviteUser = () => {
-    // Placeholder for invite functionality
-    console.log("Invite user clicked");
+    setIsInviteDialogOpen(true);
+  };
+
+  const handleSendInvites = (values: z.infer<typeof inviteSchema>) => {
+    // Parse emails (split by comma, semicolon, or newline and clean up)
+    const emailList = values.emails
+      .split(/[,;\n]/)
+      .map(email => email.trim())
+      .filter(email => email.length > 0);
+
+    // Validate each email
+    const invalidEmails = emailList.filter(email => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return !emailRegex.test(email);
+    });
+
+    if (invalidEmails.length > 0) {
+      toast({
+        title: "Invalid email addresses",
+        description: `Please fix these emails: ${invalidEmails.join(", ")}`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Create new invited users
+    const newUsers = emailList.map(email => ({
+      id: Math.random().toString(36).substr(2, 9),
+      name: email.split('@')[0], // Use email prefix as temporary name
+      email: email,
+      role: values.role,
+      status: "Invited" as const,
+      lastActive: "Never",
+      spacesCount: 0,
+    }));
+
+    setUsers(prev => [...prev, ...newUsers]);
+    setIsInviteDialogOpen(false);
+    inviteForm.reset();
+
+    toast({
+      title: "Invitations sent",
+      description: `Sent ${emailList.length} invitation${emailList.length > 1 ? 's' : ''} successfully.`,
+    });
   };
 
   const handleEditUser = (userId: string) => {
@@ -481,6 +540,97 @@ export default function Users() {
                 </Button>
                 <Button type="submit">
                   Save Changes
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Invite Users Dialog */}
+      <Dialog open={isInviteDialogOpen} onOpenChange={setIsInviteDialogOpen}>
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogHeader>
+            <DialogTitle>Invite Team Members</DialogTitle>
+            <DialogDescription>
+              Send invitations to new team members. They'll receive an email with instructions to join your workspace.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...inviteForm}>
+            <form onSubmit={inviteForm.handleSubmit(handleSendInvites)} className="space-y-4">
+              <FormField
+                control={inviteForm.control}
+                name="emails"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email addresses</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Enter email addresses separated by commas, semicolons, or new lines&#10;example@company.com, user@domain.com&#10;another@email.com"
+                        className="min-h-[100px] resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">
+                      Separate multiple emails with commas, semicolons, or new lines
+                    </p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={inviteForm.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Default role</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Admin">Admin - Full access to manage workspace</SelectItem>
+                        <SelectItem value="Editor">Editor - Can create and edit spaces</SelectItem>
+                        <SelectItem value="Viewer">Viewer - Can only view spaces</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={inviteForm.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Personal message (optional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Add a personal message to the invitation email..."
+                        className="min-h-[80px] resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsInviteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  Send Invitations
                 </Button>
               </div>
             </form>
