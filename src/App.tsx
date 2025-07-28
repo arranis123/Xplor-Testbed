@@ -22,6 +22,7 @@ import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 const CaptureServices = lazy(() => import("./pages/CaptureServices"));
 const VRCameras = lazy(() => import("./pages/VRCameras"));
+const CaptureBusinessSignup = lazy(() => import("./pages/CaptureBusinessSignup"));
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/statistics" element={<AppLayout><Statistics /></AppLayout>} />
           <Route path="/users" element={<AppLayout><Users /></AppLayout>} />
           <Route path="/capture-services" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureServices /></Suspense></AppLayout>} />
+          <Route path="/capture-business-signup" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureBusinessSignup /></Suspense></AppLayout>} />
           <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
           <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           

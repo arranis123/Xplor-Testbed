@@ -365,9 +365,14 @@ const CaptureServices = () => {
                 highly vetted, expertly trained, and bring years of experience. Their expertise ensures 
                 exceptional service and delivers the most effective assets to elevate your property marketing.
               </p>
-              <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
-                Order Digital Pro Now
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+                  Order Digital Pro Now
+                </Button>
+                <Button variant="outline" onClick={() => window.location.href = '/capture-business-signup'}>
+                  Become a Technician
+                </Button>
+              </div>
             </div>
             <div className="relative">
               <Card className="border-border p-6">
