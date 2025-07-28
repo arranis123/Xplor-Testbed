@@ -350,6 +350,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                         >
                           <FormControl>
                             <Checkbox
+                              className="border-2 border-border"
                               checked={field.value?.includes(amenity.id)}
                               onCheckedChange={(checked) => {
                                 return checked
