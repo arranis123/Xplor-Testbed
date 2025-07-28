@@ -100,7 +100,7 @@ const Trial = () => {
             Start Your Free Trial
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Try Xplor risk-free for 30 days. Create unlimited virtual tours, access all features, 
+            Try xplor risk-free for 30 days. Create unlimited virtual tours, access all features, 
             and see why thousands of professionals choose our platform.
           </p>
         </div>

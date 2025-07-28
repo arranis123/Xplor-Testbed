@@ -39,7 +39,7 @@ const Settings = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Account Settings</h1>
-          <p className="text-muted-foreground">Manage your Xplor account preferences and settings</p>
+          <p className="text-muted-foreground">Manage your xplor account preferences and settings</p>
         </div>
         <Badge variant="secondary" className="bg-xplor-yellow/10 text-xplor-yellow-dark">
           <Crown className="h-3 w-3 mr-1" />
@@ -373,7 +373,7 @@ const Settings = () => {
                 <div className="space-y-1">
                   <div className="font-medium">Profile Visibility</div>
                   <div className="text-sm text-muted-foreground">
-                    Make your profile visible to other Xplor users
+                    Make your profile visible to other xplor users
                   </div>
                 </div>
                 <Switch />
@@ -401,7 +401,7 @@ const Settings = () => {
           <Card>
             <CardHeader>
               <CardTitle>Display Preferences</CardTitle>
-              <CardDescription>Customize your Xplor experience</CardDescription>
+              <CardDescription>Customize your xplor experience</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Xplor-inspired design system. Bold, modern, striking.
+/* xplor-inspired design system. Bold, modern, striking.
 All colors MUST be HSL.
 */
 
@@ -39,7 +39,7 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
-    /* Updated Xplor brand colors using the new color scheme */
+    /* Updated xplor brand colors using the new color scheme */
     --xplor-yellow: 64 91% 75%; /* Primary 500 */
     --xplor-yellow-light: 49 91% 84%; /* Primary 200: 254 240 138 converted to HSL */
     --xplor-yellow-dark: 48 92% 53%; /* Primary 400: 250 204 21 converted to HSL */

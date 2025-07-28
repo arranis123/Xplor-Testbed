@@ -148,7 +148,7 @@ const Header = () => {
             <div className="w-8 h-8 bg-xplor-yellow rounded flex items-center justify-center">
               <span className="text-black font-bold text-sm">X</span>
             </div>
-            <span className="font-semibold text-xl text-black">Xplor</span>
+            <span className="font-semibold text-xl text-black">xplor</span>
           </Link>
         </div>
 

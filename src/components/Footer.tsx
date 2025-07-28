@@ -75,7 +75,7 @@ const Footer = () => {
             <div className="w-6 h-6 bg-xplor-yellow rounded flex items-center justify-center">
               <span className="text-xplor-black font-bold text-xs">X</span>
             </div>
-            <span className="text-sm text-muted-foreground">© 2025 Xplor, Inc.</span>
+            <span className="text-sm text-muted-foreground">© 2025 xplor, Inc.</span>
           </div>
           <div className="flex space-x-6">
             <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">

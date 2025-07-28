@@ -22,7 +22,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               <SidebarTrigger className="p-2 hover:bg-muted rounded-md">
                 <Menu className="h-4 w-4" />
               </SidebarTrigger>
-              <h1 className="text-sm font-medium text-foreground">Xplor Workspace</h1>
+              <h1 className="text-sm font-medium text-foreground">xplor Workspace</h1>
             </div>
             
             <div className="flex items-center gap-2">

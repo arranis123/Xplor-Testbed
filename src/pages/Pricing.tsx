@@ -122,7 +122,7 @@ const Pricing = () => {
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
               Choose Your 
-              <span className="text-xplor-yellow"> Xplor </span>
+              <span className="text-xplor-yellow"> xplor </span>
               Plan
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
@@ -246,7 +246,7 @@ const Pricing = () => {
               Trusted across industries
             </h2>
             <p className="text-lg text-muted-foreground">
-              Xplor powers immersive virtual experiences for businesses worldwide
+              xplor powers immersive virtual experiences for businesses worldwide
             </p>
           </div>
 
@@ -327,7 +327,7 @@ const Pricing = () => {
             Ready to get started?
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Join thousands of professionals who trust Xplor for their virtual tour needs.
+            Join thousands of professionals who trust xplor for their virtual tour needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" asChild>

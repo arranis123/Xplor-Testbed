@@ -75,8 +75,8 @@ const CaptureServices = () => {
 
   const faqs = [
     {
-      question: "Is a Xplor subscription required to use Capture Services?",
-      answer: "Yes, you'll need an active Xplor subscription to host and share your digital twins. We offer various subscription plans to meet your needs."
+      question: "Is a xplor subscription required to use Capture Services?",
+      answer: "Yes, you'll need an active xplor subscription to host and share your digital twins. We offer various subscription plans to meet your needs."
     },
     {
       question: "How long does it take to capture a space?",
@@ -88,7 +88,7 @@ const CaptureServices = () => {
     },
     {
       question: "How do I access my models after my property is captured?",
-      answer: "Once processing is complete, you'll receive an email with access to your digital twin through your Xplor account dashboard."
+      answer: "Once processing is complete, you'll receive an email with access to your digital twin through your xplor account dashboard."
     },
     {
       question: "What if I'm not satisfied with the quality of a capture?",
@@ -306,9 +306,9 @@ const CaptureServices = () => {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
-                  "Today, prospects and existing clients alike expect Xplor scans to be part of the process 
+                  "Today, prospects and existing clients alike expect xplor scans to be part of the process 
                   as they find commercial spaces perfectly suited to their needs. Fortunately, we can now 
-                  more easily meet the demands with Xplor Capture Services."
+                  more easily meet the demands with xplor Capture Services."
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-xplor-yellow rounded-full flex items-center justify-center">
@@ -330,7 +330,7 @@ const CaptureServices = () => {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
-                  "Using Xplor Capture Services On-Demand costs 30 percent less than if we send someone 
+                  "Using xplor Capture Services On-Demand costs 30 percent less than if we send someone 
                   who lives in the same city to do it, and it costs 70 percent less than sending someone 
                   long distance. It makes sense to delegate this to people who capture spaces for a living."
                 </p>
@@ -361,7 +361,7 @@ const CaptureServices = () => {
                 Committed to providing the highest quality.
               </h2>
               <p className="text-lg text-muted-foreground mb-6">
-                Digital Pro media packages are produced by Xplor-certified capture technicians who are 
+                Digital Pro media packages are produced by xplor-certified capture technicians who are 
                 highly vetted, expertly trained, and bring years of experience. Their expertise ensures 
                 exceptional service and delivers the most effective assets to elevate your property marketing.
               </p>
