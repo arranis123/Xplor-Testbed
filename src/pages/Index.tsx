@@ -35,7 +35,7 @@ const Index = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3">
                 Explore Luxury
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-black hover:bg-white hover:text-black bg-white/10">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3">
                 View Collection
               </Button>
             </div>
