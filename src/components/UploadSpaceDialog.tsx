@@ -323,6 +323,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "liveaboard-yacht", label: "Liveaboard Yacht" },
   ];
 
+  const charterYachtSubtypes = [
+    { value: "crewed-charter-yacht", label: "Crewed Charter Yacht" },
+    { value: "bareboat-charter-yacht", label: "Bareboat Charter Yacht" },
+    { value: "cabin-charter-yacht", label: "Cabin Charter Yacht" },
+    { value: "corporate-charter-yacht", label: "Corporate Charter Yacht" },
+  ];
+
   const hybridElectricYachtSubtypes = [
     { value: "hybrid-propulsion-yacht", label: "Hybrid Propulsion Yacht" },
     { value: "electric-yacht", label: "Electric Yacht" },
@@ -644,6 +651,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                </SelectContent>
                              </Select>
                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
+                     
+                     {category === "yacht" && form.watch("yachtUsePurpose") === "charter" && (
+                       <FormField
+                         control={form.control}
+                         name="yachtUsePurposeSubtype"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Charter Yacht Type</FormLabel>
+                             <Select onValueChange={field.onChange} defaultValue={field.value}>
+                               <FormControl>
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select charter yacht type" />
+                                 </SelectTrigger>
+                               </FormControl>
+                               <SelectContent>
+                                 {charterYachtSubtypes.map((type) => (
+                                   <SelectItem key={type.value} value={type.value}>
+                                     {type.label}
+                                   </SelectItem>
+                                 ))}
+                               </SelectContent>
+                             </Select>
+                             <FormMessage />
                            </FormItem>
                          )}
                        />
