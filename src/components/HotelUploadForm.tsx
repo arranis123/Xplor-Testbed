@@ -78,9 +78,9 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Hotel Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select hotel type" />
                     </SelectTrigger>
                   </FormControl>
@@ -110,7 +110,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 </FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select star rating" />
                     </SelectTrigger>
                   </FormControl>
@@ -158,7 +158,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 <FormLabel>Room Type</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select room type" />
                     </SelectTrigger>
                   </FormControl>
@@ -182,7 +182,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 <FormLabel>Bed Configuration</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select bed type" />
                     </SelectTrigger>
                   </FormControl>
@@ -213,7 +213,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 </FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select max guests" />
                     </SelectTrigger>
                   </FormControl>
@@ -288,7 +288,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 <FormLabel>Seasonal Pricing</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select pricing type" />
                     </SelectTrigger>
                   </FormControl>
@@ -310,7 +310,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 <FormLabel>Minimum Stay</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue placeholder="Select minimum stay" />
                     </SelectTrigger>
                   </FormControl>
