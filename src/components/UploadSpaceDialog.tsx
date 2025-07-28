@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText } from "lucide-react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -138,10 +138,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     photos: File[];
     videos: File[];
     droneFootage: File[];
+    documents: File[];
   }>({
     photos: [],
     videos: [],
     droneFootage: [],
+    documents: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -339,13 +341,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { id: "fire-extinguisher", label: "Fire Extinguisher", icon: Flame },
   ];
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage', files: FileList | null) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents', files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter(file => {
       if (type === 'photos') {
         return file.type.startsWith('image/');
+      } else if (type === 'documents') {
+        return file.type === 'application/pdf' || file.type.includes('document') || file.type === 'text/plain';
       } else {
         return file.type.startsWith('video/');
       }
@@ -362,7 +366,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -397,7 +401,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -411,7 +415,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
-  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length;
+  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length;
   const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
@@ -2624,6 +2628,50 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       </div>
                     </div>
 
+                    <div>
+                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <FileText className="h-5 w-5" />
+                        Documents
+                      </Label>
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Upload className="h-8 w-8" />
+                            <div className="text-center">
+                              <p className="text-sm font-medium">Upload Documents</p>
+                              <p className="text-xs">Drag and drop or click to browse</p>
+                            </div>
+                          </div>
+                          <Input
+                            type="file"
+                            multiple
+                            accept=".pdf,.doc,.docx,.txt"
+                            className="max-w-xs"
+                            onChange={(e) => handleFileUpload('documents', e.target.files)}
+                          />
+                        </div>
+                        {uploadedFiles.documents.length > 0 && (
+                          <div className="mt-4 space-y-2">
+                            {uploadedFiles.documents.map((file, index) => (
+                              <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                <div className="flex items-center gap-2">
+                                  <FileText className="h-4 w-4" />
+                                  <span className="text-sm truncate">{file.name}</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeFile('documents', index)}
+                                  className="text-destructive hover:text-destructive/80"
+                                >
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
                     {totalFiles > 0 && (
                       <Card>
                         <CardHeader>
@@ -2640,6 +2688,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </Badge>
                               <Badge variant="secondary">
                                 {uploadedFiles.droneFootage.length} Drone Footage
+                              </Badge>
+                              <Badge variant="secondary">
+                                {uploadedFiles.documents.length} Documents
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground">
