@@ -368,7 +368,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select property type" />
+                                <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : "Select property type"} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
