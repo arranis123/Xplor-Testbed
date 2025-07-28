@@ -299,6 +299,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "sailing-yacht", label: "Sailing Yacht" },
   ];
 
+  const sailingYachtSubtypes = [
+    { value: "sloop-single-mast", label: "Sloop (single-mast)" },
+    { value: "ketch-two-mast", label: "Ketch (two-mast)" },
+    { value: "schooner-three-or-more-masts", label: "Schooner (three or more masts)" },
+    { value: "cutter", label: "Cutter" },
+    { value: "yawl", label: "Yawl" },
+    { value: "classic-sailing-yacht", label: "Classic Sailing Yacht" },
+    { value: "racing-yacht", label: "Racing Yacht" },
+    { value: "bluewater-cruiser", label: "Bluewater Cruiser" },
+    { value: "performance-cruiser", label: "Performance Cruiser" },
+    { value: "daysailer", label: "Daysailer" },
+  ];
+
   const motorYachtSubtypes = [
     { value: "flybridge-motor-yacht", label: "Flybridge Motor Yacht" },
     { value: "hardtop-motor-yacht", label: "Hardtop Motor Yacht" },
@@ -528,6 +541,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormControl>
                               <SelectContent>
                                 {motorYachtSubtypes.map((type) => (
+                                  <SelectItem key={type.value} value={type.value}>
+                                    {type.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+
+                    {category === "yacht" && form.watch("propertyType") === "sailing-yacht" && (
+                      <FormField
+                        control={form.control}
+                        name="yachtSubtype"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Sailing Yacht Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select sailing yacht type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {sailingYachtSubtypes.map((type) => (
                                   <SelectItem key={type.value} value={type.value}>
                                     {type.label}
                                   </SelectItem>
