@@ -417,7 +417,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    </Button>
                                  </FormControl>
                                </PopoverTrigger>
-                               <PopoverContent className="w-auto p-0" align="start">
+                               <PopoverContent className="w-auto p-0 bg-background border shadow-md z-50" align="start">
                                  <Calendar
                                    mode="single"
                                    selected={field.value}
@@ -453,7 +453,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    </Button>
                                  </FormControl>
                                </PopoverTrigger>
-                               <PopoverContent className="w-auto p-0" align="start">
+                               <PopoverContent className="w-auto p-0 bg-background border shadow-md z-50" align="start">
                                  <Calendar
                                    mode="single"
                                    selected={field.value}
