@@ -2677,7 +2677,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     <div>
                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                         <FileText className="h-5 w-5" />
-                        Floor Plans
+                        Floor Plans [Need Floor Plans? Click Here to contact a Floor Plan creator]
                       </Label>
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                         <div className="flex flex-col items-center gap-4">
