@@ -22,7 +22,8 @@ const uploadFormSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
   listingType: z.string().min(1, "Please select listing type"),
-  price: z.string().optional(),
+  salePrice: z.string().optional(),
+  rentalPriceRange: z.string().optional(),
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
   area: z.string().optional(),
@@ -62,7 +63,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       description: "",
       propertyType: "",
       listingType: "",
-      price: "",
+      salePrice: "",
+      rentalPriceRange: "",
       bedrooms: "",
       bathrooms: "",
       area: "",
@@ -305,21 +307,52 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                 <TabsContent value="details" className="space-y-4">
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <DollarSign className="h-4 w-4" />
-                            Price
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., $500,000" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                    {category === "real-estate" && (
+                      <>
+                        <FormField
+                          control={form.control}
+                          name="salePrice"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <DollarSign className="h-4 w-4" />
+                                Sale Price
+                              </FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., $500,000" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="rentalPriceRange"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <DollarSign className="h-4 w-4" />
+                                Rental Price Range
+                              </FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select price range" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="under-1000">Under $1,000/month</SelectItem>
+                                  <SelectItem value="1000-2000">$1,000 - $2,000/month</SelectItem>
+                                  <SelectItem value="2000-3000">$2,000 - $3,000/month</SelectItem>
+                                  <SelectItem value="3000-4000">$3,000 - $4,000/month</SelectItem>
+                                  <SelectItem value="4000-5000">$4,000 - $5,000/month</SelectItem>
+                                  <SelectItem value="over-5000">Over $5,000/month</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
+                      </>
+                    )}
                     <FormField
                       control={form.control}
                       name="bedrooms"
