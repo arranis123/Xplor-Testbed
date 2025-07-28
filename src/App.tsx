@@ -9,6 +9,7 @@ import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
 import PublicSpaces from "./pages/PublicSpaces";
+import Settings from "./pages/Settings";
 import Statistics from "./pages/Statistics";
 import Trial from "./pages/Trial";
 import NotFound from "./pages/NotFound";
@@ -37,7 +38,7 @@ const App = () => (
           <Route path="/public-spaces" element={<AppLayout><PublicSpaces /></AppLayout>} />
           <Route path="/statistics" element={<AppLayout><Statistics /></AppLayout>} />
           <Route path="/capture-services" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureServices /></Suspense></AppLayout>} />
-          <Route path="/settings" element={<AppLayout><div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p className="text-muted-foreground">Account and workspace settings</p></div></AppLayout>} />
+          <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
