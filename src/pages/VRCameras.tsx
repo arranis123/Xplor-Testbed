@@ -15,13 +15,16 @@ import {
   Package
 } from "lucide-react";
 import vrTechImage from "@/assets/vr-tech.jpg";
+import matterportPro3Image from "@/assets/matterport-pro3.jpg";
+import matterportPro2Image from "@/assets/matterport-pro2.jpg";
+import ricohThetaZ1Image from "@/assets/ricoh-theta-z1.jpg";
 
 const VRCameras = () => {
   const cameraSpecs = [
     {
       name: "Matterport Pro3",
       price: "$5,995",
-      image: "📷",
+      image: matterportPro3Image,
       specs: ["LiDAR Technology", "Indoor/Outdoor capture", "3D point cloud data", "E57 export capability"],
       useCases: ["Architecture & Construction", "Industrial documentation", "Large commercial spaces"],
       popular: true
@@ -29,7 +32,7 @@ const VRCameras = () => {
     {
       name: "Matterport Pro2",
       price: "$3,395",
-      image: "📹",
+      image: matterportPro2Image,
       specs: ["Structured light technology", "4K photography", "Infrared depth sensor", "134MP resolution"],
       useCases: ["Real estate", "Hospitality", "Retail spaces"],
       popular: false
@@ -37,7 +40,7 @@ const VRCameras = () => {
     {
       name: "Ricoh Theta Z1",
       price: "$999",
-      image: "🎥",
+      image: ricohThetaZ1Image,
       specs: ["360° capture", "4K video recording", "Dual fisheye lenses", "Mobile app control"],
       useCases: ["Quick virtual tours", "Social media content", "Small residential spaces"],
       popular: false
@@ -122,7 +125,9 @@ const VRCameras = () => {
                   </Badge>
                 )}
                 <CardHeader className="text-center">
-                  <div className="text-6xl mb-4">{camera.image}</div>
+                  <div className="aspect-square w-24 h-24 mx-auto mb-4 rounded-lg overflow-hidden bg-muted">
+                    <img src={camera.image} alt={camera.name} className="w-full h-full object-cover" />
+                  </div>
                   <CardTitle className="text-2xl">{camera.name}</CardTitle>
                   <CardDescription className="text-3xl font-bold text-xplor-yellow">
                     {camera.price}
