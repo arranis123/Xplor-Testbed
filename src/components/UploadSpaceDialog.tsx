@@ -27,6 +27,7 @@ const uploadFormSchema = z.object({
   propertyType: z.string().min(1, "Please select a property type"),
   yachtSubtype: z.string().optional(),
   yachtUsePurpose: z.string().optional(),
+  yachtUsePurposeSubtype: z.string().optional(),
   listingType: z.string().optional(),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
@@ -159,6 +160,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       propertyType: "",
       yachtSubtype: "",
       yachtUsePurpose: "",
+      yachtUsePurposeSubtype: "",
       listingType: "",
       salePrice: "",
       rentalPriceRange: "",
@@ -313,6 +315,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "bluewater-cruiser", label: "Bluewater Cruiser" },
     { value: "performance-cruiser", label: "Performance Cruiser" },
     { value: "daysailer", label: "Daysailer" },
+  ];
+
+  const privateYachtSubtypes = [
+    { value: "family-yacht", label: "Family Yacht" },
+    { value: "luxury-private-yacht", label: "Luxury Private Yacht" },
+    { value: "liveaboard-yacht", label: "Liveaboard Yacht" },
   ];
 
   const hybridElectricYachtSubtypes = [
@@ -636,9 +644,36 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                </SelectContent>
                              </Select>
                             <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                           </FormItem>
+                         )}
+                       />
+                     )}
+                     
+                     {category === "yacht" && form.watch("yachtUsePurpose") === "private" && (
+                       <FormField
+                         control={form.control}
+                         name="yachtUsePurposeSubtype"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Private Yacht Type</FormLabel>
+                             <Select onValueChange={field.onChange} defaultValue={field.value}>
+                               <FormControl>
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select private yacht type" />
+                                 </SelectTrigger>
+                               </FormControl>
+                               <SelectContent>
+                                 {privateYachtSubtypes.map((type) => (
+                                   <SelectItem key={type.value} value={type.value}>
+                                     {type.label}
+                                   </SelectItem>
+                                 ))}
+                               </SelectContent>
+                             </Select>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
                      )}
                   </div>
 
