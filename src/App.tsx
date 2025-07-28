@@ -19,8 +19,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/gigs" element={<Gigs />} />
+          <Route path="/" element={<AppLayout><Index /></AppLayout>} />
+          <Route path="/gigs" element={<AppLayout><Gigs /></AppLayout>} />
           
           {/* Matterport-style workspace routes */}
           <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
