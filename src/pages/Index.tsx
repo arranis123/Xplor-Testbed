@@ -25,9 +25,12 @@ const Index = () => {
           </div>
           
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              xplor The World's Map of Virtual Spaces
+            <h1 className="text-5xl md:text-6xl font-bold mb-2">
+              xplor
             </h1>
+            <h2 className="text-2xl md:text-3xl font-light mb-6 opacity-90">
+              The World's Map of Virtual Spaces
+            </h2>
             <p className="text-xl md:text-2xl mb-8 opacity-90">
               Discover, share, and explore immersive 3D tours of real-world locations — from luxury homes and yachts to cultural landmarks and travel destinations.
             </p>
