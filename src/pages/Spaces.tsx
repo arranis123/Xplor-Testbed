@@ -14,7 +14,7 @@ const Spaces = () => {
       visibility: "Public",
       views: 1247,
       created: "2024-01-15",
-      thumbnail: "https://images.unsplash.com/photo-1667440027778-311080d08141?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop"
     },
     {
       id: 2,
