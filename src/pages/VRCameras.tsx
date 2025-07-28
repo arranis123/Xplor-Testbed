@@ -18,6 +18,9 @@ import vrTechImage from "@/assets/vr-tech.jpg";
 import matterportPro3Image from "@/assets/matterport-pro3.jpg";
 import matterportPro2Image from "@/assets/matterport-pro2.jpg";
 import ricohThetaZ1Image from "@/assets/ricoh-theta-z1.jpg";
+import vrHeadsetProImage from "@/assets/vr-headset-pro.jpg";
+import vrHeadsetLiteImage from "@/assets/vr-headset-lite.jpg";
+import vrHeadsetEnterpriseImage from "@/assets/vr-headset-enterprise.jpg";
 
 const VRCameras = () => {
   const cameraSpecs = [
@@ -43,6 +46,33 @@ const VRCameras = () => {
       image: ricohThetaZ1Image,
       specs: ["360° capture", "4K video recording", "Dual fisheye lenses", "Mobile app control"],
       useCases: ["Quick virtual tours", "Social media content", "Small residential spaces"],
+      popular: false
+    }
+  ];
+
+  const vrHeadsets = [
+    {
+      name: "Meta Quest 3",
+      price: "$499",
+      image: vrHeadsetProImage,
+      specs: ["4K+ resolution", "Mixed reality", "Hand tracking", "120Hz refresh rate"],
+      useCases: ["Professional viewing", "Client presentations", "Mixed reality experiences"],
+      popular: true
+    },
+    {
+      name: "Pico 4 Enterprise",
+      price: "$899",
+      image: vrHeadsetEnterpriseImage,
+      specs: ["Enterprise security", "Device management", "Extended warranty", "Business support"],
+      useCases: ["Corporate training", "Enterprise deployment", "Business presentations"],
+      popular: false
+    },
+    {
+      name: "Meta Quest 2",
+      price: "$299",
+      image: vrHeadsetLiteImage,
+      specs: ["90Hz display", "Wireless freedom", "Hand tracking", "Affordable entry"],
+      useCases: ["Content preview", "Budget-friendly viewing", "Personal use"],
       popular: false
     }
   ];
@@ -224,6 +254,72 @@ const VRCameras = () => {
                 </div>
               </Card>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* VR Headsets Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              VR Headsets for Immersive Experiences
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Complete your VR setup with professional headsets for viewing and presenting your captured content.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {vrHeadsets.map((headset) => (
+              <Card 
+                key={headset.name} 
+                className={`border-border relative ${headset.popular ? 'border-xplor-yellow shadow-lg' : ''}`}
+              >
+                {headset.popular && (
+                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-xplor-yellow text-xplor-black">
+                    Most Popular
+                  </Badge>
+                )}
+                <CardHeader className="text-center">
+                  <div className="aspect-square w-24 h-24 mx-auto mb-4 rounded-lg overflow-hidden bg-muted">
+                    <img src={headset.image} alt={headset.name} className="w-full h-full object-cover" />
+                  </div>
+                  <CardTitle className="text-2xl">{headset.name}</CardTitle>
+                  <CardDescription className="text-3xl font-bold text-xplor-yellow">
+                    {headset.price}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground">Features:</h4>
+                    {headset.specs.map((spec, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span className="text-sm text-muted-foreground">{spec}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground">Perfect For:</h4>
+                    {headset.useCases.map((useCase, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <Star className="h-4 w-4 text-xplor-yellow" />
+                        <span className="text-sm text-muted-foreground">{useCase}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Button 
+                    className={`w-full ${headset.popular ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black' : ''}`}
+                    variant={headset.popular ? 'default' : 'outline'}
+                  >
+                    Add to Cart
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
