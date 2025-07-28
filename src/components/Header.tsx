@@ -20,37 +20,37 @@ const Header = () => {
         <nav className="hidden md:flex items-center space-x-8">
           <Link 
             to="/" 
-            className={`text-sm font-medium transition-colors hover:text-primary ${
-              location.pathname === "/" ? "text-primary" : "text-muted-foreground"
+            className={`text-sm font-medium transition-colors hover:text-black/70 ${
+              location.pathname === "/" ? "text-black" : "text-black"
             }`}
           >
             Home
           </Link>
           <Link 
             to="/pricing" 
-            className={`text-sm font-medium transition-colors hover:text-primary ${
-              location.pathname === "/pricing" ? "text-primary" : "text-muted-foreground"
+            className={`text-sm font-medium transition-colors hover:text-black/70 ${
+              location.pathname === "/pricing" ? "text-black" : "text-black"
             }`}
           >
             Pricing
           </Link>
           <Link 
             to="/vr-cameras" 
-            className={`text-sm font-medium transition-colors hover:text-primary ${
-              location.pathname === "/vr-cameras" ? "text-primary" : "text-muted-foreground"
+            className={`text-sm font-medium transition-colors hover:text-black/70 ${
+              location.pathname === "/vr-cameras" ? "text-black" : "text-black"
             }`}
           >
             VR Equipment Store
           </Link>
           <Link 
             to="/capture-services" 
-            className={`text-sm font-medium transition-colors hover:text-primary ${
-              location.pathname === "/capture-services" ? "text-primary" : "text-muted-foreground"
+            className={`text-sm font-medium transition-colors hover:text-black/70 ${
+              location.pathname === "/capture-services" ? "text-black" : "text-black"
             }`}
           >
             Services
           </Link>
-          <span className="text-sm font-medium text-muted-foreground">Support</span>
+          <span className="text-sm font-medium text-black">Support</span>
         </nav>
 
         {/* Auth buttons */}
