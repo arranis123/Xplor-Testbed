@@ -21,6 +21,7 @@ const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
+  listingType: z.string().min(1, "Please select listing type"),
   price: z.string().optional(),
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
@@ -60,6 +61,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       title: "",
       description: "",
       propertyType: "",
+      listingType: "",
       price: "",
       bedrooms: "",
       bathrooms: "",
@@ -238,6 +240,32 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       )}
                     />
                   </div>
+
+                  {category === "real-estate" && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="listingType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Listing Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select listing type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="for-sale">For Sale</SelectItem>
+                                <SelectItem value="for-rent">For Rent</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
 
                   <FormField
                     control={form.control}
