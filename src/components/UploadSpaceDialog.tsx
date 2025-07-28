@@ -27,6 +27,8 @@ const uploadFormSchema = z.object({
   propertyType: z.string().min(1, "Please select a property type"),
   yachtSaleOrCharter: z.string().optional(),
   yachtSizeClass: z.string().optional(),
+  yachtStyleLayout: z.string().optional(),
+  yachtSpecialPurpose: z.string().optional(),
   yachtSubtype: z.string().optional(),
   yachtUsePurpose: z.string().optional(),
   yachtUsePurposeSubtype: z.string().optional(),
@@ -163,6 +165,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       propertyType: "",
       yachtSaleOrCharter: "",
       yachtSizeClass: "",
+      yachtStyleLayout: "",
+      yachtSpecialPurpose: "",
       yachtSubtype: "",
       yachtUsePurpose: "",
       yachtUsePurposeSubtype: "",
@@ -352,6 +356,29 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "superyacht", label: "Superyacht 24m – 60m (80–197 ft)" },
     { value: "megayacht", label: "Megayacht 60m – 90m (197–295 ft)" },
     { value: "gigayacht", label: "Gigayacht / Ultra Large 90m+ (295+ ft)" },
+  ];
+
+  const yachtStyleLayouts = [
+    { value: "flybridge", label: "Flybridge" },
+    { value: "hardtop", label: "Hardtop" },
+    { value: "open-cockpit", label: "Open Cockpit" },
+    { value: "sedan", label: "Sedan" },
+    { value: "pilothouse", label: "Pilothouse" },
+    { value: "center-console", label: "Center Console" },
+    { value: "walk-around", label: "Walk Around" },
+    { value: "express-cruiser", label: "Express Cruiser" },
+  ];
+
+  const yachtSpecialPurposes = [
+    { value: "expedition-explorer", label: "Expedition/Explorer Yacht" },
+    { value: "ice-class", label: "Ice Class Yacht" },
+    { value: "research-vessel", label: "Research Vessel" },
+    { value: "dive-yacht", label: "Dive Yacht" },
+    { value: "tender-yacht", label: "Tender/Support Yacht" },
+    { value: "racing-yacht", label: "Racing Yacht" },
+    { value: "classic-vintage", label: "Classic/Vintage Yacht" },
+    { value: "eco-yacht", label: "Eco-Yacht" },
+    { value: "party-entertainment", label: "Party/Entertainment Yacht" },
   ];
 
   const charterYachtSubtypes = [
@@ -838,6 +865,60 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    {yachtSizeClasses.map((sizeClass) => (
                                      <SelectItem key={sizeClass.value} value={sizeClass.value}>
                                        {sizeClass.label}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
+                       
+                       {category === "yacht" && (
+                         <FormField
+                           control={form.control}
+                           name="yachtStyleLayout"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Style and Layout</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select style and layout" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   {yachtStyleLayouts.map((style) => (
+                                     <SelectItem key={style.value} value={style.value}>
+                                       {style.label}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
+                       
+                       {category === "yacht" && (
+                         <FormField
+                           control={form.control}
+                           name="yachtSpecialPurpose"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Special Purpose & Niche Yachts</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select special purpose" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   {yachtSpecialPurposes.map((purpose) => (
+                                     <SelectItem key={purpose.value} value={purpose.value}>
+                                       {purpose.label}
                                      </SelectItem>
                                    ))}
                                  </SelectContent>
