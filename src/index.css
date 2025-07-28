@@ -2,54 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Xplor-inspired design system. Vibrant, adventurous, modern.
+/* Xplor-inspired design system. Bold, modern, striking.
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 220 14% 15%;
+    --foreground: 0 0% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 14% 15%;
+    --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 14% 15%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 220 14% 15%;
+    --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 220 14% 15%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 220 14% 15%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 220 14% 15%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 9%;
 
     --radius: 0.5rem;
 
-    /* Xplor brand colors - vibrant orange and deep blue */
-    --xplor-orange: 24 100% 50%;
-    --xplor-orange-light: 24 100% 60%;
-    --xplor-blue: 220 100% 50%;
-    --xplor-blue-dark: 220 100% 40%;
-    --xplor-gradient: linear-gradient(135deg, hsl(var(--xplor-orange)), hsl(var(--xplor-blue)));
+    /* Xplor brand colors - black, white, yellow, grey */
+    --xplor-yellow: 48 100% 50%;
+    --xplor-yellow-light: 48 100% 60%;
+    --xplor-black: 0 0% 9%;
+    --xplor-grey: 0 0% 45%;
+    --xplor-grey-light: 0 0% 75%;
     
     /* Custom gradients and effects */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-orange)), hsl(var(--xplor-blue)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--xplor-orange) / 0.1), hsl(var(--xplor-blue) / 0.1));
-    --shadow-soft: 0 1px 3px 0 hsl(var(--xplor-orange) / 0.1), 0 1px 2px 0 hsl(var(--xplor-blue) / 0.06);
-    --shadow-medium: 0 4px 6px -1px hsl(var(--xplor-orange) / 0.1), 0 2px 4px -1px hsl(var(--xplor-blue) / 0.06);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-grey)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--xplor-yellow) / 0.05), hsl(var(--xplor-grey) / 0.05));
+    --shadow-soft: 0 1px 3px 0 hsl(var(--xplor-black) / 0.1), 0 1px 2px 0 hsl(var(--xplor-black) / 0.06);
+    --shadow-medium: 0 4px 6px -1px hsl(var(--xplor-black) / 0.1), 0 2px 4px -1px hsl(var(--xplor-black) / 0.06);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
@@ -70,33 +70,38 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 210 11% 15%;
+    --background: 0 0% 9%;
     --foreground: 0 0% 98%;
 
-    --card: 217.2 32.6% 17.5%;
+    --card: 0 0% 9%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 217.2 32.6% 17.5%;
+    --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 0 0% 98%;
-    --primary-foreground: 210 11% 15%;
+    --primary-foreground: 0 0% 9%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    
+    /* Dark mode adjustments */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-yellow) / 0.8));
+    --gradient-card: linear-gradient(145deg, hsl(var(--xplor-yellow) / 0.1), hsl(var(--xplor-grey) / 0.1));
+  }
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

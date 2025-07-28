@@ -9,8 +9,8 @@ const Header = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded flex items-center justify-center">
-            <span className="text-white font-bold text-sm">X</span>
+          <div className="w-8 h-8 bg-xplor-yellow rounded flex items-center justify-center">
+            <span className="text-xplor-black font-bold text-sm">X</span>
           </div>
           <span className="font-semibold text-xl text-foreground">Xplor</span>
         </Link>
@@ -43,7 +43,7 @@ const Header = () => {
           <Button variant="ghost" size="sm">
             Sign In
           </Button>
-          <Button size="sm" className="bg-xplor-orange hover:bg-xplor-orange-light">
+          <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
             Get Started
           </Button>
         </div>

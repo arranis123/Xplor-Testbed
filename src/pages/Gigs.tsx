@@ -62,7 +62,7 @@ const Gigs = () => {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Find Your Perfect <span className="text-xplor-orange">Adventure Gig</span>
+            Find Your Perfect <span className="text-xplor-yellow">Adventure Gig</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Connect with clients who need adventure guides, tour operators, and experience creators.
@@ -97,7 +97,7 @@ const Gigs = () => {
               </div>
               
               <CardHeader>
-                <CardTitle className="text-lg group-hover:text-xplor-orange transition-colors">
+                <CardTitle className="text-lg group-hover:text-xplor-yellow transition-colors">
                   {gig.title}
                 </CardTitle>
                 <CardDescription className="text-sm">
@@ -107,7 +107,7 @@ const Gigs = () => {
               
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-xplor-blue">{gig.budget}</span>
+                  <span className="font-semibold text-xplor-black">{gig.budget}</span>
                   <span className="text-sm text-muted-foreground">{gig.posted}</span>
                 </div>
                 
@@ -123,7 +123,7 @@ const Gigs = () => {
                   <span className="text-sm text-muted-foreground">
                     {gig.proposals} proposals
                   </span>
-                  <Button size="sm" className="bg-xplor-orange hover:bg-xplor-orange-light">
+                  <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                     Apply Now
                   </Button>
                 </div>
@@ -140,7 +140,7 @@ const Gigs = () => {
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             Join thousands of professionals earning with their adventure and tourism skills
           </p>
-          <Button size="lg" className="bg-xplor-orange hover:bg-xplor-orange-light">
+          <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
             Create Your Profile
           </Button>
         </div>

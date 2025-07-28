@@ -52,10 +52,11 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				'xplor-orange': 'hsl(var(--xplor-orange))',
-				'xplor-orange-light': 'hsl(var(--xplor-orange-light))',
-				'xplor-blue': 'hsl(var(--xplor-blue))',
-				'xplor-blue-dark': 'hsl(var(--xplor-blue-dark))',
+				'xplor-yellow': 'hsl(var(--xplor-yellow))',
+				'xplor-yellow-light': 'hsl(var(--xplor-yellow-light))',
+				'xplor-black': 'hsl(var(--xplor-black))',
+				'xplor-grey': 'hsl(var(--xplor-grey))',
+				'xplor-grey-light': 'hsl(var(--xplor-grey-light))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -78,8 +79,7 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-card': 'var(--gradient-card)',
-				'xplor-gradient': 'var(--xplor-gradient)'
+				'gradient-card': 'var(--gradient-card)'
 			},
 			transitionProperty: {
 				smooth: 'var(--transition-smooth)'

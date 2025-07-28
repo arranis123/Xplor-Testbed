@@ -72,8 +72,8 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
-            <div className="w-6 h-6 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded flex items-center justify-center">
-              <span className="text-white font-bold text-xs">X</span>
+            <div className="w-6 h-6 bg-xplor-yellow rounded flex items-center justify-center">
+              <span className="text-xplor-black font-bold text-xs">X</span>
             </div>
             <span className="text-sm text-muted-foreground">© 2025 Xplor, Inc.</span>
           </div>

@@ -31,7 +31,7 @@ const Index = () => {
               Discover thrilling adventures and unique experiences that push boundaries
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-xplor-orange hover:bg-xplor-orange-light text-lg px-8 py-3">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black text-lg px-8 py-3">
                 Start Exploring
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-primary">
@@ -56,8 +56,8 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-xplor-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
@@ -70,8 +70,8 @@ const Index = () => {
 
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-r from-xplor-blue to-xplor-orange rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 bg-xplor-black rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-xplor-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </div>
@@ -84,7 +84,7 @@ const Index = () => {
 
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-r from-xplor-orange to-xplor-blue rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-16 h-16 bg-xplor-grey rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -105,7 +105,7 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-4xl font-bold text-foreground mb-6">
-                  Turn Your Passion Into <span className="text-xplor-orange">Profit</span>
+                  Turn Your Passion Into <span className="text-xplor-yellow">Profit</span>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
                   Join our marketplace and connect with clients who need adventure guides, 
@@ -114,7 +114,7 @@ const Index = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/gigs">
-                    <Button size="lg" className="bg-xplor-orange hover:bg-xplor-orange-light">
+                    <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                       Browse Gigs
                     </Button>
                   </Link>
@@ -139,19 +139,19 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-xplor-orange mb-2">1M+</div>
+                <div className="text-4xl font-bold text-xplor-yellow mb-2">1M+</div>
                 <div className="text-muted-foreground">Adventures Booked</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-xplor-blue mb-2">50+</div>
+                <div className="text-4xl font-bold text-xplor-black mb-2">50+</div>
                 <div className="text-muted-foreground">Destinations</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-xplor-orange mb-2">5★</div>
+                <div className="text-4xl font-bold text-xplor-yellow mb-2">5★</div>
                 <div className="text-muted-foreground">Average Rating</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-xplor-blue mb-2">24/7</div>
+                <div className="text-4xl font-bold text-xplor-black mb-2">24/7</div>
                 <div className="text-muted-foreground">Support Available</div>
               </div>
             </div>
