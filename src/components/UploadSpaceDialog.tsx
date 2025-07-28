@@ -134,6 +134,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const { toast } = useToast();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<{
     photos: File[];
     videos: File[];
@@ -2677,7 +2678,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     <div>
                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                         <FileText className="h-5 w-5" />
-                        Floor Plans [Need Floor Plans? <a href="#" className="text-primary hover:underline">Click Here</a> to contact a Floor Plan creator]
+                        Floor Plans [Need Floor Plans? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click Here</button> to contact a Floor Plan creator]
                       </Label>
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                         <div className="flex flex-col items-center gap-4">
@@ -2828,6 +2829,71 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           )}
         </DialogFooter>
       </DialogContent>
+
+      {/* Contact Form Dialog */}
+      <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Contact Floor Plan Creator</DialogTitle>
+            <DialogDescription>
+              Get in touch with our floor plan specialists to create professional floor plans for your property.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const data = {
+              name: formData.get('name'),
+              email: formData.get('email'),
+              description: formData.get('description')
+            };
+            console.log('Contact form data:', data);
+            toast({
+              title: "Message Sent!",
+              description: "We'll get back to you within 24 hours with a quote.",
+            });
+            setShowContactForm(false);
+          }} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="contact-name">Name</Label>
+              <Input
+                id="contact-name"
+                name="name"
+                placeholder="Your full name"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contact-email">Email</Label>
+              <Input
+                id="contact-email"
+                name="email"
+                type="email"
+                placeholder="your.email@example.com"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contact-description">Project Description</Label>
+              <Textarea
+                id="contact-description"
+                name="description"
+                placeholder="Tell us about your property and floor plan requirements..."
+                className="min-h-[100px]"
+                required
+              />
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setShowContactForm(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">
+                Send Message
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 }
