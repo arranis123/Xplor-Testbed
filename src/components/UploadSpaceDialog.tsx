@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus } from "lucide-react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,10 +32,24 @@ const uploadFormSchema = z.object({
   availableTo: z.date().optional(),
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
+  beds: z.string().optional(),
+  maxGuests: z.string().optional(),
+  adults: z.string().optional(),
+  children: z.string().optional(),
+  infants: z.string().optional(),
+  pets: z.string().optional(),
   area: z.string().optional(),
   yearBuilt: z.string().optional(),
   location: z.string().min(3, "Location is required"),
   amenities: z.array(z.string()).optional(),
+  facilities: z.array(z.string()).optional(),
+  accessibility: z.array(z.string()).optional(),
+  houseRules: z.array(z.string()).optional(),
+  healthSafety: z.array(z.string()).optional(),
+  workFeatures: z.array(z.string()).optional(),
+  hostLanguage: z.string().optional(),
+  responseTime: z.string().optional(),
+  bookingType: z.string().optional(),
   availability: z.string().min(1, "Please select availability"),
   visibility: z.string().min(1, "Please select visibility"),
 });
@@ -74,21 +88,43 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       rentalPeriod: "",
       bedrooms: "",
       bathrooms: "",
+      beds: "",
+      maxGuests: "",
+      adults: "",
+      children: "",
+      infants: "",
+      pets: "",
       area: "",
       yearBuilt: "",
       location: "",
       amenities: [],
+      facilities: [],
+      accessibility: [],
+      houseRules: [],
+      healthSafety: [],
+      workFeatures: [],
+      hostLanguage: "",
+      responseTime: "",
+      bookingType: "",
       availability: "",
       visibility: "public",
     },
   });
 
   const propertyTypes = [
+    { value: "entire-place", label: "Entire Place" },
+    { value: "private-room", label: "Private Room" },
+    { value: "shared-room", label: "Shared Room" },
+    { value: "hotel-room", label: "Hotel Room" },
     { value: "residential-house", label: "Residential House" },
     { value: "apartment", label: "Apartment" },
     { value: "condo", label: "Condominium" },
     { value: "townhouse", label: "Townhouse" },
     { value: "villa", label: "Villa" },
+    { value: "treehouse", label: "Treehouse" },
+    { value: "castle", label: "Castle" },
+    { value: "boat", label: "Boat" },
+    { value: "cabin", label: "Cabin" },
     { value: "commercial-office", label: "Commercial Office" },
     { value: "retail-space", label: "Retail Space" },
     { value: "warehouse", label: "Warehouse" },
@@ -99,16 +135,55 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
   const amenities = [
-    { id: "parking", label: "Parking", icon: Car },
+    { id: "kitchen", label: "Kitchen", icon: Utensils },
+    { id: "washer", label: "Washer", icon: Waves },
+    { id: "dryer", label: "Dryer", icon: Wind },
+    { id: "ac", label: "Air Conditioning", icon: Wind },
+    { id: "heating", label: "Heating", icon: Heater },
     { id: "wifi", label: "WiFi", icon: Wifi },
-    { id: "security", label: "Security", icon: Shield },
-    { id: "garden", label: "Garden/Outdoor Space", icon: Home },
-    { id: "pool", label: "Swimming Pool", icon: Users },
-    { id: "gym", label: "Gym/Fitness Center", icon: Users },
-    { id: "elevator", label: "Elevator", icon: Home },
-    { id: "balcony", label: "Balcony/Terrace", icon: Home },
-    { id: "furnished", label: "Furnished", icon: Home },
-    { id: "ac", label: "Air Conditioning", icon: Home },
+    { id: "tv", label: "TV", icon: Tv },
+    { id: "hair-dryer", label: "Hair Dryer", icon: Wind },
+    { id: "iron", label: "Iron", icon: Shirt },
+  ];
+
+  const facilities = [
+    { id: "pool", label: "Pool", icon: Waves },
+    { id: "hot-tub", label: "Hot Tub", icon: Bath },
+    { id: "parking", label: "Free Parking", icon: ParkingCircle },
+    { id: "ev-charger", label: "EV Charger", icon: Zap },
+    { id: "gym", label: "Gym", icon: Dumbbell },
+    { id: "bbq", label: "BBQ Grill", icon: Flame },
+    { id: "patio", label: "Patio or Balcony", icon: TreePine },
+    { id: "garden", label: "Garden or Backyard", icon: TreePine },
+  ];
+
+  const houseRules = [
+    { id: "pets-allowed", label: "Pets Allowed", icon: Dog },
+    { id: "smoking-allowed", label: "Smoking Allowed", icon: Cigarette },
+    { id: "events-allowed", label: "Events Allowed", icon: PartyPopper },
+  ];
+
+  const accessibility = [
+    { id: "step-free", label: "Step-free Entry", icon: User },
+    { id: "wide-doorways", label: "Wide Doorways", icon: Home },
+    { id: "accessible-bathroom", label: "Accessible Bathroom", icon: Bath },
+    { id: "shower-grab-bars", label: "Shower Grab Bars", icon: Shield },
+    { id: "wheelchair-paths", label: "Wheelchair-accessible Paths", icon: User },
+  ];
+
+  const workFeatures = [
+    { id: "workspace", label: "Laptop-friendly Workspace", icon: Laptop },
+    { id: "fast-wifi", label: "Fast WiFi", icon: Wifi },
+    { id: "iron", label: "Iron", icon: Shirt },
+    { id: "hangers", label: "Hangers", icon: Shirt },
+  ];
+
+  const healthSafety = [
+    { id: "cleaning-protocol", label: "Enhanced Cleaning Protocol", icon: HeartHandshake },
+    { id: "smoke-detector", label: "Smoke Detector", icon: AlertTriangle },
+    { id: "carbon-detector", label: "Carbon Monoxide Detector", icon: AlertTriangle },
+    { id: "first-aid", label: "First Aid Kit", icon: Plus },
+    { id: "fire-extinguisher", label: "Fire Extinguisher", icon: Flame },
   ];
 
   const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage', files: FileList | null) => {
@@ -202,9 +277,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-6">
                   <TabsTrigger value="basic">Basic Info</TabsTrigger>
                   <TabsTrigger value="details">Property Details</TabsTrigger>
+                  <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  <TabsTrigger value="rules">Rules & Access</TabsTrigger>
                   <TabsTrigger value="media">Media Upload</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
@@ -482,110 +559,639 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                      </div>
                    )}
 
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                     <FormField
+                       control={form.control}
+                       name="bedrooms"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <Bed className="h-4 w-4" />
+                             Bedrooms
+                           </FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="0">Studio</SelectItem>
+                               <SelectItem value="1">1 Bedroom</SelectItem>
+                               <SelectItem value="2">2 Bedrooms</SelectItem>
+                               <SelectItem value="3">3 Bedrooms</SelectItem>
+                               <SelectItem value="4">4 Bedrooms</SelectItem>
+                               <SelectItem value="5">5+ Bedrooms</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+                     <FormField
+                       control={form.control}
+                       name="bathrooms"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <Bath className="h-4 w-4" />
+                             Bathrooms
+                           </FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="1">1 Bathroom</SelectItem>
+                               <SelectItem value="1.5">1.5 Bathrooms</SelectItem>
+                               <SelectItem value="2">2 Bathrooms</SelectItem>
+                               <SelectItem value="2.5">2.5 Bathrooms</SelectItem>
+                               <SelectItem value="3">3 Bathrooms</SelectItem>
+                               <SelectItem value="3.5">3.5 Bathrooms</SelectItem>
+                               <SelectItem value="4">4+ Bathrooms</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+                     
+                     <FormField
+                       control={form.control}
+                       name="beds"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <Bed className="h-4 w-4" />
+                             Beds
+                           </FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="1">1 Bed</SelectItem>
+                               <SelectItem value="2">2 Beds</SelectItem>
+                               <SelectItem value="3">3 Beds</SelectItem>
+                               <SelectItem value="4">4 Beds</SelectItem>
+                               <SelectItem value="5">5+ Beds</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="maxGuests"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <Users className="h-4 w-4" />
+                             Max Guests
+                           </FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="1">1 Guest</SelectItem>
+                               <SelectItem value="2">2 Guests</SelectItem>
+                               <SelectItem value="3">3 Guests</SelectItem>
+                               <SelectItem value="4">4 Guests</SelectItem>
+                               <SelectItem value="5">5 Guests</SelectItem>
+                               <SelectItem value="6">6 Guests</SelectItem>
+                               <SelectItem value="8">8 Guests</SelectItem>
+                               <SelectItem value="10">10+ Guests</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   {/* Guest Breakdown */}
                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="bedrooms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Bed className="h-4 w-4" />
-                            Bedrooms
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., 3" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bathrooms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Bath className="h-4 w-4" />
-                            Bathrooms
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., 2" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="area"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Ruler className="h-4 w-4" />
-                            Area (sq ft)
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., 1,200" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                     <FormField
+                       control={form.control}
+                       name="adults"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Adults</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="0" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               {[...Array(17)].map((_, i) => (
+                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
+                               ))}
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
 
-                  <FormField
-                    control={form.control}
-                    name="yearBuilt"
-                    render={({ field }) => (
-                      <FormItem className="w-1/2">
-                        <FormLabel className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          Year Built
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., 2020" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                     <FormField
+                       control={form.control}
+                       name="children"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Children (2-12)</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="0" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               {[...Array(6)].map((_, i) => (
+                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
+                               ))}
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
 
-                  <div>
-                    <Label className="text-sm font-medium mb-3 block">Amenities</Label>
-                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                      {amenities.map((amenity) => (
-                        <FormField
-                          key={amenity.id}
-                          control={form.control}
-                          name="amenities"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={amenity.id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(amenity.id)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value || [], amenity.id])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== amenity.id
-                                            )
-                                          )
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="flex items-center gap-2 font-normal">
-                                  <amenity.icon className="h-4 w-4" />
-                                  {amenity.label}
-                                </FormLabel>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </TabsContent>
+                     <FormField
+                       control={form.control}
+                       name="infants"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Infants (Under 2)</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="0" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               {[...Array(6)].map((_, i) => (
+                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
+                               ))}
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="pets"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Pets</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="0" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               {[...Array(6)].map((_, i) => (
+                                 <SelectItem key={i} value={i.toString()}>{i}</SelectItem>
+                               ))}
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   <div className="grid grid-cols-2 gap-4">
+                     <FormField
+                       control={form.control}
+                       name="area"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <Ruler className="h-4 w-4" />
+                             Area (sq ft)
+                           </FormLabel>
+                           <FormControl>
+                             <Input placeholder="e.g., 1200" {...field} />
+                           </FormControl>
+                         </FormItem>
+                       )}
+                     />
+                     <FormField
+                       control={form.control}
+                       name="yearBuilt"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Year Built</FormLabel>
+                           <FormControl>
+                             <Input placeholder="e.g., 2020" {...field} />
+                           </FormControl>
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+                 </TabsContent>
+
+                 <TabsContent value="amenities" className="space-y-6">
+                   {/* Property Amenities */}
+                   <div>
+                     <h3 className="text-lg font-semibold mb-4">Property Amenities</h3>
+                     <FormField
+                       control={form.control}
+                       name="amenities"
+                       render={() => (
+                         <FormItem>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {amenities.map((amenity) => (
+                               <FormField
+                                 key={amenity.id}
+                                 control={form.control}
+                                 name="amenities"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={amenity.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(amenity.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...(field.value || []), amenity.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== amenity.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <div className="space-y-1 leading-none">
+                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                           <amenity.icon className="h-4 w-4" />
+                                           {amenity.label}
+                                         </FormLabel>
+                                       </div>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   {/* Facilities */}
+                   <div>
+                     <h3 className="text-lg font-semibold mb-4">Facilities</h3>
+                     <FormField
+                       control={form.control}
+                       name="facilities"
+                       render={() => (
+                         <FormItem>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {facilities.map((facility) => (
+                               <FormField
+                                 key={facility.id}
+                                 control={form.control}
+                                 name="facilities"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={facility.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(facility.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...(field.value || []), facility.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== facility.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <div className="space-y-1 leading-none">
+                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                           <facility.icon className="h-4 w-4" />
+                                           {facility.label}
+                                         </FormLabel>
+                                       </div>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   {/* Travel for Work */}
+                   <div>
+                     <h3 className="text-lg font-semibold mb-4">Travel for Work</h3>
+                     <FormField
+                       control={form.control}
+                       name="workFeatures"
+                       render={() => (
+                         <FormItem>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {workFeatures.map((feature) => (
+                               <FormField
+                                 key={feature.id}
+                                 control={form.control}
+                                 name="workFeatures"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={feature.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(feature.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...(field.value || []), feature.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== feature.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <div className="space-y-1 leading-none">
+                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                           <feature.icon className="h-4 w-4" />
+                                           {feature.label}
+                                         </FormLabel>
+                                       </div>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+                 </TabsContent>
+
+                 <TabsContent value="rules" className="space-y-6">
+                   {/* House Rules */}
+                   <div>
+                     <h3 className="text-lg font-semibold mb-4">House Rules</h3>
+                     <FormField
+                       control={form.control}
+                       name="houseRules"
+                       render={() => (
+                         <FormItem>
+                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                             {houseRules.map((rule) => (
+                               <FormField
+                                 key={rule.id}
+                                 control={form.control}
+                                 name="houseRules"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={rule.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(rule.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...(field.value || []), rule.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== rule.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <div className="space-y-1 leading-none">
+                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                           <rule.icon className="h-4 w-4" />
+                                           {rule.label}
+                                         </FormLabel>
+                                       </div>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   {/* Accessibility */}
+                   <div>
+                     <h3 className="text-lg font-semibold mb-4">Accessibility</h3>
+                     <FormField
+                       control={form.control}
+                       name="accessibility"
+                       render={() => (
+                         <FormItem>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             {accessibility.map((feature) => (
+                               <FormField
+                                 key={feature.id}
+                                 control={form.control}
+                                 name="accessibility"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={feature.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(feature.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...(field.value || []), feature.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== feature.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <div className="space-y-1 leading-none">
+                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                           <feature.icon className="h-4 w-4" />
+                                           {feature.label}
+                                         </FormLabel>
+                                       </div>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   {/* Health & Safety */}
+                   <div>
+                     <h3 className="text-lg font-semibold mb-4">Health & Safety</h3>
+                     <FormField
+                       control={form.control}
+                       name="healthSafety"
+                       render={() => (
+                         <FormItem>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             {healthSafety.map((feature) => (
+                               <FormField
+                                 key={feature.id}
+                                 control={form.control}
+                                 name="healthSafety"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={feature.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(feature.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...(field.value || []), feature.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== feature.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <div className="space-y-1 leading-none">
+                                         <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                           <feature.icon className="h-4 w-4" />
+                                           {feature.label}
+                                         </FormLabel>
+                                       </div>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+
+                   {/* Host & Booking Information */}
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <FormField
+                       control={form.control}
+                       name="hostLanguage"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <MessageCircle className="h-4 w-4" />
+                             Host Language
+                           </FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select language" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="english">English</SelectItem>
+                               <SelectItem value="spanish">Spanish</SelectItem>
+                               <SelectItem value="french">French</SelectItem>
+                               <SelectItem value="german">German</SelectItem>
+                               <SelectItem value="italian">Italian</SelectItem>
+                               <SelectItem value="portuguese">Portuguese</SelectItem>
+                               <SelectItem value="chinese">Chinese</SelectItem>
+                               <SelectItem value="japanese">Japanese</SelectItem>
+                               <SelectItem value="other">Other</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="responseTime"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel className="flex items-center gap-2">
+                             <Clock className="h-4 w-4" />
+                             Response Time
+                           </FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select response time" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="within-hour">Within an hour</SelectItem>
+                               <SelectItem value="within-few-hours">Within a few hours</SelectItem>
+                               <SelectItem value="within-day">Within a day</SelectItem>
+                               <SelectItem value="few-days">A few days or more</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="bookingType"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Booking Type</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select booking type" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="instant-book">Instant Book</SelectItem>
+                               <SelectItem value="request-to-book">Request to Book</SelectItem>
+                             </SelectContent>
+                           </Select>
+                         </FormItem>
+                       )}
+                     />
+                   </div>
+                 </TabsContent>
 
                 <TabsContent value="media" className="space-y-6">
                   <div className="grid gap-6">
