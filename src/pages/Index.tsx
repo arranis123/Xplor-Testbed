@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link } from "react-router-dom";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
 import scanningHeroImage from "@/assets/3d-scanning-hero.jpg";
+import vrTechImage from "@/assets/vr-tech.jpg";
 
 const Index = () => {
   return (
@@ -129,6 +130,61 @@ const Index = () => {
                   alt="Adventure Experiences"
                   className="rounded-lg shadow-medium w-full"
                 />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* VR Store Section */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <img 
+                  src={vrTechImage} 
+                  alt="VR Cameras and Headsets"
+                  className="rounded-lg shadow-medium w-full"
+                />
+              </div>
+              <div>
+                <h2 className="text-4xl font-bold text-foreground mb-6">
+                  Professional <span className="text-xplor-yellow">VR Equipment</span> Store
+                </h2>
+                <p className="text-lg text-muted-foreground mb-8">
+                  Complete your virtual reality setup with professional Matterport cameras and VR headsets. 
+                  From 3D scanning to immersive viewing experiences, we have everything you need to create 
+                  and showcase digital twins.
+                </p>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
+                    <span className="text-sm text-muted-foreground">Matterport Pro3 & Pro2</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
+                    <span className="text-sm text-muted-foreground">VR Headsets</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
+                    <span className="text-sm text-muted-foreground">Professional Accessories</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-xplor-yellow rounded-full"></div>
+                    <span className="text-sm text-muted-foreground">Enterprise Solutions</span>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/vr-cameras">
+                    <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+                      Shop VR Equipment
+                    </Button>
+                  </Link>
+                  <Link to="/capture-services">
+                    <Button size="lg" variant="outline">
+                      Capture Services
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
