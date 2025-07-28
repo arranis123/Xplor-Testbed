@@ -323,6 +323,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "liveaboard-yacht", label: "Liveaboard Yacht" },
   ];
 
+  const sportLeisureYachtSubtypes = [
+    { value: "sports-yacht", label: "Sports Yacht" },
+    { value: "day-cruiser", label: "Day Cruiser" },
+    { value: "watersports-yacht", label: "Watersports Yacht" },
+    { value: "fishing-yacht", label: "Fishing Yacht" },
+    { value: "sportfisher", label: "Sportfisher" },
+    { value: "convertible-fishing-yacht", label: "Convertible Fishing Yacht" },
+    { value: "walkaround-fishing-yacht", label: "Walkaround Fishing Yacht" },
+  ];
+
   const charterYachtSubtypes = [
     { value: "crewed-charter-yacht", label: "Crewed Charter Yacht" },
     { value: "bareboat-charter-yacht", label: "Bareboat Charter Yacht" },
@@ -684,32 +694,59 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        />
                      )}
                      
-                     {category === "yacht" && form.watch("yachtUsePurpose") === "private" && (
-                       <FormField
-                         control={form.control}
-                         name="yachtUsePurposeSubtype"
-                         render={({ field }) => (
-                           <FormItem>
-                             <FormLabel>Private Yacht Type</FormLabel>
-                             <Select onValueChange={field.onChange} defaultValue={field.value}>
-                               <FormControl>
-                                 <SelectTrigger>
-                                   <SelectValue placeholder="Select private yacht type" />
-                                 </SelectTrigger>
-                               </FormControl>
-                               <SelectContent>
-                                 {privateYachtSubtypes.map((type) => (
-                                   <SelectItem key={type.value} value={type.value}>
-                                     {type.label}
-                                   </SelectItem>
-                                 ))}
-                               </SelectContent>
-                             </Select>
-                             <FormMessage />
-                           </FormItem>
-                         )}
-                       />
-                     )}
+                      {category === "yacht" && form.watch("yachtUsePurpose") === "private" && (
+                        <FormField
+                          control={form.control}
+                          name="yachtUsePurposeSubtype"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Private Yacht Type</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select private yacht type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {privateYachtSubtypes.map((type) => (
+                                    <SelectItem key={type.value} value={type.value}>
+                                      {type.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                      
+                      {category === "yacht" && form.watch("yachtUsePurpose") === "sport-leisure" && (
+                        <FormField
+                          control={form.control}
+                          name="yachtUsePurposeSubtype"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Sport & Leisure Yacht Type</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select sport & leisure yacht type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {sportLeisureYachtSubtypes.map((type) => (
+                                    <SelectItem key={type.value} value={type.value}>
+                                      {type.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
                   </div>
 
                   {category === "real-estate" && (
