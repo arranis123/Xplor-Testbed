@@ -33,8 +33,22 @@ const Header = () => {
           >
             Pricing
           </Link>
-          <span className="text-sm font-medium text-muted-foreground">Adventures</span>
-          <span className="text-sm font-medium text-muted-foreground">Experiences</span>
+          <Link 
+            to="/vr-cameras" 
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              location.pathname === "/vr-cameras" ? "text-primary" : "text-muted-foreground"
+            }`}
+          >
+            VR Store
+          </Link>
+          <Link 
+            to="/capture-services" 
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              location.pathname === "/capture-services" ? "text-primary" : "text-muted-foreground"
+            }`}
+          >
+            Services
+          </Link>
           <span className="text-sm font-medium text-muted-foreground">Support</span>
         </nav>
 
