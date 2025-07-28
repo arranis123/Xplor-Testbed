@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area, AreaChart } from 'recharts';
+import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
+import { useState } from "react";
 
 const Dashboard = () => {
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  
   const stats = [
     { title: "Total Spaces", value: "24", icon: FolderOpen, color: "text-blue-600", change: "+12%" },
     { title: "Public Spaces", value: "18", icon: Globe, color: "text-green-600", change: "+8%" },
@@ -61,7 +65,10 @@ const Dashboard = () => {
             <Crown className="h-4 w-4" />
             {subscriptionData.plan}
           </Badge>
-          <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+          <Button 
+            className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black"
+            onClick={() => setUploadDialogOpen(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             New Space
           </Button>
@@ -233,7 +240,11 @@ const Dashboard = () => {
               <Camera className="h-4 w-4 mr-2" />
               Schedule Capture Service
             </Button>
-            <Button variant="outline" className="w-full justify-start">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start"
+              onClick={() => setUploadDialogOpen(true)}
+            >
               <FolderOpen className="h-4 w-4 mr-2" />
               Upload New Space
             </Button>
@@ -248,6 +259,11 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      <UploadSpaceDialog 
+        open={uploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen} 
+      />
     </div>
   );
 };
