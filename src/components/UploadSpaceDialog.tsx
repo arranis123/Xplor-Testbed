@@ -608,7 +608,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              <FormLabel>Sale or Charter</FormLabel>
                              <Select onValueChange={field.onChange} defaultValue={field.value}>
                                <FormControl>
-                                 <SelectTrigger>
+                                  <SelectTrigger className="border-2 border-border">
                                    <SelectValue placeholder="Select sale or charter" />
                                  </SelectTrigger>
                                </FormControl>
@@ -631,7 +631,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Type" : category === "yacht" ? "Yacht Type" : "Property Type"}</FormLabel>
                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                              <FormControl>
-                               <SelectTrigger>
+                                <SelectTrigger className="border-2 border-border">
                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : "Select property type"} />
                                </SelectTrigger>
                              </FormControl>
@@ -657,7 +657,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             <FormLabel>Motor Yacht Type</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger>
+                                 <SelectTrigger className="border-2 border-border">
                                   <SelectValue placeholder="Select motor yacht type" />
                                 </SelectTrigger>
                               </FormControl>
@@ -684,7 +684,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             <FormLabel>Sailing Yacht Type</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger>
+                                 <SelectTrigger className="border-2 border-border">
                                   <SelectValue placeholder="Select sailing yacht type" />
                                 </SelectTrigger>
                               </FormControl>
@@ -711,7 +711,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             <FormLabel>Hybrid & Electric Yacht Type</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger>
+                                 <SelectTrigger className="border-2 border-border">
                                   <SelectValue placeholder="Select hybrid/electric yacht type" />
                                 </SelectTrigger>
                               </FormControl>
@@ -738,7 +738,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              <FormLabel>Use/Purpose</FormLabel>
                              <Select onValueChange={field.onChange} defaultValue={field.value}>
                                <FormControl>
-                                 <SelectTrigger>
+                                  <SelectTrigger className="border-2 border-border">
                                    <SelectValue placeholder="Select use/purpose" />
                                  </SelectTrigger>
                                </FormControl>
@@ -763,7 +763,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              <FormLabel>Charter Yacht Type</FormLabel>
                              <Select onValueChange={field.onChange} defaultValue={field.value}>
                                <FormControl>
-                                 <SelectTrigger>
+                                  <SelectTrigger className="border-2 border-border">
                                    <SelectValue placeholder="Select charter yacht type" />
                                  </SelectTrigger>
                                </FormControl>
@@ -790,7 +790,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormLabel>Private Yacht Type</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                   <SelectTrigger className="border-2 border-border">
                                     <SelectValue placeholder="Select private yacht type" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -817,7 +817,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormLabel>Sport & Leisure Yacht Type</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                   <SelectTrigger className="border-2 border-border">
                                     <SelectValue placeholder="Select sport & leisure yacht type" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -844,7 +844,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormLabel>Hull Configuration</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                   <SelectTrigger className="border-2 border-border">
                                     <SelectValue placeholder="Select hull configuration" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -871,7 +871,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <FormLabel>Size Class</FormLabel>
                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                  <FormControl>
-                                   <SelectTrigger>
+                                    <SelectTrigger className="border-2 border-border">
                                      <SelectValue placeholder="Select size class" />
                                    </SelectTrigger>
                                  </FormControl>
@@ -898,7 +898,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <FormLabel>Style and Layout</FormLabel>
                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                  <FormControl>
-                                   <SelectTrigger>
+                                    <SelectTrigger className="border-2 border-border">
                                      <SelectValue placeholder="Select style and layout" />
                                    </SelectTrigger>
                                  </FormControl>
@@ -925,7 +925,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <FormLabel>Materials / Build Types</FormLabel>
                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                  <FormControl>
-                                   <SelectTrigger>
+                                    <SelectTrigger className="border-2 border-border">
                                      <SelectValue placeholder="Select materials/build type" />
                                    </SelectTrigger>
                                  </FormControl>
@@ -952,7 +952,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <FormLabel>Special Purpose & Niche Yachts</FormLabel>
                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                  <FormControl>
-                                   <SelectTrigger>
+                                    <SelectTrigger className="border-2 border-border">
                                      <SelectValue placeholder="Select special purpose" />
                                    </SelectTrigger>
                                  </FormControl>
@@ -981,7 +981,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             <FormLabel>Listing Type</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger>
+                                 <SelectTrigger className="border-2 border-border">
                                   <SelectValue placeholder="Select listing type" />
                                 </SelectTrigger>
                               </FormControl>
@@ -1057,7 +1057,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Currency</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Currency" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1112,7 +1112,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                     <FormLabel>Unit</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                       <FormControl>
-                                        <SelectTrigger>
+                                         <SelectTrigger className="border-2 border-border">
                                           <SelectValue />
                                         </SelectTrigger>
                                       </FormControl>
@@ -1148,7 +1148,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                     <FormLabel>Unit</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                       <FormControl>
-                                        <SelectTrigger>
+                                         <SelectTrigger className="border-2 border-border">
                                           <SelectValue />
                                         </SelectTrigger>
                                       </FormControl>
@@ -1173,7 +1173,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Bedrooms</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Bedrooms" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1198,7 +1198,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Bathrooms</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Bathrooms" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1223,7 +1223,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Parking Spaces</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Parking" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1246,7 +1246,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Balconies/Terraces</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Balconies" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1283,7 +1283,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Floors/Levels</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Floors" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1317,7 +1317,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Property Condition</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Condition" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1351,7 +1351,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Construction Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Status" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1371,7 +1371,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Furnishing</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Furnishing" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1392,7 +1392,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Building Type</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Building type" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1418,7 +1418,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Architecture Style (optional)</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select style" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -1452,7 +1452,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Ownership Type</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Ownership type" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1473,7 +1473,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Title Deed Available</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Yes/No" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1493,7 +1493,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Mortgage Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Mortgage status" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1513,7 +1513,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Occupancy Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Occupancy" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1535,7 +1535,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Occupancy Certificate</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Yes/No" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -1661,7 +1661,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Parking Type</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Parking type" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -1810,7 +1810,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Preferred Contact Method</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Contact method" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1899,7 +1899,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Listing Status</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Status" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -1923,7 +1923,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                   <FormLabel>Priority / Featured Listing</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                      <SelectTrigger>
+                                       <SelectTrigger className="border-2 border-border">
                                         <SelectValue placeholder="Priority" />
                                       </SelectTrigger>
                                     </FormControl>
@@ -2025,7 +2025,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                   <SelectTrigger className="border-2 border-border">
                                     <SelectValue placeholder="Select bedrooms" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -2052,7 +2052,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                   <SelectTrigger className="border-2 border-border">
                                     <SelectValue placeholder="Select bathrooms" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -2114,7 +2114,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select price range" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2138,7 +2138,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Rental Period</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select period" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2163,7 +2163,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select beds" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2190,7 +2190,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select max guests" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2220,7 +2220,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Adults</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select adults" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2243,7 +2243,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Children (Ages 2-12)</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select children" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2266,7 +2266,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Infants (Under 2)</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select infants" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2289,7 +2289,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 <FormLabel>Pets</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select pets" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2849,7 +2849,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select host language" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2880,7 +2880,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
-                                    <SelectTrigger>
+                                     <SelectTrigger className="border-2 border-border">
                                       <SelectValue placeholder="Select response time" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -2904,7 +2904,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormLabel>Booking Type</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                   <SelectTrigger className="border-2 border-border">
                                     <SelectValue placeholder="Select booking type" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -3239,7 +3239,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <FormLabel>Availability</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger>
+                               <SelectTrigger className="border-2 border-border">
                                 <SelectValue placeholder="Select availability" />
                               </SelectTrigger>
                             </FormControl>
@@ -3262,7 +3262,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <FormLabel>Visibility</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="border-2 border-border">
                                 <SelectValue placeholder="Select visibility" />
                               </SelectTrigger>
                             </FormControl>

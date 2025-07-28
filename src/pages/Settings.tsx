@@ -142,7 +142,7 @@ const Settings = () => {
                 <div className="space-y-2">
                   <Label htmlFor="industry">Industry</Label>
                   <Select defaultValue="real-estate">
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 border-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

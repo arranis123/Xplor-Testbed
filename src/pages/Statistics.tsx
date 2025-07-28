@@ -75,7 +75,7 @@ const Statistics = () => {
         </div>
         <div className="flex items-center gap-3">
           <Select defaultValue="7days">
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-32 border-2 border-border">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
