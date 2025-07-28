@@ -1028,10 +1028,387 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                   )}
                 </TabsContent>
 
-                <TabsContent value="amenities" className="space-y-4">
-                  <div className="text-center py-8">
-                    <p className="text-muted-foreground">Amenities selection will be implemented here.</p>
-                  </div>
+                <TabsContent value="amenities" className="space-y-6">
+                  {category === "real-estate" && (
+                    <div className="space-y-6">
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Home className="h-5 w-5" />
+                          Interior Features
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="air-conditioning" />
+                            <label htmlFor="air-conditioning" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Wind className="h-4 w-4" />
+                              Air Conditioning
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="heating" />
+                            <label htmlFor="heating" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Heater className="h-4 w-4" />
+                              Central Heating
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="fireplace" />
+                            <label htmlFor="fireplace" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Flame className="h-4 w-4" />
+                              Fireplace
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="hardwood-floors" />
+                            <label htmlFor="hardwood-floors" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Hardwood Floors
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="ceramic-tiles" />
+                            <label htmlFor="ceramic-tiles" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Ceramic Tiles
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="marble-floors" />
+                            <label htmlFor="marble-floors" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Marble Floors
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="built-in-wardrobes" />
+                            <label htmlFor="built-in-wardrobes" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Shirt className="h-4 w-4" />
+                              Built-in Wardrobes
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="walk-in-closet" />
+                            <label htmlFor="walk-in-closet" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Walk-in Closet
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Utensils className="h-5 w-5" />
+                          Kitchen & Dining
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="equipped-kitchen" />
+                            <label htmlFor="equipped-kitchen" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Equipped Kitchen
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="dishwasher" />
+                            <label htmlFor="dishwasher" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Dishwasher
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="oven" />
+                            <label htmlFor="oven" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Built-in Oven
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="microwave" />
+                            <label htmlFor="microwave" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Microwave
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="refrigerator" />
+                            <label htmlFor="refrigerator" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Refrigerator
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="breakfast-bar" />
+                            <label htmlFor="breakfast-bar" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Coffee className="h-4 w-4" />
+                              Breakfast Bar
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="dining-area" />
+                            <label htmlFor="dining-area" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Separate Dining Area
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="laundry-room" />
+                            <label htmlFor="laundry-room" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Laundry Room
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Bath className="h-5 w-5" />
+                          Bathroom Features
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="ensuite-bathroom" />
+                            <label htmlFor="ensuite-bathroom" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              En-suite Bathroom
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="guest-bathroom" />
+                            <label htmlFor="guest-bathroom" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Guest Bathroom
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="bathtub" />
+                            <label htmlFor="bathtub" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Bathtub
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="shower-cabin" />
+                            <label htmlFor="shower-cabin" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Shower Cabin
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="jacuzzi" />
+                            <label htmlFor="jacuzzi" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Waves className="h-4 w-4" />
+                              Jacuzzi/Hot Tub
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="powder-room" />
+                            <label htmlFor="powder-room" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Powder Room
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <TreePine className="h-5 w-5" />
+                          Outdoor Features
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="balcony" />
+                            <label htmlFor="balcony" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Balcony
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="terrace" />
+                            <label htmlFor="terrace" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Terrace
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="garden" />
+                            <label htmlFor="garden" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Private Garden
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="swimming-pool" />
+                            <label htmlFor="swimming-pool" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Waves className="h-4 w-4" />
+                              Swimming Pool
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="bbq-area" />
+                            <label htmlFor="bbq-area" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              BBQ Area
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="parking-garage" />
+                            <label htmlFor="parking-garage" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <ParkingCircle className="h-4 w-4" />
+                              Covered Parking
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="outdoor-parking" />
+                            <label htmlFor="outdoor-parking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Car className="h-4 w-4" />
+                              Outdoor Parking
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="storage-room" />
+                            <label htmlFor="storage-room" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Storage Room
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Shield className="h-5 w-5" />
+                          Building Amenities
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="elevator" />
+                            <label htmlFor="elevator" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Elevator
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="security" />
+                            <label htmlFor="security" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Shield className="h-4 w-4" />
+                              Security/Concierge
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="gym" />
+                            <label htmlFor="gym" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Dumbbell className="h-4 w-4" />
+                              Gym/Fitness Center
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="spa" />
+                            <label htmlFor="spa" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <HeartHandshake className="h-4 w-4" />
+                              Spa/Wellness
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="kids-area" />
+                            <label htmlFor="kids-area" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Gamepad2 className="h-4 w-4" />
+                              Kids Play Area
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="business-center" />
+                            <label htmlFor="business-center" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Laptop className="h-4 w-4" />
+                              Business Center
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="conference-room" />
+                            <label htmlFor="conference-room" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Conference Room
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="reception" />
+                            <label htmlFor="reception" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Reception/Lobby
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Wifi className="h-5 w-5" />
+                          Technology & Utilities
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="wifi" />
+                            <label htmlFor="wifi" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Wifi className="h-4 w-4" />
+                              WiFi/Internet
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="cable-tv" />
+                            <label htmlFor="cable-tv" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Tv className="h-4 w-4" />
+                              Cable/Satellite TV
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="intercom" />
+                            <label htmlFor="intercom" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Intercom System
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="smart-home" />
+                            <label htmlFor="smart-home" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Zap className="h-4 w-4" />
+                              Smart Home Features
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="solar-panels" />
+                            <label htmlFor="solar-panels" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Solar Panels
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="backup-generator" />
+                            <label htmlFor="backup-generator" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Backup Generator
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <AlertTriangle className="h-5 w-5" />
+                          Policies & Rules
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="pets-allowed" />
+                            <label htmlFor="pets-allowed" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Dog className="h-4 w-4" />
+                              Pets Allowed
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="smoking-allowed" />
+                            <label htmlFor="smoking-allowed" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <Cigarette className="h-4 w-4" />
+                              Smoking Allowed
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="events-allowed" />
+                            <label htmlFor="events-allowed" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
+                              <PartyPopper className="h-4 w-4" />
+                              Events Allowed
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox id="short-term-rental" />
+                            <label htmlFor="short-term-rental" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Short-term Rental OK
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {category !== "real-estate" && (
+                    <div className="text-center py-8">
+                      <p className="text-muted-foreground">Amenities selection for {category} category will be implemented here.</p>
+                    </div>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="media" className="space-y-4">
