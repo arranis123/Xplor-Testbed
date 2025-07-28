@@ -17,36 +17,38 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    /* Updated primary colors using the provided color scheme */
+    --primary: 64 91% 75%; /* Primary 500: 232 247 147 converted to HSL */
+    --primary-foreground: 0 0% 9%;
 
-    --secondary: 0 0% 96.1%;
+    --secondary: 216 17% 93%; /* Gray 50: 234 236 240 converted to HSL */
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted: 216 17% 93%; /* Gray 50: 234 236 240 */
+    --muted-foreground: 227 6% 63%; /* Gray 500: 152 153 172 converted to HSL */
 
-    --accent: 0 0% 96.1%;
+    --accent: 216 17% 93%;
     --accent-foreground: 0 0% 9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 9%;
+    --border: 216 17% 93%;
+    --input: 216 17% 93%;
+    --ring: 64 91% 75%;
 
     --radius: 0.5rem;
 
-    /* Xplor brand colors - black, white, yellow, grey */
-    --xplor-yellow: 48 100% 50%;
-    --xplor-yellow-light: 48 100% 60%;
+    /* Updated Xplor brand colors using the new color scheme */
+    --xplor-yellow: 64 91% 75%; /* Primary 500 */
+    --xplor-yellow-light: 49 91% 84%; /* Primary 200: 254 240 138 converted to HSL */
+    --xplor-yellow-dark: 48 92% 53%; /* Primary 400: 250 204 21 converted to HSL */
     --xplor-black: 0 0% 9%;
-    --xplor-grey: 0 0% 45%;
-    --xplor-grey-light: 0 0% 75%;
+    --xplor-grey: 227 6% 63%; /* Gray 500 */
+    --xplor-grey-light: 216 17% 93%; /* Gray 50 */
     
     /* Custom gradients and effects */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-grey)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-yellow) / 0.3));
     --gradient-card: linear-gradient(145deg, hsl(var(--xplor-yellow) / 0.05), hsl(var(--xplor-grey) / 0.05));
     --shadow-soft: 0 1px 3px 0 hsl(var(--xplor-black) / 0.1), 0 1px 2px 0 hsl(var(--xplor-black) / 0.06);
     --shadow-medium: 0 4px 6px -1px hsl(var(--xplor-black) / 0.1), 0 2px 4px -1px hsl(var(--xplor-black) / 0.06);
@@ -79,14 +81,15 @@ All colors MUST be HSL.
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 98%;
+    /* Dark mode uses the brighter yellow as primary */
+    --primary: 48 92% 53%; /* Primary 400: 250 204 21 */
     --primary-foreground: 0 0% 9%;
 
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
 
     --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted-foreground: 227 6% 63%; /* Gray 500 */
 
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
@@ -96,11 +99,15 @@ All colors MUST be HSL.
 
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --ring: 48 92% 53%; /* Primary 400 for dark mode ring */
+    
+    /* Update xplor colors for dark mode */
+    --xplor-yellow: 48 92% 53%; /* Primary 400 for dark mode */
+    --xplor-yellow-light: 49 91% 84%; /* Primary 200 */
     
     /* Dark mode adjustments */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-yellow) / 0.8));
-    --gradient-card: linear-gradient(145deg, hsl(var(--xplor-yellow) / 0.1), hsl(var(--xplor-grey) / 0.1));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--xplor-black)), hsl(var(--xplor-yellow) / 0.6));
+    --gradient-card: linear-gradient(145deg, hsl(var(--xplor-yellow) / 0.08), hsl(var(--xplor-grey) / 0.1));
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

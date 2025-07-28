@@ -54,6 +54,7 @@ export default {
 				},
 				'xplor-yellow': 'hsl(var(--xplor-yellow))',
 				'xplor-yellow-light': 'hsl(var(--xplor-yellow-light))',
+				'xplor-yellow-dark': 'hsl(var(--xplor-yellow-dark))',
 				'xplor-black': 'hsl(var(--xplor-black))',
 				'xplor-grey': 'hsl(var(--xplor-grey))',
 				'xplor-grey-light': 'hsl(var(--xplor-grey-light))',
