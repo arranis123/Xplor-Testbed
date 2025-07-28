@@ -26,6 +26,76 @@ import {
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 const Statistics = () => {
+  const exportToExcel = () => {
+    // Create Excel data
+    const data = [
+      ['Metric', 'Value', 'Change'],
+      ['Total Views', '12,847', '+18.2%'],
+      ['Unique Visitors', '8,432', '+12.5%'],
+      ['Avg. Session Time', '4:23', '+8.7%'],
+      ['Active Spaces', '24', '+2'],
+      ['', '', ''],
+      ['Top Spaces', 'Views', 'Unique Views'],
+      ...topSpaces.map(space => [space.name, space.views, space.uniqueViews])
+    ];
+    
+    const csvContent = data.map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'application/vnd.ms-excel' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'statistics-export.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
+  const exportToPDF = () => {
+    // Create a simple HTML content for PDF
+    const htmlContent = `
+      <html>
+        <head>
+          <title>Statistics Report</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+          </style>
+        </head>
+        <body>
+          <h1>Statistics & Analytics Report</h1>
+          <h2>Key Metrics</h2>
+          <table>
+            <tr><th>Metric</th><th>Value</th><th>Change</th></tr>
+            <tr><td>Total Views</td><td>12,847</td><td>+18.2%</td></tr>
+            <tr><td>Unique Visitors</td><td>8,432</td><td>+12.5%</td></tr>
+            <tr><td>Avg. Session Time</td><td>4:23</td><td>+8.7%</td></tr>
+            <tr><td>Active Spaces</td><td>24</td><td>+2</td></tr>
+          </table>
+          <h2>Top Performing Spaces</h2>
+          <table>
+            <tr><th>Space Name</th><th>Views</th><th>Unique Views</th><th>Avg. Time</th></tr>
+            ${topSpaces.map(space => 
+              `<tr><td>${space.name}</td><td>${space.views}</td><td>${space.uniqueViews}</td><td>${space.avgTime}</td></tr>`
+            ).join('')}
+          </table>
+        </body>
+      </html>
+    `;
+    
+    const blob = new Blob([htmlContent], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'statistics-report.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
   // Sample data for charts
   const viewsData = [
     { date: "Jan 1", views: 245, uniqueViews: 189 },
@@ -95,11 +165,11 @@ const Statistics = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => console.log('Exporting to Excel...')}>
+              <DropdownMenuItem onClick={exportToExcel}>
                 <FileText className="h-4 w-4 mr-2" />
                 Export to Excel
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => console.log('Exporting to PDF...')}>
+              <DropdownMenuItem onClick={exportToPDF}>
                 <Download className="h-4 w-4 mr-2" />
                 Export to PDF
               </DropdownMenuItem>
