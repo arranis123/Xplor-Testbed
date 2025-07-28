@@ -29,6 +29,7 @@ const uploadFormSchema = z.object({
   yachtSizeClass: z.string().optional(),
   yachtStyleLayout: z.string().optional(),
   yachtSpecialPurpose: z.string().optional(),
+  yachtMaterialsBuildType: z.string().optional(),
   yachtSubtype: z.string().optional(),
   yachtUsePurpose: z.string().optional(),
   yachtUsePurposeSubtype: z.string().optional(),
@@ -167,6 +168,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtSizeClass: "",
       yachtStyleLayout: "",
       yachtSpecialPurpose: "",
+      yachtMaterialsBuildType: "",
       yachtSubtype: "",
       yachtUsePurpose: "",
       yachtUsePurposeSubtype: "",
@@ -377,6 +379,18 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "stealth", label: "Stealth Yacht (military-derived designs)" },
     { value: "autonomous-ai", label: "Autonomous / AI-Powered Yacht" },
     { value: "sail-assisted-motor", label: "Sail-Assisted Motor Yacht (e.g. Perini Navi Falcon rigs)" },
+  ];
+
+  const yachtMaterialsBuildTypes = [
+    { value: "fiberglass-grp", label: "Fiberglass/GRP (Glass Reinforced Plastic)" },
+    { value: "carbon-fiber", label: "Carbon Fiber" },
+    { value: "aluminum", label: "Aluminum" },
+    { value: "steel", label: "Steel" },
+    { value: "wood-traditional", label: "Wood (Traditional)" },
+    { value: "composite-materials", label: "Composite Materials" },
+    { value: "kevlar", label: "Kevlar" },
+    { value: "titanium", label: "Titanium (Luxury)" },
+    { value: "hybrid-materials", label: "Hybrid Materials" },
   ];
 
   const charterYachtSubtypes = [
@@ -890,6 +904,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    {yachtStyleLayouts.map((style) => (
                                      <SelectItem key={style.value} value={style.value}>
                                        {style.label}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
+                       
+                       {category === "yacht" && (
+                         <FormField
+                           control={form.control}
+                           name="yachtMaterialsBuildType"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Materials / Build Types</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select materials/build type" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   {yachtMaterialsBuildTypes.map((material) => (
+                                     <SelectItem key={material.value} value={material.value}>
+                                       {material.label}
                                      </SelectItem>
                                    ))}
                                  </SelectContent>
