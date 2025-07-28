@@ -2,6 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { Menu, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -24,9 +25,11 @@ export function AppLayout({ children }: AppLayoutProps) {
             </div>
             
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm">
-                <User className="h-4 w-4 mr-2" />
-                Account
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/accounts">
+                  <User className="h-4 w-4 mr-2" />
+                  Account
+                </Link>
               </Button>
               <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                 Upgrade
