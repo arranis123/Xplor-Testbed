@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HotelUploadForm } from "./HotelUploadForm";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -52,6 +53,22 @@ const uploadFormSchema = z.object({
   bookingType: z.string().optional(),
   availability: z.string().min(1, "Please select availability"),
   visibility: z.string().min(1, "Please select visibility"),
+  // Hotel-specific fields
+  hotelStarRating: z.string().optional(),
+  hotelChain: z.string().optional(),
+  roomType: z.string().optional(),
+  bedConfiguration: z.string().optional(),
+  maxOccupancy: z.string().optional(),
+  roomSize: z.string().optional(),
+  floorLevel: z.string().optional(),
+  averageNightlyRate: z.string().optional(),
+  seasonalPricing: z.string().optional(),
+  minimumStay: z.string().optional(),
+  hotelAmenities: z.array(z.string()).optional(),
+  checkInTime: z.string().optional(),
+  checkOutTime: z.string().optional(),
+  hotelPolicies: z.string().optional(),
+  nearbyAttractions: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -108,6 +125,22 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       bookingType: "",
       availability: "",
       visibility: "public",
+      // Hotel-specific default values
+      hotelStarRating: "",
+      hotelChain: "",
+      roomType: "",
+      bedConfiguration: "",
+      maxOccupancy: "",
+      roomSize: "",
+      floorLevel: "",
+      averageNightlyRate: "",
+      seasonalPricing: "",
+      minimumStay: "",
+      hotelAmenities: [],
+      checkInTime: "",
+      checkOutTime: "",
+      hotelPolicies: "",
+      nearbyAttractions: "",
     },
   });
 
@@ -296,10 +329,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className="grid w-full grid-cols-6">
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort") ? "grid-cols-5" : "grid-cols-6"}`}>
                   <TabsTrigger value="basic">Basic Info</TabsTrigger>
-                  <TabsTrigger value="details">Property Details</TabsTrigger>
-                  <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  {(category === "hotel" || category === "hotel/resort") ? (
+                    <TabsTrigger value="hotel-details">Hotel Details</TabsTrigger>
+                  ) : (
+                    <TabsTrigger value="details">Property Details</TabsTrigger>
+                  )}
+                  {!(category === "hotel" || category === "hotel/resort") && (
+                    <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  )}
                   <TabsTrigger value="rules">Rules & Access</TabsTrigger>
                   <TabsTrigger value="media">Media Upload</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -408,7 +447,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                   />
                 </TabsContent>
 
-                <TabsContent value="details" className="space-y-4">
+                {(category === "hotel" || category === "hotel/resort") ? (
+                  <TabsContent value="hotel-details" className="space-y-4">
+                    <HotelUploadForm form={form} />
+                  </TabsContent>
+                ) : (
+                  <TabsContent value="details" className="space-y-4">
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <FormField
                       control={form.control}
@@ -811,11 +855,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           </div>
                         </>
                       )}
-                    </>
-                  )}
-                </TabsContent>
+                     </>
+                   )}
+                 </TabsContent>
+                )}
 
-                <TabsContent value="amenities" className="space-y-4">
+                {!(category === "hotel" || category === "hotel/resort") && (
+                  <TabsContent value="amenities" className="space-y-4">
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
@@ -974,10 +1020,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         />
                       </div>
                     )}
-                  </div>
-                </TabsContent>
+                   </div>
+                 </TabsContent>
+                )}
 
-                <TabsContent value="rules" className="space-y-4">
+                 <TabsContent value="rules" className="space-y-4">
                   <div className="space-y-6">
                     {isRentalProperty && (
                       <>
