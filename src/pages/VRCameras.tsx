@@ -19,45 +19,45 @@ import vrTechImage from "@/assets/vr-tech.jpg";
 const VRCameras = () => {
   const cameraSpecs = [
     {
-      name: "Pro VR 360",
-      price: "$2,999",
-      image: "📹",
-      specs: ["8K 360° recording", "Real-time streaming", "6DoF tracking", "120fps capture"],
-      useCases: ["Professional content creation", "Virtual tours", "Live events"],
+      name: "Matterport Pro3",
+      price: "$5,995",
+      image: "📷",
+      specs: ["LiDAR Technology", "Indoor/Outdoor capture", "3D point cloud data", "E57 export capability"],
+      useCases: ["Architecture & Construction", "Industrial documentation", "Large commercial spaces"],
       popular: true
     },
     {
-      name: "Creator VR Cam",
-      price: "$1,299",
-      image: "🎥",
-      specs: ["4K 360° recording", "Mobile app control", "Image stabilization", "60fps capture"],
-      useCases: ["Social media", "Real estate", "Education"],
+      name: "Matterport Pro2",
+      price: "$3,395",
+      image: "📹",
+      specs: ["Structured light technology", "4K photography", "Infrared depth sensor", "134MP resolution"],
+      useCases: ["Real estate", "Hospitality", "Retail spaces"],
       popular: false
     },
     {
-      name: "Enterprise VR Suite",
-      price: "$5,999",
-      image: "📷",
-      specs: ["12K recording", "Multi-camera sync", "AI-powered editing", "240fps capture"],
-      useCases: ["Training simulations", "Industrial documentation", "Medical applications"],
+      name: "Ricoh Theta Z1",
+      price: "$999",
+      image: "🎥",
+      specs: ["360° capture", "4K video recording", "Dual fisheye lenses", "Mobile app control"],
+      useCases: ["Quick virtual tours", "Social media content", "Small residential spaces"],
       popular: false
     }
   ];
 
   const accessories = [
-    { name: "VR Tripod Pro", price: "$299", description: "Professional-grade stabilization" },
-    { name: "Wireless Control Hub", price: "$199", description: "Remote camera control system" },
-    { name: "Memory Card Bundle", price: "$149", description: "High-speed storage solutions" },
-    { name: "Lens Protection Kit", price: "$79", description: "Keep your lenses pristine" }
+    { name: "Matterport Tripod", price: "$299", description: "Professional-grade stabilization for Pro3/Pro2" },
+    { name: "Extra Battery Pack", price: "$149", description: "Extended capture sessions" },
+    { name: "Carrying Case Pro", price: "$199", description: "Protective transport solution" },
+    { name: "Lens Cleaning Kit", price: "$49", description: "Keep your camera pristine" }
   ];
 
   const contentCreationTools = [
-    "360° Video Editor",
-    "VR Viewer App",
-    "Cloud Processing",
-    "Live Streaming Platform",
-    "Asset Library",
-    "Collaboration Tools"
+    "Matterport Cloud Processing",
+    "3D Showcase Platform",
+    "MatterPak™ Bundle",
+    "E57 Point Cloud Export",
+    "SDK & API Access",
+    "White-label Solutions"
   ];
 
   return (
@@ -71,12 +71,12 @@ const VRCameras = () => {
                 VR CAMERAS & EQUIPMENT
               </Badge>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                Create stunning VR content with professional cameras.
+                Professional Matterport 3D cameras for digital twins.
               </h1>
             </div>
             <p className="text-xl text-muted-foreground">
-              Capture immersive 360° experiences with our professional VR camera lineup. 
-              From content creators to enterprise solutions, we have the perfect camera for your needs.
+              Capture precise 3D digital twins with Matterport's professional camera lineup. 
+              From real estate to architecture, we have the perfect solution for creating immersive 3D experiences.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
@@ -103,10 +103,10 @@ const VRCameras = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Professional VR Camera Lineup
+              Matterport 3D Camera Lineup
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Choose from our range of professional VR cameras designed for different needs and budgets.
+              Choose from Matterport's range of professional 3D cameras designed for different capture needs and project scales.
             </p>
           </div>
 
