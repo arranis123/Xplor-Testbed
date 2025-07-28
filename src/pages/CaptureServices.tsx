@@ -185,7 +185,7 @@ const CaptureServices = () => {
                       </CardHeader>
                       <CardContent>
                         <Button variant="outline" className="w-full">
-                          Explore 3D Space
+                          View 3D portfolio
                         </Button>
                       </CardContent>
                     </Card>
