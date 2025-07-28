@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
 import Statistics from "./pages/Statistics";
 import CaptureServices from "./pages/CaptureServices";
+import Trial from "./pages/Trial";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout><Index /></AppLayout>} />
+          <Route path="/trial" element={<Trial />} />
           <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
           
           {/* Matterport-style workspace routes */}

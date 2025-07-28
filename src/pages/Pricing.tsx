@@ -14,6 +14,7 @@ import {
   Crown,
   Building
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Pricing = () => {
   const pricingTiers = [
@@ -49,7 +50,7 @@ const Pricing = () => {
         "Public user profile",
         "Priority email support"
       ],
-      buttonText: "Start Pro Trial",
+      buttonText: "Start Free Trial",
       buttonVariant: "default" as const,
       popular: true,
       icon: Zap
@@ -69,7 +70,7 @@ const Pricing = () => {
         "Team collaboration tools",
         "Phone & email support"
       ],
-      buttonText: "Start Business Trial",
+      buttonText: "Start Free Trial",
       buttonVariant: "outline" as const,
       popular: false,
       icon: Users
@@ -199,9 +200,19 @@ const Pricing = () => {
                         : ''
                     }`}
                     variant={tier.buttonVariant}
+                    asChild={tier.name !== 'Enterprise'}
                   >
-                    {tier.buttonText}
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    {tier.name !== 'Enterprise' ? (
+                      <Link to="/trial">
+                        {tier.buttonText}
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Link>
+                    ) : (
+                      <>
+                        {tier.buttonText}
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </>
+                    )}
                   </Button>
                 </CardContent>
               </Card>
@@ -319,8 +330,8 @@ const Pricing = () => {
             Join thousands of professionals who trust Xplor for their virtual tour needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
-              Start Free Trial
+            <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" asChild>
+              <Link to="/trial">Start Free Trial</Link>
             </Button>
             <Button size="lg" variant="outline">
               Schedule Demo
