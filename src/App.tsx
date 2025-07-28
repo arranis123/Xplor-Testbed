@@ -9,9 +9,12 @@ import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
 import Statistics from "./pages/Statistics";
-import CaptureServices from "./pages/CaptureServices";
 import Trial from "./pages/Trial";
 import NotFound from "./pages/NotFound";
+
+// Dynamic import for CaptureServices to avoid potential circular dependency issues
+import { lazy } from "react";
+const CaptureServices = lazy(() => import("./pages/CaptureServices"));
 
 const queryClient = new QueryClient();
 
