@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Gigs from "./pages/Gigs";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
+import Statistics from "./pages/Statistics";
 import CaptureServices from "./pages/CaptureServices";
 import NotFound from "./pages/NotFound";
 
@@ -27,7 +28,7 @@ const App = () => (
           <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/spaces" element={<AppLayout><Spaces /></AppLayout>} />
           <Route path="/public-spaces" element={<AppLayout><div className="p-6"><h1 className="text-2xl font-bold">Public & Unlisted Spaces</h1><p className="text-muted-foreground">Manage public and unlisted space visibility</p></div></AppLayout>} />
-          <Route path="/statistics" element={<AppLayout><div className="p-6"><h1 className="text-2xl font-bold">Statistics</h1><p className="text-muted-foreground">Analytics and performance metrics</p></div></AppLayout>} />
+          <Route path="/statistics" element={<AppLayout><Statistics /></AppLayout>} />
           <Route path="/capture-services" element={<AppLayout><CaptureServices /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p className="text-muted-foreground">Account and workspace settings</p></div></AppLayout>} />
           
