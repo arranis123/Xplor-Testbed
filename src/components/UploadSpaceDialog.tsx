@@ -682,38 +682,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            </FormItem>
                          )}
                        />
-                      )}
-                      
-                      {category === "yacht" && form.watch("yachtUsePurpose") === "sport-leisure" && (
-                        <FormField
-                          control={form.control}
-                          name="yachtUsePurposeSubtype"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Sport & Leisure Yacht Type</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select sport & leisure yacht type" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="sports-yacht">Sports Yacht</SelectItem>
-                                  <SelectItem value="day-cruiser">Day Cruiser</SelectItem>
-                                  <SelectItem value="watersports-yacht">Watersports Yacht</SelectItem>
-                                  <SelectItem value="fishing-yacht">Fishing Yacht</SelectItem>
-                                  <SelectItem value="sportfisher">Sportfisher</SelectItem>
-                                  <SelectItem value="convertible-fishing-yacht">Convertible Fishing Yacht</SelectItem>
-                                  <SelectItem value="walkaround-fishing-yacht">Walkaround Fishing Yacht</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      )}
-                      
-                      {category === "yacht" && form.watch("yachtUsePurpose") === "private" && (
+                     )}
+                     
+                     {category === "yacht" && form.watch("yachtUsePurpose") === "private" && (
                        <FormField
                          control={form.control}
                          name="yachtUsePurposeSubtype"
