@@ -37,9 +37,10 @@ type UploadFormValues = z.infer<typeof uploadFormSchema>;
 interface UploadSpaceDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  category?: string;
 }
 
-export function UploadSpaceDialog({ open, onOpenChange }: UploadSpaceDialogProps) {
+export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceDialogProps) {
   const { toast } = useToast();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);

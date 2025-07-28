@@ -1,14 +1,16 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area, AreaChart } from 'recharts';
 import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   
   const stats = [
     { title: "Total Spaces", value: "24", icon: FolderOpen, color: "text-blue-600", change: "+12%" },
@@ -65,13 +67,44 @@ const Dashboard = () => {
             <Crown className="h-4 w-4" />
             {subscriptionData.plan}
           </Badge>
-          <Button 
-            className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black"
-            onClick={() => setUploadDialogOpen(true)}
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Space
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+                <Plus className="h-4 w-4 mr-2" />
+                New Space
+                <ChevronDown className="h-4 w-4 ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("real-estate");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Real Estate
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("yacht");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Yacht
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("hotel-resort");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Hotel/Resort
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -240,14 +273,44 @@ const Dashboard = () => {
               <Camera className="h-4 w-4 mr-2" />
               Schedule Capture Service
             </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start"
-              onClick={() => setUploadDialogOpen(true)}
-            >
-              <FolderOpen className="h-4 w-4 mr-2" />
-              Upload New Space
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-full justify-start">
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Upload New Space
+                  <ChevronDown className="h-4 w-4 ml-auto" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-48">
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("real-estate");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Real Estate
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("yacht");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Yacht
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("hotel-resort");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Hotel/Resort
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="outline" className="w-full justify-start">
               <BarChart3 className="h-4 w-4 mr-2" />
               View Analytics
@@ -262,7 +325,8 @@ const Dashboard = () => {
 
       <UploadSpaceDialog 
         open={uploadDialogOpen} 
-        onOpenChange={setUploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen}
+        category={selectedCategory}
       />
     </div>
   );
