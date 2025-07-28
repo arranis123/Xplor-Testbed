@@ -33,6 +33,58 @@ const Settings = () => {
   const [marketingEmails, setMarketingEmails] = useState(false);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
 
+  const timezones = [
+    { value: "utc", label: "UTC (Coordinated Universal Time)" },
+    { value: "america/new_york", label: "America/New York (EST/EDT)" },
+    { value: "america/chicago", label: "America/Chicago (CST/CDT)" },
+    { value: "america/denver", label: "America/Denver (MST/MDT)" },
+    { value: "america/los_angeles", label: "America/Los Angeles (PST/PDT)" },
+    { value: "america/anchorage", label: "America/Anchorage (AKST/AKDT)" },
+    { value: "pacific/honolulu", label: "Pacific/Honolulu (HST)" },
+    { value: "america/toronto", label: "America/Toronto (EST/EDT)" },
+    { value: "america/vancouver", label: "America/Vancouver (PST/PDT)" },
+    { value: "america/mexico_city", label: "America/Mexico City (CST/CDT)" },
+    { value: "america/sao_paulo", label: "America/Sao Paulo (BRT)" },
+    { value: "america/argentina/buenos_aires", label: "America/Buenos Aires (ART)" },
+    { value: "europe/london", label: "Europe/London (GMT/BST)" },
+    { value: "europe/paris", label: "Europe/Paris (CET/CEST)" },
+    { value: "europe/berlin", label: "Europe/Berlin (CET/CEST)" },
+    { value: "europe/rome", label: "Europe/Rome (CET/CEST)" },
+    { value: "europe/madrid", label: "Europe/Madrid (CET/CEST)" },
+    { value: "europe/amsterdam", label: "Europe/Amsterdam (CET/CEST)" },
+    { value: "europe/zurich", label: "Europe/Zurich (CET/CEST)" },
+    { value: "europe/vienna", label: "Europe/Vienna (CET/CEST)" },
+    { value: "europe/prague", label: "Europe/Prague (CET/CEST)" },
+    { value: "europe/warsaw", label: "Europe/Warsaw (CET/CEST)" },
+    { value: "europe/stockholm", label: "Europe/Stockholm (CET/CEST)" },
+    { value: "europe/helsinki", label: "Europe/Helsinki (EET/EEST)" },
+    { value: "europe/moscow", label: "Europe/Moscow (MSK)" },
+    { value: "europe/istanbul", label: "Europe/Istanbul (TRT)" },
+    { value: "asia/dubai", label: "Asia/Dubai (GST)" },
+    { value: "asia/karachi", label: "Asia/Karachi (PKT)" },
+    { value: "asia/kolkata", label: "Asia/Kolkata (IST)" },
+    { value: "asia/dhaka", label: "Asia/Dhaka (BST)" },
+    { value: "asia/bangkok", label: "Asia/Bangkok (ICT)" },
+    { value: "asia/jakarta", label: "Asia/Jakarta (WIB)" },
+    { value: "asia/singapore", label: "Asia/Singapore (SGT)" },
+    { value: "asia/hong_kong", label: "Asia/Hong Kong (HKT)" },
+    { value: "asia/taipei", label: "Asia/Taipei (CST)" },
+    { value: "asia/manila", label: "Asia/Manila (PST)" },
+    { value: "asia/tokyo", label: "Asia/Tokyo (JST)" },
+    { value: "asia/seoul", label: "Asia/Seoul (KST)" },
+    { value: "asia/shanghai", label: "Asia/Shanghai (CST)" },
+    { value: "australia/sydney", label: "Australia/Sydney (AEST/AEDT)" },
+    { value: "australia/melbourne", label: "Australia/Melbourne (AEST/AEDT)" },
+    { value: "australia/brisbane", label: "Australia/Brisbane (AEST)" },
+    { value: "australia/perth", label: "Australia/Perth (AWST)" },
+    { value: "pacific/auckland", label: "Pacific/Auckland (NZST/NZDT)" },
+    { value: "pacific/fiji", label: "Pacific/Fiji (FJT)" },
+    { value: "africa/cairo", label: "Africa/Cairo (EET)" },
+    { value: "africa/johannesburg", label: "Africa/Johannesburg (SAST)" },
+    { value: "africa/lagos", label: "Africa/Lagos (WAT)" },
+    { value: "africa/nairobi", label: "Africa/Nairobi (EAT)" }
+  ];
+
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       {/* Header */}
@@ -421,15 +473,16 @@ const Settings = () => {
               <Separator />
               <div className="space-y-2">
                 <Label htmlFor="timezone">Timezone</Label>
-                <Select defaultValue="pst">
-                  <SelectTrigger className="w-64">
-                    <SelectValue />
+                <Select defaultValue="america/new_york">
+                  <SelectTrigger className="w-96">
+                    <SelectValue placeholder="Select your timezone" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="pst">Pacific Standard Time</SelectItem>
-                    <SelectItem value="mst">Mountain Standard Time</SelectItem>
-                    <SelectItem value="cst">Central Standard Time</SelectItem>
-                    <SelectItem value="est">Eastern Standard Time</SelectItem>
+                  <SelectContent className="max-h-60">
+                    {timezones.map((timezone) => (
+                      <SelectItem key={timezone.value} value={timezone.value}>
+                        {timezone.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
