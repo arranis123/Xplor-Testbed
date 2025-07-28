@@ -79,52 +79,6 @@ const uploadFormSchema = z.object({
   latitude: z.string().optional(),
   longitude: z.string().optional(),
   googlePlusCode: z.string().optional(),
-  // Property Specifications
-  price: z.string().optional(),
-  currency: z.string().optional(),
-  pricePerSqm: z.string().optional(),
-  areaSize: z.string().optional(),
-  areaUnit: z.string().optional(),
-  plotSize: z.string().optional(),
-  plotUnit: z.string().optional(),
-  parkingSpaces: z.string().optional(),
-  balconies: z.string().optional(),
-  floors: z.string().optional(),
-  floorNumber: z.string().optional(),
-  propertyCondition: z.string().optional(),
-  // Construction & Style
-  constructionStatus: z.string().optional(),
-  furnishing: z.string().optional(),
-  buildingType: z.string().optional(),
-  architectureStyle: z.string().optional(),
-  // Ownership & Legal
-  ownershipType: z.string().optional(),
-  titleDeedAvailable: z.string().optional(),
-  mortgageStatus: z.string().optional(),
-  tenancyStatus: z.string().optional(),
-  occupancyCertificate: z.string().optional(),
-  // Features & Amenities
-  propertyFeatures: z.array(z.string()).optional(),
-  buildingFeatures: z.array(z.string()).optional(),
-  // Availability & Contact
-  availabilityDate: z.date().optional(),
-  openHouseDates: z.string().optional(),
-  sellerAgentName: z.string().optional(),
-  contactPhone: z.string().optional(),
-  contactEmail: z.string().optional(),
-  agencyName: z.string().optional(),
-  agentLicense: z.string().optional(),
-  preferredContactMethod: z.string().optional(),
-  // SEO & Meta Fields
-  seoTitle: z.string().optional(),
-  metaDescription: z.string().optional(),
-  urlSlug: z.string().optional(),
-  // Internal Use Fields
-  listingId: z.string().optional(),
-  listingStatus: z.string().optional(),
-  featuredListing: z.string().optional(),
-  dateListed: z.date().optional(),
-  lastUpdated: z.date().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -207,49 +161,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       latitude: "",
       longitude: "",
       googlePlusCode: "",
-      // Property Specifications default values
-      price: "",
-      currency: "USD",
-      pricePerSqm: "",
-      areaSize: "",
-      areaUnit: "sqft",
-      plotSize: "",
-      plotUnit: "sqft",
-      parkingSpaces: "",
-      balconies: "",
-      floors: "",
-      floorNumber: "",
-      propertyCondition: "",
-      // Construction & Style default values
-      constructionStatus: "",
-      furnishing: "",
-      buildingType: "",
-      architectureStyle: "",
-      // Ownership & Legal default values
-      ownershipType: "",
-      titleDeedAvailable: "",
-      mortgageStatus: "",
-      tenancyStatus: "",
-      occupancyCertificate: "",
-      // Features & Amenities default values
-      propertyFeatures: [],
-      buildingFeatures: [],
-      // Availability & Contact default values
-      openHouseDates: "",
-      sellerAgentName: "",
-      contactPhone: "",
-      contactEmail: "",
-      agencyName: "",
-      agentLicense: "",
-      preferredContactMethod: "",
-      // SEO & Meta Fields default values
-      seoTitle: "",
-      metaDescription: "",
-      urlSlug: "",
-      // Internal Use Fields default values
-      listingId: "",
-      listingStatus: "draft",
-      featuredListing: "",
     },
   });
 
@@ -546,831 +457,412 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     <HotelUploadForm form={form} />
                   </TabsContent>
                 ) : (
-                   <TabsContent value="details" className="space-y-6">
-                     <div className="space-y-8">
-                       {/* Property Specifications Section */}
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-medium flex items-center gap-2">
-                           <DollarSign className="h-5 w-5" />
-                           Property Specifications
-                         </h3>
-                         
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="price"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Price</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="e.g., 500000" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="currency"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Currency</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select currency" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="USD">USD ($)</SelectItem>
-                                     <SelectItem value="EUR">EUR (€)</SelectItem>
-                                     <SelectItem value="GBP">GBP (£)</SelectItem>
-                                     <SelectItem value="AED">AED (د.إ)</SelectItem>
-                                     <SelectItem value="CAD">CAD (C$)</SelectItem>
-                                     <SelectItem value="AUD">AUD (A$)</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
+                  <TabsContent value="details" className="space-y-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="bedrooms"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Bed className="h-4 w-4" />
+                            Bedrooms
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select bedrooms" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="studio">Studio</SelectItem>
+                              <SelectItem value="1">1 bedroom</SelectItem>
+                              <SelectItem value="2">2 bedrooms</SelectItem>
+                              <SelectItem value="3">3 bedrooms</SelectItem>
+                              <SelectItem value="4">4 bedrooms</SelectItem>
+                              <SelectItem value="5+">5+ bedrooms</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="bathrooms"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Bath className="h-4 w-4" />
+                            Bathrooms
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select bathrooms" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="1">1 bathroom</SelectItem>
+                              <SelectItem value="1.5">1.5 bathrooms</SelectItem>
+                              <SelectItem value="2">2 bathrooms</SelectItem>
+                              <SelectItem value="2.5">2.5 bathrooms</SelectItem>
+                              <SelectItem value="3">3 bathrooms</SelectItem>
+                              <SelectItem value="3.5">3.5 bathrooms</SelectItem>
+                              <SelectItem value="4+">4+ bathrooms</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="area"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Ruler className="h-4 w-4" />
+                            Area (sq ft)
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 1,200" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="yearBuilt"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Year Built</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 2020" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                         <FormField
-                           control={form.control}
-                           name="pricePerSqm"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Price per sqm/sqft (Optional)</FormLabel>
-                               <FormControl>
-                                 <Input placeholder="e.g., 1200" {...field} />
-                               </FormControl>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
+                  {/* Enhanced fields for real estate */}
+                  {category === "real-estate" && (
+                    <>
+                      {form.watch("listingType") === "for-sale" && (
+                        <div className="grid grid-cols-1 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="salePrice"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  <DollarSign className="h-4 w-4" />
+                                  Sale Price
+                                </FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., $500,000" {...field} />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
 
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="areaSize"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Area Size (Interior)</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="e.g., 1200" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="areaUnit"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Area Unit</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select unit" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="sqft">Square Feet (ft²)</SelectItem>
-                                     <SelectItem value="sqm">Square Meters (m²)</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
+                      {form.watch("listingType") === "for-rent" && (
+                        <>
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="rentalPriceRange"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="flex items-center gap-2">
+                                    <DollarSign className="h-4 w-4" />
+                                    Rental Price Range
+                                  </FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select price range" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="under-1000">Under $1,000/month</SelectItem>
+                                      <SelectItem value="1000-2000">$1,000 - $2,000/month</SelectItem>
+                                      <SelectItem value="2000-3000">$2,000 - $3,000/month</SelectItem>
+                                      <SelectItem value="3000-4000">$3,000 - $4,000/month</SelectItem>
+                                      <SelectItem value="4000-5000">$4,000 - $5,000/month</SelectItem>
+                                      <SelectItem value="over-5000">Over $5,000/month</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="rentalPeriod"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Rental Period</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select period" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="nightly">Nightly</SelectItem>
+                                      <SelectItem value="weekly">Weekly</SelectItem>
+                                      <SelectItem value="monthly">Monthly</SelectItem>
+                                      <SelectItem value="yearly">Yearly</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="beds"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="flex items-center gap-2">
+                                    <Bed className="h-4 w-4" />
+                                    Number of Beds
+                                  </FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select beds" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="1">1 bed</SelectItem>
+                                      <SelectItem value="2">2 beds</SelectItem>
+                                      <SelectItem value="3">3 beds</SelectItem>
+                                      <SelectItem value="4">4 beds</SelectItem>
+                                      <SelectItem value="5">5 beds</SelectItem>
+                                      <SelectItem value="6+">6+ beds</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="maxGuests"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="flex items-center gap-2">
+                                    <Users className="h-4 w-4" />
+                                    Max Guests
+                                  </FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select max guests" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="1">1 guest</SelectItem>
+                                      <SelectItem value="2">2 guests</SelectItem>
+                                      <SelectItem value="3">3 guests</SelectItem>
+                                      <SelectItem value="4">4 guests</SelectItem>
+                                      <SelectItem value="5">5 guests</SelectItem>
+                                      <SelectItem value="6">6 guests</SelectItem>
+                                      <SelectItem value="7">7 guests</SelectItem>
+                                      <SelectItem value="8">8 guests</SelectItem>
+                                      <SelectItem value="9+">9+ guests</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
 
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="plotSize"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Plot Size (for land/villas)</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="e.g., 2000" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="plotUnit"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Plot Unit</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select unit" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="sqft">Square Feet (ft²)</SelectItem>
-                                     <SelectItem value="sqm">Square Meters (m²)</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="adults"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Adults</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select adults" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(16)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'adult' : 'adults'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="children"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Children (Ages 2-12)</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select children" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(6)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'child' : 'children'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="infants"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Infants (Under 2)</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select infants" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(6)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'infant' : 'infants'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="pets"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pets</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select pets" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {[...Array(6)].map((_, i) => (
+                                        <SelectItem key={i} value={i.toString()}>
+                                          {i} {i === 1 ? 'pet' : 'pets'}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
 
-                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="bedrooms"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel className="flex items-center gap-2">
-                                   <Bed className="h-4 w-4" />
-                                   Bedrooms
-                                 </FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="studio">Studio</SelectItem>
-                                     <SelectItem value="1">1</SelectItem>
-                                     <SelectItem value="2">2</SelectItem>
-                                     <SelectItem value="3">3</SelectItem>
-                                     <SelectItem value="4">4</SelectItem>
-                                     <SelectItem value="5+">5+</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="bathrooms"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel className="flex items-center gap-2">
-                                   <Bath className="h-4 w-4" />
-                                   Bathrooms
-                                 </FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="1">1</SelectItem>
-                                     <SelectItem value="1.5">1.5</SelectItem>
-                                     <SelectItem value="2">2</SelectItem>
-                                     <SelectItem value="2.5">2.5</SelectItem>
-                                     <SelectItem value="3">3</SelectItem>
-                                     <SelectItem value="3.5">3.5</SelectItem>
-                                     <SelectItem value="4+">4+</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="parkingSpaces"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel className="flex items-center gap-2">
-                                   <Car className="h-4 w-4" />
-                                   Parking Spaces
-                                 </FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="0">None</SelectItem>
-                                     <SelectItem value="1">1</SelectItem>
-                                     <SelectItem value="2">2</SelectItem>
-                                     <SelectItem value="3">3</SelectItem>
-                                     <SelectItem value="4+">4+</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="balconies"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Balconies/Terraces</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="0">None</SelectItem>
-                                     <SelectItem value="1">1</SelectItem>
-                                     <SelectItem value="2">2</SelectItem>
-                                     <SelectItem value="3+">3+</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-
-                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="yearBuilt"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Year Built</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="e.g., 2020" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="floors"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Floors/Levels</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="1">1 Floor</SelectItem>
-                                     <SelectItem value="2">2 Floors</SelectItem>
-                                     <SelectItem value="3">3 Floors</SelectItem>
-                                     <SelectItem value="4+">4+ Floors</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="floorNumber"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Floor Number (for apartments)</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="e.g., 5" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="propertyCondition"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Property Condition</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select condition" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="new">New</SelectItem>
-                                     <SelectItem value="under-construction">Under Construction</SelectItem>
-                                     <SelectItem value="renovated">Renovated</SelectItem>
-                                     <SelectItem value="needs-renovation">Needs Renovation</SelectItem>
-                                     <SelectItem value="shell-core">Shell & Core</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-                       </div>
-
-                       {/* Construction & Style Section */}
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-medium flex items-center gap-2">
-                           🏗️ Construction & Style
-                         </h3>
-                         
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="constructionStatus"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Construction Status</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select status" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="off-plan">Off-plan</SelectItem>
-                                     <SelectItem value="ready-to-move">Ready to move</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="furnishing"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Furnishing</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select furnishing" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="fully-furnished">Fully Furnished</SelectItem>
-                                     <SelectItem value="semi-furnished">Semi-Furnished</SelectItem>
-                                     <SelectItem value="unfurnished">Unfurnished</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="buildingType"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Building Type</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select type" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="detached">Detached</SelectItem>
-                                     <SelectItem value="semi-detached">Semi-Detached</SelectItem>
-                                     <SelectItem value="terraced">Terraced</SelectItem>
-                                     <SelectItem value="low-rise">Low-rise</SelectItem>
-                                     <SelectItem value="mid-rise">Mid-rise</SelectItem>
-                                     <SelectItem value="high-rise">High-rise</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="architectureStyle"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Architecture Style (Optional)</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select style" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="modern">Modern</SelectItem>
-                                     <SelectItem value="mediterranean">Mediterranean</SelectItem>
-                                     <SelectItem value="colonial">Colonial</SelectItem>
-                                     <SelectItem value="contemporary">Contemporary</SelectItem>
-                                     <SelectItem value="traditional">Traditional</SelectItem>
-                                     <SelectItem value="minimalist">Minimalist</SelectItem>
-                                     <SelectItem value="industrial">Industrial</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-                       </div>
-
-                       {/* Ownership & Legal Section */}
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-medium flex items-center gap-2">
-                           🔑 Ownership & Legal
-                         </h3>
-                         
-                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="ownershipType"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Ownership Type</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select type" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="freehold">Freehold</SelectItem>
-                                     <SelectItem value="leasehold">Leasehold</SelectItem>
-                                     <SelectItem value="share-transfer">Share Transfer</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="titleDeedAvailable"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Title Deed Available</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="yes">Yes</SelectItem>
-                                     <SelectItem value="no">No</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="mortgageStatus"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Mortgage Status</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select status" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="no-mortgage">No Mortgage</SelectItem>
-                                     <SelectItem value="under-mortgage">Under Mortgage</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="tenancyStatus"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Tenanted / Vacant</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select status" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="vacant">Vacant</SelectItem>
-                                     <SelectItem value="tenanted">Tenanted</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="occupancyCertificate"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Occupancy Certificate</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="yes">Yes</SelectItem>
-                                     <SelectItem value="no">No</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-                       </div>
-
-                       {/* Availability & Contact Section */}
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-medium flex items-center gap-2">
-                           📆 Availability & Contact
-                         </h3>
-                         
-                         <div className="grid grid-cols-2 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="availabilityDate"
-                             render={({ field }) => (
-                               <FormItem className="flex flex-col">
-                                 <FormLabel>Availability Date</FormLabel>
-                                 <Popover modal>
-                                   <PopoverTrigger asChild>
-                                     <FormControl>
-                                       <Button
-                                         variant={"outline"}
-                                         className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
-                                       >
-                                         {field.value ? (
-                                           format(field.value, "PPP")
-                                         ) : (
-                                           <span>Pick availability date</span>
-                                         )}
-                                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                       </Button>
-                                     </FormControl>
-                                   </PopoverTrigger>
-                                   <PopoverContent className="w-auto p-0" align="start">
-                                     <Calendar
-                                       mode="single"
-                                       selected={field.value}
-                                       onSelect={field.onChange}
-                                       disabled={(date) => date < new Date()}
-                                       initialFocus
-                                       className="p-3 pointer-events-auto"
-                                     />
-                                   </PopoverContent>
-                                 </Popover>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="openHouseDates"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Open House Dates (Optional)</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="e.g., Saturdays 2-4 PM" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-
-                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="sellerAgentName"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Seller or Agent Name</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="Full name" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="contactPhone"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Contact Phone</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="+1 234 567 8900" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="contactEmail"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Contact Email</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="email@example.com" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-
-                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="agencyName"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Agency Name</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="Real Estate Agency" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="agentLicense"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Agent License Number (Optional)</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="License number" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="preferredContactMethod"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Preferred Contact Method</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select method" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="call">Call</SelectItem>
-                                     <SelectItem value="email">Email</SelectItem>
-                                     <SelectItem value="whatsapp">WhatsApp</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-                       </div>
-
-                       {/* SEO & Meta Fields Section */}
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-medium flex items-center gap-2">
-                           🔍 SEO & Meta Fields
-                         </h3>
-                         
-                         <div className="space-y-4">
-                           <FormField
-                             control={form.control}
-                             name="seoTitle"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Page Title (SEO)</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="SEO-optimized page title" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="metaDescription"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Meta Description</FormLabel>
-                                 <FormControl>
-                                   <Textarea 
-                                     placeholder="Brief description for search engines..."
-                                     className="min-h-[80px]"
-                                     {...field}
-                                   />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="urlSlug"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Slug / URL handle</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="property-name-location" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-                       </div>
-
-                       {/* Internal Use Fields Section */}
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-medium flex items-center gap-2">
-                           📦 Internal Use
-                         </h3>
-                         
-                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                           <FormField
-                             control={form.control}
-                             name="listingId"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Listing ID / Reference Code</FormLabel>
-                                 <FormControl>
-                                   <Input placeholder="AUTO-GENERATED" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="listingStatus"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Listing Status</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select status" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="draft">Draft</SelectItem>
-                                     <SelectItem value="published">Published</SelectItem>
-                                     <SelectItem value="archived">Archived</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="featuredListing"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>Priority / Featured Listing</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select priority" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent>
-                                     <SelectItem value="normal">Normal</SelectItem>
-                                     <SelectItem value="featured">Featured</SelectItem>
-                                     <SelectItem value="premium">Premium</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                         </div>
-                       </div>
-                     </div>
-                   </TabsContent>
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="availableFrom"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Available From</FormLabel>
+                                  <Popover modal>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick start date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent 
+                                      className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                      align="start"
+                                      side="bottom"
+                                      avoidCollisions={true}
+                                      collisionPadding={8}
+                                    >
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                        className="p-3 pointer-events-auto"
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="availableTo"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Available To</FormLabel>
+                                  <Popover modal>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick end date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent 
+                                      className="w-auto p-0 bg-popover text-popover-foreground border shadow-xl z-[9999]" 
+                                      align="start"
+                                      side="bottom"
+                                      avoidCollisions={true}
+                                      collisionPadding={8}
+                                    >
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date() || (form.watch("availableFrom") && date <= form.watch("availableFrom"))}
+                                        initialFocus
+                                        className="p-3 pointer-events-auto"
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </>
+                      )}
+                     </>
+                   )}
+                 </TabsContent>
                  )}
 
                  <TabsContent value="location" className="space-y-4">
