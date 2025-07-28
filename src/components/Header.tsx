@@ -28,6 +28,7 @@ const Header = () => {
               align="start" 
               className="w-56 bg-white shadow-lg border border-gray-200 z-50"
             >
+              {/* Main Navigation */}
               <DropdownMenuItem asChild>
                 <Link 
                   to="/" 
@@ -70,6 +71,74 @@ const Header = () => {
               </DropdownMenuItem>
               <DropdownMenuItem className="text-black hover:bg-gray-100">
                 Support
+              </DropdownMenuItem>
+              
+              {/* Divider */}
+              <div className="border-t border-gray-200 my-1"></div>
+              
+              {/* Workspace Items */}
+              <div className="px-2 py-1">
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Workspace</span>
+              </div>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/dashboard" 
+                  className={`w-full text-black hover:bg-gray-100 ${
+                    location.pathname === "/dashboard" ? "bg-gray-50 font-medium" : ""
+                  }`}
+                >
+                  Dashboard
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/spaces" 
+                  className={`w-full text-black hover:bg-gray-100 ${
+                    location.pathname === "/spaces" ? "bg-gray-50 font-medium" : ""
+                  }`}
+                >
+                  All Spaces
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/public-spaces" 
+                  className={`w-full text-black hover:bg-gray-100 ${
+                    location.pathname === "/public-spaces" ? "bg-gray-50 font-medium" : ""
+                  }`}
+                >
+                  Public & Unlisted Spaces
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/statistics" 
+                  className={`w-full text-black hover:bg-gray-100 ${
+                    location.pathname === "/statistics" ? "bg-gray-50 font-medium" : ""
+                  }`}
+                >
+                  Statistics
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/users" 
+                  className={`w-full text-black hover:bg-gray-100 ${
+                    location.pathname === "/users" ? "bg-gray-50 font-medium" : ""
+                  }`}
+                >
+                  Users
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/settings" 
+                  className={`w-full text-black hover:bg-gray-100 ${
+                    location.pathname === "/settings" ? "bg-gray-50 font-medium" : ""
+                  }`}
+                >
+                  Settings
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
