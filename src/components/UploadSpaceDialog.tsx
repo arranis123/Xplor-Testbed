@@ -292,6 +292,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "casino-hotel", label: "Casino Hotel – Hotel with integrated casino and entertainment" },
   ];
 
+  const yachtPropertyTypes = [
+    { value: "motor-yacht", label: "Motor Yacht" },
+    { value: "sailing-yacht", label: "Sailing Yacht" },
+  ];
+
   const amenities = [
     { id: "kitchen", label: "Kitchen", icon: Utensils },
     { id: "washer", label: "Washer", icon: Waves },
@@ -478,11 +483,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : "Select property type"} />
+                                <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : "Select property type"} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : propertyTypes).map((type) => (
+                              {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : propertyTypes).map((type) => (
                                 <SelectItem key={type.value} value={type.value}>
                                   {type.label}
                                 </SelectItem>
