@@ -331,6 +331,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
   const [isFetchingAIS, setIsFetchingAIS] = useState(false);
+  const [aisApiKey, setAisApiKey] = useState(aisStreamService.getApiKey() || '');
   const [showBrochure, setShowBrochure] = useState(false);
   const [showCrewProfileForm, setShowCrewProfileForm] = useState(false);
   const [itineraryLocations, setItineraryLocations] = useState({
@@ -1815,10 +1816,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             </div>
                             <div className="space-y-2">
                               <Input 
-                                type="password"
+                                type="text"
                                 placeholder="Enter your AISStream.io API key"
-                                value={aisStreamService.getApiKey() || ''}
-                                onChange={(e) => aisStreamService.setApiKey(e.target.value)}
+                                value={aisApiKey}
+                                onChange={(e) => {
+                                  setAisApiKey(e.target.value);
+                                  aisStreamService.setApiKey(e.target.value);
+                                }}
                               />
                               <p className="text-xs text-muted-foreground">
                                 Get your API key from <a href="https://aisstream.io/apikeys" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">aisstream.io/apikeys</a>
