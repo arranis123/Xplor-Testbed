@@ -40,7 +40,9 @@ const uploadFormSchema = z.object({
   yachtUsePurposeSubtype: z.string().optional(),
   yachtHullConfiguration: z.string().optional(),
   listingType: z.string().optional(),
+  salePricePrefix: z.string().optional(),
   salePrice: z.string().optional(),
+  rentalPricePrefix: z.string().optional(),
   rentalPrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
   rentalPeriod: z.string().optional(),
@@ -377,7 +379,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtUsePurposeSubtype: "",
       yachtHullConfiguration: "",
       listingType: "",
+      salePricePrefix: "",
       salePrice: "",
+      rentalPricePrefix: "",
       rentalPriceRange: "",
       rentalPeriod: "",
       bedrooms: "",
@@ -1763,51 +1767,107 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          />
                        )}
 
-                       {/* Real Estate Sale Price Field - only show for "for-sale" or "both" */}
-                       {category === "real-estate" && (form.watch("listingType") === "for-sale" || form.watch("listingType") === "both") && (
-                         <FormField
-                           control={form.control}
-                           name="salePrice"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Sale Price</FormLabel>
-                               <FormControl>
-                               <Input 
-                                   placeholder="e.g., 750000" 
-                                   {...field} 
-                                 />
-                               </FormControl>
-                               <FormDescription>
-                                 Property sale price (optional)
-                               </FormDescription>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
-                       )}
-
-                       {/* Real Estate Rental Price Field - only show for "for-rent" or "both" */}
-                       {category === "real-estate" && (form.watch("listingType") === "for-rent" || form.watch("listingType") === "both") && (
-                         <FormField
-                           control={form.control}
-                           name="rentalPrice"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Rental Price (Monthly)</FormLabel>
-                               <FormControl>
-                               <Input 
-                                   placeholder="e.g., 2500" 
-                                   {...field} 
-                                 />
-                               </FormControl>
-                               <FormDescription>
-                                 Monthly rental price (optional)
-                               </FormDescription>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
+                        {/* Real Estate Sale Price Field - only show for "for-sale" or "both" */}
+                        {category === "real-estate" && (form.watch("listingType") === "for-sale" || form.watch("listingType") === "both") && (
+                          <div className="grid grid-cols-3 gap-2">
+                            <FormField
+                              control={form.control}
+                              name="salePricePrefix"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Price Type</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="from">From</SelectItem>
+                                      <SelectItem value="guide">Guide Price</SelectItem>
+                                      <SelectItem value="poa">POA</SelectItem>
+                                      <SelectItem value="exact">Exact Price</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <div className="col-span-2">
+                              <FormField
+                                control={form.control}
+                                name="salePrice"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Sale Price</FormLabel>
+                                    <FormControl>
+                                      <Input 
+                                        placeholder="e.g., 750000" 
+                                        {...field} 
+                                        disabled={form.watch("salePricePrefix") === "poa"}
+                                      />
+                                    </FormControl>
+                                    <FormDescription>
+                                      Property sale price (optional)
+                                    </FormDescription>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </div>
                         )}
+
+                        {/* Real Estate Rental Price Field - only show for "for-rent" or "both" */}
+                        {category === "real-estate" && (form.watch("listingType") === "for-rent" || form.watch("listingType") === "both") && (
+                          <div className="grid grid-cols-3 gap-2">
+                            <FormField
+                              control={form.control}
+                              name="rentalPricePrefix"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Price Type</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="from">From</SelectItem>
+                                      <SelectItem value="guide">Guide Price</SelectItem>
+                                      <SelectItem value="poa">POA</SelectItem>
+                                      <SelectItem value="exact">Exact Price</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <div className="col-span-2">
+                              <FormField
+                                control={form.control}
+                                name="rentalPrice"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Rental Price (Monthly)</FormLabel>
+                                    <FormControl>
+                                      <Input 
+                                        placeholder="e.g., 2500" 
+                                        {...field} 
+                                        disabled={form.watch("rentalPricePrefix") === "poa"}
+                                      />
+                                    </FormControl>
+                                    <FormDescription>
+                                      Monthly rental price (optional)
+                                    </FormDescription>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </div>
+                         )}
 
                       {category === "yacht" && (
                         <>
