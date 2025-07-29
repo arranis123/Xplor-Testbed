@@ -124,6 +124,166 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
 
   return (
     <div className="space-y-8">
+      {/* Rooms & Layout */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <Bed className="h-5 w-5" />
+          Rooms & Layout
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <FormField
+            control={form.control}
+            name="bedrooms"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Number of Bedrooms</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="e.g., 3" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="bathrooms"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Number of Bathrooms</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="e.g., 2" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="livingRooms"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Living Rooms / Lounges</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="e.g., 1" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="diningArea"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Dining Area</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Separate dining room" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="kitchenType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Kitchen Type</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select kitchen type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {kitchenTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="study"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Study / Office</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., 1 study room" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="utilityRoom"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Utility Room / Laundry</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Separate laundry room" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="guestWC"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Guest WC</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., 1 guest toilet" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="maidsRoom"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Maid's Room</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., With en-suite" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="storage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Storage / Pantry</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Walk-in pantry" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+      </div>
+
       {/* Core Property Details */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -435,165 +595,6 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
         </div>
       </div>
 
-      {/* Rooms & Layout */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Bed className="h-5 w-5" />
-          Rooms & Layout
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <FormField
-            control={form.control}
-            name="bedrooms"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Number of Bedrooms</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="e.g., 3" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="bathrooms"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Number of Bathrooms</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="e.g., 2" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="livingRooms"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Living Rooms / Lounges</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="e.g., 1" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="diningArea"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dining Area</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., Separate dining room" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="kitchenType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Kitchen Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select kitchen type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {kitchenTypes.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
-                        {type.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="study"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Study / Office</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 1 study room" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="utilityRoom"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Utility Room / Laundry</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., Separate laundry room" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="guestWC"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Guest WC</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 1 guest toilet" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="maidsRoom"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Maid's Room</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., With en-suite" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="storage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Storage / Pantry</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., Walk-in pantry" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-      </div>
 
       {/* Property Features & Equipment */}
       <div className="space-y-4">
