@@ -786,6 +786,193 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
+  // Function to auto-fill form fields from AIS data
+  const autoFillFromAISData = async (aisData: any, mmsi: string) => {
+    try {
+      // Basic Info auto-fill
+      if (aisData.shipName) {
+        const currentTitle = form.getValues('title');
+        if (!currentTitle || currentTitle.trim() === '') {
+          form.setValue('title', aisData.shipName);
+        }
+      }
+
+      // Location Details auto-fill
+      form.setValue('latitude', aisData.latitude.toString());
+      form.setValue('longitude', aisData.longitude.toString());
+      
+      // Create MarineTraffic URL for reference
+      const trackingUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${mmsi}`;
+      form.setValue('marineTrafficUrl', trackingUrl);
+
+      // Yacht Details auto-fill from AIS additional data
+      if (aisData.additionalData) {
+        const additionalData = aisData.additionalData;
+        
+        // Map common AIS fields to yacht form fields
+        if (additionalData.Destination) {
+          form.setValue('yachtCharterRegions', additionalData.Destination);
+        }
+        
+        if (additionalData.NavigationStatus) {
+          // Map navigation status to meaningful description
+          const statusMap: Record<number, string> = {
+            0: 'Under way using engine',
+            1: 'At anchor',
+            2: 'Not under command',
+            3: 'Restricted manoeuvrability',
+            4: 'Constrained by her draught',
+            5: 'Moored',
+            6: 'Aground',
+            7: 'Engaged in fishing',
+            8: 'Under way sailing'
+          };
+          
+          if (statusMap[additionalData.NavigationStatus]) {
+            // Add to description if empty
+            const currentDesc = form.getValues('description');
+            if (!currentDesc || currentDesc.trim() === '') {
+              form.setValue('description', `Current status: ${statusMap[additionalData.NavigationStatus]}. ${aisData.shipName || 'Vessel'} available for charter.`);
+            }
+          }
+        }
+        
+        if (additionalData.Course) {
+          // Could be used for route planning in charter descriptions
+          form.setValue('yachtNavigationEquipment', `Current course: ${additionalData.Course}°`);
+        }
+        
+        if (additionalData.Speed) {
+          form.setValue('yachtCruisingSpeed', `${additionalData.Speed} knots`);
+        }
+        
+        // If vessel type information is available
+        if (additionalData.VesselType) {
+          const vesselTypeMap: Record<number, { type: string, subtype: string }> = {
+            30: { type: 'fishing', subtype: 'fishing-vessel' },
+            31: { type: 'fishing', subtype: 'towing-vessel' },
+            32: { type: 'fishing', subtype: 'towing-vessel' },
+            33: { type: 'fishing', subtype: 'dredging-vessel' },
+            34: { type: 'fishing', subtype: 'diving-vessel' },
+            35: { type: 'commercial', subtype: 'military-vessel' },
+            36: { type: 'sailing', subtype: 'sailing-yacht' },
+            37: { type: 'motor', subtype: 'pleasure-craft' },
+            40: { type: 'commercial', subtype: 'high-speed-craft' },
+            50: { type: 'commercial', subtype: 'pilot-vessel' },
+            51: { type: 'commercial', subtype: 'sar-vessel' },
+            52: { type: 'commercial', subtype: 'tug' },
+            53: { type: 'commercial', subtype: 'port-tender' },
+            54: { type: 'commercial', subtype: 'anti-pollution' },
+            55: { type: 'commercial', subtype: 'law-enforcement' },
+            58: { type: 'commercial', subtype: 'medical-transport' },
+            59: { type: 'commercial', subtype: 'noncombatant' },
+            60: { type: 'commercial', subtype: 'passenger' },
+            61: { type: 'commercial', subtype: 'passenger' },
+            62: { type: 'commercial', subtype: 'passenger' },
+            63: { type: 'commercial', subtype: 'passenger' },
+            64: { type: 'commercial', subtype: 'passenger' },
+            65: { type: 'commercial', subtype: 'passenger' },
+            66: { type: 'commercial', subtype: 'passenger' },
+            67: { type: 'commercial', subtype: 'passenger' },
+            68: { type: 'commercial', subtype: 'passenger' },
+            69: { type: 'commercial', subtype: 'passenger' },
+            70: { type: 'commercial', subtype: 'cargo' },
+            71: { type: 'commercial', subtype: 'cargo' },
+            72: { type: 'commercial', subtype: 'cargo' },
+            73: { type: 'commercial', subtype: 'cargo' },
+            74: { type: 'commercial', subtype: 'cargo' },
+            75: { type: 'commercial', subtype: 'cargo' },
+            76: { type: 'commercial', subtype: 'cargo' },
+            77: { type: 'commercial', subtype: 'cargo' },
+            78: { type: 'commercial', subtype: 'cargo' },
+            79: { type: 'commercial', subtype: 'cargo' },
+            80: { type: 'commercial', subtype: 'tanker' },
+            81: { type: 'commercial', subtype: 'tanker' },
+            82: { type: 'commercial', subtype: 'tanker' },
+            83: { type: 'commercial', subtype: 'tanker' },
+            84: { type: 'commercial', subtype: 'tanker' },
+            85: { type: 'commercial', subtype: 'tanker' },
+            86: { type: 'commercial', subtype: 'tanker' },
+            87: { type: 'commercial', subtype: 'tanker' },
+            88: { type: 'commercial', subtype: 'tanker' },
+            89: { type: 'commercial', subtype: 'tanker' }
+          };
+          
+          const vesselInfo = vesselTypeMap[additionalData.VesselType];
+          if (vesselInfo) {
+            // Only set if it's a yacht-like vessel
+            if (vesselInfo.type === 'sailing' || vesselInfo.type === 'motor' || vesselInfo.subtype === 'pleasure-craft') {
+              form.setValue('yachtStyleLayout', vesselInfo.type);
+              form.setValue('yachtSubtype', vesselInfo.subtype);
+            }
+          }
+        }
+        
+        // Set last update time for reference
+        if (aisData.lastUpdate) {
+          form.setValue('yachtListingDate', new Date(aisData.lastUpdate).toISOString().split('T')[0]);
+        }
+      }
+
+      console.log('Auto-filled yacht details from AIS data');
+    } catch (error) {
+      console.error('Error auto-filling from AIS data:', error);
+    }
+  };
+
+  // Function to auto-fill form fields from MarineTraffic scraped data
+  const autoFillFromMarineTrafficData = (yachtDetails: any, trackingUrl: string) => {
+    try {
+      // Basic Info auto-fill
+      if (yachtDetails.vesselName) {
+        const currentTitle = form.getValues('title');
+        if (!currentTitle || currentTitle.trim() === '') {
+          form.setValue('title', yachtDetails.vesselName);
+        }
+      }
+
+      // Set MarineTraffic URL
+      form.setValue('marineTrafficUrl', trackingUrl);
+
+      // Yacht Details auto-fill
+      if (yachtDetails.vesselType) {
+        // Map vessel type to yacht categories
+        const typeStr = yachtDetails.vesselType.toLowerCase();
+        if (typeStr.includes('yacht') || typeStr.includes('pleasure')) {
+          form.setValue('yachtStyleLayout', typeStr.includes('sailing') ? 'sailing' : 'motor');
+          form.setValue('yachtSubtype', 'pleasure-craft');
+        }
+      }
+
+      // Physical dimensions
+      if (yachtDetails.length) {
+        form.setValue('yachtLOA', `${yachtDetails.length}m`);
+      }
+      if (yachtDetails.beam) {
+        form.setValue('yachtBeam', `${yachtDetails.beam}m`);
+      }
+      if (yachtDetails.draft) {
+        form.setValue('yachtDraft', `${yachtDetails.draft}m`);
+      }
+      if (yachtDetails.year) {
+        form.setValue('yachtYearBuilt', yachtDetails.year);
+      }
+      if (yachtDetails.grossTonnage) {
+        form.setValue('yachtGrossTonnage', yachtDetails.grossTonnage);
+      }
+
+      // Location details
+      if (yachtDetails.coordinates) {
+        form.setValue('latitude', yachtDetails.coordinates.lat.toString());
+        form.setValue('longitude', yachtDetails.coordinates.lng.toString());
+      }
+
+      console.log('Auto-filled yacht details from MarineTraffic data');
+    } catch (error) {
+      console.error('Error auto-filling from MarineTraffic data:', error);
+    }
+  };
+
   // Function to fetch yacht details and location using MMSI or IMO number
   const fetchYachtDetailsFromIdentifier = async (identifier: string, type: 'mmsi' | 'imo') => {
     if (!identifier) return null;
@@ -818,24 +1005,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         if (aisData) {
           console.log('AISStream data received:', aisData);
           
-          // Update form with real AIS data
-          form.setValue('latitude', aisData.latitude.toString());
-          form.setValue('longitude', aisData.longitude.toString());
-          
-          if (aisData.shipName) {
-            // If title is empty or generic, update it with ship name
-            const currentTitle = form.getValues('title');
-            if (!currentTitle || currentTitle.trim() === '') {
-              form.setValue('title', aisData.shipName);
-            }
-          }
-          
-          // Create MarineTraffic URL for reference
-          const trackingUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`;
-          form.setValue('marineTrafficUrl', trackingUrl);
+          // Auto-fill comprehensive yacht and location details from AIS data
+          await autoFillFromAISData(aisData, identifier);
           
           toast({
             title: `Vessel data updated! Found: ${aisData.shipName || 'Unknown vessel'}`,
+            description: "Basic info, yacht details, and location have been auto-filled",
             duration: 5000,
           });
           
@@ -846,7 +1021,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
               lng: aisData.longitude
             },
             name: aisData.shipName,
-            trackingUrl,
+            trackingUrl: `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`,
             lastUpdate: aisData.lastUpdate,
             source: 'aisstream'
           };
@@ -1001,53 +1176,17 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
         // Auto-fill form fields if details were found
         if (Object.keys(yachtDetails).length > 0) {
-          if (yachtDetails.vesselName) {
-            form.setValue('title', yachtDetails.vesselName);
-          }
-          if (yachtDetails.vesselType) {
-            // Try to map vessel type to our yacht categories
-            const vesselTypeLower = yachtDetails.vesselType.toLowerCase();
-            if (vesselTypeLower.includes('yacht') || vesselTypeLower.includes('pleasure')) {
-              form.setValue('propertyType', 'yacht');
-              if (vesselTypeLower.includes('motor') || vesselTypeLower.includes('power')) {
-                form.setValue('yachtSubtype', 'motor-yacht');
-              } else if (vesselTypeLower.includes('sail')) {
-                form.setValue('yachtSubtype', 'sailing-yacht');
-              }
-            }
-          }
-          if (yachtDetails.length) {
-            form.setValue('yachtLOA', yachtDetails.length);
-          }
-          if (yachtDetails.beam) {
-            form.setValue('yachtBeam', yachtDetails.beam);
-          }
-          if (yachtDetails.draft) {
-            form.setValue('yachtDraft', yachtDetails.draft);
-          }
-          if (yachtDetails.yearBuilt) {
-            form.setValue('yachtYearBuilt', yachtDetails.yearBuilt);
-            form.setValue('yearBuilt', yachtDetails.yearBuilt);
-          }
-          if (yachtDetails.builder) {
-            form.setValue('yachtBuilder', yachtDetails.builder);
-          }
-          if (yachtDetails.grossTonnage) {
-            form.setValue('yachtGrossTonnage', yachtDetails.grossTonnage);
-          }
+          autoFillFromMarineTrafficData(yachtDetails, trackingUrl);
+          
+          // Update map coordinates if available  
           if (yachtDetails.coordinates) {
             setMapCoordinates(yachtDetails.coordinates);
-            form.setValue('latitude', yachtDetails.coordinates.lat.toString());
-            form.setValue('longitude', yachtDetails.coordinates.lng.toString());
             
             toast({
               title: yachtDetails.mockLocation ? `${type.toUpperCase()} Location (Estimated)` : "Vessel Location Found",
               description: `${yachtDetails.vesselName || 'Vessel'} located at ${yachtDetails.coordinates.lat.toFixed(4)}, ${yachtDetails.coordinates.lng.toFixed(4)}${yachtDetails.mockLocation ? ' (Regional estimate)' : ''}`,
             });
           }
-
-          // Set Marine Traffic URL
-          form.setValue('marineTrafficUrl', trackingUrl);
 
           toast({
             title: `${type.toUpperCase()} ${identifier} Details Loaded`,
