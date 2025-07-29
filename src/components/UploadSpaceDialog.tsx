@@ -274,12 +274,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     droneFootage: File[];
     documents: File[];
     floorPlans: File[];
+    sampleItineraries: File[];
   }>({
     photos: [],
     videos: [],
     droneFootage: [],
     documents: [],
     floorPlans: [],
+    sampleItineraries: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -1159,14 +1161,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans', files: FileList | null) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries', files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter(file => {
       if (type === 'photos' || type === 'floorPlans') {
         return file.type.startsWith('image/');
-      } else if (type === 'documents') {
+      } else if (type === 'documents' || type === 'sampleItineraries') {
         return file.type === 'application/pdf' || file.type.includes('document') || file.type === 'text/plain';
       } else {
         return file.type.startsWith('video/');
@@ -1184,7 +1186,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -1219,7 +1221,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -1233,7 +1235,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
-  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length + uploadedFiles.floorPlans.length;
+  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length + uploadedFiles.floorPlans.length + uploadedFiles.sampleItineraries.length;
   const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
@@ -6640,6 +6642,52 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       </div>
                     </div>
 
+                    {category === "yacht" && (
+                      <div>
+                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <FileText className="h-5 w-5" />
+                          Sample Itineraries
+                        </Label>
+                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Upload className="h-8 w-8" />
+                              <div className="text-center">
+                                <p className="text-sm font-medium">Upload Sample Itineraries</p>
+                                <p className="text-xs">Drag and drop or click to browse</p>
+                              </div>
+                            </div>
+                            <Input
+                              type="file"
+                              multiple
+                              accept=".pdf,.doc,.docx,.txt"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('sampleItineraries', e.target.files)}
+                            />
+                          </div>
+                          {uploadedFiles.sampleItineraries.length > 0 && (
+                            <div className="mt-4 space-y-2">
+                              {uploadedFiles.sampleItineraries.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                  <div className="flex items-center gap-2">
+                                    <FileText className="h-4 w-4" />
+                                    <span className="text-sm truncate">{file.name}</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeFile('sampleItineraries', index)}
+                                    className="text-destructive hover:text-destructive/80"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     {totalFiles > 0 && (
                       <Card>
                         <CardHeader>
@@ -6663,6 +6711,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <Badge variant="secondary">
                                 {uploadedFiles.floorPlans.length} Floor Plans
                               </Badge>
+                              {category === "yacht" && (
+                                <Badge variant="secondary">
+                                  {uploadedFiles.sampleItineraries.length} Sample Itineraries
+                                </Badge>
+                              )}
                             </div>
                             <p className="text-sm text-muted-foreground">
                               Total: {totalFiles} files
