@@ -88,6 +88,7 @@ const uploadFormSchema = z.object({
   latitude: z.string().optional(),
   longitude: z.string().optional(),
   googlePlusCode: z.string().optional(),
+  marineTrafficUrl: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
   currency: z.string().optional(),
@@ -225,6 +226,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       latitude: "",
       longitude: "",
       googlePlusCode: "",
+      marineTrafficUrl: "",
       // Real Estate Property Specifications default values
       price: "",
       currency: "USD",
@@ -282,6 +284,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "treehouse", label: "Treehouse" },
     { value: "castle", label: "Castle" },
     { value: "boat", label: "Boat" },
+    { value: "yacht", label: "Yacht" },
     { value: "cabin", label: "Cabin" },
     { value: "commercial-office", label: "Commercial Office" },
     { value: "retail-space", label: "Retail Space" },
@@ -2506,10 +2509,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            </FormItem>
                          )}
                        />
-                     </div>
+                      </div>
 
-                     <div className="space-y-4">
-                       <h4 className="text-md font-medium">Map Integration (Optional)</h4>
+                      {(form.watch("propertyType") === "yacht" || form.watch("propertyType") === "boat" || 
+                        form.watch("yachtSizeClass") || form.watch("yachtStyleLayout") || form.watch("yachtSubtype")) && (
+                        <FormField
+                          control={form.control}
+                          name="marineTrafficUrl"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Marinetraffic.com Real Time Location</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., https://www.marinetraffic.com/en/ais/details/ships/shipid:384311/mmsi:319011900/imo:1009326/vessel:AWATEA" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Optional: Real-time location tracking URL from MarineTraffic.com
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+
+                      <div className="space-y-4">
+                        <h4 className="text-md font-medium">Map Integration (Optional)</h4>
                        <div className="grid grid-cols-2 gap-4">
                          <FormField
                            control={form.control}
