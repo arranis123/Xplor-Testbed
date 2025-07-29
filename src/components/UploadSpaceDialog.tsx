@@ -471,8 +471,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
-  // Function to fetch yacht location using MMSI or IMO number
-  const fetchYachtLocationFromIdentifier = async (identifier: string, type: 'mmsi' | 'imo') => {
+  // Function to fetch yacht details and location using MMSI or IMO number
+  const fetchYachtDetailsFromIdentifier = async (identifier: string, type: 'mmsi' | 'imo') => {
     if (!identifier) return null;
     
     // Basic validation - IMO numbers are typically 7 digits but can vary
@@ -485,7 +485,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       return null;
     }
     
-    console.log(`Fetching location for ${type.toUpperCase()}: ${identifier}`);
+    console.log(`Fetching details for ${type.toUpperCase()}: ${identifier}`);
     
     try {
       // Create MarineTraffic URL based on identifier type
@@ -504,7 +504,66 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         console.log(`Response status: ${response.status}`);
         console.log(`HTML length: ${html.length}`);
         
-        // Try multiple patterns to extract coordinates
+        // Extract yacht details from HTML
+        const yachtDetails: any = {};
+        
+        // Extract vessel name from title or page content
+        const nameMatch = html.match(/<title[^>]*>Ship\s+([^(]+)\s*\(/i) || 
+                         html.match(/vessel["\s]*name["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
+                         html.match(/ship["\s]*name["\s]*[:\s]*["\s]*([^"<>\n]+)/i);
+        if (nameMatch && nameMatch[1]) {
+          yachtDetails.vesselName = nameMatch[1].trim();
+        }
+
+        // Extract vessel type
+        const typeMatch = html.match(/vessel["\s]*type["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
+                         html.match(/ship["\s]*type["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
+                         html.match(/\(([^)]*(?:yacht|vessel|ship|tanker|cargo|passenger)[^)]*)\)/i);
+        if (typeMatch && typeMatch[1]) {
+          yachtDetails.vesselType = typeMatch[1].trim();
+        }
+
+        // Extract dimensions (Length, Beam, Draft)
+        const lengthMatch = html.match(/length["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
+                           html.match(/loa["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
+        if (lengthMatch) {
+          yachtDetails.length = lengthMatch[1];
+        }
+
+        const beamMatch = html.match(/beam["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
+                         html.match(/width["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
+        if (beamMatch) {
+          yachtDetails.beam = beamMatch[1];
+        }
+
+        const draftMatch = html.match(/draft["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
+                          html.match(/draught["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
+        if (draftMatch) {
+          yachtDetails.draft = draftMatch[1];
+        }
+
+        // Extract year built
+        const yearMatch = html.match(/year["\s]*built["\s]*[:\s]*["\s]*(\d{4})/i) ||
+                         html.match(/built["\s]*[:\s]*["\s]*(\d{4})/i);
+        if (yearMatch) {
+          yachtDetails.yearBuilt = yearMatch[1];
+        }
+
+        // Extract builder/shipyard
+        const builderMatch = html.match(/builder["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
+                            html.match(/shipyard["\s]*[:\s]*["\s]*([^"<>\n]+)/i);
+        if (builderMatch && builderMatch[1]) {
+          yachtDetails.builder = builderMatch[1].trim();
+        }
+
+        // Extract gross tonnage
+        const tonnageMatch = html.match(/gross["\s]*tonnage["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
+                            html.match(/gt["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
+        if (tonnageMatch) {
+          yachtDetails.grossTonnage = tonnageMatch[1];
+        }
+
+        // Extract location coordinates
         const patterns = [
           /latitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
           /"lat"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
@@ -534,43 +593,83 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           if (lngMatch) break;
         }
         
-        console.log(`Latitude match:`, latMatch);
-        console.log(`Longitude match:`, lngMatch);
-        
         if (latMatch && lngMatch) {
           const coordinates = {
             lat: parseFloat(latMatch[1]),
             lng: parseFloat(lngMatch[1])
           };
           
-          console.log(`Parsed coordinates:`, coordinates);
-          
           // Validate coordinates are reasonable
           if (coordinates.lat >= -90 && coordinates.lat <= 90 && 
               coordinates.lng >= -180 && coordinates.lng <= 180) {
-            
-            toast({
-              title: `${type.toUpperCase()} ${identifier} Located`,
-              description: `Live coordinates retrieved from MarineTraffic.com`,
-              action: (
-                <a 
-                  href={trackingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary underline"
-                >
-                  View on MarineTraffic
-                </a>
-              ),
-              duration: 10000,
-            });
-            
-            return coordinates;
-          } else {
-            console.log(`Invalid coordinates range:`, coordinates);
+            yachtDetails.coordinates = coordinates;
           }
-        } else {
-          console.log(`No coordinates found in HTML`);
+        }
+
+        console.log('Extracted yacht details:', yachtDetails);
+
+        // Auto-fill form fields if details were found
+        if (Object.keys(yachtDetails).length > 0) {
+          if (yachtDetails.vesselName) {
+            form.setValue('title', yachtDetails.vesselName);
+          }
+          if (yachtDetails.vesselType) {
+            // Try to map vessel type to our yacht categories
+            const vesselTypeLower = yachtDetails.vesselType.toLowerCase();
+            if (vesselTypeLower.includes('yacht') || vesselTypeLower.includes('pleasure')) {
+              form.setValue('propertyType', 'yacht');
+              if (vesselTypeLower.includes('motor') || vesselTypeLower.includes('power')) {
+                form.setValue('yachtSubtype', 'motor-yacht');
+              } else if (vesselTypeLower.includes('sail')) {
+                form.setValue('yachtSubtype', 'sailing-yacht');
+              }
+            }
+          }
+          if (yachtDetails.length) {
+            form.setValue('yachtLOA', yachtDetails.length);
+          }
+          if (yachtDetails.beam) {
+            form.setValue('yachtBeam', yachtDetails.beam);
+          }
+          if (yachtDetails.draft) {
+            form.setValue('yachtDraft', yachtDetails.draft);
+          }
+          if (yachtDetails.yearBuilt) {
+            form.setValue('yachtYearBuilt', yachtDetails.yearBuilt);
+            form.setValue('yearBuilt', yachtDetails.yearBuilt);
+          }
+          if (yachtDetails.builder) {
+            form.setValue('yachtBuilder', yachtDetails.builder);
+          }
+          if (yachtDetails.grossTonnage) {
+            form.setValue('yachtGrossTonnage', yachtDetails.grossTonnage);
+          }
+          if (yachtDetails.coordinates) {
+            setMapCoordinates(yachtDetails.coordinates);
+            form.setValue('latitude', yachtDetails.coordinates.lat.toString());
+            form.setValue('longitude', yachtDetails.coordinates.lng.toString());
+          }
+
+          // Set Marine Traffic URL
+          form.setValue('marineTrafficUrl', trackingUrl);
+
+          toast({
+            title: `${type.toUpperCase()} ${identifier} Details Loaded`,
+            description: `Yacht details auto-filled from MarineTraffic.com`,
+            action: (
+              <a 
+                href={trackingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline"
+              >
+                View on MarineTraffic
+              </a>
+            ),
+            duration: 10000,
+          });
+          
+          return yachtDetails;
         }
       } catch (fetchError) {
         console.log('CORS proxy failed:', fetchError);
@@ -579,7 +678,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       // Fallback: Open Marine Traffic for manual lookup
       toast({
         title: "Manual Lookup Required",
-        description: `Please find coordinates for ${type.toUpperCase()}: ${identifier} and enter them manually.`,
+        description: `Please verify yacht details for ${type.toUpperCase()}: ${identifier} manually.`,
         action: (
           <a 
             href={trackingUrl}
@@ -599,7 +698,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       return null;
     } catch (error) {
-      console.error('Error fetching yacht location:', error);
+      console.error('Error fetching yacht details:', error);
       return null;
     }
   };
@@ -619,29 +718,17 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       } else if (name === 'googlePlusCode' && value.googlePlusCode) {
         convertPlusCodeToCoordinates(value.googlePlusCode);
       } else if (name === 'mmsiNumber' && value.mmsiNumber) {
-        // Fetch yacht location when MMSI is entered
-        const fetchLocation = async () => {
-          const coordinates = await fetchYachtLocationFromIdentifier(value.mmsiNumber, 'mmsi');
-          if (coordinates) {
-            setMapCoordinates(coordinates);
-            // Auto-fill the latitude and longitude fields
-            form.setValue('latitude', coordinates.lat.toString());
-            form.setValue('longitude', coordinates.lng.toString());
-          }
+        // Fetch yacht details and location when MMSI is entered
+        const fetchDetails = async () => {
+          await fetchYachtDetailsFromIdentifier(value.mmsiNumber, 'mmsi');
         };
-        fetchLocation();
+        fetchDetails();
       } else if (name === 'imoNumber' && value.imoNumber) {
-        // Fetch yacht location when IMO is entered
-        const fetchLocation = async () => {
-          const coordinates = await fetchYachtLocationFromIdentifier(value.imoNumber, 'imo');
-          if (coordinates) {
-            setMapCoordinates(coordinates);
-            // Auto-fill the latitude and longitude fields
-            form.setValue('latitude', coordinates.lat.toString());
-            form.setValue('longitude', coordinates.lng.toString());
-          }
+        // Fetch yacht details and location when IMO is entered
+        const fetchDetails = async () => {
+          await fetchYachtDetailsFromIdentifier(value.imoNumber, 'imo');
         };
-        fetchLocation();
+        fetchDetails();
       }
     });
     
