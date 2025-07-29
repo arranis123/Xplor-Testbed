@@ -511,6 +511,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtListingDate: "",
       yachtListingType: "",
       // Real Estate Property Specifications default values
+      realEstatePropertyType: "",
       price: "",
       currency: "USD",
       pricePerSqm: "",
@@ -2197,6 +2198,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                   {category === "real-estate" && (
                     <div className="space-y-4">
+                      <h3 className="text-lg font-semibold">Real Estate Property Details</h3>
                       <div className="grid grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
