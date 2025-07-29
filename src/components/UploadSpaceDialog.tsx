@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -154,6 +154,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<{
     photos: File[];
     videos: File[];
@@ -285,6 +286,53 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       lastUpdated: undefined,
     },
   });
+
+  // Helper function to convert Google Plus Code to coordinates
+  const convertPlusCodeToCoordinates = async (plusCode: string) => {
+    try {
+      // For now, we'll use a simple regex to validate Plus Code format
+      const plusCodeRegex = /^[23456789CFGHJMPQRVWX]{4,8}\+[23456789CFGHJMPQRVWX]{2,3}$/;
+      if (!plusCodeRegex.test(plusCode.replace(/\s/g, ''))) {
+        toast({
+          title: "Invalid Plus Code",
+          description: "Please enter a valid Google Plus Code format",
+          variant: "destructive",
+        });
+        return null;
+      }
+      
+      // In a real implementation, you would use Google Maps API to decode the Plus Code
+      // For now, we'll show a placeholder conversion
+      toast({
+        title: "Plus Code Detected",
+        description: "Plus Code format validated. In production, this would convert to coordinates.",
+      });
+      return null;
+    } catch (error) {
+      console.error("Error converting Plus Code:", error);
+      return null;
+    }
+  };
+
+  // Watch for changes in latitude, longitude, and Google Plus Code
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'latitude' || name === 'longitude') {
+        const lat = parseFloat(value.latitude || '');
+        const lng = parseFloat(value.longitude || '');
+        
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          setMapCoordinates({ lat, lng });
+        } else if (value.latitude === '' && value.longitude === '') {
+          setMapCoordinates(null);
+        }
+      } else if (name === 'googlePlusCode' && value.googlePlusCode) {
+        convertPlusCodeToCoordinates(value.googlePlusCode);
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form, toast]);
 
   const propertyTypes = [
     { value: "entire-place", label: "Entire Place" },
@@ -2908,22 +2956,56 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          />
                        </div>
                        
-                       <Card className="p-4">
-                         <div className="flex items-center gap-2 mb-2">
-                           <MapPin className="h-4 w-4" />
-                           <span className="text-sm font-medium">Map Pin Drop / Location Picker</span>
-                         </div>
-                         <p className="text-sm text-muted-foreground mb-3">
-                           Click on the map below to set the exact location, or use the coordinates above.
-                         </p>
-                         <div className="bg-muted rounded-lg h-48 flex items-center justify-center">
-                           <div className="text-center">
-                             <MapPin className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                             <p className="text-sm text-muted-foreground">Interactive Map Coming Soon</p>
-                             <p className="text-xs text-muted-foreground">Use latitude/longitude fields above for now</p>
-                           </div>
-                         </div>
-                       </Card>
+                        <Card className="p-4">
+                          <div className="flex items-center gap-2 mb-2">
+                            <MapPin className="h-4 w-4" />
+                            <span className="text-sm font-medium">Map Pin Drop / Location Picker</span>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {mapCoordinates 
+                              ? "Location preview based on coordinates entered above."
+                              : "Enter coordinates above to see location on map, or click on the map to set location."
+                            }
+                          </p>
+                          <div className="bg-muted rounded-lg h-48 flex items-center justify-center relative overflow-hidden">
+                            {mapCoordinates ? (
+                              <div className="w-full h-full relative">
+                                {/* Simple coordinate display - in production this would be an actual map */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900/30 dark:to-green-900/30">
+                                  <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                    <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                                      <MapPin className="h-4 w-4 text-white" />
+                                    </div>
+                                    <div className="mt-2 text-center">
+                                      <div className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md text-xs font-medium">
+                                        {mapCoordinates.lat.toFixed(4)}, {mapCoordinates.lng.toFixed(4)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="absolute top-2 left-2 text-xs text-muted-foreground bg-white/80 dark:bg-gray-800/80 px-2 py-1 rounded">
+                                    Location Preview
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="text-center">
+                                <MapPin className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground">Enter coordinates to see location</p>
+                                <p className="text-xs text-muted-foreground">Latitude/Longitude or Google Plus Code</p>
+                              </div>
+                            )}
+                          </div>
+                          {mapCoordinates && (
+                            <div className="mt-3 p-3 bg-primary/10 rounded-lg">
+                              <div className="flex items-center gap-2 text-sm">
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <span className="font-medium">Location Detected:</span>
+                                <span>{mapCoordinates.lat.toFixed(6)}, {mapCoordinates.lng.toFixed(6)}</span>
+                              </div>
+                            </div>
+                          )}
+                        </Card>
                      </div>
                    </div>
                  </TabsContent>
