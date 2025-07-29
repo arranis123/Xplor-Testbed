@@ -299,6 +299,7 @@ const uploadFormSchema = z.object({
   annualFlagStateInspectionPassed: z.boolean().optional(),
   crewCertificatesOnboard: z.boolean().optional(),
   technicalManualAvailability: z.boolean().optional(),
+  pinCode: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -610,6 +611,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       annualFlagStateInspectionPassed: false,
       crewCertificatesOnboard: false,
       technicalManualAvailability: false,
+      pinCode: "",
     },
   });
 
@@ -7555,8 +7557,29 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
-                  </div>
+                     />
+                     {form.watch("visibility") === "private" && (
+                       <FormField
+                         control={form.control}
+                         name="pinCode"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Create Pin Code</FormLabel>
+                             <FormControl>
+                               <Input 
+                                 type="password" 
+                                 placeholder="Enter 4-6 digit pin code" 
+                                 maxLength={6}
+                                 pattern="[0-9]*"
+                                 {...field} 
+                               />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
+                   </div>
                 </TabsContent>
               </Tabs>
             </form>
