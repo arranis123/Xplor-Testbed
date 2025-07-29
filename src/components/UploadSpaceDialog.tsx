@@ -32,6 +32,7 @@ const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   propertyType: z.string().min(1, "Please select a property type"),
+  realEstatePropertyType: z.string().optional(),
   yachtSaleOrCharter: z.string().optional(),
   yachtSizeClass: z.string().optional(),
   yachtStyleLayout: z.string().optional(),
@@ -189,7 +190,6 @@ const uploadFormSchema = z.object({
   yachtListingDate: z.string().optional(),
   yachtListingType: z.string().optional(),
   // Real Estate Property Specifications
-  realEstatePropertyType: z.string().optional(),
   price: z.string().optional(),
   currency: z.string().optional(),
   pricePerSqm: z.string().optional(),

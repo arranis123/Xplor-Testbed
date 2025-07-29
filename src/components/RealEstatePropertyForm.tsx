@@ -12,6 +12,124 @@ interface RealEstatePropertyFormProps {
 }
 
 export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
+  const propertyTypeOptions = [
+    { category: "🏡 Single-Family Residential", options: [
+      { value: "detached-house", label: "Detached House" },
+      { value: "semi-detached-house", label: "Semi-Detached House" },
+      { value: "bungalow", label: "Bungalow" },
+      { value: "villa", label: "Villa" },
+      { value: "cottage-cabin", label: "Cottage / Cabin" },
+      { value: "townhouse-row-house", label: "Townhouse / Row House" },
+      { value: "duplex-triplex-fourplex", label: "Duplex / Triplex / Fourplex" },
+      { value: "farmhouse-country-house", label: "Farmhouse / Country House" },
+      { value: "mansion-estate-home", label: "Mansion / Estate Home" }
+    ]},
+    { category: "🏙️ Multi-Family & Urban Living", options: [
+      { value: "apartment-building", label: "Apartment Building" },
+      { value: "condominium-tower", label: "Condominium Tower" },
+      { value: "co-living-building", label: "Co-living Building" },
+      { value: "student-housing-residence", label: "Student Housing Residence" },
+      { value: "senior-living-facility", label: "Senior Living Facility / Assisted Living" },
+      { value: "mixed-use-residential-tower", label: "Mixed-Use Residential Tower (residential + commercial)" }
+    ]},
+    { category: "🏬 Retail & Shopping", options: [
+      { value: "retail-storefront", label: "Retail Storefront / High Street Shop" },
+      { value: "shopping-center", label: "Shopping Center / Strip Mall" },
+      { value: "department-store", label: "Department Store" },
+      { value: "standalone-retail-building", label: "Standalone Retail Building" },
+      { value: "convenience-store", label: "Convenience Store / Corner Shop" },
+      { value: "supermarket-grocery-store", label: "Supermarket / Grocery Store" },
+      { value: "showroom", label: "Showroom (e.g., furniture, cars)" }
+    ]},
+    { category: "🏢 Office & Administrative", options: [
+      { value: "office-tower", label: "Office Tower / High-Rise" },
+      { value: "business-center", label: "Business Center / Co-working Hub" },
+      { value: "low-rise-office-building", label: "Low-Rise Office Building" },
+      { value: "executive-suite-complex", label: "Executive Suite Complex" },
+      { value: "medical-office-building", label: "Medical Office Building (MOB)" },
+      { value: "government-building", label: "Government Building / Municipal Hall" },
+      { value: "embassy", label: "Embassy / Diplomatic Mission" }
+    ]},
+    { category: "🏭 Industrial & Logistics", options: [
+      { value: "warehouse-storage-facility", label: "Warehouse / Storage Facility" },
+      { value: "distribution-center", label: "Distribution Center" },
+      { value: "light-industrial-unit", label: "Light Industrial Unit" },
+      { value: "heavy-manufacturing-plant", label: "Heavy Manufacturing Plant" },
+      { value: "rd-facility", label: "R&D Facility (Research & Development)" },
+      { value: "cold-storage-warehouse", label: "Cold Storage Warehouse" },
+      { value: "data-center", label: "Data Center" },
+      { value: "flex-building", label: "Flex Building (Warehouse + Office)" },
+      { value: "logistics-hub", label: "Logistics Hub / Depot" }
+    ]},
+    { category: "🏨 Hospitality & Accommodation", options: [
+      { value: "hotel", label: "Hotel (Luxury / Boutique / Business)" },
+      { value: "motel", label: "Motel / Roadside Inn" },
+      { value: "hostel", label: "Hostel" },
+      { value: "bed-breakfast", label: "Bed & Breakfast (B&B)" },
+      { value: "serviced-apartment-building", label: "Serviced Apartment Building" },
+      { value: "resort-spa-complex", label: "Resort or Spa Complex" },
+      { value: "aparthotel", label: "Aparthotel" }
+    ]},
+    { category: "🍽️ Food & Beverage", options: [
+      { value: "restaurant-bistro", label: "Restaurant / Bistro" },
+      { value: "cafe-coffee-shop", label: "Café / Coffee Shop" },
+      { value: "fast-food-building", label: "Fast Food Building (QSR)" },
+      { value: "drive-thru-location", label: "Drive-Thru Location" },
+      { value: "ghost-kitchen", label: "Ghost Kitchen / Delivery-Only Facility" },
+      { value: "brewery-winery", label: "Brewery / Winery / Tasting Room" }
+    ]},
+    { category: "🚧 Development & Investment", options: [
+      { value: "bare-land", label: "Bare Land (Zoned Residential/Commercial/Industrial)" },
+      { value: "mixed-use-development-site", label: "Mixed-Use Development Site" },
+      { value: "urban-infill-lot", label: "Urban Infill Lot" },
+      { value: "brownfield-redevelopment", label: "Brownfield / Redevelopment Site" },
+      { value: "greenfield-land", label: "Greenfield Land" },
+      { value: "build-to-suit-building", label: "Build-to-Suit Building" }
+    ]},
+    { category: "🚑 Health & Wellness", options: [
+      { value: "hospital-clinic", label: "Hospital / Clinic" },
+      { value: "dental-surgery", label: "Dental Surgery / Medical Practice" },
+      { value: "rehabilitation-center", label: "Rehabilitation Center" },
+      { value: "wellness-center", label: "Wellness Center / Spa" },
+      { value: "veterinary-clinic", label: "Veterinary Clinic" }
+    ]},
+    { category: "🎓 Education & Training", options: [
+      { value: "school-kindergarten", label: "School / Kindergarten" },
+      { value: "university-building", label: "University Building" },
+      { value: "training-center", label: "Training Center" },
+      { value: "library-learning-hub", label: "Library / Learning Hub" },
+      { value: "daycare-center", label: "Daycare Center" }
+    ]},
+    { category: "🛐 Civic & Religious", options: [
+      { value: "church-temple-mosque", label: "Church / Temple / Mosque" },
+      { value: "community-center", label: "Community Center" },
+      { value: "town-hall", label: "Town Hall / Civic Hall" },
+      { value: "cultural-center", label: "Cultural Center" }
+    ]},
+    { category: "🎭 Leisure, Sports & Events", options: [
+      { value: "cinema-movie-theater", label: "Cinema / Movie Theater" },
+      { value: "nightclub-bar", label: "Nightclub / Bar" },
+      { value: "bowling-alley", label: "Bowling Alley / Arcade" },
+      { value: "sports-complex", label: "Sports Complex / Gym / Fitness Center" },
+      { value: "stadium-arena", label: "Stadium / Arena" },
+      { value: "event-hall", label: "Event Hall / Banquet Hall" },
+      { value: "music-venue", label: "Music Venue / Performance Theater" }
+    ]},
+    { category: "🚗 Auto & Transport", options: [
+      { value: "auto-dealership", label: "Auto Dealership" },
+      { value: "service-garage", label: "Service Garage / Mechanic Shop" },
+      { value: "gas-station", label: "Gas Station / Petrol Station" },
+      { value: "trucking-depot", label: "Trucking Depot" },
+      { value: "car-wash", label: "Car Wash" },
+      { value: "parking-garage", label: "Parking Garage / Lot" }
+    ]},
+    { category: "🛥️ Marine & Aviation", options: [
+      { value: "marina-dry-dock", label: "Marina / Dry Dock / Boatyard" },
+      { value: "yacht-club-facility", label: "Yacht Club Facility" },
+      { value: "hangar-airstrip", label: "Hangar / Airstrip / Private Airport Terminal" }
+    ]}
+  ];
+
   const availabilityStatusOptions = [
     { value: "available", label: "Available" },
     { value: "under-offer", label: "Under Offer" },
@@ -487,6 +605,38 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
           <Home className="h-5 w-5" />
           Core Property Details
         </h3>
+        
+        {/* Property Type Field */}
+        <FormField
+          control={form.control}
+          name="realEstatePropertyType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Property Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select property type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {propertyTypeOptions.map((category) => (
+                    <SelectGroup key={category.category}>
+                      <SelectLabel>{category.category}</SelectLabel>
+                      {category.options.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="grid grid-cols-3 gap-2">
             <FormField
