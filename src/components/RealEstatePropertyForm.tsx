@@ -87,54 +87,12 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="listingTitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Listing Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., Modern 3-Bedroom Apartment in Central Barcelona" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
             name="pricePerSqm"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Price (Per sqm or sqft)</FormLabel>
                 <FormControl>
                   <Input placeholder="e.g., 3500" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="streetAddress"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Input placeholder="Full or partial address" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="locationTags"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Location Tags</FormLabel>
-                <FormControl>
-                  <Input placeholder="City, neighborhood, district" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
