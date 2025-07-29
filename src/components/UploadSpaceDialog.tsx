@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic, Package, Truck } from "lucide-react";
 import MapboxLocationPicker from "./MapboxLocationPicker";
 import { MapboxService } from "@/services/mapboxService";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
