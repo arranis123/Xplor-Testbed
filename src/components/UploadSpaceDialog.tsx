@@ -7712,16 +7712,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
             </div>
             <div className="space-y-2">
               <Label htmlFor="contact-description">Pick up location drop off location via locations</Label>
-              <Select name="description" required>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select location type..." />
-                </SelectTrigger>
-                <SelectContent className="bg-background border border-border shadow-lg z-50">
-                  <SelectItem value="start-location">Start Location</SelectItem>
-                  <SelectItem value="stops">Stops</SelectItem>
-                  <SelectItem value="end-location">End Location</SelectItem>
-                </SelectContent>
-              </Select>
+              <Textarea
+                id="contact-description"
+                name="description"
+                placeholder="Enter start location, stops, and end location..."
+                className="min-h-[100px]"
+                required
+              />
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setShowContactForm(false)}>
