@@ -830,81 +830,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
             }
           }
           
-          // Extract additional vessel information from AIS data if available
-          if (aisData.additionalData) {
-            const vesselData = aisData.additionalData;
-            
-            // Try to extract vessel dimensions and details
-            if (vesselData.to_bow && vesselData.to_stern) {
-              const length = (vesselData.to_bow + vesselData.to_stern);
-              form.setValue('yachtLOA', length.toString());
-            } else if (vesselData.length) {
-              form.setValue('yachtLOA', vesselData.length.toString());
-            }
-            
-            if (vesselData.to_port && vesselData.to_starboard) {
-              const beam = (vesselData.to_port + vesselData.to_starboard);
-              form.setValue('yachtBeam', beam.toString());
-            } else if (vesselData.beam || vesselData.width) {
-              form.setValue('yachtBeam', (vesselData.beam || vesselData.width).toString());
-            }
-            
-            if (vesselData.draught || vesselData.draft) {
-              form.setValue('yachtDraft', (vesselData.draught || vesselData.draft).toString());
-            }
-            
-            // Extract vessel type and try to categorize
-            if (vesselData.ship_and_cargo_type || vesselData.vessel_type) {
-              const vesselType = (vesselData.ship_and_cargo_type || vesselData.vessel_type).toString();
-              const vesselTypeLower = vesselType.toLowerCase();
-              
-              if (vesselTypeLower.includes('yacht') || vesselTypeLower.includes('pleasure')) {
-                form.setValue('propertyType', 'yacht');
-                if (vesselTypeLower.includes('motor') || vesselTypeLower.includes('power')) {
-                  form.setValue('yachtSubtype', 'motor-yacht');
-                } else if (vesselTypeLower.includes('sail')) {
-                  form.setValue('yachtSubtype', 'sailing-yacht');
-                }
-              }
-            }
-            
-            // Extract call sign if available (store in description for now)
-            if (vesselData.call_sign) {
-              const currentDesc = form.getValues('description') || '';
-              const callSignInfo = `Call Sign: ${vesselData.call_sign}`;
-              if (!currentDesc.includes(callSignInfo)) {
-                form.setValue('description', currentDesc ? `${currentDesc}\n${callSignInfo}` : callSignInfo);
-              }
-            }
-            
-            // Extract destination information (store in description for now)
-            if (vesselData.destination) {
-              const currentDesc = form.getValues('description') || '';
-              const destInfo = `Current Destination: ${vesselData.destination}`;
-              if (!currentDesc.includes(destInfo)) {
-                form.setValue('description', currentDesc ? `${currentDesc}\n${destInfo}` : destInfo);
-              }
-            }
-            
-            // Speed and course information (can be useful for tracking)
-            if (vesselData.speed_over_ground || vesselData.sog) {
-              const speed = vesselData.speed_over_ground || vesselData.sog;
-              // Could add speed to description or a special field
-            }
-            
-            if (vesselData.course_over_ground || vesselData.cog) {
-              const course = vesselData.course_over_ground || vesselData.cog;
-              // Could add course to description or a special field
-            }
-          }
-          
           // Create MarineTraffic URL for reference
           const trackingUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`;
           form.setValue('marineTrafficUrl', trackingUrl);
           
           toast({
             title: `Vessel data updated! Found: ${aisData.shipName || 'Unknown vessel'}`,
-            description: `Real-time position and vessel details loaded from AIS data`,
             duration: 5000,
           });
           
