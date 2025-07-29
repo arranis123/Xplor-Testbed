@@ -6561,8 +6561,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     <div>
                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                         <FileText className="h-5 w-5" />
-                        Floor Plans [Need Floor Plans? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click Here</button> to contact a Floor Plan creator]
+                        Floor Plans
                       </Label>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Need Floor Plans? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click Here</button> to contact a Floor Plan creator
+                      </p>
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                         <div className="flex flex-col items-center gap-4">
                           <div className="flex items-center gap-2 text-muted-foreground">
@@ -6606,8 +6609,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       <div>
                         <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                           <FileText className="h-5 w-5" />
-                          Sample Itineraries [Need to create an itinerary? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here for AI assistance</button>]
+                          Sample Itineraries
                         </Label>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Need to create an itinerary? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here for AI assistance</button>
+                        </p>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
