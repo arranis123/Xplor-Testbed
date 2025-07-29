@@ -39,6 +39,7 @@ const uploadFormSchema = z.object({
   yachtHullConfiguration: z.string().optional(),
   listingType: z.string().optional(),
   salePrice: z.string().optional(),
+  rentalPrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
   rentalPeriod: z.string().optional(),
   availableFrom: z.date().optional(),
@@ -1648,10 +1649,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 </TabsList>
 
                  <TabsContent value="basic" className="space-y-4">
-                   {/* Debug message for basic tab */}
-                   <div className="bg-blue-100 border-blue-500 border-2 p-2 mb-4">
-                     <p className="text-blue-800 font-bold">DEBUG: Basic Info Tab - Category: {category}</p>
-                   </div>
                    <div className="grid grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -1667,13 +1664,50 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          )}
                        />
                        
-                       {/* Real Estate Debug Test */}
+                       {/* Real Estate Sale Price Field */}
                        {category === "real-estate" && (
-                         <div className="col-span-2 bg-green-200 border-green-600 border-2 p-4 rounded">
-                           <h2 className="text-green-800 font-bold text-xl">✅ REAL ESTATE MODE DETECTED!</h2>
-                           <p className="text-green-700">Category: {category}</p>
-                           <p className="text-green-700">This means real estate fields should be visible below!</p>
-                         </div>
+                         <FormField
+                           control={form.control}
+                           name="salePrice"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Sale Price</FormLabel>
+                               <FormControl>
+                               <Input 
+                                   placeholder="e.g., 750000" 
+                                   {...field} 
+                                 />
+                               </FormControl>
+                               <FormDescription>
+                                 Property sale price (optional)
+                               </FormDescription>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
+
+                       {/* Real Estate Rental Price Field */}
+                       {category === "real-estate" && (
+                         <FormField
+                           control={form.control}
+                           name="rentalPrice"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Rental Price (Monthly)</FormLabel>
+                               <FormControl>
+                               <Input 
+                                   placeholder="e.g., 2500" 
+                                   {...field} 
+                                 />
+                               </FormControl>
+                               <FormDescription>
+                                 Monthly rental price (optional)
+                               </FormDescription>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
                        )}
 
                       {category === "yacht" && (
