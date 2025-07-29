@@ -133,34 +133,6 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <FormField
             control={form.control}
-            name="bedrooms"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Number of Bedrooms</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="e.g., 3" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="bathrooms"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Number of Bathrooms</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="e.g., 2" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="livingRooms"
             render={({ field }) => (
               <FormItem>
@@ -900,20 +872,6 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
           Building & Community Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="yearBuilt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Year Built</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="e.g., 2020" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="yearRenovated"
