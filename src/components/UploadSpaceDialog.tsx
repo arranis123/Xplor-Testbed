@@ -24,6 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HotelUploadForm } from "./HotelUploadForm";
 import { YachtBrochure } from "./YachtBrochure";
 import { CrewProfileForm } from "./CrewProfileForm";
+import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { aisStreamService } from "../services/aisStreamService";
 
 const uploadFormSchema = z.object({
@@ -2558,121 +2559,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                    </div>
 
-                     {category === "real-estate" && (
-                       <div className="space-y-4">
-                         <h3 className="text-lg font-semibold">🏠 Real Estate Property Details</h3>
-                      <div className="grid grid-cols-2 gap-4">
-
-                        <FormField
-                          control={form.control}
-                          name="realEstatePropertyType"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Property Type Category</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select property category" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    <SelectLabel>📦 Residential - By Dwelling Type</SelectLabel>
-                                    {residentialDwellingTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                  
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🌐 Residential - By Setting</SelectLabel>
-                                    {residentialSettingTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                  
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🧳 Residential - By Usage Type</SelectLabel>
-                                    {residentialUsageTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🏬 Commercial - Retail & Hospitality</SelectLabel>
-                                    {commercialRetailTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🏢 Commercial - Office</SelectLabel>
-                                    {commercialOfficeTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🏭 Commercial - Industrial</SelectLabel>
-                                    {commercialIndustrialTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🏞️ Land & Development Property</SelectLabel>
-                                    {landDevelopmentTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🏨 Special-Purpose Real Estate</SelectLabel>
-                                    {specialPurposeTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-
-                                  <SelectSeparator />
-                                  <SelectGroup>
-                                    <SelectLabel>🌍 International & Luxury Real Estate</SelectLabel>
-                                    {luxuryInternationalTypes.map((type) => (
-                                      <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </div>
-                  )}
+                      {category === "real-estate" && (
+                        <RealEstatePropertyForm form={form} />
+                      )}
 
                   <FormField
                     control={form.control}
