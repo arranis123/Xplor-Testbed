@@ -216,6 +216,41 @@ const uploadFormSchema = z.object({
   priorityListing: z.string().optional(),
   dateListed: z.date().optional(),
   lastUpdated: z.date().optional(),
+  // Yacht Charter Rules
+  yachtSmokingPolicy: z.string().optional(),
+  yachtPetsPolicy: z.string().optional(),
+  yachtAlcoholPolicy: z.string().optional(),
+  yachtGuestCapacityDay: z.string().optional(),
+  yachtGuestCapacitySleeping: z.string().optional(),
+  yachtChildrenPolicy: z.string().optional(),
+  yachtWaterToysRestrictions: z.string().optional(),
+  yachtDronePolicy: z.string().optional(),
+  yachtFishingPolicy: z.string().optional(),
+  yachtNudityPolicy: z.string().optional(),
+  yachtShoePolicy: z.string().optional(),
+  yachtMusicRestrictions: z.string().optional(),
+  yachtRedWinePolicy: z.string().optional(),
+  yachtSubstancesPolicy: z.string().optional(),
+  // Access Areas
+  yachtAllowedAreas: z.array(z.string()).optional(),
+  yachtRestrictedAreas: z.array(z.string()).optional(),
+  yachtBridgeAccess: z.string().optional(),
+  yachtNightCruising: z.string().optional(),
+  yachtAnchoringPolicy: z.string().optional(),
+  yachtTenderOperation: z.string().optional(),
+  // Booking Rules
+  yachtMinCharterDuration: z.string().optional(),
+  yachtCheckInTime: z.string().optional(),
+  yachtCheckOutTime: z.string().optional(),
+  yachtTurnaroundTime: z.string().optional(),
+  yachtApaRequired: z.string().optional(),
+  yachtCustomsPermits: z.string().optional(),
+  // Additional Rules
+  yachtCrewTipExpectation: z.string().optional(),
+  yachtCurfewPolicy: z.string().optional(),
+  yachtSafetyBriefing: z.string().optional(),
+  yachtCovidRequirements: z.string().optional(),
+  yachtEnvironmentalRules: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -441,6 +476,38 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       priorityListing: "",
       dateListed: undefined,
       lastUpdated: undefined,
+      // Yacht Charter Rules default values
+      yachtSmokingPolicy: "",
+      yachtPetsPolicy: "",
+      yachtAlcoholPolicy: "",
+      yachtGuestCapacityDay: "",
+      yachtGuestCapacitySleeping: "",
+      yachtChildrenPolicy: "",
+      yachtWaterToysRestrictions: "",
+      yachtDronePolicy: "",
+      yachtFishingPolicy: "",
+      yachtNudityPolicy: "",
+      yachtShoePolicy: "",
+      yachtMusicRestrictions: "",
+      yachtRedWinePolicy: "",
+      yachtSubstancesPolicy: "",
+      yachtAllowedAreas: [],
+      yachtRestrictedAreas: [],
+      yachtBridgeAccess: "",
+      yachtNightCruising: "",
+      yachtAnchoringPolicy: "",
+      yachtTenderOperation: "",
+      yachtMinCharterDuration: "",
+      yachtCheckInTime: "",
+      yachtCheckOutTime: "",
+      yachtTurnaroundTime: "",
+      yachtApaRequired: "",
+      yachtCustomsPermits: "",
+      yachtCrewTipExpectation: "",
+      yachtCurfewPolicy: "",
+      yachtSafetyBriefing: "",
+      yachtCovidRequirements: "",
+      yachtEnvironmentalRules: "",
     },
   });
 
@@ -4985,6 +5052,693 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             </FormItem>
                           )}
                         />
+                      </>
+                    )}
+
+                    {/* Yacht Charter Rules Section */}
+                    {category === "yacht" && (
+                      <>
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Ship className="h-5 w-5" />
+                            Charter Rules (Guest Behavior & Use)
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="yachtSmokingPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Smoking Allowed Onboard</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select smoking policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
+                                      <SelectItem value="designated-areas">Designated Areas Only</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtPetsPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pets Allowed</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select pets policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
+                                      <SelectItem value="on-request">On Request</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtAlcoholPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Alcohol Consumption Policy</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select alcohol policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="allowed">Allowed</SelectItem>
+                                      <SelectItem value="byo">BYO (Bring Your Own)</SelectItem>
+                                      <SelectItem value="restrictions">Restrictions Apply</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtGuestCapacityDay"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Guest Capacity (Day Use)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 12 guests" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtGuestCapacitySleeping"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Guest Capacity (Sleeping)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 8 guests" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtChildrenPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Children Allowed</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select children policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="minimum-age">Minimum Age Required</SelectItem>
+                                      <SelectItem value="life-jacket-required">Life Jacket Required</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtWaterToysRestrictions"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Water Toys Use Restrictions</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select restrictions" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="none">No Restrictions</SelectItem>
+                                      <SelectItem value="license-required">Jet Ski License Required</SelectItem>
+                                      <SelectItem value="no-night-use">No Use After Dark</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtDronePolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Drone Use Allowed</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select drone policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
+                                      <SelectItem value="restricted-areas">Restricted Areas Only</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtFishingPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Fishing Allowed</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select fishing policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
+                                      <SelectItem value="license-required">License Required</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtNudityPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Nudity / Clothing-Optional Policy</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select nudity policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="allowed">Allowed</SelectItem>
+                                      <SelectItem value="not-allowed">Not Allowed</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtShoePolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>No-Shoe Policy</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select shoe policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="shoe-basket">Shoe Basket Provided</SelectItem>
+                                      <SelectItem value="soft-soled">Soft-soled Shoes Allowed</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtMusicRestrictions"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Music Volume Restrictions</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select music restrictions" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="none">No Restrictions</SelectItem>
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="after-hours">After-hours Limits</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtRedWinePolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Red Wine Onboard</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select red wine policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="allowed">Allowed</SelectItem>
+                                      <SelectItem value="not-allowed">Not Allowed (Stain Prevention)</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtSubstancesPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Illegal Substances Policy</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select substances policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="zero-tolerance">Zero-tolerance (Standard Clause)</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Building className="h-5 w-5" />
+                            Access & Usage Permissions
+                          </h3>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <Label className="text-sm font-medium mb-2 block">Allowed Areas for Guests</Label>
+                              <FormField
+                                control={form.control}
+                                name="yachtAllowedAreas"
+                                render={() => (
+                                  <FormItem>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                      {[
+                                        { id: "main-salon", label: "Main Salon" },
+                                        { id: "sun-deck", label: "Sun Deck" },
+                                        { id: "bridge-deck", label: "Bridge Deck" },
+                                        { id: "swim-platform", label: "Swim Platform" },
+                                        { id: "galley-request", label: "Galley (on request)" },
+                                        { id: "bridge-request", label: "Bridge (on request or closed)" },
+                                      ].map((area) => (
+                                        <FormField
+                                          key={area.id}
+                                          control={form.control}
+                                          name="yachtAllowedAreas"
+                                          render={({ field }) => {
+                                            return (
+                                              <FormItem
+                                                key={area.id}
+                                                className="flex flex-row items-start space-x-3 space-y-0"
+                                              >
+                                                <FormControl>
+                                                  <Checkbox
+                                                    checked={field.value?.includes(area.id)}
+                                                    onCheckedChange={(checked) => {
+                                                      return checked
+                                                        ? field.onChange([...field.value, area.id])
+                                                        : field.onChange(
+                                                            field.value?.filter(
+                                                              (value) => value !== area.id
+                                                            )
+                                                          )
+                                                    }}
+                                                  />
+                                                </FormControl>
+                                                <FormLabel className="text-sm font-normal">
+                                                  {area.label}
+                                                </FormLabel>
+                                              </FormItem>
+                                            )
+                                          }}
+                                        />
+                                      ))}
+                                    </div>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+
+                            <div>
+                              <Label className="text-sm font-medium mb-2 block">Restricted Areas</Label>
+                              <FormField
+                                control={form.control}
+                                name="yachtRestrictedAreas"
+                                render={() => (
+                                  <FormItem>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                      {[
+                                        { id: "engine-room", label: "Engine Room" },
+                                        { id: "crew-quarters", label: "Crew Quarters" },
+                                        { id: "captain-cabin", label: "Captain's Cabin" },
+                                        { id: "pantry-laundry", label: "Pantry / Laundry" },
+                                      ].map((area) => (
+                                        <FormField
+                                          key={area.id}
+                                          control={form.control}
+                                          name="yachtRestrictedAreas"
+                                          render={({ field }) => {
+                                            return (
+                                              <FormItem
+                                                key={area.id}
+                                                className="flex flex-row items-start space-x-3 space-y-0"
+                                              >
+                                                <FormControl>
+                                                  <Checkbox
+                                                    checked={field.value?.includes(area.id)}
+                                                    onCheckedChange={(checked) => {
+                                                      return checked
+                                                        ? field.onChange([...field.value, area.id])
+                                                        : field.onChange(
+                                                            field.value?.filter(
+                                                              (value) => value !== area.id
+                                                            )
+                                                          )
+                                                    }}
+                                                  />
+                                                </FormControl>
+                                                <FormLabel className="text-sm font-normal">
+                                                  {area.label}
+                                                </FormLabel>
+                                              </FormItem>
+                                            )
+                                          }}
+                                        />
+                                      ))}
+                                    </div>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Cog className="h-5 w-5" />
+                            Navigation & Safety
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="yachtBridgeAccess"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Guest Access to Bridge During Navigation</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select bridge access policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
+                                      <SelectItem value="on-invitation">On Invitation Only</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtNightCruising"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Night Cruising</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select night cruising policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="allowed">Allowed</SelectItem>
+                                      <SelectItem value="limited">Limited</SelectItem>
+                                      <SelectItem value="not-permitted">Not Permitted</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtAnchoringPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Anchoring at Night</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select anchoring policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="allowed">Allowed</SelectItem>
+                                      <SelectItem value="weather-dependent">Weather Dependent</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtTenderOperation"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Tender Operation by Guests</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select tender operation policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="not-allowed">Not Allowed</SelectItem>
+                                      <SelectItem value="crew-only">With Crew Only</SelectItem>
+                                      <SelectItem value="with-license">With License</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Clock className="h-5 w-5" />
+                            Booking & Operational Rules
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="yachtMinCharterDuration"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Minimum Charter Duration</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 3 nights / 1 week" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtCheckInTime"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Check-in Time / Embarkation</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 12:00 PM" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtCheckOutTime"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Check-out Time / Disembarkation</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 12:00 PM" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtTurnaroundTime"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Turnaround Time Between Charters</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 24 hours" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtApaRequired"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Advance Provisioning Allowance (APA) Required</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Yes / 30% of rate" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtCustomsPermits"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Customs/Cruising Permits Required</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select customs permits policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="yes">Yes</SelectItem>
+                                      <SelectItem value="no">No</SelectItem>
+                                      <SelectItem value="paid-separately">Paid Separately</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Plus className="h-5 w-5" />
+                            Additional Optional Rules
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="yachtCrewTipExpectation"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Crew Tip Expectations</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 10-15% of charter fee" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtCurfewPolicy"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Curfew for Return to Port</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., No curfew / 10:00 PM" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtSafetyBriefing"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Guest Safety Briefing Required</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select safety briefing policy" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="mandatory">Mandatory at Embarkation</SelectItem>
+                                      <SelectItem value="optional">Optional</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtCovidRequirements"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>COVID-19 Requirements</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Vaccination / Test required" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="yachtEnvironmentalRules"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Environmental Rules</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., No plastic bottles / Reef-safe sunscreen" {...field} />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
                       </>
                     )}
 
