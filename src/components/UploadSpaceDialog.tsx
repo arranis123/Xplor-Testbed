@@ -21,6 +21,7 @@ import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HotelUploadForm } from "./HotelUploadForm";
+import { YachtBrochure } from "./YachtBrochure";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -4350,10 +4351,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormItem>
                             )}
                           />
-                        </div>
-                      </>
-                    )}
-                  </TabsContent>
+                         </div>
+
+                         {/* Yacht Brochure Section */}
+                         <div className="space-y-4 border-t pt-6">
+                           <YachtBrochure formData={form.getValues()} />
+                         </div>
+                       </>
+                     )}
+                   </TabsContent>
                  )}
 
                  <TabsContent value="location" className="space-y-4">
