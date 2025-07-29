@@ -1520,27 +1520,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        />
                      )}
 
-                      {category === "yacht" && (
-                        <FormField
-                          control={form.control}
-                          name="charterRate"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Charter Rate</FormLabel>
-                              <FormControl>
-                                <Input 
-                                  placeholder="e.g., €50,000/week" 
-                                  {...field} 
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                Charter rate per period (include currency and time period)
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      )}
 
                       {category === "yacht" && (
                         <div className="flex items-center space-x-6">
