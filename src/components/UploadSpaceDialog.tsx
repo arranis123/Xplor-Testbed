@@ -604,7 +604,174 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
-  // Watch for changes in latitude, longitude, Google Plus Code, and MMSI
+  const fetchYachtDetailsFromOfficialNumber = async (officialNumber: string) => {
+    if (!officialNumber || officialNumber.length < 3) return;
+    
+    console.log(`Fetching yacht details for Official Number: ${officialNumber}`);
+    
+    try {
+      // Try Marine Traffic search with the official number
+      const searchUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${officialNumber}`;
+      const corsProxy = 'https://api.allorigins.win/raw?url=';
+      
+      try {
+        const response = await fetch(`${corsProxy}${encodeURIComponent(searchUrl)}`);
+        const html = await response.text();
+        
+        console.log(`Fetching yacht details - Response status: ${response.status}`);
+        
+        // Extract vessel details from Marine Traffic HTML
+        const details: any = {};
+        
+        // Extract vessel name
+        const nameMatch = html.match(/<title[^>]*>Ship\s+([^(]+)/i) || 
+                         html.match(/vessel["\s]+name["\s]*:["\s]*["']([^"']+)["']/i) ||
+                         html.match(/ship["\s]+name["\s]*:["\s]*["']([^"']+)["']/i);
+        if (nameMatch) {
+          details.title = nameMatch[1].trim();
+        }
+        
+        // Extract vessel type
+        const typeMatch = html.match(/\(([^)]+)\)\s+Registered\s+in/i) ||
+                         html.match(/vessel["\s]+type["\s]*:["\s]*["']([^"']+)["']/i);
+        if (typeMatch) {
+          details.yachtSubtype = typeMatch[1].trim();
+        }
+        
+        // Extract year built
+        const yearMatch = html.match(/built["\s]*:["\s]*(\d{4})/i) ||
+                         html.match(/year["\s]+built["\s]*:["\s]*(\d{4})/i);
+        if (yearMatch) {
+          details.yachtYearBuilt = yearMatch[1];
+          details.yearBuilt = yearMatch[1];
+        }
+        
+        // Extract dimensions
+        const loaMatch = html.match(/length["\s]*:["\s]*([0-9.]+)/i) ||
+                        html.match(/loa["\s]*:["\s]*([0-9.]+)/i);
+        if (loaMatch) {
+          details.yachtLOA = loaMatch[1] + 'm';
+        }
+        
+        const beamMatch = html.match(/beam["\s]*:["\s]*([0-9.]+)/i) ||
+                         html.match(/width["\s]*:["\s]*([0-9.]+)/i);
+        if (beamMatch) {
+          details.yachtBeam = beamMatch[1] + 'm';
+        }
+        
+        const draftMatch = html.match(/draft["\s]*:["\s]*([0-9.]+)/i) ||
+                          html.match(/draught["\s]*:["\s]*([0-9.]+)/i);
+        if (draftMatch) {
+          details.yachtDraft = draftMatch[1] + 'm';
+        }
+        
+        // Extract gross tonnage
+        const tonnageMatch = html.match(/gross["\s]+tonnage["\s]*:["\s]*([0-9,]+)/i) ||
+                            html.match(/gt["\s]*:["\s]*([0-9,]+)/i);
+        if (tonnageMatch) {
+          details.yachtGrossTonnage = tonnageMatch[1].replace(/,/g, '');
+        }
+        
+        // Extract IMO if found
+        const imoMatch = html.match(/imo["\s]*:["\s]*([0-9]+)/i);
+        if (imoMatch) {
+          details.imoNumber = imoMatch[1];
+        }
+        
+        // Extract MMSI if found
+        const mmsiMatch = html.match(/mmsi["\s]*:["\s]*([0-9]+)/i);
+        if (mmsiMatch) {
+          details.mmsiNumber = mmsiMatch[1];
+        }
+        
+        // Extract flag/country
+        const flagMatch = html.match(/flag["\s]*:["\s]*["']([^"']+)["']/i) ||
+                         html.match(/Registered\s+in\s+([^-\s]+)/i);
+        if (flagMatch) {
+          details.country = flagMatch[1].trim();
+        }
+        
+        console.log('Extracted yacht details:', details);
+        
+        // Auto-fill form fields if details were found
+        if (Object.keys(details).length > 0) {
+          Object.entries(details).forEach(([key, value]) => {
+            if (value && typeof value === 'string') {
+              form.setValue(key as any, value);
+            }
+          });
+          
+          toast({
+            title: "Yacht Details Found!",
+            description: `Auto-filled ${Object.keys(details).length} yacht details from Marine Traffic`,
+            action: (
+              <a 
+                href={searchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline"
+                onClick={() => {
+                  window.open(searchUrl, '_blank');
+                }}
+              >
+                View on Marine Traffic
+              </a>
+            ),
+            duration: 10000,
+          });
+        } else {
+          // Fallback: Open Marine Traffic for manual lookup
+          toast({
+            title: "Manual Details Entry Required",
+            description: `Could not automatically extract details for Official Number: ${officialNumber}`,
+            action: (
+              <a 
+                href={searchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline"
+                onClick={() => {
+                  window.open(searchUrl, '_blank');
+                }}
+              >
+                Search on Marine Traffic
+              </a>
+            ),
+            duration: 15000,
+          });
+        }
+        
+      } catch (fetchError) {
+        console.log('CORS proxy failed for yacht details:', fetchError);
+        
+        // Fallback: Open Marine Traffic for manual lookup
+        const searchUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${officialNumber}`;
+        toast({
+          title: "Manual Details Entry Required",
+          description: `Please search for Official Number: ${officialNumber} and enter details manually`,
+          action: (
+            <a 
+              href={searchUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline"
+              onClick={() => {
+                window.open(searchUrl, '_blank');
+              }}
+            >
+              Search on Marine Traffic
+            </a>
+          ),
+          duration: 15000,
+        });
+      }
+      
+    } catch (error) {
+      console.error('Error fetching yacht details:', error);
+    }
+  };
+
+  // Watch for changes in latitude, longitude, Google Plus Code, MMSI, IMO, and Official Number
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
       if (name === 'latitude' || name === 'longitude') {
@@ -642,6 +809,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           }
         };
         fetchLocation();
+      } else if (name === 'officialNumber' && value.officialNumber) {
+        // Fetch yacht details when Official Number is entered
+        fetchYachtDetailsFromOfficialNumber(value.officialNumber);
       }
     });
     
