@@ -55,6 +55,7 @@ export class AISStreamService {
         
         this.socket.onopen = () => {
           console.log('Connected to AISStream.io');
+          console.log('Sending subscription with API key:', this.apiKey?.substring(0, 8) + '...');
           
           // Send subscription message within 3 seconds as required
           const subscriptionMessage = {
@@ -63,6 +64,7 @@ export class AISStreamService {
             FilterMessageTypes: ['PositionReport'] // Only position reports for efficiency
           };
           
+          console.log('Subscription message:', JSON.stringify(subscriptionMessage, null, 2));
           this.socket?.send(JSON.stringify(subscriptionMessage));
           resolve(true);
         };
@@ -78,6 +80,8 @@ export class AISStreamService {
 
         this.socket.onerror = (error) => {
           console.error('AISStream WebSocket error:', error);
+          console.error('API key being used:', this.apiKey?.substring(0, 8) + '...');
+          console.error('WebSocket readyState:', this.socket?.readyState);
           resolve(false);
         };
 
