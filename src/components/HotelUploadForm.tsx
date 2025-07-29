@@ -355,32 +355,89 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           Room Details
         </h3>
         
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Room Types - Dropdown Selection */}
+        <div className="space-y-6">
+          {/* Room Types - Multiple Selection */}
           <FormField
             control={form.control}
-            name="roomType"
+            name="roomTypes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Room Types Available</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select room type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-80">
-                    {hotelRoomTypes.map((roomType) => (
-                      <SelectItem key={roomType.value} value={roomType.value}>
-                        {roomType.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormLabel className="text-base font-medium">Room Types Available</FormLabel>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3 max-h-80 overflow-y-auto border border-border rounded-md p-4">
+                  {hotelRoomTypes.map((roomType) => (
+                    <FormField
+                      key={roomType.value}
+                      control={form.control}
+                      name="roomTypes"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={roomType.value}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(roomType.value)}
+                                onCheckedChange={(checked) => {
+                                  const updatedValue = checked
+                                    ? [...(field.value || []), roomType.value]
+                                    : field.value?.filter((value: string) => value !== roomType.value) || [];
+                                  field.onChange(updatedValue);
+                                }}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel className="text-sm font-normal cursor-pointer">
+                                {roomType.label}
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          {/* Dynamic Pricing Section */}
+          {form.watch("roomTypes")?.length > 0 && (
+            <div className="space-y-4">
+              <h4 className="text-base font-medium">Room Type Pricing</h4>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {form.watch("roomTypes")?.map((roomTypeValue: string) => {
+                  const roomType = hotelRoomTypes.find(rt => rt.value === roomTypeValue);
+                  return (
+                    <FormField
+                      key={roomTypeValue}
+                      control={form.control}
+                      name={`roomTypePrices.${roomTypeValue}`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm">
+                            {roomType?.label.split(' – ')[0]} - Nightly Rate
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="e.g., 250" 
+                              {...field}
+                              className="border-2 border-border"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
 
           {/* Bed Configurations - Dropdown Selection */}
           <FormField
