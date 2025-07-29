@@ -252,6 +252,53 @@ const uploadFormSchema = z.object({
   yachtSafetyBriefing: z.string().optional(),
   yachtCovidRequirements: z.string().optional(),
   yachtEnvironmentalRules: z.string().optional(),
+  // Yacht Compliance Fields
+  mcaCompliant: z.boolean().optional(),
+  ismCertified: z.boolean().optional(),
+  ispsCertified: z.boolean().optional(),
+  solasCompliant: z.boolean().optional(),
+  marpolCompliant: z.boolean().optional(),
+  mlcCompliant: z.boolean().optional(),
+  rinaClassed: z.boolean().optional(),
+  lloydsRegisterClassed: z.boolean().optional(),
+  dnvClassed: z.boolean().optional(),
+  absClassed: z.boolean().optional(),
+  bureauVeritasClassed: z.boolean().optional(),
+  germanischerLloydClassed: z.boolean().optional(),
+  commerciallyCoded: z.boolean().optional(),
+  ceCertified: z.string().optional(),
+  flaggedCommercialUse: z.boolean().optional(),
+  privateUseOnly: z.boolean().optional(),
+  dualRegistrationAvailable: z.boolean().optional(),
+  euVatPaid: z.string().optional(),
+  temporaryImportationAllowed: z.boolean().optional(),
+  uscgDocumented: z.boolean().optional(),
+  stcwCertifiedCrewRequired: z.boolean().optional(),
+  minimumSafeManning: z.boolean().optional(),
+  passengerCapacityCompliance: z.boolean().optional(),
+  helideckCertification: z.string().optional(),
+  crewRotationPolicy: z.boolean().optional(),
+  medicalBayEquipped: z.boolean().optional(),
+  tierIiiEngineCompliance: z.boolean().optional(),
+  exhaustGasScrubbersInstalled: z.boolean().optional(),
+  ballastWaterTreatmentSystem: z.boolean().optional(),
+  greyWaterTreatmentSystem: z.boolean().optional(),
+  garbageManagementPlan: z.boolean().optional(),
+  sewageTreatmentPlantCertified: z.boolean().optional(),
+  ecoLabelCertified: z.boolean().optional(),
+  securityPlanOnboard: z.boolean().optional(),
+  cctvSurveillanceSystem: z.boolean().optional(),
+  cybersecurityProtocols: z.boolean().optional(),
+  shipSecurityOfficerAssigned: z.boolean().optional(),
+  insuranceComplianceComplete: z.boolean().optional(),
+  upToDateClassCertificate: z.boolean().optional(),
+  upToDateSurveyReports: z.boolean().optional(),
+  validInsuranceCertificate: z.boolean().optional(),
+  validCharterLicense: z.boolean().optional(),
+  ownerCompanyGoodStanding: z.boolean().optional(),
+  annualFlagStateInspectionPassed: z.boolean().optional(),
+  crewCertificatesOnboard: z.boolean().optional(),
+  technicalManualAvailability: z.boolean().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -516,6 +563,53 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtSafetyBriefing: "",
       yachtCovidRequirements: "",
       yachtEnvironmentalRules: "",
+      // Yacht Compliance default values
+      mcaCompliant: false,
+      ismCertified: false,
+      ispsCertified: false,
+      solasCompliant: false,
+      marpolCompliant: false,
+      mlcCompliant: false,
+      rinaClassed: false,
+      lloydsRegisterClassed: false,
+      dnvClassed: false,
+      absClassed: false,
+      bureauVeritasClassed: false,
+      germanischerLloydClassed: false,
+      commerciallyCoded: false,
+      ceCertified: "",
+      flaggedCommercialUse: false,
+      privateUseOnly: false,
+      dualRegistrationAvailable: false,
+      euVatPaid: "",
+      temporaryImportationAllowed: false,
+      uscgDocumented: false,
+      stcwCertifiedCrewRequired: false,
+      minimumSafeManning: false,
+      passengerCapacityCompliance: false,
+      helideckCertification: "",
+      crewRotationPolicy: false,
+      medicalBayEquipped: false,
+      tierIiiEngineCompliance: false,
+      exhaustGasScrubbersInstalled: false,
+      ballastWaterTreatmentSystem: false,
+      greyWaterTreatmentSystem: false,
+      garbageManagementPlan: false,
+      sewageTreatmentPlantCertified: false,
+      ecoLabelCertified: false,
+      securityPlanOnboard: false,
+      cctvSurveillanceSystem: false,
+      cybersecurityProtocols: false,
+      shipSecurityOfficerAssigned: false,
+      insuranceComplianceComplete: false,
+      upToDateClassCertificate: false,
+      upToDateSurveyReports: false,
+      validInsuranceCertificate: false,
+      validCharterLicense: false,
+      ownerCompanyGoodStanding: false,
+      annualFlagStateInspectionPassed: false,
+      crewCertificatesOnboard: false,
+      technicalManualAvailability: false,
     },
   });
 
@@ -5273,50 +5367,903 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                      <div>
                        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
-                         <FileText className="h-5 w-5" />
-                         Safety & Environmental Compliance
+                         <Shield className="h-5 w-5" />
+                         Certification & Regulation Compliance
                        </h3>
-                       <div className="grid grid-cols-1 gap-4">
+                       <div className="grid grid-cols-3 gap-4">
                          <FormField
                            control={form.control}
-                           name="yachtCovidRequirements"
+                           name="mcaCompliant"
                            render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>COVID-19 Requirements</FormLabel>
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                                <FormControl>
-                                 <Textarea placeholder="Detail current COVID-19 protocols, testing requirements, vaccination policies" {...field} />
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
                                </FormControl>
-                               <FormMessage />
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>MCA Compliant (LY2/LY3)</FormLabel>
+                               </div>
                              </FormItem>
                            )}
                          />
                          <FormField
                            control={form.control}
-                           name="yachtEnvironmentalRules"
+                           name="ismCertified"
                            render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Environmental Compliance</FormLabel>
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                                <FormControl>
-                                 <Textarea placeholder="Environmental regulations compliance: MARPOL, local marine park rules, waste management protocols" {...field} />
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
                                </FormControl>
-                               <FormMessage />
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>ISM Certified</FormLabel>
+                               </div>
                              </FormItem>
                            )}
                          />
                          <FormField
                            control={form.control}
-                           name="yachtSafetyBriefing"
+                           name="ispsCertified"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>ISPS Certified</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="solasCompliant"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>SOLAS Compliant</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="marpolCompliant"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>MARPOL Compliant</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="mlcCompliant"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>MLC Compliant</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="rinaClassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>RINA Classed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="lloydsRegisterClassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Lloyd's Register Classed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="dnvClassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>DNV Classed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="absClassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>ABS Classed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="bureauVeritasClassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Bureau Veritas Classed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="germanischerLloydClassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Germanischer Lloyd Classed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="commerciallyCoded"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Commercially Coded</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="ceCertified"
                            render={({ field }) => (
                              <FormItem>
-                               <FormLabel>Safety Briefing Requirements</FormLabel>
-                               <FormControl>
-                                 <Textarea placeholder="Required safety briefings for guests, emergency procedures, equipment locations" {...field} />
-                               </FormControl>
+                               <FormLabel>CE Certified</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select CE class" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="class-a">Class A</SelectItem>
+                                   <SelectItem value="class-b">Class B</SelectItem>
+                                   <SelectItem value="class-c">Class C</SelectItem>
+                                   <SelectItem value="class-d">Class D</SelectItem>
+                                   <SelectItem value="not-applicable">Not Applicable</SelectItem>
+                                 </SelectContent>
+                               </Select>
                                <FormMessage />
                              </FormItem>
                            )}
                          />
                        </div>
+                     </div>
+
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <Globe className="h-5 w-5" />
+                         Flag State & Registry
+                       </h3>
+                       <div className="grid grid-cols-3 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="flaggedCommercialUse"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Flagged for Commercial Use</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="privateUseOnly"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Private Use Only</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="dualRegistrationAvailable"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Dual Registration Available</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="euVatPaid"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>EU VAT Paid</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select VAT status" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="yes">Yes</SelectItem>
+                                   <SelectItem value="no">No</SelectItem>
+                                   <SelectItem value="not-applicable">Not Applicable</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="temporaryImportationAllowed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Temporary Importation Allowed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="uscgDocumented"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>USCG Documented</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <Users className="h-5 w-5" />
+                         Crew & Operational Compliance
+                       </h3>
+                       <div className="grid grid-cols-3 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="stcwCertifiedCrewRequired"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>STCW Certified Crew Required</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="minimumSafeManning"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Minimum Safe Manning Certificate</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="passengerCapacityCompliance"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Passenger Capacity Compliance</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="helideckCertification"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Helideck Certification</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select certification type" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="touch-and-go">Touch-and-go</SelectItem>
+                                   <SelectItem value="fully-certified">Fully Certified</SelectItem>
+                                   <SelectItem value="not-applicable">Not Applicable</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="crewRotationPolicy"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Crew Rotation Policy Documented</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="medicalBayEquipped"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Medical Bay Equipped & Certified</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <TreePine className="h-5 w-5" />
+                         Environmental & Emissions Compliance
+                       </h3>
+                       <div className="grid grid-cols-3 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="tierIiiEngineCompliance"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Tier III Engine Compliance</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="exhaustGasScrubbersInstalled"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Exhaust Gas Scrubbers Installed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="ballastWaterTreatmentSystem"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Ballast Water Treatment System</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="greyWaterTreatmentSystem"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Grey Water Treatment System</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="garbageManagementPlan"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Garbage Management Plan</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="sewageTreatmentPlantCertified"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Sewage Treatment Plant Certified</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="ecoLabelCertified"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Eco-Label Certified</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <Lock className="h-5 w-5" />
+                         Security & Risk Compliance
+                       </h3>
+                       <div className="grid grid-cols-3 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="securityPlanOnboard"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Security Plan Onboard</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="cctvSurveillanceSystem"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>CCTV Surveillance System</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="cybersecurityProtocols"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Cybersecurity Protocols</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="shipSecurityOfficerAssigned"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Ship Security Officer Assigned</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="insuranceComplianceComplete"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Insurance Compliance Complete</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <FileText className="h-5 w-5" />
+                         Documentation & Legal Readiness
+                       </h3>
+                       <div className="grid grid-cols-3 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="upToDateClassCertificate"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Up-to-Date Class Certificate</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="upToDateSurveyReports"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Up-to-Date Survey Reports</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="validInsuranceCertificate"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Valid Insurance Certificate</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="validCharterLicense"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Valid Charter License</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="ownerCompanyGoodStanding"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Owner Company in Good Standing</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="annualFlagStateInspectionPassed"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Annual Flag State Inspection Passed</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="crewCertificatesOnboard"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Crew Certificates Onboard</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="technicalManualAvailability"
+                           render={({ field }) => (
+                             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                               <FormControl>
+                                 <Checkbox
+                                   checked={field.value}
+                                   onCheckedChange={field.onChange}
+                                 />
+                               </FormControl>
+                               <div className="space-y-1 leading-none">
+                                 <FormLabel>Technical Manual Availability</FormLabel>
+                               </div>
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+
+                      <div>
+                        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <FileText className="h-5 w-5" />
+                          Safety & Environmental Compliance
+                        </h3>
+                        <div className="grid grid-cols-1 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="yachtCovidRequirements"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>COVID-19 Requirements</FormLabel>
+                                <FormControl>
+                                  <Textarea placeholder="Detail current COVID-19 protocols, testing requirements, vaccination policies" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="yachtEnvironmentalRules"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Environmental Compliance</FormLabel>
+                                <FormControl>
+                                  <Textarea placeholder="Environmental regulations compliance: MARPOL, local marine park rules, waste management protocols" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="yachtSafetyBriefing"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Safety Briefing Requirements</FormLabel>
+                                <FormControl>
+                                  <Textarea placeholder="Required safety briefings for guests, emergency procedures, equipment locations" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
                       </div>
                     </div>
                   </TabsContent>
