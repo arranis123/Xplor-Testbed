@@ -23,14 +23,18 @@ interface AISStreamResponse {
 
 export class AISStreamService {
   private socket: WebSocket | null = null;
-  private apiKey: string | null = null;
+  private apiKey: string = '538f0d68c7b4e2e8ad0c9ef9275d6af32fd56a17'; // Default API key for all users
   private pendingRequests: Map<string, {
     resolve: (value: AISStreamResponse | null) => void;
     timeout: NodeJS.Timeout;
   }> = new Map();
 
   constructor() {
-    this.apiKey = localStorage.getItem('aisstream_api_key');
+    // Use default API key, but allow override from localStorage if set
+    const storedKey = localStorage.getItem('aisstream_api_key');
+    if (storedKey) {
+      this.apiKey = storedKey;
+    }
   }
 
   setApiKey(apiKey: string) {
@@ -38,15 +42,12 @@ export class AISStreamService {
     localStorage.setItem('aisstream_api_key', apiKey);
   }
 
-  getApiKey(): string | null {
+  getApiKey(): string {
     return this.apiKey;
   }
 
   private async createConnection(): Promise<boolean> {
-    if (!this.apiKey) {
-      console.error('AISStream API key is required');
-      return false;
-    }
+    console.log('Connecting to AISStream.io with API key...');
 
     return new Promise((resolve) => {
       try {
@@ -179,8 +180,8 @@ export class AISStreamService {
       return null;
     }
 
-    // Try AISStream first if API key is available
-    if (this.apiKey) {
+    // Try AISStream first (API key is always available now)
+    {
       try {
         // Check if connection exists, create if needed
         if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
