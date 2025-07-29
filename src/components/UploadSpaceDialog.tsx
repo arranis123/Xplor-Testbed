@@ -1397,6 +1397,31 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       />
 
                       {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="mmsiNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                MMSI Number (9 digits)
+                                <Radio className="h-4 w-4 text-blue-500" />
+                              </FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., 123456789" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Optional: 9-digit Maritime Mobile Service Identity number
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+
+                      {category === "yacht" && (
                          <FormField
                            control={form.control}
                            name="imoNumber"
