@@ -1137,28 +1137,70 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         // Auto-fill form fields if details were found
         if (Object.keys(yachtDetails).length > 0) {
           if (yachtDetails.vesselName) {
-            form.setValue('title', yachtDetails.vesselName);
+            const currentTitle = form.getValues('title');
+            if (!currentTitle || currentTitle.trim() === '') {
+              form.setValue('title', yachtDetails.vesselName);
+            }
           }
+          
           if (yachtDetails.vesselType) {
+            // Extract additional details from vessel type string
+            const vesselTypeStr = yachtDetails.vesselType;
+            
+            // Extract IMO number
+            const imoMatch = vesselTypeStr.match(/IMO\s+(\d+)/i);
+            if (imoMatch) {
+              form.setValue('imoNumber', imoMatch[1]);
+            }
+            
+            // Extract call sign
+            const callSignMatch = vesselTypeStr.match(/Call\s+sign\s+([A-Z0-9]+)/i);
+            if (callSignMatch) {
+              form.setValue('yachtRegistrationNumber', callSignMatch[1]);
+            }
+            
+            // Extract flag/registry
+            const flagMatch = vesselTypeStr.match(/([A-Za-z\s]+)\s+flag/i);
+            if (flagMatch) {
+              form.setValue('portOfRegistry', flagMatch[1].trim());
+              form.setValue('yachtRegistryJurisdiction', flagMatch[1].trim());
+            }
+            
             // Try to map vessel type to our yacht categories
-            const vesselTypeLower = yachtDetails.vesselType.toLowerCase();
+            const vesselTypeLower = vesselTypeStr.toLowerCase();
             if (vesselTypeLower.includes('yacht') || vesselTypeLower.includes('pleasure')) {
               form.setValue('propertyType', 'yacht');
               if (vesselTypeLower.includes('motor') || vesselTypeLower.includes('power')) {
-                form.setValue('yachtSubtype', 'motor-yacht');
+                form.setValue('yachtSubtype', 'Motor Yacht');
               } else if (vesselTypeLower.includes('sail')) {
-                form.setValue('yachtSubtype', 'sailing-yacht');
+                form.setValue('yachtSubtype', 'Sailing Yacht');
               }
+            } else if (vesselTypeLower.includes('cargo') || vesselTypeLower.includes('container')) {
+              form.setValue('yachtSubtype', 'Commercial Vessel');
+            } else if (vesselTypeLower.includes('tanker')) {
+              form.setValue('yachtSubtype', 'Tanker');
+            } else if (vesselTypeLower.includes('passenger')) {
+              form.setValue('yachtSubtype', 'Passenger Vessel');
+            } else if (vesselTypeLower.includes('fishing')) {
+              form.setValue('yachtSubtype', 'Fishing Vessel');
+            }
+            
+            // Add vessel type info to description
+            const currentDesc = form.getValues('description') || '';
+            const vesselInfo = `Vessel Type: ${vesselTypeStr}`;
+            if (!currentDesc.includes(vesselInfo)) {
+              form.setValue('description', currentDesc ? `${currentDesc}\n\n${vesselInfo}` : vesselInfo);
             }
           }
+          
           if (yachtDetails.length) {
-            form.setValue('yachtLOA', yachtDetails.length);
+            form.setValue('yachtLOA', yachtDetails.length + ' m');
           }
           if (yachtDetails.beam) {
-            form.setValue('yachtBeam', yachtDetails.beam);
+            form.setValue('yachtBeam', yachtDetails.beam + ' m');
           }
           if (yachtDetails.draft) {
-            form.setValue('yachtDraft', yachtDetails.draft);
+            form.setValue('yachtDraft', yachtDetails.draft + ' m');
           }
           if (yachtDetails.yearBuilt) {
             form.setValue('yachtYearBuilt', yachtDetails.yearBuilt);
@@ -1174,6 +1216,35 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
             setMapCoordinates(yachtDetails.coordinates);
             form.setValue('latitude', yachtDetails.coordinates.lat.toString());
             form.setValue('longitude', yachtDetails.coordinates.lng.toString());
+            
+            // Try to get address from coordinates (reverse geocoding)
+            try {
+              const geoResponse = await fetch(
+                `https://api.mapbox.com/geocoding/v5/mapbox.places/${yachtDetails.coordinates.lng},${yachtDetails.coordinates.lat}.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M21iazAyZjEzZG5zN2J1MW80ZjgifQ.d1rgW-MQU_2Lj0zfJM8QgA&types=place`
+              );
+              const geoData = await geoResponse.json();
+              if (geoData.features && geoData.features.length > 0) {
+                const place = geoData.features[0];
+                const currentLocation = form.getValues('location');
+                if (!currentLocation || currentLocation.trim() === '') {
+                  form.setValue('location', place.place_name);
+                }
+                
+                // Extract additional location details
+                const contexts = place.context || [];
+                contexts.forEach((context: any) => {
+                  if (context.id.startsWith('country')) {
+                    form.setValue('country', context.text);
+                  } else if (context.id.startsWith('region')) {
+                    form.setValue('region', context.text);
+                  } else if (context.id.startsWith('place')) {
+                    form.setValue('city', context.text);
+                  }
+                });
+              }
+            } catch (error) {
+              console.log("Reverse geocoding failed:", error);
+            }
             
             toast({
               title: yachtDetails.mockLocation ? `${type.toUpperCase()} Location (Estimated)` : "Vessel Location Found",
