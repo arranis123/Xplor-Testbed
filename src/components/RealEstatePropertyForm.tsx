@@ -121,7 +121,7 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
               name="pricePerSqm"
               render={({ field }) => (
                 <FormItem className="col-span-2">
-                  <FormLabel>Price Per Unit</FormLabel>
+                  <FormLabel>Built area Price per unit</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., 3500" {...field} />
                   </FormControl>
