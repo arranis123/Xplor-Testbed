@@ -20,7 +20,6 @@ import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HotelUploadForm } from "./HotelUploadForm";
-import { GoogleMap } from "./GoogleMap";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -157,7 +156,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [showContactForm, setShowContactForm] = useState(false);
   const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [mapZoom, setMapZoom] = useState(10);
-  const [googleMapsApiKey, setGoogleMapsApiKey] = useState<string>("");
   const [uploadedFiles, setUploadedFiles] = useState<{
     photos: File[];
     videos: File[];
@@ -357,17 +355,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
   const getZoomScale = () => {
     return 0.5 + (mapZoom / 20) * 2; // Scale from 0.5x to 2.5x
-  };
-
-  // Handle map location selection
-  const handleMapLocationSelect = (location: { lat: number; lng: number }) => {
-    setMapCoordinates(location);
-    form.setValue('latitude', location.lat.toString());
-    form.setValue('longitude', location.lng.toString());
-    toast({
-      title: "Location Selected",
-      description: `Coordinates: ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}`
-    });
   };
 
   const propertyTypes = [
@@ -2999,56 +2986,91 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           </div>
                           <p className="text-sm text-muted-foreground mb-3">
                             {mapCoordinates 
-                              ? "Click on the map to change location, or update coordinates above."
-                              : "Enter coordinates above or click on the map to set the yacht location."
+                              ? "Location preview based on coordinates entered above."
+                              : "Enter coordinates above to see location on map, or click on the map to set location."
                             }
                           </p>
-                          
-                          {/* Google Maps API Key Input */}
-                          {!googleMapsApiKey && (
-                            <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-                              <div className="flex items-center gap-2 mb-2">
-                                <MapPin className="h-4 w-4 text-yellow-600" />
-                                <span className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Google Maps API Key Required</span>
-                              </div>
-                              <p className="text-xs text-yellow-700 dark:text-yellow-300 mb-3">
-                                Enter your Google Maps API key to enable interactive mapping. Get one at{" "}
-                                <a href="https://console.cloud.google.com/apis/library/maps-javascript-api" target="_blank" rel="noopener noreferrer" className="underline">
-                                  Google Cloud Console
-                                </a>
-                              </p>
-                              <div className="flex gap-2">
-                                <Input
-                                  placeholder="Enter Google Maps API Key"
-                                  value={googleMapsApiKey}
-                                  onChange={(e) => setGoogleMapsApiKey(e.target.value)}
-                                  className="text-xs"
-                                />
-                                <Button
-                                  size="sm"
-                                  onClick={() => {
-                                    if (googleMapsApiKey.trim()) {
-                                      toast({
-                                        title: "API Key Set",
-                                        description: "Google Maps will now load"
-                                      });
-                                    }
+                          <div 
+                            className="bg-muted rounded-lg h-48 flex items-center justify-center relative overflow-hidden cursor-pointer"
+                            onWheel={handleWheelZoom}
+                          >
+                            {mapCoordinates ? (
+                              <div className="w-full h-full relative">
+                                {/* Zoom controls */}
+                                <div className="absolute top-2 right-2 z-10 flex flex-col gap-1">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white shadow-sm"
+                                    onClick={handleZoomIn}
+                                    disabled={mapZoom >= 20}
+                                  >
+                                    <Plus className="h-3 w-3" />
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white shadow-sm"
+                                    onClick={handleZoomOut}
+                                    disabled={mapZoom <= 1}
+                                  >
+                                    <Minus className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                                
+                                {/* Map visualization with zoom */}
+                                <div 
+                                  className="absolute inset-0 bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900/30 dark:to-green-900/30 transition-transform duration-200"
+                                  style={{ 
+                                    transform: `scale(${getZoomScale()})`,
+                                    transformOrigin: 'center'
                                   }}
-                                  disabled={!googleMapsApiKey.trim()}
                                 >
-                                  Set
-                                </Button>
+                                  <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                                  
+                                  {/* Grid pattern that responds to zoom */}
+                                  <div 
+                                    className="absolute inset-0"
+                                    style={{
+                                      backgroundImage: `
+                                        linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                                        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
+                                      `,
+                                      backgroundSize: `${20 * getZoomScale()}px ${20 * getZoomScale()}px`
+                                    }}
+                                  />
+                                  
+                                  {/* Location pin */}
+                                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                    <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                                      <MapPin className="h-4 w-4 text-white" />
+                                    </div>
+                                    <div className="mt-2 text-center">
+                                      <div className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md text-xs font-medium">
+                                        {mapCoordinates.lat.toFixed(4)}, {mapCoordinates.lng.toFixed(4)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Zoom level indicator */}
+                                  <div className="absolute bottom-2 right-2 text-xs text-muted-foreground bg-white/80 dark:bg-gray-800/80 px-2 py-1 rounded">
+                                    Zoom: {mapZoom}x
+                                  </div>
+                                </div>
+                                
+                                <div className="absolute top-2 left-2 text-xs text-muted-foreground bg-white/80 dark:bg-gray-800/80 px-2 py-1 rounded">
+                                  Location Preview
+                                </div>
                               </div>
-                            </div>
-                          )}
-                          
-                          {/* Google Maps Component */}
-                          <GoogleMap
-                            coordinates={mapCoordinates}
-                            onLocationSelect={handleMapLocationSelect}
-                            apiKey={googleMapsApiKey}
-                            className="w-full h-48 rounded-lg border"
-                          />
+                            ) : (
+                              <div className="text-center">
+                                <MapPin className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground">Enter coordinates to see location</p>
+                                <p className="text-xs text-muted-foreground">Latitude/Longitude or Google Plus Code</p>
+                                <p className="text-xs text-muted-foreground mt-1">Use mouse wheel or +/- buttons to zoom</p>
+                              </div>
+                            )}
+                          </div>
                           {mapCoordinates && (
                             <div className="mt-3 p-3 bg-primary/10 rounded-lg">
                               <div className="flex items-center gap-2 text-sm">
