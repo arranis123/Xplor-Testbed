@@ -34,21 +34,64 @@ export class AISStreamService {
   }
 
   setApiKey(apiKey: string) {
+    console.log('Setting AISStream API key:', apiKey ? 'API key provided' : 'No API key');
     this.apiKey = apiKey;
     localStorage.setItem('aisstream_api_key', apiKey);
   }
 
   getApiKey(): string | null {
-    return this.apiKey;
+    return this.apiKey || localStorage.getItem('aisstream_api_key');
+  }
+
+  async validateApiKey(): Promise<boolean> {
+    const apiKey = this.getApiKey();
+    if (!apiKey) {
+      console.error('No API key to validate');
+      return false;
+    }
+
+    try {
+      // Test with a simple API call to validate the key
+      console.log('Validating API key:', apiKey.substring(0, 8) + '...');
+      const response = await fetch('https://api.aisstream.io/v0/last_known_position/367342230', {
+        headers: {
+          'X-API-Key': apiKey
+        }
+      });
+
+      console.log('API key validation response status:', response.status);
+      
+      if (response.status === 401) {
+        console.error('API key is invalid - received 401 Unauthorized');
+        return false;
+      } else if (response.status === 403) {
+        console.error('API key is forbidden - received 403 Forbidden');
+        return false;
+      } else if (response.status >= 200 && response.status < 300) {
+        console.log('API key is valid');
+        return true;
+      } else if (response.status === 404) {
+        console.log('API key is valid (404 means MMSI not found, but key worked)');
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('Error validating API key:', error);
+      return false;
+    }
   }
 
   private async createConnection(): Promise<boolean> {
-    if (!this.apiKey) {
+    const currentApiKey = this.getApiKey();
+    if (!currentApiKey) {
       console.error('AISStream API key is required');
       return false;
     }
 
-    return new Promise((resolve, reject) => {
+    console.log('Creating WebSocket connection with API key:', currentApiKey.substring(0, 8) + '...');
+
+    return new Promise((resolve) => {
       try {
         console.log('Attempting to connect to AISStream WebSocket...');
         this.socket = new WebSocket('wss://stream.aisstream.io/v0/stream');
@@ -68,12 +111,12 @@ export class AISStreamService {
           
           // Send subscription message with proper format
           const subscriptionMessage = {
-            APIKey: this.apiKey,
+            APIKey: currentApiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
             FilterMessageTypes: ["PositionReport", "ShipAndVoyageData"] // Include both message types
           };
           
-          console.log('Sending subscription message:', subscriptionMessage);
+          console.log('Sending subscription message with API key:', currentApiKey.substring(0, 8) + '...');
           this.socket?.send(JSON.stringify(subscriptionMessage));
           resolve(true);
         };
@@ -156,8 +199,18 @@ export class AISStreamService {
       return null;
     }
 
-    if (!this.apiKey) {
-      console.error('AISStream API key is required');
+    const currentApiKey = this.getApiKey();
+    if (!currentApiKey) {
+      console.error('AISStream API key is required. Please set it first.');
+      return null;
+    }
+
+    console.log('Using API key for vessel data:', currentApiKey ? 'API key available' : 'No API key');
+
+    // Validate API key first
+    const isValidKey = await this.validateApiKey();
+    if (!isValidKey) {
+      console.error('API key validation failed. Please check your AISStream.io API key.');
       return null;
     }
 
@@ -202,7 +255,7 @@ export class AISStreamService {
 
       // Send a new subscription message for the specific MMSI
       const subscriptionMessage = {
-        APIKey: this.apiKey,
+        APIKey: this.getApiKey(),
         BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
         FiltersShipMMSI: [parseInt(mmsi)], // Filter for specific MMSI as integer
         FilterMessageTypes: ["PositionReport", "ShipAndVoyageData"]
@@ -215,10 +268,17 @@ export class AISStreamService {
 
   private async getLastKnownPosition(mmsi: string): Promise<AISStreamResponse | null> {
     try {
+      const currentApiKey = this.getApiKey();
+      if (!currentApiKey) {
+        console.error('No API key available for REST API call');
+        return null;
+      }
+
+      console.log('Making REST API call with API key:', currentApiKey.substring(0, 8) + '...');
       // Use AISStream.io REST API for last known position
       const response = await fetch(`https://api.aisstream.io/v0/last_known_position/${mmsi}`, {
         headers: {
-          'X-API-Key': this.apiKey!
+          'X-API-Key': currentApiKey
         }
       });
 
