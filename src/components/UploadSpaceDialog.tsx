@@ -818,9 +818,71 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         if (aisData) {
           console.log('AISStream data received:', aisData);
           
-          // Update form with real AIS data
+          // Update location with real AIS data
           form.setValue('latitude', aisData.latitude.toString());
           form.setValue('longitude', aisData.longitude.toString());
+          setMapCoordinates({
+            lat: aisData.latitude,
+            lng: aisData.longitude
+          });
+          
+          // Extract additional vessel information from AIS data
+          if (aisData.additionalData) {
+            const aisMessage = aisData.additionalData;
+            
+            // Extract vessel dimensions if available
+            if (aisMessage.to_stern && aisMessage.to_bow) {
+              const length = (aisMessage.to_stern + aisMessage.to_bow).toString();
+              form.setValue('yachtLOA', length);
+            }
+            if (aisMessage.to_port && aisMessage.to_starboard) {
+              const beam = (aisMessage.to_port + aisMessage.to_starboard).toString();
+              form.setValue('yachtBeam', beam);
+            }
+            if (aisMessage.max_draught) {
+              form.setValue('yachtDraft', (aisMessage.max_draught / 10).toString()); // Convert from decimeters
+            }
+            
+            // Extract vessel type and classification
+            if (aisMessage.type_of_ship_and_cargo_type) {
+              const vesselType = aisMessage.type_of_ship_and_cargo_type;
+              // Map AIS vessel types to yacht categories
+              if (vesselType >= 36 && vesselType <= 37) { // Pleasure craft
+                form.setValue('propertyType', 'yacht');
+                form.setValue('yachtSubtype', 'motor-yacht');
+              }
+            }
+            
+            // Extract call sign
+            if (aisMessage.call_sign) {
+              form.setValue('officialNumber', aisMessage.call_sign.trim());
+            }
+            
+            // Extract destination
+            if (aisMessage.destination) {
+              const destination = aisMessage.destination.trim();
+              if (destination && destination !== '') {
+                form.setValue('nearbyAttractions', `Current destination: ${destination}`);
+              }
+            }
+            
+            // Extract navigational status for description
+            if (aisMessage.navigational_status !== undefined) {
+              const navStatus = [
+                'Under way using engine', 'At anchor', 'Not under command', 'Restricted manoeuvrability',
+                'Constrained by her draught', 'Moored', 'Aground', 'Engaged in Fishing',
+                'Under way sailing', 'AIS-SART', 'Undefined'
+              ][aisMessage.navigational_status] || 'Unknown';
+              
+              const currentDesc = form.getValues('description') || '';
+              if (!currentDesc.includes('Navigation Status:')) {
+                const newDesc = currentDesc ? 
+                  `${currentDesc}\n\nNavigation Status: ${navStatus}` : 
+                  `Navigation Status: ${navStatus}`;
+                form.setValue('description', newDesc);
+              }
+            }
+          }
           
           if (aisData.shipName) {
             // If title is empty or generic, update it with ship name
@@ -834,8 +896,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           const trackingUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`;
           form.setValue('marineTrafficUrl', trackingUrl);
           
+          // Update location description with current position info
+          const locationDesc = `Last known position: ${aisData.latitude.toFixed(4)}°N, ${aisData.longitude.toFixed(4)}°E (${new Date(aisData.lastUpdate).toLocaleString()})`;
+          const currentLocation = form.getValues('location') || '';
+          if (!currentLocation) {
+            form.setValue('location', locationDesc);
+          }
+          
           toast({
             title: `Vessel data updated! Found: ${aisData.shipName || 'Unknown vessel'}`,
+            description: `Position, dimensions, and vessel details populated from AIS data`,
             duration: 5000,
           });
           
