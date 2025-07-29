@@ -44,7 +44,7 @@ export class AISStreamService {
 
   private async createConnection(): Promise<boolean> {
     if (!this.apiKey) {
-      console.warn('AISStream API key is required. Get one free at https://aisstream.io/apikeys');
+      console.error('AISStream API key is required');
       return false;
     }
 
@@ -55,11 +55,11 @@ export class AISStreamService {
         this.socket.onopen = () => {
           console.log('Connected to AISStream.io');
           
-          // Send subscription message for all ship data (including historical)
+          // Send subscription message within 3 seconds as required
           const subscriptionMessage = {
             APIKey: this.apiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-            FilterMessageTypes: ['PositionReport', 'ShipStaticData'] // Include both current and voyage data
+            FilterMessageTypes: ['PositionReport'] // Only position reports for efficiency
           };
           
           this.socket?.send(JSON.stringify(subscriptionMessage));
@@ -96,8 +96,7 @@ export class AISStreamService {
   }
 
   private handleMessage(data: AISStreamMessage) {
-    // Handle both PositionReport and ShipStaticData for vessel data
-    if ((data.MessageType === 'PositionReport' || data.MessageType === 'ShipStaticData') && data.MetaData) {
+    if (data.MessageType === 'PositionReport' && data.MetaData) {
       const mmsi = data.MetaData.MMSI.toString();
       const request = this.pendingRequests.get(mmsi);
       
@@ -111,67 +110,11 @@ export class AISStreamService {
           longitude: data.MetaData.longitude,
           shipName: data.MetaData.ShipName,
           lastUpdate: data.MetaData.time_utc,
-          additionalData: { ...data.Message, messageType: data.MessageType }
+          additionalData: data.Message
         };
         
-        console.log(`Received ${data.MessageType} data for MMSI ${mmsi}:`, response);
         request.resolve(response);
       }
-    }
-  }
-
-  private async fetchFromMarineTraffic(mmsi: string): Promise<AISStreamResponse | null> {
-    try {
-      console.log('Fetching from MarineTraffic as fallback...');
-      
-      // Try multiple CORS proxy services for better reliability
-      const proxies = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-        'https://api.codetabs.com/v1/proxy?quest='
-      ];
-      
-      const marineTrafficUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${mmsi}`;
-      
-      for (const proxy of proxies) {
-        try {
-          const response = await fetch(`${proxy}${encodeURIComponent(marineTrafficUrl)}`, {
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
-          });
-          
-          if (!response.ok) continue;
-          
-          const html = await response.text();
-          
-          // Extract ship data from HTML using regex
-          const nameMatch = html.match(/<h1[^>]*>([^<]+)<\/h1>/i);
-          const latMatch = html.match(/latitude['":\s]*([+-]?\d*\.?\d+)/i);
-          const lonMatch = html.match(/longitude['":\s]*([+-]?\d*\.?\d+)/i);
-          const timeMatch = html.match(/last_pos['":\s]*"([^"]+)"/i);
-          
-          if (latMatch && lonMatch) {
-            return {
-              mmsi: mmsi,
-              latitude: parseFloat(latMatch[1]),
-              longitude: parseFloat(lonMatch[1]),
-              shipName: nameMatch ? nameMatch[1].trim() : undefined,
-              lastUpdate: timeMatch ? timeMatch[1] : new Date().toISOString(),
-              additionalData: { source: 'marinetraffic' }
-            };
-          }
-        } catch (error) {
-          console.warn(`Proxy ${proxy} failed:`, error);
-          continue;
-        }
-      }
-      
-      console.warn('All MarineTraffic proxies failed');
-      return null;
-    } catch (error) {
-      console.error('MarineTraffic fallback failed:', error);
-      return null;
     }
   }
 
@@ -181,60 +124,41 @@ export class AISStreamService {
       return null;
     }
 
-    // Try AISStream first if API key is available
-    if (this.apiKey) {
-      console.log('Using AISStream.io for vessel data...');
-      try {
-        // Check if connection exists, create if needed
-        if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-          const connected = await this.createConnection();
-          if (!connected) {
-            console.log('No real-time data available from AISStream');
-            return await this.fetchFromMarineTraffic(mmsi);
-          }
-        }
-
-        const aisResult = await new Promise<AISStreamResponse | null>((resolve) => {
-          // Set up timeout
-          const timeout = setTimeout(() => {
-            this.pendingRequests.delete(mmsi);
-            console.log(`Timeout waiting for MMSI ${mmsi} data from AISStream`);
-            resolve(null);
-          }, timeoutMs);
-
-          // Store the request
-          this.pendingRequests.set(mmsi, { resolve, timeout });
-
-          // Update subscription to filter for specific MMSI
-          const subscriptionMessage = {
-            APIKey: this.apiKey,
-            BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-            FiltersShipMMSI: [mmsi], // Filter for specific MMSI
-            FilterMessageTypes: ['PositionReport', 'ShipStaticData'] // Include both message types
-          };
-
-          this.socket?.send(JSON.stringify(subscriptionMessage));
-          console.log(`Requesting last known data for MMSI: ${mmsi}`);
-        });
-
-        // If AISStream returns data, use it
-        if (aisResult) {
-          return aisResult;
-        }
-      } catch (error) {
-        console.error('AISStream error:', error);
-      }
-    } else {
-      console.warn('⚠️  AISStream.io API key not found');
-      console.info('ℹ️  To get real-time vessel data:');
-      console.info('1. Sign up at https://aisstream.io/authenticate');
-      console.info('2. Get your free API key at https://aisstream.io/apikeys');  
-      console.info('3. Store it using: aisStreamService.setApiKey("your-api-key")');
+    if (!this.apiKey) {
+      console.error('AISStream API key is required');
+      return null;
     }
 
-    // Fallback to MarineTraffic
-    console.log('Falling back to MarineTraffic.com scraping...');
-    return await this.fetchFromMarineTraffic(mmsi);
+    // Check if connection exists, create if needed
+    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+      const connected = await this.createConnection();
+      if (!connected) {
+        return null;
+      }
+    }
+
+    return new Promise((resolve) => {
+      // Set up timeout
+      const timeout = setTimeout(() => {
+        this.pendingRequests.delete(mmsi);
+        console.log(`Timeout waiting for MMSI ${mmsi} data`);
+        resolve(null);
+      }, timeoutMs);
+
+      // Store the request
+      this.pendingRequests.set(mmsi, { resolve, timeout });
+
+      // Update subscription to filter for specific MMSI
+      const subscriptionMessage = {
+        APIKey: this.apiKey,
+        BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
+        FiltersShipMMSI: [mmsi], // Filter for specific MMSI
+        FilterMessageTypes: ['PositionReport']
+      };
+
+      this.socket?.send(JSON.stringify(subscriptionMessage));
+      console.log(`Requesting data for MMSI: ${mmsi}`);
+    });
   }
 
   disconnect() {
