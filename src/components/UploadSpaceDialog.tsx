@@ -2559,9 +2559,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                    </div>
 
-                      {category === "real-estate" && (
-                        <RealEstatePropertyForm form={form} />
-                      )}
 
                   <FormField
                     control={form.control}
@@ -2589,6 +2586,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                   </TabsContent>
                 ) : (
                   <TabsContent value="details" className="space-y-6">
+                    {/* Real Estate Details Section */}
+                    {category === "real-estate" && (
+                      <RealEstatePropertyForm form={form} />
+                    )}
+
                     {/* Yacht Details Section */}
                     {category === "yacht" && (
                       <>
