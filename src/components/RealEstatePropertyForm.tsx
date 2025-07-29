@@ -90,6 +90,7 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
   const watchedPrice = form.watch("price");
   const watchedSalePrice = form.watch("salePrice");
   const watchedInternalArea = form.watch("internalArea");
+  const watchedPlotSize = form.watch("plotSize");
 
   useEffect(() => {
     // Use sale price if available, otherwise use regular price
@@ -105,6 +106,21 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
       form.setValue("pricePerSqm", "");
     }
   }, [watchedPrice, watchedSalePrice, watchedInternalArea, form]);
+
+  useEffect(() => {
+    // Calculate plot area price per unit
+    const price = watchedSalePrice || watchedPrice;
+    const plotArea = watchedPlotSize;
+    
+    if (price && plotArea && !isNaN(parseFloat(price)) && !isNaN(parseFloat(plotArea))) {
+      const calculation = parseFloat(price) / parseFloat(plotArea);
+      const roundedResult = Math.round(calculation * 100) / 100; // Round to 2 decimal places
+      form.setValue("plotAreaPricePerUnit", roundedResult.toString());
+    } else if (!price || !plotArea) {
+      // Clear the field if either price or plot area is empty
+      form.setValue("plotAreaPricePerUnit", "");
+    }
+  }, [watchedPrice, watchedSalePrice, watchedPlotSize, form]);
 
   return (
     <div className="space-y-8">
@@ -132,6 +148,46 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
             <FormField
               control={form.control}
               name="pricePerUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {areaUnits.map((unit) => (
+                        <SelectItem key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <FormField
+              control={form.control}
+              name="plotAreaPricePerUnit"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Plot area price per unit</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 1500" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="plotAreaPricePerUnitUnit"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Unit</FormLabel>
