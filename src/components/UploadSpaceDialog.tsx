@@ -2284,13 +2284,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        name="propertyType"
                        render={({ field }) => (
                          <FormItem>
-                           <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Type" : category === "yacht" ? "Yacht Type" : "Property Type"}</FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                             <FormControl>
-                               <SelectTrigger>
-                                 <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : "Select property type"} />
-                               </SelectTrigger>
-                             </FormControl>
+                            <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Type" : category === "yacht" ? "Yacht Type" : category === "real-estate" ? "Real Estate Category" : "Property Type"}</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : category === "real-estate" ? "Select real estate category" : "Select property type"} />
+                                </SelectTrigger>
+                              </FormControl>
                              <SelectContent>
                                {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : category === "real-estate" ? realEstatePropertyTypes : propertyTypes).map((type) => (
                                  <SelectItem key={type.value} value={type.value}>
