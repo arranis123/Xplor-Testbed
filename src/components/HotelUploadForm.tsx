@@ -614,55 +614,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         />
       </div>
 
-      {/* Amenities */}
-      <div className="space-y-4">
-        <FormField
-          control={form.control}
-          name="amenities"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-base font-medium">Hotel Amenities</FormLabel>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
-                {hotelAmenities.map((amenity) => (
-                  <FormField
-                    key={amenity.id}
-                    control={form.control}
-                    name="amenities"
-                    render={({ field }) => {
-                      const IconComponent = amenity.icon;
-                      return (
-                        <FormItem
-                          key={amenity.id}
-                          className="flex flex-row items-start space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(amenity.id)}
-                              onCheckedChange={(checked) => {
-                                const updatedValue = checked
-                                  ? [...(field.value || []), amenity.id]
-                                  : field.value?.filter((value: string) => value !== amenity.id) || [];
-                                field.onChange(updatedValue);
-                              }}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel className="text-sm font-normal cursor-pointer flex items-center gap-2">
-                              <IconComponent className="h-4 w-4" />
-                              {amenity.label}
-                            </FormLabel>
-                          </div>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
 
       {/* Pricing */}
       <div className="space-y-4">
