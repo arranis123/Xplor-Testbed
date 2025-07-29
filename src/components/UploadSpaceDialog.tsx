@@ -6649,49 +6649,54 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     )}
 
                     {category === "yacht" && (
-                      <div>
-                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                          <FileText className="h-5 w-5" />
-                          Brochure
-                        </Label>
-                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                          <div className="flex flex-col items-center gap-4">
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Upload className="h-8 w-8" />
-                              <div className="text-center">
-                                <p className="text-sm font-medium">Upload Brochure</p>
-                                <p className="text-xs">Drag and drop or click to browse</p>
-                              </div>
-                            </div>
-                            <Input
-                              type="file"
-                              multiple
-                              accept=".pdf,.doc,.docx,.txt"
-                              className="max-w-xs"
-                              onChange={(e) => handleFileUpload('brochure', e.target.files)}
-                            />
-                          </div>
-                          {uploadedFiles.brochure.length > 0 && (
-                            <div className="mt-4 space-y-2">
-                              {uploadedFiles.brochure.map((file, index) => (
-                                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
-                                  <div className="flex items-center gap-2">
-                                    <FileText className="h-4 w-4" />
-                                    <span className="text-sm truncate">{file.name}</span>
-                                  </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => removeFile('brochure', index)}
-                                    className="text-destructive hover:text-destructive/80"
-                                  >
-                                    <X className="h-4 w-4" />
-                                  </button>
+                      <>
+                        <div>
+                          <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <FileText className="h-5 w-5" />
+                            Brochure
+                          </Label>
+                          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Upload className="h-8 w-8" />
+                                <div className="text-center">
+                                  <p className="text-sm font-medium">Upload Brochure</p>
+                                  <p className="text-xs">Drag and drop or click to browse</p>
                                 </div>
-                              ))}
+                              </div>
+                              <Input
+                                type="file"
+                                multiple
+                                accept=".pdf,.doc,.docx,.txt"
+                                className="max-w-xs"
+                                onChange={(e) => handleFileUpload('brochure', e.target.files)}
+                              />
                             </div>
-                          )}
+                            {uploadedFiles.brochure.length > 0 && (
+                              <div className="mt-4 space-y-2">
+                                {uploadedFiles.brochure.map((file, index) => (
+                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                    <div className="flex items-center gap-2">
+                                      <FileText className="h-4 w-4" />
+                                      <span className="text-sm truncate">{file.name}</span>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => removeFile('brochure', index)}
+                                      className="text-destructive hover:text-destructive/80"
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
+                        <p className="text-sm text-muted-foreground mt-2">
+                          Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here</button>
+                        </p>
+                      </>
                     )}
 
                     {category === "yacht" && (
