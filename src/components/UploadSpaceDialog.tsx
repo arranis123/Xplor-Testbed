@@ -6759,6 +6759,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         <FileText className="h-5 w-5" />
                         Documents
                       </Label>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Miscelaneous e.g, Sample Contracts, Awards, History, Build Specification etc
+                      </p>
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                         <div className="flex flex-col items-center gap-4">
                           <div className="flex items-center gap-2 text-muted-foreground">
@@ -6797,9 +6800,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         )}
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Miscelaneous e.g, Sample Contracts, Awards, History, Build Specification etc
-                    </p>
 
                     {totalFiles > 0 && (
                       <Card>
