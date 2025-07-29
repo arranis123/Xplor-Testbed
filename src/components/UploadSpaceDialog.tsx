@@ -2498,14 +2498,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                    </div>
 
-                    {(() => {
-                      console.log("Debug: category check for real-estate fields:", category, category === "real-estate");
-                      console.log("Debug: About to render real estate fields section");
-                      return category === "real-estate";
-                    })() && (
-                      <div className="space-y-4 border-2 border-red-500 p-4 bg-yellow-100">
-                        <h3 className="text-lg font-semibold text-red-600">🏠 Real Estate Property Details (DEBUG VISIBLE)</h3>
-                        <p className="text-sm text-red-600">If you can see this red section, the real estate fields are rendering!</p>
+                     {category === "real-estate" && (
+                       <div className="space-y-4">
+                         <h3 className="text-lg font-semibold">🏠 Real Estate Property Details</h3>
                       <div className="grid grid-cols-2 gap-4">
 
                         <FormField
