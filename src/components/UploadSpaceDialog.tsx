@@ -2244,7 +2244,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-7" : (category === "real-estate") ? "grid-cols-7" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
                   <TabsTrigger value="basic">{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Basic Info" : "Basic Info"}</TabsTrigger>
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
-                     <TabsTrigger value="hotel-details">Hotel Details</TabsTrigger>
+                     <TabsTrigger value="hotel-details">Hotel Room Details</TabsTrigger>
                    ) : category === "yacht" ? (
                      <TabsTrigger value="details">Yacht Details</TabsTrigger>
                    ) : (
