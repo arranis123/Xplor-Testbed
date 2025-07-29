@@ -59,8 +59,7 @@ export class AISStreamService {
           const subscriptionMessage = {
             APIKey: this.apiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-            FilterMessageTypes: ['PositionReport', 'ShipAndVoyageData'], // Include both current and voyage data
-            RequestHistoricalData: true // Request last known positions
+            FilterMessageTypes: ['PositionReport', 'ShipStaticData'] // Include both current and voyage data
           };
           
           this.socket?.send(JSON.stringify(subscriptionMessage));
@@ -97,8 +96,8 @@ export class AISStreamService {
   }
 
   private handleMessage(data: AISStreamMessage) {
-    // Handle both PositionReport and ShipAndVoyageData for last known data
-    if ((data.MessageType === 'PositionReport' || data.MessageType === 'ShipAndVoyageData') && data.MetaData) {
+    // Handle both PositionReport and ShipStaticData for vessel data
+    if ((data.MessageType === 'PositionReport' || data.MessageType === 'ShipStaticData') && data.MetaData) {
       const mmsi = data.MetaData.MMSI.toString();
       const request = this.pendingRequests.get(mmsi);
       
@@ -205,13 +204,12 @@ export class AISStreamService {
           // Store the request
           this.pendingRequests.set(mmsi, { resolve, timeout });
 
-          // Update subscription to filter for specific MMSI (including historical data)
+          // Update subscription to filter for specific MMSI
           const subscriptionMessage = {
             APIKey: this.apiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
             FiltersShipMMSI: [mmsi], // Filter for specific MMSI
-            FilterMessageTypes: ['PositionReport', 'ShipAndVoyageData'], // Include both message types
-            RequestHistoricalData: true // Request last known positions
+            FilterMessageTypes: ['PositionReport', 'ShipStaticData'] // Include both message types
           };
 
           this.socket?.send(JSON.stringify(subscriptionMessage));
