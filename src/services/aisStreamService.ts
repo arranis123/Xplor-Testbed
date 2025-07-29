@@ -129,6 +129,18 @@ export class AISStreamService {
       return null;
     }
 
+    // First try to get real-time data via WebSocket
+    const realTimeData = await this.getRealTimeData(mmsi, timeoutMs);
+    if (realTimeData) {
+      return realTimeData;
+    }
+
+    // If real-time data isn't available, try to get last known position via API
+    console.log('Real-time data not available, fetching last known position...');
+    return await this.getLastKnownPosition(mmsi);
+  }
+
+  private async getRealTimeData(mmsi: string, timeoutMs: number): Promise<AISStreamResponse | null> {
     // Check if connection exists, create if needed
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
       const connected = await this.createConnection();
@@ -141,7 +153,7 @@ export class AISStreamService {
       // Set up timeout
       const timeout = setTimeout(() => {
         this.pendingRequests.delete(mmsi);
-        console.log(`Timeout waiting for MMSI ${mmsi} data`);
+        console.log(`Timeout waiting for real-time MMSI ${mmsi} data`);
         resolve(null);
       }, timeoutMs);
 
@@ -157,8 +169,42 @@ export class AISStreamService {
       };
 
       this.socket?.send(JSON.stringify(subscriptionMessage));
-      console.log(`Requesting data for MMSI: ${mmsi}`);
+      console.log(`Requesting real-time data for MMSI: ${mmsi}`);
     });
+  }
+
+  private async getLastKnownPosition(mmsi: string): Promise<AISStreamResponse | null> {
+    try {
+      // Use AISStream.io REST API for last known position
+      const response = await fetch(`https://api.aisstream.io/v0/last_known_position/${mmsi}`, {
+        headers: {
+          'X-API-Key': this.apiKey!
+        }
+      });
+
+      if (!response.ok) {
+        console.log('AISStream last known position not available');
+        return null;
+      }
+
+      const data = await response.json();
+      
+      if (data && data.lat && data.lon) {
+        return {
+          mmsi,
+          latitude: data.lat,
+          longitude: data.lon,
+          shipName: data.ship_name || data.shipName,
+          lastUpdate: data.timestamp || data.time_utc || new Date().toISOString(),
+          additionalData: data
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error fetching last known position:', error);
+      return null;
+    }
   }
 
   disconnect() {
