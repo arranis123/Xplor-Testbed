@@ -7252,7 +7252,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         Floor Plans
                       </Label>
                       <p className="text-sm text-muted-foreground mb-4">
-                        Need Floor Plans? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click Here</button> to contact a Floor Plan creator
+                        Need Floor Plans? <button type="button" onClick={() => setShowContactForm(true)} className="hover:underline" style={{ color: '#0000FF' }}>Click Here</button> to contact a Floor Plan creator
                       </p>
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                         <div className="flex flex-col items-center gap-4">
@@ -7300,7 +7300,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           Sample Itineraries
                         </Label>
                         <p className="text-sm text-muted-foreground mb-4">
-                          Need to create an itinerary? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here for AI assistance</button>
+                          Need to create an itinerary? <button type="button" onClick={() => setShowContactForm(true)} className="hover:underline" style={{ color: '#0000FF' }}>Click here for AI assistance</button>
                         </p>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
@@ -7350,7 +7350,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             Brochure
                           </Label>
                           <p className="text-sm text-muted-foreground mb-4">
-                            Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here</button>
+                            Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowContactForm(true)} className="hover:underline" style={{ color: '#0000FF' }}>Click here</button>
                           </p>
                           <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                             <div className="flex flex-col items-center gap-4">
@@ -7400,7 +7400,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           Crew Profile
                         </Label>
                         <p className="text-sm text-muted-foreground mb-4">
-                          Need to generate a crew profile ? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here</button>
+                          Need to generate a crew profile ? <button type="button" onClick={() => setShowContactForm(true)} className="hover:underline" style={{ color: '#0000FF' }}>Click here</button>
                         </p>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
