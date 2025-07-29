@@ -76,6 +76,16 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
     { value: "shared", label: "Shared" }
   ];
 
+  const areaUnits = [
+    { value: "sqm", label: "sqm" },
+    { value: "sqft", label: "sqft" }
+  ];
+
+  const lengthUnits = [
+    { value: "meters", label: "meters" },
+    { value: "feet", label: "feet" }
+  ];
+
   return (
     <div className="space-y-8">
       {/* Core Property Details */}
@@ -85,19 +95,45 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
           Core Property Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="pricePerSqm"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price (Per sqm or sqft)</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 3500" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <FormField
+              control={form.control}
+              name="pricePerSqm"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Price Per Unit</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 3500" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="pricePerUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {areaUnits.map((unit) => (
+                        <SelectItem key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormField
             control={form.control}
@@ -133,33 +169,85 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
           Size & Dimensions
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="internalArea"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Internal Area (sqm/sqft)</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 120" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <FormField
+              control={form.control}
+              name="internalArea"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Internal Area</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 120" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="internalAreaUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {areaUnits.map((unit) => (
+                        <SelectItem key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="plotSize"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Lot Size / Plot Area</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 250" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <FormField
+              control={form.control}
+              name="plotSize"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Lot Size / Plot Area</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 250" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="plotSizeUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {areaUnits.map((unit) => (
+                        <SelectItem key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormField
             control={form.control}
@@ -175,19 +263,45 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="ceilingHeight"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ceiling Height (meters/feet)</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 3.2" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <FormField
+              control={form.control}
+              name="ceilingHeight"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Ceiling Height</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 3.2" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="ceilingHeightUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {lengthUnits.map((unit) => (
+                        <SelectItem key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormField
             control={form.control}
@@ -203,19 +317,45 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="balconyArea"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Balcony / Terrace Area</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 15 sqm" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <FormField
+              control={form.control}
+              name="balconyArea"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Balcony / Terrace Area</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 15" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="balconyAreaUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {areaUnits.map((unit) => (
+                        <SelectItem key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
       </div>
 
