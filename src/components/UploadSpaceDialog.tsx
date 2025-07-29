@@ -475,9 +475,17 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const fetchYachtLocationFromIdentifier = async (identifier: string, type: 'mmsi' | 'imo') => {
     if (!identifier) return null;
     
-    // Basic validation
-    if (type === 'mmsi' && identifier.length !== 9) return null;
-    if (type === 'imo' && identifier.length !== 7) return null;
+    // Basic validation - IMO numbers are typically 7 digits but can vary
+    if (type === 'mmsi' && (identifier.length < 9 || identifier.length > 9)) {
+      console.log(`Invalid MMSI: ${identifier} (length: ${identifier.length})`);
+      return null;
+    }
+    if (type === 'imo' && (identifier.length < 6 || identifier.length > 8)) {
+      console.log(`Invalid IMO: ${identifier} (length: ${identifier.length})`);
+      return null;
+    }
+    
+    console.log(`Fetching location for ${type.toUpperCase()}: ${identifier}`);
     
     try {
       // Create MarineTraffic URL based on identifier type
@@ -489,18 +497,53 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       const corsProxy = 'https://api.allorigins.win/raw?url=';
       
       try {
+        console.log(`Attempting to fetch from: ${corsProxy}${encodeURIComponent(trackingUrl)}`);
         const response = await fetch(`${corsProxy}${encodeURIComponent(trackingUrl)}`);
         const html = await response.text();
         
-        // Extract coordinates from the Marine Traffic page
-        const latMatch = html.match(/latitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i);
-        const lngMatch = html.match(/longitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i);
+        console.log(`Response status: ${response.status}`);
+        console.log(`HTML length: ${html.length}`);
+        
+        // Try multiple patterns to extract coordinates
+        const patterns = [
+          /latitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
+          /"lat"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
+          /lat["\s]*=["\s]*([+-]?\d+\.?\d*)/i,
+          /position["\s]*:["\s]*\{[^}]*lat["\s]*:["\s]*([+-]?\d+\.?\d*)/i
+        ];
+        
+        const lngPatterns = [
+          /longitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
+          /"lng"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
+          /"lon"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
+          /lng["\s]*=["\s]*([+-]?\d+\.?\d*)/i,
+          /position["\s]*:["\s]*\{[^}]*lng["\s]*:["\s]*([+-]?\d+\.?\d*)/i
+        ];
+        
+        let latMatch = null;
+        let lngMatch = null;
+        
+        // Try each pattern
+        for (const pattern of patterns) {
+          latMatch = html.match(pattern);
+          if (latMatch) break;
+        }
+        
+        for (const pattern of lngPatterns) {
+          lngMatch = html.match(pattern);
+          if (lngMatch) break;
+        }
+        
+        console.log(`Latitude match:`, latMatch);
+        console.log(`Longitude match:`, lngMatch);
         
         if (latMatch && lngMatch) {
           const coordinates = {
             lat: parseFloat(latMatch[1]),
             lng: parseFloat(lngMatch[1])
           };
+          
+          console.log(`Parsed coordinates:`, coordinates);
           
           // Validate coordinates are reasonable
           if (coordinates.lat >= -90 && coordinates.lat <= 90 && 
@@ -523,10 +566,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
             });
             
             return coordinates;
+          } else {
+            console.log(`Invalid coordinates range:`, coordinates);
           }
+        } else {
+          console.log(`No coordinates found in HTML`);
         }
       } catch (fetchError) {
-        console.log('CORS proxy failed, falling back to manual lookup');
+        console.log('CORS proxy failed:', fetchError);
       }
       
       // Fallback: Open Marine Traffic for manual lookup
