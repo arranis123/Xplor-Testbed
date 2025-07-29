@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -85,6 +85,26 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
     { value: "meters", label: "meters" },
     { value: "feet", label: "feet" }
   ];
+
+  // Watch for changes in price fields and internal area to auto-calculate price per unit
+  const watchedPrice = form.watch("price");
+  const watchedSalePrice = form.watch("salePrice");
+  const watchedInternalArea = form.watch("internalArea");
+
+  useEffect(() => {
+    // Use sale price if available, otherwise use regular price
+    const price = watchedSalePrice || watchedPrice;
+    const area = watchedInternalArea;
+    
+    if (price && area && !isNaN(parseFloat(price)) && !isNaN(parseFloat(area))) {
+      const calculation = parseFloat(price) / parseFloat(area);
+      const roundedResult = Math.round(calculation * 100) / 100; // Round to 2 decimal places
+      form.setValue("pricePerSqm", roundedResult.toString());
+    } else if (!price || !area) {
+      // Clear the field if either price or area is empty
+      form.setValue("pricePerSqm", "");
+    }
+  }, [watchedPrice, watchedSalePrice, watchedInternalArea, form]);
 
   return (
     <div className="space-y-8">
