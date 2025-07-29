@@ -2588,19 +2588,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <div className="grid grid-cols-2 gap-4">
                             <FormField
                               control={form.control}
-                              name="yachtCharterRateInfo"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Charter Rate (Weekly, Daily, Seasonal)</FormLabel>
-                                  <FormControl>
-                                    <Input placeholder="e.g., €85,000/week high season" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={form.control}
                               name="yachtCharterRegions"
                               render={({ field }) => (
                                 <FormItem>
