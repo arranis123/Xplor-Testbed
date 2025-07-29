@@ -23,6 +23,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HotelUploadForm } from "./HotelUploadForm";
 import { YachtBrochure } from "./YachtBrochure";
 import { CrewProfileForm } from "./CrewProfileForm";
+import { aisStreamService } from "../services/aisStreamService";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -329,6 +330,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
+  const [isFetchingAIS, setIsFetchingAIS] = useState(false);
   const [showBrochure, setShowBrochure] = useState(false);
   const [showCrewProfileForm, setShowCrewProfileForm] = useState(false);
   const [itineraryLocations, setItineraryLocations] = useState({
@@ -799,6 +801,73 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     
     console.log(`Fetching details for ${type.toUpperCase()}: ${identifier}`);
     
+    // Use AISStream for MMSI lookups if API key is available
+    if (type === 'mmsi' && aisStreamService.getApiKey()) {
+      try {
+        console.log('Using AISStream.io for real-time MMSI data...');
+        setIsFetchingAIS(true);
+        
+        toast({
+          title: "Fetching real-time vessel data from AISStream.io...",
+          duration: 3000,
+        });
+        
+        const aisData = await aisStreamService.getVesselData(identifier);
+        
+        if (aisData) {
+          console.log('AISStream data received:', aisData);
+          
+          // Update form with real AIS data
+          form.setValue('latitude', aisData.latitude.toString());
+          form.setValue('longitude', aisData.longitude.toString());
+          
+          if (aisData.shipName) {
+            // If title is empty or generic, update it with ship name
+            const currentTitle = form.getValues('title');
+            if (!currentTitle || currentTitle.trim() === '') {
+              form.setValue('title', aisData.shipName);
+            }
+          }
+          
+          // Create MarineTraffic URL for reference
+          const trackingUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`;
+          form.setValue('marineTrafficUrl', trackingUrl);
+          
+          toast({
+            title: `Vessel data updated! Found: ${aisData.shipName || 'Unknown vessel'}`,
+            duration: 5000,
+          });
+          
+          setIsFetchingAIS(false);
+          return {
+            coordinates: {
+              lat: aisData.latitude,
+              lng: aisData.longitude
+            },
+            name: aisData.shipName,
+            trackingUrl,
+            lastUpdate: aisData.lastUpdate,
+            source: 'aisstream'
+          };
+        } else {
+          console.log('No real-time data available from AISStream');
+          toast({
+            title: "No real-time data available for this MMSI",
+            duration: 4000,
+          });
+          setIsFetchingAIS(false);
+        }
+      } catch (error) {
+        console.error('AISStream error:', error);
+        toast({
+          title: "Failed to fetch real-time data. Using fallback method.",
+          duration: 4000,
+        });
+        setIsFetchingAIS(false);
+      }
+    }
+    
+    // Fallback to original method for IMO numbers or when AISStream is not available
     try {
       // Create MarineTraffic URL based on identifier type
       const trackingUrl = type === 'mmsi' 
@@ -1734,24 +1803,52 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
-                       )}
+                        )}
 
                       {category === "yacht" && (
-                        <FormField
-                          control={form.control}
-                          name="mmsiNumber"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                MMSI Number (9 digits)
-                                <Radio className="h-4 w-4 text-blue-500" />
-                              </FormLabel>
-                              <FormControl>
-                                <Input 
-                                  placeholder="e.g., 123456789" 
-                                  {...field} 
-                                />
-                              </FormControl>
+                        <>
+                          {/* AISStream API Key Input */}
+                          <div className="space-y-4 p-4 border rounded-lg bg-blue-50/50">
+                            <div className="flex items-center gap-2">
+                              <Radio className="h-4 w-4 text-blue-500" />
+                              <Label className="text-sm font-medium">AISStream.io Integration</Label>
+                            </div>
+                            <div className="space-y-2">
+                              <Input 
+                                type="password"
+                                placeholder="Enter your AISStream.io API key"
+                                value={aisStreamService.getApiKey() || ''}
+                                onChange={(e) => aisStreamService.setApiKey(e.target.value)}
+                              />
+                              <p className="text-xs text-muted-foreground">
+                                Get your API key from <a href="https://aisstream.io/apikeys" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">aisstream.io/apikeys</a>
+                              </p>
+                            </div>
+                          </div>
+
+                          <FormField
+                            control={form.control}
+                            name="mmsiNumber"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2">
+                                  MMSI Number (9 digits)
+                                  <Radio className="h-4 w-4 text-blue-500" />
+                                </FormLabel>
+                                <FormControl>
+                                  <div className="relative">
+                                    <Input 
+                                      placeholder="e.g., 123456789" 
+                                      {...field}
+                                      disabled={isFetchingAIS}
+                                    />
+                                    {isFetchingAIS && (
+                                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </FormControl>
                               <FormDescription>
                                 Optional: 9-digit Maritime Mobile Service Identity number
                               </FormDescription>
@@ -1759,6 +1856,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             </FormItem>
                           )}
                         />
+                        </>
                       )}
 
                       {category === "yacht" && (
