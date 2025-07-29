@@ -21,6 +21,7 @@ import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HotelUploadForm } from "./HotelUploadForm";
+import { YachtBrochure } from "./YachtBrochure";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -318,6 +319,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
+  const [showBrochure, setShowBrochure] = useState(false);
   const [itineraryLocations, setItineraryLocations] = useState({
     pickUp: { address: '', coordinates: null as { lat: number; lng: number } | null },
     dropOff: { address: '', coordinates: null as { lat: number; lng: number } | null },
@@ -1350,6 +1352,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
@@ -7357,7 +7360,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             Brochure
                           </Label>
                            <p className="text-sm text-muted-foreground mb-4">
-                             Need to create a Brochure in PDF format ? <button type="button" onClick={() => {setContactFormType('brochure'); setShowContactForm(true);}} className="hover:underline" style={{ color: '#0000FF' }}>Create brochure</button>
+                             Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowBrochure(true)} className="hover:underline" style={{ color: '#0000FF' }}>Create brochure</button>
                            </p>
                           <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                             <div className="flex flex-col items-center gap-4">
@@ -7888,5 +7891,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         </DialogContent>
       </Dialog>
     </Dialog>
+
+    {/* Yacht Brochure Dialog */}
+    <Dialog open={showBrochure} onOpenChange={setShowBrochure}>
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+        <YachtBrochure 
+          yachtData={form.getValues()} 
+          onClose={() => setShowBrochure(false)} 
+        />
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
