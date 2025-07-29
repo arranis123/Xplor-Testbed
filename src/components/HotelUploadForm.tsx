@@ -578,57 +578,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         </div>
       </div>
 
-      {/* Hotel Amenities */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Hotel Amenities</h3>
-        <FormField
-          control={form.control}
-          name="hotelAmenities"
-          render={() => (
-            <FormItem>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {hotelAmenities.map((amenity) => (
-                  <FormField
-                    key={amenity.id}
-                    control={form.control}
-                    name="hotelAmenities"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={amenity.id}
-                          className="flex flex-row items-start space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              className="border-2 border-border"
-                              checked={field.value?.includes(amenity.id)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, amenity.id])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value: string) => value !== amenity.id
-                                      )
-                                    )
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="flex items-center gap-2 text-sm font-normal cursor-pointer">
-                            <amenity.icon className="h-4 w-4" />
-                            {amenity.label}
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    }}
-                  />
-                ))}
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-
       {/* Special Features */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium">Special Features & Policies</h3>

@@ -1393,6 +1393,23 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { id: "iron", label: "Iron", icon: Shirt },
   ];
 
+  const hotelAmenities = [
+    { id: "wifi", label: "Free WiFi", icon: Wifi },
+    { id: "parking", label: "Free Parking", icon: Car },
+    { id: "breakfast", label: "Free Breakfast", icon: Coffee },
+    { id: "restaurant", label: "Restaurant", icon: Utensils },
+    { id: "pool", label: "Swimming Pool", icon: Waves },
+    { id: "fitness", label: "Fitness Center", icon: Dumbbell },
+    { id: "spa", label: "Spa Services", icon: Bath },
+    { id: "tv", label: "Cable/Satellite TV", icon: Tv },
+    { id: "ac", label: "Air Conditioning", icon: Wind },
+    { id: "room-service", label: "24-Hour Room Service", icon: Coffee },
+    { id: "concierge", label: "Concierge Service", icon: Users },
+    { id: "business-center", label: "Business Center", icon: Laptop },
+    { id: "laundry", label: "Laundry Service", icon: Shirt },
+    { id: "airport-shuttle", label: "Airport Shuttle", icon: Car },
+    { id: "bar", label: "Bar/Lounge", icon: Coffee },
+  ];
   const facilities = [
     { id: "pool", label: "Pool", icon: Waves },
     { id: "hot-tub", label: "Hot Tub", icon: Bath },
@@ -1771,7 +1788,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-6" : (category === "real-estate") ? "grid-cols-7" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-7" : (category === "real-estate") ? "grid-cols-7" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
                   <TabsTrigger value="basic">Basic Info</TabsTrigger>
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                      <TabsTrigger value="hotel-details">Hotel Details</TabsTrigger>
@@ -1783,6 +1800,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                    <TabsTrigger value="location">Location Details</TabsTrigger>
                    {category === "real-estate" && (
                      <TabsTrigger value="agent">Agent Info</TabsTrigger>
+                   )}
+                   {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                     <TabsTrigger value="hotel-amenities">Hotel Amenities</TabsTrigger>
                    )}
                   {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
@@ -2650,9 +2670,66 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 </TabsContent>
 
                 {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
-                  <TabsContent value="hotel-details" className="space-y-4">
-                    <HotelUploadForm form={form} />
-                  </TabsContent>
+                  <>
+                    <TabsContent value="hotel-details" className="space-y-4">
+                      <HotelUploadForm form={form} />
+                    </TabsContent>
+                    
+                    <TabsContent value="hotel-amenities" className="space-y-4">
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-medium flex items-center gap-2">
+                          <Wifi className="h-5 w-5" />
+                          Hotel Amenities
+                        </h3>
+                        <FormField
+                          control={form.control}
+                          name="hotelAmenities"
+                          render={() => (
+                            <FormItem>
+                              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                                {hotelAmenities.map((amenity) => (
+                                  <FormField
+                                    key={amenity.id}
+                                    control={form.control}
+                                    name="hotelAmenities"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={amenity.id}
+                                          className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              className="border-2 border-border"
+                                              checked={field.value?.includes(amenity.id)}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([...field.value, amenity.id])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (value: string) => value !== amenity.id
+                                                      )
+                                                    )
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="flex items-center gap-2 text-sm font-normal cursor-pointer">
+                                            <amenity.icon className="h-4 w-4" />
+                                            {amenity.label}
+                                          </FormLabel>
+                                        </FormItem>
+                                      )
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </TabsContent>
+                  </>
                 ) : (
                   <TabsContent value="details" className="space-y-6">
                     {/* Real Estate Details Section */}
