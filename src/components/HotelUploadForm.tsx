@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Bed, Bath, Users, DollarSign, Star, MapPin, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Tv, Wind } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Bed, Bath, Users, DollarSign, Star, MapPin, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Tv, Wind, Plus, Trash2 } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
+
+interface RoomProfile {
+  id: string;
+  roomType: string;
+  bedConfiguration: string;
+  maxOccupancy: string;
+  roomSize: string;
+  averageNightlyRate: string;
+}
 
 interface HotelUploadFormProps {
   form: UseFormReturn<any>;
 }
 
 export function HotelUploadForm({ form }: HotelUploadFormProps) {
+  const [roomProfiles, setRoomProfiles] = useState<RoomProfile[]>([]);
   const hotelPropertyTypes = [
     { value: "hotel-room", label: "Hotel Room – Standard guest room in a traditional hotel" },
     { value: "boutique-hotel", label: "Boutique Hotel – Stylish, smaller hotel with personalized service" },
@@ -348,147 +360,296 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
 
   return (
     <div className="space-y-6">
-      {/* Room Details */}
+      {/* Property Type */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium flex items-center gap-2">
-          <Bed className="h-5 w-5" />
-          Room Details
+          <MapPin className="h-5 w-5" />
+          Property Type
         </h3>
         
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Room Types - Dropdown Selection */}
-          <FormField
-            control={form.control}
-            name="roomType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Room Types Available</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select room type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-80">
-                    {hotelRoomTypes.map((roomType) => (
-                      <SelectItem key={roomType.value} value={roomType.value}>
-                        {roomType.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="propertyType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Hotel Property Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border-2 border-border">
+                    <SelectValue placeholder="Select property type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="max-h-80">
+                  {hotelPropertyTypes.map((propertyType) => (
+                    <SelectItem key={propertyType.value} value={propertyType.value}>
+                      {propertyType.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
 
-          {/* Bed Configurations - Dropdown Selection */}
-          <FormField
-            control={form.control}
-            name="bedConfiguration"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bed Configurations Available</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select bed configuration" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="single">1 Single Bed</SelectItem>
-                    <SelectItem value="double">1 Double Bed</SelectItem>
-                    <SelectItem value="queen">1 Queen Bed</SelectItem>
-                    <SelectItem value="king">1 King Bed</SelectItem>
-                    <SelectItem value="twin">2 Twin Beds</SelectItem>
-                    <SelectItem value="double-double">2 Double Beds</SelectItem>
-                    <SelectItem value="queen-queen">2 Queen Beds</SelectItem>
-                    <SelectItem value="multiple">Multiple Beds</SelectItem>
-                    <SelectItem value="sofa-bed">Sofa Bed Available</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="maxOccupancy"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  Max Occupancy
-                </FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select max guests" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {[...Array(10)].map((_, i) => (
-                      <SelectItem key={i + 1} value={(i + 1).toString()}>
-                        {i + 1} {i === 0 ? 'guest' : 'guests'}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+      {/* Hotel Chain */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Hotel Chain (Optional)</h3>
+        
+        <FormField
+          control={form.control}
+          name="hotelChain"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Select Hotel Chain</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border-2 border-border">
+                    <SelectValue placeholder="Select hotel chain (if applicable)" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="max-h-80">
+                  {hotelChains.map((chain) => (
+                    <SelectGroup key={chain.category}>
+                      <SelectLabel>{chain.category}</SelectLabel>
+                      {chain.options.map((hotel) => (
+                        <SelectItem key={hotel.value} value={hotel.value}>
+                          {hotel.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      {/* Amenities */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Hotel Amenities</h3>
+        
+        <FormField
+          control={form.control}
+          name="amenities"
+          render={() => (
+            <FormItem>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                {hotelAmenities.map((item) => (
+                  <FormField
+                    key={item.id}
+                    control={form.control}
+                    name="amenities"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value: string) => value !== item.id
+                                      )
+                                    )
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="text-sm font-normal flex items-center gap-2">
+                            <item.icon className="h-4 w-4" />
+                            {item.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      {/* Room Profiles */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-medium flex items-center gap-2">
+            <Bed className="h-5 w-5" />
+            Room Profiles
+          </h3>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={addRoomProfile}
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Add Room Profile
+          </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="roomSize"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Room Size (sq ft)</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 350" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+        {roomProfiles.length === 0 && (
+          <div className="text-center py-8 text-muted-foreground">
+            <Bed className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p>No room profiles added yet. Click "Add Room Profile" to get started.</p>
+          </div>
+        )}
 
-          <FormField
-            control={form.control}
-            name="floorLevel"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Floor Level</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 5th Floor" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+        <div className="space-y-4">
+          {roomProfiles.map((profile, index) => (
+            <Card key={profile.id} className="relative">
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">Room Profile {index + 1}</CardTitle>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeRoomProfile(profile.id)}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium">Room Type</label>
+                    <Select value={profile.roomType} onValueChange={(value) => updateRoomProfile(profile.id, 'roomType', value)}>
+                      <SelectTrigger className="border-2 border-border">
+                        <SelectValue placeholder="Select room type" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[300px]">
+                        <SelectGroup>
+                          <SelectLabel>Standard Room Types</SelectLabel>
+                          {hotelRoomTypes.slice(0, 11).map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                        <SelectGroup>
+                          <SelectLabel>Upgraded & Suite Room Types</SelectLabel>
+                          {hotelRoomTypes.slice(11, 17).map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                        <SelectGroup>
+                          <SelectLabel>Resort-Specific & Luxury Room Types</SelectLabel>
+                          {hotelRoomTypes.slice(17, 31).map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                        <SelectGroup>
+                          <SelectLabel>By Guest Type or Use Case</SelectLabel>
+                          {hotelRoomTypes.slice(31, 38).map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                        <SelectGroup>
+                          <SelectLabel>Extended Stay / Apartment-Style Units</SelectLabel>
+                          {hotelRoomTypes.slice(38).map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">Bed Configuration</label>
+                    <Select value={profile.bedConfiguration} onValueChange={(value) => updateRoomProfile(profile.id, 'bedConfiguration', value)}>
+                      <SelectTrigger className="border-2 border-border">
+                        <SelectValue placeholder="Select bed configuration" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="single">1 Single Bed</SelectItem>
+                        <SelectItem value="double">1 Double Bed</SelectItem>
+                        <SelectItem value="queen">1 Queen Bed</SelectItem>
+                        <SelectItem value="king">1 King Bed</SelectItem>
+                        <SelectItem value="twin">2 Twin Beds</SelectItem>
+                        <SelectItem value="double-double">2 Double Beds</SelectItem>
+                        <SelectItem value="queen-queen">2 Queen Beds</SelectItem>
+                        <SelectItem value="multiple">Multiple Beds</SelectItem>
+                        <SelectItem value="sofa-bed">Sofa Bed Available</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      Max Occupancy
+                    </label>
+                    <Select value={profile.maxOccupancy} onValueChange={(value) => updateRoomProfile(profile.id, 'maxOccupancy', value)}>
+                      <SelectTrigger className="border-2 border-border">
+                        <SelectValue placeholder="Select max guests" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[...Array(10)].map((_, i) => (
+                          <SelectItem key={i + 1} value={(i + 1).toString()}>
+                            {i + 1} {i === 0 ? 'guest' : 'guests'}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">Room Size (sq ft)</label>
+                    <Input 
+                      placeholder="e.g., 350" 
+                      value={profile.roomSize}
+                      onChange={(e) => updateRoomProfile(profile.id, 'roomSize', e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <DollarSign className="h-4 w-4" />
+                      Nightly Rate
+                    </label>
+                    <Input 
+                      placeholder="e.g., $150" 
+                      value={profile.averageNightlyRate}
+                      onChange={(e) => updateRoomProfile(profile.id, 'averageNightlyRate', e.target.value)}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
-      {/* Pricing */}
+      {/* General Pricing */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium flex items-center gap-2">
           <DollarSign className="h-5 w-5" />
-          Pricing Information
+          General Pricing Information
         </h3>
         
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="averageNightlyRate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Average Nightly Rate</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., $150" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
+        <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="seasonalPricing"
@@ -605,4 +766,26 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
       </div>
     </div>
   );
+
+  function addRoomProfile() {
+    const newProfile: RoomProfile = {
+      id: Math.random().toString(36).substr(2, 9),
+      roomType: '',
+      bedConfiguration: '',
+      maxOccupancy: '',
+      roomSize: '',
+      averageNightlyRate: ''
+    };
+    setRoomProfiles([...roomProfiles, newProfile]);
+  }
+
+  function removeRoomProfile(id: string) {
+    setRoomProfiles(roomProfiles.filter(profile => profile.id !== id));
+  }
+
+  function updateRoomProfile(id: string, field: keyof RoomProfile, value: string) {
+    setRoomProfiles(roomProfiles.map(profile => 
+      profile.id === id ? { ...profile, [field]: value } : profile
+    ));
+  }
 }
