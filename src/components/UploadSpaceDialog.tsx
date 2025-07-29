@@ -8654,6 +8654,4 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         // You can handle the crew data here, e.g., save to form state
       }}
     />
-    </>
-  );
 }
