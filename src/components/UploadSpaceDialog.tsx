@@ -300,6 +300,7 @@ const uploadFormSchema = z.object({
   crewCertificatesOnboard: z.boolean().optional(),
   technicalManualAvailability: z.boolean().optional(),
   pinCode: z.string().optional(),
+  pinRequestEmail: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -612,6 +613,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       crewCertificatesOnboard: false,
       technicalManualAvailability: false,
       pinCode: "",
+      pinRequestEmail: "",
     },
   });
 
@@ -7559,6 +7561,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       )}
                      />
                      {form.watch("visibility") === "private" && (
+                       <>
                        <FormField
                          control={form.control}
                          name="pinCode"
@@ -7578,6 +7581,24 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            </FormItem>
                          )}
                        />
+                       <FormField
+                         control={form.control}
+                         name="pinRequestEmail"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Email for Pin Request</FormLabel>
+                             <FormControl>
+                               <Input 
+                                 type="email" 
+                                 placeholder="email@example.com" 
+                                 {...field} 
+                               />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                        />
+                       </>
                      )}
                    </div>
                 </TabsContent>
