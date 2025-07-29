@@ -382,64 +382,35 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             )}
           />
 
-          {/* Bed Configurations - Multiple Selection */}
+          {/* Bed Configurations - Dropdown Selection */}
           <FormField
             control={form.control}
-            name="bedConfigurations"
+            name="bedConfiguration"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base font-medium">Bed Configurations Available</FormLabel>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
-                  {[
-                    { value: "single", label: "1 Single Bed" },
-                    { value: "double", label: "1 Double Bed" },
-                    { value: "queen", label: "1 Queen Bed" },
-                    { value: "king", label: "1 King Bed" },
-                    { value: "twin", label: "2 Twin Beds" },
-                    { value: "double-double", label: "2 Double Beds" },
-                    { value: "queen-queen", label: "2 Queen Beds" },
-                    { value: "multiple", label: "Multiple Beds" },
-                    { value: "sofa-bed", label: "Sofa Bed Available" },
-                  ].map((bedConfig) => (
-                    <FormField
-                      key={bedConfig.value}
-                      control={form.control}
-                      name="bedConfigurations"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={bedConfig.value}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(bedConfig.value)}
-                                onCheckedChange={(checked) => {
-                                  const updatedValue = checked
-                                    ? [...(field.value || []), bedConfig.value]
-                                    : field.value?.filter((value: string) => value !== bedConfig.value) || [];
-                                  field.onChange(updatedValue);
-                                }}
-                              />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                              <FormLabel className="text-sm font-normal cursor-pointer">
-                                {bedConfig.label}
-                              </FormLabel>
-                            </div>
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  ))}
-                </div>
+                <FormLabel>Bed Configurations Available</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="border-2 border-border">
+                      <SelectValue placeholder="Select bed configuration" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="single">1 Single Bed</SelectItem>
+                    <SelectItem value="double">1 Double Bed</SelectItem>
+                    <SelectItem value="queen">1 Queen Bed</SelectItem>
+                    <SelectItem value="king">1 King Bed</SelectItem>
+                    <SelectItem value="twin">2 Twin Beds</SelectItem>
+                    <SelectItem value="double-double">2 Double Beds</SelectItem>
+                    <SelectItem value="queen-queen">2 Queen Beds</SelectItem>
+                    <SelectItem value="multiple">Multiple Beds</SelectItem>
+                    <SelectItem value="sofa-bed">Sofa Bed Available</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           <FormField
             control={form.control}
             name="maxOccupancy"
