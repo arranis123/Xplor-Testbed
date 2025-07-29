@@ -89,6 +89,7 @@ const uploadFormSchema = z.object({
   longitude: z.string().optional(),
   googlePlusCode: z.string().optional(),
   marineTrafficUrl: z.string().optional(),
+  mmsiNumber: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
   currency: z.string().optional(),
@@ -227,6 +228,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       longitude: "",
       googlePlusCode: "",
       marineTrafficUrl: "",
+      mmsiNumber: "",
       // Real Estate Property Specifications default values
       price: "",
       currency: "USD",
@@ -2542,6 +2544,36 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormControl>
                               <FormDescription>
                                 Optional: Real-time location tracking URL from MarineTraffic.com
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+
+                      {(() => {
+                        const propertyType = form.watch("propertyType");
+                        const yachtSizeClass = form.watch("yachtSizeClass");
+                        const yachtStyleLayout = form.watch("yachtStyleLayout");
+                        const yachtSubtype = form.watch("yachtSubtype");
+                        
+                        return (category === "yacht" || propertyType === "yacht" || propertyType === "boat" || 
+                          yachtSizeClass || yachtStyleLayout || yachtSubtype);
+                      })() && (
+                        <FormField
+                          control={form.control}
+                          name="mmsiNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>MMSI Number</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., 319011900" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Optional: 9-digit Maritime Mobile Service Identity number
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
