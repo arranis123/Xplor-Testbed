@@ -2445,11 +2445,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        name="propertyType"
                        render={({ field }) => (
                          <FormItem>
-                            <FormLabel>{(category === "hotel" || category === "hotel/resort") ? "Hotel Category" : category === "yacht" ? "Yacht Type" : category === "real-estate" ? "Real Estate Category" : "Property Type"}</FormLabel>
+                            <FormLabel>{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Category" : category === "yacht" ? "Yacht Type" : category === "real-estate" ? "Real Estate Category" : "Property Type"}</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort") ? "Select hotel type" : category === "yacht" ? "Select yacht type" : category === "real-estate" ? "Select real estate category" : "Select property type"} />
+                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Select hotel category" : category === "yacht" ? "Select yacht type" : category === "real-estate" ? "Select real estate category" : "Select property type"} />
                                 </SelectTrigger>
                               </FormControl>
                              <SelectContent>
