@@ -1101,6 +1101,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "other", label: "Other" },
   ];
 
+  const realEstatePropertyTypes = [
+    { value: "residential", label: "Residential Property" },
+    { value: "commercial", label: "Commercial Property" },
+    { value: "land-development", label: "Land & Development" },
+    { value: "special-purpose", label: "Special-Purpose Real Estate" },
+    { value: "luxury-international", label: "International & Luxury Real Estate" },
+  ];
+
   const hotelPropertyTypes = [
     { value: "hotel-room", label: "Hotel Room – Standard guest room in a traditional hotel" },
     { value: "boutique-hotel", label: "Boutique Hotel – Stylish, smaller hotel with personalized service" },
@@ -1997,7 +2005,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                </SelectTrigger>
                              </FormControl>
                              <SelectContent>
-                               {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : propertyTypes).map((type) => (
+                               {(category === "hotel" || category === "hotel/resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : category === "real-estate" ? realEstatePropertyTypes : propertyTypes).map((type) => (
                                  <SelectItem key={type.value} value={type.value}>
                                    {type.label}
                                  </SelectItem>
