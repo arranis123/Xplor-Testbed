@@ -1681,6 +1681,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  <SelectContent>
                                    <SelectItem value="for-sale">For Sale</SelectItem>
                                    <SelectItem value="for-rent">For Rent</SelectItem>
+                                   <SelectItem value="both">Both</SelectItem>
                                  </SelectContent>
                                </Select>
                                <FormMessage />
