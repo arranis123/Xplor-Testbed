@@ -314,6 +314,12 @@ const uploadFormSchema = z.object({
   technicalManualAvailability: z.boolean().optional(),
   pinCode: z.string().optional(),
   pinRequestEmail: z.string().optional(),
+  // Location & Proximity fields
+  walkScore: z.string().optional(),
+  nearbyLandmarks: z.string().optional(),
+  transportLinks: z.string().optional(),
+  schoolCatchment: z.string().optional(),
+  distanceToCityCenter: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -5122,10 +5128,90 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                </div>
                              </div>
                            )}
-                         </Card>
-                     </div>
-                   </div>
-                  </TabsContent>
+                          </Card>
+                      </div>
+
+                      {category === "real-estate" && (
+                        <div className="space-y-4 mt-8">
+                          <h3 className="text-lg font-semibold flex items-center gap-2">
+                            <MapPin className="h-5 w-5" />
+                            Location & Proximity
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="walkScore"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Walk Score / Accessibility Rating</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 95/100 - Walker's Paradise" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="nearbyLandmarks"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Nearby Landmarks</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Schools, Hospitals, Parks, Beaches" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="transportLinks"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Transport Links</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Metro, Highway Access, Airport Proximity" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="schoolCatchment"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>School Catchment Areas</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Top-rated school district" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="distanceToCityCenter"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Distance to City Center / Business District</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 15 minutes by metro" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                   </TabsContent>
 
                   {category === "real-estate" && (
                     <TabsContent value="agent" className="space-y-4">
