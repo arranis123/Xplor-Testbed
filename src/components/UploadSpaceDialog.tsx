@@ -92,6 +92,8 @@ const uploadFormSchema = z.object({
   mmsiNumber: z.string().optional(),
   imoNumber: z.string().optional(),
   officialNumber: z.string().optional(),
+  askingPrice: z.string().optional(),
+  charterRate: z.string().optional(),
   portOfRegistry: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
@@ -234,6 +236,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       mmsiNumber: "",
       imoNumber: "",
       officialNumber: "",
+      askingPrice: "",
+      charterRate: "",
       portOfRegistry: "",
       // Real Estate Property Specifications default values
       price: "",
@@ -808,6 +812,51 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          )}
                        />
                      )}
+
+                     {category === "yacht" && (
+                       <FormField
+                         control={form.control}
+                         name="askingPrice"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Asking Price</FormLabel>
+                             <FormControl>
+                               <Input 
+                                 placeholder="e.g., €2,500,000" 
+                                 {...field} 
+                               />
+                             </FormControl>
+                             <FormDescription>
+                               Price for sale (include currency)
+                             </FormDescription>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
+
+                     {category === "yacht" && (
+                       <FormField
+                         control={form.control}
+                         name="charterRate"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Charter Rate</FormLabel>
+                             <FormControl>
+                               <Input 
+                                 placeholder="e.g., €50,000/week" 
+                                 {...field} 
+                               />
+                             </FormControl>
+                             <FormDescription>
+                               Charter rate per period (include currency and time period)
+                             </FormDescription>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
+                     
                      
                      <FormField
                        control={form.control}
