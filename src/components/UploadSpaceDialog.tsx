@@ -2511,8 +2511,23 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        />
                       </div>
 
-                      {(form.watch("propertyType") === "yacht" || form.watch("propertyType") === "boat" || 
-                        form.watch("yachtSizeClass") || form.watch("yachtStyleLayout") || form.watch("yachtSubtype")) && (
+                      {(() => {
+                        const propertyType = form.watch("propertyType");
+                        const yachtSizeClass = form.watch("yachtSizeClass");
+                        const yachtStyleLayout = form.watch("yachtStyleLayout");
+                        const yachtSubtype = form.watch("yachtSubtype");
+                        
+                        console.log("Debug Marine Traffic Field:", {
+                          propertyType,
+                          yachtSizeClass,
+                          yachtStyleLayout,
+                          yachtSubtype,
+                          category
+                        });
+                        
+                        return (propertyType === "yacht" || propertyType === "boat" || 
+                          yachtSizeClass || yachtStyleLayout || yachtSubtype);
+                      })() && (
                         <FormField
                           control={form.control}
                           name="marineTrafficUrl"
