@@ -2525,7 +2525,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           category
                         });
                         
-                        return (propertyType === "yacht" || propertyType === "boat" || 
+                        return (category === "yacht" || propertyType === "yacht" || propertyType === "boat" || 
                           yachtSizeClass || yachtStyleLayout || yachtSubtype);
                       })() && (
                         <FormField
