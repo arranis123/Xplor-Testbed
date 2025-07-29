@@ -7711,11 +7711,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contact-description">Project Description</Label>
+              <Label htmlFor="contact-description">Pick up location drop off location via locations</Label>
               <Textarea
                 id="contact-description"
                 name="description"
-                placeholder="Tell us about your property and floor plan requirements..."
+                placeholder="Specify pick up and drop off locations..."
                 className="min-h-[100px]"
                 required
               />
