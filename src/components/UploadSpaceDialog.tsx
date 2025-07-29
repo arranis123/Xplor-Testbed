@@ -1520,6 +1520,27 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        />
                      )}
 
+                      {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="charterRate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Charter Rate</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., €50,000/week" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Charter rate per period (include currency and time period)
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
 
                       {category === "yacht" && (
                         <div className="flex items-center space-x-6">
@@ -2565,6 +2586,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             Charter Information (if applicable)
                           </h3>
                           <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="yachtCharterRateInfo"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Charter Rate (Weekly, Daily, Seasonal)</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., €85,000/week high season" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                             <FormField
                               control={form.control}
                               name="yachtCharterRegions"
