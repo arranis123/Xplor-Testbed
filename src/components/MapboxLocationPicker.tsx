@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapPin, Plus, Minus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { toast } from './ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 // Mapbox access token - this should be provided by the user
 // In production, this should be stored in Supabase secrets
@@ -25,6 +25,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
   zoom = 10,
   className = "h-48"
 }) => {
+  const { toast } = useToast();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const marker = useRef<mapboxgl.Marker | null>(null);
@@ -167,13 +168,22 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
 
   const handleTokenSubmit = () => {
     if (mapboxToken.trim()) {
+      // Reset validation state
+      setIsTokenValid(false);
+      
       localStorage.setItem('mapbox_token', mapboxToken);
-      // Force re-initialization
+      
+      // Force re-initialization by clearing current map
       if (map.current) {
         map.current.remove();
         map.current = null;
       }
-      // The useEffect will handle re-initialization
+      
+      // Force re-render by updating the token state
+      // This will trigger the useEffect that initializes the map
+      const trimmedToken = mapboxToken.trim();
+      setMapboxToken(''); // Clear temporarily
+      setTimeout(() => setMapboxToken(trimmedToken), 100); // Set it back to trigger useEffect
     }
   };
 
