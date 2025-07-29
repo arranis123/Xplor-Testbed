@@ -2543,7 +2543,40 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            <FormMessage />
                          </FormItem>
                        )}
-                     />
+                      />
+                     
+                     {/* Hotel Star Rating Field - only show for hotels */}
+                     {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                       <FormField
+                         control={form.control}
+                         name="hotelStarRating"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel className="flex items-center gap-2">
+                               <Star className="h-4 w-4" />
+                               Star Rating
+                             </FormLabel>
+                             <Select onValueChange={field.onChange} defaultValue={field.value}>
+                               <FormControl>
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select star rating" />
+                                 </SelectTrigger>
+                               </FormControl>
+                               <SelectContent>
+                                 <SelectItem value="1">⭐ 1 Star</SelectItem>
+                                 <SelectItem value="2">⭐⭐ 2 Stars</SelectItem>
+                                 <SelectItem value="3">⭐⭐⭐ 3 Stars</SelectItem>
+                                 <SelectItem value="4">⭐⭐⭐⭐ 4 Stars</SelectItem>
+                                 <SelectItem value="5">⭐⭐⭐⭐⭐ 5 Stars</SelectItem>
+                                 <SelectItem value="boutique">🎨 Boutique (No Rating)</SelectItem>
+                                 <SelectItem value="luxury">👑 Luxury (No Rating)</SelectItem>
+                               </SelectContent>
+                             </Select>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
                     
                     {category === "yacht" && form.watch("propertyType") === "motor-yacht" && (
                       <FormField
