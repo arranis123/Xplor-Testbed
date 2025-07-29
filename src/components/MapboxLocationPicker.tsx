@@ -35,6 +35,17 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
   useEffect(() => {
     if (!mapContainer.current || !mapboxToken) return;
 
+    // Validate token format
+    if (!mapboxToken.startsWith('pk.')) {
+      setIsTokenValid(false);
+      toast({
+        title: "Invalid Token Format",
+        description: "Mapbox public tokens must start with 'pk.'",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       mapboxgl.accessToken = mapboxToken;
       
@@ -49,6 +60,15 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
       // Add navigation controls
       map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
+      // Handle successful load
+      map.current.on('load', () => {
+        setIsTokenValid(true);
+        toast({
+          title: "Map Loaded",
+          description: "Mapbox map initialized successfully!",
+        });
+      });
+
       // Handle map clicks to set location
       map.current.on('click', (e) => {
         const { lng, lat } = e.lngLat;
@@ -62,7 +82,16 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
         }
       });
 
-      setIsTokenValid(true);
+      // Handle errors
+      map.current.on('error', (e) => {
+        console.error('Mapbox error:', e);
+        setIsTokenValid(false);
+        toast({
+          title: "Mapbox Error",
+          description: "Failed to load map. Please check your token and internet connection.",
+          variant: "destructive",
+        });
+      });
 
       return () => {
         if (map.current) {
