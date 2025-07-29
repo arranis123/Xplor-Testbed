@@ -284,6 +284,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "treehouse", label: "Treehouse" },
     { value: "castle", label: "Castle" },
     { value: "boat", label: "Boat" },
+    { value: "yacht", label: "Yacht" },
     { value: "cabin", label: "Cabin" },
     { value: "commercial-office", label: "Commercial Office" },
     { value: "retail-space", label: "Retail Space" },
@@ -2549,6 +2550,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         
                         {/* Marine Traffic Location Field for Yachts/Boats */}
                         {(form.watch("propertyType") === "boat" || 
+                          form.watch("propertyType") === "yacht" ||
                           form.watch("yachtSizeClass") || 
                           form.watch("yachtStyleLayout") || 
                           form.watch("yachtSubtype")) && (
