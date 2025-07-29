@@ -296,45 +296,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
 
   return (
     <div className="space-y-6">
-      {/* Basic Hotel Information */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium flex items-center gap-2">
-          <MapPin className="h-5 w-5" />
-          Hotel Information
-        </h3>
-        
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="hotelStarRating"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <Star className="h-4 w-4" />
-                  Star Rating
-                </FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select star rating" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="1">1 Star</SelectItem>
-                    <SelectItem value="2">2 Stars</SelectItem>
-                    <SelectItem value="3">3 Stars</SelectItem>
-                    <SelectItem value="4">4 Stars</SelectItem>
-                    <SelectItem value="5">5 Stars</SelectItem>
-                    <SelectItem value="boutique">Boutique (No Rating)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-
-        </div>
-      </div>
-
       {/* Room Details */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium flex items-center gap-2">
