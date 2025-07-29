@@ -275,6 +275,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     documents: File[];
     floorPlans: File[];
     sampleItineraries: File[];
+    crewProfile: File[];
   }>({
     photos: [],
     videos: [],
@@ -282,6 +283,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     documents: [],
     floorPlans: [],
     sampleItineraries: [],
+    crewProfile: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -1161,14 +1163,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries', files: FileList | null) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile', files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter(file => {
       if (type === 'photos' || type === 'floorPlans') {
         return file.type.startsWith('image/');
-      } else if (type === 'documents' || type === 'sampleItineraries') {
+      } else if (type === 'documents' || type === 'sampleItineraries' || type === 'crewProfile') {
         return file.type === 'application/pdf' || file.type.includes('document') || file.type === 'text/plain';
       } else {
         return file.type.startsWith('video/');
@@ -1186,7 +1188,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -1221,7 +1223,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -1235,7 +1237,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
-  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length + uploadedFiles.floorPlans.length + uploadedFiles.sampleItineraries.length;
+  const totalFiles = uploadedFiles.photos.length + uploadedFiles.videos.length + uploadedFiles.droneFootage.length + uploadedFiles.documents.length + uploadedFiles.floorPlans.length + uploadedFiles.sampleItineraries.length + uploadedFiles.crewProfile.length;
   const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
@@ -6644,6 +6646,52 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       </div>
                     )}
 
+                    {category === "yacht" && (
+                      <div>
+                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <User className="h-5 w-5" />
+                          Crew Profile
+                        </Label>
+                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Upload className="h-8 w-8" />
+                              <div className="text-center">
+                                <p className="text-sm font-medium">Upload Crew Profile</p>
+                                <p className="text-xs">Drag and drop or click to browse</p>
+                              </div>
+                            </div>
+                            <Input
+                              type="file"
+                              multiple
+                              accept=".pdf,.doc,.docx,.txt"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('crewProfile', e.target.files)}
+                            />
+                          </div>
+                          {uploadedFiles.crewProfile.length > 0 && (
+                            <div className="mt-4 space-y-2">
+                              {uploadedFiles.crewProfile.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                  <div className="flex items-center gap-2">
+                                    <FileText className="h-4 w-4" />
+                                    <span className="text-sm truncate">{file.name}</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeFile('crewProfile', index)}
+                                    className="text-destructive hover:text-destructive/80"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     <div>
                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                         <FileText className="h-5 w-5" />
@@ -6714,6 +6762,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               {category === "yacht" && (
                                 <Badge variant="secondary">
                                   {uploadedFiles.sampleItineraries.length} Sample Itineraries
+                                </Badge>
+                              )}
+                              {category === "yacht" && (
+                                <Badge variant="secondary">
+                                  {uploadedFiles.crewProfile.length} Crew Profile
                                 </Badge>
                               )}
                             </div>
