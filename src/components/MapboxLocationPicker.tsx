@@ -34,10 +34,11 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
 
   // Initialize map when token is provided
   useEffect(() => {
-    if (!mapContainer.current || !mapboxToken) return;
+    const activeToken = mapboxToken || MAPBOX_TOKEN;
+    if (!mapContainer.current || !activeToken) return;
 
     // Validate token format
-    if (!mapboxToken.startsWith('pk.')) {
+    if (!activeToken.startsWith('pk.')) {
       setIsTokenValid(false);
       toast({
         title: "Invalid Token Format",
@@ -48,7 +49,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
     }
 
     try {
-      mapboxgl.accessToken = mapboxToken;
+      mapboxgl.accessToken = activeToken;
       
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -109,7 +110,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
         variant: "destructive",
       });
     }
-  }, [mapboxToken]);
+  }, [mapboxToken, MAPBOX_TOKEN]);
 
   // Update marker when coordinates change
   useEffect(() => {
@@ -171,10 +172,9 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
       setIsInitializing(true);
       setIsTokenValid(null); // Reset to untested state
       
-      localStorage.setItem('mapbox_token', mapboxToken);
-      
-      // Store token in code for all users
       const tokenToStore = mapboxToken.trim();
+      localStorage.setItem('mapbox_token', tokenToStore);
+      MAPBOX_TOKEN = tokenToStore; // Update global token for immediate use
       
       // Force re-initialization by clearing current map
       if (map.current) {
@@ -183,7 +183,6 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
       }
       
       setIsInitializing(false);
-      // Token is already set, the useEffect will handle initialization
       
       toast({
         title: "Token Saved",
@@ -194,14 +193,16 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
 
   // Load token from localStorage or global token on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem('mapbox_token') || MAPBOX_TOKEN;
+    // Check global token first, then localStorage
+    const savedToken = MAPBOX_TOKEN || localStorage.getItem('mapbox_token');
     if (savedToken) {
       setMapboxToken(savedToken);
-      MAPBOX_TOKEN = savedToken; // Update global token
+      MAPBOX_TOKEN = savedToken; // Ensure global token is set
     }
   }, []);
 
-  if (!mapboxToken) {
+  // Show token input only if no token is available anywhere
+  if (!mapboxToken && !MAPBOX_TOKEN) {
     return (
       <div className={`${className} bg-muted rounded-lg flex flex-col items-center justify-center p-4`}>
         <MapPin className="h-8 w-8 mb-4 text-muted-foreground" />
