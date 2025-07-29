@@ -729,6 +729,60 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
+  // Helper function to convert vessel type code to description
+  const getVesselTypeDescription = (typeCode: number): string | null => {
+    const vesselTypes: { [key: number]: string } = {
+      30: "Fishing",
+      31: "Towing",
+      32: "Towing: length exceeds 200m or breadth exceeds 25m",
+      33: "Dredging or underwater ops",
+      34: "Diving ops",
+      35: "Military ops",
+      36: "Sailing",
+      37: "Pleasure Craft",
+      60: "Passenger",
+      61: "Passenger: Hazardous category A",
+      62: "Passenger: Hazardous category B",
+      63: "Passenger: Hazardous category C",
+      64: "Passenger: Hazardous category D",
+      70: "Cargo",
+      71: "Cargo: Hazardous category A",
+      72: "Cargo: Hazardous category B",
+      73: "Cargo: Hazardous category C",
+      74: "Cargo: Hazardous category D",
+      80: "Tanker",
+      81: "Tanker: Hazardous category A",
+      82: "Tanker: Hazardous category B",
+      83: "Tanker: Hazardous category C",
+      84: "Tanker: Hazardous category D",
+      90: "Other Type"
+    };
+    return vesselTypes[typeCode] || null;
+  };
+
+  // Helper function to convert navigational status code to description
+  const getNavigationalStatusDescription = (statusCode: number): string | null => {
+    const navStatuses: { [key: number]: string } = {
+      0: "Under way using engine",
+      1: "At anchor",
+      2: "Not under command",
+      3: "Restricted manoeuvrability",
+      4: "Constrained by her draught",
+      5: "Moored",
+      6: "Aground",
+      7: "Engaged in fishing",
+      8: "Under way sailing",
+      9: "Reserved for future amendment",
+      10: "Reserved for future amendment",
+      11: "Power-driven vessel towing astern",
+      12: "Power-driven vessel pushing ahead or towing alongside",
+      13: "Reserved for future use",
+      14: "AIS-SART is active",
+      15: "Not defined"
+    };
+    return navStatuses[statusCode] || null;
+  };
+
   // Helper function to generate mock coordinates based on MMSI number (for demonstration)
   const getMockCoordinatesFromMMSI = (mmsi: string): { lat: number; lng: number } | null => {
     try {
@@ -818,15 +872,96 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         if (aisData) {
           console.log('AISStream data received:', aisData);
           
-          // Update form with real AIS data
-          form.setValue('latitude', aisData.latitude.toString());
-          form.setValue('longitude', aisData.longitude.toString());
-          
+          // Update Basic Info
           if (aisData.shipName) {
             // If title is empty or generic, update it with ship name
             const currentTitle = form.getValues('title');
             if (!currentTitle || currentTitle.trim() === '') {
               form.setValue('title', aisData.shipName);
+            }
+          }
+          
+          // Update Location Details
+          form.setValue('latitude', aisData.latitude.toString());
+          form.setValue('longitude', aisData.longitude.toString());
+          
+          // Try to get address from coordinates (reverse geocoding)
+          try {
+            const response = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${aisData.longitude},${aisData.latitude}.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M21iazAyZjEzZG5zN2J1MW80ZjgifQ.d1rgW-MQU_2Lj0zfJM8QgA&types=place`
+            );
+            const geoData = await response.json();
+            if (geoData.features && geoData.features.length > 0) {
+              const place = geoData.features[0];
+              const currentLocation = form.getValues('location');
+              if (!currentLocation || currentLocation.trim() === '') {
+                form.setValue('location', place.place_name);
+              }
+              
+              // Extract additional location details
+              const contexts = place.context || [];
+              contexts.forEach((context: any) => {
+                if (context.id.startsWith('country')) {
+                  form.setValue('country', context.text);
+                } else if (context.id.startsWith('region')) {
+                  form.setValue('region', context.text);
+                } else if (context.id.startsWith('place')) {
+                  form.setValue('city', context.text);
+                }
+              });
+            }
+          } catch (error) {
+            console.log("Reverse geocoding failed:", error);
+          }
+          
+          // Update Yacht Details from AIS additional data
+          if (aisData.additionalData) {
+            const additionalData = aisData.additionalData;
+            
+            // Vessel dimensions
+            if (additionalData.to_bow && additionalData.to_stern) {
+              const loa = additionalData.to_bow + additionalData.to_stern;
+              form.setValue('yachtLOA', loa.toString() + ' m');
+            }
+            
+            if (additionalData.to_port && additionalData.to_starboard) {
+              const beam = additionalData.to_port + additionalData.to_starboard;
+              form.setValue('yachtBeam', beam.toString() + ' m');
+            }
+            
+            // Maximum draft if available
+            if (additionalData.maximum_draught) {
+              form.setValue('yachtDraft', (additionalData.maximum_draught / 10).toString() + ' m'); // Convert from decimeters
+            }
+            
+            // Vessel type classification
+            if (additionalData.type_and_cargo) {
+              const vesselType = getVesselTypeDescription(additionalData.type_and_cargo);
+              if (vesselType) {
+                form.setValue('yachtSubtype', vesselType);
+              }
+            }
+            
+            // Call sign as registration number
+            if (additionalData.call_sign && additionalData.call_sign.trim()) {
+              form.setValue('yachtRegistrationNumber', additionalData.call_sign.trim());
+            }
+            
+            // Destination
+            if (additionalData.destination && additionalData.destination.trim()) {
+              form.setValue('yachtCharterRegions', additionalData.destination.trim());
+            }
+            
+            // Navigation status
+            if (additionalData.navigational_status !== undefined) {
+              const navStatus = getNavigationalStatusDescription(additionalData.navigational_status);
+              if (navStatus) {
+                const currentDesc = form.getValues('description') || '';
+                const statusInfo = `Current Navigation Status: ${navStatus}`;
+                if (!currentDesc.includes(statusInfo)) {
+                  form.setValue('description', currentDesc ? `${currentDesc}\n\n${statusInfo}` : statusInfo);
+                }
+              }
             }
           }
           
