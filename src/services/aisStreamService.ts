@@ -43,44 +43,6 @@ export class AISStreamService {
     return this.apiKey || localStorage.getItem('aisstream_api_key');
   }
 
-  async validateApiKey(): Promise<boolean> {
-    const apiKey = this.getApiKey();
-    if (!apiKey) {
-      console.error('No API key to validate');
-      return false;
-    }
-
-    try {
-      // Test with a simple API call to validate the key
-      console.log('Validating API key:', apiKey.substring(0, 8) + '...');
-      const response = await fetch('https://api.aisstream.io/v0/last_known_position/367342230', {
-        headers: {
-          'X-API-Key': apiKey
-        }
-      });
-
-      console.log('API key validation response status:', response.status);
-      
-      if (response.status === 401) {
-        console.error('API key is invalid - received 401 Unauthorized');
-        return false;
-      } else if (response.status === 403) {
-        console.error('API key is forbidden - received 403 Forbidden');
-        return false;
-      } else if (response.status >= 200 && response.status < 300) {
-        console.log('API key is valid');
-        return true;
-      } else if (response.status === 404) {
-        console.log('API key is valid (404 means MMSI not found, but key worked)');
-        return true;
-      }
-      
-      return false;
-    } catch (error) {
-      console.error('Error validating API key:', error);
-      return false;
-    }
-  }
 
   private async createConnection(): Promise<boolean> {
     const currentApiKey = this.getApiKey();
@@ -207,22 +169,15 @@ export class AISStreamService {
 
     console.log('Using API key for vessel data:', currentApiKey ? 'API key available' : 'No API key');
 
-    // Validate API key first
-    const isValidKey = await this.validateApiKey();
-    if (!isValidKey) {
-      console.error('API key validation failed. Please check your AISStream.io API key.');
-      return null;
-    }
-
-    // First try to get real-time data via WebSocket
+    // Try to get real-time data via WebSocket only (REST API blocked by CORS)
+    console.log('Attempting WebSocket connection for real-time AIS data...');
     const realTimeData = await this.getRealTimeData(mmsi, timeoutMs);
     if (realTimeData) {
       return realTimeData;
     }
 
-    // If real-time data isn't available, try to get last known position via API
-    console.log('Real-time data not available, fetching last known position...');
-    return await this.getLastKnownPosition(mmsi);
+    console.log('No real-time data available from WebSocket');
+    return null;
   }
 
   private async getRealTimeData(mmsi: string, timeoutMs: number): Promise<AISStreamResponse | null> {
@@ -242,12 +197,12 @@ export class AISStreamService {
     }
 
     return new Promise((resolve) => {
-      // Set up timeout
+      // Reduce timeout for faster testing
       const timeout = setTimeout(() => {
         this.pendingRequests.delete(mmsi);
         console.log(`Timeout waiting for real-time MMSI ${mmsi} data after ${timeoutMs}ms`);
         resolve(null);
-      }, timeoutMs);
+      }, Math.min(timeoutMs, 15000)); // Max 15 seconds for WebSocket data
 
       // Store the request
       this.pendingRequests.set(mmsi, { resolve, timeout });
@@ -266,46 +221,6 @@ export class AISStreamService {
     });
   }
 
-  private async getLastKnownPosition(mmsi: string): Promise<AISStreamResponse | null> {
-    try {
-      const currentApiKey = this.getApiKey();
-      if (!currentApiKey) {
-        console.error('No API key available for REST API call');
-        return null;
-      }
-
-      console.log('Making REST API call with API key:', currentApiKey.substring(0, 8) + '...');
-      // Use AISStream.io REST API for last known position
-      const response = await fetch(`https://api.aisstream.io/v0/last_known_position/${mmsi}`, {
-        headers: {
-          'X-API-Key': currentApiKey
-        }
-      });
-
-      if (!response.ok) {
-        console.log('AISStream last known position not available');
-        return null;
-      }
-
-      const data = await response.json();
-      
-      if (data && data.lat && data.lon) {
-        return {
-          mmsi,
-          latitude: data.lat,
-          longitude: data.lon,
-          shipName: data.ship_name || data.shipName,
-          lastUpdate: data.timestamp || data.time_utc || new Date().toISOString(),
-          additionalData: data
-        };
-      }
-
-      return null;
-    } catch (error) {
-      console.error('Error fetching last known position:', error);
-      return null;
-    }
-  }
 
   disconnect() {
     if (this.socket) {
