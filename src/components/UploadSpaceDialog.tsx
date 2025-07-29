@@ -6646,7 +6646,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       <div>
                         <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                           <FileText className="h-5 w-5" />
-                          Sample Itineraries
+                          Sample Itineraries [Need to create an itinerary? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here for AI assistance</button>]
                         </Label>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
