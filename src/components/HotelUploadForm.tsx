@@ -350,10 +350,18 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
     <div className="space-y-6">
       {/* Room Details */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium flex items-center gap-2">
-          <Bed className="h-5 w-5" />
-          Room Details
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-medium flex items-center gap-2">
+            <Bed className="h-5 w-5" />
+            Room Details
+          </h3>
+          <button 
+            type="button"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            Add Room
+          </button>
+        </div>
         
         <div className="space-y-6">
           {/* Room Types - Multiple Selection */}
