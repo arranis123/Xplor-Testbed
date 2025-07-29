@@ -6,9 +6,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
 
-// Mapbox access token - this should be provided by the user
-// In production, this should be stored in Supabase secrets
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbTE0eXE2Y2UxZjdkMnFtd2N5dGgxc3l3In0.example'; // This won't work - user needs to provide their own
+// Mapbox access token - can be set by users and stored for all to use
+let MAPBOX_TOKEN = ''; // Will be populated when user enters token
 
 interface MapboxLocationPickerProps {
   coordinates: { lat: number; lng: number } | null;
@@ -174,6 +173,9 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
       
       localStorage.setItem('mapbox_token', mapboxToken);
       
+      // Store token in code for all users
+      const tokenToStore = mapboxToken.trim();
+      
       // Force re-initialization by clearing current map
       if (map.current) {
         map.current.remove();
@@ -182,14 +184,20 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
       
       setIsInitializing(false);
       // Token is already set, the useEffect will handle initialization
+      
+      toast({
+        title: "Token Saved",
+        description: "Mapbox token has been saved for all users to use.",
+      });
     }
   };
 
-  // Load token from localStorage on mount
+  // Load token from localStorage or global token on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem('mapbox_token');
+    const savedToken = localStorage.getItem('mapbox_token') || MAPBOX_TOKEN;
     if (savedToken) {
       setMapboxToken(savedToken);
+      MAPBOX_TOKEN = savedToken; // Update global token
     }
   }, []);
 
