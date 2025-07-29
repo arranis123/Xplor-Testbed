@@ -3506,93 +3506,93 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     )}
                     
 
-                    {/* Default property details for non-real-estate or non-for-sale */}
-                    {!(category === "real-estate" && form.watch("listingType") === "for-sale") && (
-                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="bedrooms"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Bed className="h-4 w-4" />
-                                Bedrooms
-                              </FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select bedrooms" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="studio">Studio</SelectItem>
-                                  <SelectItem value="1">1 bedroom</SelectItem>
-                                  <SelectItem value="2">2 bedrooms</SelectItem>
-                                  <SelectItem value="3">3 bedrooms</SelectItem>
-                                  <SelectItem value="4">4 bedrooms</SelectItem>
-                                  <SelectItem value="5+">5+ bedrooms</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="bathrooms"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Bath className="h-4 w-4" />
-                                Bathrooms
-                              </FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select bathrooms" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="1">1 bathroom</SelectItem>
-                                  <SelectItem value="1.5">1.5 bathrooms</SelectItem>
-                                  <SelectItem value="2">2 bathrooms</SelectItem>
-                                  <SelectItem value="2.5">2.5 bathrooms</SelectItem>
-                                  <SelectItem value="3">3 bathrooms</SelectItem>
-                                  <SelectItem value="3.5">3.5 bathrooms</SelectItem>
-                                  <SelectItem value="4+">4+ bathrooms</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="area"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Ruler className="h-4 w-4" />
-                                Area (sq ft)
-                              </FormLabel>
-                              <FormControl>
-                                <Input placeholder="e.g., 1,200" {...field} />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="yearBuilt"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Year Built</FormLabel>
-                              <FormControl>
-                                <Input placeholder="e.g., 2020" {...field} />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    )}
+                     {/* Default property details for non-real-estate */}
+                     {category !== "real-estate" && (
+                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="bedrooms"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel className="flex items-center gap-2">
+                                 <Bed className="h-4 w-4" />
+                                 Bedrooms
+                               </FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select bedrooms" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="studio">Studio</SelectItem>
+                                   <SelectItem value="1">1 bedroom</SelectItem>
+                                   <SelectItem value="2">2 bedrooms</SelectItem>
+                                   <SelectItem value="3">3 bedrooms</SelectItem>
+                                   <SelectItem value="4">4 bedrooms</SelectItem>
+                                   <SelectItem value="5+">5+ bedrooms</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="bathrooms"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel className="flex items-center gap-2">
+                                 <Bath className="h-4 w-4" />
+                                 Bathrooms
+                               </FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select bathrooms" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="1">1 bathroom</SelectItem>
+                                   <SelectItem value="1.5">1.5 bathrooms</SelectItem>
+                                   <SelectItem value="2">2 bathrooms</SelectItem>
+                                   <SelectItem value="2.5">2.5 bathrooms</SelectItem>
+                                   <SelectItem value="3">3 bathrooms</SelectItem>
+                                   <SelectItem value="3.5">3.5 bathrooms</SelectItem>
+                                   <SelectItem value="4+">4+ bathrooms</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="area"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel className="flex items-center gap-2">
+                                 <Ruler className="h-4 w-4" />
+                                 Area (sq ft)
+                               </FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., 1,200" {...field} />
+                               </FormControl>
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yearBuilt"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Year Built</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., 2020" {...field} />
+                               </FormControl>
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     )}
 
                   </TabsContent>
                  )}
