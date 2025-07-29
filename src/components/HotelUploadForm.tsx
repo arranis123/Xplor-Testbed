@@ -50,16 +50,68 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   ];
 
   const hotelRoomTypes = [
-    { value: "standard", label: "Standard Room" },
-    { value: "deluxe", label: "Deluxe Room" },
-    { value: "suite", label: "Suite" },
-    { value: "junior-suite", label: "Junior Suite" },
-    { value: "executive", label: "Executive Room" },
-    { value: "presidential", label: "Presidential Suite" },
-    { value: "penthouse", label: "Penthouse Suite" },
-    { value: "family", label: "Family Room" },
-    { value: "connecting", label: "Connecting Rooms" },
-    { value: "accessible", label: "Accessible Room" },
+    // 🛏️ Standard Room Types (Common Across All Hotels)
+    { value: "single-room", label: "🛏️ Single Room – 1 single bed for 1 guest" },
+    { value: "double-room", label: "🛏️ Double Room – 1 double bed for 2 guests" },
+    { value: "twin-room", label: "🛏️ Twin Room – 2 single beds for 2 guests" },
+    { value: "triple-room", label: "🛏️ Triple Room – Beds for 3 guests (double + single or 3 singles)" },
+    { value: "quad-room", label: "🛏️ Quad Room – Beds for 4 guests" },
+    { value: "king-room", label: "🛏️ King Room – 1 king-sized bed" },
+    { value: "queen-room", label: "🛏️ Queen Room – 1 queen-sized bed" },
+    { value: "family-room", label: "🛏️ Family Room – Designed for families, often includes extra beds or sofa beds" },
+    { value: "accessible-room", label: "🛏️ Accessible Room – Wheelchair-accessible, includes assistive features" },
+    { value: "connecting-rooms", label: "🛏️ Connecting Rooms – Two rooms with an internal door between them" },
+    { value: "adjoining-rooms", label: "🛏️ Adjoining Rooms – Next to each other, but no internal door" },
+
+    // 🏨 Upgraded & Suite Room Types
+    { value: "deluxe-room", label: "🏨 Deluxe Room – Larger or more upgraded standard room" },
+    { value: "premier-room", label: "🏨 Premier Room – View, size, or amenity upgrade over Deluxe" },
+    { value: "executive-room", label: "🏨 Executive Room – Often includes lounge access, suited to business travelers" },
+    { value: "junior-suite", label: "🏨 Junior Suite – Includes a sitting area, typically open plan" },
+    { value: "suite", label: "🏨 Suite – Separate living and bedroom areas" },
+    { value: "executive-suite", label: "🏨 Executive Suite – Premium suite with work areas and VIP amenities" },
+    { value: "presidential-suite", label: "🏨 Presidential Suite – One of the largest, most luxurious suites in the hotel" },
+    { value: "royal-suite", label: "🏨 Royal Suite – Often the most prestigious suite; ultra-luxury" },
+    { value: "penthouse-suite", label: "🏨 Penthouse Suite – Located on the top floor, often with private terraces" },
+    { value: "duplex-suite", label: "🏨 Duplex Suite – Two-floor layout" },
+    { value: "honeymoon-suite", label: "🏨 Honeymoon Suite – Romantic amenities, often with jacuzzi or private terrace" },
+    { value: "bridal-suite", label: "🏨 Bridal Suite – Decorated for newlyweds, similar to honeymoon suite" },
+    { value: "studio-suite", label: "🏨 Studio Suite – Open-plan room with kitchenette or sitting area" },
+    { value: "family-suite", label: "🏨 Family Suite – Multi-room layout for family groups" },
+    { value: "governor-suite", label: "🏨 Governor / Ambassador Suite – High-end suite, just below presidential tier" },
+
+    // 🏖️ Resort-Specific & Luxury Room Types
+    { value: "beachfront-room", label: "🏖️ Beachfront Room / Suite – Direct access or view of the beach" },
+    { value: "ocean-view-room", label: "🏖️ Ocean View Room / Suite – Facing the sea, typically with balcony" },
+    { value: "garden-view-room", label: "🏖️ Garden View Room – Views of landscaped grounds" },
+    { value: "mountain-lake-view", label: "🏖️ Mountain / Lake View Room – Scenic natural vistas" },
+    { value: "overwater-bungalow", label: "🏖️ Overwater Bungalow / Villa – Built over water, typically in island resorts" },
+    { value: "pool-villa", label: "🏖️ Pool Villa – Private pool included" },
+    { value: "plunge-pool-suite", label: "🏖️ Plunge Pool Suite – Includes small private plunge pool" },
+    { value: "jacuzzi-suite", label: "🏖️ Jacuzzi Suite – Includes hot tub or in-room jacuzzi" },
+    { value: "swim-up-room", label: "🏖️ Swim-up Room – Direct access to pool from the room terrace" },
+    { value: "private-villa", label: "🏖️ Private Villa – Freestanding unit with private entrances" },
+    { value: "tent-glamping-suite", label: "🏖️ Tent / Glamping Suite – Luxury canvas or semi-permanent structures" },
+    { value: "treehouse-villa", label: "🏖️ Treehouse Villa – Elevated accommodation among trees" },
+    { value: "cave-room-suite", label: "🏖️ Cave Room / Suite – Built into or styled like natural caves" },
+    { value: "igloo-ice-suite", label: "🏖️ Igloo Room / Ice Suite – Seasonal, built from ice and snow" },
+
+    // 👥 By Guest Type or Use Case
+    { value: "business-room", label: "👥 Business Room – Equipped with desk, fast Wi-Fi, ergonomic chair" },
+    { value: "solo-traveler-room", label: "👥 Solo Traveler Room – Smaller rooms with solo traveler rates" },
+    { value: "couples-room", label: "👥 Couples Room – Romantic setups with king beds and soft lighting" },
+    { value: "family-room-guest", label: "👥 Family Room / Suite – Includes multiple beds or bunk beds" },
+    { value: "pet-friendly-room", label: "👥 Pet-Friendly Room – Pet amenities and direct outdoor access" },
+    { value: "wellness-suite", label: "👥 Wellness Suite – In-room spa tools, yoga mats, or massage tables" },
+    { value: "accessible-ada-room", label: "👥 Accessible / ADA Room – Designed for disabled or limited mobility guests" },
+
+    // 🏡 Extended Stay / Apartment-Style Units
+    { value: "studio-apartment", label: "🏡 Studio Apartment – Compact unit with kitchen and open layout" },
+    { value: "1-bedroom-apartment", label: "🏡 1-Bedroom Apartment – Living room + separate bedroom" },
+    { value: "2-bedroom-apartment", label: "🏡 2-Bedroom Apartment / Suite – For families or groups" },
+    { value: "penthouse-apartment", label: "🏡 Penthouse Apartment – Luxury residential-style suite" },
+    { value: "serviced-residence", label: "🏡 Serviced Residence – Apartment units with daily hotel services" },
+    { value: "condo-hotel-units", label: "🏡 Condo-Hotel Units – For rent or ownership with full hotel access" },
   ];
 
   const hotelChains = [
