@@ -2548,7 +2548,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         </div>
                         
                         {/* Marine Traffic Location Field for Yachts/Boats */}
-                        {form.watch("propertyType") === "boat" && (
+                        {(form.watch("propertyType") === "boat" || 
+                          form.watch("yachtSizeClass") || 
+                          form.watch("yachtStyleLayout") || 
+                          form.watch("yachtSubtype")) && (
                           <FormField
                             control={form.control}
                             name="marineTrafficLocation"
