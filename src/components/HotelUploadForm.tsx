@@ -309,7 +309,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             name="propertyType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Hotel Type</FormLabel>
+                <FormLabel>Hotel Category</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger className="border-2 border-border">
