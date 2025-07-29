@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectLabel, SelectSeparator } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -91,6 +91,7 @@ const uploadFormSchema = z.object({
   marineTrafficUrl: z.string().optional(),
   mmsiNumber: z.string().optional(),
   imoNumber: z.string().optional(),
+  portOfRegistry: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
   currency: z.string().optional(),
@@ -231,6 +232,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       marineTrafficUrl: "",
       mmsiNumber: "",
       imoNumber: "",
+      portOfRegistry: "",
       // Real Estate Property Specifications default values
       price: "",
       currency: "USD",
@@ -622,6 +624,103 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormDescription>
                                 Optional: 7-digit International Maritime Organization number
                               </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+
+                      {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="portOfRegistry"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Port of Registry</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select registry" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectLabel>🇬🇧 British-Related Registries</SelectLabel>
+                                  <SelectItem value="uk">United Kingdom (UK)</SelectItem>
+                                  <SelectItem value="isle-of-man">Isle of Man</SelectItem>
+                                  <SelectItem value="cayman-islands">Cayman Islands</SelectItem>
+                                  <SelectItem value="bermuda">Bermuda</SelectItem>
+                                  <SelectItem value="gibraltar">Gibraltar</SelectItem>
+                                  <SelectItem value="bvi">British Virgin Islands (BVI)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇺🇸 United States Registries</SelectLabel>
+                                  <SelectItem value="usa">USA (US Coast Guard)</SelectItem>
+                                  <SelectItem value="delaware">Delaware (State-level flag, often used by small yachts)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇫🇷 France</SelectLabel>
+                                  <SelectItem value="france">France (including RIF – French International Register)</SelectItem>
+                                  <SelectItem value="wallis-futuna">Wallis and Futuna</SelectItem>
+                                  <SelectItem value="french-polynesia">French Polynesia</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇮🇹 Italy</SelectLabel>
+                                  <SelectItem value="italy">Italy (Registro Internazionale for commercial yachts)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇲🇹 Malta</SelectLabel>
+                                  <SelectItem value="malta">Malta (Very popular for both commercial and private use)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇳🇱 Netherlands</SelectLabel>
+                                  <SelectItem value="netherlands">Netherlands (Zeebrief for commercial use)</SelectItem>
+                                  <SelectItem value="caribbean-netherlands">Bonaire, Sint Eustatius, and Saba (Caribbean Netherlands)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇱🇺 Luxembourg</SelectLabel>
+                                  <SelectItem value="luxembourg">Luxembourg (occasionally used for pleasure crafts)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇵🇦 Panama</SelectLabel>
+                                  <SelectItem value="panama">Panama (large fleet but less reputable for superyachts)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇲🇭 Marshall Islands</SelectLabel>
+                                  <SelectItem value="marshall-islands">Marshall Islands (Yacht Engaged in Trade program available)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇧🇸 Bahamas</SelectLabel>
+                                  <SelectItem value="bahamas">Bahamas (Popular for charter yachts in the Caribbean/US)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇻🇺 Vanuatu</SelectLabel>
+                                  <SelectItem value="vanuatu">Vanuatu (Flexible commercial registration)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇸🇻 St. Vincent and the Grenadines</SelectLabel>
+                                  <SelectItem value="st-vincent">St. Vincent (Used for some smaller commercial vessels)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇸🇬 Singapore</SelectLabel>
+                                  <SelectItem value="singapore">Singapore (Popular in Southeast Asia for commercial yachts)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇭🇰 Hong Kong</SelectLabel>
+                                  <SelectItem value="hong-kong">Hong Kong (Used for yachts based in Asia)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇳🇴 Norway</SelectLabel>
+                                  <SelectItem value="norway">Norwegian International Ship Register (NIS)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇹🇷 Turkey</SelectLabel>
+                                  <SelectItem value="turkey">Turkey (for yachts based in the Eastern Med)</SelectItem>
+                                  
+                                  <SelectSeparator />
+                                  <SelectLabel>🇨🇾 Cyprus</SelectLabel>
+                                  <SelectItem value="cyprus">Cyprus (Part of EU and attractive for tax structuring)</SelectItem>
+                                </SelectContent>
+                              </Select>
                               <FormMessage />
                             </FormItem>
                           )}
