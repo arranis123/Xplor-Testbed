@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic } from "lucide-react";
 import MapboxLocationPicker from "./MapboxLocationPicker";
+import { MapboxService } from "@/services/mapboxService";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -1015,8 +1016,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
             
             // Try to reverse geocode coordinates for location details
             try {
-              const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${yachtDetails.coordinates.lng},${yachtDetails.coordinates.lat}.json?access_token=pk.eyJ1IjoibG92YWJsZWFpIiwiYSI6ImNscm1yZ2x2ZjF6eG0ycW55aGlsbHpqeDQifQ.6DGn8EDYsVq_l4xZoQyu_A`);
-              const geoData = await response.json();
+              const geoData = await MapboxService.reverseGeocode(yachtDetails.coordinates.lng, yachtDetails.coordinates.lat);
               
               if (geoData.features && geoData.features.length > 0) {
                 const feature = geoData.features[0];

@@ -5,9 +5,7 @@ import { MapPin, Plus, Minus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
-
-// Mapbox access token - can be set by users and stored for all to use
-let MAPBOX_TOKEN = ''; // Will be populated when user enters token
+import { MapboxService } from '@/services/mapboxService';
 
 interface MapboxLocationPickerProps {
   coordinates: { lat: number; lng: number } | null;
@@ -34,7 +32,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
 
   // Initialize map when token is provided
   useEffect(() => {
-    const activeToken = mapboxToken || MAPBOX_TOKEN;
+    const activeToken = mapboxToken || MapboxService.getToken();
     if (!mapContainer.current || !activeToken) return;
 
     // Validate token format
@@ -110,7 +108,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
         variant: "destructive",
       });
     }
-  }, [mapboxToken, MAPBOX_TOKEN]);
+  }, [mapboxToken]);
 
   // Update marker when coordinates change
   useEffect(() => {
@@ -173,8 +171,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
       setIsTokenValid(null); // Reset to untested state
       
       const tokenToStore = mapboxToken.trim();
-      localStorage.setItem('mapbox_token', tokenToStore);
-      MAPBOX_TOKEN = tokenToStore; // Update global token for immediate use
+      MapboxService.setToken(tokenToStore); // Use centralized service
       
       // Force re-initialization by clearing current map
       if (map.current) {
@@ -191,18 +188,16 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
     }
   };
 
-  // Load token from localStorage or global token on mount
+  // Load token from centralized service on mount
   useEffect(() => {
-    // Check global token first, then localStorage
-    const savedToken = MAPBOX_TOKEN || localStorage.getItem('mapbox_token');
+    const savedToken = MapboxService.getToken();
     if (savedToken) {
       setMapboxToken(savedToken);
-      MAPBOX_TOKEN = savedToken; // Ensure global token is set
     }
   }, []);
 
   // Show token input only if no token is available anywhere
-  if (!mapboxToken && !MAPBOX_TOKEN) {
+  if (!mapboxToken && !MapboxService.hasToken()) {
     return (
       <div className={`${className} bg-muted rounded-lg flex flex-col items-center justify-center p-4`}>
         <MapPin className="h-8 w-8 mb-4 text-muted-foreground" />
@@ -235,7 +230,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
           The provided Mapbox token is invalid. Please check your token and try again.
         </p>
         <Button size="sm" onClick={() => {
-          localStorage.removeItem('mapbox_token');
+          MapboxService.clearToken();
           setMapboxToken('');
           setIsTokenValid(null);
         }}>
