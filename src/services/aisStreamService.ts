@@ -44,7 +44,7 @@ export class AISStreamService {
 
   private async createConnection(): Promise<boolean> {
     if (!this.apiKey) {
-      console.error('AISStream API key is required');
+      console.warn('AISStream API key is required. Get one free at https://aisstream.io/apikeys');
       return false;
     }
 
@@ -183,6 +183,7 @@ export class AISStreamService {
 
     // Try AISStream first if API key is available
     if (this.apiKey) {
+      console.log('Using AISStream.io for vessel data...');
       try {
         // Check if connection exists, create if needed
         if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
@@ -223,10 +224,16 @@ export class AISStreamService {
       } catch (error) {
         console.error('AISStream error:', error);
       }
+    } else {
+      console.warn('⚠️  AISStream.io API key not found');
+      console.info('ℹ️  To get real-time vessel data:');
+      console.info('1. Sign up at https://aisstream.io/authenticate');
+      console.info('2. Get your free API key at https://aisstream.io/apikeys');  
+      console.info('3. Store it using: aisStreamService.setApiKey("your-api-key")');
     }
 
     // Fallback to MarineTraffic
-    console.log('No real-time data available from AISStream');
+    console.log('Falling back to MarineTraffic.com scraping...');
     return await this.fetchFromMarineTraffic(mmsi);
   }
 

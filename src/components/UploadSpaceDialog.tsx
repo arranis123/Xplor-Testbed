@@ -1819,7 +1819,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const isRentalProperty = category === "real-estate" && form.watch("listingType") === "for-rent";
 
   return (
-    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
@@ -1966,7 +1965,31 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <p className="text-xs text-muted-foreground">
                                 Get your API key from <a href="https://aisstream.io/apikeys" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">aisstream.io/apikeys</a>
                               </p>
-                            </div>
+                          </div>
+
+                          {/* AIS Stream API Key Input */}
+                          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                AIS Stream API Key (Optional)
+                                <Info className="h-4 w-4 text-blue-500" />
+                              </FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Enter your AISStream.io API key for real-time data" 
+                                  value={aisApiKey}
+                                  onChange={(e) => {
+                                    setAisApiKey(e.target.value);
+                                    aisStreamService.setApiKey(e.target.value);
+                                  }}
+                                  type="password"
+                                />
+                              </FormControl>
+                              <FormDescription className="text-xs">
+                                Get your free API key from <a href="https://aisstream.io/apikeys" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">aisstream.io/apikeys</a>. 
+                                Without an API key, we'll use MarineTraffic.com as fallback.
+                              </FormDescription>
+                            </FormItem>
                           </div>
 
                           <FormField
@@ -1998,9 +2021,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormMessage />
                             </FormItem>
                           )}
-                        />
-                        </>
-                      )}
+                         />
+                       )}
 
                       {category === "yacht" && (
                          <FormField
