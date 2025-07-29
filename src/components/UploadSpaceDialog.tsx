@@ -34,7 +34,6 @@ const uploadFormSchema = z.object({
   yachtUsePurpose: z.string().optional(),
   yachtUsePurposeSubtype: z.string().optional(),
   yachtHullConfiguration: z.string().optional(),
-  marineTrafficLocation: z.string().optional(),
   listingType: z.string().optional(),
   salePrice: z.string().optional(),
   rentalPriceRange: z.string().optional(),
@@ -174,7 +173,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtUsePurpose: "",
       yachtUsePurposeSubtype: "",
       yachtHullConfiguration: "",
-      marineTrafficLocation: "",
       listingType: "",
       salePrice: "",
       rentalPriceRange: "",
@@ -862,28 +860,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
-                        )}
-                        
-                        {category === "yacht" && (
-                          <FormField
-                            control={form.control}
-                            name="marineTrafficLocation"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Marine Traffic Real Time Location</FormLabel>
-                                <FormControl>
-                                  <Input 
-                                    placeholder="e.g., https://www.marinetraffic.com/en/ais/details/ships/shipid:384311/mmsi:319011900/imo:1009326/vessel:AWATEA" 
-                                    {...field} 
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
-                        
-                        {category === "yacht" && (
+                       )}
+                       
+                       {category === "yacht" && (
                          <FormField
                            control={form.control}
                            name="yachtSizeClass"
