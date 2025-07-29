@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic } from "lucide-react";
 import MapboxLocationPicker from "./MapboxLocationPicker";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -1017,6 +1017,147 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { id: "first-aid", label: "First Aid Kit", icon: Plus },
     { id: "fire-extinguisher", label: "Fire Extinguisher", icon: Flame },
   ];
+
+  // Yacht-specific amenities organized by category
+  const yachtInteriorFeatures = [
+    { id: "main-salon", label: "Main Salon", icon: Home },
+    { id: "formal-dining", label: "Formal Dining Room", icon: Utensils },
+    { id: "observation-lounge", label: "Observation Lounge", icon: Eye },
+    { id: "skylounge", label: "Skylounge / Upper Salon", icon: Sun },
+    { id: "fireplace", label: "Fireplace", icon: Flame },
+    { id: "wine-cellar", label: "Wine Cellar / Wine Fridge", icon: Coffee },
+    { id: "library", label: "Library / Reading Room", icon: FileText },
+    { id: "elevator", label: "Elevator (All decks access)", icon: Building },
+    { id: "day-head", label: "Day Head / Guest WC", icon: Bath },
+    { id: "pantry", label: "Pantry / Stewardess Station", icon: Home },
+    { id: "office", label: "Office / Study", icon: Laptop },
+    { id: "massage-room", label: "Massage Room / Spa", icon: Heart },
+    { id: "sauna", label: "Sauna / Steam Room", icon: Thermometer },
+    { id: "hammam", label: "Hammam / Turkish Bath", icon: Droplets },
+    { id: "beauty-salon", label: "Beauty Salon / Treatment Room", icon: Star },
+    { id: "laundry", label: "Laundry Room", icon: Shirt },
+    { id: "entertainment-system", label: "Entertainment System (Cinema-quality AV)", icon: Monitor },
+    { id: "surround-sound", label: "Surround Sound / Audio Zones", icon: Headphones },
+    { id: "satellite-tv", label: "Satellite TV", icon: Tv },
+    { id: "onboard-wifi", label: "Onboard Wi-Fi (Starlink / VSAT / 4G)", icon: Wifi },
+  ];
+
+  const yachtGalleyDining = [
+    { id: "commercial-galley", label: "Commercial Galley", icon: Utensils },
+    { id: "teppanyaki-grill", label: "Teppanyaki Grill", icon: Flame },
+    { id: "pizza-oven", label: "Pizza Oven", icon: Flame },
+    { id: "bbq-grill", label: "BBQ / Grill (Interior or Exterior)", icon: Flame },
+    { id: "ice-maker", label: "Ice Maker", icon: Droplets },
+    { id: "espresso-machine", label: "Espresso Machine", icon: Coffee },
+    { id: "outdoor-dining", label: "Outdoor Dining Area", icon: Utensils },
+    { id: "formal-dining-area", label: "Formal Dining Area", icon: Utensils },
+  ];
+
+  const yachtExteriorFeatures = [
+    { id: "sun-deck", label: "Sun Deck", icon: Sun },
+    { id: "jacuzzi", label: "Jacuzzi / Hot Tub", icon: Bath },
+    { id: "swimming-pool", label: "Swimming Pool", icon: Waves },
+    { id: "infinity-pool", label: "Infinity Pool", icon: Waves },
+    { id: "swim-platform", label: "Swim Platform / Beach Club", icon: Waves },
+    { id: "retractable-roof", label: "Retractable Roof / Skylight", icon: Sun },
+    { id: "outdoor-cinema", label: "Outdoor Cinema", icon: Monitor },
+    { id: "outdoor-bar", label: "Outdoor Bar / Wet Bar", icon: Coffee },
+    { id: "fire-pit", label: "Fire Pit", icon: Flame },
+    { id: "alfresco-lounge", label: "Alfresco Lounge Areas", icon: Home },
+    { id: "day-beds", label: "Day Beds / Sun Pads", icon: Bed },
+    { id: "hammocks", label: "Hammocks", icon: TreePine },
+    { id: "glass-balustrades", label: "Glass Balustrades", icon: Eye },
+    { id: "outdoor-showers", label: "Outdoor Showers", icon: Droplets },
+    { id: "heating-misting", label: "Heating or Misting Systems", icon: Thermometer },
+    { id: "convertible-spaces", label: "Convertible Spaces (e.g. gym-to-lounge)", icon: Building },
+  ];
+
+  const yachtWellnessFitness = [
+    { id: "gym", label: "Gym / Fitness Area", icon: Dumbbell },
+    { id: "trainer-station", label: "Personal Trainer Station", icon: User },
+    { id: "yoga-space", label: "Yoga / Meditation Space", icon: Heart },
+    { id: "spa-massage", label: "Spa / Massage Room", icon: Heart },
+    { id: "sauna-steam", label: "Sauna / Steam Room", icon: Thermometer },
+    { id: "beauty-treatment", label: "Beauty Salon / Treatment Room", icon: Star },
+    { id: "medical-room", label: "Medical Room", icon: Plus },
+  ];
+
+  const yachtEntertainmentTech = [
+    { id: "movie-theater", label: "Movie Theater / Cinema Room", icon: Monitor },
+    { id: "karaoke", label: "Karaoke System", icon: Mic },
+    { id: "video-games", label: "Video Game Console (PS5, Xbox)", icon: Gamepad2 },
+    { id: "vr-headsets", label: "VR Headsets", icon: Monitor },
+    { id: "dj-booth", label: "DJ Booth", icon: Music },
+    { id: "disco-lighting", label: "Disco Lighting", icon: Zap },
+    { id: "nightclub", label: "Nightclub / Dance Floor", icon: Music },
+    { id: "projection-screens", label: "Projection Screens (Indoor/Outdoor)", icon: Monitor },
+    { id: "onboard-server", label: "Onboard Server (Media Storage)", icon: Settings },
+    { id: "music-streaming", label: "Music Streaming System (Sonos, Kaleidescape)", icon: Headphones },
+  ];
+
+  const yachtTendersToys = [
+    { id: "primary-tender", label: "Primary Tender (RIB, Limo Tender)", icon: Ship },
+    { id: "secondary-tender", label: "Secondary Tender / Rescue Tender", icon: Ship },
+    { id: "jet-skis", label: "Jet Skis / WaveRunners", icon: Waves },
+    { id: "seabobs", label: "SeaBobs / AquaBikes", icon: Waves },
+    { id: "flyboard", label: "Flyboard / Hoverboard", icon: Waves },
+    { id: "electric-surfboards", label: "Electric Surfboards / eFoils", icon: Waves },
+    { id: "paddleboards", label: "Paddleboards / SUPs", icon: Waves },
+    { id: "kayaks", label: "Kayaks (Single/Double)", icon: Waves },
+    { id: "waterskis", label: "Waterskis / Wakeboard", icon: Waves },
+    { id: "towables", label: "Towables / Inflatables", icon: Waves },
+    { id: "floating-pool", label: "Floating Pool / Beach Mat", icon: Waves },
+    { id: "scuba-equipment", label: "Scuba Diving Equipment", icon: Waves },
+    { id: "snorkeling-gear", label: "Snorkeling Gear", icon: Waves },
+    { id: "submarine", label: "Submarine / Mini-sub", icon: Ship },
+    { id: "fishing-gear", label: "Fishing Gear", icon: Coffee },
+    { id: "underwater-scooter", label: "Underwater Scooter", icon: Waves },
+    { id: "hovercraft", label: "Hovercraft", icon: Waves },
+    { id: "sailing-dinghy", label: "Sailing Dinghy", icon: Sailboat },
+  ];
+
+  const yachtAviation = [
+    { id: "helipad", label: "Touch-and-Go Helipad", icon: Plane },
+    { id: "certified-helideck", label: "Certified Helideck", icon: Plane },
+    { id: "hangar-storage", label: "Hangar Storage", icon: Building },
+    { id: "heli-refueling", label: "Helicopter Refueling System", icon: Zap },
+  ];
+
+  const yachtTechnical = [
+    { id: "stabilizers", label: "Zero-Speed Stabilizers", icon: Anchor },
+    { id: "thrusters", label: "Bow and Stern Thrusters", icon: Compass },
+    { id: "dps", label: "Dynamic Positioning System (DPS)", icon: Compass },
+    { id: "hybrid-propulsion", label: "Hybrid Propulsion System", icon: Zap },
+    { id: "solar-panels", label: "Solar Panels", icon: Sun },
+    { id: "shore-power", label: "Shore Power Converter", icon: Zap },
+    { id: "watermaker", label: "Watermaker / Desalinator", icon: Droplets },
+    { id: "wastewater-treatment", label: "Advanced Wastewater Treatment", icon: Droplets },
+    { id: "fuel-polishing", label: "Fuel Polishing System", icon: Wrench },
+  ];
+
+  const yachtCrewServices = [
+    { id: "24-7-crew", label: "24/7 Captain and Crew Service", icon: User },
+    { id: "multilingual-crew", label: "Multilingual Crew", icon: Globe },
+    { id: "michelin-chef", label: "Michelin-Star Chef / Trained Culinary Staff", icon: Star },
+    { id: "concierge", label: "Dedicated Concierge", icon: User },
+    { id: "butler-service", label: "Butler Service", icon: User },
+    { id: "dive-master", label: "Dive Master / Water Sports Instructor", icon: Waves },
+    { id: "spa-therapist", label: "Spa Therapist / Masseuse", icon: Heart },
+    { id: "childcare", label: "Childcare / Nanny Available", icon: User },
+    { id: "security-staff", label: "Security Staff / Bodyguard", icon: Shield },
+  ];
+
+  const yachtSafetyCompliance = [
+    { id: "mca-compliance", label: "MCA / ISM Compliance", icon: Shield },
+    { id: "life-rafts", label: "Life Rafts", icon: Shield },
+    { id: "epirbs", label: "EPIRBs & SARTs", icon: Radio },
+    { id: "fire-detection", label: "Fire Detection System", icon: AlertTriangle },
+    { id: "cctv", label: "CCTV Surveillance", icon: Camera },
+    { id: "security-alarm", label: "Security Alarm System", icon: AlertTriangle },
+    { id: "cabin-safes", label: "Safe in Master Cabin and VIPs", icon: Lock },
+    { id: "defibrillator", label: "Defibrillator / Medical Bay", icon: Plus },
+  ];
+
 
   const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans', files: FileList | null) => {
     if (!files) return;
@@ -4701,168 +4842,649 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                    </div>
                  </TabsContent>
 
-                 {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
-                  <TabsContent value="amenities" className="space-y-4">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <Coffee className="h-5 w-5" />
-                        Property Amenities
-                      </h3>
-                      <FormField
-                        control={form.control}
-                        name="amenities"
-                        render={() => (
-                          <FormItem>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                              {amenities.map((amenity) => (
-                                <FormField
-                                  key={amenity.id}
-                                  control={form.control}
-                                  name="amenities"
-                                  render={({ field }) => {
-                                    return (
-                                      <FormItem
-                                        key={amenity.id}
-                                        className="flex flex-row items-start space-x-3 space-y-0"
-                                      >
-                                        <FormControl>
-                                          <Checkbox
-                                            checked={field.value?.includes(amenity.id)}
-                                            onCheckedChange={(checked) => {
-                                              return checked
-                                                ? field.onChange([...field.value, amenity.id])
-                                                : field.onChange(
-                                                    field.value?.filter(
-                                                      (value) => value !== amenity.id
-                                                    )
-                                                  )
-                                            }}
-                                          />
-                                        </FormControl>
-                                        <FormLabel className="flex items-center gap-2 text-sm font-normal">
-                                          <amenity.icon className="h-4 w-4" />
-                                          {amenity.label}
-                                        </FormLabel>
-                                      </FormItem>
-                                    )
-                                  }}
-                                />
-                              ))}
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
+                   <TabsContent value="amenities" className="space-y-4">
+                   <div className="space-y-6">
+                     {category === "yacht" ? (
+                       <>
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Home className="h-5 w-5" />
+                             Interior Features
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="amenities"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {yachtInteriorFeatures.map((amenity) => (
+                                     <FormField
+                                       key={amenity.id}
+                                       control={form.control}
+                                       name="amenities"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={amenity.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(amenity.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, amenity.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== amenity.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <amenity.icon className="h-4 w-4" />
+                                               {amenity.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
 
-                    <div>
-                      <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <Waves className="h-5 w-5" />
-                        Facilities
-                      </h3>
-                      <FormField
-                        control={form.control}
-                        name="facilities"
-                        render={() => (
-                          <FormItem>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                              {facilities.map((facility) => (
-                                <FormField
-                                  key={facility.id}
-                                  control={form.control}
-                                  name="facilities"
-                                  render={({ field }) => {
-                                    return (
-                                      <FormItem
-                                        key={facility.id}
-                                        className="flex flex-row items-start space-x-3 space-y-0"
-                                      >
-                                        <FormControl>
-                                          <Checkbox
-                                            checked={field.value?.includes(facility.id)}
-                                            onCheckedChange={(checked) => {
-                                              return checked
-                                                ? field.onChange([...field.value, facility.id])
-                                                : field.onChange(
-                                                    field.value?.filter(
-                                                      (value) => value !== facility.id
-                                                    )
-                                                  )
-                                            }}
-                                          />
-                                        </FormControl>
-                                        <FormLabel className="flex items-center gap-2 text-sm font-normal">
-                                          <facility.icon className="h-4 w-4" />
-                                          {facility.label}
-                                        </FormLabel>
-                                      </FormItem>
-                                    )
-                                  }}
-                                />
-                              ))}
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Utensils className="h-5 w-5" />
+                             Galley & Dining
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="facilities"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {yachtGalleyDining.map((facility) => (
+                                     <FormField
+                                       key={facility.id}
+                                       control={form.control}
+                                       name="facilities"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={facility.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(facility.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, facility.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== facility.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <facility.icon className="h-4 w-4" />
+                                               {facility.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
 
-                    {isRentalProperty && (
-                      <div>
-                        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
-                          <Laptop className="h-5 w-5" />
-                          Work Features
-                        </h3>
-                        <FormField
-                          control={form.control}
-                          name="workFeatures"
-                          render={() => (
-                            <FormItem>
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                {workFeatures.map((feature) => (
-                                  <FormField
-                                    key={feature.id}
-                                    control={form.control}
-                                    name="workFeatures"
-                                    render={({ field }) => {
-                                      return (
-                                        <FormItem
-                                          key={feature.id}
-                                          className="flex flex-row items-start space-x-3 space-y-0"
-                                        >
-                                          <FormControl>
-                                            <Checkbox
-                                              checked={field.value?.includes(feature.id)}
-                                              onCheckedChange={(checked) => {
-                                                return checked
-                                                  ? field.onChange([...field.value, feature.id])
-                                                  : field.onChange(
-                                                      field.value?.filter(
-                                                        (value) => value !== feature.id
-                                                      )
-                                                    )
-                                              }}
-                                            />
-                                          </FormControl>
-                                          <FormLabel className="flex items-center gap-2 text-sm font-normal">
-                                            <feature.icon className="h-4 w-4" />
-                                            {feature.label}
-                                          </FormLabel>
-                                        </FormItem>
-                                      )
-                                    }}
-                                  />
-                                ))}
-                              </div>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    )}
-                   </div>
-                 </TabsContent>
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Sun className="h-5 w-5" />
+                             Exterior Deck Features
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="workFeatures"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {yachtExteriorFeatures.map((feature) => (
+                                     <FormField
+                                       key={feature.id}
+                                       control={form.control}
+                                       name="workFeatures"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={feature.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(feature.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, feature.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== feature.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <feature.icon className="h-4 w-4" />
+                                               {feature.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Dumbbell className="h-5 w-5" />
+                             Wellness & Fitness
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="accessibility"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {yachtWellnessFitness.map((wellness) => (
+                                     <FormField
+                                       key={wellness.id}
+                                       control={form.control}
+                                       name="accessibility"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={wellness.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(wellness.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, wellness.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== wellness.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <wellness.icon className="h-4 w-4" />
+                                               {wellness.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Monitor className="h-5 w-5" />
+                             Entertainment & Tech
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="healthSafety"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {yachtEntertainmentTech.map((tech) => (
+                                     <FormField
+                                       key={tech.id}
+                                       control={form.control}
+                                       name="healthSafety"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={tech.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(tech.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, tech.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== tech.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <tech.icon className="h-4 w-4" />
+                                               {tech.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Ship className="h-5 w-5" />
+                             Tenders & Toys
+                           </h3>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {yachtTendersToys.map((toy) => (
+                               <FormField
+                                 key={toy.id}
+                                 control={form.control}
+                                 name="amenities"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={toy.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(toy.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...field.value, toy.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== toy.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                         <toy.icon className="h-4 w-4" />
+                                         {toy.label}
+                                       </FormLabel>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Plane className="h-5 w-5" />
+                             Aviation
+                           </h3>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {yachtAviation.map((aviation) => (
+                               <FormField
+                                 key={aviation.id}
+                                 control={form.control}
+                                 name="facilities"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={aviation.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(aviation.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...field.value, aviation.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== aviation.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                         <aviation.icon className="h-4 w-4" />
+                                         {aviation.label}
+                                       </FormLabel>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Wrench className="h-5 w-5" />
+                             Technical / Operational Features
+                           </h3>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {yachtTechnical.map((technical) => (
+                               <FormField
+                                 key={technical.id}
+                                 control={form.control}
+                                 name="workFeatures"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={technical.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(technical.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...field.value, technical.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== technical.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                         <technical.icon className="h-4 w-4" />
+                                         {technical.label}
+                                       </FormLabel>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <User className="h-5 w-5" />
+                             Crew & Guest Services
+                           </h3>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {yachtCrewServices.map((service) => (
+                               <FormField
+                                 key={service.id}
+                                 control={form.control}
+                                 name="accessibility"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={service.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(service.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...field.value, service.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== service.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                         <service.icon className="h-4 w-4" />
+                                         {service.label}
+                                       </FormLabel>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Shield className="h-5 w-5" />
+                             Safety & Compliance
+                           </h3>
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                             {yachtSafetyCompliance.map((safety) => (
+                               <FormField
+                                 key={safety.id}
+                                 control={form.control}
+                                 name="healthSafety"
+                                 render={({ field }) => {
+                                   return (
+                                     <FormItem
+                                       key={safety.id}
+                                       className="flex flex-row items-start space-x-3 space-y-0"
+                                     >
+                                       <FormControl>
+                                         <Checkbox
+                                           checked={field.value?.includes(safety.id)}
+                                           onCheckedChange={(checked) => {
+                                             return checked
+                                               ? field.onChange([...field.value, safety.id])
+                                               : field.onChange(
+                                                   field.value?.filter(
+                                                     (value) => value !== safety.id
+                                                   )
+                                                 )
+                                           }}
+                                         />
+                                       </FormControl>
+                                       <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                         <safety.icon className="h-4 w-4" />
+                                         {safety.label}
+                                       </FormLabel>
+                                     </FormItem>
+                                   )
+                                 }}
+                               />
+                             ))}
+                           </div>
+                         </div>
+                       </>
+                     ) : (
+                       <>
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Coffee className="h-5 w-5" />
+                             Property Amenities
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="amenities"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {amenities.map((amenity) => (
+                                     <FormField
+                                       key={amenity.id}
+                                       control={form.control}
+                                       name="amenities"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={amenity.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(amenity.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, amenity.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== amenity.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <amenity.icon className="h-4 w-4" />
+                                               {amenity.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+
+                         <div>
+                           <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <Waves className="h-5 w-5" />
+                             Facilities
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="facilities"
+                             render={() => (
+                               <FormItem>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                   {facilities.map((facility) => (
+                                     <FormField
+                                       key={facility.id}
+                                       control={form.control}
+                                       name="facilities"
+                                       render={({ field }) => {
+                                         return (
+                                           <FormItem
+                                             key={facility.id}
+                                             className="flex flex-row items-start space-x-3 space-y-0"
+                                           >
+                                             <FormControl>
+                                               <Checkbox
+                                                 checked={field.value?.includes(facility.id)}
+                                                 onCheckedChange={(checked) => {
+                                                   return checked
+                                                     ? field.onChange([...field.value, facility.id])
+                                                     : field.onChange(
+                                                         field.value?.filter(
+                                                           (value) => value !== facility.id
+                                                         )
+                                                       )
+                                                 }}
+                                               />
+                                             </FormControl>
+                                             <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                               <facility.icon className="h-4 w-4" />
+                                               {facility.label}
+                                             </FormLabel>
+                                           </FormItem>
+                                         )
+                                       }}
+                                     />
+                                   ))}
+                                 </div>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+
+                         {isRentalProperty && (
+                           <div>
+                             <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                               <Laptop className="h-5 w-5" />
+                               Work Features
+                             </h3>
+                             <FormField
+                               control={form.control}
+                               name="workFeatures"
+                               render={() => (
+                                 <FormItem>
+                                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                     {workFeatures.map((feature) => (
+                                       <FormField
+                                         key={feature.id}
+                                         control={form.control}
+                                         name="workFeatures"
+                                         render={({ field }) => {
+                                           return (
+                                             <FormItem
+                                               key={feature.id}
+                                               className="flex flex-row items-start space-x-3 space-y-0"
+                                             >
+                                               <FormControl>
+                                                 <Checkbox
+                                                   checked={field.value?.includes(feature.id)}
+                                                   onCheckedChange={(checked) => {
+                                                     return checked
+                                                       ? field.onChange([...field.value, feature.id])
+                                                       : field.onChange(
+                                                           field.value?.filter(
+                                                             (value) => value !== feature.id
+                                                           )
+                                                         )
+                                                   }}
+                                                 />
+                                               </FormControl>
+                                               <FormLabel className="flex items-center gap-2 text-sm font-normal">
+                                                 <feature.icon className="h-4 w-4" />
+                                                 {feature.label}
+                                               </FormLabel>
+                                             </FormItem>
+                                           )
+                                         }}
+                                       />
+                                     ))}
+                                   </div>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+                           </div>
+                         )}
+                       </>
+                     )}
+                    </div>
+                  </TabsContent>
                 )}
 
                  <TabsContent value="rules" className="space-y-4">
