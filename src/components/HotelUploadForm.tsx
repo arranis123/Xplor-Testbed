@@ -303,33 +303,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           Hotel Information
         </h3>
         
-        <div className="grid grid-cols-1 gap-4">
-          <FormField
-            control={form.control}
-            name="propertyType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Hotel Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select hotel type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-80">
-                    {hotelPropertyTypes.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
-                        {type.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
