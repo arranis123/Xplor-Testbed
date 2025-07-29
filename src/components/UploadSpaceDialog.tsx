@@ -805,6 +805,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <SelectContent>
                                  <SelectItem value="sale">For Sale</SelectItem>
                                  <SelectItem value="charter">For Charter</SelectItem>
+                                 <SelectItem value="both">Both</SelectItem>
                                </SelectContent>
                              </Select>
                              <FormMessage />
