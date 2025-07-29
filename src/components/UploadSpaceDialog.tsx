@@ -91,6 +91,7 @@ const uploadFormSchema = z.object({
   marineTrafficUrl: z.string().optional(),
   mmsiNumber: z.string().optional(),
   imoNumber: z.string().optional(),
+  officialNumber: z.string().optional(),
   portOfRegistry: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
@@ -232,6 +233,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       marineTrafficUrl: "",
       mmsiNumber: "",
       imoNumber: "",
+      officialNumber: "",
       portOfRegistry: "",
       // Real Estate Property Specifications default values
       price: "",
@@ -623,6 +625,28 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </FormControl>
                               <FormDescription>
                                 Optional: 7-digit International Maritime Organization number
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+
+                      {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="officialNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>O/N (Official Number)</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., 123456" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Optional: Official Number assigned by the port of registry
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
