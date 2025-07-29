@@ -94,6 +94,9 @@ const uploadFormSchema = z.object({
   officialNumber: z.string().optional(),
   askingPrice: z.string().optional(),
   charterRate: z.string().optional(),
+  charterWeekly: z.boolean().optional(),
+  charterDaily: z.boolean().optional(),
+  charterSeasonal: z.boolean().optional(),
   portOfRegistry: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
@@ -836,27 +839,83 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        />
                      )}
 
-                     {category === "yacht" && (
-                       <FormField
-                         control={form.control}
-                         name="charterRate"
-                         render={({ field }) => (
-                           <FormItem>
-                             <FormLabel>Charter Rate</FormLabel>
-                             <FormControl>
-                               <Input 
-                                 placeholder="e.g., €50,000/week" 
-                                 {...field} 
-                               />
-                             </FormControl>
-                             <FormDescription>
-                               Charter rate per period (include currency and time period)
-                             </FormDescription>
-                             <FormMessage />
-                           </FormItem>
-                         )}
-                       />
-                     )}
+                      {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="charterRate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Charter Rate</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., €50,000/week" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Charter rate per period (include currency and time period)
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+
+                      {category === "yacht" && (
+                        <div className="flex items-center space-x-6">
+                          <FormField
+                            control={form.control}
+                            name="charterWeekly"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel>Weekly</FormLabel>
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="charterDaily"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel>Daily</FormLabel>
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="charterSeasonal"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel>Seasonal</FormLabel>
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
                      
                      
                      <FormField
