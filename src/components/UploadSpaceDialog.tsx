@@ -481,62 +481,76 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     
     try {
       // Create MarineTraffic URL based on identifier type
-      const baseUrl = 'https://www.marinetraffic.com/en/ais/details/ships/';
       const trackingUrl = type === 'mmsi' 
-        ? `${baseUrl}mmsi:${identifier}`
-        : `${baseUrl}imo:${identifier}`;
+        ? `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`
+        : `https://www.marinetraffic.com/en/ais/details/ships/imo:${identifier}`;
       
-      // For demonstration, generate sample coordinates based on identifier
-      // In production, this would fetch actual vessel coordinates from MarineTraffic API
-      const hash = identifier.split('').reduce((a, b) => {
-        a = ((a << 5) - a) + b.charCodeAt(0);
-        return a & a;
-      }, 0);
+      // Try to fetch vessel data from Marine Traffic via CORS proxy
+      const corsProxy = 'https://api.allorigins.win/raw?url=';
       
-      // Generate coordinates in popular yachting areas
-      const yachtingAreas = [
-        { name: "Monaco", lat: 43.7384, lng: 7.4246 },
-        { name: "Cannes", lat: 43.5528, lng: 7.0174 },
-        { name: "St. Tropez", lat: 43.2677, lng: 6.6407 },
-        { name: "Antibes", lat: 43.5804, lng: 7.1254 },
-        { name: "Nice", lat: 43.7102, lng: 7.2620 },
-        { name: "Ibiza", lat: 38.9067, lng: 1.4206 },
-        { name: "Mallorca", lat: 39.6953, lng: 3.0176 },
-        { name: "Cyprus", lat: 34.9823, lng: 33.1451 },
-        { name: "Mykonos", lat: 37.4467, lng: 25.3289 },
-        { name: "Santorini", lat: 36.3932, lng: 25.4615 }
-      ];
+      try {
+        const response = await fetch(`${corsProxy}${encodeURIComponent(trackingUrl)}`);
+        const html = await response.text();
+        
+        // Extract coordinates from the Marine Traffic page
+        const latMatch = html.match(/latitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i);
+        const lngMatch = html.match(/longitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i);
+        
+        if (latMatch && lngMatch) {
+          const coordinates = {
+            lat: parseFloat(latMatch[1]),
+            lng: parseFloat(lngMatch[1])
+          };
+          
+          // Validate coordinates are reasonable
+          if (coordinates.lat >= -90 && coordinates.lat <= 90 && 
+              coordinates.lng >= -180 && coordinates.lng <= 180) {
+            
+            toast({
+              title: `${type.toUpperCase()} ${identifier} Located`,
+              description: `Live coordinates retrieved from MarineTraffic.com`,
+              action: (
+                <a 
+                  href={trackingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline"
+                >
+                  View on MarineTraffic
+                </a>
+              ),
+              duration: 10000,
+            });
+            
+            return coordinates;
+          }
+        }
+      } catch (fetchError) {
+        console.log('CORS proxy failed, falling back to manual lookup');
+      }
       
-      const areaIndex = Math.abs(hash) % yachtingAreas.length;
-      const selectedArea = yachtingAreas[areaIndex];
-      
-      // Add small random offset to make each vessel unique
-      const latOffset = (Math.abs(hash) % 100) / 10000 - 0.005; // ±0.005 degrees
-      const lngOffset = ((Math.abs(hash * 2) % 100) / 10000) - 0.005;
-      
-      const coordinates = {
-        lat: selectedArea.lat + latOffset,
-        lng: selectedArea.lng + lngOffset
-      };
-      
-      // Show toast with MarineTraffic link and location info
+      // Fallback: Open Marine Traffic for manual lookup
       toast({
-        title: `${type.toUpperCase()} ${identifier} Located`,
-        description: `Vessel positioned near ${selectedArea.name}. Click to view on MarineTraffic.com`,
+        title: "Manual Lookup Required",
+        description: `Please find coordinates for ${type.toUpperCase()}: ${identifier} and enter them manually.`,
         action: (
           <a 
             href={trackingUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline"
+            onClick={() => {
+              // Auto-open Marine Traffic in new tab
+              window.open(trackingUrl, '_blank');
+            }}
           >
-            View on MarineTraffic
+            Open Marine Traffic
           </a>
         ),
-        duration: 10000,
+        duration: 15000,
       });
       
-      return coordinates;
+      return null;
     } catch (error) {
       console.error('Error fetching yacht location:', error);
       return null;
