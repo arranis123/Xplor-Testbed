@@ -801,151 +801,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     
     console.log(`Fetching details for ${type.toUpperCase()}: ${identifier}`);
     
-    // Use AISStream for MMSI lookups if API key is available
-    if (type === 'mmsi' && aisStreamService.getApiKey()) {
-      try {
-        console.log('Using AISStream.io for real-time MMSI data...');
-        setIsFetchingAIS(true);
-        
-        toast({
-          title: "Fetching real-time vessel data from AISStream.io...",
-          duration: 3000,
-        });
-        
-        const aisData = await aisStreamService.getVesselData(identifier);
-        
-        if (aisData) {
-          console.log('AISStream data received:', aisData);
-          
-          // Basic Info - populate title and description
-          if (aisData.shipName) {
-            const currentTitle = form.getValues('title');
-            if (!currentTitle || currentTitle.trim() === '') {
-              form.setValue('title', aisData.shipName);
-            }
-            
-            // Auto-generate description if empty
-            const currentDescription = form.getValues('description');
-            if (!currentDescription || currentDescription.trim() === '') {
-              form.setValue('description', `Experience the luxury aboard ${aisData.shipName}, a magnificent yacht available for charter. This exceptional vessel offers unparalleled comfort and elegance for your perfect maritime adventure.`);
-            }
-          }
-          
-          // Set property type to yacht
-          form.setValue('propertyType', 'yacht');
-          
-          // Location Details - coordinates and map positioning
-          form.setValue('latitude', aisData.latitude.toString());
-          form.setValue('longitude', aisData.longitude.toString());
-          
-          // Try to determine location details from coordinates using reverse geocoding
-          try {
-            const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${aisData.longitude},${aisData.latitude}.json?access_token=pk.eyJ1IjoibG92YWJsZWFpIiwiYSI6ImNscm1yZ2x2ZjF6eG0ycW55aGlsbHpqeDQifQ.6DGn8EDYsVq_l4xZoQyu_A`);
-            const geoData = await response.json();
-            
-            if (geoData.features && geoData.features.length > 0) {
-              const feature = geoData.features[0];
-              const context = feature.context || [];
-              
-              // Extract location components
-              const country = context.find((c: any) => c.id.includes('country'))?.text;
-              const region = context.find((c: any) => c.id.includes('region'))?.text;
-              const place = context.find((c: any) => c.id.includes('place'))?.text;
-              
-              if (country) form.setValue('country', country);
-              if (region) form.setValue('region', region);
-              if (place) form.setValue('city', place);
-              
-              // Set general location field
-              const locationParts = [place, region, country].filter(Boolean);
-              if (locationParts.length > 0) {
-                form.setValue('location', locationParts.join(', '));
-              }
-            }
-          } catch (error) {
-            console.warn('Failed to reverse geocode coordinates:', error);
-            // Fallback location
-            form.setValue('location', `Maritime location at ${aisData.latitude.toFixed(4)}, ${aisData.longitude.toFixed(4)}`);
-          }
-          
-          // Yacht Details - set basic yacht information
-          if (aisData.additionalData) {
-            // Try to extract vessel details from additional AIS data
-            const vesselData = aisData.additionalData;
-            
-            // Set yacht type based on vessel info
-            if (vesselData.shiptype || vesselData.ShipType) {
-              const shipType = vesselData.shiptype || vesselData.ShipType;
-              if (shipType === 37 || shipType === 'Pleasure Craft') {
-                form.setValue('yachtSubtype', 'pleasure-yacht');
-              } else if (shipType >= 70 && shipType <= 79) {
-                form.setValue('yachtSubtype', 'cargo-vessel');
-              } else if (shipType >= 60 && shipType <= 69) {
-                form.setValue('yachtSubtype', 'passenger-vessel');
-              }
-            }
-            
-            // Set dimensions if available
-            if (vesselData.length || vesselData.Length) {
-              form.setValue('yachtLOA', (vesselData.length || vesselData.Length).toString());
-            }
-            if (vesselData.width || vesselData.Width || vesselData.beam || vesselData.Beam) {
-              form.setValue('yachtBeam', (vesselData.width || vesselData.Width || vesselData.beam || vesselData.Beam).toString());
-            }
-            if (vesselData.draft || vesselData.Draft) {
-              form.setValue('yachtDraft', vesselData.draft.toString());
-            }
-          }
-          
-          // Set default yacht charter/sale type
-          form.setValue('yachtSaleOrCharter', 'charter');
-          form.setValue('listingType', 'rent');
-          
-          // Set availability
-          form.setValue('availability', 'available');
-          form.setValue('visibility', 'public');
-          
-          // Set some default amenities for yachts
-          const defaultYachtAmenities = ['wifi', 'air-conditioning', 'deck-space', 'water-sports-equipment'];
-          form.setValue('amenities', defaultYachtAmenities);
-          
-          // Create MarineTraffic URL for reference
-          const trackingUrl = `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`;
-          form.setValue('marineTrafficUrl', trackingUrl);
-          
-          toast({
-            title: `Vessel data updated! Found: ${aisData.shipName || 'Unknown vessel'}`,
-            duration: 5000,
-          });
-          
-          setIsFetchingAIS(false);
-          return {
-            coordinates: {
-              lat: aisData.latitude,
-              lng: aisData.longitude
-            },
-            name: aisData.shipName,
-            trackingUrl,
-            lastUpdate: aisData.lastUpdate,
-            source: 'aisstream'
-          };
-        } else {
-          console.log('No real-time data available from AISStream');
-          toast({
-            title: "No real-time data available for this MMSI",
-            duration: 4000,
-          });
-          setIsFetchingAIS(false);
-        }
-      } catch (error) {
-        console.error('AISStream error:', error);
-        toast({
-          title: "Failed to fetch real-time data. Using fallback method.",
-          duration: 4000,
-        });
-        setIsFetchingAIS(false);
-      }
-    }
+    // Use MarineTraffic directly for all vessel lookups
+    console.log(`Fetching vessel data from MarineTraffic for ${type.toUpperCase()}: ${identifier}`);
+    setIsFetchingAIS(true);
+    
+    toast({
+      title: "Fetching vessel data from MarineTraffic...",
+      duration: 3000,
+    });
     
     // Fallback to original method for IMO numbers or when AISStream is not available
     try {
@@ -1080,9 +943,24 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
         // Auto-fill form fields if details were found
         if (Object.keys(yachtDetails).length > 0) {
+          // Basic Info section
           if (yachtDetails.vesselName) {
-            form.setValue('title', yachtDetails.vesselName);
+            const currentTitle = form.getValues('title');
+            if (!currentTitle || currentTitle.trim() === '') {
+              form.setValue('title', yachtDetails.vesselName);
+            }
+            
+            // Auto-generate description if empty
+            const currentDescription = form.getValues('description');
+            if (!currentDescription || currentDescription.trim() === '') {
+              form.setValue('description', `Experience the luxury aboard ${yachtDetails.vesselName}, a magnificent yacht available for charter. This exceptional vessel offers unparalleled comfort and elegance for your perfect maritime adventure.`);
+            }
           }
+          
+          // Set property type to yacht
+          form.setValue('propertyType', 'yacht');
+          
+          // Yacht Details section
           if (yachtDetails.vesselType) {
             // Try to map vessel type to our yacht categories
             const vesselTypeLower = yachtDetails.vesselType.toLowerCase();
@@ -1092,9 +970,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 form.setValue('yachtSubtype', 'motor-yacht');
               } else if (vesselTypeLower.includes('sail')) {
                 form.setValue('yachtSubtype', 'sailing-yacht');
+              } else {
+                form.setValue('yachtSubtype', 'pleasure-yacht');
               }
             }
           }
+          
+          // Set yacht dimensions
           if (yachtDetails.length) {
             form.setValue('yachtLOA', yachtDetails.length);
           }
@@ -1114,10 +996,52 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           if (yachtDetails.grossTonnage) {
             form.setValue('yachtGrossTonnage', yachtDetails.grossTonnage);
           }
+          
+          // Set default yacht charter/sale settings
+          form.setValue('yachtSaleOrCharter', 'charter');
+          form.setValue('listingType', 'rent');
+          form.setValue('availability', 'available');
+          form.setValue('visibility', 'public');
+          
+          // Set some default amenities for yachts
+          const defaultYachtAmenities = ['wifi', 'air-conditioning', 'deck-space', 'water-sports-equipment'];
+          form.setValue('amenities', defaultYachtAmenities);
+          
+          // Location Details section
           if (yachtDetails.coordinates) {
             setMapCoordinates(yachtDetails.coordinates);
             form.setValue('latitude', yachtDetails.coordinates.lat.toString());
             form.setValue('longitude', yachtDetails.coordinates.lng.toString());
+            
+            // Try to reverse geocode coordinates for location details
+            try {
+              const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${yachtDetails.coordinates.lng},${yachtDetails.coordinates.lat}.json?access_token=pk.eyJ1IjoibG92YWJsZWFpIiwiYSI6ImNscm1yZ2x2ZjF6eG0ycW55aGlsbHpqeDQifQ.6DGn8EDYsVq_l4xZoQyu_A`);
+              const geoData = await response.json();
+              
+              if (geoData.features && geoData.features.length > 0) {
+                const feature = geoData.features[0];
+                const context = feature.context || [];
+                
+                // Extract location components
+                const country = context.find((c: any) => c.id.includes('country'))?.text;
+                const region = context.find((c: any) => c.id.includes('region'))?.text;
+                const place = context.find((c: any) => c.id.includes('place'))?.text;
+                
+                if (country) form.setValue('country', country);
+                if (region) form.setValue('region', region);
+                if (place) form.setValue('city', place);
+                
+                // Set general location field
+                const locationParts = [place, region, country].filter(Boolean);
+                if (locationParts.length > 0) {
+                  form.setValue('location', locationParts.join(', '));
+                }
+              }
+            } catch (error) {
+              console.warn('Failed to reverse geocode coordinates:', error);
+              // Fallback location
+              form.setValue('location', `Maritime location at ${yachtDetails.coordinates.lat.toFixed(4)}, ${yachtDetails.coordinates.lng.toFixed(4)}`);
+            }
             
             toast({
               title: yachtDetails.mockLocation ? `${type.toUpperCase()} Location (Estimated)` : "Vessel Location Found",
