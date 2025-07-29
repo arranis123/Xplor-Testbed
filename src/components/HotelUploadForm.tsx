@@ -355,48 +355,28 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           Room Details
         </h3>
         
-        <div className="space-y-6">
-          {/* Room Types - Multiple Selection */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Room Types - Dropdown Selection */}
           <FormField
             control={form.control}
-            name="roomTypes"
+            name="roomType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base font-medium">Room Types Available</FormLabel>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
-                  {hotelRoomTypes.map((roomType) => (
-                    <FormField
-                      key={roomType.value}
-                      control={form.control}
-                      name="roomTypes"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={roomType.value}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(roomType.value)}
-                                onCheckedChange={(checked) => {
-                                  const updatedValue = checked
-                                    ? [...(field.value || []), roomType.value]
-                                    : field.value?.filter((value: string) => value !== roomType.value) || [];
-                                  field.onChange(updatedValue);
-                                }}
-                              />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                              <FormLabel className="text-sm font-normal cursor-pointer">
-                                {roomType.label}
-                              </FormLabel>
-                            </div>
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  ))}
-                </div>
+                <FormLabel>Room Types Available</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="border-2 border-border">
+                      <SelectValue placeholder="Select room type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="max-h-80">
+                    {hotelRoomTypes.map((roomType) => (
+                      <SelectItem key={roomType.value} value={roomType.value}>
+                        {roomType.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
