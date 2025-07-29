@@ -320,6 +320,10 @@ interface UploadSpaceDialogProps {
 export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceDialogProps) {
   const { toast } = useToast();
   const [uploadProgress, setUploadProgress] = useState(0);
+  
+  // Debug logging
+  console.log("UploadSpaceDialog - category:", category);
+  console.log("UploadSpaceDialog - open:", open);
   const [isUploading, setIsUploading] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
@@ -2329,9 +2333,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                    </div>
 
-                  {category === "real-estate" && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold">Real Estate Property Details</h3>
+                   {(() => {
+                     console.log("Debug: category check for real-estate fields:", category, category === "real-estate");
+                     return category === "real-estate";
+                   })() && (
+                     <div className="space-y-4">
+                       <h3 className="text-lg font-semibold">Real Estate Property Details</h3>
                       <div className="grid grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
