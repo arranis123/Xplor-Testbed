@@ -6655,6 +6655,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             <FileText className="h-5 w-5" />
                             Brochure
                           </Label>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here</button>
+                          </p>
                           <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                             <div className="flex flex-col items-center gap-4">
                               <div className="flex items-center gap-2 text-muted-foreground">
@@ -6693,9 +6696,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             )}
                           </div>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-2">
-                          Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here</button>
-                        </p>
                       </>
                     )}
 
