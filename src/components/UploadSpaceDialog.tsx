@@ -317,6 +317,12 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [isUploading, setIsUploading] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
+  const [showItineraryForm, setShowItineraryForm] = useState(false);
+  const [itineraryLocations, setItineraryLocations] = useState({
+    pickUp: { address: '', coordinates: null as { lat: number; lng: number } | null },
+    dropOff: { address: '', coordinates: null as { lat: number; lng: number } | null },
+    via: [] as { address: string; coordinates: { lat: number; lng: number } | null }[]
+  });
   const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [mapZoom, setMapZoom] = useState(10);
   const [uploadedFiles, setUploadedFiles] = useState<{
@@ -7301,7 +7307,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           Sample Itineraries
                         </Label>
                         <p className="text-sm text-muted-foreground mb-4">
-                          Need to create an itinerary? <button type="button" onClick={() => {setContactFormType('itinerary'); setShowContactForm(true);}} className="hover:underline" style={{ color: '#0000FF' }}>Click here for AI assistance</button>
+                          Need to create an itinerary? <button type="button" onClick={() => setShowItineraryForm(true)} className="hover:underline" style={{ color: '#0000FF' }}>Click here for AI assistance</button>
                         </p>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
@@ -7726,6 +7732,156 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
               </Button>
               <Button type="submit">
                 Send Message
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Itinerary Form Dialog */}
+      <Dialog open={showItineraryForm} onOpenChange={setShowItineraryForm}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create Yacht Itinerary</DialogTitle>
+            <DialogDescription>
+              Plan your yacht journey by selecting pick-up, drop-off, and via locations on the map.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            toast({
+              title: "Itinerary Request Sent!",
+              description: "We'll create your custom itinerary and send it to you within 24 hours.",
+            });
+            setShowItineraryForm(false);
+            setItineraryLocations({
+              pickUp: { address: '', coordinates: null },
+              dropOff: { address: '', coordinates: null },
+              via: []
+            });
+          }} className="space-y-6">
+            
+            {/* Pick-up Location */}
+            <div className="space-y-2">
+              <Label>Pick-up Location</Label>
+              <div className="space-y-2">
+                <Input
+                  placeholder="Enter pick-up location or select from map"
+                  value={itineraryLocations.pickUp.address}
+                  onChange={(e) => setItineraryLocations(prev => ({
+                    ...prev,
+                    pickUp: { ...prev.pickUp, address: e.target.value }
+                  }))}
+                  required
+                />
+                <div className="h-48 border rounded-lg overflow-hidden">
+                  <MapboxLocationPicker
+                    coordinates={itineraryLocations.pickUp.coordinates}
+                    onCoordinatesChange={(coordinates) => {
+                      setItineraryLocations(prev => ({
+                        ...prev,
+                        pickUp: { ...prev.pickUp, coordinates }
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Drop-off Location */}
+            <div className="space-y-2">
+              <Label>Drop-off Location</Label>
+              <div className="space-y-2">
+                <Input
+                  placeholder="Enter drop-off location or select from map"
+                  value={itineraryLocations.dropOff.address}
+                  onChange={(e) => setItineraryLocations(prev => ({
+                    ...prev,
+                    dropOff: { ...prev.dropOff, address: e.target.value }
+                  }))}
+                  required
+                />
+                <div className="h-48 border rounded-lg overflow-hidden">
+                  <MapboxLocationPicker
+                    coordinates={itineraryLocations.dropOff.coordinates}
+                    onCoordinatesChange={(coordinates) => {
+                      setItineraryLocations(prev => ({
+                        ...prev,
+                        dropOff: { ...prev.dropOff, coordinates }
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Via Locations */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label>Via Locations (Optional)</Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setItineraryLocations(prev => ({
+                    ...prev,
+                    via: [...prev.via, { address: '', coordinates: null }]
+                  }))}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Stop
+                </Button>
+              </div>
+              
+              {itineraryLocations.via.map((location, index) => (
+                <div key={index} className="space-y-2 border rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <Label>Stop {index + 1}</Label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setItineraryLocations(prev => ({
+                        ...prev,
+                        via: prev.via.filter((_, i) => i !== index)
+                      }))}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <Input
+                    placeholder="Enter via location or select from map"
+                    value={location.address}
+                    onChange={(e) => setItineraryLocations(prev => ({
+                      ...prev,
+                      via: prev.via.map((loc, i) => 
+                        i === index ? { ...loc, address: e.target.value } : loc
+                      )
+                    }))}
+                  />
+                  <div className="h-48 border rounded-lg overflow-hidden">
+                    <MapboxLocationPicker
+                      coordinates={location.coordinates}
+                      onCoordinatesChange={(coordinates) => {
+                        setItineraryLocations(prev => ({
+                          ...prev,
+                          via: prev.via.map((loc, i) => 
+                            i === index ? { ...loc, coordinates } : loc
+                          )
+                        }));
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setShowItineraryForm(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">
+                Create Itinerary
               </Button>
             </DialogFooter>
           </form>
