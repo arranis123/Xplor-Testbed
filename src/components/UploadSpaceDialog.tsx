@@ -7593,8 +7593,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  placeholder="email@example.com" 
                                  {...field} 
                                />
-                             </FormControl>
-                             <FormMessage />
+                              </FormControl>
+                              <FormDescription>
+                                Please note that this email is visible to admin only
+                              </FormDescription>
+                              <FormMessage />
                            </FormItem>
                          )}
                         />
