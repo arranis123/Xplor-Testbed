@@ -1664,6 +1664,31 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          )}
                        />
                        
+                       {/* Real Estate Listing Type Field */}
+                       {category === "real-estate" && (
+                         <FormField
+                           control={form.control}
+                           name="listingType"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Listing Type</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select listing type" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="for-sale">For Sale</SelectItem>
+                                   <SelectItem value="for-rent">For Rent</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       )}
+
                        {/* Real Estate Sale Price Field */}
                        {category === "real-estate" && (
                          <FormField
@@ -2397,27 +2422,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         <h3 className="text-lg font-semibold text-red-600">🏠 Real Estate Property Details (DEBUG VISIBLE)</h3>
                         <p className="text-sm text-red-600">If you can see this red section, the real estate fields are rendering!</p>
                       <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="listingType"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Listing Type</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select listing type" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="for-sale">For Sale</SelectItem>
-                                  <SelectItem value="for-rent">For Rent</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
 
                         <FormField
                           control={form.control}
