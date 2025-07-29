@@ -47,15 +47,17 @@ export class AISStreamService {
   }
 
   private async createConnection(): Promise<boolean> {
-    console.log('Connecting to AISStream.io with API key...');
+    console.log('🔄 Connecting to AISStream.io with API key...');
+    console.log('🔑 API Key (first 8 chars):', this.apiKey?.substring(0, 8) + '...');
+    console.log('🌐 WebSocket URL: wss://stream.aisstream.io/v0/stream');
 
     return new Promise((resolve) => {
       try {
         this.socket = new WebSocket('wss://stream.aisstream.io/v0/stream');
         
         this.socket.onopen = () => {
-          console.log('Connected to AISStream.io');
-          console.log('Sending subscription with API key:', this.apiKey?.substring(0, 8) + '...');
+          console.log('✅ Connected to AISStream.io');
+          console.log('📡 Sending subscription with API key:', this.apiKey?.substring(0, 8) + '...');
           
           // Send subscription message within 3 seconds as required
           const subscriptionMessage = {
@@ -64,29 +66,35 @@ export class AISStreamService {
             FilterMessageTypes: ['PositionReport'] // Only position reports for efficiency
           };
           
-          console.log('Subscription message:', JSON.stringify(subscriptionMessage, null, 2));
+          console.log('📋 Subscription message:', JSON.stringify(subscriptionMessage, null, 2));
           this.socket?.send(JSON.stringify(subscriptionMessage));
+          console.log('✅ Subscription message sent successfully');
           resolve(true);
         };
 
         this.socket.onmessage = (event) => {
           try {
             const data: AISStreamMessage = JSON.parse(event.data);
+            console.log('📨 Received AIS message:', data.MessageType, 'for MMSI:', data.MetaData?.MMSI);
             this.handleMessage(data);
           } catch (error) {
-            console.error('Error parsing AISStream message:', error);
+            console.error('❌ Error parsing AISStream message:', error);
           }
         };
 
         this.socket.onerror = (error) => {
-          console.error('AISStream WebSocket error:', error);
-          console.error('API key being used:', this.apiKey?.substring(0, 8) + '...');
-          console.error('WebSocket readyState:', this.socket?.readyState);
+          console.error('❌ AISStream WebSocket error:', error);
+          console.error('🔑 API key being used:', this.apiKey?.substring(0, 8) + '...');
+          console.error('🔗 WebSocket readyState:', this.socket?.readyState);
+          console.error('🌐 Connection URL: wss://stream.aisstream.io/v0/stream');
           resolve(false);
         };
 
         this.socket.onclose = (event) => {
-          console.log('AISStream connection closed:', event.code, event.reason);
+          console.log('🔌 AISStream connection closed:', event.code, event.reason);
+          if (event.code === 1006) {
+            console.error('❌ Connection closed abnormally - likely authentication issue');
+          }
           this.socket = null;
           // Clear pending requests
           this.pendingRequests.forEach(({ timeout }) => clearTimeout(timeout));
