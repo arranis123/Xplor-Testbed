@@ -30,7 +30,8 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
   const map = useRef<mapboxgl.Map | null>(null);
   const marker = useRef<mapboxgl.Marker | null>(null);
   const [mapboxToken, setMapboxToken] = useState<string>('');
-  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null); // null = not tested, true = valid, false = invalid
+  const [isInitializing, setIsInitializing] = useState(false);
 
   // Initialize map when token is provided
   useEffect(() => {
@@ -168,8 +169,8 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
 
   const handleTokenSubmit = () => {
     if (mapboxToken.trim()) {
-      // Reset validation state
-      setIsTokenValid(false);
+      setIsInitializing(true);
+      setIsTokenValid(null); // Reset to untested state
       
       localStorage.setItem('mapbox_token', mapboxToken);
       
@@ -179,11 +180,8 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
         map.current = null;
       }
       
-      // Force re-render by updating the token state
-      // This will trigger the useEffect that initializes the map
-      const trimmedToken = mapboxToken.trim();
-      setMapboxToken(''); // Clear temporarily
-      setTimeout(() => setMapboxToken(trimmedToken), 100); // Set it back to trigger useEffect
+      setIsInitializing(false);
+      // Token is already set, the useEffect will handle initialization
     }
   };
 
@@ -219,7 +217,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
     );
   }
 
-  if (!isTokenValid) {
+  if (isTokenValid === false) {
     return (
       <div className={`${className} bg-muted rounded-lg flex flex-col items-center justify-center p-4`}>
         <MapPin className="h-8 w-8 mb-4 text-muted-foreground" />
@@ -230,7 +228,7 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
         <Button size="sm" onClick={() => {
           localStorage.removeItem('mapbox_token');
           setMapboxToken('');
-          setIsTokenValid(false);
+          setIsTokenValid(null);
         }}>
           Enter New Token
         </Button>
