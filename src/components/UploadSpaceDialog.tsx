@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone } from "lucide-react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -98,6 +98,82 @@ const uploadFormSchema = z.object({
   charterDaily: z.boolean().optional(),
   charterSeasonal: z.boolean().optional(),
   portOfRegistry: z.string().optional(),
+  // Comprehensive Yacht Details
+  yachtBuilder: z.string().optional(),
+  yachtModel: z.string().optional(),
+  yachtYearBuilt: z.string().optional(),
+  yachtYearRefit: z.string().optional(),
+  yachtClassification: z.string().optional(),
+  yachtVatStatus: z.string().optional(),
+  yachtRegistrationNumber: z.string().optional(),
+  yachtCurrency: z.string().optional(),
+  yachtLOA: z.string().optional(),
+  yachtBeam: z.string().optional(),
+  yachtDraft: z.string().optional(),
+  yachtGrossTonnage: z.string().optional(),
+  yachtDisplacement: z.string().optional(),
+  yachtHullMaterial: z.string().optional(),
+  yachtSuperstructureMaterial: z.string().optional(),
+  yachtCruisingSpeed: z.string().optional(),
+  yachtMaxSpeed: z.string().optional(),
+  yachtRange: z.string().optional(),
+  yachtFuelConsumption: z.string().optional(),
+  yachtEngineMake: z.string().optional(),
+  yachtEngineCount: z.string().optional(),
+  yachtEnginePower: z.string().optional(),
+  yachtPropulsionType: z.string().optional(),
+  yachtGenerators: z.string().optional(),
+  yachtStabilizers: z.string().optional(),
+  yachtThrusters: z.string().optional(),
+  yachtFuelCapacity: z.string().optional(),
+  yachtWaterCapacity: z.string().optional(),
+  yachtWasteWaterCapacity: z.string().optional(),
+  yachtNavigationEquipment: z.string().optional(),
+  yachtCommunicationSystems: z.string().optional(),
+  yachtGuestsNumber: z.string().optional(),
+  yachtGuestCabins: z.string().optional(),
+  yachtCrewNumber: z.string().optional(),
+  yachtCrewCabins: z.string().optional(),
+  yachtInteriorDesigner: z.string().optional(),
+  yachtExteriorDesigner: z.string().optional(),
+  yachtCharterRateInfo: z.string().optional(),
+  yachtCharterRegions: z.string().optional(),
+  yachtApaPolicy: z.string().optional(),
+  yachtMinBookingDuration: z.string().optional(),
+  yachtSeasonalRates: z.string().optional(),
+  yachtCharterLicense: z.string().optional(),
+  yachtDeckJacuzzi: z.boolean().optional(),
+  yachtBeachClub: z.boolean().optional(),
+  yachtPool: z.boolean().optional(),
+  yachtSpa: z.boolean().optional(),
+  yachtGym: z.boolean().optional(),
+  yachtCinema: z.boolean().optional(),
+  yachtElevator: z.boolean().optional(),
+  yachtSunDeck: z.boolean().optional(),
+  yachtOffice: z.boolean().optional(),
+  yachtFireplaces: z.boolean().optional(),
+  yachtWifiSatelliteTV: z.boolean().optional(),
+  yachtPrimaryTender: z.string().optional(),
+  yachtAdditionalTenders: z.string().optional(),
+  yachtJetSkis: z.boolean().optional(),
+  yachtSeabobs: z.boolean().optional(),
+  yachtDivingEquipment: z.boolean().optional(),
+  yachtWaterskis: z.boolean().optional(),
+  yachtInflatableToys: z.boolean().optional(),
+  yachtFishingGear: z.boolean().optional(),
+  yachtSubmersibles: z.boolean().optional(),
+  yachtOwnershipStructure: z.string().optional(),
+  yachtCharterLicenseStatus: z.string().optional(),
+  yachtCompliance: z.string().optional(),
+  yachtInsuranceCoverage: z.string().optional(),
+  yachtCrewCertifications: z.string().optional(),
+  yachtRegistryJurisdiction: z.string().optional(),
+  yachtBrokerageCompany: z.string().optional(),
+  yachtBrokerName: z.string().optional(),
+  yachtBrokerContact: z.string().optional(),
+  yachtWebsiteLink: z.string().optional(),
+  yachtListingDate: z.string().optional(),
+  yachtListingType: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
   currency: z.string().optional(),
@@ -243,7 +319,86 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       officialNumber: "",
       askingPrice: "",
       charterRate: "",
+      charterWeekly: false,
+      charterDaily: false,
+      charterSeasonal: false,
       portOfRegistry: "",
+      // Comprehensive Yacht Details default values
+      yachtBuilder: "",
+      yachtModel: "",
+      yachtYearBuilt: "",
+      yachtYearRefit: "",
+      yachtClassification: "",
+      yachtVatStatus: "",
+      yachtRegistrationNumber: "",
+      yachtCurrency: "",
+      yachtLOA: "",
+      yachtBeam: "",
+      yachtDraft: "",
+      yachtGrossTonnage: "",
+      yachtDisplacement: "",
+      yachtHullMaterial: "",
+      yachtSuperstructureMaterial: "",
+      yachtCruisingSpeed: "",
+      yachtMaxSpeed: "",
+      yachtRange: "",
+      yachtFuelConsumption: "",
+      yachtEngineMake: "",
+      yachtEngineCount: "",
+      yachtEnginePower: "",
+      yachtPropulsionType: "",
+      yachtGenerators: "",
+      yachtStabilizers: "",
+      yachtThrusters: "",
+      yachtFuelCapacity: "",
+      yachtWaterCapacity: "",
+      yachtWasteWaterCapacity: "",
+      yachtNavigationEquipment: "",
+      yachtCommunicationSystems: "",
+      yachtGuestsNumber: "",
+      yachtGuestCabins: "",
+      yachtCrewNumber: "",
+      yachtCrewCabins: "",
+      yachtInteriorDesigner: "",
+      yachtExteriorDesigner: "",
+      yachtCharterRateInfo: "",
+      yachtCharterRegions: "",
+      yachtApaPolicy: "",
+      yachtMinBookingDuration: "",
+      yachtSeasonalRates: "",
+      yachtCharterLicense: "",
+      yachtDeckJacuzzi: false,
+      yachtBeachClub: false,
+      yachtPool: false,
+      yachtSpa: false,
+      yachtGym: false,
+      yachtCinema: false,
+      yachtElevator: false,
+      yachtSunDeck: false,
+      yachtOffice: false,
+      yachtFireplaces: false,
+      yachtWifiSatelliteTV: false,
+      yachtPrimaryTender: "",
+      yachtAdditionalTenders: "",
+      yachtJetSkis: false,
+      yachtSeabobs: false,
+      yachtDivingEquipment: false,
+      yachtWaterskis: false,
+      yachtInflatableToys: false,
+      yachtFishingGear: false,
+      yachtSubmersibles: false,
+      yachtOwnershipStructure: "",
+      yachtCharterLicenseStatus: "",
+      yachtCompliance: "",
+      yachtInsuranceCoverage: "",
+      yachtCrewCertifications: "",
+      yachtRegistryJurisdiction: "",
+      yachtBrokerageCompany: "",
+      yachtBrokerName: "",
+      yachtBrokerContact: "",
+      yachtWebsiteLink: "",
+      yachtListingDate: "",
+      yachtListingType: "",
       // Real Estate Property Specifications default values
       price: "",
       currency: "USD",
@@ -1334,8 +1489,1246 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
-                       )}
-                  </div>
+                        )}
+
+                        {/* Comprehensive Yacht Details */}
+                        {category === "yacht" && (
+                          <>
+                            {/* Builder Section */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Building className="h-5 w-5" />
+                                Builder Information
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtBuilder"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Builder</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Ferretti, Azimut, Sunseeker" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtModel"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Model</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Ferretti 920, Azimut S6" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtYearBuilt"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Year Built</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" placeholder="e.g., 2020" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtYearRefit"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Year Refit (if applicable)</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" placeholder="e.g., 2022" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtClassification"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Classification</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select classification" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="lloyds">Lloyd's Register</SelectItem>
+                                          <SelectItem value="rina">RINA</SelectItem>
+                                          <SelectItem value="abs">ABS</SelectItem>
+                                          <SelectItem value="dnv-gl">DNV GL</SelectItem>
+                                          <SelectItem value="bv">Bureau Veritas</SelectItem>
+                                          <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtVatStatus"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>VAT Status</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select VAT status" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="paid">Paid</SelectItem>
+                                          <SelectItem value="not-paid">Not Paid</SelectItem>
+                                          <SelectItem value="exempt">Exempt</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtRegistrationNumber"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Registration/IMO/MMSI Number</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="Registration or identification number" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCurrency"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Currency</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select currency" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="eur">EUR (€)</SelectItem>
+                                          <SelectItem value="usd">USD ($)</SelectItem>
+                                          <SelectItem value="gbp">GBP (£)</SelectItem>
+                                          <SelectItem value="chf">CHF</SelectItem>
+                                          <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Dimensions & Performance */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Ruler className="h-5 w-5" />
+                                Dimensions & Performance
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtLOA"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Length Overall (LOA)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 28.15m / 92.4ft" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtBeam"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Beam</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 6.5m / 21.3ft" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtDraft"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Draft</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 2.1m / 6.9ft" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtGrossTonnage"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Gross Tonnage</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 200 GT" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtDisplacement"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Displacement</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 180 tons" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtHullMaterial"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Hull Type / Material</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select hull material" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="aluminum">Aluminum</SelectItem>
+                                          <SelectItem value="steel">Steel</SelectItem>
+                                          <SelectItem value="grp">GRP (Fiberglass)</SelectItem>
+                                          <SelectItem value="carbon-fiber">Carbon Fiber</SelectItem>
+                                          <SelectItem value="wood">Wood</SelectItem>
+                                          <SelectItem value="composite">Composite</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtSuperstructureMaterial"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Superstructure Material</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select superstructure material" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="aluminum">Aluminum</SelectItem>
+                                          <SelectItem value="grp">GRP (Fiberglass)</SelectItem>
+                                          <SelectItem value="carbon-fiber">Carbon Fiber</SelectItem>
+                                          <SelectItem value="composite">Composite</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCruisingSpeed"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Cruising Speed</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 22 knots" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtMaxSpeed"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Max Speed</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 26 knots" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtRange"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Range (nm)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 2,500 nm" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtFuelConsumption"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Fuel Consumption (cruising)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 350 L/h" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Machinery & Technical */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Cog className="h-5 w-5" />
+                                Machinery & Technical
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtEngineMake"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Engine Make & Model</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 2x Caterpillar C32 ACERT" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtEngineCount"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Number of Engines</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" placeholder="e.g., 2" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtEnginePower"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Engine Power (kW or HP)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 1,420 kW / 1,900 HP" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtPropulsionType"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Propulsion Type</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select propulsion type" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="shaft">Shaft Drive</SelectItem>
+                                          <SelectItem value="jet">Jet Drive</SelectItem>
+                                          <SelectItem value="pod">POD Drive</SelectItem>
+                                          <SelectItem value="sterndrive">Sterndrive</SelectItem>
+                                          <SelectItem value="saildrive">Saildrive</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtGenerators"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Generator(s) – Make, Model, Output</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 2x Kohler 55kW" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtStabilizers"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Stabilizers</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Quantum Zero Speed, At Anchor/Underway" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtThrusters"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Thrusters (Bow/Stern)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Bow & Stern thrusters" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtFuelCapacity"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Fuel Capacity</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 4,500 L" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtWaterCapacity"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Water Capacity</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 1,200 L" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtWasteWaterCapacity"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Waste Water Capacity</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 800 L" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtNavigationEquipment"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Navigation Equipment</FormLabel>
+                                      <FormControl>
+                                        <Textarea placeholder="List navigation equipment..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCommunicationSystems"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Communication Systems</FormLabel>
+                                      <FormControl>
+                                        <Textarea placeholder="List communication systems..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Accommodation */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Bed className="h-5 w-5" />
+                                Accommodation
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtGuestsNumber"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Number of Guests (Sleeping)</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" placeholder="e.g., 10" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtGuestCabins"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Guest Cabins Configuration</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 5 cabins: 1 Master, 2 VIP, 2 Twin" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCrewNumber"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Number of Crew</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" placeholder="e.g., 6" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCrewCabins"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Crew Cabins</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 3 crew cabins for 6" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtInteriorDesigner"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Interior Designer</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Cristiano Gatto" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtExteriorDesigner"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Exterior Designer</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Filippo Salvetti" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Charter Information */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Calendar className="h-5 w-5" />
+                                Charter Information
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCharterRateInfo"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Charter Rate Details</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., €85,000/week high season" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCharterRegions"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Charter Region(s)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Mediterranean, Caribbean" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtApaPolicy"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>APA Policy</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 30% of charter rate" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtMinBookingDuration"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Minimum Booking Duration</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., 7 days" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtSeasonalRates"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>High/Low Season Rates</FormLabel>
+                                      <FormControl>
+                                        <Textarea placeholder="Detail seasonal rate variations..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCharterLicense"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Charter License</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="License details if required" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Features & Amenities */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Waves className="h-5 w-5" />
+                                Features & Amenities
+                              </h3>
+                              <div className="grid grid-cols-3 gap-4">
+                                <div className="space-y-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtDeckJacuzzi"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Deck Jacuzzi
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtBeachClub"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Beach Club
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtPool"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Pool
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtSpa"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Spa / Massage Room
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtGym"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Gym
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtCinema"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Cinema Room
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtElevator"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Elevator
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtSunDeck"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Sun Deck
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtOffice"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Office / Study
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtFireplaces"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Fireplaces
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtWifiSatelliteTV"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Wi-Fi, Satellite TV
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Tenders & Toys */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Ship className="h-5 w-5" />
+                                Tenders & Toys
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtPrimaryTender"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Primary Tender – Make/Model</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Williams Dieseljet 625" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtAdditionalTenders"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Additional Tenders</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="List additional tenders..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              <div className="grid grid-cols-3 gap-4">
+                                <div className="space-y-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtJetSkis"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Jet Skis / WaveRunners
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtSeabobs"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Seabobs
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtDivingEquipment"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Diving Equipment
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtWaterskis"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Waterskis / Wakeboards
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtInflatableToys"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Inflatable Toys
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtFishingGear"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Fishing Gear
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtSubmersibles"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          Submersibles
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Legal & Operational */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Shield className="h-5 w-5" />
+                                Legal & Operational
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtOwnershipStructure"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Ownership Structure</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select ownership type" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="corporate">Corporate</SelectItem>
+                                          <SelectItem value="private">Private</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCharterLicenseStatus"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Charter License Status</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Commercial, Private use only" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCompliance"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Compliance (MCA, ISM, ISPS)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., MCA LY3, ISM, ISPS compliant" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtInsuranceCoverage"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Insurance Coverage</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="Insurance details" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtCrewCertifications"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Crew Certifications</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., STCW, ENG1, GMDSS" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtRegistryJurisdiction"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Registry Jurisdiction</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="Registry jurisdiction" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Broker / Contact Info */}
+                            <div className="space-y-4 border-t pt-6">
+                              <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <Phone className="h-5 w-5" />
+                                Broker / Contact Info
+                              </h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtBrokerageCompany"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Brokerage Company</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., Fraser Yachts" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtBrokerName"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Broker Name</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="Broker's full name" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtBrokerContact"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Contact Phone / Email</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="Phone and email contact" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtWebsiteLink"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Website Link</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="Website URL" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtListingDate"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Listing Date</FormLabel>
+                                      <FormControl>
+                                        <Input type="date" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="yachtListingType"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Central Agent / Joint CA / Open Listing</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select listing type" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem value="central-agent">Central Agent</SelectItem>
+                                          <SelectItem value="joint-ca">Joint CA</SelectItem>
+                                          <SelectItem value="open-listing">Open Listing</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                   </div>
 
                   {category === "real-estate" && (
                     <div className="grid grid-cols-2 gap-4">
