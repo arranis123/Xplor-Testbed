@@ -22,6 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HotelUploadForm } from "./HotelUploadForm";
 import { YachtBrochure } from "./YachtBrochure";
+import { CrewProfileForm } from "./CrewProfileForm";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -320,6 +321,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
   const [showBrochure, setShowBrochure] = useState(false);
+  const [showCrewProfileForm, setShowCrewProfileForm] = useState(false);
   const [itineraryLocations, setItineraryLocations] = useState({
     pickUp: { address: '', coordinates: null as { lat: number; lng: number } | null },
     dropOff: { address: '', coordinates: null as { lat: number; lng: number } | null },
@@ -7410,7 +7412,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           Crew Profile
                         </Label>
                         <p className="text-sm text-muted-foreground mb-4">
-                          Need to generate a crew profile ? <button type="button" onClick={() => {setContactFormType('crew-profile'); setShowContactForm(true);}} className="hover:underline" style={{ color: '#0000FF' }}>Click here</button>
+                          Need to generate a crew profile ? <button type="button" onClick={() => setShowCrewProfileForm(true)} className="hover:underline" style={{ color: '#0000FF' }}>Create brochure</button>
                         </p>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
@@ -7901,6 +7903,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         />
       </DialogContent>
     </Dialog>
+
+    {/* Crew Profile Form Component */}
+    <CrewProfileForm 
+      open={showCrewProfileForm}
+      onOpenChange={setShowCrewProfileForm}
+      onSave={(crewData) => {
+        console.log('Crew data saved:', crewData);
+        // You can handle the crew data here, e.g., save to form state
+      }}
+    />
     </>
   );
 }
