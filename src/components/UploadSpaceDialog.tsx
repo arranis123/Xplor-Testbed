@@ -1648,6 +1648,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 </TabsList>
 
                  <TabsContent value="basic" className="space-y-4">
+                   {/* Debug message for basic tab */}
+                   <div className="bg-blue-100 border-blue-500 border-2 p-2 mb-4">
+                     <p className="text-blue-800 font-bold">DEBUG: Basic Info Tab - Category: {category}</p>
+                   </div>
                    <div className="grid grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -1660,8 +1664,17 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                         )}
+                       />
+                       
+                       {/* Real Estate Debug Test */}
+                       {category === "real-estate" && (
+                         <div className="col-span-2 bg-green-200 border-green-600 border-2 p-4 rounded">
+                           <h2 className="text-green-800 font-bold text-xl">✅ REAL ESTATE MODE DETECTED!</h2>
+                           <p className="text-green-700">Category: {category}</p>
+                           <p className="text-green-700">This means real estate fields should be visible below!</p>
+                         </div>
+                       )}
 
                       {category === "yacht" && (
                         <FormField
@@ -2341,12 +2354,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                    </div>
 
-                   {(() => {
-                     console.log("Debug: category check for real-estate fields:", category, category === "real-estate");
-                     return category === "real-estate";
-                   })() && (
-                     <div className="space-y-4">
-                       <h3 className="text-lg font-semibold">Real Estate Property Details</h3>
+                    {(() => {
+                      console.log("Debug: category check for real-estate fields:", category, category === "real-estate");
+                      console.log("Debug: About to render real estate fields section");
+                      return category === "real-estate";
+                    })() && (
+                      <div className="space-y-4 border-2 border-red-500 p-4 bg-yellow-100">
+                        <h3 className="text-lg font-semibold text-red-600">🏠 Real Estate Property Details (DEBUG VISIBLE)</h3>
+                        <p className="text-sm text-red-600">If you can see this red section, the real estate fields are rendering!</p>
                       <div className="grid grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
