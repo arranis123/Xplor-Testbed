@@ -1352,6 +1352,238 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "houseboat-hotel", label: "🛥️ Floating Barge / Houseboat Hotel" },
   ];
 
+  const hotelChains = [
+    {
+      category: "Marriott International", 
+      options: [
+        { value: "jw-marriott", label: "JW Marriott" },
+        { value: "marriott-hotels", label: "Marriott Hotels & Resorts" },
+        { value: "ritz-carlton", label: "Ritz-Carlton" },
+        { value: "st-regis", label: "St. Regis" },
+        { value: "w-hotels", label: "W Hotels" },
+        { value: "luxury-collection", label: "The Luxury Collection" },
+        { value: "sheraton", label: "Sheraton" },
+        { value: "westin", label: "Westin" },
+        { value: "le-meridien", label: "Le Méridien" },
+        { value: "renaissance-hotels", label: "Renaissance Hotels" },
+        { value: "autograph-collection", label: "Autograph Collection" },
+        { value: "tribute-portfolio", label: "Tribute Portfolio" },
+        { value: "four-points-sheraton", label: "Four Points by Sheraton" },
+        { value: "ac-hotels", label: "AC Hotels" },
+        { value: "moxy", label: "Moxy" },
+        { value: "aloft", label: "Aloft" },
+        { value: "courtyard-marriott", label: "Courtyard by Marriott" },
+        { value: "residence-inn", label: "Residence Inn" },
+        { value: "springhill-suites", label: "SpringHill Suites" },
+        { value: "fairfield-inn", label: "Fairfield Inn & Suites" },
+        { value: "towneplace-suites", label: "TownePlace Suites" },
+        { value: "element", label: "Element" },
+        { value: "marriott-executive", label: "Marriott Executive Apartments" },
+        { value: "gaylord-hotels", label: "Gaylord Hotels" },
+        { value: "delta-hotels", label: "Delta Hotels" }
+      ]
+    },
+    {
+      category: "Hilton Worldwide",
+      options: [
+        { value: "waldorf-astoria", label: "Waldorf Astoria" },
+        { value: "conrad", label: "Conrad" },
+        { value: "lxr-hotels", label: "LXR Hotels & Resorts" },
+        { value: "hilton-hotels", label: "Hilton Hotels & Resorts" },
+        { value: "curio-collection", label: "Curio Collection" },
+        { value: "canopy-hilton", label: "Canopy by Hilton" },
+        { value: "doubletree", label: "DoubleTree" },
+        { value: "tapestry-collection", label: "Tapestry Collection" },
+        { value: "hilton-garden-inn", label: "Hilton Garden Inn" },
+        { value: "hampton-hilton", label: "Hampton by Hilton" },
+        { value: "tru-hilton", label: "Tru by Hilton" },
+        { value: "homewood-suites", label: "Homewood Suites" },
+        { value: "home2-suites", label: "Home2 Suites" },
+        { value: "motto-hilton", label: "Motto by Hilton" },
+        { value: "tempo-hilton", label: "Tempo by Hilton" },
+        { value: "signia-hilton", label: "Signia by Hilton" }
+      ]
+    },
+    {
+      category: "Hyatt Hotels Corporation",
+      options: [
+        { value: "park-hyatt", label: "Park Hyatt" },
+        { value: "grand-hyatt", label: "Grand Hyatt" },
+        { value: "andaz", label: "Andaz" },
+        { value: "hyatt-regency", label: "Hyatt Regency" },
+        { value: "hyatt-centric", label: "Hyatt Centric" },
+        { value: "hyatt-place", label: "Hyatt Place" },
+        { value: "hyatt-house", label: "Hyatt House" },
+        { value: "unbound-collection", label: "The Unbound Collection" },
+        { value: "destination-hyatt", label: "Destination by Hyatt" },
+        { value: "thompson-hotels", label: "Thompson Hotels" },
+        { value: "alila", label: "Alila" },
+        { value: "joie-de-vivre", label: "Joie de Vivre" },
+        { value: "caption-hyatt", label: "Caption by Hyatt" },
+        { value: "miraval", label: "Miraval" },
+        { value: "hyatt-ziva-zilara", label: "Hyatt Ziva / Hyatt Zilara (All-Inclusive)" }
+      ]
+    },
+    {
+      category: "Accor Group",
+      options: [
+        { value: "raffles", label: "Raffles" },
+        { value: "fairmont", label: "Fairmont" },
+        { value: "sofitel", label: "Sofitel" },
+        { value: "pullman", label: "Pullman" },
+        { value: "mgallery", label: "MGallery" },
+        { value: "swissotel", label: "Swissôtel" },
+        { value: "movenpick", label: "Mövenpick" },
+        { value: "grand-mercure", label: "Grand Mercure" },
+        { value: "novotel", label: "Novotel" },
+        { value: "mercure", label: "Mercure" },
+        { value: "ibis", label: "ibis" },
+        { value: "ibis-styles", label: "ibis Styles" },
+        { value: "ibis-budget", label: "ibis Budget" },
+        { value: "adagio-aparthotels", label: "Adagio Aparthotels" },
+        { value: "the-sebel", label: "The Sebel" },
+        { value: "tribe", label: "Tribe" },
+        { value: "25hours-hotels", label: "25hours Hotels" },
+        { value: "mama-shelter", label: "Mama Shelter" },
+        { value: "orient-express", label: "Orient Express (revival brand)" }
+      ]
+    },
+    {
+      category: "InterContinental Hotels Group (IHG)",
+      options: [
+        { value: "intercontinental", label: "InterContinental" },
+        { value: "kimpton", label: "Kimpton" },
+        { value: "regent-hotels", label: "Regent Hotels" },
+        { value: "six-senses", label: "Six Senses" },
+        { value: "hotel-indigo", label: "Hotel Indigo" },
+        { value: "voco", label: "voco" },
+        { value: "even-hotels", label: "EVEN Hotels" },
+        { value: "hualuxe", label: "Hualuxe" },
+        { value: "crowne-plaza", label: "Crowne Plaza" },
+        { value: "holiday-inn", label: "Holiday Inn" },
+        { value: "holiday-inn-express", label: "Holiday Inn Express" },
+        { value: "holiday-inn-club", label: "Holiday Inn Club Vacations" },
+        { value: "holiday-inn-resort", label: "Holiday Inn Resort" },
+        { value: "avid", label: "Avid" },
+        { value: "atwell-suites", label: "Atwell Suites" },
+        { value: "staybridge-suites", label: "Staybridge Suites" },
+        { value: "candlewood-suites", label: "Candlewood Suites" }
+      ]
+    },
+    {
+      category: "Radisson Hotel Group",
+      options: [
+        { value: "radisson-collection", label: "Radisson Collection" },
+        { value: "radisson-blu", label: "Radisson Blu" },
+        { value: "radisson-red", label: "Radisson RED" },
+        { value: "radisson", label: "Radisson" },
+        { value: "radisson-individuals", label: "Radisson Individuals" },
+        { value: "park-plaza", label: "Park Plaza" },
+        { value: "park-inn-radisson", label: "Park Inn by Radisson" },
+        { value: "country-inn-suites", label: "Country Inn & Suites" }
+      ]
+    },
+    {
+      category: "Wyndham Hotels & Resorts",
+      options: [
+        { value: "wyndham-grand", label: "Wyndham Grand" },
+        { value: "wyndham", label: "Wyndham" },
+        { value: "dolce-hotels", label: "Dolce Hotels & Resorts" },
+        { value: "tryp-wyndham", label: "TRYP by Wyndham" },
+        { value: "esplendor", label: "Esplendor" },
+        { value: "dazzler", label: "Dazzler" },
+        { value: "ramada", label: "Ramada" },
+        { value: "ramada-encore", label: "Ramada Encore" },
+        { value: "wingate", label: "Wingate" },
+        { value: "microtel", label: "Microtel" },
+        { value: "hawthorn-suites", label: "Hawthorn Suites" },
+        { value: "baymont-inn", label: "Baymont Inn & Suites" },
+        { value: "days-inn", label: "Days Inn" },
+        { value: "super-8", label: "Super 8" },
+        { value: "howard-johnson", label: "Howard Johnson" },
+        { value: "travelodge", label: "Travelodge" },
+        { value: "americinn", label: "AmericInn" }
+      ]
+    },
+    {
+      category: "Choice Hotels International",
+      options: [
+        { value: "ascend-hotel", label: "Ascend Hotel Collection" },
+        { value: "cambria-hotels", label: "Cambria Hotels" },
+        { value: "clarion", label: "Clarion" },
+        { value: "comfort-inn", label: "Comfort Inn / Comfort Suites" },
+        { value: "quality-inn", label: "Quality Inn" },
+        { value: "sleep-inn", label: "Sleep Inn" },
+        { value: "mainstay-suites", label: "MainStay Suites" },
+        { value: "suburban-studios", label: "Suburban Studios" },
+        { value: "econo-lodge", label: "Econo Lodge" },
+        { value: "rodeway-inn", label: "Rodeway Inn" },
+        { value: "everhome-suites", label: "Everhome Suites" },
+        { value: "woodspring-suites", label: "WoodSpring Suites" }
+      ]
+    },
+    {
+      category: "Four Seasons Hotels & Resorts",
+      options: [
+        { value: "four-seasons-hotels", label: "Four Seasons Hotels" },
+        { value: "four-seasons-residences", label: "Four Seasons Private Residences" },
+        { value: "four-seasons-yachts", label: "Four Seasons Yachts (in development)" }
+      ]
+    },
+    {
+      category: "Mandarin Oriental Hotel Group",
+      options: [
+        { value: "mandarin-oriental", label: "Mandarin Oriental Hotels (Luxury)" },
+        { value: "residences-mandarin", label: "Residences at Mandarin Oriental" }
+      ]
+    },
+    {
+      category: "Rosewood Hotel Group",
+      options: [
+        { value: "rosewood-hotels", label: "Rosewood Hotels & Resorts" },
+        { value: "new-world-hotels", label: "New World Hotels" },
+        { value: "khos", label: "KHOS" }
+      ]
+    },
+    {
+      category: "Minor Hotels",
+      options: [
+        { value: "anantara", label: "Anantara" },
+        { value: "avani", label: "Avani" },
+        { value: "nh-hotels", label: "NH Hotels" },
+        { value: "nh-collection", label: "NH Collection" },
+        { value: "tivoli", label: "Tivoli" },
+        { value: "oaks-hotels", label: "Oaks Hotels" },
+        { value: "elewana-collection", label: "Elewana Collection" }
+      ]
+    },
+    {
+      category: "Langham Hospitality Group",
+      options: [
+        { value: "the-langham", label: "The Langham" },
+        { value: "cordis-hotels", label: "Cordis Hotels" },
+        { value: "yingnflo", label: "Ying'nFlo" }
+      ]
+    },
+    {
+      category: "Banyan Tree Holdings",
+      options: [
+        { value: "banyan-tree", label: "Banyan Tree" },
+        { value: "angsana", label: "Angsana" },
+        { value: "cassia", label: "Cassia" },
+        { value: "dhawa", label: "Dhawa" },
+        { value: "laguna", label: "Laguna" }
+      ]
+    },
+    {
+      category: "LVMH Hotel Management",
+      options: [
+        { value: "cheval-blanc", label: "Cheval Blanc" },
+        { value: "belmond", label: "Belmond (formerly Orient-Express Hotels)" }
+      ]
+    }
+  ];
+
   const yachtPropertyTypes = [
     { value: "motor-yacht", label: "Motor Yacht" },
     { value: "sailing-yacht", label: "Sailing Yacht" },
@@ -2391,8 +2623,42 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <FormMessage />
                             </FormItem>
                           )}
-                        />
-                      )}
+                       />
+                     )}
+                     
+                     {/* Hotel Chain Field - only show for hotels */}
+                     {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                       <FormField
+                         control={form.control}
+                         name="hotelChain"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Hotel Chain (Optional)</FormLabel>
+                             <Select onValueChange={field.onChange} defaultValue={field.value}>
+                               <FormControl>
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select hotel chain" />
+                                 </SelectTrigger>
+                               </FormControl>
+                               <SelectContent className="max-h-80">
+                                 <SelectItem value="independent">Independent Hotel</SelectItem>
+                                 {hotelChains.map((chain) => (
+                                   <SelectGroup key={chain.category}>
+                                     <SelectLabel>{chain.category}</SelectLabel>
+                                     {chain.options.map((option) => (
+                                       <SelectItem key={option.value} value={option.value}>
+                                         {option.label}
+                                       </SelectItem>
+                                     ))}
+                                   </SelectGroup>
+                                 ))}
+                               </SelectContent>
+                             </Select>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+                     )}
                       
                       {category === "yacht" && (
                        <FormField

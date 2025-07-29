@@ -332,36 +332,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="hotelChain"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Hotel Chain (Optional)</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select hotel chain" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-80">
-                    <SelectItem value="independent">Independent Hotel</SelectItem>
-                    {hotelChains.map((chain) => (
-                      <SelectGroup key={chain.category}>
-                        <SelectLabel>{chain.category}</SelectLabel>
-                        {chain.options.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
       </div>
 
