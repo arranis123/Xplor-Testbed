@@ -8409,6 +8409,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
             </div>
           )}
         </DialogFooter>
+      </Form>
       </DialogContent>
 
       {/* Contact Form Dialog */}
@@ -8654,4 +8655,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         // You can handle the crew data here, e.g., save to form state
       }}
     />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 }
