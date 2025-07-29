@@ -795,95 +795,23 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     console.log(`Fetching details for ${type.toUpperCase()}: ${identifier}`);
     
     try {
-      // Try multiple marinetraffic URLs for better data retrieval
-      const urls = [
-        `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`,
-        `https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position&mmsi=${identifier}`,
-        `https://www.marinetraffic.com/en/ais/details/ships/${identifier}`,
-      ];
+      // Create MarineTraffic URL based on identifier type
+      const trackingUrl = type === 'mmsi' 
+        ? `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`
+        : `https://www.marinetraffic.com/en/ais/details/ships/imo:${identifier}`;
       
-      let html = '';
-      let successful = false;
+      // Try to fetch vessel data from Marine Traffic via CORS proxy
+      const corsProxy = 'https://api.allorigins.win/raw?url=';
       
-      // Try different CORS proxies and approaches
-      const corsProxies = [
-        'https://api.allorigins.win/raw?url=',
-        'https://cors-anywhere.herokuapp.com/',
-        'https://api.codetabs.com/v1/proxy?quest=',
-      ];
-      
-      for (const corsProxy of corsProxies) {
-        if (successful) break;
+      try {
+        console.log(`Attempting to fetch from: ${corsProxy}${encodeURIComponent(trackingUrl)}`);
+        const response = await fetch(`${corsProxy}${encodeURIComponent(trackingUrl)}`);
+        const html = await response.text();
         
-        for (const url of urls) {
-          try {
-            console.log(`Fetching from: ${corsProxy}${encodeURIComponent(url)}`);
-            const response = await fetch(`${corsProxy}${encodeURIComponent(url)}`, {
-              headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-              }
-            });
-            
-            if (response.ok) {
-              html = await response.text();
-              console.log(`Success with ${corsProxy} - HTML length: ${html.length}`);
-              if (html.length > 1000) { // Ensure we got substantial content
-                successful = true;
-                break;
-              }
-            }
-          } catch (error) {
-            console.log(`Failed with ${corsProxy}:`, error);
-            continue;
-          }
-        }
-      }
-      
-      if (!successful || !html) {
-        console.log('All CORS proxies failed, trying direct MarineTraffic API approach...');
+        console.log(`Response status: ${response.status}`);
+        console.log(`HTML length: ${html.length}`);
         
-        // Try direct API approach (may require CORS handling)
-        try {
-          const apiUrl = `https://services.marinetraffic.com/api/exportvessel/v:8/${identifier}/protocol:json`;
-          const response = await fetch(apiUrl);
-          if (response.ok) {
-            const jsonData = await response.json();
-            console.log('API Response:', jsonData);
-            
-            if (jsonData && jsonData.length > 0) {
-              const vessel = jsonData[0];
-              if (vessel.LAT && vessel.LON) {
-                const coordinates = {
-                  lat: parseFloat(vessel.LAT),
-                  lng: parseFloat(vessel.LON)
-                };
-                
-                if (coordinates.lat >= -90 && coordinates.lat <= 90 && 
-                    coordinates.lng >= -180 && coordinates.lng <= 180) {
-                  
-                  const yachtDetails = {
-                    vesselName: vessel.SHIPNAME,
-                    vesselType: vessel.TYPESUMMARY,
-                    coordinates: coordinates,
-                    length: vessel.LENGTH,
-                    beam: vessel.WIDTH,
-                    yearBuilt: vessel.YEAR_BUILT,
-                    realTimeLocation: true
-                  };
-                  
-                  return yachtDetails;
-                }
-              }
-            }
-          }
-        } catch (apiError) {
-          console.log('Direct API approach failed:', apiError);
-        }
-      }
-      
-      // If we have HTML content, proceed with HTML parsing
-      if (html && html.length > 1000) {
+        // Extract yacht details from HTML
         const yachtDetails: any = {};
         
         // Extract vessel name from title or page content
@@ -1115,99 +1043,22 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       } else if (name === 'googlePlusCode' && value.googlePlusCode) {
         convertPlusCodeToCoordinates(value.googlePlusCode);
       } else if (name === 'mmsiNumber' && value.mmsiNumber) {
-        // Simple MMSI lookup with real MarineTraffic search
-        const mmsi = value.mmsiNumber;
-        console.log(`Looking up MMSI: ${mmsi}`);
-        
-        // For demonstration, set sample coordinates (Mediterranean)
-        const mockLat = 35 + ((parseInt(mmsi) % 100) - 50) / 100;
-        const mockLng = 15 + ((parseInt(mmsi) % 200) - 100) / 100;
-        
-        setMapCoordinates({ lat: mockLat, lng: mockLng });
-        form.setValue('latitude', mockLat.toString());
-        form.setValue('longitude', mockLng.toString());
-        
-        toast({
-          title: "MMSI Location Found",
-          description: `Vessel ${mmsi} located at ${mockLat.toFixed(4)}, ${mockLng.toFixed(4)}`,
-        });
+        // Fetch yacht details and location when MMSI is entered
+        const fetchDetails = async () => {
+          await fetchYachtDetailsFromIdentifier(value.mmsiNumber, 'mmsi');
+        };
+        fetchDetails();
       } else if (name === 'imoNumber' && value.imoNumber) {
-        // Similar lookup for IMO numbers
-        const imo = value.imoNumber;
-        const mockLat = 40 + ((parseInt(imo) % 100) - 50) / 100;
-        const mockLng = 10 + ((parseInt(imo) % 200) - 100) / 100;
-        
-        setMapCoordinates({ lat: mockLat, lng: mockLng });
-        form.setValue('latitude', mockLat.toString());
-        form.setValue('longitude', mockLng.toString());
-        
-        toast({
-          title: "IMO Location Found",
-          description: `Vessel ${imo} located at ${mockLat.toFixed(4)}, ${mockLng.toFixed(4)}`,
-        });
-      }
-    });
-    
-    return () => subscription.unsubscribe();
-  }, [form, toast]);
-
-  // Handle map coordinate changes from Mapbox
+        // Fetch yacht details and location when IMO is entered
+        const fetchDetails = async () => {
+          await fetchYachtDetailsFromIdentifier(value.imoNumber, 'imo');
+        };
         fetchDetails();
       }
     });
     
     return () => subscription.unsubscribe();
   }, [form, toast]);
-
-  // Enhanced MMSI lookup function
-  const handleMMSILookup = async (identifier: string) => {
-    if (!identifier) return;
-    
-    try {
-      // Import and use the enhanced lookup utility
-      const { fetchRealTimeVesselLocation } = await import('../utils/mmsiLookup');
-      const vesselData = await fetchRealTimeVesselLocation(identifier);
-      
-      if (vesselData) {
-        // Auto-populate form fields
-        if (vesselData.vesselName) {
-          form.setValue('title', vesselData.vesselName);
-        }
-        if (vesselData.coordinates) {
-          setMapCoordinates(vesselData.coordinates);
-          form.setValue('latitude', vesselData.coordinates.lat.toString());
-          form.setValue('longitude', vesselData.coordinates.lng.toString());
-          
-          toast({
-            title: vesselData.realTimeLocation ? "Real-Time Vessel Location Found!" : "Estimated Vessel Location",
-            description: `${vesselData.vesselName || 'Vessel'} located at ${vesselData.coordinates.lat.toFixed(4)}, ${vesselData.coordinates.lng.toFixed(4)}${vesselData.mockLocation ? ' (Estimated)' : ''}`,
-          });
-        }
-        if (vesselData.length) {
-          form.setValue('yachtLOA', vesselData.length);
-        }
-        if (vesselData.beam) {
-          form.setValue('yachtBeam', vesselData.beam);
-        }
-        if (vesselData.yearBuilt) {
-          form.setValue('yachtYearBuilt', vesselData.yearBuilt);
-        }
-      } else {
-        toast({
-          title: "Vessel Lookup Failed",
-          description: `Could not find data for vessel ${identifier}`,
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('MMSI lookup error:', error);
-      toast({
-        title: "Lookup Error", 
-        description: "Error occurred while looking up vessel data",
-        variant: "destructive",
-      });
-    }
-  };
 
   // Zoom functions
   // Handle map coordinate changes from Mapbox
