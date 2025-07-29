@@ -48,20 +48,32 @@ export class AISStreamService {
       return false;
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       try {
+        console.log('Attempting to connect to AISStream WebSocket...');
         this.socket = new WebSocket('wss://stream.aisstream.io/v0/stream');
         
+        // Set up connection timeout
+        const connectionTimeout = setTimeout(() => {
+          console.error('WebSocket connection timeout');
+          if (this.socket) {
+            this.socket.close();
+          }
+          resolve(false);
+        }, 10000); // 10 second timeout
+        
         this.socket.onopen = () => {
-          console.log('Connected to AISStream.io');
+          clearTimeout(connectionTimeout);
+          console.log('Connected to AISStream.io WebSocket');
           
-          // Send subscription message within 3 seconds as required
+          // Send subscription message with proper format
           const subscriptionMessage = {
             APIKey: this.apiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-            FilterMessageTypes: ['PositionReport'] // Only position reports for efficiency
+            FilterMessageTypes: ["PositionReport", "ShipAndVoyageData"] // Include both message types
           };
           
+          console.log('Sending subscription message:', subscriptionMessage);
           this.socket?.send(JSON.stringify(subscriptionMessage));
           resolve(true);
         };
@@ -69,6 +81,7 @@ export class AISStreamService {
         this.socket.onmessage = (event) => {
           try {
             const data: AISStreamMessage = JSON.parse(event.data);
+            console.log('Received AISStream message:', data);
             this.handleMessage(data);
           } catch (error) {
             console.error('Error parsing AISStream message:', error);
@@ -76,12 +89,22 @@ export class AISStreamService {
         };
 
         this.socket.onerror = (error) => {
+          clearTimeout(connectionTimeout);
           console.error('AISStream WebSocket error:', error);
           resolve(false);
         };
 
         this.socket.onclose = (event) => {
+          clearTimeout(connectionTimeout);
           console.log('AISStream connection closed:', event.code, event.reason);
+          
+          // Log specific close codes for debugging
+          if (event.code === 1006) {
+            console.error('WebSocket closed abnormally - possible API key or network issue');
+          } else if (event.code === 1008) {
+            console.error('WebSocket closed due to policy violation - check API key and subscription');
+          }
+          
           this.socket = null;
           // Clear pending requests
           this.pendingRequests.forEach(({ timeout }) => clearTimeout(timeout));
@@ -96,8 +119,12 @@ export class AISStreamService {
   }
 
   private handleMessage(data: AISStreamMessage) {
-    if (data.MessageType === 'PositionReport' && data.MetaData) {
+    console.log('Handling message type:', data.MessageType);
+    
+    if ((data.MessageType === 'PositionReport' || data.MessageType === 'ShipAndVoyageData') && data.MetaData) {
       const mmsi = data.MetaData.MMSI.toString();
+      console.log('Processing data for MMSI:', mmsi);
+      
       const request = this.pendingRequests.get(mmsi);
       
       if (request) {
@@ -113,8 +140,13 @@ export class AISStreamService {
           additionalData: data.Message
         };
         
+        console.log('Resolving vessel data for MMSI:', mmsi, response);
         request.resolve(response);
+      } else {
+        console.log('No pending request found for MMSI:', mmsi);
       }
+    } else {
+      console.log('Message type not handled or missing metadata:', data.MessageType);
     }
   }
 
@@ -141,35 +173,43 @@ export class AISStreamService {
   }
 
   private async getRealTimeData(mmsi: string, timeoutMs: number): Promise<AISStreamResponse | null> {
+    console.log('Attempting to get real-time data for MMSI:', mmsi);
+    
     // Check if connection exists, create if needed
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+      console.log('WebSocket not connected, creating new connection...');
       const connected = await this.createConnection();
       if (!connected) {
+        console.log('Failed to establish WebSocket connection');
         return null;
       }
+      
+      // Wait a moment for the connection to stabilize
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     return new Promise((resolve) => {
       // Set up timeout
       const timeout = setTimeout(() => {
         this.pendingRequests.delete(mmsi);
-        console.log(`Timeout waiting for real-time MMSI ${mmsi} data`);
+        console.log(`Timeout waiting for real-time MMSI ${mmsi} data after ${timeoutMs}ms`);
         resolve(null);
       }, timeoutMs);
 
       // Store the request
       this.pendingRequests.set(mmsi, { resolve, timeout });
+      console.log('Stored pending request for MMSI:', mmsi);
 
-      // Update subscription to filter for specific MMSI
+      // Send a new subscription message for the specific MMSI
       const subscriptionMessage = {
         APIKey: this.apiKey,
         BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-        FiltersShipMMSI: [mmsi], // Filter for specific MMSI
-        FilterMessageTypes: ['PositionReport']
+        FiltersShipMMSI: [parseInt(mmsi)], // Filter for specific MMSI as integer
+        FilterMessageTypes: ["PositionReport", "ShipAndVoyageData"]
       };
 
+      console.log('Sending MMSI-specific subscription:', subscriptionMessage);
       this.socket?.send(JSON.stringify(subscriptionMessage));
-      console.log(`Requesting real-time data for MMSI: ${mmsi}`);
     });
   }
 
