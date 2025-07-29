@@ -192,52 +192,11 @@ export class AISStreamService {
       return null;
     }
 
-    // Try AISStream first (API key is always available now)
-    {
-      try {
-        // Check if connection exists, create if needed
-        if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-          const connected = await this.createConnection();
-          if (!connected) {
-            console.log('No real-time data available from AISStream');
-            return await this.fetchFromMarineTraffic(mmsi);
-          }
-        }
-
-        const aisResult = await new Promise<AISStreamResponse | null>((resolve) => {
-          // Set up timeout
-          const timeout = setTimeout(() => {
-            this.pendingRequests.delete(mmsi);
-            console.log(`Timeout waiting for MMSI ${mmsi} data from AISStream`);
-            resolve(null);
-          }, timeoutMs);
-
-          // Store the request
-          this.pendingRequests.set(mmsi, { resolve, timeout });
-
-          // Update subscription to filter for specific MMSI
-          const subscriptionMessage = {
-            APIKey: this.apiKey,
-            BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-            FiltersShipMMSI: [mmsi], // Filter for specific MMSI
-            FilterMessageTypes: ['PositionReport']
-          };
-
-          this.socket?.send(JSON.stringify(subscriptionMessage));
-          console.log(`Requesting data for MMSI: ${mmsi}`);
-        });
-
-        // If AISStream returns data, use it
-        if (aisResult) {
-          return aisResult;
-        }
-      } catch (error) {
-        console.error('AISStream error:', error);
-      }
-    }
-
-    // Fallback to MarineTraffic
-    console.log('No real-time data available from AISStream');
+    // Note: AISStream.io does not support CORS/browser connections
+    // Skip WebSocket and go directly to MarineTraffic fallback
+    console.log('⚠️ AISStream.io WebSocket not supported in browser due to CORS restrictions');
+    console.log('🔄 Using MarineTraffic fallback for MMSI:', mmsi);
+    
     return await this.fetchFromMarineTraffic(mmsi);
   }
 
