@@ -303,59 +303,111 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           Room Details
         </h3>
         
+        <div className="space-y-6">
+          {/* Room Types - Multiple Selection */}
+          <FormField
+            control={form.control}
+            name="roomTypes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-medium">Room Types Available</FormLabel>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+                  {hotelRoomTypes.map((roomType) => (
+                    <FormField
+                      key={roomType.value}
+                      control={form.control}
+                      name="roomTypes"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={roomType.value}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(roomType.value)}
+                                onCheckedChange={(checked) => {
+                                  const updatedValue = checked
+                                    ? [...(field.value || []), roomType.value]
+                                    : field.value?.filter((value: string) => value !== roomType.value) || [];
+                                  field.onChange(updatedValue);
+                                }}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel className="text-sm font-normal cursor-pointer">
+                                {roomType.label}
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Bed Configurations - Multiple Selection */}
+          <FormField
+            control={form.control}
+            name="bedConfigurations"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-medium">Bed Configurations Available</FormLabel>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+                  {[
+                    { value: "single", label: "1 Single Bed" },
+                    { value: "double", label: "1 Double Bed" },
+                    { value: "queen", label: "1 Queen Bed" },
+                    { value: "king", label: "1 King Bed" },
+                    { value: "twin", label: "2 Twin Beds" },
+                    { value: "double-double", label: "2 Double Beds" },
+                    { value: "queen-queen", label: "2 Queen Beds" },
+                    { value: "multiple", label: "Multiple Beds" },
+                    { value: "sofa-bed", label: "Sofa Bed Available" },
+                  ].map((bedConfig) => (
+                    <FormField
+                      key={bedConfig.value}
+                      control={form.control}
+                      name="bedConfigurations"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={bedConfig.value}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(bedConfig.value)}
+                                onCheckedChange={(checked) => {
+                                  const updatedValue = checked
+                                    ? [...(field.value || []), bedConfig.value]
+                                    : field.value?.filter((value: string) => value !== bedConfig.value) || [];
+                                  field.onChange(updatedValue);
+                                }}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel className="text-sm font-normal cursor-pointer">
+                                {bedConfig.label}
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="roomType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Room Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select room type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {hotelRoomTypes.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
-                        {type.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="bedConfiguration"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bed Configuration</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select bed type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="single">1 Single Bed</SelectItem>
-                    <SelectItem value="double">1 Double Bed</SelectItem>
-                    <SelectItem value="queen">1 Queen Bed</SelectItem>
-                    <SelectItem value="king">1 King Bed</SelectItem>
-                    <SelectItem value="twin">2 Twin Beds</SelectItem>
-                    <SelectItem value="double-double">2 Double Beds</SelectItem>
-                    <SelectItem value="queen-queen">2 Queen Beds</SelectItem>
-                    <SelectItem value="multiple">Multiple Beds</SelectItem>
-                    <SelectItem value="sofa-bed">Sofa Bed Available</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="maxOccupancy"
