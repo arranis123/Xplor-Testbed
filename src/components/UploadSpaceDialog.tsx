@@ -6735,6 +6735,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         )}
                       </div>
                     </div>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Miscelaneous e.g, Sample Contracts, Awards, History, Build Specification etc
+                    </p>
 
                     {totalFiles > 0 && (
                       <Card>
