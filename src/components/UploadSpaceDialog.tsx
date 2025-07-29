@@ -1261,7 +1261,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-6" : (category === "real-estate") ? "grid-cols-6" : "grid-cols-7"}`}>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-6" : (category === "real-estate") ? "grid-cols-6" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
                   <TabsTrigger value="basic">Basic Info</TabsTrigger>
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                      <TabsTrigger value="hotel-details">Hotel Details</TabsTrigger>
@@ -1273,8 +1273,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                   <TabsTrigger value="location">Location Details</TabsTrigger>
                   {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
-                  )}
-                  <TabsTrigger value="rules">Rules & Access</TabsTrigger>
+                   )}
+                   {category === "yacht" && (
+                     <TabsTrigger value="compliance">Compliance</TabsTrigger>
+                   )}
+                   <TabsTrigger value="rules">Rules & Access</TabsTrigger>
                   <TabsTrigger value="media">Media Upload</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
@@ -5144,8 +5147,180 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         </>
                       )}
                     </div>
+                   </TabsContent>
+                 )}
+
+                 {category === "yacht" && (
+                    <TabsContent value="compliance" className="space-y-4">
+                     <div className="space-y-6">
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <Shield className="h-5 w-5" />
+                         Yacht Compliance & Legal
+                       </h3>
+                       <div className="grid grid-cols-2 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="yachtCompliance"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Compliance Status</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select compliance status" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="fully-compliant">Fully Compliant</SelectItem>
+                                   <SelectItem value="pending-certification">Pending Certification</SelectItem>
+                                   <SelectItem value="partial-compliance">Partial Compliance</SelectItem>
+                                   <SelectItem value="non-compliant">Non-Compliant</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtInsuranceCoverage"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Insurance Coverage</FormLabel>
+                               <FormControl>
+                                 <Textarea placeholder="Detail insurance coverage including liability, hull, crew, and passenger coverage" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtCrewCertifications"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Crew Certifications</FormLabel>
+                               <FormControl>
+                                 <Textarea placeholder="List crew certifications: STCW, MCA, ENG1, etc." {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtRegistryJurisdiction"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Registry Jurisdiction</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., Cayman Islands, Marshall Islands, Malta" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtCharterLicenseStatus"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Charter License Status</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select license status" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="commercial-license">Commercial License</SelectItem>
+                                   <SelectItem value="private-use-only">Private Use Only</SelectItem>
+                                   <SelectItem value="pending-approval">Pending Approval</SelectItem>
+                                   <SelectItem value="restricted-waters">Restricted Waters Only</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtOwnershipStructure"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Ownership Structure</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select ownership type" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="individual">Individual Ownership</SelectItem>
+                                   <SelectItem value="corporate">Corporate Ownership</SelectItem>
+                                   <SelectItem value="trust">Trust</SelectItem>
+                                   <SelectItem value="partnership">Partnership</SelectItem>
+                                   <SelectItem value="shared-ownership">Shared Ownership</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+
+                     <div>
+                       <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <FileText className="h-5 w-5" />
+                         Safety & Environmental Compliance
+                       </h3>
+                       <div className="grid grid-cols-1 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="yachtCovidRequirements"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>COVID-19 Requirements</FormLabel>
+                               <FormControl>
+                                 <Textarea placeholder="Detail current COVID-19 protocols, testing requirements, vaccination policies" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtEnvironmentalRules"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Environmental Compliance</FormLabel>
+                               <FormControl>
+                                 <Textarea placeholder="Environmental regulations compliance: MARPOL, local marine park rules, waste management protocols" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="yachtSafetyBriefing"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Safety Briefing Requirements</FormLabel>
+                               <FormControl>
+                                 <Textarea placeholder="Required safety briefings for guests, emergency procedures, equipment locations" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                      </div>
+                    </div>
                   </TabsContent>
-                )}
+                 )}
 
                  <TabsContent value="rules" className="space-y-4">
                   <div className="space-y-6">
