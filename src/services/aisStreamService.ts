@@ -55,11 +55,12 @@ export class AISStreamService {
         this.socket.onopen = () => {
           console.log('Connected to AISStream.io');
           
-          // Send subscription message within 3 seconds as required
+          // Send subscription message for all ship data (including historical)
           const subscriptionMessage = {
             APIKey: this.apiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
-            FilterMessageTypes: ['PositionReport'] // Only position reports for efficiency
+            FilterMessageTypes: ['PositionReport', 'ShipAndVoyageData'], // Include both current and voyage data
+            RequestHistoricalData: true // Request last known positions
           };
           
           this.socket?.send(JSON.stringify(subscriptionMessage));
@@ -96,7 +97,8 @@ export class AISStreamService {
   }
 
   private handleMessage(data: AISStreamMessage) {
-    if (data.MessageType === 'PositionReport' && data.MetaData) {
+    // Handle both PositionReport and ShipAndVoyageData for last known data
+    if ((data.MessageType === 'PositionReport' || data.MessageType === 'ShipAndVoyageData') && data.MetaData) {
       const mmsi = data.MetaData.MMSI.toString();
       const request = this.pendingRequests.get(mmsi);
       
@@ -110,9 +112,10 @@ export class AISStreamService {
           longitude: data.MetaData.longitude,
           shipName: data.MetaData.ShipName,
           lastUpdate: data.MetaData.time_utc,
-          additionalData: data.Message
+          additionalData: { ...data.Message, messageType: data.MessageType }
         };
         
+        console.log(`Received ${data.MessageType} data for MMSI ${mmsi}:`, response);
         request.resolve(response);
       }
     }
@@ -202,16 +205,17 @@ export class AISStreamService {
           // Store the request
           this.pendingRequests.set(mmsi, { resolve, timeout });
 
-          // Update subscription to filter for specific MMSI
+          // Update subscription to filter for specific MMSI (including historical data)
           const subscriptionMessage = {
             APIKey: this.apiKey,
             BoundingBoxes: [[[-90, -180], [90, 180]]], // Global coverage
             FiltersShipMMSI: [mmsi], // Filter for specific MMSI
-            FilterMessageTypes: ['PositionReport']
+            FilterMessageTypes: ['PositionReport', 'ShipAndVoyageData'], // Include both message types
+            RequestHistoricalData: true // Request last known positions
           };
 
           this.socket?.send(JSON.stringify(subscriptionMessage));
-          console.log(`Requesting data for MMSI: ${mmsi}`);
+          console.log(`Requesting last known data for MMSI: ${mmsi}`);
         });
 
         // If AISStream returns data, use it
