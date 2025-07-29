@@ -129,6 +129,7 @@ const uploadFormSchema = z.object({
   priorityListing: z.string().optional(),
   dateListed: z.date().optional(),
   lastUpdated: z.date().optional(),
+  marineTrafficLocation: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -266,6 +267,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       priorityListing: "",
       dateListed: undefined,
       lastUpdated: undefined,
+      marineTrafficLocation: "",
     },
   });
 
@@ -2543,13 +2545,36 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
-                       </div>
-                       
-                       <Card className="p-4">
-                         <div className="flex items-center gap-2 mb-2">
-                           <MapPin className="h-4 w-4" />
-                           <span className="text-sm font-medium">Map Pin Drop / Location Picker</span>
-                         </div>
+                        </div>
+                        
+                        {/* Marine Traffic Location Field for Yachts/Boats */}
+                        {form.watch("propertyType") === "boat" && (
+                          <FormField
+                            control={form.control}
+                            name="marineTrafficLocation"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Marinetraffic.com Real Time Location</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    placeholder="e.g., https://www.marinetraffic.com/en/ais/details/ships/shipid:384311/mmsi:319011900/imo:1009326/vessel:AWATEA" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormDescription>
+                                  Optional: Link to the vessel's real-time location on MarineTraffic.com
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+                        
+                        <Card className="p-4">
+                          <div className="flex items-center gap-2 mb-2">
+                            <MapPin className="h-4 w-4" />
+                            <span className="text-sm font-medium">Map Pin Drop / Location Picker</span>
+                          </div>
                          <p className="text-sm text-muted-foreground mb-3">
                            Click on the map below to set the exact location, or use the coordinates above.
                          </p>
