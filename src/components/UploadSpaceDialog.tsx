@@ -1671,7 +1671,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            name="listingType"
                            render={({ field }) => (
                              <FormItem>
-                               <FormLabel>Listing Type</FormLabel>
+                               <FormLabel>For Sale or Rental</FormLabel>
                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                  <FormControl>
                                    <SelectTrigger>
