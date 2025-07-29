@@ -6711,6 +6711,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           <User className="h-5 w-5" />
                           Crew Profile
                         </Label>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Need to generate a crew profile ? <button type="button" onClick={() => setShowContactForm(true)} className="text-primary hover:underline">Click here</button>
+                        </p>
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col items-center gap-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
