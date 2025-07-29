@@ -1690,8 +1690,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          />
                        )}
 
-                       {/* Real Estate Sale Price Field */}
-                       {category === "real-estate" && (
+                       {/* Real Estate Sale Price Field - only show for "for-sale" or "both" */}
+                       {category === "real-estate" && (form.watch("listingType") === "for-sale" || form.watch("listingType") === "both") && (
                          <FormField
                            control={form.control}
                            name="salePrice"
@@ -1713,8 +1713,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          />
                        )}
 
-                       {/* Real Estate Rental Price Field */}
-                       {category === "real-estate" && (
+                       {/* Real Estate Rental Price Field - only show for "for-rent" or "both" */}
+                       {category === "real-estate" && (form.watch("listingType") === "for-rent" || form.watch("listingType") === "both") && (
                          <FormField
                            control={form.control}
                            name="rentalPrice"
