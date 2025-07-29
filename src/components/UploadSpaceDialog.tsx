@@ -182,6 +182,7 @@ const uploadFormSchema = z.object({
   yachtListingDate: z.string().optional(),
   yachtListingType: z.string().optional(),
   // Real Estate Property Specifications
+  realEstatePropertyType: z.string().optional(),
   price: z.string().optional(),
   currency: z.string().optional(),
   pricePerSqm: z.string().optional(),
@@ -1281,6 +1282,108 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { id: "defibrillator", label: "Defibrillator / Medical Bay", icon: Plus },
   ];
 
+  // Real Estate Property Types
+  const residentialDwellingTypes = [
+    { value: "single-family-home", label: "Single-Family Home (Detached)" },
+    { value: "multi-family-home", label: "Multi-Family Home (Duplex, Triplex, Fourplex)" },
+    { value: "condominium", label: "Condominium (Condo)" },
+    { value: "townhouse", label: "Townhouse / Row House" },
+    { value: "apartment", label: "Apartment (Unit in a building)" },
+    { value: "bungalow", label: "Bungalow" },
+    { value: "cottage", label: "Cottage / Cabin" },
+    { value: "studio-apartment", label: "Studio Apartment" },
+    { value: "penthouse", label: "Penthouse" },
+    { value: "loft", label: "Loft" },
+    { value: "villa", label: "Villa" },
+    { value: "manufactured-home", label: "Manufactured Home / Mobile Home" },
+    { value: "park-home", label: "Park Home / Static Caravan" },
+    { value: "tiny-house", label: "Tiny House" },
+    { value: "farmhouse", label: "Farmhouse / Country House" },
+  ];
+
+  const residentialSettingTypes = [
+    { value: "urban-residential", label: "Urban Residential Property" },
+    { value: "suburban-home", label: "Suburban Home" },
+    { value: "rural-property", label: "Rural Property" },
+    { value: "waterfront-property", label: "Waterfront Property (Lake, River, Ocean)" },
+    { value: "mountain-countryside", label: "Mountain / Countryside Home" },
+    { value: "gated-community", label: "Gated Community Property" },
+    { value: "golf-course", label: "Golf Course Property" },
+  ];
+
+  const residentialUsageTypes = [
+    { value: "primary-residence", label: "Primary Residence" },
+    { value: "second-home", label: "Second Home / Vacation Home" },
+    { value: "investment-property", label: "Investment Property (Buy-to-let)" },
+    { value: "co-living", label: "Co-living / Shared Housing" },
+    { value: "senior-living", label: "Senior Living / Retirement Home" },
+    { value: "student-housing", label: "Student Housing Unit" },
+  ];
+
+  const commercialRetailTypes = [
+    { value: "retail-store", label: "Retail Store / Shopfront" },
+    { value: "shopping-mall", label: "Shopping Mall Unit" },
+    { value: "restaurant", label: "Restaurant / Café Property" },
+    { value: "hotel", label: "Hotel / Motel / Inn" },
+    { value: "bed-breakfast", label: "Bed & Breakfast (B&B)" },
+    { value: "resort", label: "Resort Property" },
+  ];
+
+  const commercialOfficeTypes = [
+    { value: "office-building", label: "Office Building (Standalone)" },
+    { value: "office-unit", label: "Office Unit (within a building)" },
+    { value: "shared-office", label: "Shared Office / Co-working Space" },
+    { value: "executive-suite", label: "Executive Suite" },
+  ];
+
+  const commercialIndustrialTypes = [
+    { value: "warehouse", label: "Warehouse" },
+    { value: "distribution-center", label: "Distribution Center" },
+    { value: "light-industrial", label: "Light Industrial Unit" },
+    { value: "heavy-manufacturing", label: "Heavy Manufacturing Facility" },
+    { value: "cold-storage", label: "Cold Storage Facility" },
+    { value: "flex-space", label: "Flex Space (Office + Warehouse)" },
+    { value: "data-center", label: "Data Center" },
+  ];
+
+  const landDevelopmentTypes = [
+    { value: "residential-land", label: "Residential Land" },
+    { value: "agricultural-land", label: "Agricultural Land" },
+    { value: "commercial-land", label: "Commercial Land" },
+    { value: "industrial-land", label: "Industrial Land" },
+    { value: "waterfront-land", label: "Waterfront Land" },
+    { value: "forest-timberland", label: "Forest / Timberland" },
+    { value: "desert-ranch", label: "Desert / Ranch Land" },
+    { value: "mixed-use-development", label: "Mixed-Use Development Site" },
+    { value: "subdivided-lots", label: "Subdivided Lots" },
+    { value: "urban-infill", label: "Urban Infill Lot" },
+    { value: "brownfield-site", label: "Brownfield Site (previous industrial use)" },
+    { value: "greenfield-site", label: "Greenfield Site (never developed)" },
+  ];
+
+  const specialPurposeTypes = [
+    { value: "religious-building", label: "Religious Building (Church, Temple, Mosque)" },
+    { value: "school-university", label: "School / University Property" },
+    { value: "hospital-clinic", label: "Hospital / Clinic" },
+    { value: "nursing-home", label: "Nursing Home / Care Facility" },
+    { value: "sports-complex", label: "Sports Complex / Gym Facility" },
+    { value: "marina-boatyard", label: "Marina / Boatyard" },
+    { value: "parking-lot", label: "Parking Lot / Parking Garage" },
+    { value: "government-building", label: "Government Building" },
+    { value: "gas-station", label: "Gas Station / Auto Shop" },
+    { value: "theater", label: "Theater / Entertainment Venue" },
+  ];
+
+  const luxuryInternationalTypes = [
+    { value: "chateau-castle", label: "Château / Castle" },
+    { value: "estate-manor", label: "Estate / Manor House" },
+    { value: "private-island", label: "Private Island" },
+    { value: "ski-chalet", label: "Ski Chalet" },
+    { value: "eco-lodge", label: "Eco-Lodge or Sustainable Property" },
+    { value: "historical-property", label: "Historical Property" },
+    { value: "embassy", label: "Embassy / Diplomatic Residence" },
+  ];
+
 
   const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure', files: FileList | null) => {
     if (!files) return;
@@ -2093,28 +2196,138 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                    </div>
 
                   {category === "real-estate" && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="listingType"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Listing Type</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select listing type" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="for-sale">For Sale</SelectItem>
-                                <SelectItem value="for-rent">For Rent</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="listingType"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Listing Type</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select listing type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="for-sale">For Sale</SelectItem>
+                                  <SelectItem value="for-rent">For Rent</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="realEstatePropertyType"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Property Type Category</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select property category" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    <SelectLabel>📦 Residential - By Dwelling Type</SelectLabel>
+                                    {residentialDwellingTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                  
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🌐 Residential - By Setting</SelectLabel>
+                                    {residentialSettingTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                  
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🧳 Residential - By Usage Type</SelectLabel>
+                                    {residentialUsageTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🏬 Commercial - Retail & Hospitality</SelectLabel>
+                                    {commercialRetailTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🏢 Commercial - Office</SelectLabel>
+                                    {commercialOfficeTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🏭 Commercial - Industrial</SelectLabel>
+                                    {commercialIndustrialTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🏞️ Land & Development Property</SelectLabel>
+                                    {landDevelopmentTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🏨 Special-Purpose Real Estate</SelectLabel>
+                                    {specialPurposeTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+
+                                  <SelectSeparator />
+                                  <SelectGroup>
+                                    <SelectLabel>🌍 International & Luxury Real Estate</SelectLabel>
+                                    {luxuryInternationalTypes.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
                   )}
 
