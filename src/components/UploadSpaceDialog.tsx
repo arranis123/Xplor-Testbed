@@ -128,7 +128,10 @@ const uploadFormSchema = z.object({
   yachtPropulsionType: z.string().optional(),
   yachtGenerators: z.string().optional(),
   yachtStabilizers: z.string().optional(),
-  yachtThrusters: z.string().optional(),
+  yachtBowThruster: z.boolean().optional(),
+  yachtBowThrusterMakeModel: z.string().optional(),
+  yachtSternThruster: z.boolean().optional(),
+  yachtSternThrusterMakeModel: z.string().optional(),
   yachtFuelCapacity: z.string().optional(),
   yachtWaterCapacity: z.string().optional(),
   yachtWasteWaterCapacity: z.string().optional(),
@@ -453,7 +456,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       yachtPropulsionType: "",
       yachtGenerators: "",
       yachtStabilizers: "",
-      yachtThrusters: "",
+      yachtBowThruster: false,
+      yachtBowThrusterMakeModel: "",
+      yachtSternThruster: false,
+      yachtSternThrusterMakeModel: "",
       yachtFuelCapacity: "",
       yachtWaterCapacity: "",
       yachtWasteWaterCapacity: "",
@@ -2548,19 +2554,74 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 </FormItem>
                               )}
                             />
-                            <FormField
-                              control={form.control}
-                              name="yachtThrusters"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Thrusters (Bow/Stern)</FormLabel>
-                                  <FormControl>
-                                    <Input placeholder="e.g., Bow & stern thrusters" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-3">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtBowThruster"
+                                  render={({ field }) => (
+                                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={field.onChange}
+                                        />
+                                      </FormControl>
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel>Bow Thruster</FormLabel>
+                                      </div>
+                                    </FormItem>
+                                  )}
+                                />
+                                {form.watch("yachtBowThruster") && (
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtBowThrusterMakeModel"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormControl>
+                                          <Input placeholder="Make/Model (e.g., Side-Power SP125T)" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                )}
+                              </div>
+                              <div className="space-y-3">
+                                <FormField
+                                  control={form.control}
+                                  name="yachtSternThruster"
+                                  render={({ field }) => (
+                                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={field.onChange}
+                                        />
+                                      </FormControl>
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel>Stern Thruster</FormLabel>
+                                      </div>
+                                    </FormItem>
+                                  )}
+                                />
+                                {form.watch("yachtSternThruster") && (
+                                  <FormField
+                                    control={form.control}
+                                    name="yachtSternThrusterMakeModel"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormControl>
+                                          <Input placeholder="Make/Model (e.g., Side-Power SP185T)" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                )}
+                              </div>
+                            </div>
                             <FormField
                               control={form.control}
                               name="yachtFuelCapacity"
