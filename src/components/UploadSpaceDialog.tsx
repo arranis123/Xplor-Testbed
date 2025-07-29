@@ -90,6 +90,7 @@ const uploadFormSchema = z.object({
   googlePlusCode: z.string().optional(),
   marineTrafficUrl: z.string().optional(),
   mmsiNumber: z.string().optional(),
+  imoNumber: z.string().optional(),
   // Real Estate Property Specifications
   price: z.string().optional(),
   currency: z.string().optional(),
@@ -229,6 +230,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       googlePlusCode: "",
       marineTrafficUrl: "",
       mmsiNumber: "",
+      imoNumber: "",
       // Real Estate Property Specifications default values
       price: "",
       currency: "USD",
@@ -590,21 +592,43 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                  <TabsContent value="basic" className="space-y-4">
                    <div className="grid grid-cols-2 gap-4">
-                     <FormField
-                       control={form.control}
-                       name="title"
-                       render={({ field }) => (
-                         <FormItem>
-                           <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
-                           <FormControl>
-                             <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
-                           </FormControl>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                     />
-                     
-                     {category === "yacht" && (
+                      <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {category === "yacht" && (
+                        <FormField
+                          control={form.control}
+                          name="imoNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>IMO Number</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g., 1234567" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Optional: 7-digit International Maritime Organization number
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                      
+                      {category === "yacht" && (
                        <FormField
                          control={form.control}
                          name="yachtSaleOrCharter"
