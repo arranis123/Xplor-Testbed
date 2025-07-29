@@ -729,6 +729,60 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }
   };
 
+  // Helper function to convert vessel type code to description
+  const getVesselTypeDescription = (typeCode: number): string | null => {
+    const vesselTypes: { [key: number]: string } = {
+      30: "Fishing",
+      31: "Towing",
+      32: "Towing: length exceeds 200m or breadth exceeds 25m",
+      33: "Dredging or underwater ops",
+      34: "Diving ops",
+      35: "Military ops",
+      36: "Sailing",
+      37: "Pleasure Craft",
+      60: "Passenger",
+      61: "Passenger: Hazardous category A",
+      62: "Passenger: Hazardous category B",
+      63: "Passenger: Hazardous category C",
+      64: "Passenger: Hazardous category D",
+      70: "Cargo",
+      71: "Cargo: Hazardous category A",
+      72: "Cargo: Hazardous category B",
+      73: "Cargo: Hazardous category C",
+      74: "Cargo: Hazardous category D",
+      80: "Tanker",
+      81: "Tanker: Hazardous category A",
+      82: "Tanker: Hazardous category B",
+      83: "Tanker: Hazardous category C",
+      84: "Tanker: Hazardous category D",
+      90: "Other Type"
+    };
+    return vesselTypes[typeCode] || null;
+  };
+
+  // Helper function to convert navigational status code to description
+  const getNavigationalStatusDescription = (statusCode: number): string | null => {
+    const navStatuses: { [key: number]: string } = {
+      0: "Under way using engine",
+      1: "At anchor",
+      2: "Not under command",
+      3: "Restricted manoeuvrability",
+      4: "Constrained by her draught",
+      5: "Moored",
+      6: "Aground",
+      7: "Engaged in fishing",
+      8: "Under way sailing",
+      9: "Reserved for future amendment",
+      10: "Reserved for future amendment",
+      11: "Power-driven vessel towing astern",
+      12: "Power-driven vessel pushing ahead or towing alongside",
+      13: "Reserved for future use",
+      14: "AIS-SART is active",
+      15: "Not defined"
+    };
+    return navStatuses[statusCode] || null;
+  };
+
   // Helper function to generate mock coordinates based on MMSI number (for demonstration)
   const getMockCoordinatesFromMMSI = (mmsi: string): { lat: number; lng: number } | null => {
     try {
@@ -818,15 +872,96 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
         if (aisData) {
           console.log('AISStream data received:', aisData);
           
-          // Update form with real AIS data
-          form.setValue('latitude', aisData.latitude.toString());
-          form.setValue('longitude', aisData.longitude.toString());
-          
+          // Update Basic Info
           if (aisData.shipName) {
             // If title is empty or generic, update it with ship name
             const currentTitle = form.getValues('title');
             if (!currentTitle || currentTitle.trim() === '') {
               form.setValue('title', aisData.shipName);
+            }
+          }
+          
+          // Update Location Details
+          form.setValue('latitude', aisData.latitude.toString());
+          form.setValue('longitude', aisData.longitude.toString());
+          
+          // Try to get address from coordinates (reverse geocoding)
+          try {
+            const response = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${aisData.longitude},${aisData.latitude}.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M21iazAyZjEzZG5zN2J1MW80ZjgifQ.d1rgW-MQU_2Lj0zfJM8QgA&types=place`
+            );
+            const geoData = await response.json();
+            if (geoData.features && geoData.features.length > 0) {
+              const place = geoData.features[0];
+              const currentLocation = form.getValues('location');
+              if (!currentLocation || currentLocation.trim() === '') {
+                form.setValue('location', place.place_name);
+              }
+              
+              // Extract additional location details
+              const contexts = place.context || [];
+              contexts.forEach((context: any) => {
+                if (context.id.startsWith('country')) {
+                  form.setValue('country', context.text);
+                } else if (context.id.startsWith('region')) {
+                  form.setValue('region', context.text);
+                } else if (context.id.startsWith('place')) {
+                  form.setValue('city', context.text);
+                }
+              });
+            }
+          } catch (error) {
+            console.log("Reverse geocoding failed:", error);
+          }
+          
+          // Update Yacht Details from AIS additional data
+          if (aisData.additionalData) {
+            const additionalData = aisData.additionalData;
+            
+            // Vessel dimensions
+            if (additionalData.to_bow && additionalData.to_stern) {
+              const loa = additionalData.to_bow + additionalData.to_stern;
+              form.setValue('yachtLOA', loa.toString() + ' m');
+            }
+            
+            if (additionalData.to_port && additionalData.to_starboard) {
+              const beam = additionalData.to_port + additionalData.to_starboard;
+              form.setValue('yachtBeam', beam.toString() + ' m');
+            }
+            
+            // Maximum draft if available
+            if (additionalData.maximum_draught) {
+              form.setValue('yachtDraft', (additionalData.maximum_draught / 10).toString() + ' m'); // Convert from decimeters
+            }
+            
+            // Vessel type classification
+            if (additionalData.type_and_cargo) {
+              const vesselType = getVesselTypeDescription(additionalData.type_and_cargo);
+              if (vesselType) {
+                form.setValue('yachtSubtype', vesselType);
+              }
+            }
+            
+            // Call sign as registration number
+            if (additionalData.call_sign && additionalData.call_sign.trim()) {
+              form.setValue('yachtRegistrationNumber', additionalData.call_sign.trim());
+            }
+            
+            // Destination
+            if (additionalData.destination && additionalData.destination.trim()) {
+              form.setValue('yachtCharterRegions', additionalData.destination.trim());
+            }
+            
+            // Navigation status
+            if (additionalData.navigational_status !== undefined) {
+              const navStatus = getNavigationalStatusDescription(additionalData.navigational_status);
+              if (navStatus) {
+                const currentDesc = form.getValues('description') || '';
+                const statusInfo = `Current Navigation Status: ${navStatus}`;
+                if (!currentDesc.includes(statusInfo)) {
+                  form.setValue('description', currentDesc ? `${currentDesc}\n\n${statusInfo}` : statusInfo);
+                }
+              }
             }
           }
           
@@ -861,242 +996,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       } catch (error) {
         console.error('AISStream error:', error);
         toast({
-          title: "Failed to fetch real-time data. Using fallback method.",
+          title: "Failed to fetch AIS data",
+          description: "Unable to retrieve vessel data from AISStream.io",
           duration: 4000,
         });
         setIsFetchingAIS(false);
       }
     }
     
-    // Fallback to original method for IMO numbers or when AISStream is not available
-    try {
-      // Create MarineTraffic URL based on identifier type
-      const trackingUrl = type === 'mmsi' 
-        ? `https://www.marinetraffic.com/en/ais/details/ships/mmsi:${identifier}`
-        : `https://www.marinetraffic.com/en/ais/details/ships/imo:${identifier}`;
-      
-      // Try to fetch vessel data from Marine Traffic via CORS proxy
-      const corsProxy = 'https://api.allorigins.win/raw?url=';
-      
-      try {
-        console.log(`Attempting to fetch from: ${corsProxy}${encodeURIComponent(trackingUrl)}`);
-        const response = await fetch(`${corsProxy}${encodeURIComponent(trackingUrl)}`);
-        const html = await response.text();
-        
-        console.log(`Response status: ${response.status}`);
-        console.log(`HTML length: ${html.length}`);
-        
-        // Extract yacht details from HTML
-        const yachtDetails: any = {};
-        
-        // Extract vessel name from title or page content
-        const nameMatch = html.match(/<title[^>]*>Ship\s+([^(]+)\s*\(/i) || 
-                         html.match(/vessel["\s]*name["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
-                         html.match(/ship["\s]*name["\s]*[:\s]*["\s]*([^"<>\n]+)/i);
-        if (nameMatch && nameMatch[1]) {
-          yachtDetails.vesselName = nameMatch[1].trim();
-        }
-
-        // Extract vessel type
-        const typeMatch = html.match(/vessel["\s]*type["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
-                         html.match(/ship["\s]*type["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
-                         html.match(/\(([^)]*(?:yacht|vessel|ship|tanker|cargo|passenger)[^)]*)\)/i);
-        if (typeMatch && typeMatch[1]) {
-          yachtDetails.vesselType = typeMatch[1].trim();
-        }
-
-        // Extract dimensions (Length, Beam, Draft)
-        const lengthMatch = html.match(/length["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
-                           html.match(/loa["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
-        if (lengthMatch) {
-          yachtDetails.length = lengthMatch[1];
-        }
-
-        const beamMatch = html.match(/beam["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
-                         html.match(/width["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
-        if (beamMatch) {
-          yachtDetails.beam = beamMatch[1];
-        }
-
-        const draftMatch = html.match(/draft["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
-                          html.match(/draught["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
-        if (draftMatch) {
-          yachtDetails.draft = draftMatch[1];
-        }
-
-        // Extract year built
-        const yearMatch = html.match(/year["\s]*built["\s]*[:\s]*["\s]*(\d{4})/i) ||
-                         html.match(/built["\s]*[:\s]*["\s]*(\d{4})/i);
-        if (yearMatch) {
-          yachtDetails.yearBuilt = yearMatch[1];
-        }
-
-        // Extract builder/shipyard
-        const builderMatch = html.match(/builder["\s]*[:\s]*["\s]*([^"<>\n]+)/i) ||
-                            html.match(/shipyard["\s]*[:\s]*["\s]*([^"<>\n]+)/i);
-        if (builderMatch && builderMatch[1]) {
-          yachtDetails.builder = builderMatch[1].trim();
-        }
-
-        // Extract gross tonnage
-        const tonnageMatch = html.match(/gross["\s]*tonnage["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i) ||
-                            html.match(/gt["\s]*[:\s]*["\s]*(\d+(?:\.\d+)?)/i);
-        if (tonnageMatch) {
-          yachtDetails.grossTonnage = tonnageMatch[1];
-        }
-
-        // Extract location coordinates
-        const patterns = [
-          /latitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
-          /"lat"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
-          /lat["\s]*=["\s]*([+-]?\d+\.?\d*)/i,
-          /position["\s]*:["\s]*\{[^}]*lat["\s]*:["\s]*([+-]?\d+\.?\d*)/i
-        ];
-        
-        const lngPatterns = [
-          /longitude["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
-          /"lng"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
-          /"lon"["\s]*:["\s]*([+-]?\d+\.?\d*)/i,
-          /lng["\s]*=["\s]*([+-]?\d+\.?\d*)/i,
-          /position["\s]*:["\s]*\{[^}]*lng["\s]*:["\s]*([+-]?\d+\.?\d*)/i
-        ];
-        
-        let latMatch = null;
-        let lngMatch = null;
-        
-        // Try each pattern
-        for (const pattern of patterns) {
-          latMatch = html.match(pattern);
-          if (latMatch) break;
-        }
-        
-        for (const pattern of lngPatterns) {
-          lngMatch = html.match(pattern);
-          if (lngMatch) break;
-        }
-        
-        if (latMatch && lngMatch) {
-          const coordinates = {
-            lat: parseFloat(latMatch[1]),
-            lng: parseFloat(lngMatch[1])
-          };
-          
-          // Validate coordinates are reasonable
-          if (coordinates.lat >= -90 && coordinates.lat <= 90 && 
-              coordinates.lng >= -180 && coordinates.lng <= 180) {
-            yachtDetails.coordinates = coordinates;
-          }
-        }
-
-        // If no real coordinates found, provide mock coordinates based on MMSI region
-        if (!yachtDetails.coordinates && type === 'mmsi') {
-          const mockCoordinates = getMockCoordinatesFromMMSI(identifier);
-          if (mockCoordinates) {
-            yachtDetails.coordinates = mockCoordinates;
-            yachtDetails.mockLocation = true;
-          }
-        }
-
-        console.log('Extracted yacht details:', yachtDetails);
-
-        // Auto-fill form fields if details were found
-        if (Object.keys(yachtDetails).length > 0) {
-          if (yachtDetails.vesselName) {
-            form.setValue('title', yachtDetails.vesselName);
-          }
-          if (yachtDetails.vesselType) {
-            // Try to map vessel type to our yacht categories
-            const vesselTypeLower = yachtDetails.vesselType.toLowerCase();
-            if (vesselTypeLower.includes('yacht') || vesselTypeLower.includes('pleasure')) {
-              form.setValue('propertyType', 'yacht');
-              if (vesselTypeLower.includes('motor') || vesselTypeLower.includes('power')) {
-                form.setValue('yachtSubtype', 'motor-yacht');
-              } else if (vesselTypeLower.includes('sail')) {
-                form.setValue('yachtSubtype', 'sailing-yacht');
-              }
-            }
-          }
-          if (yachtDetails.length) {
-            form.setValue('yachtLOA', yachtDetails.length);
-          }
-          if (yachtDetails.beam) {
-            form.setValue('yachtBeam', yachtDetails.beam);
-          }
-          if (yachtDetails.draft) {
-            form.setValue('yachtDraft', yachtDetails.draft);
-          }
-          if (yachtDetails.yearBuilt) {
-            form.setValue('yachtYearBuilt', yachtDetails.yearBuilt);
-            form.setValue('yearBuilt', yachtDetails.yearBuilt);
-          }
-          if (yachtDetails.builder) {
-            form.setValue('yachtBuilder', yachtDetails.builder);
-          }
-          if (yachtDetails.grossTonnage) {
-            form.setValue('yachtGrossTonnage', yachtDetails.grossTonnage);
-          }
-          if (yachtDetails.coordinates) {
-            setMapCoordinates(yachtDetails.coordinates);
-            form.setValue('latitude', yachtDetails.coordinates.lat.toString());
-            form.setValue('longitude', yachtDetails.coordinates.lng.toString());
-            
-            toast({
-              title: yachtDetails.mockLocation ? `${type.toUpperCase()} Location (Estimated)` : "Vessel Location Found",
-              description: `${yachtDetails.vesselName || 'Vessel'} located at ${yachtDetails.coordinates.lat.toFixed(4)}, ${yachtDetails.coordinates.lng.toFixed(4)}${yachtDetails.mockLocation ? ' (Regional estimate)' : ''}`,
-            });
-          }
-
-          // Set Marine Traffic URL
-          form.setValue('marineTrafficUrl', trackingUrl);
-
-          toast({
-            title: `${type.toUpperCase()} ${identifier} Details Loaded`,
-            description: `Yacht details auto-filled from MarineTraffic.com`,
-            action: (
-              <a 
-                href={trackingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline"
-              >
-                View on MarineTraffic
-              </a>
-            ),
-            duration: 10000,
-          });
-          
-          return yachtDetails;
-        }
-      } catch (fetchError) {
-        console.log('CORS proxy failed:', fetchError);
-      }
-      
-      // Fallback: Open Marine Traffic for manual lookup
-      toast({
-        title: "Manual Lookup Required",
-        description: `Please verify yacht details for ${type.toUpperCase()}: ${identifier} manually.`,
-        action: (
-          <a 
-            href={trackingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary underline"
-            onClick={() => {
-              // Auto-open Marine Traffic in new tab
-              window.open(trackingUrl, '_blank');
-            }}
-          >
-            Open Marine Traffic
-          </a>
-        ),
-        duration: 15000,
-      });
-      
-      return null;
-    } catch (error) {
-      console.error('Error fetching yacht details:', error);
-      return null;
-    }
+    setIsFetchingAIS(false);
+    return null;
   };
 
   // Watch for changes in latitude, longitude, Google Plus Code, and MMSI
