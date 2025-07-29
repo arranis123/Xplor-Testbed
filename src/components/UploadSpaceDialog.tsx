@@ -58,6 +58,7 @@ const uploadFormSchema = z.object({
   houseRules: z.array(z.string()).optional(),
   healthSafety: z.array(z.string()).optional(),
   workFeatures: z.array(z.string()).optional(),
+  additionalAmenities: z.string().optional(),
   hostLanguage: z.string().optional(),
   responseTime: z.string().optional(),
   bookingType: z.string().optional(),
@@ -324,6 +325,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       houseRules: [],
       healthSafety: [],
       workFeatures: [],
+      additionalAmenities: "",
       hostLanguage: "",
       responseTime: "",
       bookingType: "",
@@ -5485,10 +5487,35 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  </FormItem>
                                )}
                              />
-                           </div>
-                         )}
-                       </>
-                     )}
+                            </div>
+                          )}
+
+                          {category === "yacht" && (
+                            <div className="mt-6">
+                              <FormField
+                                control={form.control}
+                                name="additionalAmenities"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Additional Amenities</FormLabel>
+                                    <FormControl>
+                                      <Textarea
+                                        placeholder="Describe any additional amenities not listed above..."
+                                        className="min-h-[100px]"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormDescription>
+                                      List any additional amenities, features, or services that weren't covered in the categories above
+                                    </FormDescription>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          )}
+                        </>
+                      )}
                     </div>
                   </TabsContent>
                 )}
