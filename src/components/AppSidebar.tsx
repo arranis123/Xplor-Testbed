@@ -44,7 +44,10 @@ export function AppSidebar() {
   const { open, setOpen } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
-  const { isAdmin } = useAuth();
+  const { isAdmin, user, debugInfo } = useAuth();
+  
+  // Debug logging to console
+  console.log('AppSidebar debug:', { isAdmin, userEmail: user?.email, debugInfo });
 
   // Add admin console if user is admin
   const items = [...baseItems];
