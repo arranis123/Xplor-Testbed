@@ -13,6 +13,7 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
+  console.log('AppLayout - user state:', user ? 'authenticated' : 'not authenticated', 'email:', user?.email);
 
   return (
     <SidebarProvider>
@@ -49,11 +50,14 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={async () => {
+                      console.log('AppLayout - Sign out button clicked');
                       try {
+                        console.log('AppLayout - Calling signOut function');
                         await signOut();
+                        console.log('AppLayout - Sign out successful, navigating to home');
                         navigate("/");
                       } catch (error) {
-                        console.error('Sign out error:', error);
+                        console.error('AppLayout - Sign out error:', error);
                       }
                     }}
                     className="min-h-touch"

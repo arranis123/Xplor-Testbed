@@ -14,8 +14,9 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Get auth context
+  // Get auth context with debugging
   const { user, signOut } = useAuth();
+  console.log('Header - user state:', user ? 'authenticated' : 'not authenticated', 'email:', user?.email);
 
   // Check if admin console should be shown (simplified)
   const isDevelopment = import.meta.env.DEV;
@@ -176,11 +177,14 @@ const Header = () => {
               size="sm" 
               className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
               onClick={async () => {
+                console.log('Header - Sign out button clicked');
                 try {
+                  console.log('Header - Calling signOut function');
                   await signOut();
+                  console.log('Header - Sign out successful, navigating to home');
                   navigate("/");
                 } catch (error) {
-                  console.error('Sign out error:', error);
+                  console.error('Header - Sign out error:', error);
                 }
               }}
             >
