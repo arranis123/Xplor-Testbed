@@ -47,37 +47,7 @@ const Spaces = () => {
   const [currentSpaceId, setCurrentSpaceId] = useState<number | null>(null);
   const [pin, setPin] = useState("");
   const [pinEmail, setPinEmail] = useState("");
-  const [activeFilters, setActiveFilters] = useState({
-    status: [],
-    visibility: [],
-    type: [],
-    dateRange: "",
-    views: ""
-  });
-
-  const filterOptions = {
-    status: ["Active", "Processing", "Draft", "Inactive"],
-    visibility: ["Public", "Unlisted", "Private"],
-    type: ["Office", "Residential", "Restaurant", "Retail", "Hotel", "Vacation Rental", "Event Space", "Warehouse"],
-    dateRange: ["Last 7 days", "Last 30 days", "Last 3 months", "Last 6 months", "All time"],
-    views: ["0-100 views", "100-500 views", "500-1000 views", "1000+ views"]
-  };
-
-  const sortOptions = [
-    { value: "recommended", label: "Recommended" },
-    { value: "newest", label: "New Listings First" },
-    { value: "views-high", label: "Views (high to low)" },
-    { value: "views-low", label: "Views (low to high)" },
-    { value: "name-asc", label: "Name (A to Z)" },
-    { value: "name-desc", label: "Name (Z to A)" },
-    { value: "type", label: "Space Type" },
-    { value: "status", label: "Status" },
-    { value: "visibility", label: "Visibility" },
-    { value: "upload-date", label: "Upload Date" },
-    { value: "last-updated", label: "Last Updated" }
-  ];
-
-  const spaces = [
+  const [spaces, setSpaces] = useState([
     {
       id: 1,
       name: "Downtown Office Tour",
@@ -120,31 +90,83 @@ const Spaces = () => {
       views: 743,
       created: "2024-01-08",
       type: "Retail",
-      thumbnail: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop"
     },
     {
       id: 5,
-      name: "Hotel Suite Walkthrough",
-      description: "Luxury hotel accommodation tour",
+      name: "Boutique Hotel Suite",
+      description: "Luxury accommodation virtual tour",
       status: "Active",
       visibility: "Public",
-      views: 689,
-      created: "2024-01-06",
+      views: 1890,
+      created: "2024-01-05",
       type: "Hotel",
-      thumbnail: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=400&h=300&fit=crop"
     },
     {
       id: 6,
-      name: "Mountain Cabin Retreat",
-      description: "Remote vacation rental showcase",
-      status: "Active",
+      name: "Beach House Rental",
+      description: "Stunning oceanfront vacation property",
+      status: "Draft",
       visibility: "Unlisted",
-      views: 456,
-      created: "2024-01-04",
+      views: 523,
+      created: "2024-01-03",
       type: "Vacation Rental",
-      thumbnail: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=400&h=300&fit=crop"
     },
+    {
+      id: 7,
+      name: "Corporate Event Center",
+      description: "Professional event and conference space",
+      status: "Active",
+      visibility: "Private",
+      views: 1156,
+      created: "2024-01-01",
+      type: "Event Space",
+      thumbnail: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop"
+    },
+    {
+      id: 8,
+      name: "Industrial Warehouse",
+      description: "Large-scale storage and distribution facility",
+      status: "Processing",
+      visibility: "Unlisted",
+      views: 667,
+      created: "2023-12-28",
+      type: "Warehouse",
+      thumbnail: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop"
+    }
+  ]);
+  const [activeFilters, setActiveFilters] = useState({
+    status: [],
+    visibility: [],
+    type: [],
+    dateRange: "",
+    views: ""
+  });
+
+  const filterOptions = {
+    status: ["Active", "Processing", "Draft", "Inactive"],
+    visibility: ["Public", "Unlisted", "Private"],
+    type: ["Office", "Residential", "Restaurant", "Retail", "Hotel", "Vacation Rental", "Event Space", "Warehouse"],
+    dateRange: ["Last 7 days", "Last 30 days", "Last 3 months", "Last 6 months", "All time"],
+    views: ["0-100 views", "100-500 views", "500-1000 views", "1000+ views"]
+  };
+
+  const sortOptions = [
+    { value: "recommended", label: "Recommended" },
+    { value: "newest", label: "New Listings First" },
+    { value: "views-high", label: "Views (high to low)" },
+    { value: "views-low", label: "Views (low to high)" },
+    { value: "name-asc", label: "Name (A to Z)" },
+    { value: "name-desc", label: "Name (Z to A)" },
+    { value: "type", label: "Space Type" },
+    { value: "status", label: "Status" },
+    { value: "visibility", label: "Visibility" },
+    { value: "upload-date", label: "Upload Date" },
+    { value: "last-updated", label: "Last Updated" }
   ];
+
 
   const handleFilterChange = (category: string, value: string, checked: boolean) => {
     setActiveFilters(prev => ({
@@ -217,13 +239,28 @@ const Spaces = () => {
       setCurrentSpaceId(spaceId);
       setPinDialogOpen(true);
     } else {
-      // Handle other visibility changes
-      console.log(`Changing space ${spaceId} visibility to ${newVisibility}`);
+      // Update the visibility in the spaces state
+      setSpaces(prevSpaces => 
+        prevSpaces.map(space => 
+          space.id === spaceId 
+            ? { ...space, visibility: newVisibility }
+            : space
+        )
+      );
     }
   };
 
   const handlePinSetup = () => {
     if (currentSpaceId && pin && pinEmail) {
+      // Update the space visibility to Private
+      setSpaces(prevSpaces => 
+        prevSpaces.map(space => 
+          space.id === currentSpaceId 
+            ? { ...space, visibility: "Private" }
+            : space
+        )
+      );
+      
       // Here you would typically make an API call to set up the PIN and email for the space
       console.log(`Setting up PIN for space ${currentSpaceId}: PIN=${pin}, Email=${pinEmail}`);
       setPinDialogOpen(false);
