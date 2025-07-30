@@ -610,6 +610,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      is_allowed_admin_user: {
+        Args: { user_email: string }
+        Returns: boolean
+      }
     }
     Enums: {
       account_status: "active" | "suspended" | "banned" | "pending_verification"
