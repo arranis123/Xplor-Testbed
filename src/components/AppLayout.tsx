@@ -49,8 +49,22 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={async () => {
-                      await signOut();
-                      navigate("/");
+                      console.log('AppLayout: Sign out button clicked');
+                      try {
+                        // Add timeout to prevent hanging
+                        const signOutPromise = signOut();
+                        const timeoutPromise = new Promise((_, reject) => 
+                          setTimeout(() => reject(new Error('Sign out timeout')), 5000)
+                        );
+                        
+                        await Promise.race([signOutPromise, timeoutPromise]);
+                        console.log('AppLayout: Sign out completed, navigating to home');
+                        navigate("/");
+                      } catch (error) {
+                        console.error('AppLayout: Sign out error:', error);
+                        // Force navigation even if sign out fails
+                        navigate("/");
+                      }
                     }}
                     className="min-h-touch"
                   >
