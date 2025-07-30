@@ -408,13 +408,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             <Bed className="h-5 w-5" />
             Room Details
           </h3>
-          <Button 
-            type="button"
-            onClick={addRoomProfile}
-            className="px-4 py-2"
-          >
-            Add Room
-          </Button>
         </div>
         
         {/* Room Input Fields */}
