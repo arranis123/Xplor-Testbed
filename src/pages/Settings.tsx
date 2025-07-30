@@ -32,6 +32,9 @@ const Settings = () => {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [marketingEmails, setMarketingEmails] = useState(false);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [profileVisibility, setProfileVisibility] = useState("public");
+  const [createPin, setCreatePin] = useState("");
+  const [pinRequestEmail, setPinRequestEmail] = useState("");
 
   const timezones = [
     { value: "utc", label: "UTC (Coordinated Universal Time)" },
@@ -421,14 +424,49 @@ const Settings = () => {
                 <Switch defaultChecked />
               </div>
               <Separator />
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <div className="font-medium">Profile Visibility</div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="profileVisibility">Profile Visibility</Label>
+                  <Select value={profileVisibility} onValueChange={setProfileVisibility}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder="Select visibility" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="public">Public</SelectItem>
+                      <SelectItem value="private">Private</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <div className="text-sm text-muted-foreground">
-                    Make your profile visible to other xplor users
+                    Control how your profile is visible to other xplor users
                   </div>
                 </div>
-                <Switch />
+                
+                {profileVisibility === "private" && (
+                  <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+                    <div className="space-y-2">
+                      <Label htmlFor="createPin">Create Pin</Label>
+                      <Input 
+                        id="createPin" 
+                        value={createPin}
+                        onChange={(e) => setCreatePin(e.target.value)}
+                        placeholder="Enter a PIN for private access" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="pinRequestEmail">Email for PIN Requests</Label>
+                      <Input 
+                        id="pinRequestEmail" 
+                        type="email"
+                        value={pinRequestEmail}
+                        onChange={(e) => setPinRequestEmail(e.target.value)}
+                        placeholder="admin@company.com" 
+                      />
+                      <div className="text-xs text-muted-foreground">
+                        Note: This email will only be visible to admin
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <Separator />
               <div className="space-y-3">
