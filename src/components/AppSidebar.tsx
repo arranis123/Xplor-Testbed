@@ -10,7 +10,8 @@ import {
   Home,
   Users,
   Shield,
-  Clock
+  Clock,
+  Anchor
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -35,6 +36,7 @@ const baseItems = [
   { title: "Statistics", url: "/statistics", icon: BarChart3 },
   { title: "Users", url: "/users", icon: Users },
   { title: "Capture Services", url: "/capture-services", icon: Camera },
+  { title: "Yacht Brokerage", url: "/yacht-brokerage", icon: Anchor },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
