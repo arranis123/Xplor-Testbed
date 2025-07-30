@@ -36,7 +36,7 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-mobile-md sm:gap-4 justify-center">
               <Button size="lg" className="bg-primary hover:bg-primary/90 !text-xplor-grey text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium">
-                Explore Luxury
+                Map
               </Button>
               <Button size="lg" className="bg-primary hover:bg-primary/90 !text-xplor-grey text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium" asChild>
                 <Link to="/auth">
