@@ -161,7 +161,7 @@ const VRCameras = () => {
               Fantastic 3D Camera Lineup
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Choose from Matterport's range of professional 3D cameras designed for different capture needs and project scales.
+              Choose from our range of professional 3D cameras designed for different capture needs and project scales.
             </p>
           </div>
 
