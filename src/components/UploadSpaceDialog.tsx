@@ -419,6 +419,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     sampleItineraries: File[];
     crewProfile: File[];
     brochure: File[];
+    vrWalkthrough: File[];
   }>({
     photos: [],
     videos: [],
@@ -428,6 +429,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     sampleItineraries: [],
     crewProfile: [],
     brochure: [],
+    vrWalkthrough: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -2146,7 +2148,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure', files: FileList | null) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough', files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
@@ -2171,7 +2173,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -2206,7 +2208,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], vrWalkthrough: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -7682,6 +7684,53 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                 <TabsContent value="media" className="space-y-4">
                   <div className="space-y-6">
+                    
+                    {/* VR Walkthrough Section for Hotel/Resort categories */}
+                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                      <div>
+                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <Headphones className="h-5 w-5" />
+                          VR Walkthrough
+                        </Label>
+                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Upload className="h-8 w-8" />
+                              <div className="text-center">
+                                <p className="text-sm font-medium">Upload VR Content</p>
+                                <p className="text-xs">360° images, VR tours, or immersive content</p>
+                              </div>
+                            </div>
+                            <Input
+                              type="file"
+                              multiple
+                              accept="image/*,video/*,.mp4,.mov,.avi"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('vrWalkthrough', e.target.files)}
+                            />
+                          </div>
+                          {uploadedFiles.vrWalkthrough && uploadedFiles.vrWalkthrough.length > 0 && (
+                            <div className="mt-4 space-y-2">
+                              {uploadedFiles.vrWalkthrough.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                  <div className="flex items-center gap-2">
+                                    <Headphones className="h-4 w-4" />
+                                    <span className="text-sm truncate">{file.name}</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeFile('vrWalkthrough', index)}
+                                    className="text-destructive hover:text-destructive/80"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                     <div>
                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
                         <ImageIcon className="h-5 w-5" />
