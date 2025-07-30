@@ -17,6 +17,7 @@ import Users from "./pages/Users";
 import Trial from "./pages/Trial";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
+import Auth from "./pages/Auth";
 
 // Dynamic import for CaptureServices to avoid potential circular dependency issues
 import { lazy, Suspense } from "react";
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
           <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           <Route path="/admin" element={<AppLayout><Admin /></AppLayout>} />
+          <Route path="/auth" element={<Auth />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -38,8 +38,10 @@ const Index = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3">
                 Explore Luxury
               </Button>
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3">
-                View Collection
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3" asChild>
+                <Link to="/auth">
+                  Sign In / Sign Up
+                </Link>
               </Button>
             </div>
           </div>
