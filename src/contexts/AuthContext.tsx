@@ -181,6 +181,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             errors: ['User logged out']
           });
         }
+        
+        // Always set loading to false after processing auth state
         setIsLoading(false);
       }
     );
