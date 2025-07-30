@@ -86,10 +86,10 @@ export default function Auth() {
     );
   }
 
-  // If user exists but we're still here, force redirect
+  // If user exists but we're on auth page, it means sign out is in progress
+  // Show the auth form anyway to allow immediate re-login
   if (user) {
-    navigate("/dashboard", { replace: true });
-    return null;
+    console.log('Auth page: User still exists but on auth page, showing auth form anyway');
   }
 
   return (

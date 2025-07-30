@@ -129,6 +129,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log('AuthContext: Starting initialization');
     let mounted = true;
     
+    // Force loading to false after 3 seconds if it hasn't resolved
+    const loadingTimeout = setTimeout(() => {
+      if (mounted) {
+        console.log('AuthContext: Forcing loading to false due to timeout');
+        setIsLoading(false);
+      }
+    }, 3000);
+    
     const initializeAuth = async () => {
       try {
         // Get initial session first
@@ -138,6 +146,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (error) {
           console.error('AuthContext: Error getting initial session:', error);
           if (mounted) {
+            clearTimeout(loadingTimeout);
             setIsLoading(false);
           }
           return;
@@ -146,6 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.log('AuthContext: Initial session result:', currentSession?.user?.email || 'null');
         
         if (mounted) {
+          clearTimeout(loadingTimeout);
           setSession(currentSession);
           setUser(currentSession?.user ?? null);
           
@@ -164,6 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         console.error('AuthContext: Initialization error:', error);
         if (mounted) {
+          clearTimeout(loadingTimeout);
           setIsLoading(false);
         }
       }
@@ -175,6 +186,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.log('AuthContext: Auth state change event:', event, 'User:', currentSession?.user?.email || 'null');
         if (!mounted) return;
         
+        clearTimeout(loadingTimeout);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
@@ -200,6 +212,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       mounted = false;
+      clearTimeout(loadingTimeout);
       subscription.unsubscribe();
     };
   }, []);
