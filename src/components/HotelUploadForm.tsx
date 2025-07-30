@@ -545,67 +545,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         )}
       </div>
 
-      {/* Property Type */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Property Information</h3>
-        <FormField
-          control={form.control}
-          name="propertyType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Property Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="border-2 border-border">
-                    <SelectValue placeholder="Select property type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent className="max-h-60">
-                  {hotelPropertyTypes.map((type) => (
-                    <SelectItem key={type.value} value={type.value}>
-                      {type.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-
-      {/* Hotel Chain */}
-      <div className="space-y-4">
-        <FormField
-          control={form.control}
-          name="hotelChain"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hotel Chain (Optional)</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="border-2 border-border">
-                    <SelectValue placeholder="Select hotel chain" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent className="max-h-60">
-                  {hotelChains.map((chain) => (
-                    <SelectGroup key={chain.category}>
-                      <SelectLabel>{chain.category}</SelectLabel>
-                      {chain.options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
 
 
       {/* Pricing */}
