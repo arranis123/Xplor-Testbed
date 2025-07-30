@@ -14,6 +14,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -34,6 +43,10 @@ const Spaces = () => {
   const [sortBy, setSortBy] = useState("recommended");
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [pinDialogOpen, setPinDialogOpen] = useState(false);
+  const [currentSpaceId, setCurrentSpaceId] = useState<number | null>(null);
+  const [pin, setPin] = useState("");
+  const [pinEmail, setPinEmail] = useState("");
   const [activeFilters, setActiveFilters] = useState({
     status: [],
     visibility: [],
@@ -200,9 +213,24 @@ const Spaces = () => {
   };
 
   const handleVisibilityChange = (spaceId: number, newVisibility: string) => {
-    // Here you would typically make an API call to update the space visibility
-    console.log(`Changing space ${spaceId} visibility to ${newVisibility}`);
-    // For now, we'll just log it since this is a demo
+    if (newVisibility === "Private") {
+      setCurrentSpaceId(spaceId);
+      setPinDialogOpen(true);
+    } else {
+      // Handle other visibility changes
+      console.log(`Changing space ${spaceId} visibility to ${newVisibility}`);
+    }
+  };
+
+  const handlePinSetup = () => {
+    if (currentSpaceId && pin && pinEmail) {
+      // Here you would typically make an API call to set up the PIN and email for the space
+      console.log(`Setting up PIN for space ${currentSpaceId}: PIN=${pin}, Email=${pinEmail}`);
+      setPinDialogOpen(false);
+      setPin("");
+      setPinEmail("");
+      setCurrentSpaceId(null);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -615,6 +643,63 @@ const Spaces = () => {
         onOpenChange={setUploadDialogOpen}
         category={selectedCategory}
       />
+
+      {/* PIN Setup Dialog */}
+      <Dialog open={pinDialogOpen} onOpenChange={setPinDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Set up PIN Protection</DialogTitle>
+            <DialogDescription>
+              Create a PIN and provide an email for PIN requests to protect this space.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="pin">PIN (4-6 digits)</Label>
+              <Input
+                id="pin"
+                type="password"
+                placeholder="Enter PIN"
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+                maxLength={6}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email for PIN requests</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter email address"
+                value={pinEmail}
+                onChange={(e) => setPinEmail(e.target.value)}
+              />
+              <p className="text-sm text-muted-foreground">
+                This email will receive requests when someone wants access to the PIN.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setPinDialogOpen(false);
+                setPin("");
+                setPinEmail("");
+                setCurrentSpaceId(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handlePinSetup}
+              disabled={!pin || !pinEmail}
+            >
+              Set PIN Protection
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
