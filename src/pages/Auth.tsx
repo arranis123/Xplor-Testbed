@@ -14,6 +14,8 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
+  
+  console.log('Auth page - render state:', { user: user?.email, authLoading, isLoading });
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -82,8 +84,9 @@ export default function Auth() {
     }
   };
 
-  // Show loading while checking authentication
+  // Show loading while checking authentication with debugging
   if (authLoading) {
+    console.log('Auth page - authLoading is true, showing loading screen');
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">

@@ -171,8 +171,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (mounted) {
             setIsAdmin(adminStatus);
             console.log('AuthContext: Initial admin status set to:', adminStatus);
-            console.log('AuthContext: Setting isLoading to false from initial session check');
             setIsLoading(false);
+            console.log('AuthContext: Setting isLoading to false from initial session check');
           }
         });
       } else {
