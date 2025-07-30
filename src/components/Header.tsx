@@ -139,8 +139,8 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-mobile-sm touch-manipulation min-h-touch">
-            <div className="w-8 h-8 bg-xplor-yellow rounded flex items-center justify-center">
-              <span className="text-xplor-black font-bold text-sm">X</span>
+            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-sm">X</span>
             </div>
             <span className="font-semibold text-lg sm:text-xl text-foreground">xplor</span>
           </Link>
@@ -158,7 +158,7 @@ const Header = () => {
           </Button>
           <Button 
             size="sm" 
-            className="bg-foreground hover:bg-foreground/90 text-background min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm font-medium"
           >
             <span className="hidden sm:inline">Get Started</span>
             <span className="sm:hidden">Join</span>
