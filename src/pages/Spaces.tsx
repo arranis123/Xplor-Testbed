@@ -318,7 +318,7 @@ const Spaces = () => {
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -344,6 +344,21 @@ const Spaces = () => {
                 <p className="text-sm text-muted-foreground">Unlisted Spaces</p>
                 <p className="text-2xl font-bold text-foreground">
                   {spaces.filter(space => space.visibility === "Unlisted").length}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
+                <Lock className="h-5 w-5 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Private Spaces</p>
+                <p className="text-2xl font-bold text-foreground">
+                  {spaces.filter(space => space.visibility === "Private").length}
                 </p>
               </div>
             </div>
