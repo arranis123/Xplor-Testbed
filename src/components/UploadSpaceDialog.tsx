@@ -90,6 +90,16 @@ const uploadFormSchema = z.object({
   checkOutTime: z.string().optional(),
   hotelPolicies: z.string().optional(),
   nearbyAttractions: z.string().optional(),
+  roomProfiles: z.array(z.object({
+    id: z.string(),
+    roomType: z.string(),
+    bedConfiguration: z.string(),
+    maxOccupancy: z.string(),
+    roomSize: z.string().optional(),
+    roomSizeUnit: z.string().optional(),
+    floorLevel: z.string().optional(),
+    averageNightlyRate: z.string(),
+  })).optional(),
   // Location-specific fields
   country: z.string().optional(),
   region: z.string().optional(),
@@ -492,6 +502,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       checkOutTime: "",
       hotelPolicies: "",
       nearbyAttractions: "",
+      roomProfiles: [],
       // Location-specific default values
       country: "",
       region: "",

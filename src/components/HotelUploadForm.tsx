@@ -27,8 +27,10 @@ interface RoomProfile {
 }
 
 export function HotelUploadForm({ form }: HotelUploadFormProps) {
-  const [roomProfiles, setRoomProfiles] = useState<RoomProfile[]>([]);
   const [currentRoom, setCurrentRoom] = useState<Partial<RoomProfile>>({});
+
+  // Use form state for room profiles instead of local state
+  const roomProfiles = form.watch("roomProfiles") || [];
 
   const addRoomProfile = () => {
     if (currentRoom.roomType && currentRoom.bedConfiguration && currentRoom.maxOccupancy && currentRoom.averageNightlyRate) {
@@ -42,13 +44,15 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         floorLevel: currentRoom.floorLevel || '',
         averageNightlyRate: currentRoom.averageNightlyRate
       };
-      setRoomProfiles([...roomProfiles, newRoom]);
+      const updatedRoomProfiles = [...roomProfiles, newRoom];
+      form.setValue("roomProfiles", updatedRoomProfiles);
       setCurrentRoom({});
     }
   };
 
   const removeRoomProfile = (id: string) => {
-    setRoomProfiles(roomProfiles.filter(room => room.id !== id));
+    const updatedRoomProfiles = roomProfiles.filter(room => room.id !== id);
+    form.setValue("roomProfiles", updatedRoomProfiles);
   };
 
   const getRoomTypeLabel = (value: string) => {
