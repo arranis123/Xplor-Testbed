@@ -165,9 +165,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    let mounted = true;
+    
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
+        if (!mounted) return;
+        
         console.log('Auth state changed:', event, currentSession?.user?.email);
         
         setSession(currentSession);
@@ -175,40 +179,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         if (currentSession?.user) {
           const adminStatus = await checkAdminStatus(currentSession.user);
-          setIsAdmin(adminStatus);
+          if (mounted) {
+            setIsAdmin(adminStatus);
+          }
         } else {
-          setIsAdmin(false);
-          updateDebugInfo({
-            sessionValid: false,
-            userExists: false,
-            adminRoleExists: false,
-            errors: ['User logged out']
-          });
+          if (mounted) {
+            setIsAdmin(false);
+            updateDebugInfo({
+              sessionValid: false,
+              userExists: false,
+              adminRoleExists: false,
+              errors: ['User logged out']
+            });
+          }
         }
         
-        // Always set loading to false after auth state change
-        console.log('Setting isLoading to false after auth state change');
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     );
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      if (!mounted) return;
+      
       console.log('Initial session check:', currentSession?.user?.email);
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
         checkAdminStatus(currentSession.user).then(adminStatus => {
-          setIsAdmin(adminStatus);
-          setIsLoading(false);
+          if (mounted) {
+            setIsAdmin(adminStatus);
+            setIsLoading(false);
+          }
         });
       } else {
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const value: AuthContextType = {
