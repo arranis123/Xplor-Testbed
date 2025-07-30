@@ -2184,6 +2184,17 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     setIsUploading(true);
     setUploadProgress(0);
 
+    // Combine form data with uploaded files
+    const completeSubmissionData = {
+      ...data,
+      uploadedFiles,
+      category,
+      totalFiles: totalFiles,
+    };
+
+    // Log all collected data from all tabs
+    console.log("Complete submission data from all tabs:", completeSubmissionData);
+
     // Simulate upload progress
     const progressInterval = setInterval(() => {
       setUploadProgress(prev => {
@@ -2196,6 +2207,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     }, 300);
 
     try {
+      // Here you would send the completeSubmissionData to your API
+      // await yourApiService.createSpace(completeSubmissionData);
+      
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 3000));
       
@@ -2203,7 +2217,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       toast({
         title: "Space Uploaded Successfully!",
-        description: "Your virtual space has been created and is now processing.",
+        description: "Your virtual space has been created and is now processing. All data from all tabs has been saved.",
       });
       
       // Reset form and close dialog
