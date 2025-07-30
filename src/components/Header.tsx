@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { CartButton, CartSheet } from "@/components/Cart";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +12,21 @@ import { Menu } from "lucide-react";
 
 const Header = () => {
   const location = useLocation();
+  
+  // Safely get auth context with fallback
+  let isAdmin = false;
+  let user = null;
+  
+  try {
+    const authContext = useAuth();
+    isAdmin = authContext.isAdmin;
+    user = authContext.user;
+  } catch (error) {
+    console.warn('useAuth called outside AuthProvider, using fallback values');
+  }
+
+  // Check if admin console should be shown
+  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io';
 
   return (
     <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -124,6 +140,18 @@ const Header = () => {
                   Users
                 </Link>
               </DropdownMenuItem>
+              {shouldShowAdmin && (
+                <DropdownMenuItem asChild>
+                  <Link 
+                    to="/admin" 
+                    className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                      location.pathname === "/admin" ? "bg-muted font-medium" : ""
+                    }`}
+                  >
+                    Admin Console
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem asChild>
                 <Link 
                   to="/settings" 
