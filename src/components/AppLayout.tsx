@@ -1,15 +1,18 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
-import { Menu, User } from "lucide-react";
+import { Menu, User, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CartButton, CartSheet } from "@/components/Cart";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const { user, signOut } = useAuth();
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -28,17 +31,45 @@ export function AppLayout({ children }: AppLayoutProps) {
             
             <div className="flex items-center gap-mobile-sm sm:gap-2">
               <CartButton />
-              <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex min-h-touch">
-                <Link to="/accounts">
-                  <User className="h-4 w-4 mr-2" />
-                  Account
-                </Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild className="sm:hidden min-h-touch min-w-touch p-mobile-sm">
-                <Link to="/accounts">
-                  <User className="h-4 w-4" />
-                </Link>
-              </Button>
+              {user ? (
+                <>
+                  <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex min-h-touch">
+                    <Link to="/accounts">
+                      <User className="h-4 w-4 mr-2" />
+                      Account
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild className="sm:hidden min-h-touch min-w-touch p-mobile-sm">
+                    <Link to="/accounts">
+                      <User className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={signOut}
+                    className="hidden sm:inline-flex min-h-touch"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={signOut}
+                    className="sm:hidden min-h-touch min-w-touch p-mobile-sm"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </>
+              ) : (
+                <Button variant="ghost" size="sm" asChild className="min-h-touch">
+                  <Link to="/auth">
+                    <User className="h-4 w-4 mr-2" />
+                    <span className="hidden sm:inline">Sign In</span>
+                  </Link>
+                </Button>
+              )}
               <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm">
                 <span className="hidden sm:inline">Upgrade</span>
                 <span className="sm:hidden">Pro</span>

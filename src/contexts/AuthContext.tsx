@@ -10,6 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   refreshAuth: () => Promise<void>;
   forceAdminCheck: () => Promise<boolean>;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -96,6 +97,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return adminStatus;
   };
 
+  const signOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      // Reset state
+      setUser(null);
+      setSession(null);
+      setIsAdmin(false);
+      setIsLoading(false);
+      
+      toast.success('Successfully signed out');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast.error('Error signing out');
+    }
+  };
+
   useEffect(() => {
     console.log('AuthContext: Starting initialization');
     let mounted = true;
@@ -174,7 +193,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAdmin,
     isLoading,
     refreshAuth,
-    forceAdminCheck
+    forceAdminCheck,
+    signOut
   };
 
   return (
