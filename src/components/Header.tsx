@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartButton, CartSheet } from "@/components/Cart";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -12,6 +12,7 @@ import { Menu } from "lucide-react";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   
   // Safely get auth context with fallback
   let isAdmin = false;
@@ -185,7 +186,10 @@ const Header = () => {
               variant="ghost" 
               size="sm" 
               className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
-              onClick={signOut}
+              onClick={async () => {
+                await signOut();
+                navigate("/");
+              }}
             >
               Sign Out
             </Button>

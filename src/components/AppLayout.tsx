@@ -2,7 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { Menu, User, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartButton, CartSheet } from "@/components/Cart";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -11,6 +11,8 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const navigate = useNavigate();
+  
   // Safely get auth context with fallback
   let user = null;
   let signOut = () => {};
@@ -57,7 +59,10 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    onClick={signOut}
+                    onClick={async () => {
+                      await signOut();
+                      navigate("/");
+                    }}
                     className="hidden sm:inline-flex min-h-touch"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
@@ -66,7 +71,10 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    onClick={signOut}
+                    onClick={async () => {
+                      await signOut();
+                      navigate("/");
+                    }}
                     className="sm:hidden min-h-touch min-w-touch p-mobile-sm"
                   >
                     <LogOut className="h-4 w-4" />
