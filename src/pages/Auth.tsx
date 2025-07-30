@@ -14,13 +14,11 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
-  
-  console.log('Auth page - render state:', { user: user?.email, authLoading, isLoading });
 
   // Redirect if already authenticated
   useEffect(() => {
     if (!authLoading && user) {
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     }
   }, [user, authLoading, navigate]);
 
@@ -53,14 +51,11 @@ export default function Auth() {
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Auth page - handleSignIn called');
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
-    console.log('Auth page - Attempting sign in for email:', email);
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -68,16 +63,11 @@ export default function Auth() {
         password,
       });
 
-      if (error) {
-        console.error('Auth page - Sign in error:', error);
-        throw error;
-      }
+      if (error) throw error;
       
-      console.log('Auth page - Sign in successful');
       toast.success("Successfully signed in!");
-      navigate("/dashboard");
+      // Navigation will be handled by the useEffect hook when user state updates
     } catch (error: any) {
-      console.error('Auth page - Sign in failed:', error);
       toast.error(error.message);
     } finally {
       setIsLoading(false);

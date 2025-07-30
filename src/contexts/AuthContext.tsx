@@ -98,26 +98,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    console.log('AuthContext - signOut function called');
     try {
-      console.log('AuthContext - Calling supabase.auth.signOut()');
       const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('AuthContext - Supabase signOut error:', error);
-        throw error;
-      }
+      if (error) throw error;
       
-      console.log('AuthContext - Supabase signOut successful, resetting state');
-      // Reset state
-      setUser(null);
-      setSession(null);
-      setIsAdmin(false);
-      setIsLoading(false);
-      
-      console.log('AuthContext - State reset complete');
       toast.success('Successfully signed out');
     } catch (error) {
-      console.error('AuthContext - Error signing out:', error);
+      console.error('Error signing out:', error);
       toast.error('Error signing out');
     }
   };

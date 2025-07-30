@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/AppLayout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
@@ -44,18 +45,18 @@ const App = () => {
               <Route path="/trial" element={<Trial />} />
               <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
               
-              {/* Matterport-style workspace routes */}
-              <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
-              <Route path="/spaces" element={<AppLayout><Spaces /></AppLayout>} />
+              {/* Protected workspace routes */}
+              <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
+              <Route path="/spaces" element={<ProtectedRoute><AppLayout><Spaces /></AppLayout></ProtectedRoute>} />
               
-              <Route path="/accounts" element={<AppLayout><Accounts /></AppLayout>} />
-              <Route path="/statistics" element={<AppLayout><Statistics /></AppLayout>} />
-              <Route path="/users" element={<AppLayout><Users /></AppLayout>} />
+              <Route path="/accounts" element={<ProtectedRoute><AppLayout><Accounts /></AppLayout></ProtectedRoute>} />
+              <Route path="/statistics" element={<ProtectedRoute><AppLayout><Statistics /></AppLayout></ProtectedRoute>} />
+              <Route path="/users" element={<ProtectedRoute><AppLayout><Users /></AppLayout></ProtectedRoute>} />
               <Route path="/capture-services" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureServices /></Suspense></AppLayout>} />
               <Route path="/capture-business-signup" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureBusinessSignup /></Suspense></AppLayout>} />
               <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
-              <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
-              <Route path="/admin" element={<AppLayout><Admin /></AppLayout>} />
+              <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
