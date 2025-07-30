@@ -6,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Bed, Bath, Users, DollarSign, Star, MapPin, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Tv, Wind, Trash2 } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Bed, Bath, Users, DollarSign, Star, MapPin, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Tv, Wind, Trash2, Info } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -406,10 +407,37 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
       {/* Room Details */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium flex items-center gap-2">
-            <Bed className="h-5 w-5" />
-            Room Details
-          </h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-medium flex items-center gap-2">
+              <Bed className="h-5 w-5" />
+              Room Details
+            </h3>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                  <Info className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>How to Use Room Configuration</DialogTitle>
+                  <DialogDescription asChild>
+                    <div className="space-y-3 text-sm">
+                      <p>Follow these steps to configure multiple rooms for your hotel:</p>
+                      <ol className="list-decimal list-inside space-y-2">
+                        <li><strong>Fill out the room form</strong> with details (Room Type, Bed Configuration, Max Occupancy, Room Size with unit selector, Floor Level, and Nightly Rate)</li>
+                        <li><strong>Click "Add Room"</strong> to save the room configuration to your list</li>
+                        <li><strong>View all added rooms</strong> in the table below showing all room details</li>
+                        <li><strong>Remove rooms</strong> using the trash icon in each row</li>
+                        <li><strong>Add multiple different room types</strong> by repeating the process</li>
+                      </ol>
+                      <p className="text-xs text-muted-foreground mt-4">The form will clear after each addition and validate required fields before allowing you to add a room.</p>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          </div>
           <Button 
             type="button"
             onClick={addRoomProfile}
