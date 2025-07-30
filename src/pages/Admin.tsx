@@ -25,6 +25,13 @@ export default function Admin() {
   
   // Allow access for authorized admin emails (temporary fix)
   const shouldAllowAccess = isAdmin || user?.email === 'info@xplor.io';
+  
+  console.log('Admin page access check:', {
+    user: user?.email,
+    isAdmin,
+    shouldAllowAccess,
+    isLoading
+  });
 
   useEffect(() => {
     if (!isLoading && !shouldAllowAccess && user) {
