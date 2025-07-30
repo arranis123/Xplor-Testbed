@@ -132,9 +132,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const refreshAuth = async () => {
+    console.log('refreshAuth called, setting loading to true');
     setIsLoading(true);
     try {
       const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+      console.log('Got session:', currentSession?.user?.email, 'Error:', error);
       
       if (error) {
         updateDebugInfo({ errors: [`Session refresh error: ${error.message}`] });
@@ -146,10 +148,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       const adminStatus = await checkAdminStatus(currentSession?.user ?? null);
       setIsAdmin(adminStatus);
+      console.log('Admin status:', adminStatus);
     } catch (error) {
       console.error('Auth refresh failed:', error);
       toast.error('Failed to refresh authentication');
     } finally {
+      console.log('refreshAuth finished, setting loading to false');
       setIsLoading(false);
     }
   };
@@ -187,8 +191,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     );
 
-    // Initial session check
-    refreshAuth();
+    // Initial session check - but don't call refreshAuth if we already have auth state
+    console.log('Initial auth setup');
+    if (!session && !user) {
+      refreshAuth();
+    } else {
+      console.log('Already have auth state, skipping initial refresh');
+      setIsLoading(false);
+    }
 
     return () => subscription.unsubscribe();
   }, []);
