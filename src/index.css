@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Typografix';
+  src: url('/fonts/Typografix.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* xplor-inspired design system. Bold, modern, striking.
 All colors MUST be HSL.
 */

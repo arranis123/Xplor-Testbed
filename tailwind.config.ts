@@ -20,7 +20,7 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['Satoshi', 'system-ui', 'sans-serif'],
-				'orbitron': ['Orbitron', 'monospace'],
+				'typografix': ['Typografix', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
