@@ -153,15 +153,19 @@ const Header = () => {
             variant="ghost" 
             size="sm" 
             className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3 hidden sm:inline-flex"
+            asChild
           >
-            Sign In
+            <Link to="/auth">Sign In</Link>
           </Button>
           <Button 
             size="sm" 
             className="bg-primary hover:bg-primary/90 text-primary-foreground min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm font-medium"
+            asChild
           >
-            <span className="hidden sm:inline">Get Started</span>
-            <span className="sm:hidden">Join</span>
+            <Link to="/auth">
+              <span className="hidden sm:inline">Get Started</span>
+              <span className="sm:hidden">Join</span>
+            </Link>
           </Button>
         </div>
       </div>
