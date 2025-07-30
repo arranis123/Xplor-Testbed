@@ -55,12 +55,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				'xplor-yellow': 'hsl(var(--xplor-yellow))',
-				'xplor-yellow-light': 'hsl(var(--xplor-yellow-light))',
-				'xplor-yellow-dark': 'hsl(var(--xplor-yellow-dark))',
-				'xplor-black': 'hsl(var(--xplor-black))',
-				'xplor-grey': 'hsl(var(--xplor-grey))',
-				'xplor-grey-light': 'hsl(var(--xplor-grey-light))',
+				'xplor-yellow': 'hsl(67 80% 77%)', /* Muted Yellow E8F793 */
+				'xplor-yellow-light': 'hsl(67 85% 85%)',
+				'xplor-yellow-dark': 'hsl(67 75% 65%)',
+				'xplor-black': 'hsl(0 0% 7%)', /* Black 121212 */
+				'xplor-grey': 'hsl(235 14% 63%)', /* Gray 2 9899AC */
+				'xplor-grey-light': 'hsl(235 11% 78%)', /* Gray C1C2CE */
+				'dark-deep': 'hsl(200 9% 18%)', /* Dark Deep 292D32 */
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
