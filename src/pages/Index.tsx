@@ -35,10 +35,10 @@ const Index = () => {
               Discover, share, and explore immersive 3D tours of real-world locations — from luxury homes and yachts to cultural landmarks and travel destinations.
             </p>
             <div className="flex flex-col sm:flex-row gap-mobile-md sm:gap-4 justify-center">
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium">
                 Explore Luxury
               </Button>
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium" asChild>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium" asChild>
                 <Link to="/auth">
                   <span className="hidden sm:inline">Sign In / Sign Up</span>
                   <span className="sm:hidden">Join Now</span>
@@ -121,7 +121,7 @@ const Index = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/gigs">
-                    <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black font-medium">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
                       List Your Property
                     </Button>
                   </Link>
@@ -181,7 +181,7 @@ const Index = () => {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/vr-cameras">
-                    <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black font-medium">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
                       Request Virtual Tour
                     </Button>
                   </Link>
@@ -236,7 +236,7 @@ const Index = () => {
                     <span className="text-muted-foreground">Custom itineraries available</span>
                   </div>
                 </div>
-                <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black font-medium">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
                   Explore Yacht Charters
                 </Button>
               </div>
@@ -363,7 +363,7 @@ const Index = () => {
               exclusive properties, and unforgettable adventures tailored just for you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black font-medium">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
                 Start Planning
               </Button>
               <Button size="lg" variant="outline">
