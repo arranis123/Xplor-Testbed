@@ -11,10 +11,8 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  console.log('AppLayout rendering - about to call useAuth');
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
-  console.log('AppLayout - useAuth successful, user state:', user ? 'authenticated' : 'not authenticated', 'email:', user?.email);
 
   return (
     <SidebarProvider>
@@ -51,15 +49,8 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={async () => {
-                      console.log('AppLayout - Sign out button clicked');
-                      try {
-                        console.log('AppLayout - Calling signOut function');
-                        await signOut();
-                        console.log('AppLayout - Sign out successful, navigating to home');
-                        navigate("/");
-                      } catch (error) {
-                        console.error('AppLayout - Sign out error:', error);
-                      }
+                      await signOut();
+                      navigate("/");
                     }}
                     className="min-h-touch"
                   >

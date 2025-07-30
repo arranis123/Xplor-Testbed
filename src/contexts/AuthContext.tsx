@@ -31,16 +31,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      console.log('AuthContext: Checking admin status for email:', currentUser.email);
-      
       // Method 1: Immediate check for authorized emails
       if (AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
-        console.log('AuthContext: Email is in authorized list, granting admin access');
         return true;
       }
 
-      // Method 2: Check user_roles table with timeout
-      console.log('AuthContext: Checking user_roles table');
+      // Method 2: Check user_roles table
       const { data: roleData, error: roleError } = await supabase
         .from("user_roles")
         .select("role")
@@ -49,11 +45,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle();
 
       if (!roleError && roleData) {
-        console.log('AuthContext: Found admin role in database');
         return true;
       }
 
-      console.log('AuthContext: No admin role found, returning false');
       return false;
 
     } catch (error) {
@@ -61,7 +55,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       // Final fallback for authorized emails
       if (AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
-        console.log('AuthContext: Using fallback admin access for authorized email');
         return true;
       }
 
@@ -98,72 +91,67 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    console.log('AuthContext: signOut called');
     try {
+      console.log('AuthContext: Calling supabase.auth.signOut()');
       const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      if (error) {
+        console.error('AuthContext: Supabase signOut error:', error);
+        throw error;
+      }
       
+      console.log('AuthContext: Supabase signOut successful');
       toast.success('Successfully signed out');
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error('AuthContext: Error signing out:', error);
       toast.error('Error signing out');
     }
   };
 
   useEffect(() => {
-    console.log('AuthContext: Starting initialization');
     let mounted = true;
     
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
-        console.log('AuthContext: Auth state change event:', event, 'User:', currentSession?.user?.email);
+        console.log('AuthContext: Auth state change event:', event, 'User:', currentSession?.user?.email || 'null');
         if (!mounted) return;
         
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
         if (currentSession?.user) {
-          console.log('AuthContext: Checking admin status for user');
           const adminStatus = await checkAdminStatus(currentSession.user);
           if (mounted) {
             setIsAdmin(adminStatus);
-            console.log('AuthContext: Admin status set to:', adminStatus);
           }
         } else {
-          console.log('AuthContext: No user session, setting admin to false');
           if (mounted) {
             setIsAdmin(false);
           }
         }
         
         if (mounted) {
-          console.log('AuthContext: Setting isLoading to false from auth state change');
           setIsLoading(false);
         }
       }
     );
 
     // Get initial session
-    console.log('AuthContext: Getting initial session');
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
-      console.log('AuthContext: Initial session result:', currentSession?.user?.email);
       if (!mounted) return;
       
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
-        console.log('AuthContext: Initial session has user, checking admin status');
         checkAdminStatus(currentSession.user).then(adminStatus => {
           if (mounted) {
             setIsAdmin(adminStatus);
-            console.log('AuthContext: Initial admin status set to:', adminStatus);
             setIsLoading(false);
-            console.log('AuthContext: Setting isLoading to false from initial session check');
           }
         });
       } else {
-        console.log('AuthContext: No initial session, setting loading to false');
         if (mounted) {
           setIsLoading(false);
         }
@@ -199,12 +187,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useAuth() {
-  console.log('useAuth called - checking context availability');
   const context = useContext(AuthContext);
   if (context === undefined) {
-    console.error('useAuth called outside AuthProvider! Stack trace:', new Error().stack);
     throw new Error('useAuth must be used within an AuthProvider');
   }
-  console.log('useAuth - context found, user:', context.user?.email);
   return context;
 }
