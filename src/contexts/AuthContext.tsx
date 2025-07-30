@@ -186,19 +186,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           });
         }
         
-        // Always set loading to false after processing auth state
+        // Always set loading to false after auth state change
+        console.log('Setting isLoading to false after auth state change');
         setIsLoading(false);
       }
     );
 
-    // Initial session check - but don't call refreshAuth if we already have auth state
-    console.log('Initial auth setup');
-    if (!session && !user) {
-      refreshAuth();
-    } else {
-      console.log('Already have auth state, skipping initial refresh');
-      setIsLoading(false);
-    }
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      console.log('Initial session check:', currentSession?.user?.email);
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      
+      if (currentSession?.user) {
+        checkAdminStatus(currentSession.user).then(adminStatus => {
+          setIsAdmin(adminStatus);
+          setIsLoading(false);
+        });
+      } else {
+        setIsLoading(false);
+      }
+    });
 
     return () => subscription.unsubscribe();
   }, []);
