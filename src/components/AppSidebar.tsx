@@ -7,7 +7,8 @@ import {
   Settings,
   ChevronRight,
   Home,
-  Users
+  Users,
+  Shield
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -31,6 +32,7 @@ const items = [
   { title: "Statistics", url: "/statistics", icon: BarChart3 },
   { title: "Users", url: "/users", icon: Users },
   { title: "Capture Services", url: "/capture-services", icon: Camera },
+  { title: "Admin Console", url: "/admin", icon: Shield },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
