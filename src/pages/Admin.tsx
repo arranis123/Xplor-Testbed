@@ -16,43 +16,26 @@ import CategoryManagement from "@/components/admin/CategoryManagement";
 import StorageMonitoring from "@/components/admin/StorageMonitoring";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import SystemSettings from "@/components/admin/SystemSettings";
-import { AdminDebugPanel } from "@/components/admin/AdminDebugPanel";
+
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const navigate = useNavigate();
-  const { user, isAdmin, isLoading, debugInfo, refreshAuth } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
   
   // Allow access for authorized admin emails (temporary fix)
   const shouldAllowAccess = isAdmin || user?.email === 'info@xplor.io';
   
-  console.log('Admin page access check:', {
-    user: user?.email,
-    isAdmin,
-    shouldAllowAccess,
-    isLoading
-  });
-
   useEffect(() => {
     if (!isLoading && !shouldAllowAccess && user) {
       toast.error("Access denied. Admin privileges required.");
-      
-      // Give user option to retry
-      setTimeout(() => {
-        toast.info("Click here to retry admin verification", {
-          action: {
-            label: "Retry",
-            onClick: () => refreshAuth()
-          }
-        });
-      }, 1000);
       
       // Only navigate away if user is logged in but not admin
       if (user && user.email !== 'info@xplor.io') {
         setTimeout(() => navigate("/"), 3000);
       }
     }
-  }, [shouldAllowAccess, isLoading, navigate, user, refreshAuth]);
+  }, [shouldAllowAccess, isLoading, navigate, user]);
 
   if (isLoading && !shouldAllowAccess) {
     return (
@@ -95,8 +78,7 @@ export default function Admin() {
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-semibold">Access Denied</h2>
             <p className="text-muted-foreground max-w-md">
-              Admin privileges are required to access this console. 
-              {debugInfo.errors.length > 0 && " Issues were detected during verification."}
+              Admin privileges are required to access this console.
             </p>
             {user.email && (
               <p className="text-sm text-muted-foreground">
@@ -107,14 +89,6 @@ export default function Admin() {
           
           <div className="flex gap-2">
             <Button 
-              onClick={refreshAuth}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              <RefreshCw className="h-4 w-4" />
-              Retry Verification
-            </Button>
-            <Button 
               onClick={() => navigate("/")}
               variant="default"
             >
@@ -122,9 +96,6 @@ export default function Admin() {
             </Button>
           </div>
         </div>
-        
-        {/* Show debug panel for troubleshooting */}
-        <AdminDebugPanel />
       </div>
     );
   }
@@ -165,8 +136,6 @@ export default function Admin() {
         </Badge>
       </div>
 
-      {/* Debug Panel - collapsible */}
-      <AdminDebugPanel />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-9">
