@@ -14,19 +14,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Safely get auth context with fallback
-  let isAdmin = false;
-  let user = null;
-  let signOut = () => {};
-  
-  try {
-    const authContext = useAuth();
-    isAdmin = authContext.isAdmin;
-    user = authContext.user;
-    signOut = authContext.signOut;
-  } catch (error) {
-    console.warn('useAuth called outside AuthProvider, using fallback values');
-  }
+  // Get auth context - this should always work inside AuthProvider
+  const { isAdmin, user, signOut: authSignOut } = useAuth();
 
   // Check if admin console should be shown
   const isDevelopment = import.meta.env.DEV;
@@ -187,7 +176,7 @@ const Header = () => {
               size="sm" 
               className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
               onClick={async () => {
-                await signOut();
+                await authSignOut();
                 navigate("/");
               }}
             >

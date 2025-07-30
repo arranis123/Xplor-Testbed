@@ -12,18 +12,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
-  
-  // Safely get auth context with fallback
-  let user = null;
-  let signOut = () => {};
-  
-  try {
-    const authContext = useAuth();
-    user = authContext.user;
-    signOut = authContext.signOut;
-  } catch (error) {
-    console.warn('useAuth called outside AuthProvider in AppLayout');
-  }
+  const { user, signOut: authSignOut } = useAuth();
 
   return (
     <SidebarProvider>
@@ -60,7 +49,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={async () => {
-                      await signOut();
+                      await authSignOut();
                       navigate("/");
                     }}
                     className="hidden sm:inline-flex min-h-touch"
@@ -72,7 +61,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={async () => {
-                      await signOut();
+                      await authSignOut();
                       navigate("/");
                     }}
                     className="sm:hidden min-h-touch min-w-touch p-mobile-sm"
