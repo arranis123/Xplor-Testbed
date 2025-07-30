@@ -102,51 +102,68 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    console.log('AuthContext: Starting initialization');
     let mounted = true;
     
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
+        console.log('AuthContext: Auth state change event:', event, 'User:', currentSession?.user?.email);
         if (!mounted) return;
         
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
         if (currentSession?.user) {
+          console.log('AuthContext: Checking admin status for user');
           const adminStatus = await checkAdminStatus(currentSession.user);
           if (mounted) {
             setIsAdmin(adminStatus);
+            console.log('AuthContext: Admin status set to:', adminStatus);
           }
         } else {
+          console.log('AuthContext: No user session, setting admin to false');
           if (mounted) {
             setIsAdmin(false);
           }
         }
         
         if (mounted) {
+          console.log('AuthContext: Setting isLoading to false from auth state change');
           setIsLoading(false);
         }
       }
     );
 
     // Get initial session
+    console.log('AuthContext: Getting initial session');
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      console.log('AuthContext: Initial session result:', currentSession?.user?.email);
       if (!mounted) return;
       
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
+        console.log('AuthContext: Initial session has user, checking admin status');
         checkAdminStatus(currentSession.user).then(adminStatus => {
           if (mounted) {
             setIsAdmin(adminStatus);
+            console.log('AuthContext: Initial admin status set to:', adminStatus);
+            console.log('AuthContext: Setting isLoading to false from initial session check');
             setIsLoading(false);
           }
         });
       } else {
+        console.log('AuthContext: No initial session, setting loading to false');
         if (mounted) {
           setIsLoading(false);
         }
+      }
+    }).catch(error => {
+      console.error('AuthContext: Error getting initial session:', error);
+      if (mounted) {
+        setIsLoading(false);
       }
     });
 
