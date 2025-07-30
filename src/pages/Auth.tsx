@@ -57,7 +57,7 @@ export default function Auth() {
       if (error) throw error;
       
       toast.success("Successfully signed in!");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
