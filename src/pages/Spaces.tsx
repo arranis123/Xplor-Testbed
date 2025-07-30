@@ -333,7 +333,7 @@ const Spaces = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-mobile-md sm:gap-4">
         <div>
-          <h1 className="text-mobile-3xl sm:text-2xl font-bold text-foreground">All Spaces</h1>
+          <h1 className="text-mobile-3xl sm:text-2xl font-bold text-foreground">My Spaces</h1>
           <p className="text-mobile-sm sm:text-base text-muted-foreground">Manage and organize your virtual spaces</p>
         </div>
         <DropdownMenu>
