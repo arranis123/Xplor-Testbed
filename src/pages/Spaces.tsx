@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, Grid, List, Plus, MoreVertical, X, ChevronDown, FolderOpen } from "lucide-react";
+import { Search, Filter, Grid, List, Plus, MoreVertical, X, ChevronDown, FolderOpen, Globe, Lock, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
@@ -199,6 +199,12 @@ const Spaces = () => {
     setShareDialogOpen(true);
   };
 
+  const handleVisibilityChange = (spaceId: number, newVisibility: string) => {
+    // Here you would typically make an API call to update the space visibility
+    console.log(`Changing space ${spaceId} visibility to ${newVisibility}`);
+    // For now, we'll just log it since this is a demo
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Active": return "bg-green-100 text-green-800";
@@ -214,6 +220,24 @@ const Spaces = () => {
       case "Unlisted": return "bg-orange-100 text-orange-800";
       case "Private": return "bg-red-100 text-red-800";
       default: return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const getVisibilityIcon = (visibility: string) => {
+    switch (visibility) {
+      case "Public": return Globe;
+      case "Private": return Lock;
+      case "Unlisted": return EyeOff;
+      default: return Globe;
+    }
+  };
+
+  const getVisibilityText = (visibility: string) => {
+    switch (visibility) {
+      case "Public": return "Public";
+      case "Private": return "Private (Pin protected)";
+      case "Unlisted": return "Unlisted";
+      default: return visibility;
     }
   };
 
@@ -474,9 +498,32 @@ const Spaces = () => {
                     <Badge className={getStatusColor(space.status)}>
                       {space.status}
                     </Badge>
-                    <Badge className={getVisibilityColor(space.visibility)}>
-                      {space.visibility}
-                    </Badge>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="flex items-center gap-1 h-6 px-2">
+                          {(() => {
+                            const IconComponent = getVisibilityIcon(space.visibility);
+                            return <IconComponent className="h-3 w-3" />;
+                          })()}
+                          <span className="text-xs">{getVisibilityText(space.visibility)}</span>
+                          <ChevronDown className="h-3 w-3" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => handleVisibilityChange(space.id, "Public")}>
+                          <Globe className="h-4 w-4 mr-2" />
+                          Public
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleVisibilityChange(space.id, "Private")}>
+                          <Lock className="h-4 w-4 mr-2" />
+                          Private (Pin protected)
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleVisibilityChange(space.id, "Unlisted")}>
+                          <EyeOff className="h-4 w-4 mr-2" />
+                          Unlisted
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <span>{space.views.toLocaleString()} views</span>
