@@ -126,7 +126,7 @@ const VRCameras = () => {
               </h1>
             </div>
             <p className="text-xl text-muted-foreground">
-              Capture precise 3D digital twins with Matterport's professional camera lineup. 
+              Capture precise 3D digital twins with our professional camera lineup. 
               From real estate to architecture, we have the perfect solution for creating immersive 3D experiences.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
