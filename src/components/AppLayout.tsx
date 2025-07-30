@@ -26,7 +26,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               <SidebarTrigger className="p-mobile-sm sm:p-2 hover:bg-muted rounded-md min-h-touch min-w-touch">
                 <Menu className="h-4 w-4" />
               </SidebarTrigger>
-              <h1 className="text-mobile-sm sm:text-sm font-medium text-foreground hidden sm:block">xplor Workspace</h1>
+              <h1 className="text-mobile-sm sm:text-sm font-medium text-foreground hidden sm:block font-typografix">xplor Workspace</h1>
               <h1 className="text-mobile-sm font-medium text-foreground sm:hidden">Workspace</h1>
             </div>
             

@@ -162,7 +162,7 @@ const Header = () => {
             <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">X</span>
             </div>
-            <span className="font-semibold text-lg sm:text-xl text-foreground">xplor</span>
+            <span className="font-semibold text-lg sm:text-xl text-foreground font-typografix">xplor</span>
           </Link>
         </div>
 

@@ -81,7 +81,7 @@ export function AppSidebar() {
             <span className="text-xplor-black font-bold text-sm">X</span>
           </div>
           {open && (
-            <span className="font-semibold text-lg text-sidebar-foreground">xplor</span>
+            <span className="font-semibold text-lg text-sidebar-foreground font-typografix">xplor</span>
           )}
         </div>
       </SidebarHeader>
