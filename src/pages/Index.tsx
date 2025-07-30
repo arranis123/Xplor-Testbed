@@ -3,11 +3,15 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
+import { useState } from "react";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
 import scanningHeroImage from "@/assets/3d-scanning-hero.jpg";
 import vrTechImage from "@/assets/vr-tech.jpg";
 
 const Index = () => {
+  const [showUploadDialog, setShowUploadDialog] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -117,11 +121,13 @@ const Index = () => {
                   with guests seeking extraordinary accommodations.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link to="/gigs">
-                    <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
-                      List Your Property
-                    </Button>
-                  </Link>
+                  <Button 
+                    size="lg" 
+                    className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black"
+                    onClick={() => setShowUploadDialog(true)}
+                  >
+                    List Your Property
+                  </Button>
                   <Button size="lg" variant="outline">
                     Partnership Info
                   </Button>
@@ -396,6 +402,11 @@ const Index = () => {
       </main>
 
       <Footer />
+      
+      <UploadSpaceDialog 
+        open={showUploadDialog} 
+        onOpenChange={setShowUploadDialog} 
+      />
     </div>
   );
 };
