@@ -25,6 +25,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AUTHORIZED_ADMIN_EMAILS = ['johnnydrumm@gmail.com', 'info@xplor.io'];
 
+console.log('AuthContext: AUTHORIZED_ADMIN_EMAILS loaded:', AUTHORIZED_ADMIN_EMAILS);
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -76,6 +78,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Method 2: Fallback - Check if email is in authorized list (immediate grant)
+      console.log('Checking authorized emails:', {
+        currentUserEmail: currentUser.email,
+        authorizedEmails: AUTHORIZED_ADMIN_EMAILS,
+        isIncluded: AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')
+      });
+      
       if (!adminStatus && AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
         console.log('Email is in authorized list, granting admin access immediately');
         adminStatus = true;
