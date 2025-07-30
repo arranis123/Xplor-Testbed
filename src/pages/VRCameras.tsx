@@ -37,11 +37,51 @@ const VRCameras = () => {
       popular: true
     },
     {
+      name: "Insta360 X5",
+      price: "$899",
+      image: "/placeholder.svg",
+      specs: ["8K 360° video", "FlowState stabilization", "AI editing features", "Live streaming capable"],
+      useCases: ["Content creation", "Virtual tours", "Social media"],
+      popular: false
+    },
+    {
+      name: "Ricoh Theta X",
+      price: "$799",
+      image: "/placeholder.svg",
+      specs: ["5.7K 360° video", "Touch screen display", "Android OS", "Live streaming"],
+      useCases: ["Real estate tours", "Event documentation", "Virtual meetings"],
+      popular: false
+    },
+    {
       name: "Matterport Pro2",
       price: "$3,395",
       image: matterportPro2Image,
       specs: ["Structured light technology", "4K photography", "Infrared depth sensor", "134MP resolution"],
       useCases: ["Real estate", "Hospitality", "Retail spaces"],
+      popular: false
+    },
+    {
+      name: "Insta360 X4",
+      price: "$499",
+      image: "/placeholder.svg",
+      specs: ["8K 360° video", "Active HDR", "Me Mode", "Invisible selfie stick"],
+      useCases: ["Adventure filming", "Travel content", "Action sports"],
+      popular: false
+    },
+    {
+      name: "Trisio Lite 2",
+      price: "$1,299",
+      image: "/placeholder.svg",
+      specs: ["HDR capture", "Auto-exposure", "Cloud processing", "Mobile app control"],
+      useCases: ["Real estate", "Property management", "Virtual staging"],
+      popular: false
+    },
+    {
+      name: "GoPro MAX",
+      price: "$399",
+      image: "/placeholder.svg",
+      specs: ["360° + traditional filming", "Max HyperSmooth", "Waterproof", "Voice control"],
+      useCases: ["Action sports", "Adventure content", "Extreme conditions"],
       popular: false
     },
     {
