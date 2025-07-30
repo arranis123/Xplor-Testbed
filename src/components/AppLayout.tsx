@@ -11,7 +11,17 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const { user, signOut } = useAuth();
+  // Safely get auth context with fallback
+  let user = null;
+  let signOut = () => {};
+  
+  try {
+    const authContext = useAuth();
+    user = authContext.user;
+    signOut = authContext.signOut;
+  } catch (error) {
+    console.warn('useAuth called outside AuthProvider in AppLayout');
+  }
 
   return (
     <SidebarProvider>
@@ -70,10 +80,10 @@ export function AppLayout({ children }: AppLayoutProps) {
                   </Link>
                 </Button>
               )}
-              <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm">
-                <span className="hidden sm:inline">Upgrade</span>
-                <span className="sm:hidden">Pro</span>
-              </Button>
+               <Button size="sm" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm font-medium">
+                 <span className="hidden sm:inline">Upgrade</span>
+                 <span className="sm:hidden">Pro</span>
+               </Button>
             </div>
           </header>
 
