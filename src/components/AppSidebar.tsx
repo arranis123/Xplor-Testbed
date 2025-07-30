@@ -45,7 +45,20 @@ export function AppSidebar() {
   const { open, setOpen } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
-  const { isAdmin, user, forceAdminCheck } = useAuth();
+  
+  // Safely get auth context with fallback
+  let isAdmin = false;
+  let user = null;
+  let forceAdminCheck = () => {};
+  
+  try {
+    const authContext = useAuth();
+    isAdmin = authContext.isAdmin;
+    user = authContext.user;
+    forceAdminCheck = authContext.forceAdminCheck;
+  } catch (error) {
+    console.warn('useAuth called outside AuthProvider, using fallback values');
+  }
 
   // Force admin check for authorized emails
   useEffect(() => {
