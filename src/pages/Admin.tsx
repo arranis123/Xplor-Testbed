@@ -195,6 +195,41 @@ export default function Admin() {
                   <BarChart3 className="h-4 w-4 mr-2" />
                   View Analytics
                 </Button>
+                <Button 
+                  onClick={() => {
+                    const csvContent = `Title,Description,Property Type,Bedrooms,Bathrooms,Living Rooms,Dining Area,Kitchen Type,Study/Office,Utility Room/Laundry,Guest WC,Maid's Room,Storage/Pantry,Internal Area,Internal Area Unit,Plot Size,Plot Size Unit,Number of Floors,Ceiling Height,Ceiling Height Unit,Floor Number,Balcony Area,Balcony Area Unit,Built Area Price Per Unit,Built Area Price Unit,Plot Area Price Per Unit,Plot Area Price Unit,Availability Status,Furnishing,Flooring Type,Windows,Heating System,Air Conditioning,Smart Home,Security System,Parking Spaces,View Type,Has Fireplace,Has Elevator,Has Private Garden,Has Basement,Has Garage,Swimming Pool,Year Renovated,Developer,Building Name,Total Floors in Building,Number of Units,Common Areas,Service Charges,Energy Rating,Has Doorman,Pets Allowed,Gated Community,Building Security,Ownership Type,Title Deed Status,Building Permit,Mortgage Availability,Tenancy Info,Tax Info,Open House Dates,Property History,Rental Yield,Energy Utilities,Noise Level,Nearby Schools,Shopping Centers,Public Transport,Healthcare Facilities,Recreational Areas,Unique Selling Points,Additional Notes,Address,Latitude,Longitude,Price,Sale Price,VR Link,Thumbnail URL
+"Modern 3BR Apartment in Marina District","Beautiful 3-bedroom apartment with sea views in premium location","apartment-building",3,2,1,"Separate dining room","open",1,"Separate laundry room","1 guest toilet","","Walk-in pantry",120,"sqm",,"","2",3.2,"meters","5th floor",15,"sqm",3500,"sqm",,"","available","semi-furnished","marble","Double-glazed, floor-to-ceiling","central","Central AC, Split units","Smart lighting, security system","24/7 CCTV, alarm system",2,"sea","Yes","Yes","No","No","Yes","private",2023,"ABC Development Group","Marina Towers",20,150,"Gym, Pool, Rooftop Lounge, Kids Area","$500/month","A+ rating","Yes","Yes","Yes","Yes","freehold","clear","Valid certificate available","Bank financing available","","3% transfer tax","Saturdays 2-4 PM","Last sold in 2019, renovated in 2021","6.5% annual yield","$150/month average","Low noise, excellent environmental score","Marina International School within 1km","Dubai Marina Mall 500m","Metro station 300m","American Hospital 2km","Marina Walk, Beach access","Prime location with sea views","Recently renovated to highest standards","Dubai Marina, UAE",25.0772,55.1390,850000,800000,"https://example.com/vr-tour","https://example.com/thumbnail.jpg"
+"Instructions: Please fill out all relevant fields for each property. Use the dropdown values provided in the form when possible.",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","DROPDOWN VALUES FOR REFERENCE:",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Property Types: detached-house, semi-detached-house, bungalow, villa, cottage-cabin, townhouse-row-house, duplex-triplex-fourplex, farmhouse-country-house, mansion-estate-home, apartment-building, condominium-tower, co-living-building, student-housing-residence, senior-living-facility, mixed-use-residential-tower, retail-storefront, shopping-center, department-store, standalone-retail-building, convenience-store, supermarket-grocery-store, showroom, office-tower, business-center, low-rise-office-building, executive-suite-complex, medical-office-building, government-building, embassy, warehouse-storage-facility, distribution-center, light-industrial-unit, heavy-manufacturing-plant, rd-facility, cold-storage-warehouse, data-center, flex-building, logistics-hub, hotel, motel, hostel, bed-breakfast, serviced-apartment-building, resort-spa-complex, aparthotel, restaurant-bistro, cafe-coffee-shop, fast-food-building, drive-thru-location, ghost-kitchen, brewery-winery, bare-land, mixed-use-development-site, urban-infill-lot, brownfield-redevelopment, greenfield-land, build-to-suit-building, hospital-clinic, dental-surgery, rehabilitation-center, wellness-center, veterinary-clinic, school-kindergarten, university-building, training-center, library-learning-hub, daycare-center, church-temple-mosque, community-center, town-hall, cultural-center, cinema-movie-theater, nightclub-bar, bowling-alley, sports-complex, stadium-arena, event-hall, music-venue, auto-dealership, service-garage, gas-station, trucking-depot, car-wash, parking-garage, marina-dry-dock, yacht-club-facility, hangar-airstrip",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Kitchen Types: open, closed, fully-fitted, american",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Area Units: sqm, sqft",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Length Units: meters, feet",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Availability Status: available, under-offer, sold, let-agreed",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Furnishing: unfurnished, semi-furnished, fully-furnished",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Flooring Types: marble, wood, ceramic, laminate, tile, carpet",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Heating Types: central, radiators, underfloor, electric",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","View Types: sea, mountain, city, garden, lake, forest",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Pool Types: none, private, shared, infinity, indoor",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Ownership Types: freehold, leasehold, co-op",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Title Deed Status: clear, in-process, shared",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"","Boolean Fields (Yes/No): Has Fireplace, Has Elevator, Has Private Garden, Has Basement, Has Garage, Has Doorman, Pets Allowed, Gated Community, Building Security",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,`;
+                    
+                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Real_Estate_Bulk_Upload_Template.csv';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    toast.success("Template downloaded successfully!");
+                  }}
+                  variant="outline" 
+                  className="justify-start col-span-2"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  Download Real Estate Template
+                </Button>
               </CardContent>
             </Card>
 
