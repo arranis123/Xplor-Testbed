@@ -8268,7 +8268,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 Cancel
               </Button>
               <Button type="submit" onClick={form.handleSubmit(onSubmit)}>
-                Create Space
+                Save
               </Button>
             </div>
           )}
