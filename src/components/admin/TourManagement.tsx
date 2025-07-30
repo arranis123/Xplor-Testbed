@@ -27,7 +27,7 @@ export default function TourManagement() {
         .from("tours")
         .select(`
           *,
-          profiles!inner(email, first_name, last_name)
+          profiles!tours_user_id_fkey(email, first_name, last_name)
         `)
         .order("created_at", { ascending: false });
 
@@ -36,11 +36,11 @@ export default function TourManagement() {
       }
 
       if (statusFilter !== "all") {
-        query = query.eq("status", statusFilter);
+        query = query.eq("status", statusFilter as any);
       }
 
       if (typeFilter !== "all") {
-        query = query.eq("property_type", typeFilter);
+        query = query.eq("property_type", typeFilter as any);
       }
 
       const { data, error } = await query;

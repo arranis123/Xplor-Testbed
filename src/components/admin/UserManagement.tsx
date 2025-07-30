@@ -38,11 +38,11 @@ export default function UserManagement() {
       }
 
       if (roleFilter !== "all") {
-        query = query.eq("user_roles.role", roleFilter);
+        query = query.eq("user_roles.role", roleFilter as any);
       }
 
       if (statusFilter !== "all") {
-        query = query.eq("account_status", statusFilter);
+        query = query.eq("account_status", statusFilter as any);
       }
 
       const { data, error } = await query;
@@ -56,7 +56,7 @@ export default function UserManagement() {
     mutationFn: async ({ userId, status }: { userId: string; status: string }) => {
       const { error } = await supabase
         .from("profiles")
-        .update({ account_status: status })
+        .update({ account_status: status as any })
         .eq("id", userId);
       if (error) throw error;
     },
@@ -74,7 +74,7 @@ export default function UserManagement() {
     mutationFn: async ({ userId, tier }: { userId: string; tier: string }) => {
       const { error } = await supabase
         .from("profiles")
-        .update({ subscription_tier: tier })
+        .update({ subscription_tier: tier as any })
         .eq("id", userId);
       if (error) throw error;
     },
