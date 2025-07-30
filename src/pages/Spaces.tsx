@@ -1,10 +1,4 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import luxuryYacht1 from "@/assets/luxury-yacht-1.jpg";
-import luxuryYacht2 from "@/assets/luxury-yacht-2.jpg";
-import yachtDetail from "@/assets/yacht-detail.jpg";
-import luxuryProperty1 from "@/assets/luxury-property-1.jpg";
-import modernHouse from "@/assets/modern-house.jpg";
-import luxuryInterior from "@/assets/luxury-interior.jpg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, Filter, Grid, List, Plus, MoreVertical, X, ChevronDown, FolderOpen, Globe, Lock, EyeOff, Eye } from "lucide-react";
@@ -56,113 +50,91 @@ const Spaces = () => {
   const [spaces, setSpaces] = useState([
     {
       id: 1,
-      name: "Luxury Yacht Marina",
-      description: "Stunning superyacht virtual tour",
-      status: "Active",
-      visibility: "Public",
-      views: 2847,
-      created: "2024-01-20",
-      type: "Yacht",
-      thumbnail: luxuryYacht1
-    },
-    {
-      id: 2,
-      name: "Modern Luxury Villa",
-      description: "High-end residential property showcase",
-      status: "Active",
-      visibility: "Public",
-      views: 1956,
-      created: "2024-01-18",
-      type: "Residential",
-      thumbnail: luxuryProperty1
-    },
-    {
-      id: 3,
-      name: "Executive Yacht Charter",
-      description: "Premium yacht charter experience",
-      status: "Active",
-      visibility: "Unlisted",
-      views: 1634,
-      created: "2024-01-16",
-      type: "Yacht",
-      thumbnail: luxuryYacht2
-    },
-    {
-      id: 4,
-      name: "Contemporary Estate",
-      description: "Modern architectural masterpiece",
-      status: "Active",
-      visibility: "Public",
-      views: 1423,
-      created: "2024-01-15",
-      type: "Residential",
-      thumbnail: modernHouse
-    },
-    {
-      id: 5,
-      name: "Yacht Interior Detail",
-      description: "Luxury yacht interior showcase",
-      status: "Processing",
-      visibility: "Public",
-      views: 1198,
-      created: "2024-01-12",
-      type: "Yacht",
-      thumbnail: yachtDetail
-    },
-    {
-      id: 6,
-      name: "Boutique Hotel Suite",
-      description: "Luxury accommodation virtual tour",
-      status: "Active",
-      visibility: "Public",
-      views: 1890,
-      created: "2024-01-10",
-      type: "Hotel",
-      thumbnail: luxuryInterior
-    },
-    {
-      id: 7,
       name: "Downtown Office Tour",
       description: "Professional office space showcase",
       status: "Active",
-      visibility: "Private",
+      visibility: "Public",
       views: 1247,
-      created: "2024-01-08",
+      created: "2024-01-15",
       type: "Office",
       thumbnail: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop"
     },
     {
-      id: 8,
-      name: "Restaurant Virtual Tour",
-      description: "Interactive dining experience",
-      status: "Draft",
+      id: 2,
+      name: "Luxury Apartment Showcase",
+      description: "High-end residential property tour",
+      status: "Active",
       visibility: "Unlisted",
       views: 856,
-      created: "2024-01-05",
+      created: "2024-01-12",
+      type: "Residential",
+      thumbnail: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop"
+    },
+    {
+      id: 3,
+      name: "Restaurant Virtual Tour",
+      description: "Interactive dining experience",
+      status: "Processing",
+      visibility: "Public",
+      views: 2103,
+      created: "2024-01-10",
       type: "Restaurant",
       thumbnail: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop"
     },
     {
-      id: 9,
+      id: 4,
       name: "Retail Store Experience",
       description: "Shopping center virtual walkthrough",
       status: "Active",
       visibility: "Private",
       views: 743,
-      created: "2024-01-03",
+      created: "2024-01-08",
       type: "Retail",
       thumbnail: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop"
     },
     {
-      id: 10,
+      id: 5,
+      name: "Boutique Hotel Suite",
+      description: "Luxury accommodation virtual tour",
+      status: "Active",
+      visibility: "Public",
+      views: 1890,
+      created: "2024-01-05",
+      type: "Hotel",
+      thumbnail: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=400&h=300&fit=crop"
+    },
+    {
+      id: 6,
+      name: "Beach House Rental",
+      description: "Stunning oceanfront vacation property",
+      status: "Draft",
+      visibility: "Unlisted",
+      views: 523,
+      created: "2024-01-03",
+      type: "Vacation Rental",
+      thumbnail: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=400&h=300&fit=crop"
+    },
+    {
+      id: 7,
       name: "Corporate Event Center",
       description: "Professional event and conference space",
-      status: "Processing",
-      visibility: "Unlisted",
-      views: 667,
+      status: "Active",
+      visibility: "Private",
+      views: 1156,
       created: "2024-01-01",
       type: "Event Space",
       thumbnail: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop"
+    },
+    {
+      id: 8,
+      name: "Industrial Warehouse",
+      description: "Large-scale storage and distribution facility",
+      status: "Processing",
+      visibility: "Unlisted",
+      views: 667,
+      created: "2023-12-28",
+      type: "Warehouse",
+      thumbnail: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop"
     }
   ]);
   const [activeFilters, setActiveFilters] = useState({
@@ -176,7 +148,7 @@ const Spaces = () => {
   const filterOptions = {
     status: ["Active", "Processing", "Draft", "Inactive"],
     visibility: ["Public", "Unlisted", "Private"],
-    type: ["Office", "Residential", "Restaurant", "Retail", "Hotel", "Vacation Rental", "Event Space", "Warehouse", "Yacht"],
+    type: ["Office", "Residential", "Restaurant", "Retail", "Hotel", "Vacation Rental", "Event Space", "Warehouse"],
     dateRange: ["Last 7 days", "Last 30 days", "Last 3 months", "Last 6 months", "All time"],
     views: ["0-100 views", "100-500 views", "500-1000 views", "1000+ views"]
   };
