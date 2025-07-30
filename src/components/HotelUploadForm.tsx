@@ -37,6 +37,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         bedConfiguration: currentRoom.bedConfiguration,
         maxOccupancy: currentRoom.maxOccupancy,
         roomSize: currentRoom.roomSize || '',
+        roomSizeUnit: currentRoom.roomSizeUnit || 'sqft',
         floorLevel: currentRoom.floorLevel || '',
         averageNightlyRate: currentRoom.averageNightlyRate
       };
@@ -409,6 +410,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             <Bed className="h-5 w-5" />
             Room Details
           </h3>
+          <Button 
+            type="button"
+            onClick={addRoomProfile}
+            className="px-4 py-2"
+            disabled={!currentRoom.roomType || !currentRoom.bedConfiguration || !currentRoom.maxOccupancy || !currentRoom.averageNightlyRate}
+          >
+            Add Room
+          </Button>
         </div>
         
         {/* Room Input Fields */}
@@ -540,7 +549,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <TableCell>{getRoomTypeLabel(room.roomType)}</TableCell>
                       <TableCell>{getBedConfigLabel(room.bedConfiguration)}</TableCell>
                       <TableCell>{room.maxOccupancy} guests</TableCell>
-                      <TableCell>{room.roomSize || 'N/A'}</TableCell>
+                      <TableCell>{room.roomSize ? `${room.roomSize} ${room.roomSizeUnit || 'sqft'}` : 'N/A'}</TableCell>
                       <TableCell>{room.floorLevel || 'N/A'}</TableCell>
                       <TableCell>{room.averageNightlyRate}</TableCell>
                       <TableCell>
