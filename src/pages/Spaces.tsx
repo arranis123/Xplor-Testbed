@@ -151,6 +151,40 @@ const Spaces = () => {
            (activeFilters.views ? 1 : 0);
   };
 
+  const sortSpaces = (spaces: any[], sortBy: string) => {
+    const sortedSpaces = [...spaces];
+    
+    switch (sortBy) {
+      case "recommended":
+        // Default order - could be based on algorithm combining views, recency, etc.
+        return sortedSpaces;
+      case "newest":
+        return sortedSpaces.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+      case "views-high":
+        return sortedSpaces.sort((a, b) => b.views - a.views);
+      case "views-low":
+        return sortedSpaces.sort((a, b) => a.views - b.views);
+      case "name-asc":
+        return sortedSpaces.sort((a, b) => a.name.localeCompare(b.name));
+      case "name-desc":
+        return sortedSpaces.sort((a, b) => b.name.localeCompare(a.name));
+      case "type":
+        return sortedSpaces.sort((a, b) => a.type.localeCompare(b.type));
+      case "status":
+        return sortedSpaces.sort((a, b) => a.status.localeCompare(b.status));
+      case "visibility":
+        return sortedSpaces.sort((a, b) => a.visibility.localeCompare(b.visibility));
+      case "upload-date":
+        return sortedSpaces.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+      case "last-updated":
+        return sortedSpaces.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+      default:
+        return sortedSpaces;
+    }
+  };
+
+  const sortedSpaces = sortSpaces(spaces, sortBy);
+
   const handleShare = (space: any) => {
     setSelectedSpace(space);
     setShareDialogOpen(true);
@@ -369,7 +403,7 @@ const Spaces = () => {
       {viewMode === 'grid' ? (
         /* Grid View */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {spaces.map((space) => (
+          {sortedSpaces.map((space) => (
             <Card key={space.id} className="border-border hover:shadow-medium transition-shadow">
               <div className="aspect-video bg-muted rounded-t-lg relative overflow-hidden">
                 <img 
@@ -421,7 +455,7 @@ const Spaces = () => {
       ) : (
         /* List View */
         <div className="space-y-4">
-          {spaces.map((space) => (
+          {sortedSpaces.map((space) => (
             <Card key={space.id} className="border-border hover:shadow-medium transition-shadow">
               <CardContent className="p-6">
                 <div className="flex gap-4">
