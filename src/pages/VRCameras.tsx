@@ -133,7 +133,11 @@ const VRCameras = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                 Shop Cameras
               </Button>
-              <Button size="lg" variant="outline">
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => window.open('https://www.youtube.com/watch?v=6JltanjJ1_I', '_blank')}
+              >
                 <Play className="mr-2 h-4 w-4" />
                 Watch Demo
               </Button>
