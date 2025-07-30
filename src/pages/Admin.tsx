@@ -4,12 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Users, FileText, Building, Settings, BarChart3, AlertTriangle, RefreshCw, Database, Zap } from "lucide-react";
+import { Shield, Users, FileText, Building, Settings, BarChart3, AlertTriangle, RefreshCw, Database, Zap, MapPin } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import UserManagement from "@/components/admin/UserManagement";
 import TourManagement from "@/components/admin/TourManagement";
+import SpaceManagement from "@/components/admin/SpaceManagement";
 import HotelManagement from "@/components/admin/HotelManagement";
 import CategoryManagement from "@/components/admin/CategoryManagement";
 import StorageMonitoring from "@/components/admin/StorageMonitoring";
@@ -121,6 +122,7 @@ export default function Admin() {
   const adminTabs = [
     { id: "dashboard", label: "Dashboard", icon: BarChart3 },
     { id: "users", label: "Users", icon: Users },
+    { id: "spaces", label: "Spaces", icon: MapPin },
     { id: "tours", label: "Tours", icon: FileText },
     { id: "hotels", label: "Hotels", icon: Building },
     { id: "categories", label: "Categories", icon: Settings },
@@ -157,7 +159,7 @@ export default function Admin() {
       <AdminDebugPanel />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-8">
+        <TabsList className="grid w-full grid-cols-9">
           {adminTabs.map((tab) => {
             const Icon = tab.icon;
             return (
@@ -201,9 +203,9 @@ export default function Admin() {
                   <Users className="h-4 w-4 mr-2" />
                   Manage Users
                 </Button>
-                <Button onClick={() => setActiveTab("tours")} variant="outline" className="justify-start">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Review Tours
+                <Button onClick={() => setActiveTab("spaces")} variant="outline" className="justify-start">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Manage Spaces
                 </Button>
                 <Button onClick={() => setActiveTab("system")} variant="outline" className="justify-start">
                   <Settings className="h-4 w-4 mr-2" />
@@ -245,6 +247,10 @@ export default function Admin() {
 
         <TabsContent value="users">
           <UserManagement />
+        </TabsContent>
+
+        <TabsContent value="spaces">
+          <SpaceManagement />
         </TabsContent>
 
         <TabsContent value="tours">
