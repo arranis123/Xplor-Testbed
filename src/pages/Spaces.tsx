@@ -51,6 +51,7 @@ const Spaces = () => {
     { value: "type", label: "Space Type" },
     { value: "status", label: "Status" },
     { value: "visibility", label: "Visibility" },
+    { value: "upload-date", label: "Upload Date" },
     { value: "last-updated", label: "Last Updated" }
   ];
 
