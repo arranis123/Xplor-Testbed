@@ -14,12 +14,12 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Get auth context - this should always work inside AuthProvider
-  const { isAdmin, user, signOut: authSignOut } = useAuth();
+  // Get auth context
+  const { user, signOut } = useAuth();
 
-  // Check if admin console should be shown
+  // Check if admin console should be shown (simplified)
   const isDevelopment = import.meta.env.DEV;
-  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io' || isDevelopment;
+  const shouldShowAdmin = user?.email === 'info@xplor.io' || isDevelopment;
 
   return (
     <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -167,7 +167,7 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Right side: Auth buttons */}
+        {/* Right side: Single Auth button */}
         <div className="flex items-center space-x-mobile-sm sm:space-x-3">
           <CartButton />
           {user ? (
@@ -176,33 +176,25 @@ const Header = () => {
               size="sm" 
               className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
               onClick={async () => {
-                await authSignOut();
-                navigate("/");
+                try {
+                  await signOut();
+                  navigate("/");
+                } catch (error) {
+                  console.error('Sign out error:', error);
+                }
               }}
             >
               Sign Out
             </Button>
           ) : (
-            <>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3 hidden sm:inline-flex"
-                asChild
-              >
-                <Link to="/auth">Sign In</Link>
-              </Button>
-              <Button 
-                size="sm" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm font-medium"
-                asChild
-              >
-                <Link to="/auth">
-                  <span className="hidden sm:inline">Get Started</span>
-                  <span className="sm:hidden">Join</span>
-                </Link>
-              </Button>
-            </>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
+              asChild
+            >
+              <Link to="/auth">Sign In</Link>
+            </Button>
           )}
         </div>
       </div>

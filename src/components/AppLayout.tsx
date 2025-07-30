@@ -12,7 +12,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
-  const { user, signOut: authSignOut } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <SidebarProvider>
@@ -49,24 +49,17 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={async () => {
-                      await authSignOut();
-                      navigate("/");
+                      try {
+                        await signOut();
+                        navigate("/");
+                      } catch (error) {
+                        console.error('Sign out error:', error);
+                      }
                     }}
-                    className="hidden sm:inline-flex min-h-touch"
+                    className="min-h-touch"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={async () => {
-                      await authSignOut();
-                      navigate("/");
-                    }}
-                    className="sm:hidden min-h-touch min-w-touch p-mobile-sm"
-                  >
-                    <LogOut className="h-4 w-4" />
+                    <span className="hidden sm:inline">Sign Out</span>
                   </Button>
                 </>
               ) : (
