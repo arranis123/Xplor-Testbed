@@ -421,15 +421,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [mapZoom, setMapZoom] = useState(10);
   const [uploadedFiles, setUploadedFiles] = useState<{
-    photos: File[];
-    videos: File[];
-    droneFootage: File[];
+    photos: (File & { roomId?: string })[];
+    videos: (File & { roomId?: string })[];
+    droneFootage: (File & { roomId?: string })[];
     documents: File[];
     floorPlans: File[];
     sampleItineraries: File[];
     crewProfile: File[];
     brochure: File[];
-    vrWalkthrough: File[];
+    vrWalkthrough: (File & { roomId?: string })[];
   }>({
     photos: [],
     videos: [],
@@ -2159,7 +2159,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough', files: FileList | null) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough', files: FileList | null, roomId?: string) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
@@ -2173,14 +2173,22 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       }
     });
 
+    // Add roomId to files if provided and applicable
+    const filesWithRoomId = validFiles.map(file => {
+      if ((type === 'photos' || type === 'videos' || type === 'droneFootage' || type === 'vrWalkthrough') && roomId) {
+        return Object.assign(file, { roomId });
+      }
+      return file;
+    });
+
     setUploadedFiles(prev => ({
       ...prev,
-      [type]: [...prev[type], ...validFiles],
+      [type]: [...prev[type], ...filesWithRoomId],
     }));
 
     toast({
       title: "Files Added",
-      description: `${validFiles.length} ${type} added successfully`,
+      description: `${validFiles.length} ${type} added successfully${roomId ? ` to room` : ''}`,
     });
   };
 
@@ -7710,181 +7718,343 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 <TabsContent value="media" className="space-y-4">
                   <div className="space-y-6">
                     
-                    {/* VR Walkthrough Section for Hotel/Resort categories */}
-                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
-                      <div>
-                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                          <Headphones className="h-5 w-5" />
-                          VR Walkthrough
-                        </Label>
-                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                          <div className="flex flex-col items-center gap-4">
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Upload className="h-8 w-8" />
-                              <div className="text-center">
-                                <p className="text-sm font-medium">Upload VR Content</p>
-                                <p className="text-xs">360° images, VR tours, or immersive content</p>
-                              </div>
-                            </div>
-                            <Input
-                              type="file"
-                              multiple
-                              accept="image/*,video/*,.mp4,.mov,.avi"
-                              className="max-w-xs"
-                              onChange={(e) => handleFileUpload('vrWalkthrough', e.target.files)}
-                            />
-                          </div>
-                          {uploadedFiles.vrWalkthrough && uploadedFiles.vrWalkthrough.length > 0 && (
-                            <div className="mt-4 space-y-2">
-                              {uploadedFiles.vrWalkthrough.map((file, index) => (
-                                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
-                                  <div className="flex items-center gap-2">
-                                    <Headphones className="h-4 w-4" />
-                                    <span className="text-sm truncate">{file.name}</span>
-                                  </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => removeFile('vrWalkthrough', index)}
-                                    className="text-destructive hover:text-destructive/80"
-                                  >
-                                    <X className="h-4 w-4" />
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-                          )}
+                     {/* VR Walkthrough Section for Hotel/Resort categories */}
+                     {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                       <div>
+                         <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                           <Headphones className="h-5 w-5" />
+                           VR Walkthrough
+                         </Label>
+                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                           <div className="flex flex-col items-center gap-4">
+                             <div className="flex items-center gap-2 text-muted-foreground">
+                               <Upload className="h-8 w-8" />
+                               <div className="text-center">
+                                 <p className="text-sm font-medium">Upload VR Content</p>
+                                 <p className="text-xs">360° images, VR tours, or immersive content</p>
+                               </div>
+                             </div>
+                             
+                             {/* Room Selection for Hotel/Resort */}
+                             <div className="w-full max-w-xs space-y-2">
+                               <Label className="text-sm">Assign to Room (Optional)</Label>
+                               <Select
+                                 onValueChange={(roomId) => {
+                                   const fileInput = document.getElementById('vr-upload') as HTMLInputElement;
+                                   if (fileInput?.files) {
+                                     handleFileUpload('vrWalkthrough', fileInput.files, roomId);
+                                     fileInput.value = '';
+                                   }
+                                 }}
+                               >
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select a room or upload as general" />
+                                 </SelectTrigger>
+                                 <SelectContent>
+                                   <SelectItem value="">General VR Content</SelectItem>
+                                   {(form.watch("roomProfiles") || []).map((room: any) => (
+                                     <SelectItem key={room.id} value={room.id}>
+                                       {room.roomType} - {room.bedConfiguration}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                             </div>
+                             
+                             <Input
+                               id="vr-upload"
+                               type="file"
+                               multiple
+                               accept="image/*,video/*,.mp4,.mov,.avi"
+                               className="max-w-xs"
+                               onChange={(e) => handleFileUpload('vrWalkthrough', e.target.files)}
+                             />
+                           </div>
+                           {uploadedFiles.vrWalkthrough && uploadedFiles.vrWalkthrough.length > 0 && (
+                             <div className="mt-4 space-y-2">
+                               {uploadedFiles.vrWalkthrough.map((file, index) => {
+                                 const roomInfo = (file as any).roomId ? 
+                                   (form.watch("roomProfiles") || []).find((room: any) => room.id === (file as any).roomId) : null;
+                                 return (
+                                   <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                     <div className="flex items-center gap-2">
+                                       <Headphones className="h-4 w-4" />
+                                       <div className="flex flex-col">
+                                         <span className="text-sm truncate">{file.name}</span>
+                                         {roomInfo && (
+                                           <span className="text-xs text-muted-foreground">
+                                             Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                           </span>
+                                         )}
+                                       </div>
+                                     </div>
+                                     <button
+                                       type="button"
+                                       onClick={() => removeFile('vrWalkthrough', index)}
+                                       className="text-destructive hover:text-destructive/80"
+                                     >
+                                       <X className="h-4 w-4" />
+                                     </button>
+                                   </div>
+                                 );
+                               })}
+                             </div>
+                           )}
                         </div>
                       </div>
                     )}
-                    <div>
-                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <ImageIcon className="h-5 w-5" />
-                        Photos
-                      </Label>
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="flex items-center gap-2 text-muted-foreground">
-                            <Upload className="h-8 w-8" />
-                            <div className="text-center">
-                              <p className="text-sm font-medium">Upload Photos</p>
-                              <p className="text-xs">Drag and drop or click to browse</p>
-                            </div>
-                          </div>
-                          <Input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            className="max-w-xs"
-                            onChange={(e) => handleFileUpload('photos', e.target.files)}
-                          />
-                        </div>
-                        {uploadedFiles.photos.length > 0 && (
-                          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                            {uploadedFiles.photos.map((file, index) => (
-                              <div key={index} className="relative group">
-                                <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
-                                  <ImageIcon className="h-8 w-8 text-muted-foreground" />
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => removeFile('photos', index)}
-                                  className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                >
-                                  <X className="h-3 w-3" />
-                                </button>
-                                <p className="text-xs truncate mt-1">{file.name}</p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                     <div>
+                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <ImageIcon className="h-5 w-5" />
+                         Photos
+                       </Label>
+                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                         <div className="flex flex-col items-center gap-4">
+                           <div className="flex items-center gap-2 text-muted-foreground">
+                             <Upload className="h-8 w-8" />
+                             <div className="text-center">
+                               <p className="text-sm font-medium">Upload Photos</p>
+                               <p className="text-xs">Drag and drop or click to browse</p>
+                             </div>
+                           </div>
+                           
+                           {/* Room Selection for Hotel/Resort */}
+                           {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                             <div className="w-full max-w-xs space-y-2">
+                               <Label className="text-sm">Assign to Room (Optional)</Label>
+                               <Select
+                                 onValueChange={(roomId) => {
+                                   const fileInput = document.getElementById('photos-upload') as HTMLInputElement;
+                                   if (fileInput?.files) {
+                                     handleFileUpload('photos', fileInput.files, roomId);
+                                     fileInput.value = '';
+                                   }
+                                 }}
+                               >
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select a room or upload as general" />
+                                 </SelectTrigger>
+                                 <SelectContent>
+                                   <SelectItem value="">General Photos</SelectItem>
+                                   {(form.watch("roomProfiles") || []).map((room: any) => (
+                                     <SelectItem key={room.id} value={room.id}>
+                                       {room.roomType} - {room.bedConfiguration}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                             </div>
+                           )}
+                           
+                           <Input
+                             id="photos-upload"
+                             type="file"
+                             multiple
+                             accept="image/*"
+                             className="max-w-xs"
+                             onChange={(e) => handleFileUpload('photos', e.target.files)}
+                           />
+                         </div>
+                         {uploadedFiles.photos.length > 0 && (
+                           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                             {uploadedFiles.photos.map((file, index) => {
+                               const roomInfo = (file as any).roomId ? 
+                                 (form.watch("roomProfiles") || []).find((room: any) => room.id === (file as any).roomId) : null;
+                               return (
+                                 <div key={index} className="relative group">
+                                   <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
+                                     <ImageIcon className="h-8 w-8 text-muted-foreground" />
+                                   </div>
+                                   <button
+                                     type="button"
+                                     onClick={() => removeFile('photos', index)}
+                                     className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                   >
+                                     <X className="h-3 w-3" />
+                                   </button>
+                                   <div className="mt-1">
+                                     <p className="text-xs truncate">{file.name}</p>
+                                     {roomInfo && (
+                                       <p className="text-xs text-muted-foreground truncate">
+                                         {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                       </p>
+                                     )}
+                                   </div>
+                                 </div>
+                               );
+                             })}
+                           </div>
+                         )}
                       </div>
                     </div>
 
-                    <div>
-                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <Video className="h-5 w-5" />
-                        Videos
-                      </Label>
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="flex items-center gap-2 text-muted-foreground">
-                            <Upload className="h-8 w-8" />
-                            <div className="text-center">
-                              <p className="text-sm font-medium">Upload Videos</p>
-                              <p className="text-xs">Drag and drop or click to browse</p>
-                            </div>
-                          </div>
-                          <Input
-                            type="file"
-                            multiple
-                            accept="video/*"
-                            className="max-w-xs"
-                            onChange={(e) => handleFileUpload('videos', e.target.files)}
-                          />
-                        </div>
-                        {uploadedFiles.videos.length > 0 && (
-                          <div className="mt-4 space-y-2">
-                            {uploadedFiles.videos.map((file, index) => (
-                              <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
-                                <div className="flex items-center gap-2">
-                                  <Video className="h-4 w-4" />
-                                  <span className="text-sm truncate">{file.name}</span>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => removeFile('videos', index)}
-                                  className="text-destructive hover:text-destructive/80"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                     <div>
+                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <Video className="h-5 w-5" />
+                         Videos
+                       </Label>
+                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                         <div className="flex flex-col items-center gap-4">
+                           <div className="flex items-center gap-2 text-muted-foreground">
+                             <Upload className="h-8 w-8" />
+                             <div className="text-center">
+                               <p className="text-sm font-medium">Upload Videos</p>
+                               <p className="text-xs">Drag and drop or click to browse</p>
+                             </div>
+                           </div>
+                           
+                           {/* Room Selection for Hotel/Resort */}
+                           {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                             <div className="w-full max-w-xs space-y-2">
+                               <Label className="text-sm">Assign to Room (Optional)</Label>
+                               <Select
+                                 onValueChange={(roomId) => {
+                                   const fileInput = document.getElementById('videos-upload') as HTMLInputElement;
+                                   if (fileInput?.files) {
+                                     handleFileUpload('videos', fileInput.files, roomId);
+                                     fileInput.value = '';
+                                   }
+                                 }}
+                               >
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select a room or upload as general" />
+                                 </SelectTrigger>
+                                 <SelectContent>
+                                   <SelectItem value="">General Videos</SelectItem>
+                                   {(form.watch("roomProfiles") || []).map((room: any) => (
+                                     <SelectItem key={room.id} value={room.id}>
+                                       {room.roomType} - {room.bedConfiguration}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                             </div>
+                           )}
+                           
+                           <Input
+                             id="videos-upload"
+                             type="file"
+                             multiple
+                             accept="video/*"
+                             className="max-w-xs"
+                             onChange={(e) => handleFileUpload('videos', e.target.files)}
+                           />
+                         </div>
+                         {uploadedFiles.videos.length > 0 && (
+                           <div className="mt-4 space-y-2">
+                             {uploadedFiles.videos.map((file, index) => {
+                               const roomInfo = (file as any).roomId ? 
+                                 (form.watch("roomProfiles") || []).find((room: any) => room.id === (file as any).roomId) : null;
+                               return (
+                                 <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                   <div className="flex items-center gap-2">
+                                     <Video className="h-4 w-4" />
+                                     <div className="flex flex-col">
+                                       <span className="text-sm truncate">{file.name}</span>
+                                       {roomInfo && (
+                                         <span className="text-xs text-muted-foreground">
+                                           Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                         </span>
+                                       )}
+                                     </div>
+                                   </div>
+                                   <button
+                                     type="button"
+                                     onClick={() => removeFile('videos', index)}
+                                     className="text-destructive hover:text-destructive/80"
+                                   >
+                                     <X className="h-4 w-4" />
+                                   </button>
+                                 </div>
+                               );
+                             })}
+                           </div>
+                         )}
                       </div>
                     </div>
 
-                    <div>
-                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <Video className="h-5 w-5" />
-                        Drone Footage
-                      </Label>
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="flex items-center gap-2 text-muted-foreground">
-                            <Upload className="h-8 w-8" />
-                            <div className="text-center">
-                              <p className="text-sm font-medium">Upload Drone Footage</p>
-                              <p className="text-xs">Drag and drop or click to browse</p>
-                            </div>
-                          </div>
-                          <Input
-                            type="file"
-                            multiple
-                            accept="video/*"
-                            className="max-w-xs"
-                            onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
-                          />
-                        </div>
-                        {uploadedFiles.droneFootage.length > 0 && (
-                          <div className="mt-4 space-y-2">
-                            {uploadedFiles.droneFootage.map((file, index) => (
-                              <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
-                                <div className="flex items-center gap-2">
-                                  <Video className="h-4 w-4" />
-                                  <span className="text-sm truncate">{file.name}</span>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => removeFile('droneFootage', index)}
-                                  className="text-destructive hover:text-destructive/80"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                     <div>
+                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <Video className="h-5 w-5" />
+                         Drone Footage
+                       </Label>
+                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                         <div className="flex flex-col items-center gap-4">
+                           <div className="flex items-center gap-2 text-muted-foreground">
+                             <Upload className="h-8 w-8" />
+                             <div className="text-center">
+                               <p className="text-sm font-medium">Upload Drone Footage</p>
+                               <p className="text-xs">Drag and drop or click to browse</p>
+                             </div>
+                           </div>
+                           
+                           {/* Room Selection for Hotel/Resort */}
+                           {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                             <div className="w-full max-w-xs space-y-2">
+                               <Label className="text-sm">Assign to Room (Optional)</Label>
+                               <Select
+                                 onValueChange={(roomId) => {
+                                   const fileInput = document.getElementById('drone-upload') as HTMLInputElement;
+                                   if (fileInput?.files) {
+                                     handleFileUpload('droneFootage', fileInput.files, roomId);
+                                     fileInput.value = '';
+                                   }
+                                 }}
+                               >
+                                 <SelectTrigger>
+                                   <SelectValue placeholder="Select a room or upload as general" />
+                                 </SelectTrigger>
+                                 <SelectContent>
+                                   <SelectItem value="">General Drone Footage</SelectItem>
+                                   {(form.watch("roomProfiles") || []).map((room: any) => (
+                                     <SelectItem key={room.id} value={room.id}>
+                                       {room.roomType} - {room.bedConfiguration}
+                                     </SelectItem>
+                                   ))}
+                                 </SelectContent>
+                               </Select>
+                             </div>
+                           )}
+                           
+                           <Input
+                             id="drone-upload"
+                             type="file"
+                             multiple
+                             accept="video/*"
+                             className="max-w-xs"
+                             onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
+                           />
+                         </div>
+                         {uploadedFiles.droneFootage.length > 0 && (
+                           <div className="mt-4 space-y-2">
+                             {uploadedFiles.droneFootage.map((file, index) => {
+                               const roomInfo = (file as any).roomId ? 
+                                 (form.watch("roomProfiles") || []).find((room: any) => room.id === (file as any).roomId) : null;
+                               return (
+                                 <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                   <div className="flex items-center gap-2">
+                                     <Video className="h-4 w-4" />
+                                     <div className="flex flex-col">
+                                       <span className="text-sm truncate">{file.name}</span>
+                                       {roomInfo && (
+                                         <span className="text-xs text-muted-foreground">
+                                           Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                         </span>
+                                       )}
+                                     </div>
+                                   </div>
+                                   <button
+                                     type="button"
+                                     onClick={() => removeFile('droneFootage', index)}
+                                     className="text-destructive hover:text-destructive/80"
+                                   >
+                                     <X className="h-4 w-4" />
+                                   </button>
+                                 </div>
+                               );
+                             })}
+                           </div>
+                         )}
                       </div>
                     </div>
 
