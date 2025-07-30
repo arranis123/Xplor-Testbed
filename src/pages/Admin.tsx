@@ -23,8 +23,9 @@ export default function Admin() {
   const navigate = useNavigate();
   const { user, isAdmin, isLoading } = useAuth();
   
-  // Allow access for authorized admin emails (temporary fix)
-  const shouldAllowAccess = isAdmin || user?.email === 'info@xplor.io';
+  // Allow access for authorized admin emails (temporary fix) or development mode
+  const isDevelopment = import.meta.env.DEV;
+  const shouldAllowAccess = isAdmin || user?.email === 'info@xplor.io' || isDevelopment;
   
   useEffect(() => {
     if (!isLoading && !shouldAllowAccess && user) {

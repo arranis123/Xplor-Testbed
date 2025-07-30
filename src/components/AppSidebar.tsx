@@ -67,15 +67,16 @@ export function AppSidebar() {
     }
   }, [user, isAdmin, forceAdminCheck]);
 
-  // Add admin console if user is admin OR if user is info@xplor.io (temporary fix)
+  // Add admin console if user is admin OR if user is info@xplor.io OR in development mode
   const items = [...baseItems];
-  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io';
+  const isDevelopment = import.meta.env.DEV;
+  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io' || isDevelopment;
   
   if (shouldShowAdmin) {
     items.splice(-1, 0, { title: "Admin Console", url: "/admin", icon: Shield });
   }
 
-  console.log('AppSidebar - shouldShowAdmin:', shouldShowAdmin, 'isAdmin:', isAdmin, 'user email:', user?.email);
+  console.log('AppSidebar - shouldShowAdmin:', shouldShowAdmin, 'isAdmin:', isAdmin, 'user email:', user?.email, 'isDevelopment:', isDevelopment);
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>

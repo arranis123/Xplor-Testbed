@@ -26,7 +26,8 @@ const Header = () => {
   }
 
   // Check if admin console should be shown
-  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io';
+  const isDevelopment = import.meta.env.DEV;
+  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io' || isDevelopment;
 
   return (
     <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
