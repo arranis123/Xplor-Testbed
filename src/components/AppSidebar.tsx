@@ -11,6 +11,7 @@ import {
   Shield
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 import {
   Sidebar,
@@ -25,14 +26,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const items = [
+const baseItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "All Spaces", url: "/spaces", icon: FolderOpen },
-  
   { title: "Statistics", url: "/statistics", icon: BarChart3 },
   { title: "Users", url: "/users", icon: Users },
   { title: "Capture Services", url: "/capture-services", icon: Camera },
-  { title: "Admin Console", url: "/admin", icon: Shield },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -45,6 +44,13 @@ export function AppSidebar() {
   const { open, setOpen } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const { isAdmin } = useAuth();
+
+  // Add admin console if user is admin
+  const items = [...baseItems];
+  if (isAdmin) {
+    items.splice(-1, 0, { title: "Admin Console", url: "/admin", icon: Shield });
+  }
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>

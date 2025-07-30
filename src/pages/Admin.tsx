@@ -4,9 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Users, FileText, Building, Settings, BarChart3, Search, UserCog, Database, MessageSquare, Zap, Globe, Lock } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { Shield, Users, FileText, Building, Settings, BarChart3, AlertTriangle, RefreshCw, Database, Zap } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import UserManagement from "@/components/admin/UserManagement";
@@ -16,47 +15,107 @@ import CategoryManagement from "@/components/admin/CategoryManagement";
 import StorageMonitoring from "@/components/admin/StorageMonitoring";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import SystemSettings from "@/components/admin/SystemSettings";
+import { AdminDebugPanel } from "@/components/admin/AdminDebugPanel";
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const navigate = useNavigate();
-
-  // Check if user is admin
-  const { data: isAdmin, isLoading } = useQuery({
-    queryKey: ["admin-check"],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data, error } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user.id)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      if (error) throw error;
-      return !!data;
-    },
-  });
+  const { user, isAdmin, isLoading, debugInfo, refreshAuth } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !isAdmin) {
+    if (!isLoading && !isAdmin && user) {
       toast.error("Access denied. Admin privileges required.");
-      navigate("/");
+      
+      // Give user option to retry
+      setTimeout(() => {
+        toast.info("Click here to retry admin verification", {
+          action: {
+            label: "Retry",
+            onClick: () => refreshAuth()
+          }
+        });
+      }, 1000);
+      
+      // Only navigate away if user is logged in but not admin
+      if (user) {
+        setTimeout(() => navigate("/"), 3000);
+      }
     }
-  }, [isAdmin, isLoading, navigate]);
+  }, [isAdmin, isLoading, navigate, user, refreshAuth]);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-pulse">Loading admin panel...</div>
+      <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <div className="text-center">
+          <div className="font-medium">Loading admin panel...</div>
+          <div className="text-sm text-muted-foreground mt-1">
+            Verifying admin privileges for {user?.email}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
+        <AlertTriangle className="h-12 w-12 text-yellow-500" />
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Authentication Required</h2>
+          <p className="text-muted-foreground">Please log in to access the admin console.</p>
+          <Button 
+            onClick={() => navigate("/")} 
+            className="mt-4"
+            variant="outline"
+          >
+            Go to Login
+          </Button>
+        </div>
       </div>
     );
   }
 
   if (!isAdmin) {
-    return null;
+    return (
+      <div className="container mx-auto p-6">
+        <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-6">
+          <Shield className="h-16 w-16 text-muted-foreground" />
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold">Access Denied</h2>
+            <p className="text-muted-foreground max-w-md">
+              Admin privileges are required to access this console. 
+              {debugInfo.errors.length > 0 && " Issues were detected during verification."}
+            </p>
+            {user.email && (
+              <p className="text-sm text-muted-foreground">
+                Logged in as: <span className="font-mono">{user.email}</span>
+              </p>
+            )}
+          </div>
+          
+          <div className="flex gap-2">
+            <Button 
+              onClick={refreshAuth}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Retry Verification
+            </Button>
+            <Button 
+              onClick={() => navigate("/")}
+              variant="default"
+            >
+              Return Home
+            </Button>
+          </div>
+        </div>
+        
+        {/* Show debug panel for troubleshooting */}
+        <AdminDebugPanel />
+      </div>
+    );
   }
 
   const adminTabs = [
@@ -79,13 +138,23 @@ export default function Admin() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center gap-3 mb-6">
-        <Shield className="h-8 w-8 text-primary" />
-        <div>
-          <h1 className="text-3xl font-bold">Admin Console</h1>
-          <p className="text-muted-foreground">Manage your platform and users</p>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <Shield className="h-8 w-8 text-primary" />
+          <div>
+            <h1 className="text-3xl font-bold">Admin Console</h1>
+            <p className="text-muted-foreground">
+              Welcome, {user.email} • Manage your platform and users
+            </p>
+          </div>
         </div>
+        <Badge variant="default" className="bg-green-100 text-green-800 border-green-200">
+          Admin Access Active
+        </Badge>
       </div>
+
+      {/* Debug Panel - collapsible */}
+      <AdminDebugPanel />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-8">
