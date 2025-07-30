@@ -54,9 +54,11 @@ export function AppSidebar() {
     }
   }, [user, isAdmin, forceAdminCheck]);
 
-  // Add admin console if user is admin
+  // Add admin console if user is admin OR if user is info@xplor.io (temporary fix)
   const items = [...baseItems];
-  if (isAdmin) {
+  const shouldShowAdmin = isAdmin || user?.email === 'info@xplor.io';
+  
+  if (shouldShowAdmin) {
     items.splice(-1, 0, { title: "Admin Console", url: "/admin", icon: Shield });
   }
 
