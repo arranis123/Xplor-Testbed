@@ -7,12 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Search, Edit, Upload, UserCheck, Trash2, Plus, Eye } from "lucide-react";
+import { Search, Edit, Upload, UserCheck, Trash2, Plus, Eye, ChevronDown, FolderOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
 
 export default function SpaceManagement() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,6 +24,8 @@ export default function SpaceManagement() {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showReassignDialog, setShowReassignDialog] = useState(false);
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const queryClient = useQueryClient();
 
   // Fetch all spaces/tours with user information
@@ -166,20 +170,44 @@ export default function SpaceManagement() {
           <CardTitle className="flex items-center justify-between">
             Space & Listing Management
             <div className="flex gap-2">
-              <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-                <DialogTrigger asChild>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
                   <Button>
                     <Plus className="h-4 w-4 mr-2" />
                     Create Space
+                    <ChevronDown className="h-4 w-4 ml-2" />
                   </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl">
-                  <DialogHeader>
-                    <DialogTitle>Create New Space/Listing</DialogTitle>
-                  </DialogHeader>
-                  <CreateSpaceForm users={users} onSubmit={createSpace.mutate} />
-                </DialogContent>
-              </Dialog>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      setSelectedCategory("real-estate");
+                      setUploadDialogOpen(true);
+                    }}
+                  >
+                    <FolderOpen className="h-4 w-4 mr-2" />
+                    Real Estate
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      setSelectedCategory("yacht");
+                      setUploadDialogOpen(true);
+                    }}
+                  >
+                    <FolderOpen className="h-4 w-4 mr-2" />
+                    Yacht
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      setSelectedCategory("hotel-resort");
+                      setUploadDialogOpen(true);
+                    }}
+                  >
+                    <FolderOpen className="h-4 w-4 mr-2" />
+                    Hotel/Resort
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               
               <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
                 <DialogTrigger asChild>
@@ -342,6 +370,12 @@ export default function SpaceManagement() {
           </div>
         </CardContent>
       </Card>
+
+      <UploadSpaceDialog 
+        open={uploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen}
+        category={selectedCategory}
+      />
     </div>
   );
 }
