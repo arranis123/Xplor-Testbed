@@ -24,6 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const checkAdminStatus = async (currentUser: User | null): Promise<boolean> => {
     if (!currentUser) {
@@ -91,7 +92,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    if (isSigningOut) {
+      console.log('AuthContext: Sign out already in progress, ignoring');
+      return;
+    }
+    
     console.log('AuthContext: signOut called');
+    setIsSigningOut(true);
+    
     try {
       console.log('AuthContext: Calling supabase.auth.signOut()');
       const { error } = await supabase.auth.signOut();
@@ -101,10 +109,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       
       console.log('AuthContext: Supabase signOut successful');
+      
+      // Force clear local state if Supabase signOut succeeded
+      setUser(null);
+      setSession(null);
+      setIsAdmin(false);
+      setIsLoading(false);
+      
       toast.success('Successfully signed out');
     } catch (error) {
       console.error('AuthContext: Error signing out:', error);
       toast.error('Error signing out');
+    } finally {
+      setIsSigningOut(false);
     }
   };
 
