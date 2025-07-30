@@ -720,22 +720,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="nearbyAttractions"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nearby Attractions & Landmarks</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="e.g., 5 minutes to Central Park, Walking distance to Times Square..."
-                  className="min-h-[80px]"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
       </div>
     </div>
   );

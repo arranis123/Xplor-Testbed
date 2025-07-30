@@ -4583,8 +4583,34 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                           </div>
                         </div>
-                      )}
-                    </div>
+                       )}
+                       
+                       {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                         <div className="space-y-4 mt-8">
+                           <h3 className="text-lg font-semibold flex items-center gap-2">
+                             <MapPin className="h-5 w-5" />
+                             Nearby Attractions & Landmarks
+                           </h3>
+                           <FormField
+                             control={form.control}
+                             name="nearbyAttractions"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Nearby Attractions & Landmarks</FormLabel>
+                                 <FormControl>
+                                   <Textarea 
+                                     placeholder="e.g., 5 minutes to Central Park, Walking distance to Times Square..."
+                                     className="min-h-[80px]"
+                                     {...field}
+                                   />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+                        )}
+                     </div>
                    </TabsContent>
 
                   {category === "real-estate" && (
