@@ -49,15 +49,19 @@ export function AppSidebar() {
 
   // Force admin check for authorized emails
   useEffect(() => {
+    console.log('Sidebar effect - User:', user?.email, 'IsAdmin:', isAdmin);
     if (user?.email === 'info@xplor.io' && !isAdmin) {
+      console.log('Forcing admin check for info@xplor.io');
       forceAdminCheck();
     }
   }, [user, isAdmin, forceAdminCheck]);
 
   // Add admin console if user is admin
   const items = [...baseItems];
+  console.log('Creating sidebar items - isAdmin:', isAdmin);
   if (isAdmin) {
     items.splice(-1, 0, { title: "Admin Console", url: "/admin", icon: Shield });
+    console.log('Added Admin Console to sidebar');
   }
 
   const isActive = (path: string) => currentPath === path;

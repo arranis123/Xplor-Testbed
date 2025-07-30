@@ -77,20 +77,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Method 2: Fallback - Check if email is in authorized list
       if (!adminStatus && AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
-        // Attempt to create admin role if missing
-        const { error: insertError } = await supabase
-          .from("user_roles")
-          .insert({ user_id: currentUser.id, role: "admin" })
-          .select()
-          .maybeSingle();
+        console.log('Email is in authorized list, granting admin access immediately');
+        adminStatus = true;
+        
+        // Attempt to create admin role if missing (but don't block on it)
+        try {
+          const { error: insertError } = await supabase
+            .from("user_roles")
+            .insert({ user_id: currentUser.id, role: "admin" })
+            .select()
+            .maybeSingle();
 
-        if (!insertError) {
-          adminStatus = true;
-          toast.success('Admin role automatically assigned');
-        } else {
-          errors.push(`Failed to assign admin role: ${insertError.message}`);
-          // Still grant admin access for authorized emails
-          adminStatus = true;
+          if (!insertError) {
+            toast.success('Admin role automatically assigned');
+          }
+        } catch (insertError) {
+          // Don't block admin access if role assignment fails
+          console.log('Role assignment failed but continuing with admin access');
         }
       }
 
