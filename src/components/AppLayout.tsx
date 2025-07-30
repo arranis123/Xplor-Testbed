@@ -49,10 +49,10 @@ export function AppLayout({ children }: AppLayoutProps) {
                     variant="ghost" 
                     size="sm" 
                     onClick={() => {
-                      console.log('AppLayout: Sign out button clicked - immediate action');
-                      // Force immediate navigation and let auth context handle cleanup
-                      navigate("/auth");
-                      // Call signOut in background without awaiting
+                      console.log('AppLayout: Sign out button clicked - navigating to home');
+                      // Navigate to home immediately
+                      navigate("/");
+                      // Call signOut which will handle state cleanup
                       signOut().catch(error => console.error('Background signOut error:', error));
                     }}
                     className="min-h-touch"
