@@ -92,16 +92,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    console.log('AuthContext: signOut called, isSigningOut:', isSigningOut);
+    
+    // Reset signing out state if it's been stuck for too long
     if (isSigningOut) {
-      console.log('AuthContext: Sign out already in progress, ignoring');
-      return;
+      console.log('AuthContext: Resetting stuck signing out state');
+      setIsSigningOut(false);
     }
     
-    console.log('AuthContext: signOut called');
     setIsSigningOut(true);
     
     try {
-      console.log('AuthContext: Calling supabase.auth.signOut()');
+      console.log('AuthContext: Clearing local state immediately');
       
       // Force clear local state first
       setUser(null);
@@ -109,7 +111,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsAdmin(false);
       setIsLoading(false);
       
-      // Then try to sign out from Supabase with timeout
+      console.log('AuthContext: Calling supabase.auth.signOut()');
+      
+      // Try to sign out from Supabase with timeout
       const signOutPromise = supabase.auth.signOut();
       const timeoutPromise = new Promise((resolve) => 
         setTimeout(() => resolve({ error: null }), 2000)
@@ -121,10 +125,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       toast.success('Successfully signed out');
     } catch (error) {
       console.error('AuthContext: Error signing out:', error);
-      // State is already cleared above, so just show error
-      toast.error('Signed out locally (connection issue)');
+      toast.error('Signed out locally');
     } finally {
       setIsSigningOut(false);
+      console.log('AuthContext: Reset isSigningOut to false');
     }
   };
 
