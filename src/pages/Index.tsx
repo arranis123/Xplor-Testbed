@@ -40,8 +40,7 @@ const Index = () => {
               </Button>
               <Button size="lg" className="bg-primary hover:bg-primary/90 !text-xplor-grey text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium" asChild>
                 <Link to="/auth">
-                  <span className="hidden sm:inline">Sign In / Sign Up</span>
-                  <span className="sm:hidden">Join Now</span>
+                  Sign In
                 </Link>
               </Button>
             </div>
