@@ -7579,6 +7579,45 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           />
                         </div>
                       )}
+                      
+                      {/* Hotel Special Features & Policies Section for Hotel/Resort categories */}
+                      {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                        <div className="space-y-4 mt-8">
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Star className="h-5 w-5" />
+                            Hotel Special Features & Policies
+                          </h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="checkInTime"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Check-in Time</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 3:00 PM" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="checkOutTime"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Check-out Time</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 11:00 AM" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                  </TabsContent>
 

@@ -671,40 +671,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         </div>
       </div>
 
-      {/* Special Features */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Special Features & Policies</h3>
-        
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="checkInTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Check-in Time</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 3:00 PM" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="checkOutTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Check-out Time</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., 11:00 AM" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-
-
-      </div>
     </div>
   );
 }
