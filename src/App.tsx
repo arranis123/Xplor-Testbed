@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
+import RecentlyViewed from "./pages/RecentlyViewed";
 
 import Accounts from "./pages/Accounts";
 import Settings from "./pages/Settings";
@@ -48,6 +49,7 @@ const App = () => {
               {/* Protected workspace routes */}
               <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
               <Route path="/spaces" element={<ProtectedRoute><AppLayout><Spaces /></AppLayout></ProtectedRoute>} />
+              <Route path="/recently-viewed" element={<ProtectedRoute><AppLayout><RecentlyViewed /></AppLayout></ProtectedRoute>} />
               
               <Route path="/accounts" element={<ProtectedRoute><AppLayout><Accounts /></AppLayout></ProtectedRoute>} />
               <Route path="/statistics" element={<ProtectedRoute><AppLayout><Statistics /></AppLayout></ProtectedRoute>} />

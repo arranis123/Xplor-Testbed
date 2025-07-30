@@ -9,7 +9,8 @@ import {
   ChevronRight,
   Home,
   Users,
-  Shield
+  Shield,
+  Clock
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -30,6 +31,7 @@ import {
 const baseItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "All Spaces", url: "/spaces", icon: FolderOpen },
+  { title: "Recently Viewed", url: "/recently-viewed", icon: Clock },
   { title: "Statistics", url: "/statistics", icon: BarChart3 },
   { title: "Users", url: "/users", icon: Users },
   { title: "Capture Services", url: "/capture-services", icon: Camera },
