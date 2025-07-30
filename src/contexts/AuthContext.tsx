@@ -29,11 +29,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return false;
     }
 
-    const errors: string[] = [];
-    let adminStatus = false;
-
     try {
-      // Method 1: Check user_roles table
+      console.log('AuthContext: Checking admin status for email:', currentUser.email);
+      
+      // Method 1: Immediate check for authorized emails
+      if (AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
+        console.log('AuthContext: Email is in authorized list, granting admin access');
+        return true;
+      }
+
+      // Method 2: Check user_roles table with timeout
+      console.log('AuthContext: Checking user_roles table');
       const { data: roleData, error: roleError } = await supabase
         .from("user_roles")
         .select("role")
@@ -42,30 +48,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle();
 
       if (!roleError && roleData) {
-        adminStatus = true;
+        console.log('AuthContext: Found admin role in database');
+        return true;
       }
 
-      // Method 2: Fallback - Check if email is in authorized list (immediate grant)
-      if (!adminStatus && AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
-        adminStatus = true;
-      }
-
-      // Method 3: Use is_admin() function as final check
-      if (!adminStatus) {
-        const { data: functionResult, error: functionError } = await supabase
-          .rpc('is_admin');
-
-        if (!functionError && functionResult) {
-          adminStatus = true;
-        }
-      }
-
-      return adminStatus;
+      console.log('AuthContext: No admin role found, returning false');
+      return false;
 
     } catch (error) {
+      console.error('AuthContext: Error checking admin status:', error);
+      
       // Final fallback for authorized emails
       if (AUTHORIZED_ADMIN_EMAILS.includes(currentUser.email || '')) {
-        toast.warning('Using fallback admin access');
+        console.log('AuthContext: Using fallback admin access for authorized email');
         return true;
       }
 
