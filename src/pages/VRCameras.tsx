@@ -122,7 +122,7 @@ const VRCameras = () => {
                 VR CAMERAS & EQUIPMENT
               </Badge>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                Professional Matterport 3D cameras for digital twins.
+                Professional VR and tour creation equipment for you to start your journey.
               </h1>
             </div>
             <p className="text-xl text-muted-foreground">
