@@ -75,6 +75,8 @@ export function AppSidebar() {
     items.splice(-1, 0, { title: "Admin Console", url: "/admin", icon: Shield });
   }
 
+  console.log('AppSidebar - shouldShowAdmin:', shouldShowAdmin, 'isAdmin:', isAdmin, 'user email:', user?.email);
+
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
