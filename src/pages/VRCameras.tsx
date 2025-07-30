@@ -20,6 +20,11 @@ import vrTechImage from "@/assets/vr-tech.jpg";
 import matterportPro3Image from "@/assets/matterport-pro3.jpg";
 import matterportPro2Image from "@/assets/matterport-pro2.jpg";
 import ricohThetaZ1Image from "@/assets/ricoh-theta-z1.jpg";
+import insta360X5Image from "@/assets/insta360-x5.jpg";
+import ricohThetaXImage from "@/assets/ricoh-theta-x.jpg";
+import insta360X4Image from "@/assets/insta360-x4.jpg";
+import trisioLite2Image from "@/assets/trisio-lite-2.jpg";
+import goProMaxImage from "@/assets/gopro-max.jpg";
 import vrHeadsetProImage from "@/assets/vr-headset-pro.jpg";
 import vrHeadsetLiteImage from "@/assets/vr-headset-lite.jpg";
 import vrHeadsetEnterpriseImage from "@/assets/vr-headset-enterprise.jpg";
@@ -39,7 +44,7 @@ const VRCameras = () => {
     {
       name: "Insta360 X5",
       price: "$899",
-      image: "/placeholder.svg",
+      image: insta360X5Image,
       specs: ["8K 360° video", "FlowState stabilization", "AI editing features", "Live streaming capable"],
       useCases: ["Content creation", "Virtual tours", "Social media"],
       popular: false
@@ -47,7 +52,7 @@ const VRCameras = () => {
     {
       name: "Ricoh Theta X",
       price: "$799",
-      image: "/placeholder.svg",
+      image: ricohThetaXImage,
       specs: ["5.7K 360° video", "Touch screen display", "Android OS", "Live streaming"],
       useCases: ["Real estate tours", "Event documentation", "Virtual meetings"],
       popular: false
@@ -63,7 +68,7 @@ const VRCameras = () => {
     {
       name: "Insta360 X4",
       price: "$499",
-      image: "/placeholder.svg",
+      image: insta360X4Image,
       specs: ["8K 360° video", "Active HDR", "Me Mode", "Invisible selfie stick"],
       useCases: ["Adventure filming", "Travel content", "Action sports"],
       popular: false
@@ -71,7 +76,7 @@ const VRCameras = () => {
     {
       name: "Trisio Lite 2",
       price: "$1,299",
-      image: "/placeholder.svg",
+      image: trisioLite2Image,
       specs: ["HDR capture", "Auto-exposure", "Cloud processing", "Mobile app control"],
       useCases: ["Real estate", "Property management", "Virtual staging"],
       popular: false
@@ -79,7 +84,7 @@ const VRCameras = () => {
     {
       name: "GoPro MAX",
       price: "$399",
-      image: "/placeholder.svg",
+      image: goProMaxImage,
       specs: ["360° + traditional filming", "Max HyperSmooth", "Waterproof", "Voice control"],
       useCases: ["Action sports", "Adventure content", "Extreme conditions"],
       popular: false
