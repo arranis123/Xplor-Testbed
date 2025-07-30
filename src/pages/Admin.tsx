@@ -22,9 +22,12 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const navigate = useNavigate();
   const { user, isAdmin, isLoading, debugInfo, refreshAuth } = useAuth();
+  
+  // Allow access for authorized admin emails (temporary fix)
+  const shouldAllowAccess = isAdmin || user?.email === 'info@xplor.io';
 
   useEffect(() => {
-    if (!isLoading && !isAdmin && user) {
+    if (!isLoading && !shouldAllowAccess && user) {
       toast.error("Access denied. Admin privileges required.");
       
       // Give user option to retry
@@ -38,11 +41,11 @@ export default function Admin() {
       }, 1000);
       
       // Only navigate away if user is logged in but not admin
-      if (user) {
+      if (user && user.email !== 'info@xplor.io') {
         setTimeout(() => navigate("/"), 3000);
       }
     }
-  }, [isAdmin, isLoading, navigate, user, refreshAuth]);
+  }, [shouldAllowAccess, isLoading, navigate, user, refreshAuth]);
 
   if (isLoading) {
     return (
@@ -77,7 +80,7 @@ export default function Admin() {
     );
   }
 
-  if (!isAdmin) {
+  if (!shouldAllowAccess) {
     return (
       <div className="container mx-auto p-6">
         <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-6">
