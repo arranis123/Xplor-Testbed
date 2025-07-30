@@ -703,22 +703,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="hotelPolicies"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hotel Policies & Restrictions</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="e.g., No smoking, Pet policy, Age restrictions, etc."
-                  className="min-h-[80px]"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
 
       </div>
     </div>

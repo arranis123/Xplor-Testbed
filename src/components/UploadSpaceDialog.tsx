@@ -7551,8 +7551,35 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        <>
                          {/* ... existing yacht rules remain unchanged ... */}
                        </>
-                     )}
-                   </div>
+                      )}
+                      
+                      {/* Hotel Policies Section for Hotel/Resort categories */}
+                      {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                        <div className="space-y-4 mt-8">
+                          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Shield className="h-5 w-5" />
+                            Hotel Policies & Restrictions
+                          </h3>
+                          <FormField
+                            control={form.control}
+                            name="hotelPolicies"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Hotel Policies & Restrictions</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    placeholder="e.g., No smoking, Pet policy, Age restrictions, etc."
+                                    className="min-h-[80px]"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
+                    </div>
                  </TabsContent>
 
                 <TabsContent value="media" className="space-y-4">
