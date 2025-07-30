@@ -100,6 +100,26 @@ const uploadFormSchema = z.object({
     floorLevel: z.string().optional(),
     averageNightlyRate: z.string(),
   })).optional(),
+  // Special Deals fields
+  dealTitle: z.string().optional(),
+  dealType: z.string().optional(),
+  dealDescription: z.string().optional(),
+  dealCode: z.string().optional(),
+  dealMinStay: z.string().optional(),
+  dealApplicableRooms: z.array(z.string()).optional(),
+  dealGuestRestrictions: z.string().optional(),
+  dealBookingStart: z.date().optional(),
+  dealBookingEnd: z.date().optional(),
+  dealStayStart: z.date().optional(),
+  dealStayEnd: z.date().optional(),
+  dealDaysOfWeek: z.array(z.string()).optional(),
+  dealBlackoutDates: z.string().optional(),
+  dealPriceMethod: z.string().optional(),
+  dealDiscountValue: z.string().optional(),
+  dealTermsConditions: z.string().optional(),
+  dealActive: z.boolean().optional(),
+  dealFeatured: z.boolean().optional(),
+  dealUrgencyTag: z.string().optional(),
   // Location-specific fields
   country: z.string().optional(),
   region: z.string().optional(),
@@ -2276,7 +2296,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-7" : (category === "real-estate") ? "grid-cols-7" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-8" : (category === "real-estate") ? "grid-cols-7" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
                   <TabsTrigger value="basic">{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Basic Info" : "Basic Info"}</TabsTrigger>
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                      <TabsTrigger value="hotel-details">Rooms</TabsTrigger>
@@ -2290,7 +2310,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                      <TabsTrigger value="agent">Agent Info</TabsTrigger>
                    )}
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
-                     <TabsTrigger value="hotel-amenities">Hotel Amenities</TabsTrigger>
+                     <>
+                       <TabsTrigger value="hotel-amenities">Hotel Amenities</TabsTrigger>
+                       <TabsTrigger value="special-deals">Special Deals</TabsTrigger>
+                     </>
                    )}
                   {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
@@ -3282,6 +3305,561 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             </FormItem>
                           )}
                         />
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="special-deals" className="space-y-6">
+                      <div className="space-y-6">
+                        <h3 className="text-lg font-medium flex items-center gap-2">
+                          <Gift className="h-5 w-5" />
+                          Special Deals & Offers
+                        </h3>
+
+                        {/* Deal Title */}
+                        <FormField
+                          control={form.control}
+                          name="dealTitle"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Deal Title <span className="text-destructive">*</span></FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., Stay 3 Nights, Pay for 2" {...field} />
+                              </FormControl>
+                              <FormDescription>
+                                Clear, concise name for the offer
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Deal Type */}
+                        <FormField
+                          control={form.control}
+                          name="dealType"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Deal Type <span className="text-destructive">*</span></FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select deal type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="percentage-discount">% Discount</SelectItem>
+                                  <SelectItem value="fixed-discount">Fixed Amount Discount</SelectItem>
+                                  <SelectItem value="free-nights">Free Night(s)</SelectItem>
+                                  <SelectItem value="free-upgrade">Free Upgrade</SelectItem>
+                                  <SelectItem value="free-breakfast">Free Breakfast / Half Board</SelectItem>
+                                  <SelectItem value="seasonal-special">Seasonal Special</SelectItem>
+                                  <SelectItem value="last-minute">Last-Minute Deal</SelectItem>
+                                  <SelectItem value="early-bird">Early Bird Offer</SelectItem>
+                                  <SelectItem value="package-deal">Package Deal</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Deal Description */}
+                        <FormField
+                          control={form.control}
+                          name="dealDescription"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Description <span className="text-destructive">*</span></FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Detailed explanation of the offer, what it includes, any upsells..."
+                                  rows={4}
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Include all details about what the offer includes and any special conditions
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Deal Code */}
+                        <FormField
+                          control={form.control}
+                          name="dealCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Deal Code or Coupon (Optional)</FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., SAVE20, WELCOME10" {...field} />
+                              </FormControl>
+                              <FormDescription>
+                                Code users must enter at booking (if applicable)
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Minimum Stay Requirement */}
+                          <FormField
+                            control={form.control}
+                            name="dealMinStay"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Minimum Stay Requirement</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., 2 nights" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* Guest Restrictions */}
+                          <FormField
+                            control={form.control}
+                            name="dealGuestRestrictions"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Guest Restrictions</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select restriction" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="none">No Restrictions</SelectItem>
+                                    <SelectItem value="adults-only">Adults Only</SelectItem>
+                                    <SelectItem value="families-only">Families Only</SelectItem>
+                                    <SelectItem value="couples-only">Couples Only</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Applicable Room Types */}
+                        <FormField
+                          control={form.control}
+                          name="dealApplicableRooms"
+                          render={() => (
+                            <FormItem>
+                              <FormLabel>Applicable Room Types</FormLabel>
+                              <FormDescription>Select which room types this deal applies to</FormDescription>
+                              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                                {form.watch("roomProfiles")?.map((room: any) => (
+                                  <FormField
+                                    key={room.id}
+                                    control={form.control}
+                                    name="dealApplicableRooms"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={room.id}
+                                          className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              checked={field.value?.includes(room.id)}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([...field.value, room.id])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (value: string) => value !== room.id
+                                                      )
+                                                    )
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="text-sm font-normal cursor-pointer">
+                                            {room.roomType} - {room.bedConfiguration}
+                                          </FormLabel>
+                                        </FormItem>
+                                      )
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Booking Window */}
+                        <div className="space-y-4">
+                          <h4 className="font-medium">Booking Window</h4>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="dealBookingStart"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Booking Start Date</FormLabel>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className="w-full pl-3 text-left font-normal"
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick a date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="dealBookingEnd"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Booking End Date</FormLabel>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className="w-full pl-3 text-left font-normal"
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick a date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Stay Window */}
+                        <div className="space-y-4">
+                          <h4 className="font-medium">Stay Window</h4>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="dealStayStart"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Stay Start Date</FormLabel>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className="w-full pl-3 text-left font-normal"
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick a date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="dealStayEnd"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel>Stay End Date</FormLabel>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className="w-full pl-3 text-left font-normal"
+                                        >
+                                          {field.value ? (
+                                            format(field.value, "PPP")
+                                          ) : (
+                                            <span>Pick a date</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Days of Week */}
+                        <FormField
+                          control={form.control}
+                          name="dealDaysOfWeek"
+                          render={() => (
+                            <FormItem>
+                              <FormLabel>Valid Days of Week</FormLabel>
+                              <FormDescription>Select which days of the week this deal is valid</FormDescription>
+                              <div className="grid grid-cols-4 lg:grid-cols-7 gap-4">
+                                {[
+                                  { id: "monday", label: "Mon" },
+                                  { id: "tuesday", label: "Tue" },
+                                  { id: "wednesday", label: "Wed" },
+                                  { id: "thursday", label: "Thu" },
+                                  { id: "friday", label: "Fri" },
+                                  { id: "saturday", label: "Sat" },
+                                  { id: "sunday", label: "Sun" }
+                                ].map((day) => (
+                                  <FormField
+                                    key={day.id}
+                                    control={form.control}
+                                    name="dealDaysOfWeek"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={day.id}
+                                          className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              checked={field.value?.includes(day.id)}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([...field.value, day.id])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (value: string) => value !== day.id
+                                                      )
+                                                    )
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="text-sm font-normal cursor-pointer">
+                                            {day.label}
+                                          </FormLabel>
+                                        </FormItem>
+                                      )
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Blackout Dates */}
+                        <FormField
+                          control={form.control}
+                          name="dealBlackoutDates"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Blackout Dates</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="List specific dates when this deal is not valid (e.g., holidays, local events)"
+                                  rows={2}
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Price Adjustment Method */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="dealPriceMethod"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Price Adjustment Method</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select method" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="percentage-off">% off base price</SelectItem>
+                                    <SelectItem value="fixed-discount">Fixed € discount</SelectItem>
+                                    <SelectItem value="override-rate">Override room rate</SelectItem>
+                                    <SelectItem value="add-on-value">Add-on value</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="dealDiscountValue"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Discount Value</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., 15 (for 15% off) or 100 (for €100 off)" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Terms & Conditions */}
+                        <FormField
+                          control={form.control}
+                          name="dealTermsConditions"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Terms & Conditions <span className="text-destructive">*</span></FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Cancellation rules, prepayment requirements, no-show policies, etc."
+                                  rows={4}
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Activation and Features */}
+                        <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+                          <h4 className="font-medium">Deal Settings</h4>
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="dealActive"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={field.onChange}
+                                    />
+                                  </FormControl>
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel>Activate Deal</FormLabel>
+                                    <FormDescription>
+                                      Enable this deal for bookings
+                                    </FormDescription>
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="dealFeatured"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={field.onChange}
+                                    />
+                                  </FormControl>
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel>Featured Deal</FormLabel>
+                                    <FormDescription>
+                                      Highlight this deal for exposure
+                                    </FormDescription>
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="dealUrgencyTag"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Urgency Tag</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select tag" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="none">No Tag</SelectItem>
+                                      <SelectItem value="limited-time">Limited Time</SelectItem>
+                                      <SelectItem value="expiring-soon">Expiring Soon</SelectItem>
+                                      <SelectItem value="last-chance">Last Chance</SelectItem>
+                                      <SelectItem value="flash-sale">Flash Sale</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </TabsContent>
                   </>
