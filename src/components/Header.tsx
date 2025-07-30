@@ -102,16 +102,6 @@ const Header = () => {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link 
-                  to="/public-spaces" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/public-spaces" ? "bg-gray-50 font-medium" : ""
-                  }`}
-                >
-                  Public & Unlisted Spaces
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link 
                   to="/statistics" 
                   className={`w-full text-black hover:bg-gray-100 ${
                     location.pathname === "/statistics" ? "bg-gray-50 font-medium" : ""

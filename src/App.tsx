@@ -9,7 +9,7 @@ import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
-import PublicSpaces from "./pages/PublicSpaces";
+
 import Accounts from "./pages/Accounts";
 import Settings from "./pages/Settings";
 import Statistics from "./pages/Statistics";
@@ -41,7 +41,7 @@ const App = () => (
           {/* Matterport-style workspace routes */}
           <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/spaces" element={<AppLayout><Spaces /></AppLayout>} />
-          <Route path="/public-spaces" element={<AppLayout><PublicSpaces /></AppLayout>} />
+          
           <Route path="/accounts" element={<AppLayout><Accounts /></AppLayout>} />
           <Route path="/statistics" element={<AppLayout><Statistics /></AppLayout>} />
           <Route path="/users" element={<AppLayout><Users /></AppLayout>} />
