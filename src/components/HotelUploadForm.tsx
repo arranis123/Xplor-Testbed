@@ -20,6 +20,7 @@ interface RoomProfile {
   bedConfiguration: string;
   maxOccupancy: string;
   roomSize: string;
+  roomSizeUnit?: string;
   floorLevel: string;
   averageNightlyRate: string;
 }
@@ -474,12 +475,27 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           </div>
 
           <div>
-            <label className="text-sm font-medium mb-2 block">Room Size (sq ft)</label>
-            <Input 
-              placeholder="e.g., 350"
-              value={currentRoom.roomSize || ""}
-              onChange={(e) => setCurrentRoom({...currentRoom, roomSize: e.target.value})}
-            />
+            <label className="text-sm font-medium mb-2 block">Room Size</label>
+            <div className="flex gap-2">
+              <Input 
+                placeholder="e.g., 350"
+                value={currentRoom.roomSize || ""}
+                onChange={(e) => setCurrentRoom({...currentRoom, roomSize: e.target.value})}
+                className="flex-1"
+              />
+              <Select 
+                value={currentRoom.roomSizeUnit || "sqft"} 
+                onValueChange={(value) => setCurrentRoom({...currentRoom, roomSizeUnit: value})}
+              >
+                <SelectTrigger className="w-20 bg-background border-2 border-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-background border border-border shadow-lg z-50">
+                  <SelectItem value="sqft">Sqft</SelectItem>
+                  <SelectItem value="sqm">Sqm</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div>
