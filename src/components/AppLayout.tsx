@@ -11,9 +11,10 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  console.log('AppLayout rendering - about to call useAuth');
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
-  console.log('AppLayout - user state:', user ? 'authenticated' : 'not authenticated', 'email:', user?.email);
+  console.log('AppLayout - useAuth successful, user state:', user ? 'authenticated' : 'not authenticated', 'email:', user?.email);
 
   return (
     <SidebarProvider>
