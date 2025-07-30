@@ -109,6 +109,7 @@ export default function Auth() {
                     name="email"
                     type="email"
                     placeholder="Enter your email"
+                    autoComplete="email"
                     required
                   />
                 </div>
@@ -119,6 +120,7 @@ export default function Auth() {
                     name="password"
                     type="password"
                     placeholder="Enter your password"
+                    autoComplete="current-password"
                     required
                   />
                 </div>
@@ -138,6 +140,7 @@ export default function Auth() {
                     name="email"
                     type="email"
                     placeholder="Enter your email"
+                    autoComplete="email"
                     required
                   />
                 </div>
@@ -148,6 +151,7 @@ export default function Auth() {
                     name="password"
                     type="password"
                     placeholder="Create a password"
+                    autoComplete="new-password"
                     required
                     minLength={6}
                   />
