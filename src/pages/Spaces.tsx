@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, Grid, List, Plus, MoreVertical, X } from "lucide-react";
+import { Search, Filter, Grid, List, Plus, MoreVertical, X, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
@@ -11,12 +11,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Spaces = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedSpace, setSelectedSpace] = useState<any>(null);
+  const [sortBy, setSortBy] = useState("recommended");
   const [activeFilters, setActiveFilters] = useState({
     status: [],
     visibility: [],
@@ -32,6 +40,19 @@ const Spaces = () => {
     dateRange: ["Last 7 days", "Last 30 days", "Last 3 months", "Last 6 months", "All time"],
     views: ["0-100 views", "100-500 views", "500-1000 views", "1000+ views"]
   };
+
+  const sortOptions = [
+    { value: "recommended", label: "Recommended" },
+    { value: "newest", label: "New Listings First" },
+    { value: "views-high", label: "Views (high to low)" },
+    { value: "views-low", label: "Views (low to high)" },
+    { value: "name-asc", label: "Name (A to Z)" },
+    { value: "name-desc", label: "Name (Z to A)" },
+    { value: "type", label: "Space Type" },
+    { value: "status", label: "Status" },
+    { value: "visibility", label: "Visibility" },
+    { value: "last-updated", label: "Last Updated" }
+  ];
 
   const spaces = [
     {
@@ -312,6 +333,18 @@ const Spaces = () => {
             </div>
           </PopoverContent>
         </Popover>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+            {sortOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <div className="flex border border-border rounded-md">
           <Button 
             variant={viewMode === 'grid' ? 'default' : 'ghost'} 
