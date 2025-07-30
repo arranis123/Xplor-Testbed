@@ -30,7 +30,7 @@ import {
 
 const baseItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "All Spaces", url: "/spaces", icon: FolderOpen },
+  { title: "My Spaces", url: "/spaces", icon: FolderOpen },
   { title: "Recently Viewed", url: "/recently-viewed", icon: Clock },
   { title: "Statistics", url: "/statistics", icon: BarChart3 },
   { title: "Users", url: "/users", icon: Users },
