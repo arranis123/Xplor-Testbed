@@ -600,61 +600,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
 
 
 
-      {/* Pricing */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium flex items-center gap-2">
-          <DollarSign className="h-5 w-5" />
-          Pricing Information
-        </h3>
-        
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="seasonalPricing"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Seasonal Pricing</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select pricing type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="fixed">Fixed Rate Year-Round</SelectItem>
-                    <SelectItem value="seasonal">Seasonal Variations</SelectItem>
-                    <SelectItem value="dynamic">Dynamic Pricing</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="minimumStay"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Minimum Stay</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-border">
-                      <SelectValue placeholder="Select minimum stay" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="1">1 Night</SelectItem>
-                    <SelectItem value="2">2 Nights</SelectItem>
-                    <SelectItem value="3">3 Nights</SelectItem>
-                    <SelectItem value="7">1 Week</SelectItem>
-                    <SelectItem value="30">1 Month</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-        </div>
-      </div>
 
     </div>
   );
