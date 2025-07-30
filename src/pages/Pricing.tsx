@@ -19,13 +19,17 @@ import { Link } from "react-router-dom";
 const Pricing = () => {
   const pricingTiers = [
     {
-      name: "Free",
-      price: "$0",
+      name: "Starter",
+      price: "Free",
+      storage: "10 GB",
+      maxTours: "10 tours",
       description: "Perfect for getting started with virtual tours",
       features: [
-        "3 uploads",
-        "Standard visibility", 
+        "Upload 360 images or VR tours",
+        "Basic listing",
         "Public profile",
+        "Map view",
+        "Standard visibility",
         "Mobile-friendly playback",
         "Global map visibility",
         "Community support"
@@ -37,14 +41,17 @@ const Pricing = () => {
     },
     {
       name: "Pro",
-      price: "$19",
+      price: "€29",
       period: "/month",
+      storage: "50 GB",
+      maxTours: "50 tours",
       description: "Ideal for professionals and content creators",
       features: [
-        "Unlimited uploads",
-        "Analytics dashboard",
-        "Embed support",
+        "Tour analytics",
+        "Priority listing",
         "Custom branding",
+        "Embed on websites",
+        "Analytics dashboard",
         "Mobile-friendly playback",
         "Global map visibility",
         "Public user profile",
@@ -57,15 +64,16 @@ const Pricing = () => {
     },
     {
       name: "Business",
-      price: "$99",
+      price: "€99",
       period: "/month",
+      storage: "200 GB",
+      maxTours: "200 tours",
       description: "Perfect for teams and growing businesses",
       features: [
         "Everything in Pro",
+        "Bulk uploads",
         "5 team members",
-        "White-label tours",
         "Lead tracking",
-        "Geo heatmaps",
         "Advanced analytics",
         "Team collaboration tools",
         "Phone & email support"
@@ -77,24 +85,41 @@ const Pricing = () => {
     },
     {
       name: "Enterprise",
-      price: "Custom",
+      price: "Custom Pricing",
+      storage: "Custom",
+      maxTours: "Unlimited",
       description: "Tailored solutions for large organizations",
       features: [
         "Everything in Business",
         "API access",
-        "Data exports",
-        "Custom UI",
-        "Third-party integrations",
-        "Priority support",
-        "Dedicated account manager",
-        "Custom SLA",
-        "On-premise deployment options"
+        "SLA",
+        "Unlimited tours",
+        "CRM integration",
+        "Custom storage tiers"
       ],
       buttonText: "Contact Sales",
       buttonVariant: "outline" as const,
       popular: false,
       icon: Building
     }
+  ];
+
+  const addOnStorage = [
+    { amount: "50 GB", price: "€10/month" },
+    { amount: "200 GB", price: "€30/month" },
+    { amount: "Bandwidth overage", price: "€5 per 10 GB streamed" }
+  ];
+
+  const fairUsagePolicy = [
+    "Free tier limited to 10 active tours shown publicly",
+    "Image size limits: Max 20MB per 360° image, 2GB per Matterport/VR tour",
+    "File types accepted: .obj, .mp4, .glb, .usdz, Matterport links, 360° images",
+    "Accounts inactive >90 days may have content archived (email warnings first)"
+  ];
+
+  const upgradeHints = [
+    "\"You're almost out of storage (9.5/10 GB used). Upgrade now to keep uploading!\"",
+    "\"Unlock analytics and unlimited tour visibility with Pro.\""
   ];
 
   const commonFeatures = [
@@ -177,6 +202,14 @@ const Pricing = () => {
                     {tier.period && (
                       <span className="text-muted-foreground text-lg">{tier.period}</span>
                     )}
+                  </div>
+                  <div className="space-y-1 mb-3">
+                    <div className="text-sm text-muted-foreground">
+                      <strong>Storage:</strong> {tier.storage}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      <strong>Max Tours:</strong> {tier.maxTours}
+                    </div>
                   </div>
                   <CardDescription className="text-center">
                     {tier.description}
@@ -263,6 +296,61 @@ const Pricing = () => {
                   <p className="text-muted-foreground">{industry.description}</p>
                 </CardContent>
               </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Add-On Storage Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            Add-On Storage (For Any Paid Plan)
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {addOnStorage.map((addon, index) => (
+              <Card key={index} className="border-border text-center">
+                <CardHeader>
+                  <CardTitle className="text-lg text-foreground">{addon.amount}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-xplor-yellow">{addon.price}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Fair Usage & Abuse Prevention */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            Fair Usage & Abuse Prevention
+          </h2>
+          <div className="space-y-4">
+            {fairUsagePolicy.map((policy, index) => (
+              <div key={index} className="flex items-start gap-3 p-4 bg-muted/30 rounded-lg">
+                <Shield className="h-5 w-5 text-xplor-yellow flex-shrink-0 mt-0.5" />
+                <p className="text-muted-foreground">{policy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Upgrade Triggers Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            Upgrade Triggers (UX Hints)
+          </h2>
+          <div className="space-y-4">
+            {upgradeHints.map((hint, index) => (
+              <div key={index} className="flex items-start gap-3 p-4 bg-background rounded-lg border border-border">
+                <Zap className="h-5 w-5 text-xplor-yellow flex-shrink-0 mt-0.5" />
+                <p className="text-muted-foreground italic">{hint}</p>
+              </div>
             ))}
           </div>
         </div>
