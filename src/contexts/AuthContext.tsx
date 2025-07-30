@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Start with false to prevent infinite loading
   const [isSigningOut, setIsSigningOut] = useState(false);
 
   const checkAdminStatus = async (currentUser: User | null): Promise<boolean> => {
