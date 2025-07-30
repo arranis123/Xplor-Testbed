@@ -57,6 +57,28 @@ All colors MUST be HSL.
     --shadow-medium: 0 4px 6px -1px hsl(0 0% 7% / 0.1), 0 2px 4px -1px hsl(0 0% 7% / 0.06);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+    /* Mobile-optimized spacing */
+    --spacing-mobile-xs: 0.25rem;
+    --spacing-mobile-sm: 0.5rem;
+    --spacing-mobile-md: 1rem;
+    --spacing-mobile-lg: 1.5rem;
+    --spacing-mobile-xl: 2rem;
+    --spacing-mobile-2xl: 3rem;
+
+    /* Touch target sizes */
+    --touch-target-min: 44px;
+    --touch-target-comfortable: 48px;
+
+    /* Mobile typography scale */
+    --text-mobile-xs: 0.75rem;
+    --text-mobile-sm: 0.875rem;
+    --text-mobile-base: 1rem;
+    --text-mobile-lg: 1.125rem;
+    --text-mobile-xl: 1.25rem;
+    --text-mobile-2xl: 1.5rem;
+    --text-mobile-3xl: 1.875rem;
+    --text-mobile-4xl: 2.25rem;
+
     /* Sidebar colors */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 7%;

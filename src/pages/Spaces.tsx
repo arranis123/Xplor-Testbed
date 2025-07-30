@@ -329,27 +329,29 @@ const Spaces = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-mobile-md sm:p-6 space-y-mobile-lg sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-mobile-md sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">All Spaces</h1>
-          <p className="text-muted-foreground">Manage and organize your virtual spaces</p>
+          <h1 className="text-mobile-3xl sm:text-2xl font-bold text-foreground">All Spaces</h1>
+          <p className="text-mobile-sm sm:text-base text-muted-foreground">Manage and organize your virtual spaces</p>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+            <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-base w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
-              New Space
+              <span className="hidden sm:inline">New Space</span>
+              <span className="sm:hidden">New</span>
               <ChevronDown className="h-4 w-4 ml-2" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuContent align="end" className="w-56 sm:w-48">
             <DropdownMenuItem 
               onClick={() => {
                 setSelectedCategory("real-estate");
                 setUploadDialogOpen(true);
               }}
+              className="min-h-touch py-mobile-sm px-mobile-md"
             >
               <FolderOpen className="h-4 w-4 mr-2" />
               Real Estate
@@ -359,6 +361,7 @@ const Spaces = () => {
                 setSelectedCategory("yacht");
                 setUploadDialogOpen(true);
               }}
+              className="min-h-touch py-mobile-sm px-mobile-md"
             >
               <FolderOpen className="h-4 w-4 mr-2" />
               Yacht
@@ -368,6 +371,7 @@ const Spaces = () => {
                 setSelectedCategory("hotel-resort");
                 setUploadDialogOpen(true);
               }}
+              className="min-h-touch py-mobile-sm px-mobile-md"
             >
               <FolderOpen className="h-4 w-4 mr-2" />
               Hotel/Resort
@@ -377,16 +381,16 @@ const Spaces = () => {
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-mobile-md sm:gap-4">
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                <Globe className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          <CardContent className="p-mobile-md sm:p-4">
+            <div className="flex items-center gap-mobile-sm sm:gap-3">
+              <div className="p-mobile-sm sm:p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Public Spaces</p>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-mobile-xs sm:text-sm text-muted-foreground">Public</p>
+                <p className="text-mobile-xl sm:text-2xl font-bold text-foreground">
                   {spaces.filter(space => space.visibility === "Public").length}
                 </p>
               </div>
@@ -394,14 +398,14 @@ const Spaces = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
-                <EyeOff className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+          <CardContent className="p-mobile-md sm:p-4">
+            <div className="flex items-center gap-mobile-sm sm:gap-3">
+              <div className="p-mobile-sm sm:p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+                <EyeOff className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600 dark:text-orange-400" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Unlisted Spaces</p>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-mobile-xs sm:text-sm text-muted-foreground">Unlisted</p>
+                <p className="text-mobile-xl sm:text-2xl font-bold text-foreground">
                   {spaces.filter(space => space.visibility === "Unlisted").length}
                 </p>
               </div>
@@ -409,29 +413,29 @@ const Spaces = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
-                <Lock className="h-5 w-5 text-red-600 dark:text-red-400" />
+          <CardContent className="p-mobile-md sm:p-4">
+            <div className="flex items-center gap-mobile-sm sm:gap-3">
+              <div className="p-mobile-sm sm:p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
+                <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 dark:text-red-400" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Private Spaces</p>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-mobile-xs sm:text-sm text-muted-foreground">Private</p>
+                <p className="text-mobile-xl sm:text-2xl font-bold text-foreground">
                   {spaces.filter(space => space.visibility === "Private").length}
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                <Eye className="h-5 w-5 text-green-600 dark:text-green-400" />
+        <Card className="col-span-2 sm:col-span-1">
+          <CardContent className="p-mobile-md sm:p-4">
+            <div className="flex items-center gap-mobile-sm sm:gap-3">
+              <div className="p-mobile-sm sm:p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                <Eye className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Views</p>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-mobile-xs sm:text-sm text-muted-foreground">Total Views</p>
+                <p className="text-mobile-xl sm:text-2xl font-bold text-foreground">
                   {spaces.reduce((total, space) => total + space.views, 0).toLocaleString()}
                 </p>
               </div>
@@ -441,17 +445,17 @@ const Spaces = () => {
       </div>
 
       {/* Filters and Search */}
-      <div className="flex items-center gap-4 p-4 border border-border rounded-lg bg-card">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-mobile-md sm:gap-4 p-mobile-md sm:p-4 border border-border rounded-lg bg-card">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
             placeholder="Search spaces..." 
-            className="pl-10"
+            className="pl-10 min-h-touch"
           />
         </div>
         <Popover open={showFilters} onOpenChange={setShowFilters}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="relative">
+            <Button variant="outline" size="sm" className="relative min-h-touch px-mobile-md sm:px-4 w-full sm:w-auto">
               <Filter className="h-4 w-4 mr-2" />
               Filter
               {getActiveFilterCount() > 0 && (

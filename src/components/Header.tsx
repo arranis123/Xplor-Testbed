@@ -14,26 +14,30 @@ const Header = () => {
 
   return (
     <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="container mx-auto px-mobile-md sm:px-4 h-16 sm:h-16 flex items-center justify-between">
         {/* Left side: Burger menu + Logo */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-mobile-sm sm:space-x-3">
           {/* Burger Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-black hover:text-black hover:bg-black/10">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-foreground hover:text-foreground hover:bg-muted min-h-touch min-w-touch p-mobile-sm"
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent 
               align="start" 
-              className="w-56 bg-white shadow-lg border border-gray-200 z-50"
+              className="w-64 sm:w-56 bg-popover shadow-lg border border-border z-50 max-h-[80vh] overflow-y-auto"
             >
               {/* Main Navigation */}
               <DropdownMenuItem asChild>
                 <Link 
                   to="/" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Home
@@ -42,8 +46,8 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/pricing" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/pricing" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/pricing" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Pricing
@@ -52,8 +56,8 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/vr-cameras" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/vr-cameras" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/vr-cameras" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   VR Equipment Store
@@ -62,29 +66,29 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/capture-services" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/capture-services" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/capture-services" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Services
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-black hover:bg-gray-100">
+              <DropdownMenuItem className="text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md">
                 Support
               </DropdownMenuItem>
               
               {/* Divider */}
-              <div className="border-t border-gray-200 my-1"></div>
+              <div className="border-t border-border my-mobile-sm"></div>
               
               {/* Workspace Items */}
-              <div className="px-2 py-1">
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Workspace</span>
+              <div className="px-mobile-md py-mobile-sm">
+                <span className="text-mobile-xs font-medium text-muted-foreground uppercase tracking-wider">Workspace</span>
               </div>
               <DropdownMenuItem asChild>
                 <Link 
                   to="/dashboard" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/dashboard" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/dashboard" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Dashboard
@@ -93,8 +97,8 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/spaces" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/spaces" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/spaces" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   All Spaces
@@ -103,8 +107,8 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/statistics" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/statistics" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/statistics" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Statistics
@@ -113,8 +117,8 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/users" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/users" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/users" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Users
@@ -123,8 +127,8 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <Link 
                   to="/settings" 
-                  className={`w-full text-black hover:bg-gray-100 ${
-                    location.pathname === "/settings" ? "bg-gray-50 font-medium" : ""
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/settings" ? "bg-muted font-medium" : ""
                   }`}
                 >
                   Settings
@@ -134,22 +138,30 @@ const Header = () => {
           </DropdownMenu>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-mobile-sm touch-manipulation min-h-touch">
             <div className="w-8 h-8 bg-xplor-yellow rounded flex items-center justify-center">
-              <span className="text-black font-bold text-sm">X</span>
+              <span className="text-xplor-black font-bold text-sm">X</span>
             </div>
-            <span className="font-semibold text-xl text-black">xplor</span>
+            <span className="font-semibold text-lg sm:text-xl text-foreground">xplor</span>
           </Link>
         </div>
 
         {/* Right side: Auth buttons */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-mobile-sm sm:space-x-3">
           <CartButton />
-          <Button variant="ghost" size="sm" className="text-black hover:text-black hover:bg-black/10">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3 hidden sm:inline-flex"
+          >
             Sign In
           </Button>
-          <Button size="sm" className="bg-black hover:bg-black/90 text-white">
-            Get Started
+          <Button 
+            size="sm" 
+            className="bg-foreground hover:bg-foreground/90 text-background min-h-touch px-mobile-md sm:px-4 text-mobile-sm sm:text-sm"
+          >
+            <span className="hidden sm:inline">Get Started</span>
+            <span className="sm:hidden">Join</span>
           </Button>
         </div>
       </div>

@@ -89,6 +89,34 @@ export default {
 			transitionProperty: {
 				smooth: 'var(--transition-smooth)'
 			},
+			spacing: {
+				'mobile-xs': 'var(--spacing-mobile-xs)',
+				'mobile-sm': 'var(--spacing-mobile-sm)',
+				'mobile-md': 'var(--spacing-mobile-md)',
+				'mobile-lg': 'var(--spacing-mobile-lg)',
+				'mobile-xl': 'var(--spacing-mobile-xl)',
+				'mobile-2xl': 'var(--spacing-mobile-2xl)',
+				'touch-min': 'var(--touch-target-min)',
+				'touch-comfortable': 'var(--touch-target-comfortable)',
+			},
+			fontSize: {
+				'mobile-xs': 'var(--text-mobile-xs)',
+				'mobile-sm': 'var(--text-mobile-sm)',
+				'mobile-base': 'var(--text-mobile-base)',
+				'mobile-lg': 'var(--text-mobile-lg)',
+				'mobile-xl': 'var(--text-mobile-xl)',
+				'mobile-2xl': 'var(--text-mobile-2xl)',
+				'mobile-3xl': 'var(--text-mobile-3xl)',
+				'mobile-4xl': 'var(--text-mobile-4xl)',
+			},
+			minHeight: {
+				'touch': 'var(--touch-target-min)',
+				'touch-comfortable': 'var(--touch-target-comfortable)',
+			},
+			minWidth: {
+				'touch': 'var(--touch-target-min)',
+				'touch-comfortable': 'var(--touch-target-comfortable)',
+			},
 			keyframes: {
 				'accordion-down': {
 					from: {

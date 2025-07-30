@@ -14,7 +14,7 @@ const Index = () => {
       
       <main>
         {/* Hero Section */}
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <section className="relative h-[60vh] sm:h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
               src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" 
@@ -24,23 +24,24 @@ const Index = () => {
             <div className="absolute inset-0 bg-black/40"></div>
           </div>
           
-          <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-            <h1 className="text-5xl md:text-6xl font-bold mb-2">
+          <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-mobile-md sm:px-4">
+            <h1 className="text-mobile-4xl sm:text-5xl md:text-6xl font-bold mb-mobile-sm sm:mb-2">
               xplor
             </h1>
-            <h2 className="text-2xl md:text-3xl font-light mb-6 opacity-90">
+            <h2 className="text-mobile-lg sm:text-2xl md:text-3xl font-light mb-mobile-lg sm:mb-6 opacity-90">
               The World's Map of Virtual Spaces
             </h2>
-            <p className="text-xl md:text-2xl mb-8 opacity-90">
+            <p className="text-mobile-base sm:text-xl md:text-2xl mb-mobile-xl sm:mb-8 opacity-90 leading-relaxed">
               Discover, share, and explore immersive 3D tours of real-world locations — from luxury homes and yachts to cultural landmarks and travel destinations.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3">
+            <div className="flex flex-col sm:flex-row gap-mobile-md sm:gap-4 justify-center">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable">
                 Explore Luxury
               </Button>
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-black text-lg px-8 py-3" asChild>
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable" asChild>
                 <Link to="/auth">
-                  Sign In / Sign Up
+                  <span className="hidden sm:inline">Sign In / Sign Up</span>
+                  <span className="sm:hidden">Join Now</span>
                 </Link>
               </Button>
             </div>
@@ -48,55 +49,55 @@ const Index = () => {
         </section>
 
         {/* Features Section */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">
+        <section className="py-mobile-2xl sm:py-20 bg-background">
+          <div className="container mx-auto px-mobile-md sm:px-4">
+            <div className="text-center mb-mobile-2xl sm:mb-16">
+              <h2 className="text-mobile-3xl sm:text-4xl font-bold text-foreground mb-mobile-md sm:mb-4">
                 Everything you need for luxury experiences
               </h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-mobile-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                 From exclusive yachts to stunning properties, curate your perfect luxury getaway
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-mobile-lg sm:gap-8">
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-xplor-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <CardTitle>Yachts</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Yachts</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
                     Charter world-class luxury yachts with professional crews and premium amenities
                   </CardDescription>
                 </CardHeader>
               </Card>
 
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-xplor-black rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-xplor-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-black rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </div>
-                  <CardTitle>Properties</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Properties</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
                     Stay in extraordinary luxury properties and exclusive architectural marvels
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-xplor-grey rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card sm:col-span-2 md:col-span-1">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-grey rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <CardTitle>Concierge</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Concierge</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
                     Personalized service and exclusive access to the world's finest experiences
                   </CardDescription>
                 </CardHeader>
