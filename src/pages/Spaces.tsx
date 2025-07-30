@@ -1,11 +1,18 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, Grid, List, Plus, MoreVertical, X, ChevronDown } from "lucide-react";
+import { Search, Filter, Grid, List, Plus, MoreVertical, X, ChevronDown, FolderOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { ShareDialog } from "@/components/ShareDialog";
+import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
@@ -25,6 +32,8 @@ const Spaces = () => {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedSpace, setSelectedSpace] = useState<any>(null);
   const [sortBy, setSortBy] = useState("recommended");
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [activeFilters, setActiveFilters] = useState({
     status: [],
     visibility: [],
@@ -216,10 +225,44 @@ const Spaces = () => {
           <h1 className="text-2xl font-bold text-foreground">All Spaces</h1>
           <p className="text-muted-foreground">Manage and organize your virtual spaces</p>
         </div>
-        <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
-          <Plus className="h-4 w-4 mr-2" />
-          Create Space
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
+              <Plus className="h-4 w-4 mr-2" />
+              New Space
+              <ChevronDown className="h-4 w-4 ml-2" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem 
+              onClick={() => {
+                setSelectedCategory("real-estate");
+                setUploadDialogOpen(true);
+              }}
+            >
+              <FolderOpen className="h-4 w-4 mr-2" />
+              Real Estate
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => {
+                setSelectedCategory("yacht");
+                setUploadDialogOpen(true);
+              }}
+            >
+              <FolderOpen className="h-4 w-4 mr-2" />
+              Yacht
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => {
+                setSelectedCategory("hotel-resort");
+                setUploadDialogOpen(true);
+              }}
+            >
+              <FolderOpen className="h-4 w-4 mr-2" />
+              Hotel/Resort
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Filters and Search */}
@@ -519,6 +562,12 @@ const Spaces = () => {
           spaceUrl={`${window.location.origin}/space/${selectedSpace.id}`}
         />
       )}
+      
+      <UploadSpaceDialog 
+        open={uploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen}
+        category={selectedCategory}
+      />
     </div>
   );
 };
