@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { 
   LayoutDashboard, 
   FolderOpen, 
@@ -44,10 +45,14 @@ export function AppSidebar() {
   const { open, setOpen } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
-  const { isAdmin, user } = useAuth();
+  const { isAdmin, user, forceAdminCheck } = useAuth();
 
-  // Debug admin status
-  console.log('Sidebar - User:', user?.email, 'IsAdmin:', isAdmin);
+  // Force admin check for authorized emails
+  useEffect(() => {
+    if (user?.email === 'info@xplor.io' && !isAdmin) {
+      forceAdminCheck();
+    }
+  }, [user, isAdmin, forceAdminCheck]);
 
   // Add admin console if user is admin
   const items = [...baseItems];
