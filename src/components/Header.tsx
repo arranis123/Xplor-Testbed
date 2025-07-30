@@ -166,31 +166,9 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Right side: Single Auth button */}
+        {/* Right side: Cart button only */}
         <div className="flex items-center space-x-mobile-sm sm:space-x-3">
           <CartButton />
-          {user ? (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
-              onClick={async () => {
-                await signOut();
-                navigate("/");
-              }}
-            >
-              Sign Out
-            </Button>
-          ) : (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-foreground hover:text-foreground hover:bg-muted min-h-touch px-mobile-sm sm:px-3"
-              asChild
-            >
-              <Link to="/auth">Sign In</Link>
-            </Button>
-          )}
         </div>
       </div>
       <CartSheet />

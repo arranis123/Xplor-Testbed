@@ -74,9 +74,8 @@ export default function Auth() {
     }
   };
 
-  // Show loading while checking authentication with debugging
+  // Show loading while checking authentication
   if (authLoading) {
-    console.log('Auth page - authLoading is true, showing loading screen');
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
@@ -85,6 +84,12 @@ export default function Auth() {
         </div>
       </div>
     );
+  }
+
+  // If user exists but we're still here, force redirect
+  if (user) {
+    navigate("/dashboard", { replace: true });
+    return null;
   }
 
   return (
