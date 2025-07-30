@@ -7742,7 +7742,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  onValueChange={(roomId) => {
                                    const fileInput = document.getElementById('vr-upload') as HTMLInputElement;
                                    if (fileInput?.files) {
-                                     handleFileUpload('vrWalkthrough', fileInput.files, roomId);
+                                     const finalRoomId = roomId === "general" ? undefined : roomId;
+                                     handleFileUpload('vrWalkthrough', fileInput.files, finalRoomId);
                                      fileInput.value = '';
                                    }
                                  }}
@@ -7751,7 +7752,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    <SelectValue placeholder="Select a room or upload as general" />
                                  </SelectTrigger>
                                  <SelectContent>
-                                   <SelectItem value="">General VR Content</SelectItem>
+                                   <SelectItem value="general">General VR Content</SelectItem>
                                    {(form.watch("roomProfiles") || []).map((room: any) => (
                                      <SelectItem key={room.id} value={room.id}>
                                        {room.roomType} - {room.bedConfiguration}
@@ -7826,7 +7827,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  onValueChange={(roomId) => {
                                    const fileInput = document.getElementById('photos-upload') as HTMLInputElement;
                                    if (fileInput?.files) {
-                                     handleFileUpload('photos', fileInput.files, roomId);
+                                     const finalRoomId = roomId === "general" ? undefined : roomId;
+                                     handleFileUpload('photos', fileInput.files, finalRoomId);
                                      fileInput.value = '';
                                    }
                                  }}
@@ -7835,7 +7837,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    <SelectValue placeholder="Select a room or upload as general" />
                                  </SelectTrigger>
                                  <SelectContent>
-                                   <SelectItem value="">General Photos</SelectItem>
+                                   <SelectItem value="general">General Photos</SelectItem>
                                    {(form.watch("roomProfiles") || []).map((room: any) => (
                                      <SelectItem key={room.id} value={room.id}>
                                        {room.roomType} - {room.bedConfiguration}
@@ -7911,7 +7913,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  onValueChange={(roomId) => {
                                    const fileInput = document.getElementById('videos-upload') as HTMLInputElement;
                                    if (fileInput?.files) {
-                                     handleFileUpload('videos', fileInput.files, roomId);
+                                     const finalRoomId = roomId === "general" ? undefined : roomId;
+                                     handleFileUpload('videos', fileInput.files, finalRoomId);
                                      fileInput.value = '';
                                    }
                                  }}
@@ -7920,7 +7923,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    <SelectValue placeholder="Select a room or upload as general" />
                                  </SelectTrigger>
                                  <SelectContent>
-                                   <SelectItem value="">General Videos</SelectItem>
+                                   <SelectItem value="general">General Videos</SelectItem>
                                    {(form.watch("roomProfiles") || []).map((room: any) => (
                                      <SelectItem key={room.id} value={room.id}>
                                        {room.roomType} - {room.bedConfiguration}
@@ -7996,7 +7999,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  onValueChange={(roomId) => {
                                    const fileInput = document.getElementById('drone-upload') as HTMLInputElement;
                                    if (fileInput?.files) {
-                                     handleFileUpload('droneFootage', fileInput.files, roomId);
+                                     const finalRoomId = roomId === "general" ? undefined : roomId;
+                                     handleFileUpload('droneFootage', fileInput.files, finalRoomId);
                                      fileInput.value = '';
                                    }
                                  }}
@@ -8005,7 +8009,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    <SelectValue placeholder="Select a room or upload as general" />
                                  </SelectTrigger>
                                  <SelectContent>
-                                   <SelectItem value="">General Drone Footage</SelectItem>
+                                   <SelectItem value="general">General Drone Footage</SelectItem>
                                    {(form.watch("roomProfiles") || []).map((room: any) => (
                                      <SelectItem key={room.id} value={room.id}>
                                        {room.roomType} - {room.bedConfiguration}
