@@ -22,7 +22,7 @@ import pro3CameraImage from "@/assets/pro3-camera.jpg";
 
 const CaptureServices = () => {
   const openCalendly = () => {
-    window.open('https://calendly.com', '_blank');
+    window.open('https://calendly.com/xplor-info/30min', '_blank');
   };
   const industryTabs = [
     { 
