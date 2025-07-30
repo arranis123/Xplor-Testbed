@@ -126,7 +126,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    console.log('AuthContext: Starting initialization');
     let mounted = true;
+    
+    const initializeAuth = async () => {
+      try {
+        // Get initial session first
+        console.log('AuthContext: Getting initial session');
+        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('AuthContext: Error getting initial session:', error);
+          if (mounted) {
+            setIsLoading(false);
+          }
+          return;
+        }
+        
+        console.log('AuthContext: Initial session result:', currentSession?.user?.email || 'null');
+        
+        if (mounted) {
+          setSession(currentSession);
+          setUser(currentSession?.user ?? null);
+          
+          if (currentSession?.user) {
+            const adminStatus = await checkAdminStatus(currentSession.user);
+            if (mounted) {
+              setIsAdmin(adminStatus);
+            }
+          } else {
+            setIsAdmin(false);
+          }
+          
+          setIsLoading(false);
+          console.log('AuthContext: Initialization complete, isLoading set to false');
+        }
+      } catch (error) {
+        console.error('AuthContext: Initialization error:', error);
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
+    };
     
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -154,31 +195,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     );
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
-      if (!mounted) return;
-      
-      setSession(currentSession);
-      setUser(currentSession?.user ?? null);
-      
-      if (currentSession?.user) {
-        checkAdminStatus(currentSession.user).then(adminStatus => {
-          if (mounted) {
-            setIsAdmin(adminStatus);
-            setIsLoading(false);
-          }
-        });
-      } else {
-        if (mounted) {
-          setIsLoading(false);
-        }
-      }
-    }).catch(error => {
-      console.error('AuthContext: Error getting initial session:', error);
-      if (mounted) {
-        setIsLoading(false);
-      }
-    });
+    // Initialize auth
+    initializeAuth();
 
     return () => {
       mounted = false;
