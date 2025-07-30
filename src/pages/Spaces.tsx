@@ -234,6 +234,28 @@ const Spaces = () => {
     setShareDialogOpen(true);
   };
 
+  const handleEdit = (space: any) => {
+    // Map space types to upload categories
+    const typeToCategory: { [key: string]: string } = {
+      "Office": "real-estate",
+      "Residential": "real-estate", 
+      "Restaurant": "real-estate",
+      "Retail": "real-estate",
+      "Hotel": "hotel-resort",
+      "Vacation Rental": "real-estate",
+      "Event Space": "real-estate",
+      "Warehouse": "real-estate",
+      // For any yacht-related types (if they exist)
+      "Yacht": "yacht",
+      "Boat": "yacht",
+      "Vessel": "yacht"
+    };
+    
+    const category = typeToCategory[space.type] || "real-estate";
+    setSelectedCategory(category);
+    setUploadDialogOpen(true);
+  };
+
   const handleVisibilityChange = (spaceId: number, newVisibility: string) => {
     if (newVisibility === "Private") {
       setCurrentSpaceId(spaceId);
@@ -659,7 +681,7 @@ const Spaces = () => {
                     <span>Created {space.created}</span>
                   </div>
                   <div className="flex gap-2 pt-2">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button variant="outline" size="sm" className="flex-1" onClick={() => handleEdit(space)}>
                       Edit
                     </Button>
                     <Button variant="outline" size="sm" className="flex-1" onClick={() => handleShare(space)}>
@@ -712,7 +734,7 @@ const Spaces = () => {
                         <span>Created {space.created}</span>
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleEdit(space)}>
                           Edit
                         </Button>
                         <Button variant="outline" size="sm" onClick={() => handleShare(space)}>
