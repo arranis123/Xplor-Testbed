@@ -487,6 +487,28 @@ async function getManufacturers() {
       order: 'name'
     });
     
+    // If no manufacturers exist, auto-initialize the database
+    if (!result.results || result.results.length === 0) {
+      console.log('No manufacturers found, auto-initializing database...');
+      await initializeDatabase();
+      
+      // Fetch again after initialization
+      const newResult = await Parse.getObjects('CarManufacturer', {
+        order: 'name'
+      });
+      
+      const manufacturers = newResult.results.map(item => ({
+        value: item.value,
+        label: item.name,
+        country: item.country,
+        region: item.region
+      }));
+
+      return new Response(JSON.stringify({ manufacturers }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+    
     const manufacturers = result.results.map(item => ({
       value: item.value,
       label: item.name,
