@@ -130,6 +130,41 @@ const YachtBrokerage = () => {
                 Find a Technician Near You
               </Button>
             </div>
+            
+            {/* Demo Yachts Section */}
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold text-center text-foreground mb-8">Experience Virtual Yacht Tours</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                {[{
+                  name: "Sunseeker 76 Yacht (DEMO)",
+                  type: "Motor Yacht"
+                }, {
+                  name: "Ferretti 920 (DEMO)",
+                  type: "Luxury Motor Yacht"
+                }, {
+                  name: "Princess S78 Sportbridge (DEMO)",
+                  type: "Sport Yacht"
+                }].map(demo => (
+                  <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
+                    <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Ship className="h-12 w-12 text-xplor-yellow" />
+                      </div>
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="text-lg">{demo.name}</CardTitle>
+                      <CardDescription>{demo.type}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button variant="outline" className="w-full">
+                        <Waves className="h-4 w-4 mr-2" />
+                        Tour Virtual Yacht
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -146,40 +181,6 @@ const YachtBrokerage = () => {
             </p>
           </div>
 
-          {/* Demo Yachts Section - Keeping this as requested */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center text-foreground mb-8">Experience Virtual Yacht Tours</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[{
-                name: "Sunseeker 76 Yacht (DEMO)",
-                type: "Motor Yacht"
-              }, {
-                name: "Ferretti 920 (DEMO)",
-                type: "Luxury Motor Yacht"
-              }, {
-                name: "Princess S78 Sportbridge (DEMO)",
-                type: "Sport Yacht"
-              }].map(demo => (
-                <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
-                  <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Ship className="h-12 w-12 text-xplor-yellow" />
-                    </div>
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{demo.name}</CardTitle>
-                    <CardDescription>{demo.type}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button variant="outline" className="w-full">
-                      <Waves className="h-4 w-4 mr-2" />
-                      Tour Virtual Yacht
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
 
           {/* Why Xplor is Excellent for Yachts - Organized by Category */}
           <div className="space-y-12">
