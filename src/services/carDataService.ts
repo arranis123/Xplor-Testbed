@@ -20,13 +20,51 @@ export class CarDataService {
   private static vehiclesData = vehiclesData.vehicles;
 
   static getVehicleTypes(): CarVariant[] {
-    const categoriesSet = new Set(this.vehiclesData.map(vehicle => vehicle.category));
-    return Array.from(categoriesSet)
-      .sort()
-      .map(category => ({
-        value: category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'),
-        label: category
-      }));
+    // Get categories from database
+    const databaseCategories = new Set(this.vehiclesData.map(vehicle => vehicle.category));
+    const databaseTypes = Array.from(databaseCategories).map(category => ({
+      value: category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'),
+      label: category
+    }));
+    
+    // Add specific vehicle types that may not be in the database but are commonly searched
+    const additionalTypes = [
+      { value: "sedan", label: "Sedan" },
+      { value: "hatchback", label: "Hatchback" },
+      { value: "coupe", label: "Coupe" },
+      { value: "convertible", label: "Convertible" },
+      { value: "luxury-car", label: "Luxury Car" },
+      { value: "sports-car", label: "Sports Car" },
+      { value: "electric-vehicle", label: "Electric Vehicle" },
+      { value: "hybrid-vehicle", label: "Hybrid Vehicle" },
+      { value: "commercial-van", label: "Commercial Van" },
+      { value: "rv", label: "RV/Motorhome" },
+      { value: "boat", label: "Boat" },
+      { value: "jet-ski", label: "Jet Ski" },
+      { value: "snowmobile", label: "Snowmobile" },
+      { value: "truck", label: "Truck" },
+      { value: "trailer", label: "Trailer" },
+      { value: "camper", label: "Camper" },
+      { value: "motorhome", label: "Motorhome" },
+      { value: "caravan", label: "Caravan" }
+    ];
+    
+    // Combine database types with additional types, removing duplicates
+    const allTypes = [...databaseTypes];
+    
+    additionalTypes.forEach(additionalType => {
+      const exists = allTypes.some(type => 
+        type.value === additionalType.value || 
+        type.label.toLowerCase().includes(additionalType.label.toLowerCase()) ||
+        additionalType.label.toLowerCase().includes(type.label.toLowerCase())
+      );
+      
+      if (!exists) {
+        allTypes.push(additionalType);
+      }
+    });
+    
+    return allTypes.sort((a, b) => a.label.localeCompare(b.label));
   }
 
   static getManufacturersByVehicleType(vehicleTypeValue: string): CarManufacturer[] {
@@ -35,18 +73,28 @@ export class CarDataService {
     
     if (!vehicleTypeLabel) return [];
 
-    const brandsSet = new Set(
-      this.vehiclesData
-        .filter(vehicle => vehicle.category === vehicleTypeLabel)
-        .map(vehicle => vehicle.brand)
-    );
+    // Check if this is a database category
+    const isDatabaseCategory = this.vehiclesData.some(vehicle => vehicle.category === vehicleTypeLabel);
     
-    return Array.from(brandsSet)
-      .sort()
-      .map(brand => ({
-        value: brand.toLowerCase().replace(/\s+/g, '-'),
-        label: brand
-      }));
+    if (isDatabaseCategory) {
+      // Use database filtering for known categories
+      const brandsSet = new Set(
+        this.vehiclesData
+          .filter(vehicle => vehicle.category === vehicleTypeLabel)
+          .map(vehicle => vehicle.brand)
+      );
+      
+      return Array.from(brandsSet)
+        .sort()
+        .map(brand => ({
+          value: brand.toLowerCase().replace(/\s+/g, '-'),
+          label: brand
+        }));
+    } else {
+      // For additional vehicle types not in database, return all manufacturers
+      // This allows for broader selection possibilities
+      return this.getManufacturers();
+    }
   }
 
   static getManufacturers(): CarManufacturer[] {
@@ -72,18 +120,27 @@ export class CarDataService {
     
     const manufacturerLabel = selectedManufacturer.label;
     
-    const models = this.vehiclesData
-      .filter(vehicle => vehicle.category === vehicleTypeLabel && vehicle.brand === manufacturerLabel)
-      .map(vehicle => vehicle.model);
+    // Check if this is a database category
+    const isDatabaseCategory = this.vehiclesData.some(vehicle => vehicle.category === vehicleTypeLabel);
     
-    const uniqueModels = Array.from(new Set(models));
-    
-    return uniqueModels
-      .sort()
-      .map(model => ({
-        value: model.toLowerCase().replace(/\s+/g, '-'),
-        label: model
-      }));
+    if (isDatabaseCategory) {
+      // Use database filtering for known categories
+      const models = this.vehiclesData
+        .filter(vehicle => vehicle.category === vehicleTypeLabel && vehicle.brand === manufacturerLabel)
+        .map(vehicle => vehicle.model);
+      
+      const uniqueModels = Array.from(new Set(models));
+      
+      return uniqueModels
+        .sort()
+        .map(model => ({
+          value: model.toLowerCase().replace(/\s+/g, '-'),
+          label: model
+        }));
+    } else {
+      // For additional vehicle types, return all models for the manufacturer
+      return this.getModelsByManufacturer(manufacturerValue);
+    }
   }
 
   static getModelsByManufacturer(manufacturerValue: string): CarModel[] {
