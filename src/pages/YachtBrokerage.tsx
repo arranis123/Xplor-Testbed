@@ -144,10 +144,12 @@ const YachtBrokerage = () => {
                 name: "Princess S78 Sportbridge (DEMO)",
                 type: "Sport Yacht"
               }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
-                    <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Ship className="h-12 w-12 text-gray-700" />
-                      </div>
+                    <div className="aspect-video rounded-t-lg relative overflow-hidden">
+                      <img 
+                        src="/lovable-uploads/9f1ae7dd-e9ce-420d-80a5-fe2f58249a56.png" 
+                        alt="Yacht Virtual Tour"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <CardHeader>
                       <CardTitle className="text-lg">{demo.name}</CardTitle>
