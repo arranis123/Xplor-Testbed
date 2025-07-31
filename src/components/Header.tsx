@@ -159,10 +159,10 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-mobile-sm touch-manipulation min-h-touch">
-            <div className="w-10 h-10 bg-primary rounded flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-base">X</span>
+            <div className="w-12 h-12 bg-primary rounded flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">X</span>
             </div>
-            <span className="font-semibold text-xl sm:text-2xl text-foreground font-typografix">xplor</span>
+            <span className="font-semibold text-2xl sm:text-3xl text-foreground font-typografix">xplor</span>
           </Link>
         </div>
 
