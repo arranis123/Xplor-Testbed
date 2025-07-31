@@ -510,13 +510,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   });
 
   
-  // Load manufacturers on component mount
+  // Load manufacturers on component mount and when dialog opens for cars
   useEffect(() => {
     const loadManufacturers = async () => {
       setIsLoadingManufacturers(true);
       try {
         const data = await carDataService.getManufacturers();
         setManufacturers(data);
+        console.log('Loaded manufacturers:', data.length);
       } catch (error) {
         console.error('Error loading manufacturers:', error);
         toast({
@@ -529,8 +530,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       }
     };
 
-    loadManufacturers();
-  }, []);
+    // Load manufacturers when dialog opens for cars or on mount
+    if (open && category === 'car') {
+      loadManufacturers();
+    }
+  }, [open, category]);
 
   // Load models when manufacturer changes
   useEffect(() => {
@@ -5073,17 +5077,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                           <SelectValue placeholder="Select manufacturer" />
                                         </SelectTrigger>
                                       </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {isLoadingManufacturers ? (
-                                          <SelectItem value="loading" disabled>Loading manufacturers...</SelectItem>
-                                        ) : (
-                                          manufacturers.map((manufacturer) => (
-                                            <SelectItem key={manufacturer.value} value={manufacturer.value}>
-                                              {manufacturer.label}
-                                            </SelectItem>
-                                          ))
-                                        )}
-                                      </SelectContent>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {isLoadingManufacturers ? (
+                                           <SelectItem value="loading" disabled>Loading manufacturers...</SelectItem>
+                                         ) : manufacturers.length === 0 ? (
+                                           <SelectItem value="empty" disabled>No manufacturers available</SelectItem>
+                                         ) : (
+                                           manufacturers.map((manufacturer) => (
+                                             <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                               {manufacturer.label}
+                                             </SelectItem>
+                                           ))
+                                         )}
+                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
                                   </FormItem>
