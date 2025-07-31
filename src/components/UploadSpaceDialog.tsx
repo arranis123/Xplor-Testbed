@@ -428,6 +428,21 @@ const uploadFormSchema = z.object({
   carServiceHistory: z.string().optional(),
   carAccidentHistory: z.string().optional(),
   carFinancing: z.string().optional(),
+  // AutoTrader-inspired advanced filters
+  carDoors: z.string().optional(),
+  carSeats: z.string().optional(),
+  carOwners: z.string().optional(),
+  carEmissionClass: z.string().optional(),
+  carInsuranceGroup: z.string().optional(),
+  carBHP: z.string().optional(),
+  carAcceleration: z.string().optional(),
+  carTopSpeed: z.string().optional(),
+  carCO2Emissions: z.string().optional(),
+  carMpg: z.string().optional(),
+  carTaxBand: z.string().optional(),
+  carAnnualTax: z.string().optional(),
+  carULEZ: z.string().optional(),
+  carKeyFeatures: z.array(z.string()).optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
