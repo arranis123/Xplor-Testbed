@@ -4,51 +4,66 @@ import { Car, Truck, Bike, Shield, Upload, Play, Star, CheckCircle } from "lucid
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
 const CarsVehicles = () => {
   const [activeDemo, setActiveDemo] = useState("sedan");
-
-  const vehicleTypes = [
-    { id: "sedan", name: "Sedans & Coupes", icon: Car, description: "Luxury cars, sports cars, electric vehicles" },
-    { id: "suv", name: "SUVs & Trucks", icon: Truck, description: "Full-size SUVs, pickup trucks, commercial vehicles" },
-    { id: "motorcycle", name: "Motorcycles", icon: Bike, description: "Sport bikes, cruisers, touring motorcycles" },
-    { id: "classic", name: "Classic Cars", icon: Car, description: "Vintage automobiles, collector vehicles" },
-  ];
-
-  const benefits = [
-    {
-      title: "Immersive Shopping Experience",
-      description: "Allow customers to explore every detail of your vehicles from home",
-      icon: Star,
-    },
-    {
-      title: "Increase Sales Conversion",
-      description: "Virtual tours lead to 40% higher engagement and faster purchase decisions",
-      icon: CheckCircle,
-    },
-    {
-      title: "Reduce Physical Visits",
-      description: "Pre-qualify buyers and save time with virtual showroom visits",
-      icon: Shield,
-    },
-    {
-      title: "24/7 Availability",
-      description: "Your inventory is always accessible to potential buyers worldwide",
-      icon: Upload,
-    },
-  ];
-
-  const technicalSpecs = [
-    { category: "Image Quality", requirement: "Minimum 4K resolution (3840×2160)" },
-    { category: "File Formats", requirement: "JPEG, PNG, MP4, MOV for media uploads" },
-    { category: "360° Content", requirement: "Equirectangular format, 8K recommended" },
-    { category: "File Size", requirement: "Maximum 500MB per file, 5GB total per vehicle" },
-    { category: "Lighting", requirement: "Even lighting, minimal shadows, HDR preferred" },
-    { category: "Coverage", requirement: "Interior, exterior, engine bay, trunk/cargo area" },
-  ];
-
-  return (
-    <>
+  const vehicleTypes = [{
+    id: "sedan",
+    name: "Sedans & Coupes",
+    icon: Car,
+    description: "Luxury cars, sports cars, electric vehicles"
+  }, {
+    id: "suv",
+    name: "SUVs & Trucks",
+    icon: Truck,
+    description: "Full-size SUVs, pickup trucks, commercial vehicles"
+  }, {
+    id: "motorcycle",
+    name: "Motorcycles",
+    icon: Bike,
+    description: "Sport bikes, cruisers, touring motorcycles"
+  }, {
+    id: "classic",
+    name: "Classic Cars",
+    icon: Car,
+    description: "Vintage automobiles, collector vehicles"
+  }];
+  const benefits = [{
+    title: "Immersive Shopping Experience",
+    description: "Allow customers to explore every detail of your vehicles from home",
+    icon: Star
+  }, {
+    title: "Increase Sales Conversion",
+    description: "Virtual tours lead to 40% higher engagement and faster purchase decisions",
+    icon: CheckCircle
+  }, {
+    title: "Reduce Physical Visits",
+    description: "Pre-qualify buyers and save time with virtual showroom visits",
+    icon: Shield
+  }, {
+    title: "24/7 Availability",
+    description: "Your inventory is always accessible to potential buyers worldwide",
+    icon: Upload
+  }];
+  const technicalSpecs = [{
+    category: "Image Quality",
+    requirement: "Minimum 4K resolution (3840×2160)"
+  }, {
+    category: "File Formats",
+    requirement: "JPEG, PNG, MP4, MOV for media uploads"
+  }, {
+    category: "360° Content",
+    requirement: "Equirectangular format, 8K recommended"
+  }, {
+    category: "File Size",
+    requirement: "Maximum 500MB per file, 5GB total per vehicle"
+  }, {
+    category: "Lighting",
+    requirement: "Even lighting, minimal shadows, HDR preferred"
+  }, {
+    category: "Coverage",
+    requirement: "Interior, exterior, engine bay, trunk/cargo area"
+  }];
+  return <>
       <Helmet>
         <title>Cars & Vehicles Virtual Tours | Xplor - Automotive 360° Experiences</title>
         <meta name="description" content="Create immersive virtual tours for cars, trucks, motorcycles, and classic vehicles. Boost automotive sales with 360° virtual showrooms and interactive vehicle experiences." />
@@ -82,18 +97,11 @@ const CarsVehicles = () => {
                   <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
                     Add a Vehicle
                   </Button>
-                  <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
-                    <Play className="mr-2 h-5 w-5" />
-                    Watch Demo
-                  </Button>
+                  
                 </div>
               </div>
               <div className="relative">
-                <div className="aspect-video bg-primary-foreground/10 rounded-2xl p-8 backdrop-blur-sm border border-primary-foreground/20">
-                  <div className="w-full h-full bg-gradient-to-br from-accent/20 to-secondary/20 rounded-xl flex items-center justify-center">
-                    <Car className="h-24 w-24 text-primary-foreground/60" />
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -111,14 +119,7 @@ const CarsVehicles = () => {
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {vehicleTypes.map((type) => (
-                <Card 
-                  key={type.id} 
-                  className={`cursor-pointer transition-all duration-300 hover:scale-105 ${
-                    activeDemo === type.id ? 'ring-2 ring-primary' : ''
-                  }`}
-                  onClick={() => setActiveDemo(type.id)}
-                >
+              {vehicleTypes.map(type => <Card key={type.id} className={`cursor-pointer transition-all duration-300 hover:scale-105 ${activeDemo === type.id ? 'ring-2 ring-primary' : ''}`} onClick={() => setActiveDemo(type.id)}>
                   <CardHeader className="text-center">
                     <type.icon className="h-12 w-12 mx-auto mb-4 text-primary" />
                     <CardTitle className="text-lg">{type.name}</CardTitle>
@@ -128,8 +129,7 @@ const CarsVehicles = () => {
                       {type.description}
                     </CardDescription>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </section>
@@ -148,11 +148,7 @@ const CarsVehicles = () => {
             <div className="max-w-4xl mx-auto">
               <Card className="overflow-hidden">
                 <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center relative overflow-hidden rounded-lg">
-                  <img 
-                    src="/lovable-uploads/a50d42f1-34a8-4ff5-985c-368dc9a57114.png" 
-                    alt="360° Vehicle Tour Demo - Luxury Car Showroom"
-                    className="w-full h-full object-cover"
-                  />
+                  <img src="/lovable-uploads/a50d42f1-34a8-4ff5-985c-368dc9a57114.png" alt="360° Vehicle Tour Demo - Luxury Car Showroom" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                     <div className="text-center space-y-4 text-white">
                       <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
@@ -185,8 +181,7 @@ const CarsVehicles = () => {
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {benefits.map((benefit, index) => (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
+              {benefits.map((benefit, index) => <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <benefit.icon className="h-12 w-12 mx-auto mb-4 text-primary" />
                     <CardTitle className="text-lg">{benefit.title}</CardTitle>
@@ -196,8 +191,7 @@ const CarsVehicles = () => {
                       {benefit.description}
                     </CardDescription>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </section>
@@ -216,8 +210,7 @@ const CarsVehicles = () => {
                   </p>
                 </div>
                 <div className="space-y-4">
-                  {technicalSpecs.map((spec, index) => (
-                    <Card key={index} className="p-4">
+                  {technicalSpecs.map((spec, index) => <Card key={index} className="p-4">
                       <div className="flex justify-between items-start gap-4">
                         <div className="space-y-1">
                           <h4 className="font-semibold">{spec.category}</h4>
@@ -225,8 +218,7 @@ const CarsVehicles = () => {
                         </div>
                         <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
                       </div>
-                    </Card>
-                  ))}
+                    </Card>)}
                 </div>
               </div>
               <div className="space-y-6">
@@ -283,8 +275,6 @@ const CarsVehicles = () => {
           </div>
         </section>
       </div>
-    </>
-  );
+    </>;
 };
-
 export default CarsVehicles;
