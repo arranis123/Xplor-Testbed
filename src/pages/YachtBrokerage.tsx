@@ -143,10 +143,10 @@ const YachtBrokerage = () => {
               }, {
                 name: "Princess S78 Sportbridge (DEMO)",
                 type: "Sport Yacht"
-              }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
+                }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
                     <div className="aspect-video rounded-t-lg relative overflow-hidden">
                       <img 
-                        src="/lovable-uploads/9f1ae7dd-e9ce-420d-80a5-fe2f58249a56.png" 
+                        src={demo.name === "Ferretti 920 (DEMO)" ? "/lovable-uploads/8c6e6096-eb45-49a6-8406-e3732a079818.png" : "/lovable-uploads/9f1ae7dd-e9ce-420d-80a5-fe2f58249a56.png"}
                         alt="Yacht Virtual Tour"
                         className="w-full h-full object-cover"
                       />
