@@ -409,7 +409,7 @@ const uploadFormSchema = z.object({
   evChargingAllowed: z.string().optional(),
   motorbikeScooterStorage: z.string().optional(),
   boatRvParkingRestrictions: z.string().optional(),
-  // Car & Vehicle specific fields
+  // Car & Vehicle specific fields  
   carManufacturer: z.string().optional(),
   carModel: z.string().optional(),
   carYear: z.string().optional(),
@@ -422,6 +422,12 @@ const uploadFormSchema = z.object({
   carBodyStyle: z.string().optional(),
   carExteriorColor: z.string().optional(),
   carInteriorColor: z.string().optional(),
+  carRegionalSpecs: z.string().optional(),
+  carSellerType: z.string().optional(),
+  carWarranty: z.string().optional(),
+  carServiceHistory: z.string().optional(),
+  carAccidentHistory: z.string().optional(),
+  carFinancing: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
