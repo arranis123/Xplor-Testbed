@@ -80,7 +80,7 @@ const CarsVehicles = () => {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
-                    Start Free Trial
+                    Add a Vehicle
                   </Button>
                   <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
                     <Play className="mr-2 h-5 w-5" />
