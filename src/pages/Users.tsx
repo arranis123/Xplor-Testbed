@@ -104,10 +104,11 @@ const mockUsers: User[] = [
     lastActive: "2 hours ago",
     spacesCount: 24,
     spaces: [
-      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=400&q=80" },
-      { id: "s2", title: "Modern Office Downtown", type: "Commercial", createdAt: "2024-01-20", imageUrl: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=400&q=80" },
-      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=400&q=80" },
-      { id: "s4", title: "Art Gallery Space", type: "Cultural", createdAt: "2024-02-01", imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=400&q=80" },
+      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=400&q=80" },
+      { id: "s2", title: "Super Yacht Marina", type: "Yacht", createdAt: "2024-01-20", imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=400&q=80" },
+      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=400&q=80" },
+      { id: "s4", title: "Luxury Yacht Interior", type: "Yacht", createdAt: "2024-02-01", imageUrl: "https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=400&q=80" },
+      { id: "s10", title: "Penthouse Manhattan", type: "Property", createdAt: "2024-02-10", imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&q=80" },
     ]
   },
   {
@@ -119,9 +120,9 @@ const mockUsers: User[] = [
     lastActive: "1 day ago",
     spacesCount: 18,
     spaces: [
-      { id: "s5", title: "Corporate Headquarters", type: "Commercial", createdAt: "2024-01-10", imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80" },
-      { id: "s6", title: "Retail Showroom", type: "Retail", createdAt: "2024-01-18", imageUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=400&q=80" },
-      { id: "s7", title: "Conference Center", type: "Event", createdAt: "2024-02-05", imageUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80" },
+      { id: "s5", title: "Mega Yacht Deck", type: "Yacht", createdAt: "2024-01-10", imageUrl: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80" },
+      { id: "s6", title: "Luxury Property Pool", type: "Property", createdAt: "2024-01-18", imageUrl: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=400&q=80" },
+      { id: "s7", title: "Private Yacht Suite", type: "Yacht", createdAt: "2024-02-05", imageUrl: "https://images.unsplash.com/photo-1567450489212-de9c88155be9?auto=format&fit=crop&w=400&q=80" },
     ]
   },
   {
@@ -133,8 +134,8 @@ const mockUsers: User[] = [
     lastActive: "3 days ago",
     spacesCount: 12,
     spaces: [
-      { id: "s8", title: "Tech Startup Office", type: "Commercial", createdAt: "2024-01-12", imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" },
-      { id: "s9", title: "Co-working Space", type: "Commercial", createdAt: "2024-01-28", imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80" },
+      { id: "s8", title: "Private Estate Gardens", type: "Property", createdAt: "2024-01-12", imageUrl: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?auto=format&fit=crop&w=400&q=80" },
+      { id: "s9", title: "Sailing Yacht Cockpit", type: "Yacht", createdAt: "2024-01-28", imageUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=400&q=80" },
     ]
   },
   {
