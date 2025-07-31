@@ -3275,23 +3275,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     </div>
 
 
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Describe the property, its features, and what makes it special..."
-                            className="min-h-[100px]"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
 
                 </TabsContent>
 
@@ -5109,8 +5092,29 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  </FormItem>
                                )}
                              />
-                           </div>
-                         </div>
+                            </div>
+
+                            {/* Vehicle Description */}
+                            <div className="space-y-4">
+                              <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Vehicle Description</FormLabel>
+                                    <FormControl>
+                                      <Textarea 
+                                        placeholder="Describe the vehicle's condition, features, service history, and any unique selling points..."
+                                        className="min-h-[100px]"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </div>
                        </>
                      )}
 
