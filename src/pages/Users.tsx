@@ -104,11 +104,11 @@ const mockUsers: User[] = [
     lastActive: "2 hours ago",
     spacesCount: 24,
     spaces: [
-      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop&crop=center" },
-      { id: "s2", title: "Super Yacht Marina", type: "Yacht", createdAt: "2024-01-20", imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center" },
-      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&h=300&fit=crop&crop=center" },
-      { id: "s4", title: "Luxury Yacht Interior", type: "Yacht", createdAt: "2024-02-01", imageUrl: "https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=400&h=300&fit=crop&crop=center" },
-      { id: "s10", title: "Penthouse Manhattan", type: "Property", createdAt: "2024-02-10", imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop&crop=center" },
+      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: "https://picsum.photos/400/300?random=1" },
+      { id: "s2", title: "Super Yacht Marina", type: "Yacht", createdAt: "2024-01-20", imageUrl: "https://picsum.photos/400/300?random=2" },
+      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: "https://picsum.photos/400/300?random=3" },
+      { id: "s4", title: "Luxury Yacht Interior", type: "Yacht", createdAt: "2024-02-01", imageUrl: "https://picsum.photos/400/300?random=4" },
+      { id: "s10", title: "Penthouse Manhattan", type: "Property", createdAt: "2024-02-10", imageUrl: "https://picsum.photos/400/300?random=5" },
     ]
   },
   {
@@ -120,9 +120,9 @@ const mockUsers: User[] = [
     lastActive: "1 day ago",
     spacesCount: 18,
     spaces: [
-      { id: "s5", title: "Mega Yacht Deck", type: "Yacht", createdAt: "2024-01-10", imageUrl: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop&crop=center" },
-      { id: "s6", title: "Luxury Property Pool", type: "Property", createdAt: "2024-01-18", imageUrl: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=400&h=300&fit=crop&crop=center" },
-      { id: "s7", title: "Private Yacht Suite", type: "Yacht", createdAt: "2024-02-05", imageUrl: "https://images.unsplash.com/photo-1567450489212-de9c88155be9?w=400&h=300&fit=crop&crop=center" },
+      { id: "s5", title: "Mega Yacht Deck", type: "Yacht", createdAt: "2024-01-10", imageUrl: "https://picsum.photos/400/300?random=6" },
+      { id: "s6", title: "Luxury Property Pool", type: "Property", createdAt: "2024-01-18", imageUrl: "https://picsum.photos/400/300?random=7" },
+      { id: "s7", title: "Private Yacht Suite", type: "Yacht", createdAt: "2024-02-05", imageUrl: "https://picsum.photos/400/300?random=8" },
     ]
   },
   {
@@ -134,8 +134,8 @@ const mockUsers: User[] = [
     lastActive: "3 days ago",
     spacesCount: 12,
     spaces: [
-      { id: "s8", title: "Private Estate Gardens", type: "Property", createdAt: "2024-01-12", imageUrl: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400&h=300&fit=crop&crop=center" },
-      { id: "s9", title: "Sailing Yacht Cockpit", type: "Yacht", createdAt: "2024-01-28", imageUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center" },
+      { id: "s8", title: "Private Estate Gardens", type: "Property", createdAt: "2024-01-12", imageUrl: "https://picsum.photos/400/300?random=9" },
+      { id: "s9", title: "Sailing Yacht Cockpit", type: "Yacht", createdAt: "2024-01-28", imageUrl: "https://picsum.photos/400/300?random=10" },
     ]
   },
   {
@@ -698,13 +698,15 @@ export default function Users() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {user.spaces.map((space) => (
                       <Card key={space.id} className="border border-border overflow-hidden">
-                        <div className="aspect-video w-full bg-muted">
+                        <div className="h-48 w-full bg-muted">
                           <img 
                             src={space.imageUrl} 
                             alt={space.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover rounded-t-lg"
+                            onLoad={() => console.log(`Image loaded: ${space.title}`, space.imageUrl)}
                             onError={(e) => {
-                              e.currentTarget.src = '/placeholder.svg';
+                              console.error(`Image failed to load: ${space.title}`, space.imageUrl);
+                              e.currentTarget.src = 'https://picsum.photos/400/300?random=999';
                             }}
                           />
                         </div>
