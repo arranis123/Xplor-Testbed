@@ -25,7 +25,7 @@ const Index = () => {
           </div>
           
           <div className="relative z-10 text-white w-full max-w-md lg:max-w-lg xl:max-w-xl px-mobile-md sm:px-8 lg:px-16">
-            <h1 className="text-mobile-4xl sm:text-5xl md:text-6xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
+            <h1 className="text-mobile-5xl sm:text-7xl md:text-8xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
               xplor
             </h1>
             <h2 className="text-mobile-lg sm:text-2xl md:text-3xl font-light mb-mobile-lg sm:mb-6 opacity-90">
