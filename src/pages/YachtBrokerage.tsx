@@ -241,6 +241,12 @@ const YachtBrokerage = () => {
                   </Card>
                 ))}
               </div>
+              <div className="text-center mt-8">
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => window.location.href = '/spaces'}>
+                  <Anchor className="h-5 w-5 mr-2" />
+                  Add Your Yacht
+                </Button>
+              </div>
             </div>
 
             {/* For Yacht Owners */}
@@ -287,6 +293,12 @@ const YachtBrokerage = () => {
                   </Card>
                 ))}
               </div>
+              <div className="text-center mt-8">
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => window.location.href = '/spaces'}>
+                  <Anchor className="h-5 w-5 mr-2" />
+                  Add Your Yacht
+                </Button>
+              </div>
             </div>
 
             {/* For Captains & Crew */}
@@ -325,6 +337,12 @@ const YachtBrokerage = () => {
                   </Card>
                 ))}
               </div>
+              <div className="text-center mt-8">
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => window.location.href = '/spaces'}>
+                  <Anchor className="h-5 w-5 mr-2" />
+                  Add Your Yacht
+                </Button>
+              </div>
             </div>
 
             {/* For Yacht Brokers & Central Agents */}
@@ -358,6 +376,12 @@ const YachtBrokerage = () => {
                     </CardContent>
                   </Card>
                 ))}
+              </div>
+              <div className="text-center mt-8">
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => window.location.href = '/spaces'}>
+                  <Anchor className="h-5 w-5 mr-2" />
+                  Add Your Yacht
+                </Button>
               </div>
             </div>
 
