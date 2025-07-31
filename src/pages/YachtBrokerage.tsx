@@ -13,19 +13,15 @@ import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
 import fraserYachtsLogo from "@/assets/fraser-yachts-logo.jpg";
 import edmistonLogo from "@/assets/edmiston-logo.jpg";
 import camperNicholsonsLogo from "@/assets/camper-nicholsons-logo.jpg";
-
 const YachtBrokerage = () => {
   const navigate = useNavigate();
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
-
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
   };
-
   const goToCrewOffer = () => {
     navigate('/yacht-crew-offer');
   };
-
   const yachtServices = [{
     id: "listing",
     label: "Yacht Listings",
@@ -33,7 +29,7 @@ const YachtBrokerage = () => {
     description: "Create stunning virtual tours that allow potential buyers to explore every inch of your yacht remotely, increasing qualified leads and accelerating sales."
   }, {
     id: "marketing",
-    label: "Marketing & Sales", 
+    label: "Marketing & Sales",
     title: "Elevate your yacht marketing",
     description: "Stand out in competitive markets with high-quality virtual tours that showcase your yacht's unique features and luxury amenities."
   }, {
@@ -42,11 +38,8 @@ const YachtBrokerage = () => {
     title: "Comprehensive yacht documentation",
     description: "Create detailed digital records for insurance claims, maintenance planning, and condition assessments with millimeter-accurate 3D scans."
   }];
-
   const yachtFeatures = ["Professional marine-certified capture technicians", "Waterproof and marine-grade 3D scanning equipment", "360° virtual tours of all decks and interior spaces", "High-resolution 4K photography and videography", "Detailed measurements and floor plans", "Virtual staging and enhancement options", "Drone exterior footage (where permitted)", "Fast 24-48 hour turnaround time"];
-
   const premiumFeatures = ["Dedicated yacht marketing specialist", "Custom virtual tour branding and themes", "Interactive hotspots with yacht specifications", "Virtual reality headset compatibility", "Multi-language support for international buyers", "Integration with major yacht listing platforms", "Professional copywriting and descriptions", "Ongoing tour optimization and analytics"];
-
   const yachtBrokers = [{
     name: "Northrop & Johnson",
     logo: northropJohnsonLogo
@@ -54,7 +47,7 @@ const YachtBrokerage = () => {
     name: "Burgess Yachts",
     logo: burgessYachtsLogo
   }, {
-    name: "Fraser Yachts", 
+    name: "Fraser Yachts",
     logo: fraserYachtsLogo
   }, {
     name: "Edmiston",
@@ -66,7 +59,6 @@ const YachtBrokerage = () => {
     name: "Worth Avenue Yachts",
     logo: "/logos/worth-avenue-yachts-logo.png"
   }];
-
   const yachtFaqs = [{
     question: "Can you capture yachts while they're in the water?",
     answer: "Yes, our marine-certified technicians are equipped to safely capture yachts both in marinas and while moored, using specialized waterproof equipment designed for marine environments."
@@ -86,7 +78,6 @@ const YachtBrokerage = () => {
     question: "How much does yacht capture service cost?",
     answer: "Pricing depends on yacht size, location, and services required. Standard captures start at $650 for yachts under 50ft, with premium packages available for superyachts."
   }];
-
   return <div className="min-h-screen bg-background">
       {/* Crew Call-to-Action Banner */}
       <section className="bg-xplor-black text-white py-4">
@@ -113,7 +104,7 @@ const YachtBrokerage = () => {
               </h1>
             </div>
             <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yachting industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
-            <p className="text-xl text-muted-foreground">Your additional text content goes here.</p>
+            
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
                 <Anchor className="h-5 w-5 mr-2" />
@@ -144,16 +135,15 @@ const YachtBrokerage = () => {
               <h3 className="text-2xl font-bold text-center text-foreground mb-8">Experience Virtual Yacht Tours</h3>
               <div className="grid md:grid-cols-3 gap-6">
                 {[{
-                  name: "Sunseeker 76 Yacht (DEMO)",
-                  type: "Motor Yacht"
-                }, {
-                  name: "Ferretti 920 (DEMO)",
-                  type: "Luxury Motor Yacht"
-                }, {
-                  name: "Princess S78 Sportbridge (DEMO)",
-                  type: "Sport Yacht"
-                }].map(demo => (
-                  <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
+                name: "Sunseeker 76 Yacht (DEMO)",
+                type: "Motor Yacht"
+              }, {
+                name: "Ferretti 920 (DEMO)",
+                type: "Luxury Motor Yacht"
+              }, {
+                name: "Princess S78 Sportbridge (DEMO)",
+                type: "Sport Yacht"
+              }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
                     <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Ship className="h-12 w-12 text-gray-700" />
@@ -169,8 +159,7 @@ const YachtBrokerage = () => {
                         Tour Virtual Yacht
                       </Button>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
             </div>
           </div>
@@ -198,51 +187,39 @@ const YachtBrokerage = () => {
                 🔹 For Charter and Sales Marketing
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "24/7 Global Showcase",
-                    description: "Prospects can explore the yacht anytime, anywhere—no need to wait for a boat show or in-person visit."
-                  },
-                  {
-                    title: "Higher-Quality Leads",
-                    description: "Virtual tours qualify serious clients early by providing an immersive pre-screening experience."
-                  },
-                  {
-                    title: "Faster Decision-Making",
-                    description: "Buyers and charterers feel more confident making decisions after a detailed virtual walkthrough."
-                  },
-                  {
-                    title: "Reduced Time on Market",
-                    description: "Virtual access accelerates interest and inquiry conversion for both sales and charters."
-                  },
-                  {
-                    title: "Pre-Charter Familiarization",
-                    description: "Guests can preview staterooms, lounges, and deck layouts before boarding, improving their overall satisfaction."
-                  },
-                  {
-                    title: "Repeat Charterer Retention",
-                    description: "Past guests can relive their experience and share it with friends, increasing repeat bookings and word-of-mouth."
-                  },
-                  {
-                    title: "Eliminates Geographical Barriers",
-                    description: "Brokers and clients in different countries can still tour the yacht without travel costs or delays."
-                  },
-                  {
-                    title: "Stronger Online Listings",
-                    description: "Listings with virtual tours stand out on charter and sales platforms, attracting more engagement."
-                  },
-                  {
-                    title: "Increased Broker Efficiency",
-                    description: "Brokers can share virtual tours in seconds, replacing or enhancing traditional brochures and slide decks."
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="border-border">
+                {[{
+                title: "24/7 Global Showcase",
+                description: "Prospects can explore the yacht anytime, anywhere—no need to wait for a boat show or in-person visit."
+              }, {
+                title: "Higher-Quality Leads",
+                description: "Virtual tours qualify serious clients early by providing an immersive pre-screening experience."
+              }, {
+                title: "Faster Decision-Making",
+                description: "Buyers and charterers feel more confident making decisions after a detailed virtual walkthrough."
+              }, {
+                title: "Reduced Time on Market",
+                description: "Virtual access accelerates interest and inquiry conversion for both sales and charters."
+              }, {
+                title: "Pre-Charter Familiarization",
+                description: "Guests can preview staterooms, lounges, and deck layouts before boarding, improving their overall satisfaction."
+              }, {
+                title: "Repeat Charterer Retention",
+                description: "Past guests can relive their experience and share it with friends, increasing repeat bookings and word-of-mouth."
+              }, {
+                title: "Eliminates Geographical Barriers",
+                description: "Brokers and clients in different countries can still tour the yacht without travel costs or delays."
+              }, {
+                title: "Stronger Online Listings",
+                description: "Listings with virtual tours stand out on charter and sales platforms, attracting more engagement."
+              }, {
+                title: "Increased Broker Efficiency",
+                description: "Brokers can share virtual tours in seconds, replacing or enhancing traditional brochures and slide decks."
+              }].map((benefit, index) => <Card key={index} className="border-border">
                     <CardContent className="p-6">
                       <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
                       <p className="text-sm text-muted-foreground">{benefit.description}</p>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
               <div className="text-center mt-8">
                 <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
@@ -258,43 +235,31 @@ const YachtBrokerage = () => {
                 🔹 For Yacht Owners
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "Better ROI on Marketing",
-                    description: "A single virtual tour investment can be used across websites, broker networks, social media, and presentations."
-                  },
-                  {
-                    title: "More Control Over Presentation",
-                    description: "Owners ensure their yacht is shown in its best light, consistently, no matter who presents it."
-                  },
-                  {
-                    title: "Attracts More Direct Bookings",
-                    description: "Guests who've virtually toured a yacht are more likely to book directly through xplor, reducing third-party commission outflows."
-                  },
-                  {
-                    title: "Reduces Need for Physical Showings",
-                    description: "Minimizes crew disruption and operational costs for in-person visits that may not result in bookings."
-                  },
-                  {
-                    title: "Permanent Showcase for Sale",
-                    description: "Even if the yacht is moved or unavailable, a virtual tour keeps it accessible for prospective buyers."
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="border-border">
+                {[{
+                title: "Better ROI on Marketing",
+                description: "A single virtual tour investment can be used across websites, broker networks, social media, and presentations."
+              }, {
+                title: "More Control Over Presentation",
+                description: "Owners ensure their yacht is shown in its best light, consistently, no matter who presents it."
+              }, {
+                title: "Attracts More Direct Bookings",
+                description: "Guests who've virtually toured a yacht are more likely to book directly through xplor, reducing third-party commission outflows."
+              }, {
+                title: "Reduces Need for Physical Showings",
+                description: "Minimizes crew disruption and operational costs for in-person visits that may not result in bookings."
+              }, {
+                title: "Permanent Showcase for Sale",
+                description: "Even if the yacht is moved or unavailable, a virtual tour keeps it accessible for prospective buyers."
+              }].map((benefit, index) => <Card key={index} className="border-border">
                     <CardContent className="p-6">
                       <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
                       <p className="text-sm text-muted-foreground">
-                        {benefit.description.includes('through xplor') ? (
-                          <>
+                        {benefit.description.includes('through xplor') ? <>
                             Guests who've virtually toured a yacht are more likely to book directly through <span className="font-typografix">xplor</span>, reducing third-party commission outflows.
-                          </>
-                        ) : (
-                          benefit.description
-                        )}
+                          </> : benefit.description}
                       </p>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
               <div className="text-center mt-8">
                 <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
@@ -310,35 +275,27 @@ const YachtBrokerage = () => {
                 🔹 For Captains & Crew
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "Operational Clarity",
-                    description: "Guests or clients can see layouts and amenities before arrival, reducing repetitive questions and special requests."
-                  },
-                  {
-                    title: "Crew Onboarding & Training",
-                    description: "New crew can familiarize themselves with yacht layout, safety equipment locations, and guest areas virtually."
-                  },
-                  {
-                    title: "Enhances Guest Preparation",
-                    description: "Helps guests know what to pack, where they'll stay, and what facilities they'll use."
-                  },
-                  {
-                    title: "Smoother Turnarounds",
-                    description: "Less need for guided tours during back-to-back charters—guests already know the vessel layout."
-                  },
-                  {
-                    title: "Showcases Crew Excellence",
-                    description: "Virtual tours can highlight crew interaction areas or branded moments that emphasize professionalism."
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="border-border">
+                {[{
+                title: "Operational Clarity",
+                description: "Guests or clients can see layouts and amenities before arrival, reducing repetitive questions and special requests."
+              }, {
+                title: "Crew Onboarding & Training",
+                description: "New crew can familiarize themselves with yacht layout, safety equipment locations, and guest areas virtually."
+              }, {
+                title: "Enhances Guest Preparation",
+                description: "Helps guests know what to pack, where they'll stay, and what facilities they'll use."
+              }, {
+                title: "Smoother Turnarounds",
+                description: "Less need for guided tours during back-to-back charters—guests already know the vessel layout."
+              }, {
+                title: "Showcases Crew Excellence",
+                description: "Virtual tours can highlight crew interaction areas or branded moments that emphasize professionalism."
+              }].map((benefit, index) => <Card key={index} className="border-border">
                     <CardContent className="p-6">
                       <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
                       <p className="text-sm text-muted-foreground">{benefit.description}</p>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
               <div className="text-center mt-8">
                 <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
@@ -354,31 +311,24 @@ const YachtBrokerage = () => {
                 🔹 For Yacht Brokers & Central Agents
               </h3>
               <div className="grid md:grid-cols-2 gap-6">
-                {[
-                  {
-                    title: "Stronger Pitch to Owners",
-                    description: "Offering professional virtual tours adds value to your brokerage proposition and sets you apart."
-                  },
-                  {
-                    title: "More Compelling Marketing Packages",
-                    description: "Combine with photography, specs, and drone video for a powerful listing presentation."
-                  },
-                  {
-                    title: "Easier Sharing Across Networks",
-                    description: "Tours can be embedded or linked in MLS systems, emails, WhatsApp, and social posts."
-                  },
-                  {
-                    title: "Supports Live Negotiations",
-                    description: "During calls or negotiations, brokers can walk through the yacht in real-time with clients using the tour."
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="border-border">
+                {[{
+                title: "Stronger Pitch to Owners",
+                description: "Offering professional virtual tours adds value to your brokerage proposition and sets you apart."
+              }, {
+                title: "More Compelling Marketing Packages",
+                description: "Combine with photography, specs, and drone video for a powerful listing presentation."
+              }, {
+                title: "Easier Sharing Across Networks",
+                description: "Tours can be embedded or linked in MLS systems, emails, WhatsApp, and social posts."
+              }, {
+                title: "Supports Live Negotiations",
+                description: "During calls or negotiations, brokers can walk through the yacht in real-time with clients using the tour."
+              }].map((benefit, index) => <Card key={index} className="border-border">
                     <CardContent className="p-6">
                       <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
                       <p className="text-sm text-muted-foreground">{benefit.description}</p>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
               <div className="text-center mt-8">
                 <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
@@ -393,12 +343,7 @@ const YachtBrokerage = () => {
       </section>
 
       {/* Upload Dialog */}
-      <UploadSpaceDialog
-        open={uploadDialogOpen}
-        onOpenChange={setUploadDialogOpen}
-        category="yacht"
-      />
-    </div>
-  };
-
+      <UploadSpaceDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} category="yacht" />
+    </div>;
+};
 export default YachtBrokerage;
