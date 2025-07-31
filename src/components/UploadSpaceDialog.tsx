@@ -2372,7 +2372,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        <TabsTrigger value="special-deals">Special Deals</TabsTrigger>
                      </>
                    )}
-                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
+                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && category !== "car" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
                    )}
                    {category === "yacht" && (
@@ -4986,8 +4986,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     )}
                     
 
-                     {/* Default property details for non-real-estate */}
-                     {category !== "real-estate" && (
+                     {/* Default property details for non-real-estate and non-car */}
+                     {category !== "real-estate" && category !== "car" && (
                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                          <FormField
                            control={form.control}
@@ -5768,8 +5768,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           category
                         });
                         
-                        return (category === "yacht" || propertyType === "yacht" || propertyType === "boat" || 
-                          yachtSizeClass || yachtStyleLayout || yachtSubtype);
+                        return (category === "yacht" && (category === "yacht" || propertyType === "yacht" || propertyType === "boat" || 
+                          yachtSizeClass || yachtStyleLayout || yachtSubtype));
                       })() && (
                         <FormField
                           control={form.control}
@@ -5798,8 +5798,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         const yachtStyleLayout = form.watch("yachtStyleLayout");
                         const yachtSubtype = form.watch("yachtSubtype");
                         
-                        return (category === "yacht" || propertyType === "yacht" || propertyType === "boat" || 
-                          yachtSizeClass || yachtStyleLayout || yachtSubtype);
+                        return (category === "yacht" && (category === "yacht" || propertyType === "yacht" || propertyType === "boat" || 
+                          yachtSizeClass || yachtStyleLayout || yachtSubtype));
                       })() && (
                           <FormField
                             control={form.control}
@@ -6009,7 +6009,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     </TabsContent>
                   )}
 
-                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && (
+                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && category !== "car" && (
                    <TabsContent value="amenities" className="space-y-4">
                    <div className="space-y-6">
                      {category === "yacht" ? (
