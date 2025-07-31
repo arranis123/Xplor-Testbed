@@ -160,7 +160,11 @@ const CarsVehicles = () => {
                       </div>
                       <h3 className="text-xl font-semibold">360° Vehicle Tour Demo</h3>
                       <p className="text-white/90">Click to explore a sample {vehicleTypes.find(v => v.id === activeDemo)?.name.toLowerCase()}</p>
-                      <Button variant="secondary">Launch Interactive Demo</Button>
+                      <Button variant="secondary" asChild>
+                        <a href="https://my.matterport.com/show/?m=7NWztaa4NaG" target="_blank" rel="noopener noreferrer">
+                          Launch Interactive Demo
+                        </a>
+                      </Button>
                     </div>
                   </div>
                 </div>
