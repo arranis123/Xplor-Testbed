@@ -2388,19 +2388,21 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                  <TabsContent value="basic" className="space-y-4">
                    <div className="grid grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{category === "yacht" ? "Yacht Name" : category === "car" ? "Vehicle Name" : "Property Title"}</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                         )}
-                       />
+                       {category !== "car" && (
+                         <FormField
+                           control={form.control}
+                           name="title"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                            )}
+                          />
+                       )}
                        
                        {/* Real Estate Listing Type Field */}
                        {category === "real-estate" && (
