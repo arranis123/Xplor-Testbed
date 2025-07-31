@@ -261,7 +261,7 @@ const CarsVehicles = () => {
                 Join thousands of dealerships and private sellers who've revolutionized their sales process with immersive virtual vehicle tours.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
+                <Button size="lg" variant="secondary" className="text-lg px-8 py-4 text-black">
                   Start Free Trial
                 </Button>
                 <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
