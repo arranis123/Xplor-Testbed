@@ -92,7 +92,7 @@ class CarDataService {
     try {
       console.log('Fetching manufacturers from Back4App...');
       
-      const response = await fetch(`https://mlbxdswayzjckmuibcfk.functions.supabase.co/car-data?action=get-manufacturers`, {
+      const response = await fetch(`https://mlbxdswayzjckmuibcfk.functions.supabase.co/car-data?action=test-manufacturers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

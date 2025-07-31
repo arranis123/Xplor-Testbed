@@ -354,6 +354,18 @@ serve(async (req) => {
       case 'get-manufacturers':
         return await getManufacturers();
       
+      case 'test-manufacturers':
+        // Direct return of hardcoded data for testing
+        const testManufacturers = manufacturersData.map(item => ({
+          value: item.value,
+          label: item.name,
+          country: item.country,
+          region: item.region
+        }));
+        return new Response(JSON.stringify({ manufacturers: testManufacturers }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      
       case 'get-models':
         const manufacturerValue = url.searchParams.get('manufacturer');
         return await getModelsByManufacturer(manufacturerValue);
