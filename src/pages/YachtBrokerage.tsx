@@ -130,6 +130,11 @@ const YachtBrokerage = () => {
                 Find a Technician Near You
               </Button>
             </div>
+            <div className="text-center mt-2">
+              <p className="text-sm text-muted-foreground">
+                Are you a technician or capture service provider who wants to add yachts to your Portfolio & skill set? <a href="/capture-business-signup" className="text-gray-700 underline hover:text-gray-800 transition-colors">Click Here</a>
+              </p>
+            </div>
             
             {/* Demo Yachts Section */}
             <div className="mt-12">
