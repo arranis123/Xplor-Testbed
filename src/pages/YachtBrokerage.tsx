@@ -127,7 +127,7 @@ const YachtBrokerage = () => {
             <div className="flex justify-center">
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
                 <Globe className="h-5 w-5 mr-2" />
-                Find Technician Near You
+                Find a Technician Near You
               </Button>
             </div>
           </div>
