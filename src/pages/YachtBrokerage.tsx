@@ -5,8 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Anchor, Clock, MapPin, Shield, Star, CheckCircle, Waves, Users, Camera, ArrowRight, Ship, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
 import yachtHeroImage from "@/assets/yacht-hero-man-with-equipment.jpg";
 import northropJohnsonLogo from "@/assets/northrop-johnson-logo.jpg";
 import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
@@ -16,7 +14,6 @@ import camperNicholsonsLogo from "@/assets/camper-nicholsons-logo.jpg";
 
 const YachtBrokerage = () => {
   const navigate = useNavigate();
-  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
@@ -245,7 +242,7 @@ const YachtBrokerage = () => {
                 ))}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard')}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -297,7 +294,7 @@ const YachtBrokerage = () => {
                 ))}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard')}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -341,7 +338,7 @@ const YachtBrokerage = () => {
                 ))}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard')}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -381,7 +378,7 @@ const YachtBrokerage = () => {
                 ))}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard')}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -392,12 +389,6 @@ const YachtBrokerage = () => {
         </div>
       </section>
 
-      {/* Upload Dialog */}
-      <UploadSpaceDialog
-        open={uploadDialogOpen}
-        onOpenChange={setUploadDialogOpen}
-        category="yacht"
-      />
     </div>
   };
 
