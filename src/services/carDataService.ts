@@ -19,6 +19,36 @@ export interface CarVariant {
 export class CarDataService {
   private static vehiclesData = vehiclesData.vehicles;
 
+  static getVehicleTypes(): CarVariant[] {
+    const categoriesSet = new Set(this.vehiclesData.map(vehicle => vehicle.category));
+    return Array.from(categoriesSet)
+      .sort()
+      .map(category => ({
+        value: category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'),
+        label: category
+      }));
+  }
+
+  static getManufacturersByVehicleType(vehicleTypeValue: string): CarManufacturer[] {
+    const vehicleTypeLabel = this.getVehicleTypes()
+      .find(type => type.value === vehicleTypeValue)?.label;
+    
+    if (!vehicleTypeLabel) return [];
+
+    const brandsSet = new Set(
+      this.vehiclesData
+        .filter(vehicle => vehicle.category === vehicleTypeLabel)
+        .map(vehicle => vehicle.brand)
+    );
+    
+    return Array.from(brandsSet)
+      .sort()
+      .map(brand => ({
+        value: brand.toLowerCase().replace(/\s+/g, '-'),
+        label: brand
+      }));
+  }
+
   static getManufacturers(): CarManufacturer[] {
     const brandsSet = new Set(this.vehiclesData.map(vehicle => vehicle.brand));
     return Array.from(brandsSet)
@@ -26,6 +56,33 @@ export class CarDataService {
       .map(brand => ({
         value: brand.toLowerCase().replace(/\s+/g, '-'),
         label: brand
+      }));
+  }
+
+  static getModelsByManufacturerAndVehicleType(vehicleTypeValue: string, manufacturerValue: string): CarModel[] {
+    if (!vehicleTypeValue || !manufacturerValue) return [];
+    
+    const vehicleTypeLabel = this.getVehicleTypes()
+      .find(type => type.value === vehicleTypeValue)?.label;
+    
+    const manufacturers = this.getManufacturersByVehicleType(vehicleTypeValue);
+    const selectedManufacturer = manufacturers.find(m => m.value === manufacturerValue);
+    
+    if (!vehicleTypeLabel || !selectedManufacturer) return [];
+    
+    const manufacturerLabel = selectedManufacturer.label;
+    
+    const models = this.vehiclesData
+      .filter(vehicle => vehicle.category === vehicleTypeLabel && vehicle.brand === manufacturerLabel)
+      .map(vehicle => vehicle.model);
+    
+    const uniqueModels = Array.from(new Set(models));
+    
+    return uniqueModels
+      .sort()
+      .map(model => ({
+        value: model.toLowerCase().replace(/\s+/g, '-'),
+        label: model
       }));
   }
 
@@ -52,6 +109,27 @@ export class CarDataService {
         value: model.toLowerCase().replace(/\s+/g, '-'),
         label: model
       }));
+  }
+
+  static getVariantsByModelAndVehicleType(vehicleTypeValue: string, manufacturerValue: string, modelValue: string): CarVariant[] {
+    if (!vehicleTypeValue || !manufacturerValue || !modelValue) return [];
+    
+    const vehicleTypeLabel = this.getVehicleTypes()
+      .find(type => type.value === vehicleTypeValue)?.label;
+    
+    const manufacturers = this.getManufacturersByVehicleType(vehicleTypeValue);
+    const selectedManufacturer = manufacturers.find(m => m.value === manufacturerValue);
+    
+    const models = this.getModelsByManufacturerAndVehicleType(vehicleTypeValue, manufacturerValue);
+    const selectedModel = models.find(m => m.value === modelValue);
+    
+    if (!vehicleTypeLabel || !selectedManufacturer || !selectedModel) return [];
+    
+    const manufacturerLabel = selectedManufacturer.label;
+    const modelLabel = selectedModel.label;
+    
+    // Generate variants based on manufacturer and model
+    return this.generateVariantsForModel(manufacturerLabel, modelLabel, modelValue);
   }
 
   static getVariantsByModel(manufacturerValue: string, modelValue: string): CarVariant[] {

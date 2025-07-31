@@ -463,6 +463,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   console.log("UploadSpaceDialog - category:", category);
   console.log("UploadSpaceDialog - open:", open);
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedVehicleType, setSelectedVehicleType] = useState<string>("");
   const [selectedManufacturer, setSelectedManufacturer] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [showContactForm, setShowContactForm] = useState(false);
@@ -4921,19 +4922,27 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  render={({ field }) => (
                                    <FormItem>
                                      <FormLabel>Vehicle Type</FormLabel>
-                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                       <FormControl>
-                                         <SelectTrigger>
-                                           <SelectValue placeholder="Select vehicle type" />
-                                         </SelectTrigger>
-                                       </FormControl>
-                                       <SelectContent>
-                                         {carPropertyTypes.map((type) => (
-                                           <SelectItem key={type.value} value={type.value}>
-                                             {type.label}
-                                           </SelectItem>
-                                         ))}
-                                       </SelectContent>
+                                      <Select onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setSelectedVehicleType(value);
+                                        setSelectedManufacturer("");
+                                        setSelectedModel("");
+                                        form.setValue("carManufacturer", "");
+                                        form.setValue("carModel", "");
+                                        form.setValue("carVariant", "");
+                                      }} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select vehicle type" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                          {CarDataService.getVehicleTypes().map((type) => (
+                                            <SelectItem key={type.value} value={type.value}>
+                                              {type.label}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
                                      </Select>
                                      <FormMessage />
                                    </FormItem>
@@ -4948,25 +4957,25 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormLabel>Manufacturer</FormLabel>
-                                    <Select onValueChange={(value) => {
-                                      field.onChange(value);
-                                      setSelectedManufacturer(value);
-                                      setSelectedModel("");
-                                      form.setValue("carModel", "");
-                                      form.setValue("carVariant", "");
-                                    }} defaultValue={field.value}>
-                                      <FormControl>
-                                        <SelectTrigger>
-                                          <SelectValue placeholder="Select manufacturer" />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                         {CarDataService.getManufacturers().map((manufacturer) => (
-                                           <SelectItem key={manufacturer.value} value={manufacturer.value}>
-                                             {manufacturer.label}
-                                           </SelectItem>
-                                         ))}
-                                       </SelectContent>
+                                     <Select onValueChange={(value) => {
+                                       field.onChange(value);
+                                       setSelectedManufacturer(value);
+                                       setSelectedModel("");
+                                       form.setValue("carModel", "");
+                                       form.setValue("carVariant", "");
+                                     }} defaultValue={field.value} disabled={!selectedVehicleType}>
+                                       <FormControl>
+                                         <SelectTrigger>
+                                           <SelectValue placeholder={selectedVehicleType ? "Select manufacturer" : "Select vehicle type first"} />
+                                         </SelectTrigger>
+                                       </FormControl>
+                                        <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                          {CarDataService.getManufacturersByVehicleType(selectedVehicleType).map((manufacturer) => (
+                                            <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                              {manufacturer.label}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
                                     </Select>
                                     <FormMessage />
                                   </FormItem>
@@ -4990,7 +4999,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                         </SelectTrigger>
                                       </FormControl>
                                        <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                         {CarDataService.getModelsByManufacturer(selectedManufacturer).map((model) => (
+                                         {CarDataService.getModelsByManufacturerAndVehicleType(selectedVehicleType, selectedManufacturer).map((model) => (
                                            <SelectItem key={model.value} value={model.value}>
                                              {model.label}
                                            </SelectItem>
@@ -5015,7 +5024,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                         </SelectTrigger>
                                       </FormControl>
                                        <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                         {CarDataService.getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
+                                         {CarDataService.getVariantsByModelAndVehicleType(selectedVehicleType, selectedManufacturer, selectedModel).map((variant) => (
                                            <SelectItem key={variant.value} value={variant.value}>
                                              {variant.label}
                                            </SelectItem>
