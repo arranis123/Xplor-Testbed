@@ -18,6 +18,11 @@ import {
   Globe
 } from "lucide-react";
 import captureHeroImage from "@/assets/capture-services-hero.jpg";
+import northropJohnsonLogo from "@/assets/northrop-johnson-logo.jpg";
+import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
+import fraserYachtsLogo from "@/assets/fraser-yachts-logo.jpg";
+import edmistonLogo from "@/assets/edmiston-logo.jpg";
+import camperNicholsonsLogo from "@/assets/camper-nicholsons-logo.jpg";
 
 const YachtBrokerage = () => {
   const openCalendly = () => {
@@ -68,12 +73,12 @@ const YachtBrokerage = () => {
   ];
 
   const yachtBrokers = [
-    { name: "Northrop & Johnson", logo: "⛵" },
-    { name: "Burgess Yachts", logo: "🛥️" },
-    { name: "Fraser Yachts", logo: "⚓" },
-    { name: "Edmiston", logo: "🌊" },
-    { name: "Camper & Nicholsons", logo: "⛵" },
-    { name: "Worth Avenue Yachts", logo: "🚤" }
+    { name: "Northrop & Johnson", logo: northropJohnsonLogo },
+    { name: "Burgess Yachts", logo: burgessYachtsLogo },
+    { name: "Fraser Yachts", logo: fraserYachtsLogo },
+    { name: "Edmiston", logo: edmistonLogo },
+    { name: "Camper & Nicholsons", logo: camperNicholsonsLogo },
+    { name: "Worth Avenue Yachts", logo: "/logos/worth-avenue-yachts-logo.png" }
   ];
 
   const yachtFaqs = [
@@ -290,11 +295,17 @@ const YachtBrokerage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-8">
               Trusted by leading yacht brokers worldwide
             </h2>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center opacity-60">
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center opacity-80">
               {yachtBrokers.map((broker) => (
-                <div key={broker.name} className="text-center">
-                  <div className="text-4xl mb-2">{broker.logo}</div>
-                  <span className="text-sm text-muted-foreground">{broker.name}</span>
+                <div key={broker.name} className="text-center flex flex-col items-center">
+                  <div className="h-12 w-auto mb-3 flex items-center justify-center">
+                    <img 
+                      src={broker.logo} 
+                      alt={`${broker.name} logo`}
+                      className="h-8 w-auto max-w-20 object-contain opacity-100 contrast-125 brightness-110 grayscale hover:grayscale-0 transition-all duration-300"
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground font-medium">{broker.name}</span>
                 </div>
               ))}
             </div>
