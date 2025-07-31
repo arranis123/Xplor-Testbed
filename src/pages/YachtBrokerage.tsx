@@ -155,12 +155,11 @@ const YachtBrokerage = () => {
                     </CardHeader>
                     <CardContent>
                       <Button 
-                        variant="outline" 
-                        className="w-full"
+                        className="w-full bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black"
                         onClick={() => window.open('https://burgess.theatro360.com/tour/E4-3OOL', '_blank')}
                       >
                         <Waves className="h-4 w-4 mr-2" />
-                        Tour Virtual Yacht
+                        Yacht Tour
                       </Button>
                     </CardContent>
                   </Card>)}
