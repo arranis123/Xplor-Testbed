@@ -90,7 +90,7 @@ const YachtBrokerage = () => {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-lg font-medium">
             CALLING ALL YACHT CREW, The <span className="font-typografix">xplor</span> brokerage has been set up to allow crew to get their share of charter commissions, Interested ?
-            <button className="underline ml-1 hover:text-xplor-yellow transition-colors" onClick={goToCrewOffer}>
+            <button className="underline ml-1 hover:text-gray-700 transition-colors" onClick={goToCrewOffer}>
               click here
             </button>
           </p>
@@ -102,7 +102,7 @@ const YachtBrokerage = () => {
         <div className="grid lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-6 py-16">
           <div className="space-y-6">
             <div className="space-y-2">
-              <Badge className="bg-xplor-yellow/20 text-xplor-black font-medium">
+              <Badge className="bg-gray-700/20 text-gray-700 font-medium">
                 YACHT BROKERAGE SERVICES
               </Badge>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
@@ -112,7 +112,7 @@ const YachtBrokerage = () => {
             <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yachting industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
             <p className="text-xl text-muted-foreground">Your additional text content goes here.</p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
+              <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
                 <Anchor className="h-5 w-5 mr-2" />
                 Add Your Yacht
               </Button>
@@ -125,7 +125,7 @@ const YachtBrokerage = () => {
           <div className="space-y-4">
             <img src={yachtHeroImage} alt="Professional man on yacht deck showcasing yacht capture services" className="w-full h-auto rounded-lg shadow-medium" />
             <div className="flex justify-center">
-              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
+              <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
                 <Globe className="h-5 w-5 mr-2" />
                 Find a Technician Near You
               </Button>
@@ -148,7 +148,7 @@ const YachtBrokerage = () => {
                   <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
                     <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <Ship className="h-12 w-12 text-xplor-yellow" />
+                        <Ship className="h-12 w-12 text-gray-700" />
                       </div>
                     </div>
                     <CardHeader>
@@ -186,7 +186,7 @@ const YachtBrokerage = () => {
           <div className="space-y-12">
             {/* For Charter and Sales Marketing */}
             <div>
-              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
                 🔹 For Charter and Sales Marketing
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -240,7 +240,7 @@ const YachtBrokerage = () => {
 
             {/* For Yacht Owners */}
             <div>
-              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
                 🔹 For Yacht Owners
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -286,7 +286,7 @@ const YachtBrokerage = () => {
 
             {/* For Captains & Crew */}
             <div>
-              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
                 🔹 For Captains & Crew
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -324,7 +324,7 @@ const YachtBrokerage = () => {
 
             {/* For Yacht Brokers & Central Agents */}
             <div>
-              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
                 🔹 For Yacht Brokers & Central Agents
               </h3>
               <div className="grid md:grid-cols-2 gap-6">
@@ -358,7 +358,7 @@ const YachtBrokerage = () => {
 
             {/* For the Xplor Platform */}
             <div>
-              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
                 🔹 For the <span className="font-typografix">xplor</span> Platform
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -423,7 +423,7 @@ const YachtBrokerage = () => {
             Our certified marine technicians understand the unique challenges of yacht photography and 3D capture. 
             Available in major yachting destinations worldwide with specialized waterproof equipment.
           </p>
-          <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
+          <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
             <Globe className="h-5 w-5 mr-2" />
             Find Technician Near You
           </Button>
@@ -458,7 +458,7 @@ const YachtBrokerage = () => {
                       <span className="text-sm text-muted-foreground">{feature}</span>
                     </div>)}
                 </div>
-                <Button className="w-full bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
+                <Button className="w-full bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
                   <Anchor className="h-4 w-4 mr-2" />
                   Book Standard Capture
                 </Button>
@@ -466,7 +466,7 @@ const YachtBrokerage = () => {
             </Card>
 
             {/* Premium Yacht Marketing */}
-            <Card className="border-border border-xplor-yellow/50">
+            <Card className="border-border border-gray-700/50">
               <CardHeader>
                 <CardTitle className="text-2xl text-foreground">Premium Yacht Marketing</CardTitle>
                 <CardDescription className="text-lg">
@@ -480,7 +480,7 @@ const YachtBrokerage = () => {
                       <span className="text-sm text-muted-foreground">{feature}</span>
                     </div>)}
                 </div>
-                <Button variant="outline" className="w-full border-xplor-yellow text-xplor-yellow-dark hover:bg-xplor-yellow/10">
+                <Button variant="outline" className="w-full border-gray-700 text-gray-700 hover:bg-gray-700/10">
                   Contact Yacht Specialist
                 </Button>
               </CardContent>
@@ -515,15 +515,15 @@ const YachtBrokerage = () => {
             <Card className="border-border">
               <CardContent className="p-8">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-xplor-yellow text-xplor-yellow" />)}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-gray-700 text-gray-700" />)}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
                   "The virtual tours have transformed how we present yachts to international buyers. 
                   We can now qualify serious prospects before they even step aboard, which saves everyone time and increases our closing rate significantly."
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-xplor-yellow rounded-full flex items-center justify-center">
-                    <Anchor className="h-6 w-6 text-xplor-black" />
+                  <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center">
+                    <Anchor className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Captain Marina Rodriguez</p>
@@ -536,15 +536,15 @@ const YachtBrokerage = () => {
             <Card className="border-border">
               <CardContent className="p-8">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-xplor-yellow text-xplor-yellow" />)}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-gray-700 text-gray-700" />)}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
                   "Having detailed 3D documentation has been invaluable for insurance claims and condition surveys. 
                   The accuracy is incredible and it's much more convenient than traditional surveying methods."
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-xplor-yellow rounded-full flex items-center justify-center">
-                    <Shield className="h-6 w-6 text-xplor-black" />
+                  <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center">
+                    <Shield className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">James Mitchell</p>
