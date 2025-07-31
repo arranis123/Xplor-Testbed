@@ -166,9 +166,8 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Right side: Cart button only */}
+        {/* Right side: Empty for now */}
         <div className="flex items-center space-x-mobile-sm sm:space-x-3">
-          <CartButton />
         </div>
       </div>
       <CartSheet />
