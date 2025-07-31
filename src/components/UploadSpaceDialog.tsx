@@ -5024,19 +5024,33 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 )}
                               />
 
-                             <FormField
-                               control={form.control}
-                               name="carYear"
-                               render={({ field }) => (
-                                 <FormItem>
-                                   <FormLabel>Year</FormLabel>
-                                   <FormControl>
-                                     <Input placeholder="e.g., 2024" {...field} />
-                                   </FormControl>
-                                   <FormMessage />
-                                 </FormItem>
-                               )}
-                             />
+                              <FormField
+                                control={form.control}
+                                name="carYear"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Year</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select year" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999] max-h-[200px] overflow-y-auto">
+                                        {Array.from({ length: 126 }, (_, i) => {
+                                          const year = 2025 - i;
+                                          return (
+                                            <SelectItem key={year} value={year.toString()}>
+                                              {year}
+                                            </SelectItem>
+                                          );
+                                        })}
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
 
                              <FormField
                                control={form.control}
