@@ -128,35 +128,23 @@ const YachtBrokerage = () => {
         </div>
       </section>
 
-      {/* Yacht Services */}
+      {/* Why Xplor and Virtual Tours Are Excellent for Yachts */}
       <section className="py-16 bg-muted/30">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              3D solutions for the yacht industry.
+              🚤 Why <span className="font-typografix">xplor</span> and Virtual Tours Are Excellent for Yachts
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Transform how you market and sell yachts with immersive virtual experiences that let 
-              buyers explore vessels remotely, anywhere in the world.
+              Here's a comprehensive list of reasons why <span className="font-typografix">xplor</span> and virtual tours are excellent for yachts, tailored for charter, sale, marketing, and operational use.
             </p>
           </div>
 
-          <Tabs defaultValue="listing" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              {yachtServices.map(tab => <TabsTrigger key={tab.id} value={tab.id} className="text-sm">
-                  {tab.label}
-                </TabsTrigger>)}
-            </TabsList>
-            
-            {yachtServices.map(tab => <TabsContent key={tab.id} value={tab.id} className="space-y-8">
-                <div className="text-center">
-                  <h3 className="text-2xl font-bold text-foreground mb-2">{tab.title}</h3>
-                  <p className="text-muted-foreground">{tab.description}</p>
-                </div>
-                
-                {/* Demo Yachts */}
-                <div className="grid md:grid-cols-3 gap-6">
-                  {[{
+          {/* Demo Yachts Section - Keeping this as requested */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-center text-foreground mb-8">Experience Virtual Yacht Tours</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[{
                 name: "Sunseeker 76 Yacht (DEMO)",
                 type: "Motor Yacht"
               }, {
@@ -165,26 +153,256 @@ const YachtBrokerage = () => {
               }, {
                 name: "Princess S78 Sportbridge (DEMO)",
                 type: "Sport Yacht"
-              }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
-                      <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Ship className="h-12 w-12 text-xplor-yellow" />
-                        </div>
-                      </div>
-                      <CardHeader>
-                        <CardTitle className="text-lg">{demo.name}</CardTitle>
-                        <CardDescription>{demo.type}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button variant="outline" className="w-full">
-                          <Waves className="h-4 w-4 mr-2" />
-                          Tour Virtual Yacht
-                        </Button>
-                      </CardContent>
-                    </Card>)}
-                </div>
-              </TabsContent>)}
-          </Tabs>
+              }].map(demo => (
+                <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
+                  <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Ship className="h-12 w-12 text-xplor-yellow" />
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <CardTitle className="text-lg">{demo.name}</CardTitle>
+                    <CardDescription>{demo.type}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" className="w-full">
+                      <Waves className="h-4 w-4 mr-2" />
+                      Tour Virtual Yacht
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Why Xplor is Excellent for Yachts - Organized by Category */}
+          <div className="space-y-12">
+            {/* For Charter and Sales Marketing */}
+            <div>
+              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+                🔹 For Charter and Sales Marketing
+              </h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    title: "24/7 Global Showcase",
+                    description: "Prospects can explore the yacht anytime, anywhere—no need to wait for a boat show or in-person visit."
+                  },
+                  {
+                    title: "Higher-Quality Leads",
+                    description: "Virtual tours qualify serious clients early by providing an immersive pre-screening experience."
+                  },
+                  {
+                    title: "Faster Decision-Making",
+                    description: "Buyers and charterers feel more confident making decisions after a detailed virtual walkthrough."
+                  },
+                  {
+                    title: "Reduced Time on Market",
+                    description: "Virtual access accelerates interest and inquiry conversion for both sales and charters."
+                  },
+                  {
+                    title: "Pre-Charter Familiarization",
+                    description: "Guests can preview staterooms, lounges, and deck layouts before boarding, improving their overall satisfaction."
+                  },
+                  {
+                    title: "Repeat Charterer Retention",
+                    description: "Past guests can relive their experience and share it with friends, increasing repeat bookings and word-of-mouth."
+                  },
+                  {
+                    title: "Eliminates Geographical Barriers",
+                    description: "Brokers and clients in different countries can still tour the yacht without travel costs or delays."
+                  },
+                  {
+                    title: "Stronger Online Listings",
+                    description: "Listings with virtual tours stand out on charter and sales platforms, attracting more engagement."
+                  },
+                  {
+                    title: "Increased Broker Efficiency",
+                    description: "Brokers can share virtual tours in seconds, replacing or enhancing traditional brochures and slide decks."
+                  }
+                ].map((benefit, index) => (
+                  <Card key={index} className="border-border">
+                    <CardContent className="p-6">
+                      <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
+                      <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* For Yacht Owners */}
+            <div>
+              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+                🔹 For Yacht Owners
+              </h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    title: "Better ROI on Marketing",
+                    description: "A single virtual tour investment can be used across websites, broker networks, social media, and presentations."
+                  },
+                  {
+                    title: "More Control Over Presentation",
+                    description: "Owners ensure their yacht is shown in its best light, consistently, no matter who presents it."
+                  },
+                  {
+                    title: "Attracts More Direct Bookings",
+                    description: "Guests who've virtually toured a yacht are more likely to book directly through xplor, reducing third-party commission outflows."
+                  },
+                  {
+                    title: "Reduces Need for Physical Showings",
+                    description: "Minimizes crew disruption and operational costs for in-person visits that may not result in bookings."
+                  },
+                  {
+                    title: "Permanent Showcase for Sale",
+                    description: "Even if the yacht is moved or unavailable, a virtual tour keeps it accessible for prospective buyers."
+                  }
+                ].map((benefit, index) => (
+                  <Card key={index} className="border-border">
+                    <CardContent className="p-6">
+                      <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {benefit.description.includes('through xplor') ? (
+                          <>
+                            Guests who've virtually toured a yacht are more likely to book directly through <span className="font-typografix">xplor</span>, reducing third-party commission outflows.
+                          </>
+                        ) : (
+                          benefit.description
+                        )}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* For Captains & Crew */}
+            <div>
+              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+                🔹 For Captains & Crew
+              </h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    title: "Operational Clarity",
+                    description: "Guests or clients can see layouts and amenities before arrival, reducing repetitive questions and special requests."
+                  },
+                  {
+                    title: "Crew Onboarding & Training",
+                    description: "New crew can familiarize themselves with yacht layout, safety equipment locations, and guest areas virtually."
+                  },
+                  {
+                    title: "Enhances Guest Preparation",
+                    description: "Helps guests know what to pack, where they'll stay, and what facilities they'll use."
+                  },
+                  {
+                    title: "Smoother Turnarounds",
+                    description: "Less need for guided tours during back-to-back charters—guests already know the vessel layout."
+                  },
+                  {
+                    title: "Showcases Crew Excellence",
+                    description: "Virtual tours can highlight crew interaction areas or branded moments that emphasize professionalism."
+                  }
+                ].map((benefit, index) => (
+                  <Card key={index} className="border-border">
+                    <CardContent className="p-6">
+                      <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
+                      <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* For Yacht Brokers & Central Agents */}
+            <div>
+              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+                🔹 For Yacht Brokers & Central Agents
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                {[
+                  {
+                    title: "Stronger Pitch to Owners",
+                    description: "Offering professional virtual tours adds value to your brokerage proposition and sets you apart."
+                  },
+                  {
+                    title: "More Compelling Marketing Packages",
+                    description: "Combine with photography, specs, and drone video for a powerful listing presentation."
+                  },
+                  {
+                    title: "Easier Sharing Across Networks",
+                    description: "Tours can be embedded or linked in MLS systems, emails, WhatsApp, and social posts."
+                  },
+                  {
+                    title: "Supports Live Negotiations",
+                    description: "During calls or negotiations, brokers can walk through the yacht in real-time with clients using the tour."
+                  }
+                ].map((benefit, index) => (
+                  <Card key={index} className="border-border">
+                    <CardContent className="p-6">
+                      <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
+                      <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* For the Xplor Platform */}
+            <div>
+              <h3 className="text-2xl font-bold text-xplor-yellow-dark mb-6 flex items-center">
+                🔹 For the <span className="font-typografix">xplor</span> Platform
+              </h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    title: "Optimized for Immersive Experiences",
+                    description: "xplor is designed specifically for virtual spaces—ideal for high-value assets like yachts."
+                  },
+                  {
+                    title: "Cross-Platform Exposure",
+                    description: "One upload can be shared across broker sites, search portals, and social media with ease."
+                  },
+                  {
+                    title: "Version Control & Updates",
+                    description: "Tours can be updated when the yacht is refitted, redecorated, or relocated—without re-filming everything."
+                  },
+                  {
+                    title: "Multiple Tours Per Yacht",
+                    description: "Highlight layout variations (e.g., family vs. corporate setup), different guest cabins, or day/night lighting."
+                  },
+                  {
+                    title: "Analytics & Insights",
+                    description: "Track which areas are viewed most, how long users stay, and where interest drops off—valuable for refining marketing."
+                  },
+                  {
+                    title: "Monetization Opportunities",
+                    description: "xplor can support add-ons like virtual concierge, booking widgets, or premium placement for higher visibility."
+                  }
+                ].map((benefit, index) => (
+                  <Card key={index} className="border-border">
+                    <CardContent className="p-6">
+                      <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {benefit.description.includes('xplor is designed') ? (
+                          <>
+                            <span className="font-typografix">xplor</span> is designed specifically for virtual spaces—ideal for high-value assets like yachts.
+                          </>
+                        ) : benefit.description.includes('xplor can support') ? (
+                          <>
+                            <span className="font-typografix">xplor</span> can support add-ons like virtual concierge, booking widgets, or premium placement for higher visibility.
+                          </>
+                        ) : (
+                          benefit.description
+                        )}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
