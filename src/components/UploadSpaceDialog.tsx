@@ -27,7 +27,7 @@ import { CrewProfileForm } from "./CrewProfileForm";
 import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { RealEstateAgentForm } from "./RealEstateAgentForm";
 import { aisStreamService } from "../services/aisStreamService";
-import { carDatabase, getModelsByManufacturer, getVariantsByModel } from "@/data/carDatabase";
+import { CarDataService } from "@/services/carDataService";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -4938,119 +4938,119 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              <Car className="h-5 w-5" />
                              Vehicle Information
                            </h3>
-                           <div className="grid grid-cols-2 gap-4">
-                              <FormField
-                                control={form.control}
-                                name="carManufacturer"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Manufacturer</FormLabel>
-                                    <Select onValueChange={(value) => {
-                                      field.onChange(value);
-                                      setSelectedManufacturer(value);
-                                      setSelectedModel("");
-                                      form.setValue("carModel", "");
-                                      form.setValue("carVariant", "");
-                                    }} defaultValue={field.value}>
-                                      <FormControl>
-                                        <SelectTrigger>
-                                          <SelectValue placeholder="Select manufacturer" />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {carDatabase.map((manufacturer) => (
-                                          <SelectItem key={manufacturer.value} value={manufacturer.value}>
-                                            {manufacturer.label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
+                            <div className="grid grid-cols-2 gap-4">
+                               <FormField
+                                 control={form.control}
+                                 name="carManufacturer"
+                                 render={({ field }) => (
+                                   <FormItem>
+                                     <FormLabel>Manufacturer</FormLabel>
+                                     <Select onValueChange={(value) => {
+                                       field.onChange(value);
+                                       setSelectedManufacturer(value);
+                                       setSelectedModel("");
+                                       form.setValue("carModel", "");
+                                       form.setValue("carVariant", "");
+                                     }} defaultValue={field.value}>
+                                       <FormControl>
+                                         <SelectTrigger>
+                                           <SelectValue placeholder="Select manufacturer" />
+                                         </SelectTrigger>
+                                       </FormControl>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {CarDataService.getManufacturers().map((manufacturer) => (
+                                           <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                             {manufacturer.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
+                                     </Select>
+                                     <FormMessage />
+                                   </FormItem>
+                                 )}
+                               />
 
-                              <FormField
-                                control={form.control}
-                                name="carModel"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Model</FormLabel>
-                                    <Select onValueChange={(value) => {
-                                      field.onChange(value);
-                                      setSelectedModel(value);
-                                      form.setValue("carVariant", "");
-                                    }} defaultValue={field.value} disabled={!selectedManufacturer}>
-                                      <FormControl>
-                                        <SelectTrigger>
-                                          <SelectValue placeholder={selectedManufacturer ? "Select model" : "Select manufacturer first"} />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getModelsByManufacturer(selectedManufacturer).map((model) => (
-                                          <SelectItem key={model.value} value={model.value}>
-                                            {model.label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
+                               <FormField
+                                 control={form.control}
+                                 name="carModel"
+                                 render={({ field }) => (
+                                   <FormItem>
+                                     <FormLabel>Model</FormLabel>
+                                     <Select onValueChange={(value) => {
+                                       field.onChange(value);
+                                       setSelectedModel(value);
+                                       form.setValue("carVariant", "");
+                                     }} defaultValue={field.value} disabled={!selectedManufacturer}>
+                                       <FormControl>
+                                         <SelectTrigger>
+                                           <SelectValue placeholder={selectedManufacturer ? "Select model" : "Select manufacturer first"} />
+                                         </SelectTrigger>
+                                       </FormControl>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {CarDataService.getModelsByManufacturer(selectedManufacturer).map((model) => (
+                                           <SelectItem key={model.value} value={model.value}>
+                                             {model.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
+                                     </Select>
+                                     <FormMessage />
+                                   </FormItem>
+                                 )}
+                               />
 
-                              <FormField
-                                control={form.control}
-                                name="carVariant"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Variant</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!selectedModel}>
-                                      <FormControl>
-                                        <SelectTrigger>
-                                          <SelectValue placeholder={selectedModel ? "Select variant" : "Select model first"} />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
-                                          <SelectItem key={variant.value} value={variant.value}>
-                                            {variant.label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
+                               <FormField
+                                 control={form.control}
+                                 name="carYear"
+                                 render={({ field }) => (
+                                   <FormItem>
+                                     <FormLabel>Year</FormLabel>
+                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                       <FormControl>
+                                         <SelectTrigger>
+                                           <SelectValue placeholder="Select year" />
+                                         </SelectTrigger>
+                                       </FormControl>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999] max-h-[200px] overflow-y-auto">
+                                         {Array.from({ length: 126 }, (_, i) => {
+                                           const year = 2025 - i;
+                                           return (
+                                             <SelectItem key={year} value={year.toString()}>
+                                               {year}
+                                             </SelectItem>
+                                           );
+                                         })}
+                                       </SelectContent>
+                                     </Select>
+                                     <FormMessage />
+                                   </FormItem>
+                                 )}
+                               />
 
-                              <FormField
-                                control={form.control}
-                                name="carYear"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Year</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                      <FormControl>
-                                        <SelectTrigger>
-                                          <SelectValue placeholder="Select year" />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999] max-h-[200px] overflow-y-auto">
-                                        {Array.from({ length: 126 }, (_, i) => {
-                                          const year = 2025 - i;
-                                          return (
-                                            <SelectItem key={year} value={year.toString()}>
-                                              {year}
-                                            </SelectItem>
-                                          );
-                                        })}
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
+                               <FormField
+                                 control={form.control}
+                                 name="carVariant"
+                                 render={({ field }) => (
+                                   <FormItem>
+                                     <FormLabel>Variant</FormLabel>
+                                     <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!selectedModel}>
+                                       <FormControl>
+                                         <SelectTrigger>
+                                           <SelectValue placeholder={selectedModel ? "Select variant" : "Select model first"} />
+                                         </SelectTrigger>
+                                       </FormControl>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {CarDataService.getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
+                                           <SelectItem key={variant.value} value={variant.value}>
+                                             {variant.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
+                                     </Select>
+                                     <FormMessage />
+                                   </FormItem>
+                                 )}
+                               />
 
                              <FormField
                                control={form.control}
