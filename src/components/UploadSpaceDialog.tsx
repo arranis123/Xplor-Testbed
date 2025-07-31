@@ -490,6 +490,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     crewProfile: File[];
     brochure: File[];
     vrWalkthrough: (File & { roomId?: string })[];
+    virtualTour: (File & { roomId?: string; url?: string })[];
   }>({
     photos: [],
     videos: [],
@@ -500,6 +501,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     crewProfile: [],
     brochure: [],
     vrWalkthrough: [],
+    virtualTour: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -2220,7 +2222,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough', files: FileList | null, roomId?: string) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough' | 'virtualTour', files: FileList | null | any[], roomId?: string) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
@@ -2253,7 +2255,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough' | 'virtualTour', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -2302,7 +2304,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], vrWalkthrough: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], vrWalkthrough: [], virtualTour: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -8879,6 +8881,84 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                 <TabsContent value="media" className="space-y-4">
                   <div className="space-y-6">
                     
+                    {/* Virtual Upload Section for Yacht categories */}
+                    {category === "yacht" && (
+                      <div>
+                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <Monitor className="h-5 w-5" />
+                          Virtual Tour & VR Content
+                        </Label>
+                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Upload className="h-8 w-8" />
+                              <div className="text-center">
+                                <p className="text-sm font-medium">Upload Virtual Tour Content</p>
+                                <p className="text-xs">360° tours, VR content, or provide URLs to existing virtual tours</p>
+                              </div>
+                            </div>
+                            
+                            {/* URL Input Section */}
+                            <div className="w-full max-w-md space-y-2">
+                              <Label className="text-sm">Virtual Tour URL</Label>
+                              <Input
+                                placeholder="https://example.com/virtual-tour or embed link"
+                                onChange={(e) => {
+                                  // Handle URL input
+                                  const url = e.target.value;
+                                  if (url) {
+                                    handleFileUpload('virtualTour', [{
+                                      name: `Virtual Tour - ${url}`,
+                                      type: 'url',
+                                      url: url,
+                                      size: 0
+                                    } as any]);
+                                  }
+                                }}
+                              />
+                            </div>
+                            
+                            <div className="text-sm text-muted-foreground">OR</div>
+                            
+                            <Input
+                              id="virtual-upload"
+                              type="file"
+                              multiple
+                              accept="image/*,video/*,.mp4,.mov,.avi"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('virtualTour', e.target.files)}
+                            />
+                          </div>
+                          {uploadedFiles.virtualTour && uploadedFiles.virtualTour.length > 0 && (
+                            <div className="mt-4 space-y-2">
+                              {uploadedFiles.virtualTour.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                  <div className="flex items-center gap-2">
+                                    <Monitor className="h-4 w-4" />
+                                    <div className="flex flex-col">
+                                      <span className="text-sm truncate">{file.name}</span>
+                                      {(file as any).url && (
+                                        <span className="text-xs text-muted-foreground truncate">
+                                          URL: {(file as any).url}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeFile('virtualTour', index)}
+                                    className="text-destructive hover:text-destructive/80"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                       </div>
+                     </div>
+                    )}
+                    
                      {/* VR Walkthrough Section for Hotel/Resort categories */}
                      {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
                        <div>
@@ -8971,53 +9051,75 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          Photos
                        </Label>
                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                         <div className="flex flex-col items-center gap-4">
-                           <div className="flex items-center gap-2 text-muted-foreground">
-                             <Upload className="h-8 w-8" />
-                             <div className="text-center">
-                               <p className="text-sm font-medium">Upload Photos</p>
-                               <p className="text-xs">Drag and drop or click to browse</p>
-                             </div>
-                           </div>
-                           
-                           {/* Room Selection for Hotel/Resort */}
-                           {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
-                             <div className="w-full max-w-xs space-y-2">
-                               <Label className="text-sm">Assign to Room (Optional)</Label>
-                               <Select
-                                 onValueChange={(roomId) => {
-                                   const fileInput = document.getElementById('photos-upload') as HTMLInputElement;
-                                   if (fileInput?.files) {
-                                     const finalRoomId = roomId === "general" ? undefined : roomId;
-                                     handleFileUpload('photos', fileInput.files, finalRoomId);
-                                     fileInput.value = '';
-                                   }
-                                 }}
-                               >
-                                 <SelectTrigger>
-                                   <SelectValue placeholder="Select a room or upload as general" />
-                                 </SelectTrigger>
-                                 <SelectContent>
-                                   <SelectItem value="general">General Photos</SelectItem>
-                                   {(form.watch("roomProfiles") || []).map((room: any) => (
-                                     <SelectItem key={room.id} value={room.id}>
-                                       {room.roomType} - {room.bedConfiguration}
-                                     </SelectItem>
-                                   ))}
-                                 </SelectContent>
-                               </Select>
-                             </div>
-                           )}
-                           
-                           <Input
-                             id="photos-upload"
-                             type="file"
-                             multiple
-                             accept="image/*"
-                             className="max-w-xs"
-                             onChange={(e) => handleFileUpload('photos', e.target.files)}
-                           />
-                         </div>
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Upload className="h-8 w-8" />
+                              <div className="text-center">
+                                <p className="text-sm font-medium">Upload Photos</p>
+                                <p className="text-xs">Upload files or provide image URLs</p>
+                              </div>
+                            </div>
+                            
+                            {/* URL Input Section */}
+                            <div className="w-full max-w-md space-y-2">
+                              <Label className="text-sm">Photo URL</Label>
+                              <Input
+                                placeholder="https://example.com/image.jpg"
+                                onChange={(e) => {
+                                  const url = e.target.value;
+                                  if (url) {
+                                    handleFileUpload('photos', [{
+                                      name: `Photo from URL - ${url.split('/').pop() || 'image'}`,
+                                      type: 'url',
+                                      url: url,
+                                      size: 0
+                                    } as any]);
+                                    e.target.value = '';
+                                  }
+                                }}
+                              />
+                            </div>
+                            
+                            <div className="text-sm text-muted-foreground">OR</div>
+                            
+                            {/* Room Selection for Hotel/Resort */}
+                            {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                              <div className="w-full max-w-xs space-y-2">
+                                <Label className="text-sm">Assign to Room (Optional)</Label>
+                                <Select
+                                  onValueChange={(roomId) => {
+                                    const fileInput = document.getElementById('photos-upload') as HTMLInputElement;
+                                    if (fileInput?.files) {
+                                      const finalRoomId = roomId === "general" ? undefined : roomId;
+                                      handleFileUpload('photos', fileInput.files, finalRoomId);
+                                      fileInput.value = '';
+                                    }
+                                  }}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select a room or upload as general" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="general">General Photos</SelectItem>
+                                    {(form.watch("roomProfiles") || []).map((room: any) => (
+                                      <SelectItem key={room.id} value={room.id}>
+                                        {room.roomType} - {room.bedConfiguration}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            )}
+                            
+                            <Input
+                              id="photos-upload"
+                              type="file"
+                              multiple
+                              accept="image/*"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('photos', e.target.files)}
+                            />
+                          </div>
                          {uploadedFiles.photos.length > 0 && (
                            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
                              {uploadedFiles.photos.map((file, index) => {
@@ -9035,14 +9137,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                    >
                                      <X className="h-3 w-3" />
                                    </button>
-                                   <div className="mt-1">
-                                     <p className="text-xs truncate">{file.name}</p>
-                                     {roomInfo && (
-                                       <p className="text-xs text-muted-foreground truncate">
-                                         {roomInfo.roomType} - {roomInfo.bedConfiguration}
-                                       </p>
-                                     )}
-                                   </div>
+                                    <div className="mt-1">
+                                      <p className="text-xs truncate">{file.name}</p>
+                                      {(file as any).url && (
+                                        <p className="text-xs text-muted-foreground truncate">
+                                          URL: {(file as any).url}
+                                        </p>
+                                      )}
+                                      {roomInfo && (
+                                        <p className="text-xs text-muted-foreground truncate">
+                                          {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                        </p>
+                                      )}
+                                    </div>
                                  </div>
                                );
                              })}
@@ -9057,53 +9164,75 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          Videos
                        </Label>
                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                         <div className="flex flex-col items-center gap-4">
-                           <div className="flex items-center gap-2 text-muted-foreground">
-                             <Upload className="h-8 w-8" />
-                             <div className="text-center">
-                               <p className="text-sm font-medium">Upload Videos</p>
-                               <p className="text-xs">Drag and drop or click to browse</p>
-                             </div>
-                           </div>
-                           
-                           {/* Room Selection for Hotel/Resort */}
-                           {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
-                             <div className="w-full max-w-xs space-y-2">
-                               <Label className="text-sm">Assign to Room (Optional)</Label>
-                               <Select
-                                 onValueChange={(roomId) => {
-                                   const fileInput = document.getElementById('videos-upload') as HTMLInputElement;
-                                   if (fileInput?.files) {
-                                     const finalRoomId = roomId === "general" ? undefined : roomId;
-                                     handleFileUpload('videos', fileInput.files, finalRoomId);
-                                     fileInput.value = '';
-                                   }
-                                 }}
-                               >
-                                 <SelectTrigger>
-                                   <SelectValue placeholder="Select a room or upload as general" />
-                                 </SelectTrigger>
-                                 <SelectContent>
-                                   <SelectItem value="general">General Videos</SelectItem>
-                                   {(form.watch("roomProfiles") || []).map((room: any) => (
-                                     <SelectItem key={room.id} value={room.id}>
-                                       {room.roomType} - {room.bedConfiguration}
-                                     </SelectItem>
-                                   ))}
-                                 </SelectContent>
-                               </Select>
-                             </div>
-                           )}
-                           
-                           <Input
-                             id="videos-upload"
-                             type="file"
-                             multiple
-                             accept="video/*"
-                             className="max-w-xs"
-                             onChange={(e) => handleFileUpload('videos', e.target.files)}
-                           />
-                         </div>
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Upload className="h-8 w-8" />
+                              <div className="text-center">
+                                <p className="text-sm font-medium">Upload Videos</p>
+                                <p className="text-xs">Upload files or provide video URLs (YouTube, Vimeo, etc.)</p>
+                              </div>
+                            </div>
+                            
+                            {/* URL Input Section */}
+                            <div className="w-full max-w-md space-y-2">
+                              <Label className="text-sm">Video URL</Label>
+                              <Input
+                                placeholder="https://youtube.com/watch?v=... or direct video URL"
+                                onChange={(e) => {
+                                  const url = e.target.value;
+                                  if (url) {
+                                    handleFileUpload('videos', [{
+                                      name: `Video from URL - ${url.includes('youtube') ? 'YouTube' : url.includes('vimeo') ? 'Vimeo' : 'Video'}`,
+                                      type: 'url',
+                                      url: url,
+                                      size: 0
+                                    } as any]);
+                                    e.target.value = '';
+                                  }
+                                }}
+                              />
+                            </div>
+                            
+                            <div className="text-sm text-muted-foreground">OR</div>
+                            
+                            {/* Room Selection for Hotel/Resort */}
+                            {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
+                              <div className="w-full max-w-xs space-y-2">
+                                <Label className="text-sm">Assign to Room (Optional)</Label>
+                                <Select
+                                  onValueChange={(roomId) => {
+                                    const fileInput = document.getElementById('videos-upload') as HTMLInputElement;
+                                    if (fileInput?.files) {
+                                      const finalRoomId = roomId === "general" ? undefined : roomId;
+                                      handleFileUpload('videos', fileInput.files, finalRoomId);
+                                      fileInput.value = '';
+                                    }
+                                  }}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select a room or upload as general" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="general">General Videos</SelectItem>
+                                    {(form.watch("roomProfiles") || []).map((room: any) => (
+                                      <SelectItem key={room.id} value={room.id}>
+                                        {room.roomType} - {room.bedConfiguration}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            )}
+                            
+                            <Input
+                              id="videos-upload"
+                              type="file"
+                              multiple
+                              accept="video/*"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('videos', e.target.files)}
+                            />
+                          </div>
                          {uploadedFiles.videos.length > 0 && (
                            <div className="mt-4 space-y-2">
                              {uploadedFiles.videos.map((file, index) => {
@@ -9113,14 +9242,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
                                    <div className="flex items-center gap-2">
                                      <Video className="h-4 w-4" />
-                                     <div className="flex flex-col">
-                                       <span className="text-sm truncate">{file.name}</span>
-                                       {roomInfo && (
-                                         <span className="text-xs text-muted-foreground">
-                                           Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
-                                         </span>
-                                       )}
-                                     </div>
+                                      <div className="flex flex-col">
+                                        <span className="text-sm truncate">{file.name}</span>
+                                        {(file as any).url && (
+                                          <span className="text-xs text-muted-foreground truncate">
+                                            URL: {(file as any).url}
+                                          </span>
+                                        )}
+                                        {roomInfo && (
+                                          <span className="text-xs text-muted-foreground">
+                                            Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                          </span>
+                                        )}
+                                      </div>
                                    </div>
                                    <button
                                      type="button"
