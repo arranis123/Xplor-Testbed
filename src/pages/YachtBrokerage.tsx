@@ -165,6 +165,20 @@ const YachtBrokerage = () => {
                     </CardContent>
                   </Card>)}
               </div>
+              
+              {/* Powered By Banner */}
+              <div className="mt-8 text-center">
+                <a 
+                  href="https://theatro360.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block bg-muted hover:bg-muted/80 transition-colors rounded-lg px-6 py-3 border border-border"
+                >
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Powered By THEATRO 360™
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
