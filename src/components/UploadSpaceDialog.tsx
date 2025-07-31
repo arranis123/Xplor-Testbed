@@ -489,6 +489,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     sampleItineraries: File[];
     crewProfile: File[];
     brochure: File[];
+    chefsMenu: File[];
     vrWalkthrough: (File & { roomId?: string })[];
     virtualTour: (File & { roomId?: string; url?: string })[];
   }>({
@@ -500,6 +501,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     sampleItineraries: [],
     crewProfile: [],
     brochure: [],
+    chefsMenu: [],
     vrWalkthrough: [],
     virtualTour: [],
   });
@@ -2222,14 +2224,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough' | 'virtualTour', files: FileList | null | any[], roomId?: string) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'chefsMenu' | 'vrWalkthrough' | 'virtualTour', files: FileList | null | any[], roomId?: string) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter(file => {
       if (type === 'photos' || type === 'floorPlans') {
         return file.type.startsWith('image/');
-      } else if (type === 'documents' || type === 'sampleItineraries' || type === 'crewProfile' || type === 'brochure') {
+      } else if (type === 'documents' || type === 'sampleItineraries' || type === 'crewProfile' || type === 'brochure' || type === 'chefsMenu') {
         return file.type === 'application/pdf' || file.type.includes('document') || file.type === 'text/plain';
       } else {
         return file.type.startsWith('video/');
@@ -2255,7 +2257,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'vrWalkthrough' | 'virtualTour', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'chefsMenu' | 'vrWalkthrough' | 'virtualTour', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -2304,7 +2306,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], vrWalkthrough: [], virtualTour: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], chefsMenu: [], vrWalkthrough: [], virtualTour: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -9528,15 +9530,61 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           )}
                         </div>
                       </div>
-                    )}
+                     )}
 
-                    {category === "yacht" && (
-                      <>
-                        <div>
-                          <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                            <FileText className="h-5 w-5" />
-                            Brochure
-                          </Label>
+                     {category === "yacht" && (
+                       <div>
+                         <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                           <Utensils className="h-5 w-5" />
+                           Chefs Menu
+                         </Label>
+                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                           <div className="flex flex-col items-center gap-4">
+                             <div className="flex items-center gap-2 text-muted-foreground">
+                               <Upload className="h-8 w-8" />
+                               <div className="text-center">
+                                 <p className="text-sm font-medium">Upload Chefs Menu</p>
+                                 <p className="text-xs">Drag and drop or click to browse</p>
+                               </div>
+                             </div>
+                             <Input
+                               type="file"
+                               multiple
+                               accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                               className="max-w-xs"
+                               onChange={(e) => handleFileUpload('chefsMenu', e.target.files)}
+                             />
+                           </div>
+                           {uploadedFiles.chefsMenu && uploadedFiles.chefsMenu.length > 0 && (
+                             <div className="mt-4 space-y-2">
+                               {uploadedFiles.chefsMenu.map((file, index) => (
+                                 <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                   <div className="flex items-center gap-2">
+                                     <Utensils className="h-4 w-4" />
+                                     <span className="text-sm truncate">{file.name}</span>
+                                   </div>
+                                   <button
+                                     type="button"
+                                     onClick={() => removeFile('chefsMenu', index)}
+                                     className="text-destructive hover:text-destructive/80"
+                                   >
+                                     <X className="h-4 w-4" />
+                                   </button>
+                                 </div>
+                               ))}
+                             </div>
+                           )}
+                         </div>
+                       </div>
+                     )}
+
+                     {category === "yacht" && (
+                       <>
+                         <div>
+                           <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                             <FileText className="h-5 w-5" />
+                             Brochure
+                           </Label>
                            <p className="text-sm text-muted-foreground mb-4">
                              Need to create a Brochure in PDF format ? <button type="button" onClick={() => setShowBrochure(true)} className="hover:underline" style={{ color: '#0000FF' }}>Create brochure</button>
                            </p>
@@ -9700,16 +9748,21 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               <Badge variant="secondary">
                                 {uploadedFiles.floorPlans.length} Floor Plans
                               </Badge>
-                              {category === "yacht" && (
-                                <Badge variant="secondary">
-                                  {uploadedFiles.sampleItineraries.length} Sample Itineraries
-                                </Badge>
-                              )}
-                              {category === "yacht" && (
-                                <Badge variant="secondary">
-                                  {uploadedFiles.crewProfile.length} Crew Profile
-                                </Badge>
-                              )}
+                               {category === "yacht" && (
+                                 <Badge variant="secondary">
+                                   {uploadedFiles.sampleItineraries.length} Sample Itineraries
+                                 </Badge>
+                               )}
+                               {category === "yacht" && (
+                                 <Badge variant="secondary">
+                                   {uploadedFiles.chefsMenu.length} Chefs Menu
+                                 </Badge>
+                               )}
+                               {category === "yacht" && (
+                                 <Badge variant="secondary">
+                                   {uploadedFiles.crewProfile.length} Crew Profile
+                                 </Badge>
+                               )}
                               {category === "yacht" && (
                                 <Badge variant="secondary">
                                   {uploadedFiles.brochure.length} Brochure
