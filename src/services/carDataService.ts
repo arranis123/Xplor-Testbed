@@ -39,7 +39,6 @@ export class CarDataService {
       { value: "hybrid-vehicle", label: "Hybrid Vehicle" },
       { value: "commercial-van", label: "Commercial Van" },
       { value: "rv", label: "RV/Motorhome" },
-      { value: "boat", label: "Boat" },
       { value: "jet-ski", label: "Jet Ski" },
       { value: "snowmobile", label: "Snowmobile" },
       { value: "truck", label: "Truck" },
