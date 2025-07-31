@@ -3284,156 +3284,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          />
                          )}
 
-                        {/* Car & Vehicle Specific Fields */}
-                        {category === "car" && (
-                          <>
-                            <FormField
-                              control={form.control}
-                              name="carManufacturer"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Manufacturer</FormLabel>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Select manufacturer" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                      <SelectItem value="toyota">Toyota</SelectItem>
-                                      <SelectItem value="honda">Honda</SelectItem>
-                                      <SelectItem value="ford">Ford</SelectItem>
-                                      <SelectItem value="chevrolet">Chevrolet</SelectItem>
-                                      <SelectItem value="nissan">Nissan</SelectItem>
-                                      <SelectItem value="bmw">BMW</SelectItem>
-                                      <SelectItem value="mercedes-benz">Mercedes-Benz</SelectItem>
-                                      <SelectItem value="audi">Audi</SelectItem>
-                                      <SelectItem value="volkswagen">Volkswagen</SelectItem>
-                                      <SelectItem value="hyundai">Hyundai</SelectItem>
-                                      <SelectItem value="kia">Kia</SelectItem>
-                                      <SelectItem value="mazda">Mazda</SelectItem>
-                                      <SelectItem value="subaru">Subaru</SelectItem>
-                                      <SelectItem value="tesla">Tesla</SelectItem>
-                                      <SelectItem value="lexus">Lexus</SelectItem>
-                                      <SelectItem value="infiniti">Infiniti</SelectItem>
-                                      <SelectItem value="acura">Acura</SelectItem>
-                                      <SelectItem value="cadillac">Cadillac</SelectItem>
-                                      <SelectItem value="lincoln">Lincoln</SelectItem>
-                                      <SelectItem value="jaguar">Jaguar</SelectItem>
-                                      <SelectItem value="land-rover">Land Rover</SelectItem>
-                                      <SelectItem value="porsche">Porsche</SelectItem>
-                                      <SelectItem value="ferrari">Ferrari</SelectItem>
-                                      <SelectItem value="lamborghini">Lamborghini</SelectItem>
-                                      <SelectItem value="maserati">Maserati</SelectItem>
-                                      <SelectItem value="bentley">Bentley</SelectItem>
-                                      <SelectItem value="rolls-royce">Rolls-Royce</SelectItem>
-                                      <SelectItem value="aston-martin">Aston Martin</SelectItem>
-                                      <SelectItem value="mclaren">McLaren</SelectItem>
-                                      <SelectItem value="bugatti">Bugatti</SelectItem>
-                                      <SelectItem value="other">Other</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="carModel"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Model</FormLabel>
-                                  <FormControl>
-                                    <Input placeholder="e.g., Camry, Civic, Model S" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="carYear"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Year</FormLabel>
-                                  <FormControl>
-                                    <Input placeholder="e.g., 2024" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="carCondition"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Condition</FormLabel>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Select condition" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                      <SelectItem value="new">New</SelectItem>
-                                      <SelectItem value="excellent">Excellent</SelectItem>
-                                      <SelectItem value="good">Good</SelectItem>
-                                      <SelectItem value="fair">Fair</SelectItem>
-                                      <SelectItem value="poor">Poor</SelectItem>
-                                      <SelectItem value="salvage">Salvage</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="carMileage"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Mileage</FormLabel>
-                                  <FormControl>
-                                    <Input placeholder="e.g., 25,000 miles" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="carFuelType"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Fuel Type</FormLabel>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Select fuel type" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                      <SelectItem value="gasoline">Gasoline</SelectItem>
-                                      <SelectItem value="diesel">Diesel</SelectItem>
-                                      <SelectItem value="electric">Electric</SelectItem>
-                                      <SelectItem value="hybrid">Hybrid</SelectItem>
-                                      <SelectItem value="plug-in-hybrid">Plug-in Hybrid</SelectItem>
-                                      <SelectItem value="hydrogen">Hydrogen</SelectItem>
-                                      <SelectItem value="other">Other</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </>
-                        )}
 
                     </div>
 
@@ -9417,52 +9267,54 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       </div>
                     </div>
 
-                    <div>
-                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <FileText className="h-5 w-5" />
-                        Floor Plans
-                      </Label>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Need Floor Plans? <button type="button" onClick={() => {setContactFormType('floor-plans'); setShowContactForm(true);}} className="hover:underline" style={{ color: '#0000FF' }}>Click Here</button> to contact a Floor Plan creator
-                      </p>
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="flex items-center gap-2 text-muted-foreground">
-                            <Upload className="h-8 w-8" />
-                            <div className="text-center">
-                              <p className="text-sm font-medium">Upload Floor Plans</p>
-                              <p className="text-xs">Drag and drop or click to browse</p>
-                            </div>
-                          </div>
-                          <Input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            className="max-w-xs"
-                            onChange={(e) => handleFileUpload('floorPlans', e.target.files)}
-                          />
-                        </div>
-                        {uploadedFiles.floorPlans.length > 0 && (
-                          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                            {uploadedFiles.floorPlans.map((file, index) => (
-                              <div key={index} className="relative group">
-                                <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
-                                  <FileText className="h-8 w-8 text-muted-foreground" />
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => removeFile('floorPlans', index)}
-                                  className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                >
-                                  <X className="h-3 w-3" />
-                                </button>
-                                <p className="text-xs truncate mt-1">{file.name}</p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    {category !== "car" && (
+                     <div>
+                       <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                         <FileText className="h-5 w-5" />
+                         Floor Plans
+                       </Label>
+                       <p className="text-sm text-muted-foreground mb-4">
+                         Need Floor Plans? <button type="button" onClick={() => {setContactFormType('floor-plans'); setShowContactForm(true);}} className="hover:underline" style={{ color: '#0000FF' }}>Click Here</button> to contact a Floor Plan creator
+                       </p>
+                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                         <div className="flex flex-col items-center gap-4">
+                           <div className="flex items-center gap-2 text-muted-foreground">
+                             <Upload className="h-8 w-8" />
+                             <div className="text-center">
+                               <p className="text-sm font-medium">Upload Floor Plans</p>
+                               <p className="text-xs">Drag and drop or click to browse</p>
+                             </div>
+                           </div>
+                           <Input
+                             type="file"
+                             multiple
+                             accept="image/*"
+                             className="max-w-xs"
+                             onChange={(e) => handleFileUpload('floorPlans', e.target.files)}
+                           />
+                         </div>
+                         {uploadedFiles.floorPlans.length > 0 && (
+                           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                             {uploadedFiles.floorPlans.map((file, index) => (
+                               <div key={index} className="relative group">
+                                 <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
+                                   <FileText className="h-8 w-8 text-muted-foreground" />
+                                 </div>
+                                 <button
+                                   type="button"
+                                   onClick={() => removeFile('floorPlans', index)}
+                                   className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                 >
+                                   <X className="h-3 w-3" />
+                                 </button>
+                                 <p className="text-xs truncate mt-1">{file.name}</p>
+                               </div>
+                             ))}
+                           </div>
+                         )}
+                       </div>
+                     </div>
+                    )}
 
                     {category === "yacht" && (
                       <div>
