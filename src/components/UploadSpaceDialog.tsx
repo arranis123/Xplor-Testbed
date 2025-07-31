@@ -27,7 +27,7 @@ import { CrewProfileForm } from "./CrewProfileForm";
 import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { RealEstateAgentForm } from "./RealEstateAgentForm";
 import { aisStreamService } from "../services/aisStreamService";
-import { carDatabase, getModelsByManufacturer, getYearsByModel, getVariantsByModelAndYear } from "@/data/carDatabase";
+import { carDataService, type CarManufacturer, type CarModel, type CarVariant } from "@/services/carDataService";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -466,6 +466,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [selectedManufacturer, setSelectedManufacturer] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
+  const [manufacturers, setManufacturers] = useState<CarManufacturer[]>([]);
+  const [models, setModels] = useState<CarModel[]>([]);
+  const [years, setYears] = useState<number[]>([]);
+  const [variants, setVariants] = useState<CarVariant[]>([]);
+  const [isLoadingManufacturers, setIsLoadingManufacturers] = useState(false);
+  const [isLoadingModels, setIsLoadingModels] = useState(false);
+  const [isLoadingYears, setIsLoadingYears] = useState(false);
+  const [isLoadingVariants, setIsLoadingVariants] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
@@ -500,6 +508,111 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     brochure: [],
     vrWalkthrough: [],
   });
+
+  
+  // Load manufacturers on component mount
+  useEffect(() => {
+    const loadManufacturers = async () => {
+      setIsLoadingManufacturers(true);
+      try {
+        const data = await carDataService.getManufacturers();
+        setManufacturers(data);
+      } catch (error) {
+        console.error('Error loading manufacturers:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load car manufacturers. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingManufacturers(false);
+      }
+    };
+
+    loadManufacturers();
+  }, []);
+
+  // Load models when manufacturer changes
+  useEffect(() => {
+    if (!selectedManufacturer) {
+      setModels([]);
+      return;
+    }
+
+    const loadModels = async () => {
+      setIsLoadingModels(true);
+      try {
+        const data = await carDataService.getModelsByManufacturer(selectedManufacturer);
+        setModels(data);
+      } catch (error) {
+        console.error('Error loading models:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load car models. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingModels(false);
+      }
+    };
+
+    loadModels();
+  }, [selectedManufacturer]);
+
+  // Load years when model changes
+  useEffect(() => {
+    if (!selectedManufacturer || !selectedModel) {
+      setYears([]);
+      return;
+    }
+
+    const loadYears = async () => {
+      setIsLoadingYears(true);
+      try {
+        const data = await carDataService.getYearsByModel(selectedManufacturer, selectedModel);
+        setYears(data);
+      } catch (error) {
+        console.error('Error loading years:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load car years. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingYears(false);
+      }
+    };
+
+    loadYears();
+  }, [selectedManufacturer, selectedModel]);
+
+  // Load variants when year changes
+  useEffect(() => {
+    if (!selectedManufacturer || !selectedModel) {
+      setVariants([]);
+      return;
+    }
+
+    const loadVariants = async () => {
+      setIsLoadingVariants(true);
+      try {
+        const yearInt = selectedYear ? parseInt(selectedYear) : undefined;
+        const data = await carDataService.getVariantsByModelAndYear(selectedManufacturer, selectedModel, yearInt);
+        setVariants(data);
+      } catch (error) {
+        console.error('Error loading variants:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load car variants. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingVariants(false);
+      }
+    };
+
+    loadVariants();
+  }, [selectedManufacturer, selectedModel, selectedYear]);
 
   const form = useForm<UploadFormValues>({
     resolver: zodResolver(uploadFormSchema),
@@ -4961,11 +5074,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {carDatabase.map((manufacturer) => (
-                                          <SelectItem key={manufacturer.value} value={manufacturer.value}>
-                                            {manufacturer.label}
-                                          </SelectItem>
-                                        ))}
+                                        {isLoadingManufacturers ? (
+                                          <SelectItem value="loading" disabled>Loading manufacturers...</SelectItem>
+                                        ) : (
+                                          manufacturers.map((manufacturer) => (
+                                            <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                              {manufacturer.label}
+                                            </SelectItem>
+                                          ))
+                                        )}
                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -4992,11 +5109,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getModelsByManufacturer(selectedManufacturer).map((model) => (
-                                          <SelectItem key={model.value} value={model.value}>
-                                            {model.label}
-                                          </SelectItem>
-                                        ))}
+                                        {isLoadingModels ? (
+                                          <SelectItem value="loading" disabled>Loading models...</SelectItem>
+                                        ) : (
+                                          models.map((model) => (
+                                            <SelectItem key={model.value} value={model.value}>
+                                              {model.label}
+                                            </SelectItem>
+                                          ))
+                                        )}
                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -5021,11 +5142,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999] max-h-[200px] overflow-y-auto">
-                                        {getYearsByModel(selectedManufacturer, selectedModel).map((year) => (
-                                          <SelectItem key={year} value={year.toString()}>
-                                            {year}
-                                          </SelectItem>
-                                        ))}
+                                        {isLoadingYears ? (
+                                          <SelectItem value="loading" disabled>Loading years...</SelectItem>
+                                        ) : (
+                                          years.map((year) => (
+                                            <SelectItem key={year} value={year.toString()}>
+                                              {year}
+                                            </SelectItem>
+                                          ))
+                                        )}
                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -5046,11 +5171,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getVariantsByModelAndYear(selectedManufacturer, selectedModel, selectedYear ? parseInt(selectedYear) : undefined).map((variant) => (
-                                          <SelectItem key={variant.value} value={variant.value}>
-                                            {variant.label}
-                                          </SelectItem>
-                                        ))}
+                                        {isLoadingVariants ? (
+                                          <SelectItem value="loading" disabled>Loading variants...</SelectItem>
+                                        ) : (
+                                          variants.map((variant) => (
+                                            <SelectItem key={variant.value} value={variant.value}>
+                                              {variant.label}
+                                            </SelectItem>
+                                          ))
+                                        )}
                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
