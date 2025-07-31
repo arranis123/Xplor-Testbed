@@ -42,16 +42,16 @@ const YachtCrewOffer = () => {
       <div className="max-w-4xl mx-auto px-6 pb-12">
         <Card>
           <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6 text-xplor-yellow-dark">
-              Xplor Brokerage Charter Commission Model
+            <h2 className="text-2xl font-bold mb-6 text-xplor-yellow-dark font-typografix">
+              xplor Brokerage Charter Commission Model
             </h2>
             
             <p className="text-lg mb-8 leading-relaxed">
-              Xplor Brokerage is designed to reward the crew by distributing 50% of all charter commission fees evenly among them. When appointed as the central broker, we have the infrastructure to ensure direct and transparent payments to the crew—guaranteeing their share regardless of how or when the yacht is chartered.
+              <span className="font-typografix">xplor</span> Brokerage is designed to reward the crew by distributing 50% of all charter commission fees evenly among them. When appointed as the central broker, we have the infrastructure to ensure direct and transparent payments to the crew—guaranteeing their share regardless of how or when the yacht is chartered.
             </p>
 
             <p className="text-lg mb-12 leading-relaxed">
-              For charters booked directly through Xplor, with no third-party brokers involved, the full commission is shared exclusively between Xplor and the crew—maximizing the benefit for all onboard. This is ideal for repeat charter guests who prefer to book directly.
+              For charters booked directly through <span className="font-typografix">xplor</span>, with no third-party brokers involved, the full commission is shared exclusively between <span className="font-typografix">xplor</span> and the crew—maximizing the benefit for all onboard. This is ideal for repeat charter guests who prefer to book directly.
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
@@ -79,7 +79,7 @@ const YachtCrewOffer = () => {
                   <div>
                     <h4 className="font-semibold mb-2">3. Direct Payouts</h4>
                     <p className="text-sm text-muted-foreground">
-                      Funds are distributed directly to crew by Xplor, ensuring transparency, fairness, and timely delivery.
+                      Funds are distributed directly to crew by <span className="font-typografix">xplor</span>, ensuring transparency, fairness, and timely delivery.
                     </p>
                   </div>
 
@@ -107,7 +107,7 @@ const YachtCrewOffer = () => {
                   <div>
                     <h4 className="font-semibold mb-2">7. Repeat Guest Leverage</h4>
                     <p className="text-sm text-muted-foreground">
-                      Repeat guests booking directly through Xplor maximize the crew's commission share, giving crew a reason to nurture guest relationships.
+                      Repeat guests booking directly through <span className="font-typografix">xplor</span> maximize the crew's commission share, giving crew a reason to nurture guest relationships.
                     </p>
                   </div>
                 </div>
@@ -137,7 +137,7 @@ const YachtCrewOffer = () => {
                   <div>
                     <h4 className="font-semibold mb-2">3. Streamlined Broker-Crew Relationship</h4>
                     <p className="text-sm text-muted-foreground">
-                      Xplor's direct payout model minimizes administrative hassle and ensures clarity in commission handling.
+                      <span className="font-typografix">xplor</span>'s direct payout model minimizes administrative hassle and ensures clarity in commission handling.
                     </p>
                   </div>
 
@@ -165,7 +165,7 @@ const YachtCrewOffer = () => {
                   <div>
                     <h4 className="font-semibold mb-2">7. Direct Booking Incentives</h4>
                     <p className="text-sm text-muted-foreground">
-                      When clients book directly through Xplor, owners reduce external broker fees, and more commission stays within the yacht's ecosystem.
+                      When clients book directly through <span className="font-typografix">xplor</span>, owners reduce external broker fees, and more commission stays within the yacht's ecosystem.
                     </p>
                   </div>
                 </div>

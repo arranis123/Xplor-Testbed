@@ -52,7 +52,7 @@ const CaptureBusinessSignup = () => {
               Become a Certified Capture Technician
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Join xplor's global network of professional capture technicians and help businesses 
+              Join <span className="font-typografix">xplor</span>'s global network of professional capture technicians and help businesses 
               create stunning digital twins while building your own thriving capture services business.
             </p>
           </div>
@@ -63,7 +63,7 @@ const CaptureBusinessSignup = () => {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-            Why Partner with xplor?
+            Why Partner with <span className="font-typografix">xplor</span>?
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((benefit, index) => (
@@ -260,8 +260,8 @@ const CaptureBusinessSignup = () => {
                         <SelectValue placeholder="Select your primary equipment" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="pro3">xplor Pro3 Camera</SelectItem>
-                        <SelectItem value="pro2">xplor Pro2 Camera</SelectItem>
+                        <SelectItem value="pro3"><span className="font-typografix">xplor</span> Pro3 Camera</SelectItem>
+                        <SelectItem value="pro2"><span className="font-typografix">xplor</span> Pro2 Camera</SelectItem>
                         <SelectItem value="ricoh-z1">Ricoh Theta Z1</SelectItem>
                         <SelectItem value="other-lidar">Other LiDAR Camera</SelectItem>
                         <SelectItem value="dslr-360">DSLR + 360° Equipment</SelectItem>

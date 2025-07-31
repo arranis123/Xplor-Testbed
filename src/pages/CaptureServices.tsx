@@ -369,9 +369,9 @@ const CaptureServices = () => {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
-                  "Today, prospects and existing clients alike expect xplor scans to be part of the process 
+                  "Today, prospects and existing clients alike expect <span className="font-typografix">xplor</span> scans to be part of the process 
                   as they find commercial spaces perfectly suited to their needs. Fortunately, we can now 
-                  more easily meet the demands with xplor Capture Services."
+                  more easily meet the demands with <span className="font-typografix">xplor</span> Capture Services."
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-xplor-yellow rounded-full flex items-center justify-center">
@@ -393,7 +393,7 @@ const CaptureServices = () => {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
-                  "Using xplor Capture Services On-Demand costs 30 percent less than if we send someone 
+                  "Using <span className="font-typografix">xplor</span> Capture Services On-Demand costs 30 percent less than if we send someone 
                   who lives in the same city to do it, and it costs 70 percent less than sending someone 
                   long distance. It makes sense to delegate this to people who capture spaces for a living."
                 </p>
