@@ -3,113 +3,74 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { 
-  Anchor, 
-  Clock, 
-  MapPin, 
-  Shield, 
-  Star, 
-  CheckCircle, 
-  Waves, 
-  Users, 
-  Camera,
-  ArrowRight,
-  Ship,
-  Globe
-} from "lucide-react";
+import { Anchor, Clock, MapPin, Shield, Star, CheckCircle, Waves, Users, Camera, ArrowRight, Ship, Globe } from "lucide-react";
 import captureHeroImage from "@/assets/capture-services-hero.jpg";
 import northropJohnsonLogo from "@/assets/northrop-johnson-logo.jpg";
 import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
 import fraserYachtsLogo from "@/assets/fraser-yachts-logo.jpg";
 import edmistonLogo from "@/assets/edmiston-logo.jpg";
 import camperNicholsonsLogo from "@/assets/camper-nicholsons-logo.jpg";
-
 const YachtBrokerage = () => {
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
   };
-
-  const yachtServices = [
-    { 
-      id: "listing", 
-      label: "Yacht Listings", 
-      title: "Immersive yacht showcase experiences",
-      description: "Create stunning virtual tours that allow potential buyers to explore every inch of your yacht remotely, increasing qualified leads and accelerating sales."
-    },
-    { 
-      id: "marketing", 
-      label: "Marketing & Sales", 
-      title: "Elevate your yacht marketing",
-      description: "Stand out in competitive markets with high-quality virtual tours that showcase your yacht's unique features and luxury amenities."
-    },
-    { 
-      id: "documentation", 
-      label: "Documentation", 
-      title: "Comprehensive yacht documentation",
-      description: "Create detailed digital records for insurance claims, maintenance planning, and condition assessments with millimeter-accurate 3D scans."
-    }
-  ];
-
-  const yachtFeatures = [
-    "Professional marine-certified capture technicians",
-    "Waterproof and marine-grade 3D scanning equipment", 
-    "360° virtual tours of all decks and interior spaces",
-    "High-resolution 4K photography and videography",
-    "Detailed measurements and floor plans",
-    "Virtual staging and enhancement options",
-    "Drone exterior footage (where permitted)",
-    "Fast 24-48 hour turnaround time"
-  ];
-
-  const premiumFeatures = [
-    "Dedicated yacht marketing specialist",
-    "Custom virtual tour branding and themes",
-    "Interactive hotspots with yacht specifications",
-    "Virtual reality headset compatibility", 
-    "Multi-language support for international buyers",
-    "Integration with major yacht listing platforms",
-    "Professional copywriting and descriptions",
-    "Ongoing tour optimization and analytics"
-  ];
-
-  const yachtBrokers = [
-    { name: "Northrop & Johnson", logo: northropJohnsonLogo },
-    { name: "Burgess Yachts", logo: burgessYachtsLogo },
-    { name: "Fraser Yachts", logo: fraserYachtsLogo },
-    { name: "Edmiston", logo: edmistonLogo },
-    { name: "Camper & Nicholsons", logo: camperNicholsonsLogo },
-    { name: "Worth Avenue Yachts", logo: "/logos/worth-avenue-yachts-logo.png" }
-  ];
-
-  const yachtFaqs = [
-    {
-      question: "Can you capture yachts while they're in the water?",
-      answer: "Yes, our marine-certified technicians are equipped to safely capture yachts both in marinas and while moored, using specialized waterproof equipment designed for marine environments."
-    },
-    {
-      question: "How long does it take to capture a yacht?",
-      answer: "Capture time varies by yacht size - typically 2-4 hours for motor yachts up to 100ft, and 4-8 hours for superyachts. Weather conditions may affect scheduling."
-    },
-    {
-      question: "Do you capture exterior deck spaces and equipment?",
-      answer: "Absolutely. We capture all accessible areas including upper decks, flybridge, swim platforms, tender garages, and exterior equipment areas to provide a complete virtual experience."
-    },
-    {
-      question: "Can virtual tours be integrated with yacht listing websites?",
-      answer: "Yes, our virtual tours integrate seamlessly with major yacht listing platforms like YachtWorld, Boat Trader, and custom broker websites."
-    },
-    {
-      question: "What about international yacht captures?",
-      answer: "We have a global network of certified marine capture technicians in major yachting destinations worldwide including Monaco, Fort Lauderdale, Newport, and the Caribbean."
-    },
-    {
-      question: "How much does yacht capture service cost?",
-      answer: "Pricing depends on yacht size, location, and services required. Standard captures start at $650 for yachts under 50ft, with premium packages available for superyachts."
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const yachtServices = [{
+    id: "listing",
+    label: "Yacht Listings",
+    title: "Immersive yacht showcase experiences",
+    description: "Create stunning virtual tours that allow potential buyers to explore every inch of your yacht remotely, increasing qualified leads and accelerating sales."
+  }, {
+    id: "marketing",
+    label: "Marketing & Sales",
+    title: "Elevate your yacht marketing",
+    description: "Stand out in competitive markets with high-quality virtual tours that showcase your yacht's unique features and luxury amenities."
+  }, {
+    id: "documentation",
+    label: "Documentation",
+    title: "Comprehensive yacht documentation",
+    description: "Create detailed digital records for insurance claims, maintenance planning, and condition assessments with millimeter-accurate 3D scans."
+  }];
+  const yachtFeatures = ["Professional marine-certified capture technicians", "Waterproof and marine-grade 3D scanning equipment", "360° virtual tours of all decks and interior spaces", "High-resolution 4K photography and videography", "Detailed measurements and floor plans", "Virtual staging and enhancement options", "Drone exterior footage (where permitted)", "Fast 24-48 hour turnaround time"];
+  const premiumFeatures = ["Dedicated yacht marketing specialist", "Custom virtual tour branding and themes", "Interactive hotspots with yacht specifications", "Virtual reality headset compatibility", "Multi-language support for international buyers", "Integration with major yacht listing platforms", "Professional copywriting and descriptions", "Ongoing tour optimization and analytics"];
+  const yachtBrokers = [{
+    name: "Northrop & Johnson",
+    logo: northropJohnsonLogo
+  }, {
+    name: "Burgess Yachts",
+    logo: burgessYachtsLogo
+  }, {
+    name: "Fraser Yachts",
+    logo: fraserYachtsLogo
+  }, {
+    name: "Edmiston",
+    logo: edmistonLogo
+  }, {
+    name: "Camper & Nicholsons",
+    logo: camperNicholsonsLogo
+  }, {
+    name: "Worth Avenue Yachts",
+    logo: "/logos/worth-avenue-yachts-logo.png"
+  }];
+  const yachtFaqs = [{
+    question: "Can you capture yachts while they're in the water?",
+    answer: "Yes, our marine-certified technicians are equipped to safely capture yachts both in marinas and while moored, using specialized waterproof equipment designed for marine environments."
+  }, {
+    question: "How long does it take to capture a yacht?",
+    answer: "Capture time varies by yacht size - typically 2-4 hours for motor yachts up to 100ft, and 4-8 hours for superyachts. Weather conditions may affect scheduling."
+  }, {
+    question: "Do you capture exterior deck spaces and equipment?",
+    answer: "Absolutely. We capture all accessible areas including upper decks, flybridge, swim platforms, tender garages, and exterior equipment areas to provide a complete virtual experience."
+  }, {
+    question: "Can virtual tours be integrated with yacht listing websites?",
+    answer: "Yes, our virtual tours integrate seamlessly with major yacht listing platforms like YachtWorld, Boat Trader, and custom broker websites."
+  }, {
+    question: "What about international yacht captures?",
+    answer: "We have a global network of certified marine capture technicians in major yachting destinations worldwide including Monaco, Fort Lauderdale, Newport, and the Caribbean."
+  }, {
+    question: "How much does yacht capture service cost?",
+    answer: "Pricing depends on yacht size, location, and services required. Standard captures start at $650 for yachts under 50ft, with premium packages available for superyachts."
+  }];
+  return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-6 py-16">
@@ -122,10 +83,7 @@ const YachtBrokerage = () => {
                 Showcase yachts like never before.
               </h1>
             </div>
-            <p className="text-xl text-muted-foreground">
-              Revolutionary 3D virtual tours and digital twin technology specifically designed for the 
-              yacht industry. Help buyers experience every detail of your yacht remotely and close deals faster.
-            </p>
+            <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yacht industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
                 <Anchor className="h-5 w-5 mr-2" />
@@ -138,11 +96,7 @@ const YachtBrokerage = () => {
             </div>
           </div>
           <div className="relative">
-            <img 
-              src={captureHeroImage} 
-              alt="Professional yacht capture service with 3D scanning technology"
-              className="w-full h-auto rounded-lg shadow-medium"
-            />
+            <img src={captureHeroImage} alt="Professional yacht capture service with 3D scanning technology" className="w-full h-auto rounded-lg shadow-medium" />
           </div>
         </div>
       </section>
@@ -162,15 +116,12 @@ const YachtBrokerage = () => {
 
           <Tabs defaultValue="listing" className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-8">
-              {yachtServices.map((tab) => (
-                <TabsTrigger key={tab.id} value={tab.id} className="text-sm">
+              {yachtServices.map(tab => <TabsTrigger key={tab.id} value={tab.id} className="text-sm">
                   {tab.label}
-                </TabsTrigger>
-              ))}
+                </TabsTrigger>)}
             </TabsList>
             
-            {yachtServices.map((tab) => (
-              <TabsContent key={tab.id} value={tab.id} className="space-y-8">
+            {yachtServices.map(tab => <TabsContent key={tab.id} value={tab.id} className="space-y-8">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-foreground mb-2">{tab.title}</h3>
                   <p className="text-muted-foreground">{tab.description}</p>
@@ -178,12 +129,16 @@ const YachtBrokerage = () => {
                 
                 {/* Demo Yachts */}
                 <div className="grid md:grid-cols-3 gap-6">
-                  {[
-                    { name: "Sunseeker 76 Yacht (DEMO)", type: "Motor Yacht" },
-                    { name: "Ferretti 920 (DEMO)", type: "Luxury Motor Yacht" },
-                    { name: "Princess S78 Sportbridge (DEMO)", type: "Sport Yacht" }
-                  ].map((demo) => (
-                    <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
+                  {[{
+                name: "Sunseeker 76 Yacht (DEMO)",
+                type: "Motor Yacht"
+              }, {
+                name: "Ferretti 920 (DEMO)",
+                type: "Luxury Motor Yacht"
+              }, {
+                name: "Princess S78 Sportbridge (DEMO)",
+                type: "Sport Yacht"
+              }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
                       <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Ship className="h-12 w-12 text-blue-600" />
@@ -199,11 +154,9 @@ const YachtBrokerage = () => {
                           Tour Virtual Yacht
                         </Button>
                       </CardContent>
-                    </Card>
-                  ))}
+                    </Card>)}
                 </div>
-              </TabsContent>
-            ))}
+              </TabsContent>)}
           </Tabs>
         </div>
       </section>
@@ -248,12 +201,10 @@ const YachtBrokerage = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-3">
-                  {yachtFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                  {yachtFeatures.map((feature, index) => <div key={index} className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                       <span className="text-sm text-muted-foreground">{feature}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
                   <Anchor className="h-4 w-4 mr-2" />
@@ -272,12 +223,10 @@ const YachtBrokerage = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-3">
-                  {premiumFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                  {premiumFeatures.map((feature, index) => <div key={index} className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                       <span className="text-sm text-muted-foreground">{feature}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
                 <Button variant="outline" className="w-full border-blue-500 text-blue-600 hover:bg-blue-50">
                   Contact Yacht Specialist
@@ -296,18 +245,12 @@ const YachtBrokerage = () => {
               Trusted by leading yacht brokers worldwide
             </h2>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center opacity-80">
-              {yachtBrokers.map((broker) => (
-                <div key={broker.name} className="text-center flex flex-col items-center">
+              {yachtBrokers.map(broker => <div key={broker.name} className="text-center flex flex-col items-center">
                   <div className="h-12 w-auto mb-3 flex items-center justify-center">
-                    <img 
-                      src={broker.logo} 
-                      alt={`${broker.name} logo`}
-                      className="h-11 w-auto max-w-24 object-contain opacity-100 contrast-150 brightness-125 saturate-150 hover:scale-105 transition-all duration-300"
-                    />
+                    <img src={broker.logo} alt={`${broker.name} logo`} className="h-11 w-auto max-w-24 object-contain opacity-100 contrast-150 brightness-125 saturate-150 hover:scale-105 transition-all duration-300" />
                   </div>
                   <span className="text-xs text-muted-foreground font-medium">{broker.name}</span>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -320,9 +263,7 @@ const YachtBrokerage = () => {
             <Card className="border-border">
               <CardContent className="p-8">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-blue-500 text-blue-500" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-blue-500 text-blue-500" />)}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
                   "The virtual tours have transformed how we present yachts to international buyers. 
@@ -343,9 +284,7 @@ const YachtBrokerage = () => {
             <Card className="border-border">
               <CardContent className="p-8">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-blue-500 text-blue-500" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-blue-500 text-blue-500" />)}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
                   "Having detailed 3D documentation has been invaluable for insurance claims and condition surveys. 
@@ -379,16 +318,14 @@ const YachtBrokerage = () => {
           </div>
 
           <Accordion type="single" collapsible className="w-full">
-            {yachtFaqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
+            {yachtFaqs.map((faq, index) => <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left text-foreground">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">
                   {faq.answer}
                 </AccordionContent>
-              </AccordionItem>
-            ))}
+              </AccordionItem>)}
           </Accordion>
         </div>
       </section>
@@ -414,8 +351,6 @@ const YachtBrokerage = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default YachtBrokerage;
