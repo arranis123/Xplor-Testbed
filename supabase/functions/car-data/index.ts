@@ -345,7 +345,9 @@ serve(async (req) => {
     console.log('Parse initialized with Back4App credentials');
 
     const url = new URL(req.url);
-    const action = url.searchParams.get('action');
+    const action = url.searchParams.get('action') || 'get-manufacturers';
+    
+    console.log(`Car Data API - Action: ${action}`);
 
     switch (action) {
       case 'init-database':
