@@ -27,7 +27,7 @@ import { CrewProfileForm } from "./CrewProfileForm";
 import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { RealEstateAgentForm } from "./RealEstateAgentForm";
 import { aisStreamService } from "../services/aisStreamService";
-import { carDatabase, getModelsByManufacturer, getVariantsByModel } from "@/data/carDatabase";
+import { CarDataService } from "@/services/carDataService";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -4957,13 +4957,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                           <SelectValue placeholder="Select manufacturer" />
                                         </SelectTrigger>
                                       </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {carDatabase.map((manufacturer) => (
-                                          <SelectItem key={manufacturer.value} value={manufacturer.value}>
-                                            {manufacturer.label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {CarDataService.getManufacturers().map((manufacturer) => (
+                                           <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                             {manufacturer.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
                                   </FormItem>
@@ -4986,13 +4986,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                           <SelectValue placeholder={selectedManufacturer ? "Select model" : "Select manufacturer first"} />
                                         </SelectTrigger>
                                       </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getModelsByManufacturer(selectedManufacturer).map((model) => (
-                                          <SelectItem key={model.value} value={model.value}>
-                                            {model.label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {CarDataService.getModelsByManufacturer(selectedManufacturer).map((model) => (
+                                           <SelectItem key={model.value} value={model.value}>
+                                             {model.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
                                   </FormItem>
@@ -5011,13 +5011,13 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                           <SelectValue placeholder={selectedModel ? "Select variant" : "Select model first"} />
                                         </SelectTrigger>
                                       </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
-                                          <SelectItem key={variant.value} value={variant.value}>
-                                            {variant.label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
+                                       <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                         {CarDataService.getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
+                                           <SelectItem key={variant.value} value={variant.value}>
+                                             {variant.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
                                   </FormItem>
