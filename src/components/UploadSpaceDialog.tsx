@@ -8898,25 +8898,37 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </div>
                             </div>
                             
-                            {/* URL Input Section */}
-                            <div className="w-full max-w-md space-y-2">
-                              <Label className="text-sm">Virtual Tour URL</Label>
-                              <Input
-                                placeholder="https://example.com/virtual-tour or embed link"
-                                onChange={(e) => {
-                                  // Handle URL input
-                                  const url = e.target.value;
-                                  if (url) {
-                                    handleFileUpload('virtualTour', [{
-                                      name: `Virtual Tour - ${url}`,
-                                      type: 'url',
-                                      url: url,
-                                      size: 0
-                                    } as any]);
-                                  }
-                                }}
-                              />
-                            </div>
+                             {/* URL Input Section */}
+                             <div className="w-full max-w-md space-y-2">
+                               <Label className="text-sm">Virtual Tour URLs</Label>
+                               <div className="flex gap-2">
+                                 <Input
+                                   id="virtual-tour-url-input"
+                                   placeholder="https://example.com/virtual-tour or embed link"
+                                   className="flex-1"
+                                 />
+                                 <Button
+                                   type="button"
+                                   variant="outline"
+                                   size="sm"
+                                   onClick={() => {
+                                     const input = document.getElementById('virtual-tour-url-input') as HTMLInputElement;
+                                     const url = input?.value?.trim();
+                                     if (url) {
+                                       handleFileUpload('virtualTour', [{
+                                         name: `Virtual Tour - ${url}`,
+                                         type: 'url',
+                                         url: url,
+                                         size: 0
+                                       } as any]);
+                                       input.value = '';
+                                     }
+                                   }}
+                                 >
+                                   Add URL
+                                 </Button>
+                               </div>
+                             </div>
                             
                             <div className="text-sm text-muted-foreground">OR</div>
                             
@@ -9060,25 +9072,37 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </div>
                             </div>
                             
-                            {/* URL Input Section */}
-                            <div className="w-full max-w-md space-y-2">
-                              <Label className="text-sm">Photo URL</Label>
-                              <Input
-                                placeholder="https://example.com/image.jpg"
-                                onChange={(e) => {
-                                  const url = e.target.value;
-                                  if (url) {
-                                    handleFileUpload('photos', [{
-                                      name: `Photo from URL - ${url.split('/').pop() || 'image'}`,
-                                      type: 'url',
-                                      url: url,
-                                      size: 0
-                                    } as any]);
-                                    e.target.value = '';
-                                  }
-                                }}
-                              />
-                            </div>
+                             {/* URL Input Section */}
+                             <div className="w-full max-w-md space-y-2">
+                               <Label className="text-sm">Photo URLs</Label>
+                               <div className="flex gap-2">
+                                 <Input
+                                   id="photo-url-input"
+                                   placeholder="https://example.com/image.jpg"
+                                   className="flex-1"
+                                 />
+                                 <Button
+                                   type="button"
+                                   variant="outline"
+                                   size="sm"
+                                   onClick={() => {
+                                     const input = document.getElementById('photo-url-input') as HTMLInputElement;
+                                     const url = input?.value?.trim();
+                                     if (url) {
+                                       handleFileUpload('photos', [{
+                                         name: `Photo from URL - ${url.split('/').pop() || 'image'}`,
+                                         type: 'url',
+                                         url: url,
+                                         size: 0
+                                       } as any]);
+                                       input.value = '';
+                                     }
+                                   }}
+                                 >
+                                   Add URL
+                                 </Button>
+                               </div>
+                             </div>
                             
                             <div className="text-sm text-muted-foreground">OR</div>
                             
@@ -9173,25 +9197,37 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </div>
                             </div>
                             
-                            {/* URL Input Section */}
-                            <div className="w-full max-w-md space-y-2">
-                              <Label className="text-sm">Video URL</Label>
-                              <Input
-                                placeholder="https://youtube.com/watch?v=... or direct video URL"
-                                onChange={(e) => {
-                                  const url = e.target.value;
-                                  if (url) {
-                                    handleFileUpload('videos', [{
-                                      name: `Video from URL - ${url.includes('youtube') ? 'YouTube' : url.includes('vimeo') ? 'Vimeo' : 'Video'}`,
-                                      type: 'url',
-                                      url: url,
-                                      size: 0
-                                    } as any]);
-                                    e.target.value = '';
-                                  }
-                                }}
-                              />
-                            </div>
+                             {/* URL Input Section */}
+                             <div className="w-full max-w-md space-y-2">
+                               <Label className="text-sm">Video URLs</Label>
+                               <div className="flex gap-2">
+                                 <Input
+                                   id="video-url-input"
+                                   placeholder="https://youtube.com/watch?v=... or direct video URL"
+                                   className="flex-1"
+                                 />
+                                 <Button
+                                   type="button"
+                                   variant="outline"
+                                   size="sm"
+                                   onClick={() => {
+                                     const input = document.getElementById('video-url-input') as HTMLInputElement;
+                                     const url = input?.value?.trim();
+                                     if (url) {
+                                       handleFileUpload('videos', [{
+                                         name: `Video from URL - ${url.includes('youtube') ? 'YouTube' : url.includes('vimeo') ? 'Vimeo' : 'Video'}`,
+                                         type: 'url',
+                                         url: url,
+                                         size: 0
+                                       } as any]);
+                                       input.value = '';
+                                     }
+                                   }}
+                                 >
+                                   Add URL
+                                 </Button>
+                               </div>
+                             </div>
                             
                             <div className="text-sm text-muted-foreground">OR</div>
                             
@@ -9317,22 +9353,34 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            
                             {/* URL Input Section */}
                             <div className="w-full max-w-md space-y-2">
-                              <Label className="text-sm">Drone Footage URL</Label>
-                              <Input
-                                placeholder="https://example.com/drone-video or YouTube/Vimeo link"
-                                onChange={(e) => {
-                                  // Handle URL input
-                                  const url = e.target.value;
-                                  if (url) {
-                                    handleFileUpload('droneFootage', [{
-                                      name: `Drone Footage - ${url}`,
-                                      type: 'url',
-                                      url: url,
-                                      size: 0
-                                    } as any]);
-                                  }
-                                }}
-                              />
+                              <Label className="text-sm">Drone Footage URLs</Label>
+                              <div className="flex gap-2">
+                                <Input
+                                  id="drone-url-input"
+                                  placeholder="https://example.com/drone-video or YouTube/Vimeo link"
+                                  className="flex-1"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    const input = document.getElementById('drone-url-input') as HTMLInputElement;
+                                    const url = input?.value?.trim();
+                                    if (url) {
+                                      handleFileUpload('droneFootage', [{
+                                        name: `Drone Footage - ${url}`,
+                                        type: 'url',
+                                        url: url,
+                                        size: 0
+                                      } as any]);
+                                      input.value = '';
+                                    }
+                                  }}
+                                >
+                                  Add URL
+                                </Button>
+                              </div>
                             </div>
                             
                             <div className="text-sm text-muted-foreground">OR</div>
