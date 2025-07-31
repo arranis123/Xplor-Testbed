@@ -42,7 +42,7 @@ const YachtCrewOffer = () => {
       <div className="max-w-4xl mx-auto px-6 pb-12">
         <Card>
           <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-700 font-typografix">
+            <h2 className="text-2xl font-bold mb-6 text-gray-700 font-satoshi">
               xplor Brokerage Charter Commission Model
             </h2>
             
