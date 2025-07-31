@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Ship, Home, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
 import scanningHeroImage from "@/assets/3d-scanning-hero.jpg";
@@ -69,9 +70,7 @@ const Index = () => {
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader className="p-mobile-lg sm:p-6">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+                    <Ship className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" />
                   </div>
                   <CardTitle className="text-mobile-lg sm:text-xl">Yachts</CardTitle>
                   <CardDescription className="text-mobile-sm sm:text-base">
@@ -83,9 +82,7 @@ const Index = () => {
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader className="p-mobile-lg sm:p-6">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-black rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
+                    <Home className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-yellow" />
                   </div>
                   <CardTitle className="text-mobile-lg sm:text-xl">Properties</CardTitle>
                   <CardDescription className="text-mobile-sm sm:text-base">
@@ -97,9 +94,7 @@ const Index = () => {
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card sm:col-span-2 md:col-span-1">
                 <CardHeader className="p-mobile-lg sm:p-6">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-grey rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
+                    <Bell className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
                   <CardTitle className="text-mobile-lg sm:text-xl">Concierge</CardTitle>
                   <CardDescription className="text-mobile-sm sm:text-base">
