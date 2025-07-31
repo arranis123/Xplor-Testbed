@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Anchor, Clock, MapPin, Shield, Star, CheckCircle, Waves, Users, Camera, ArrowRight, Ship, Globe } from "lucide-react";
-import captureHeroImage from "@/assets/capture-services-hero.jpg";
+import yachtHeroImage from "@/assets/yacht-hero-man.jpg";
 import northropJohnsonLogo from "@/assets/northrop-johnson-logo.jpg";
 import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
 import fraserYachtsLogo from "@/assets/fraser-yachts-logo.jpg";
@@ -96,7 +96,7 @@ const YachtBrokerage = () => {
             </div>
           </div>
           <div className="relative">
-            <img src={captureHeroImage} alt="Professional yacht capture service with 3D scanning technology" className="w-full h-auto rounded-lg shadow-medium" />
+            <img src={yachtHeroImage} alt="Professional man on yacht deck showcasing yacht capture services" className="w-full h-auto rounded-lg shadow-medium" />
           </div>
         </div>
       </section>
