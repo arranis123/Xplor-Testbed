@@ -30,10 +30,15 @@ export class CarDataService {
   }
 
   static getModelsByManufacturer(manufacturerValue: string): CarModel[] {
-    const manufacturerLabel = manufacturerValue
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+    if (!manufacturerValue) return [];
+    
+    // Find the actual brand label from our manufacturers list
+    const manufacturers = this.getManufacturers();
+    const selectedManufacturer = manufacturers.find(m => m.value === manufacturerValue);
+    
+    if (!selectedManufacturer) return [];
+    
+    const manufacturerLabel = selectedManufacturer.label;
     
     const models = this.vehiclesData
       .filter(vehicle => vehicle.brand === manufacturerLabel)
@@ -50,15 +55,21 @@ export class CarDataService {
   }
 
   static getVariantsByModel(manufacturerValue: string, modelValue: string): CarVariant[] {
-    const manufacturerLabel = manufacturerValue
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+    if (!manufacturerValue || !modelValue) return [];
     
-    const modelLabel = modelValue
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+    // Find the actual brand and model labels
+    const manufacturers = this.getManufacturers();
+    const selectedManufacturer = manufacturers.find(m => m.value === manufacturerValue);
+    
+    if (!selectedManufacturer) return [];
+    
+    const manufacturerLabel = selectedManufacturer.label;
+    const models = this.getModelsByManufacturer(manufacturerValue);
+    const selectedModel = models.find(m => m.value === modelValue);
+    
+    if (!selectedModel) return [];
+    
+    const modelLabel = selectedModel.label;
     
     const variants = this.vehiclesData
       .filter(vehicle => 
