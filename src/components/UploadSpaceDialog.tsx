@@ -443,7 +443,7 @@ const uploadFormSchema = z.object({
   carMpg: z.string().optional(),
   carTaxBand: z.string().optional(),
   carAnnualTax: z.string().optional(),
-  carULEZ: z.string().optional(),
+  
   carKeyFeatures: z.array(z.string()).optional(),
 });
 
@@ -5425,28 +5425,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                      <SelectItem value="euro4">Euro 4</SelectItem>
                                      <SelectItem value="euro3">Euro 3</SelectItem>
                                      <SelectItem value="other">Other</SelectItem>
-                                   </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                               </FormItem>
-                             )}
-                           />
-                           <FormField
-                             control={form.control}
-                             name="carULEZ"
-                             render={({ field }) => (
-                               <FormItem>
-                                 <FormLabel>ULEZ Compliant</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                   <FormControl>
-                                     <SelectTrigger>
-                                       <SelectValue placeholder="Select ULEZ status" />
-                                     </SelectTrigger>
-                                   </FormControl>
-                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                     <SelectItem value="yes">Yes</SelectItem>
-                                     <SelectItem value="no">No</SelectItem>
-                                     <SelectItem value="unknown">Unknown</SelectItem>
                                    </SelectContent>
                                  </Select>
                                  <FormMessage />
