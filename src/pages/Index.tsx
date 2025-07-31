@@ -14,7 +14,7 @@ const Index = () => {
       
       <main>
         {/* Hero Section */}
-        <section className="relative h-[60vh] sm:h-[70vh] flex items-center justify-center overflow-hidden">
+        <section className="relative h-[60vh] sm:h-[70vh] flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
               src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" 
@@ -24,7 +24,7 @@ const Index = () => {
             <div className="absolute inset-0 bg-black/40"></div>
           </div>
           
-          <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-mobile-md sm:px-4">
+          <div className="relative z-10 text-white max-w-4xl px-mobile-md sm:px-8 lg:px-16">
             <h1 className="text-mobile-4xl sm:text-5xl md:text-6xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
               xplor
             </h1>
@@ -34,7 +34,7 @@ const Index = () => {
             <p className="text-mobile-base sm:text-xl md:text-2xl mb-mobile-xl sm:mb-8 opacity-90 leading-relaxed">
               Discover, share, and explore immersive 3D tours of real-world locations — from luxury homes and yachts to cultural landmarks and travel destinations.
             </p>
-            <div className="flex flex-col sm:flex-row gap-mobile-md sm:gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-mobile-md sm:gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90 !text-xplor-grey text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium">
                 Map
               </Button>
