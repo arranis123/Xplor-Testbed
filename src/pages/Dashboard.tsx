@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -102,6 +102,15 @@ const Dashboard = () => {
               >
                 <FolderOpen className="h-4 w-4 mr-2" />
                 Hotel/Resort
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("car");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Car className="h-4 w-4 mr-2" />
+                Cars & Vehicles
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -308,6 +317,15 @@ const Dashboard = () => {
                 >
                   <FolderOpen className="h-4 w-4 mr-2" />
                   Hotel/Resort
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("car");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Car className="h-4 w-4 mr-2" />
+                  Cars & Vehicles
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

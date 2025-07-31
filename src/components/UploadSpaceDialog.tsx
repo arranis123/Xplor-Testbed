@@ -409,6 +409,19 @@ const uploadFormSchema = z.object({
   evChargingAllowed: z.string().optional(),
   motorbikeScooterStorage: z.string().optional(),
   boatRvParkingRestrictions: z.string().optional(),
+  // Car & Vehicle specific fields
+  carManufacturer: z.string().optional(),
+  carModel: z.string().optional(),
+  carYear: z.string().optional(),
+  carCondition: z.string().optional(),
+  carMileage: z.string().optional(),
+  carFuelType: z.string().optional(),
+  carEngineSize: z.string().optional(),
+  carTransmission: z.string().optional(),
+  carDriveType: z.string().optional(),
+  carBodyStyle: z.string().optional(),
+  carExteriorColor: z.string().optional(),
+  carInteriorColor: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -1623,6 +1636,27 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "hybrid-electric-yacht", label: "Hybrid & Electric Yachts" },
   ];
 
+  const carPropertyTypes = [
+    { value: "sedan", label: "Sedan" },
+    { value: "suv", label: "SUV" },
+    { value: "hatchback", label: "Hatchback" },
+    { value: "coupe", label: "Coupe" },
+    { value: "convertible", label: "Convertible" },
+    { value: "pickup-truck", label: "Pickup Truck" },
+    { value: "minivan", label: "Minivan" },
+    { value: "luxury-car", label: "Luxury Car" },
+    { value: "sports-car", label: "Sports Car" },
+    { value: "electric-vehicle", label: "Electric Vehicle" },
+    { value: "hybrid-vehicle", label: "Hybrid Vehicle" },
+    { value: "commercial-van", label: "Commercial Van" },
+    { value: "motorcycle", label: "Motorcycle" },
+    { value: "atv", label: "ATV/Quad Bike" },
+    { value: "rv", label: "RV/Motorhome" },
+    { value: "boat", label: "Boat" },
+    { value: "jet-ski", label: "Jet Ski" },
+    { value: "snowmobile", label: "Snowmobile" },
+  ];
+
   const sailingYachtSubtypes = [
     { value: "sloop-single-mast", label: "Sloop (single-mast)" },
     { value: "ketch-two-mast", label: "Ketch (two-mast)" },
@@ -2296,12 +2330,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-8" : (category === "real-estate") ? "grid-cols-7" : category === "yacht" ? "grid-cols-8" : "grid-cols-7"}`}>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-8" : (category === "real-estate") ? "grid-cols-7" : (category === "yacht" || category === "car") ? "grid-cols-8" : "grid-cols-7"}`}>
                   <TabsTrigger value="basic">{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Basic Info" : "Basic Info"}</TabsTrigger>
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                      <TabsTrigger value="hotel-details">Rooms</TabsTrigger>
                    ) : category === "yacht" ? (
                      <TabsTrigger value="details">Yacht Details</TabsTrigger>
+                   ) : category === "car" ? (
+                     <TabsTrigger value="details">Vehicle Details</TabsTrigger>
                    ) : (
                      <TabsTrigger value="details">Property Details</TabsTrigger>
                    )}
@@ -2321,6 +2357,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                    {category === "yacht" && (
                      <TabsTrigger value="compliance">Compliance</TabsTrigger>
                    )}
+                   {category === "car" && (
+                     <TabsTrigger value="specifications">Specifications</TabsTrigger>
+                   )}
                    <TabsTrigger value="rules">Rules & Access</TabsTrigger>
                   <TabsTrigger value="media">Media Upload</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -2333,7 +2372,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                         name="title"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
+                            <FormLabel>{category === "yacht" ? "Yacht Name" : category === "car" ? "Vehicle Name" : "Property Title"}</FormLabel>
                             <FormControl>
                               <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
                             </FormControl>
@@ -2849,15 +2888,15 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        name="propertyType"
                        render={({ field }) => (
                          <FormItem>
-                            <FormLabel>{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Category" : category === "yacht" ? "Yacht Type" : category === "real-estate" ? "Real Estate Category" : "Property Type"}</FormLabel>
+                            <FormLabel>{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Category" : category === "yacht" ? "Yacht Type" : category === "car" ? "Vehicle Type" : category === "real-estate" ? "Real Estate Category" : "Property Type"}</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Select hotel category" : category === "yacht" ? "Select yacht type" : category === "real-estate" ? "Select real estate category" : "Select property type"} />
+                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Select hotel category" : category === "yacht" ? "Select yacht type" : category === "car" ? "Select vehicle type" : category === "real-estate" ? "Select real estate category" : "Select property type"} />
                                 </SelectTrigger>
                               </FormControl>
                              <SelectContent>
-                               {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : category === "real-estate" ? realEstatePropertyTypes : propertyTypes).map((type) => (
+                               {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : category === "car" ? carPropertyTypes : category === "real-estate" ? realEstatePropertyTypes : propertyTypes).map((type) => (
                                  <SelectItem key={type.value} value={type.value}>
                                    {type.label}
                                  </SelectItem>
@@ -3197,21 +3236,21 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                          />
                        )}
                        
-                       {category === "yacht" && (
-                         <FormField
-                           control={form.control}
-                           name="yachtSpecialPurpose"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Special Purpose & Niche Yachts</FormLabel>
-                               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                 <FormControl>
-                                   <SelectTrigger>
-                                     <SelectValue placeholder="Select special purpose" />
-                                   </SelectTrigger>
-                                 </FormControl>
-                                 <SelectContent>
-                                   {yachtSpecialPurposes.map((purpose) => (
+                        {category === "yacht" && (
+                          <FormField
+                            control={form.control}
+                            name="yachtSpecialPurpose"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Special Purpose & Niche Yachts</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select special purpose" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {yachtSpecialPurposes.map((purpose) => (
                                      <SelectItem key={purpose.value} value={purpose.value}>
                                        {purpose.label}
                                      </SelectItem>
@@ -3222,9 +3261,160 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
+                         )}
+
+                        {/* Car & Vehicle Specific Fields */}
+                        {category === "car" && (
+                          <>
+                            <FormField
+                              control={form.control}
+                              name="carManufacturer"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Manufacturer</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select manufacturer" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="toyota">Toyota</SelectItem>
+                                      <SelectItem value="honda">Honda</SelectItem>
+                                      <SelectItem value="ford">Ford</SelectItem>
+                                      <SelectItem value="chevrolet">Chevrolet</SelectItem>
+                                      <SelectItem value="nissan">Nissan</SelectItem>
+                                      <SelectItem value="bmw">BMW</SelectItem>
+                                      <SelectItem value="mercedes-benz">Mercedes-Benz</SelectItem>
+                                      <SelectItem value="audi">Audi</SelectItem>
+                                      <SelectItem value="volkswagen">Volkswagen</SelectItem>
+                                      <SelectItem value="hyundai">Hyundai</SelectItem>
+                                      <SelectItem value="kia">Kia</SelectItem>
+                                      <SelectItem value="mazda">Mazda</SelectItem>
+                                      <SelectItem value="subaru">Subaru</SelectItem>
+                                      <SelectItem value="tesla">Tesla</SelectItem>
+                                      <SelectItem value="lexus">Lexus</SelectItem>
+                                      <SelectItem value="infiniti">Infiniti</SelectItem>
+                                      <SelectItem value="acura">Acura</SelectItem>
+                                      <SelectItem value="cadillac">Cadillac</SelectItem>
+                                      <SelectItem value="lincoln">Lincoln</SelectItem>
+                                      <SelectItem value="jaguar">Jaguar</SelectItem>
+                                      <SelectItem value="land-rover">Land Rover</SelectItem>
+                                      <SelectItem value="porsche">Porsche</SelectItem>
+                                      <SelectItem value="ferrari">Ferrari</SelectItem>
+                                      <SelectItem value="lamborghini">Lamborghini</SelectItem>
+                                      <SelectItem value="maserati">Maserati</SelectItem>
+                                      <SelectItem value="bentley">Bentley</SelectItem>
+                                      <SelectItem value="rolls-royce">Rolls-Royce</SelectItem>
+                                      <SelectItem value="aston-martin">Aston Martin</SelectItem>
+                                      <SelectItem value="mclaren">McLaren</SelectItem>
+                                      <SelectItem value="bugatti">Bugatti</SelectItem>
+                                      <SelectItem value="other">Other</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="carModel"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Model</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Camry, Civic, Model S" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="carYear"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Year</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 2024" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="carCondition"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Condition</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select condition" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="new">New</SelectItem>
+                                      <SelectItem value="excellent">Excellent</SelectItem>
+                                      <SelectItem value="good">Good</SelectItem>
+                                      <SelectItem value="fair">Fair</SelectItem>
+                                      <SelectItem value="poor">Poor</SelectItem>
+                                      <SelectItem value="salvage">Salvage</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="carMileage"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Mileage</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., 25,000 miles" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="carFuelType"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Fuel Type</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select fuel type" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                      <SelectItem value="gasoline">Gasoline</SelectItem>
+                                      <SelectItem value="diesel">Diesel</SelectItem>
+                                      <SelectItem value="electric">Electric</SelectItem>
+                                      <SelectItem value="hybrid">Hybrid</SelectItem>
+                                      <SelectItem value="plug-in-hybrid">Plug-in Hybrid</SelectItem>
+                                      <SelectItem value="hydrogen">Hydrogen</SelectItem>
+                                      <SelectItem value="other">Other</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </>
                         )}
 
-                   </div>
+                    </div>
 
 
                   <FormField
@@ -4863,7 +5053,131 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        </div>
                      )}
 
-                  </TabsContent>
+                   </TabsContent>
+                 )}
+
+                 {/* Car Specifications Tab */}
+                 {category === "car" && (
+                   <TabsContent value="specifications" className="space-y-6">
+                     <div className="space-y-4">
+                       <h3 className="text-lg font-semibold flex items-center gap-2">
+                         <Car className="h-5 w-5" />
+                         Vehicle Specifications
+                       </h3>
+                       <div className="grid grid-cols-2 gap-4">
+                         <FormField
+                           control={form.control}
+                           name="carEngineSize"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Engine Size</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., 2.5L, 3000cc" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="carTransmission"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Transmission</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select transmission" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                   <SelectItem value="manual">Manual</SelectItem>
+                                   <SelectItem value="automatic">Automatic</SelectItem>
+                                   <SelectItem value="cvt">CVT</SelectItem>
+                                   <SelectItem value="dual-clutch">Dual Clutch</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="carDriveType"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Drive Type</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select drive type" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                   <SelectItem value="fwd">Front-Wheel Drive</SelectItem>
+                                   <SelectItem value="rwd">Rear-Wheel Drive</SelectItem>
+                                   <SelectItem value="awd">All-Wheel Drive</SelectItem>
+                                   <SelectItem value="4wd">4-Wheel Drive</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="carBodyStyle"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Body Style</FormLabel>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                   <SelectTrigger>
+                                     <SelectValue placeholder="Select body style" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                   <SelectItem value="2-door">2-Door</SelectItem>
+                                   <SelectItem value="4-door">4-Door</SelectItem>
+                                   <SelectItem value="5-door">5-Door</SelectItem>
+                                   <SelectItem value="wagon">Wagon</SelectItem>
+                                   <SelectItem value="convertible">Convertible</SelectItem>
+                                   <SelectItem value="coupe">Coupe</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="carExteriorColor"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Exterior Color</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., Black, White, Silver" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                         <FormField
+                           control={form.control}
+                           name="carInteriorColor"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Interior Color</FormLabel>
+                               <FormControl>
+                                 <Input placeholder="e.g., Black Leather, Beige Cloth" {...field} />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       </div>
+                     </div>
+                   </TabsContent>
                  )}
 
                  <TabsContent value="location" className="space-y-4">
