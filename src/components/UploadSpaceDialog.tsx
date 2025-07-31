@@ -2412,8 +2412,32 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                <FormMessage />
                              </FormItem>
                            )}
-                         />
-                       )}
+                          />
+                        )}
+                        {/* Car Condition Field - only show for cars */}
+                        {category === "car" && (
+                          <FormField
+                            control={form.control}
+                            name="carCondition"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Condition</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select condition" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="new">New</SelectItem>
+                                    <SelectItem value="used">Used</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
 
                         {/* Real Estate Sale Price Field - only show for "for-sale" or "both" */}
                         {category === "real-estate" && (form.watch("listingType") === "for-sale" || form.watch("listingType") === "both") && (
@@ -5044,31 +5068,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                 )}
                               />
 
-                             <FormField
-                               control={form.control}
-                               name="carCondition"
-                               render={({ field }) => (
-                                 <FormItem>
-                                   <FormLabel>Condition</FormLabel>
-                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                     <FormControl>
-                                       <SelectTrigger>
-                                         <SelectValue placeholder="Select condition" />
-                                       </SelectTrigger>
-                                     </FormControl>
-                                     <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                       <SelectItem value="new">New</SelectItem>
-                                       <SelectItem value="excellent">Excellent</SelectItem>
-                                       <SelectItem value="good">Good</SelectItem>
-                                       <SelectItem value="fair">Fair</SelectItem>
-                                       <SelectItem value="poor">Poor</SelectItem>
-                                       <SelectItem value="salvage">Salvage</SelectItem>
-                                     </SelectContent>
-                                   </Select>
-                                   <FormMessage />
-                                 </FormItem>
-                               )}
-                             />
 
                              <FormField
                                control={form.control}
