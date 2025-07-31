@@ -10,10 +10,12 @@ import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
 import fraserYachtsLogo from "@/assets/fraser-yachts-logo.jpg";
 import edmistonLogo from "@/assets/edmiston-logo.jpg";
 import camperNicholsonsLogo from "@/assets/camper-nicholsons-logo.jpg";
+
 const YachtBrokerage = () => {
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
   };
+
   const yachtServices = [{
     id: "listing",
     label: "Yacht Listings",
@@ -21,7 +23,7 @@ const YachtBrokerage = () => {
     description: "Create stunning virtual tours that allow potential buyers to explore every inch of your yacht remotely, increasing qualified leads and accelerating sales."
   }, {
     id: "marketing",
-    label: "Marketing & Sales",
+    label: "Marketing & Sales", 
     title: "Elevate your yacht marketing",
     description: "Stand out in competitive markets with high-quality virtual tours that showcase your yacht's unique features and luxury amenities."
   }, {
@@ -30,8 +32,11 @@ const YachtBrokerage = () => {
     title: "Comprehensive yacht documentation",
     description: "Create detailed digital records for insurance claims, maintenance planning, and condition assessments with millimeter-accurate 3D scans."
   }];
+
   const yachtFeatures = ["Professional marine-certified capture technicians", "Waterproof and marine-grade 3D scanning equipment", "360° virtual tours of all decks and interior spaces", "High-resolution 4K photography and videography", "Detailed measurements and floor plans", "Virtual staging and enhancement options", "Drone exterior footage (where permitted)", "Fast 24-48 hour turnaround time"];
+
   const premiumFeatures = ["Dedicated yacht marketing specialist", "Custom virtual tour branding and themes", "Interactive hotspots with yacht specifications", "Virtual reality headset compatibility", "Multi-language support for international buyers", "Integration with major yacht listing platforms", "Professional copywriting and descriptions", "Ongoing tour optimization and analytics"];
+
   const yachtBrokers = [{
     name: "Northrop & Johnson",
     logo: northropJohnsonLogo
@@ -39,7 +44,7 @@ const YachtBrokerage = () => {
     name: "Burgess Yachts",
     logo: burgessYachtsLogo
   }, {
-    name: "Fraser Yachts",
+    name: "Fraser Yachts", 
     logo: fraserYachtsLogo
   }, {
     name: "Edmiston",
@@ -51,6 +56,7 @@ const YachtBrokerage = () => {
     name: "Worth Avenue Yachts",
     logo: "/logos/worth-avenue-yachts-logo.png"
   }];
+
   const yachtFaqs = [{
     question: "Can you capture yachts while they're in the water?",
     answer: "Yes, our marine-certified technicians are equipped to safely capture yachts both in marinas and while moored, using specialized waterproof equipment designed for marine environments."
@@ -70,6 +76,7 @@ const YachtBrokerage = () => {
     question: "How much does yacht capture service cost?",
     answer: "Pricing depends on yacht size, location, and services required. Standard captures start at $650 for yachts under 50ft, with premium packages available for superyachts."
   }];
+
   return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
@@ -83,7 +90,8 @@ const YachtBrokerage = () => {
                 Showcase yachts like never before.
               </h1>
             </div>
-            <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yachting industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
+            <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yachting industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
+            <p className="text-xl text-muted-foreground">Your additional text content goes here.</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
                 <Anchor className="h-5 w-5 mr-2" />
@@ -353,4 +361,5 @@ const YachtBrokerage = () => {
       </section>
     </div>;
 };
+
 export default YachtBrokerage;
