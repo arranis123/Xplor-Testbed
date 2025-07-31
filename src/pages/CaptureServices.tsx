@@ -71,9 +71,14 @@ const CaptureServices = () => {
     { 
       name: "Marriott International", 
       logo: (
-        <div className="h-8 w-20 bg-gradient-to-r from-red-700 to-red-800 text-white rounded flex items-center justify-center text-xs font-bold">
-          Marriott
-        </div>
+        <img 
+          src="/logos/marriott-logo.png" 
+          alt="Marriott International" 
+          className="h-8 w-auto max-w-24 object-contain"
+          onError={(e) => {
+            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='20' viewBox='0 0 80 20'%3E%3Crect width='80' height='20' fill='%23B91C1C'/%3E%3Ctext x='40' y='14' text-anchor='middle' fill='white' font-family='Arial' font-size='10' font-weight='bold'%3EMarriott%3C/text%3E%3C/svg%3E";
+          }}
+        />
       )
     },
     { 
@@ -95,9 +100,14 @@ const CaptureServices = () => {
     { 
       name: "InterContinental Hotels Group", 
       logo: (
-        <div className="h-8 w-16 bg-green-700 text-white rounded flex items-center justify-center text-xs font-bold">
-          IHG
-        </div>
+        <img 
+          src="/logos/ihg-logo.png" 
+          alt="IHG" 
+          className="h-8 w-auto max-w-16 object-contain"
+          onError={(e) => {
+            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='20' viewBox='0 0 50 20'%3E%3Crect width='50' height='20' fill='%23059669'/%3E%3Ctext x='25' y='14' text-anchor='middle' fill='white' font-family='Arial' font-size='10' font-weight='bold'%3EIHG%3C/text%3E%3C/svg%3E";
+          }}
+        />
       )
     },
     { 
