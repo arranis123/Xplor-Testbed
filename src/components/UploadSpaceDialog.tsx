@@ -9315,14 +9315,36 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </div>
                            )}
                            
-                           <Input
-                             id="drone-upload"
-                             type="file"
-                             multiple
-                             accept="video/*"
-                             className="max-w-xs"
-                             onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
-                           />
+                            {/* URL Input Section */}
+                            <div className="w-full max-w-md space-y-2">
+                              <Label className="text-sm">Drone Footage URL</Label>
+                              <Input
+                                placeholder="https://example.com/drone-video or YouTube/Vimeo link"
+                                onChange={(e) => {
+                                  // Handle URL input
+                                  const url = e.target.value;
+                                  if (url) {
+                                    handleFileUpload('droneFootage', [{
+                                      name: `Drone Footage - ${url}`,
+                                      type: 'url',
+                                      url: url,
+                                      size: 0
+                                    } as any]);
+                                  }
+                                }}
+                              />
+                            </div>
+                            
+                            <div className="text-sm text-muted-foreground">OR</div>
+                            
+                            <Input
+                              id="drone-upload"
+                              type="file"
+                              multiple
+                              accept="video/*"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
+                            />
                          </div>
                          {uploadedFiles.droneFootage.length > 0 && (
                            <div className="mt-4 space-y-2">
@@ -9333,14 +9355,19 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
                                    <div className="flex items-center gap-2">
                                      <Video className="h-4 w-4" />
-                                     <div className="flex flex-col">
-                                       <span className="text-sm truncate">{file.name}</span>
-                                       {roomInfo && (
-                                         <span className="text-xs text-muted-foreground">
-                                           Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
-                                         </span>
-                                       )}
-                                     </div>
+                                      <div className="flex flex-col">
+                                        <span className="text-sm truncate">{file.name}</span>
+                                        {(file as any).url && (
+                                          <span className="text-xs text-muted-foreground truncate">
+                                            URL: {(file as any).url}
+                                          </span>
+                                        )}
+                                        {roomInfo && (
+                                          <span className="text-xs text-muted-foreground">
+                                            Room: {roomInfo.roomType} - {roomInfo.bedConfiguration}
+                                          </span>
+                                        )}
+                                      </div>
                                    </div>
                                    <button
                                      type="button"
