@@ -31,7 +31,7 @@ const YachtCrewOffer = () => {
         <div className="flex justify-center">
           <Button 
             onClick={() => setShowUploadDialog(true)}
-            className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black px-8 py-3 text-lg"
+            className="bg-muted hover:bg-muted/80 text-foreground px-8 py-3 text-lg"
           >
             Add Your Yacht
           </Button>
@@ -57,7 +57,7 @@ const YachtCrewOffer = () => {
             <div className="grid md:grid-cols-2 gap-8">
               {/* Benefits to Crew */}
               <div>
-                <h3 className="text-xl font-bold mb-6 text-xplor-yellow-dark flex items-center">
+                <h3 className="text-xl font-bold mb-6 text-muted-foreground flex items-center">
                   🔹 Benefits to Crew
                 </h3>
                 
@@ -115,7 +115,7 @@ const YachtCrewOffer = () => {
 
               {/* Benefits to Owners */}
               <div>
-                <h3 className="text-xl font-bold mb-6 text-xplor-yellow-dark flex items-center">
+                <h3 className="text-xl font-bold mb-6 text-muted-foreground flex items-center">
                   🔹 Benefits to Owners
                 </h3>
                 
@@ -180,7 +180,7 @@ const YachtCrewOffer = () => {
         <div className="flex justify-center">
           <Button 
             onClick={() => setShowUploadDialog(true)}
-            className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black px-8 py-3 text-lg"
+            className="bg-muted hover:bg-muted/80 text-foreground px-8 py-3 text-lg"
           >
             Add Your Yacht
           </Button>
