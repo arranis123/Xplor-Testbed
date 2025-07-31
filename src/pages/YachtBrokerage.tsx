@@ -158,7 +158,7 @@ const YachtBrokerage = () => {
                     <CardContent>
                       <Button 
                         className="w-full bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black"
-                        onClick={() => window.open('https://burgess.theatro360.com/tour/EO-K9W3', '_blank')}
+                        onClick={() => window.open('https://burgess.theatro360.com/tour/E4-3OOL', '_blank')}
                       >
                         Yacht Tour
                       </Button>
