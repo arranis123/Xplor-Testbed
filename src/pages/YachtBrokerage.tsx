@@ -361,59 +361,6 @@ const YachtBrokerage = () => {
               </div>
             </div>
 
-            {/* For the Xplor Platform */}
-            <div>
-              <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
-                🔹 For the <span className="font-typografix">xplor</span> Platform
-              </h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "Optimized for Immersive Experiences",
-                    description: "xplor is designed specifically for virtual spaces—ideal for high-value assets like yachts."
-                  },
-                  {
-                    title: "Cross-Platform Exposure",
-                    description: "One upload can be shared across broker sites, search portals, and social media with ease."
-                  },
-                  {
-                    title: "Version Control & Updates",
-                    description: "Tours can be updated when the yacht is refitted, redecorated, or relocated—without re-filming everything."
-                  },
-                  {
-                    title: "Multiple Tours Per Yacht",
-                    description: "Highlight layout variations (e.g., family vs. corporate setup), different guest cabins, or day/night lighting."
-                  },
-                  {
-                    title: "Analytics & Insights",
-                    description: "Track which areas are viewed most, how long users stay, and where interest drops off—valuable for refining marketing."
-                  },
-                  {
-                    title: "Monetization Opportunities",
-                    description: "xplor can support add-ons like virtual concierge, booking widgets, or premium placement for higher visibility."
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="border-border">
-                    <CardContent className="p-6">
-                      <h4 className="font-semibold text-foreground mb-2">{benefit.title}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {benefit.description.includes('xplor is designed') ? (
-                          <>
-                            <span className="font-typografix">xplor</span> is designed specifically for virtual spaces—ideal for high-value assets like yachts.
-                          </>
-                        ) : benefit.description.includes('xplor can support') ? (
-                          <>
-                            <span className="font-typografix">xplor</span> can support add-ons like virtual concierge, booking widgets, or premium placement for higher visibility.
-                          </>
-                        ) : (
-                          benefit.description
-                        )}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
