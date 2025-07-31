@@ -164,7 +164,7 @@ const VRCameras = () => {
           <div className="space-y-6">
             <div className="space-y-2">
               <Badge className="bg-xplor-yellow text-xplor-black font-medium">
-                VR CAMERAS & EQUIPMENT
+                CAMERAS & EQUIPMENT
               </Badge>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 Professional VR and tour creation equipment for you to start your journey.
@@ -446,7 +446,11 @@ const VRCameras = () => {
             <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
               Shop Now
             </Button>
-            <Button size="lg" variant="outline">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => window.location.href = 'mailto:info@xplor.io?subject=Equipment Sales Inquiry'}
+            >
               Contact Sales
             </Button>
           </div>

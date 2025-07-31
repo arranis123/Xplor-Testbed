@@ -67,9 +67,9 @@ const Header = () => {
                   className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
                     location.pathname === "/vr-cameras" ? "bg-muted font-medium" : ""
                   }`}
-                >
-                  VR Equipment Store
-                </Link>
+                  >
+                    Cameras & Equipment
+                  </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link 
