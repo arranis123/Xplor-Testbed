@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/AppLayout";
@@ -30,6 +31,7 @@ const VRCameras = lazy(() => import("./pages/VRCameras"));
 const CaptureBusinessSignup = lazy(() => import("./pages/CaptureBusinessSignup"));
 const YachtBrokerage = lazy(() => import("./pages/YachtBrokerage"));
 const YachtCrewOffer = lazy(() => import("./pages/YachtCrewOffer"));
+const CarsVehicles = lazy(() => import("./pages/CarsVehicles"));
 
 const queryClient = new QueryClient();
 
@@ -38,11 +40,12 @@ const App = () => {
   return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+      <HelmetProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
             <Routes>
               <Route path="/" element={<AppLayout><Index /></AppLayout>} />
               <Route path="/trial" element={<Trial />} />
@@ -59,6 +62,7 @@ const App = () => {
               <Route path="/capture-services" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureServices /></Suspense></AppLayout>} />
               <Route path="/capture-business-signup" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureBusinessSignup /></Suspense></AppLayout>} />
               <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
+              <Route path="/cars-vehicles" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CarsVehicles /></Suspense></AppLayout>} />
               <Route path="/yacht-brokerage" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtBrokerage /></Suspense></AppLayout>} />
               <Route path="/yacht-crew-offer" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtCrewOffer /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
@@ -71,6 +75,7 @@ const App = () => {
           </BrowserRouter>
         </CartProvider>
       </AuthProvider>
+      </HelmetProvider>
     </TooltipProvider>
   </QueryClientProvider>
   );
