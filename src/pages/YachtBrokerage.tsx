@@ -89,7 +89,7 @@ const YachtBrokerage = () => {
       <section className="bg-xplor-black text-white py-4">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-lg font-medium">
-            CALLING ALL YACHT CREW, if you want to change the yachting industry for ever, so that you are the one's in charge, 
+            CALLING ALL YACHT CREW, The <span className="font-typografix">xplor</span> brokerage has been set up to allow crew to get their share of charter commissions, Interested ?
             <button className="underline ml-1 hover:text-xplor-yellow transition-colors" onClick={goToCrewOffer}>
               click here
             </button>
