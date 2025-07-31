@@ -4,6 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import luxuryYacht1 from "@/assets/luxury-yacht-1.jpg";
+import luxuryYacht2 from "@/assets/luxury-yacht-2.jpg";
+import luxuryProperty1 from "@/assets/luxury-property-1.jpg";
+import luxuryInterior from "@/assets/luxury-interior.jpg";
+import modernHouse from "@/assets/modern-house.jpg";
+import yachtDetail from "@/assets/yacht-detail.jpg";
 import { 
   Card, 
   CardContent, 
@@ -104,11 +110,11 @@ const mockUsers: User[] = [
     lastActive: "2 hours ago",
     spacesCount: 24,
     spaces: [
-      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: "https://picsum.photos/400/300?random=1" },
-      { id: "s2", title: "Super Yacht Marina", type: "Yacht", createdAt: "2024-01-20", imageUrl: "https://picsum.photos/400/300?random=2" },
-      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: "https://picsum.photos/400/300?random=3" },
-      { id: "s4", title: "Luxury Yacht Interior", type: "Yacht", createdAt: "2024-02-01", imageUrl: "https://picsum.photos/400/300?random=4" },
-      { id: "s10", title: "Penthouse Manhattan", type: "Property", createdAt: "2024-02-10", imageUrl: "https://picsum.photos/400/300?random=5" },
+      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: luxuryProperty1 },
+      { id: "s2", title: "Super Yacht Marina", type: "Yacht", createdAt: "2024-01-20", imageUrl: luxuryYacht1 },
+      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: luxuryInterior },
+      { id: "s4", title: "Luxury Yacht Interior", type: "Yacht", createdAt: "2024-02-01", imageUrl: yachtDetail },
+      { id: "s10", title: "Penthouse Manhattan", type: "Property", createdAt: "2024-02-10", imageUrl: modernHouse },
     ]
   },
   {
@@ -120,9 +126,9 @@ const mockUsers: User[] = [
     lastActive: "1 day ago",
     spacesCount: 18,
     spaces: [
-      { id: "s5", title: "Mega Yacht Deck", type: "Yacht", createdAt: "2024-01-10", imageUrl: "https://picsum.photos/400/300?random=6" },
-      { id: "s6", title: "Luxury Property Pool", type: "Property", createdAt: "2024-01-18", imageUrl: "https://picsum.photos/400/300?random=7" },
-      { id: "s7", title: "Private Yacht Suite", type: "Yacht", createdAt: "2024-02-05", imageUrl: "https://picsum.photos/400/300?random=8" },
+      { id: "s5", title: "Mega Yacht Deck", type: "Yacht", createdAt: "2024-01-10", imageUrl: luxuryYacht2 },
+      { id: "s6", title: "Luxury Property Pool", type: "Property", createdAt: "2024-01-18", imageUrl: luxuryProperty1 },
+      { id: "s7", title: "Private Yacht Suite", type: "Yacht", createdAt: "2024-02-05", imageUrl: yachtDetail },
     ]
   },
   {
@@ -134,8 +140,8 @@ const mockUsers: User[] = [
     lastActive: "3 days ago",
     spacesCount: 12,
     spaces: [
-      { id: "s8", title: "Private Estate Gardens", type: "Property", createdAt: "2024-01-12", imageUrl: "https://picsum.photos/400/300?random=9" },
-      { id: "s9", title: "Sailing Yacht Cockpit", type: "Yacht", createdAt: "2024-01-28", imageUrl: "https://picsum.photos/400/300?random=10" },
+      { id: "s8", title: "Private Estate Gardens", type: "Property", createdAt: "2024-01-12", imageUrl: modernHouse },
+      { id: "s9", title: "Sailing Yacht Cockpit", type: "Yacht", createdAt: "2024-01-28", imageUrl: luxuryYacht1 },
     ]
   },
   {
@@ -703,11 +709,6 @@ export default function Users() {
                             src={space.imageUrl} 
                             alt={space.title}
                             className="w-full h-full object-cover rounded-t-lg"
-                            onLoad={() => console.log(`Image loaded: ${space.title}`, space.imageUrl)}
-                            onError={(e) => {
-                              console.error(`Image failed to load: ${space.title}`, space.imageUrl);
-                              e.currentTarget.src = 'https://picsum.photos/400/300?random=999';
-                            }}
                           />
                         </div>
                         <CardContent className="p-4">
