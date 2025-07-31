@@ -412,6 +412,7 @@ const uploadFormSchema = z.object({
   // Car & Vehicle specific fields  
   carManufacturer: z.string().optional(),
   carModel: z.string().optional(),
+  carVariant: z.string().optional(),
   carYear: z.string().optional(),
   carCondition: z.string().optional(),
   carMileage: z.string().optional(),
@@ -461,6 +462,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   console.log("UploadSpaceDialog - category:", category);
   console.log("UploadSpaceDialog - open:", open);
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string>("");
+  const [selectedModel, setSelectedModel] = useState<string>("");
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
@@ -4935,70 +4938,90 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              Vehicle Information
                            </h3>
                            <div className="grid grid-cols-2 gap-4">
-                             <FormField
-                               control={form.control}
-                               name="carManufacturer"
-                               render={({ field }) => (
-                                 <FormItem>
-                                   <FormLabel>Manufacturer</FormLabel>
-                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                     <FormControl>
-                                       <SelectTrigger>
-                                         <SelectValue placeholder="Select manufacturer" />
-                                       </SelectTrigger>
-                                     </FormControl>
-                                     <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                       <SelectItem value="toyota">Toyota</SelectItem>
-                                       <SelectItem value="honda">Honda</SelectItem>
-                                       <SelectItem value="ford">Ford</SelectItem>
-                                       <SelectItem value="chevrolet">Chevrolet</SelectItem>
-                                       <SelectItem value="nissan">Nissan</SelectItem>
-                                       <SelectItem value="bmw">BMW</SelectItem>
-                                       <SelectItem value="mercedes-benz">Mercedes-Benz</SelectItem>
-                                       <SelectItem value="audi">Audi</SelectItem>
-                                       <SelectItem value="volkswagen">Volkswagen</SelectItem>
-                                       <SelectItem value="hyundai">Hyundai</SelectItem>
-                                       <SelectItem value="kia">Kia</SelectItem>
-                                       <SelectItem value="mazda">Mazda</SelectItem>
-                                       <SelectItem value="subaru">Subaru</SelectItem>
-                                       <SelectItem value="tesla">Tesla</SelectItem>
-                                       <SelectItem value="lexus">Lexus</SelectItem>
-                                       <SelectItem value="infiniti">Infiniti</SelectItem>
-                                       <SelectItem value="acura">Acura</SelectItem>
-                                       <SelectItem value="cadillac">Cadillac</SelectItem>
-                                       <SelectItem value="lincoln">Lincoln</SelectItem>
-                                       <SelectItem value="jaguar">Jaguar</SelectItem>
-                                       <SelectItem value="land-rover">Land Rover</SelectItem>
-                                       <SelectItem value="porsche">Porsche</SelectItem>
-                                       <SelectItem value="ferrari">Ferrari</SelectItem>
-                                       <SelectItem value="lamborghini">Lamborghini</SelectItem>
-                                       <SelectItem value="maserati">Maserati</SelectItem>
-                                       <SelectItem value="bentley">Bentley</SelectItem>
-                                       <SelectItem value="rolls-royce">Rolls-Royce</SelectItem>
-                                       <SelectItem value="aston-martin">Aston Martin</SelectItem>
-                                       <SelectItem value="mclaren">McLaren</SelectItem>
-                                       <SelectItem value="bugatti">Bugatti</SelectItem>
-                                       <SelectItem value="other">Other</SelectItem>
-                                     </SelectContent>
-                                   </Select>
-                                   <FormMessage />
-                                 </FormItem>
-                               )}
-                             />
+                              <FormField
+                                control={form.control}
+                                name="carManufacturer"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Manufacturer</FormLabel>
+                                    <Select onValueChange={(value) => {
+                                      field.onChange(value);
+                                      setSelectedManufacturer(value);
+                                      setSelectedModel("");
+                                      form.setValue("carModel", "");
+                                      form.setValue("carVariant", "");
+                                    }} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select manufacturer" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        {carDatabase.map((manufacturer) => (
+                                          <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                            {manufacturer.label}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
 
-                             <FormField
-                               control={form.control}
-                               name="carModel"
-                               render={({ field }) => (
-                                 <FormItem>
-                                   <FormLabel>Model</FormLabel>
-                                   <FormControl>
-                                     <Input placeholder="e.g., Camry, Civic, Model S" {...field} />
-                                   </FormControl>
-                                   <FormMessage />
-                                 </FormItem>
-                               )}
-                             />
+                              <FormField
+                                control={form.control}
+                                name="carModel"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Model</FormLabel>
+                                    <Select onValueChange={(value) => {
+                                      field.onChange(value);
+                                      setSelectedModel(value);
+                                      form.setValue("carVariant", "");
+                                    }} defaultValue={field.value} disabled={!selectedManufacturer}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder={selectedManufacturer ? "Select model" : "Select manufacturer first"} />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        {getModelsByManufacturer(selectedManufacturer).map((model) => (
+                                          <SelectItem key={model.value} value={model.value}>
+                                            {model.label}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="carVariant"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Variant</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!selectedModel}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder={selectedModel ? "Select variant" : "Select model first"} />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        {getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
+                                          <SelectItem key={variant.value} value={variant.value}>
+                                            {variant.label}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
 
                              <FormField
                                control={form.control}
