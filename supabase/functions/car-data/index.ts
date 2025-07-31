@@ -483,30 +483,34 @@ async function initializeDatabase() {
 
 async function getManufacturers() {
   try {
+    console.log('Fetching manufacturers from Back4App...');
+    
     const result = await Parse.getObjects('CarManufacturer', {
-      order: 'name'
+      order: 'name',
+      limit: 1000
     });
+    
+    console.log('Parse result:', result);
     
     // If no manufacturers exist, auto-initialize the database
     if (!result.results || result.results.length === 0) {
       console.log('No manufacturers found, auto-initializing database...');
-      await initializeDatabase();
       
-      // Fetch again after initialization
-      const newResult = await Parse.getObjects('CarManufacturer', {
-        order: 'name'
-      });
-      
-      const manufacturers = newResult.results.map(item => ({
-        value: item.value,
-        label: item.name,
-        country: item.country,
-        region: item.region
-      }));
+      // Initialize database and return the result directly
+      const initResult = await initializeDatabase();
+      if (initResult.success) {
+        // Return the hardcoded manufacturers data as backup
+        const manufacturers = manufacturersData.map(item => ({
+          value: item.value,
+          label: item.name,
+          country: item.country,
+          region: item.region
+        }));
 
-      return new Response(JSON.stringify({ manufacturers }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
+        return new Response(JSON.stringify({ manufacturers }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
     }
     
     const manufacturers = result.results.map(item => ({
@@ -516,13 +520,23 @@ async function getManufacturers() {
       region: item.region
     }));
 
+    console.log(`Returning ${manufacturers.length} manufacturers`);
+
     return new Response(JSON.stringify({ manufacturers }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (error) {
     console.error('Error getting manufacturers:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
+    
+    // Fallback to hardcoded manufacturers data
+    const manufacturers = manufacturersData.map(item => ({
+      value: item.value,
+      label: item.name,
+      country: item.country,
+      region: item.region
+    }));
+
+    return new Response(JSON.stringify({ manufacturers }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
