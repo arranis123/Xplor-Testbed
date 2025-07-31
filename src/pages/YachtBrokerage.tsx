@@ -154,7 +154,11 @@ const YachtBrokerage = () => {
                       <CardDescription>{demo.type}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Button variant="outline" className="w-full">
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => window.open('https://burgess.theatro360.com/tour/E4-3OOL', '_blank')}
+                      >
                         <Waves className="h-4 w-4 mr-2" />
                         Tour Virtual Yacht
                       </Button>
