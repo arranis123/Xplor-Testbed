@@ -76,4 +76,14 @@ export class CarDataService {
       category
     }));
   }
+
+  static getAvailableYears(): string[] {
+    // Generate years from 1900 to current year + 1
+    const currentYear = new Date().getFullYear();
+    const years: string[] = [];
+    for (let year = currentYear + 1; year >= 1900; year--) {
+      years.push(year.toString());
+    }
+    return years;
+  }
 }
