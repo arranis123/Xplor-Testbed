@@ -90,6 +90,7 @@ interface User {
     title: string;
     type: string;
     createdAt: string;
+    imageUrl: string;
   }>;
 }
 
@@ -103,10 +104,10 @@ const mockUsers: User[] = [
     lastActive: "2 hours ago",
     spacesCount: 24,
     spaces: [
-      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15" },
-      { id: "s2", title: "Modern Office Downtown", type: "Commercial", createdAt: "2024-01-20" },
-      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25" },
-      { id: "s4", title: "Art Gallery Space", type: "Cultural", createdAt: "2024-02-01" },
+      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15", imageUrl: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=400&q=80" },
+      { id: "s2", title: "Modern Office Downtown", type: "Commercial", createdAt: "2024-01-20", imageUrl: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=400&q=80" },
+      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25", imageUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=400&q=80" },
+      { id: "s4", title: "Art Gallery Space", type: "Cultural", createdAt: "2024-02-01", imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=400&q=80" },
     ]
   },
   {
@@ -118,9 +119,9 @@ const mockUsers: User[] = [
     lastActive: "1 day ago",
     spacesCount: 18,
     spaces: [
-      { id: "s5", title: "Corporate Headquarters", type: "Commercial", createdAt: "2024-01-10" },
-      { id: "s6", title: "Retail Showroom", type: "Retail", createdAt: "2024-01-18" },
-      { id: "s7", title: "Conference Center", type: "Event", createdAt: "2024-02-05" },
+      { id: "s5", title: "Corporate Headquarters", type: "Commercial", createdAt: "2024-01-10", imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80" },
+      { id: "s6", title: "Retail Showroom", type: "Retail", createdAt: "2024-01-18", imageUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=400&q=80" },
+      { id: "s7", title: "Conference Center", type: "Event", createdAt: "2024-02-05", imageUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80" },
     ]
   },
   {
@@ -132,8 +133,8 @@ const mockUsers: User[] = [
     lastActive: "3 days ago",
     spacesCount: 12,
     spaces: [
-      { id: "s8", title: "Tech Startup Office", type: "Commercial", createdAt: "2024-01-12" },
-      { id: "s9", title: "Co-working Space", type: "Commercial", createdAt: "2024-01-28" },
+      { id: "s8", title: "Tech Startup Office", type: "Commercial", createdAt: "2024-01-12", imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" },
+      { id: "s9", title: "Co-working Space", type: "Commercial", createdAt: "2024-01-28", imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80" },
     ]
   },
   {
@@ -695,7 +696,14 @@ export default function Users() {
                 {user.spaces && user.spaces.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {user.spaces.map((space) => (
-                      <Card key={space.id} className="border border-border">
+                      <Card key={space.id} className="border border-border overflow-hidden">
+                        <div className="aspect-video w-full">
+                          <img 
+                            src={space.imageUrl} 
+                            alt={space.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                         <CardContent className="p-4">
                           <h4 className="font-medium mb-1">{space.title}</h4>
                           <p className="text-sm text-muted-foreground mb-2">{space.type}</p>
