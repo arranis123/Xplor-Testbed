@@ -85,6 +85,12 @@ interface User {
   lastActive: string;
   avatar?: string;
   spacesCount: number;
+  spaces?: Array<{
+    id: string;
+    title: string;
+    type: string;
+    createdAt: string;
+  }>;
 }
 
 const mockUsers: User[] = [
@@ -95,7 +101,13 @@ const mockUsers: User[] = [
     role: "Owner",
     status: "Active",
     lastActive: "2 hours ago",
-    spacesCount: 24
+    spacesCount: 24,
+    spaces: [
+      { id: "s1", title: "Luxury Villa Santorini", type: "Property", createdAt: "2024-01-15" },
+      { id: "s2", title: "Modern Office Downtown", type: "Commercial", createdAt: "2024-01-20" },
+      { id: "s3", title: "Beachfront Resort", type: "Hospitality", createdAt: "2024-01-25" },
+      { id: "s4", title: "Art Gallery Space", type: "Cultural", createdAt: "2024-02-01" },
+    ]
   },
   {
     id: "2",
@@ -104,7 +116,12 @@ const mockUsers: User[] = [
     role: "Admin",
     status: "Active",
     lastActive: "1 day ago",
-    spacesCount: 18
+    spacesCount: 18,
+    spaces: [
+      { id: "s5", title: "Corporate Headquarters", type: "Commercial", createdAt: "2024-01-10" },
+      { id: "s6", title: "Retail Showroom", type: "Retail", createdAt: "2024-01-18" },
+      { id: "s7", title: "Conference Center", type: "Event", createdAt: "2024-02-05" },
+    ]
   },
   {
     id: "3",
@@ -113,7 +130,11 @@ const mockUsers: User[] = [
     role: "Editor",
     status: "Active",
     lastActive: "3 days ago",
-    spacesCount: 12
+    spacesCount: 12,
+    spaces: [
+      { id: "s8", title: "Tech Startup Office", type: "Commercial", createdAt: "2024-01-12" },
+      { id: "s9", title: "Co-working Space", type: "Commercial", createdAt: "2024-01-28" },
+    ]
   },
   {
     id: "4",
@@ -122,7 +143,8 @@ const mockUsers: User[] = [
     role: "Viewer",
     status: "Invited",
     lastActive: "Never",
-    spacesCount: 0
+    spacesCount: 0,
+    spaces: []
   }
 ];
 
@@ -152,6 +174,7 @@ export default function Users() {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
+  const [isSpacesDialogOpen, setIsSpacesDialogOpen] = useState(false);
 
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -329,7 +352,10 @@ export default function Users() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-md transition-shadow"
+          onClick={() => setIsSpacesDialogOpen(true)}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Spaces</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
@@ -339,7 +365,7 @@ export default function Users() {
               {users.reduce((sum, user) => sum + user.spacesCount, 0)}
             </div>
             <p className="text-xs text-muted-foreground">
-              Across all users
+              Click to view all spaces
             </p>
           </CardContent>
         </Card>
@@ -635,6 +661,63 @@ export default function Users() {
               </div>
             </form>
           </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Spaces by User Dialog */}
+      <Dialog open={isSpacesDialogOpen} onOpenChange={setIsSpacesDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Spaces by Team Member</DialogTitle>
+            <DialogDescription>
+              All spaces organized by user across your team
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {users.filter(user => user.spacesCount > 0).map((user) => (
+              <div key={user.id} className="border rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={user.avatar} />
+                    <AvatarFallback>
+                      {user.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-lg">{user.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {user.spacesCount} spaces • {user.role}
+                    </p>
+                  </div>
+                </div>
+                
+                {user.spaces && user.spaces.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {user.spaces.map((space) => (
+                      <Card key={space.id} className="border border-border">
+                        <CardContent className="p-4">
+                          <h4 className="font-medium mb-1">{space.title}</h4>
+                          <p className="text-sm text-muted-foreground mb-2">{space.type}</p>
+                          <p className="text-xs text-muted-foreground">
+                            Created: {new Date(space.createdAt).toLocaleDateString()}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground text-sm">No spaces created yet</p>
+                )}
+              </div>
+            ))}
+            
+            {users.filter(user => user.spacesCount > 0).length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No spaces found across team members</p>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
