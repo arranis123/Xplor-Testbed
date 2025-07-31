@@ -8929,23 +8929,17 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                  </Button>
                                </div>
                              </div>
-                             
-                             <div className="text-sm text-muted-foreground">OR</div>
-                             
-                             <div className="w-full max-w-md">
-                               <Label className="text-sm">Upload Multiple Files</Label>
-                               <Input
-                                 id="virtual-upload"
-                                 type="file"
-                                 multiple
-                                 accept="image/*,video/*,.mp4,.mov,.avi"
-                                 className="mt-2"
-                                 onChange={(e) => handleFileUpload('virtualTour', e.target.files)}
-                               />
-                               <p className="text-xs text-muted-foreground mt-1">
-                                 Select multiple files at once by holding Ctrl/Cmd while clicking
-                               </p>
-                             </div>
+                            
+                            <div className="text-sm text-muted-foreground">OR</div>
+                            
+                            <Input
+                              id="virtual-upload"
+                              type="file"
+                              multiple
+                              accept="image/*,video/*,.mp4,.mov,.avi"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('virtualTour', e.target.files)}
+                            />
                           </div>
                           {uploadedFiles.virtualTour && uploadedFiles.virtualTour.length > 0 && (
                             <div className="mt-4 space-y-2">
@@ -9141,20 +9135,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </div>
                             )}
                             
-                             <div className="w-full max-w-md">
-                               <Label className="text-sm">Upload Multiple Photos</Label>
-                               <Input
-                                 id="photos-upload"
-                                 type="file"
-                                 multiple
-                                 accept="image/*"
-                                 className="mt-2"
-                                 onChange={(e) => handleFileUpload('photos', e.target.files)}
-                               />
-                               <p className="text-xs text-muted-foreground mt-1">
-                                 Select multiple images at once by holding Ctrl/Cmd while clicking
-                               </p>
-                             </div>
+                            <Input
+                              id="photos-upload"
+                              type="file"
+                              multiple
+                              accept="image/*"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('photos', e.target.files)}
+                            />
                           </div>
                          {uploadedFiles.photos.length > 0 && (
                            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -9272,20 +9260,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                               </div>
                             )}
                             
-                             <div className="w-full max-w-md">
-                               <Label className="text-sm">Upload Multiple Videos</Label>
-                               <Input
-                                 id="videos-upload"
-                                 type="file"
-                                 multiple
-                                 accept="video/*"
-                                 className="mt-2"
-                                 onChange={(e) => handleFileUpload('videos', e.target.files)}
-                               />
-                               <p className="text-xs text-muted-foreground mt-1">
-                                 Select multiple videos at once by holding Ctrl/Cmd while clicking
-                               </p>
-                             </div>
+                            <Input
+                              id="videos-upload"
+                              type="file"
+                              multiple
+                              accept="video/*"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('videos', e.target.files)}
+                            />
                           </div>
                          {uploadedFiles.videos.length > 0 && (
                            <div className="mt-4 space-y-2">
@@ -9403,20 +9385,14 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             
                             <div className="text-sm text-muted-foreground">OR</div>
                             
-                             <div className="w-full max-w-md">
-                               <Label className="text-sm">Upload Multiple Drone Videos</Label>
-                               <Input
-                                 id="drone-upload"
-                                 type="file"
-                                 multiple
-                                 accept="video/*"
-                                 className="mt-2"
-                                 onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
-                               />
-                               <p className="text-xs text-muted-foreground mt-1">
-                                 Select multiple videos at once by holding Ctrl/Cmd while clicking
-                               </p>
-                             </div>
+                            <Input
+                              id="drone-upload"
+                              type="file"
+                              multiple
+                              accept="video/*"
+                              className="max-w-xs"
+                              onChange={(e) => handleFileUpload('droneFootage', e.target.files)}
+                            />
                          </div>
                          {uploadedFiles.droneFootage.length > 0 && (
                            <div className="mt-4 space-y-2">
