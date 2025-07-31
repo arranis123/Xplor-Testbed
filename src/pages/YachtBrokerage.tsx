@@ -95,7 +95,7 @@ const YachtBrokerage = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
                 <Anchor className="h-5 w-5 mr-2" />
-                Book Yacht Capture
+                Add Your Yacht
               </Button>
               <Button size="lg" variant="outline" onClick={() => window.location.href = '/vr-cameras'}>
                 <Camera className="h-5 w-5 mr-2" />
