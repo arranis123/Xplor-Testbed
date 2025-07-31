@@ -21,6 +21,7 @@ const Index = () => {
               alt="Luxury Properties Worldwide Map"
               className="w-full h-full object-cover"
             />
+            <div className="absolute inset-0 bg-black/10"></div>
           </div>
           
           <div className="relative z-10 text-white w-full max-w-md lg:max-w-lg xl:max-w-xl px-mobile-md sm:px-8 lg:px-16">
