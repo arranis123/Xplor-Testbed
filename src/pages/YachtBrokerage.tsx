@@ -161,7 +161,7 @@ const YachtBrokerage = () => {
                         onClick={() => {
                           const getUrl = () => {
                             if (demo.name === "Ferretti 920 (DEMO)") return 'https://burgess.theatro360.com/tour/EO-K9W3';
-                            if (demo.name === "Princess S78 Sportbridge (DEMO)") return 'https://my.matterport.com/show/?m=kJvH8zHGPuw&brand=0&play=1&qs=1&tiles=1&vr=1&title=0&help=2&tourcta=2&hlr=2&rf-experience=';
+                            if (demo.name === "Princess S78 Sportbridge (DEMO)") return 'https://burgess.theatro360.com/tour/HO-FW8W';
                             return 'https://burgess.theatro360.com/tour/E4-3OOL';
                           };
                           window.open(getUrl(), '_blank');
