@@ -147,14 +147,21 @@ const CarsVehicles = () => {
             </div>
             <div className="max-w-4xl mx-auto">
               <Card className="overflow-hidden">
-                <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center relative">
-                  <div className="text-center space-y-4">
-                    <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <Play className="h-8 w-8 text-primary" />
+                <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center relative overflow-hidden rounded-lg">
+                  <img 
+                    src="/lovable-uploads/a50d42f1-34a8-4ff5-985c-368dc9a57114.png" 
+                    alt="360° Vehicle Tour Demo - Luxury Car Showroom"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <div className="text-center space-y-4 text-white">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
+                        <Play className="h-8 w-8 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold">360° Vehicle Tour Demo</h3>
+                      <p className="text-white/90">Click to explore a sample {vehicleTypes.find(v => v.id === activeDemo)?.name.toLowerCase()}</p>
+                      <Button variant="secondary">Launch Interactive Demo</Button>
                     </div>
-                    <h3 className="text-xl font-semibold">360° Vehicle Tour Demo</h3>
-                    <p className="text-muted-foreground">Click to explore a sample {vehicleTypes.find(v => v.id === activeDemo)?.name.toLowerCase()}</p>
-                    <Button>Launch Interactive Demo</Button>
                   </div>
                 </div>
               </Card>
