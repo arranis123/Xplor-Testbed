@@ -87,7 +87,7 @@ const CaptureServices = () => {
         <img 
           src="/lovable-uploads/9bfb88d3-dbb4-4763-8f50-fcb672976283.png" 
           alt="Hilton Worldwide" 
-          className="h-8 w-auto max-w-20 object-contain"
+          className="h-8 w-auto max-w-20 object-contain opacity-100 contrast-125 brightness-110"
         />
       )
     },
@@ -97,7 +97,7 @@ const CaptureServices = () => {
         <img 
           src="/lovable-uploads/6ad3281a-a5d0-44a9-a553-384f5d39e7fa.png" 
           alt="H World Group" 
-          className="h-8 w-auto max-w-16 object-contain"
+          className="h-8 w-auto max-w-16 object-contain opacity-100 contrast-125 brightness-110"
         />
       )
     },
@@ -120,7 +120,7 @@ const CaptureServices = () => {
         <img 
           src="/lovable-uploads/6cdc2896-6f3e-4e17-8888-9a915dc6fc19.png" 
           alt="Wyndham Hotels & Resorts" 
-          className="h-8 w-auto max-w-24 object-contain"
+          className="h-8 w-auto max-w-24 object-contain opacity-100 contrast-125 brightness-110"
         />
       )
     },
@@ -130,7 +130,7 @@ const CaptureServices = () => {
         <img 
           src="/lovable-uploads/0c8d415d-b85e-416b-8605-6efa731d96e1.png" 
           alt="Accor" 
-          className="h-8 w-auto max-w-16 object-contain"
+          className="h-8 w-auto max-w-16 object-contain opacity-100 contrast-125 brightness-110"
         />
       )
     }
