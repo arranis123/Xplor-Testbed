@@ -71,23 +71,33 @@ const CaptureServices = () => {
     { 
       name: "Netflix", 
       logo: (
-        <div className="w-16 h-8 bg-red-600 text-white rounded flex items-center justify-center text-xs font-bold">
-          NETFLIX
-        </div>
+        <img 
+          src="/logos/netflix-logo.png" 
+          alt="Netflix" 
+          className="h-8 w-auto max-w-16 object-contain"
+          onError={(e) => {
+            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'%3E%3Crect width='60' height='20' fill='%23E50914'/%3E%3Ctext x='30' y='14' text-anchor='middle' fill='white' font-family='Arial' font-size='10' font-weight='bold'%3ENetflix%3C/text%3E%3C/svg%3E";
+          }}
+        />
       )
     },
     { 
       name: "AWS", 
       logo: (
-        <div className="w-16 h-8 bg-orange-500 text-white rounded flex items-center justify-center text-xs font-bold">
-          AWS
-        </div>
+        <img 
+          src="/logos/aws-logo.svg" 
+          alt="AWS" 
+          className="h-8 w-auto max-w-16 object-contain"
+          onError={(e) => {
+            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='20' viewBox='0 0 50 20'%3E%3Crect width='50' height='20' fill='%23FF9900'/%3E%3Ctext x='25' y='14' text-anchor='middle' fill='white' font-family='Arial' font-size='10' font-weight='bold'%3EAWS%3C/text%3E%3C/svg%3E";
+          }}
+        />
       )
     },
     { 
       name: "WeWork", 
       logo: (
-        <div className="w-16 h-8 bg-black text-white rounded flex items-center justify-center text-xs font-bold">
+        <div className="h-8 w-16 bg-black text-white rounded flex items-center justify-center text-xs font-bold">
           WeWork
         </div>
       )
@@ -95,7 +105,7 @@ const CaptureServices = () => {
     { 
       name: "Choice Hotels", 
       logo: (
-        <div className="w-16 h-8 bg-blue-700 text-white rounded flex items-center justify-center text-xs font-bold">
+        <div className="h-8 w-16 bg-blue-700 text-white rounded flex items-center justify-center text-xs font-bold">
           CHOICE
         </div>
       )
@@ -103,7 +113,7 @@ const CaptureServices = () => {
     { 
       name: "Waldorf Astoria", 
       logo: (
-        <div className="w-16 h-8 bg-gradient-to-r from-amber-600 to-yellow-500 text-white rounded flex items-center justify-center text-xs font-bold">
+        <div className="h-8 w-16 bg-gradient-to-r from-amber-600 to-yellow-500 text-white rounded flex items-center justify-center text-xs font-bold">
           WALDORF
         </div>
       )
@@ -111,7 +121,7 @@ const CaptureServices = () => {
     { 
       name: "Redfin", 
       logo: (
-        <div className="w-16 h-8 bg-red-500 text-white rounded flex items-center justify-center text-xs font-bold">
+        <div className="h-8 w-16 bg-red-500 text-white rounded flex items-center justify-center text-xs font-bold">
           Redfin
         </div>
       )
