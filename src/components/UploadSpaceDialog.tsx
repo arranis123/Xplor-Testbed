@@ -2910,30 +2910,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       )}
                      
                      
-                     <FormField
-                       control={form.control}
-                       name="propertyType"
-                       render={({ field }) => (
-                         <FormItem>
-                            <FormLabel>{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Category" : category === "yacht" ? "Yacht Type" : category === "car" ? "Vehicle Type" : category === "real-estate" ? "Real Estate Category" : "Property Type"}</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder={(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Select hotel category" : category === "yacht" ? "Select yacht type" : category === "car" ? "Select vehicle type" : category === "real-estate" ? "Select real estate category" : "Select property type"} />
-                                </SelectTrigger>
-                              </FormControl>
-                             <SelectContent>
-                               {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort" ? hotelPropertyTypes : category === "yacht" ? yachtPropertyTypes : category === "car" ? carPropertyTypes : category === "real-estate" ? realEstatePropertyTypes : propertyTypes).map((type) => (
-                                 <SelectItem key={type.value} value={type.value}>
-                                   {type.label}
-                                 </SelectItem>
-                               ))}
-                             </SelectContent>
-                           </Select>
-                           <FormMessage />
-                         </FormItem>
-                       )}
-                      />
                      
                      {/* Hotel Star Rating Field - only show for hotels */}
                      {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
@@ -4938,7 +4914,34 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              <Car className="h-5 w-5" />
                              Vehicle Information
                            </h3>
-                           <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
+                               <FormField
+                                 control={form.control}
+                                 name="propertyType"
+                                 render={({ field }) => (
+                                   <FormItem>
+                                     <FormLabel>Vehicle Type</FormLabel>
+                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                       <FormControl>
+                                         <SelectTrigger>
+                                           <SelectValue placeholder="Select vehicle type" />
+                                         </SelectTrigger>
+                                       </FormControl>
+                                       <SelectContent>
+                                         {carPropertyTypes.map((type) => (
+                                           <SelectItem key={type.value} value={type.value}>
+                                             {type.label}
+                                           </SelectItem>
+                                         ))}
+                                       </SelectContent>
+                                     </Select>
+                                     <FormMessage />
+                                   </FormItem>
+                                 )}
+                               />
+
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
                               <FormField
                                 control={form.control}
                                 name="carManufacturer"
