@@ -27,6 +27,7 @@ import { CrewProfileForm } from "./CrewProfileForm";
 import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { RealEstateAgentForm } from "./RealEstateAgentForm";
 import { aisStreamService } from "../services/aisStreamService";
+import { carDatabase, getModelsByManufacturer, getVariantsByModel } from "@/data/carDatabase";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
