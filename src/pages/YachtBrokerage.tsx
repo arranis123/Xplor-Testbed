@@ -139,7 +139,7 @@ const YachtBrokerage = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              🚤 Why <span className="font-typografix">xplor</span> and Virtual Tours Are Excellent for Yachts
+              Why <span className="font-typografix">xplor</span> and Virtual Tours Are Excellent for Yachts
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Here's a comprehensive list of reasons why <span className="font-typografix">xplor</span> and virtual tours are excellent for yachts, tailored for charter, sale, marketing, and operational use.
