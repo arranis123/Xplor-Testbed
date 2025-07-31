@@ -86,11 +86,11 @@ const YachtBrokerage = () => {
 
   return <div className="min-h-screen bg-background">
       {/* Crew Call-to-Action Banner */}
-      <section className="bg-blue-600 text-white py-4">
+      <section className="bg-xplor-black text-white py-4">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-lg font-medium">
             CALLING ALL YACHT CREW, if you want to change the yachting industry for ever, so that you are the one's in charge, 
-            <button className="underline ml-1 hover:text-blue-200 transition-colors" onClick={goToCrewOffer}>
+            <button className="underline ml-1 hover:text-xplor-yellow transition-colors" onClick={goToCrewOffer}>
               click here
             </button>
           </p>
@@ -102,7 +102,7 @@ const YachtBrokerage = () => {
         <div className="grid lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-6 py-16">
           <div className="space-y-6">
             <div className="space-y-2">
-              <Badge className="bg-blue-100 text-blue-800 font-medium">
+              <Badge className="bg-xplor-yellow/20 text-xplor-black font-medium">
                 YACHT BROKERAGE SERVICES
               </Badge>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
@@ -112,7 +112,7 @@ const YachtBrokerage = () => {
             <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yachting industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
             <p className="text-xl text-muted-foreground">Your additional text content goes here.</p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
                 <Anchor className="h-5 w-5 mr-2" />
                 Add Your Yacht
               </Button>
@@ -168,7 +168,7 @@ const YachtBrokerage = () => {
               }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
                       <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-t-lg relative">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <Ship className="h-12 w-12 text-blue-600" />
+                          <Ship className="h-12 w-12 text-xplor-yellow" />
                         </div>
                       </div>
                       <CardHeader>
@@ -198,7 +198,7 @@ const YachtBrokerage = () => {
             Our certified marine technicians understand the unique challenges of yacht photography and 3D capture. 
             Available in major yachting destinations worldwide with specialized waterproof equipment.
           </p>
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
+          <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
             <Globe className="h-5 w-5 mr-2" />
             Find Technician Near You
           </Button>
@@ -233,7 +233,7 @@ const YachtBrokerage = () => {
                       <span className="text-sm text-muted-foreground">{feature}</span>
                     </div>)}
                 </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" onClick={openCalendly}>
+                <Button className="w-full bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
                   <Anchor className="h-4 w-4 mr-2" />
                   Book Standard Capture
                 </Button>
@@ -241,7 +241,7 @@ const YachtBrokerage = () => {
             </Card>
 
             {/* Premium Yacht Marketing */}
-            <Card className="border-border border-blue-500/50">
+            <Card className="border-border border-xplor-yellow/50">
               <CardHeader>
                 <CardTitle className="text-2xl text-foreground">Premium Yacht Marketing</CardTitle>
                 <CardDescription className="text-lg">
@@ -255,7 +255,7 @@ const YachtBrokerage = () => {
                       <span className="text-sm text-muted-foreground">{feature}</span>
                     </div>)}
                 </div>
-                <Button variant="outline" className="w-full border-blue-500 text-blue-600 hover:bg-blue-50">
+                <Button variant="outline" className="w-full border-xplor-yellow text-xplor-yellow-dark hover:bg-xplor-yellow/10">
                   Contact Yacht Specialist
                 </Button>
               </CardContent>
@@ -290,15 +290,15 @@ const YachtBrokerage = () => {
             <Card className="border-border">
               <CardContent className="p-8">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-blue-500 text-blue-500" />)}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-xplor-yellow text-xplor-yellow" />)}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
                   "The virtual tours have transformed how we present yachts to international buyers. 
                   We can now qualify serious prospects before they even step aboard, which saves everyone time and increases our closing rate significantly."
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Anchor className="h-6 w-6 text-white" />
+                  <div className="w-12 h-12 bg-xplor-yellow rounded-full flex items-center justify-center">
+                    <Anchor className="h-6 w-6 text-xplor-black" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Captain Marina Rodriguez</p>
@@ -311,15 +311,15 @@ const YachtBrokerage = () => {
             <Card className="border-border">
               <CardContent className="p-8">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-blue-500 text-blue-500" />)}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-xplor-yellow text-xplor-yellow" />)}
                 </div>
                 <p className="text-muted-foreground mb-6 italic">
                   "Having detailed 3D documentation has been invaluable for insurance claims and condition surveys. 
                   The accuracy is incredible and it's much more convenient than traditional surveying methods."
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Shield className="h-6 w-6 text-white" />
+                  <div className="w-12 h-12 bg-xplor-yellow rounded-full flex items-center justify-center">
+                    <Shield className="h-6 w-6 text-xplor-black" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">James Mitchell</p>
@@ -367,7 +367,7 @@ const YachtBrokerage = () => {
             Join leading yacht brokers who are already using 3D virtual tours to sell more yachts faster.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100" onClick={openCalendly}>
+            <Button size="lg" className="bg-white text-xplor-black hover:bg-xplor-grey-light" onClick={openCalendly}>
               <Anchor className="h-5 w-5 mr-2" />
               Schedule Yacht Capture
             </Button>

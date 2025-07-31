@@ -12,12 +12,12 @@ const YachtCrewOffer = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-blue-600 text-white py-6">
+      <div className="bg-xplor-black text-white py-6">
         <div className="max-w-4xl mx-auto px-6">
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="text-white hover:bg-blue-700 mb-4"
+            className="text-white hover:bg-xplor-grey mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
@@ -31,7 +31,7 @@ const YachtCrewOffer = () => {
         <div className="flex justify-center">
           <Button 
             onClick={() => setShowUploadDialog(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+            className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black px-8 py-3 text-lg"
           >
             Add Your Yacht
           </Button>
@@ -42,7 +42,7 @@ const YachtCrewOffer = () => {
       <div className="max-w-4xl mx-auto px-6 pb-12">
         <Card>
           <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6 text-blue-600">
+            <h2 className="text-2xl font-bold mb-6 text-xplor-yellow-dark">
               Xplor Brokerage Charter Commission Model
             </h2>
             
@@ -57,7 +57,7 @@ const YachtCrewOffer = () => {
             <div className="grid md:grid-cols-2 gap-8">
               {/* Benefits to Crew */}
               <div>
-                <h3 className="text-xl font-bold mb-6 text-blue-600 flex items-center">
+                <h3 className="text-xl font-bold mb-6 text-xplor-yellow-dark flex items-center">
                   🔹 Benefits to Crew
                 </h3>
                 
@@ -115,7 +115,7 @@ const YachtCrewOffer = () => {
 
               {/* Benefits to Owners */}
               <div>
-                <h3 className="text-xl font-bold mb-6 text-blue-600 flex items-center">
+                <h3 className="text-xl font-bold mb-6 text-xplor-yellow-dark flex items-center">
                   🔹 Benefits to Owners
                 </h3>
                 
@@ -180,7 +180,7 @@ const YachtCrewOffer = () => {
         <div className="flex justify-center">
           <Button 
             onClick={() => setShowUploadDialog(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+            className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black px-8 py-3 text-lg"
           >
             Add Your Yacht
           </Button>
