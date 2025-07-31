@@ -709,6 +709,9 @@ export default function Users() {
                             src={space.imageUrl} 
                             alt={space.title}
                             className="w-full h-full object-cover rounded-t-lg"
+                            onError={(e) => {
+                              console.error('Image failed to load:', space.imageUrl, 'for space:', space.title);
+                            }}
                           />
                         </div>
                         <CardContent className="p-4">
