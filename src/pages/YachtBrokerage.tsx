@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Anchor, Clock, MapPin, Shield, Star, CheckCircle, Waves, Users, Camera, ArrowRight, Ship, Globe } from "lucide-react";
-import yachtHeroImage from "@/assets/yacht-hero-man.jpg";
+import yachtHeroImage from "@/assets/yacht-hero-man-with-equipment.jpg";
 import northropJohnsonLogo from "@/assets/northrop-johnson-logo.jpg";
 import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
 import fraserYachtsLogo from "@/assets/fraser-yachts-logo.jpg";
