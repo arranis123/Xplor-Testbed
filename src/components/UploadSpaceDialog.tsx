@@ -27,7 +27,7 @@ import { CrewProfileForm } from "./CrewProfileForm";
 import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { RealEstateAgentForm } from "./RealEstateAgentForm";
 import { aisStreamService } from "../services/aisStreamService";
-import { carDatabase, getModelsByManufacturer, getVariantsByModel } from "@/data/carDatabase";
+import { carDatabase, getModelsByManufacturer, getYearsByModel, getVariantsByModelAndYear } from "@/data/carDatabase";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -465,6 +465,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [isUploading, setIsUploading] = useState(false);
   const [selectedManufacturer, setSelectedManufacturer] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
+  const [selectedYear, setSelectedYear] = useState<string>("");
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
@@ -4949,7 +4950,9 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                       field.onChange(value);
                                       setSelectedManufacturer(value);
                                       setSelectedModel("");
+                                      setSelectedYear("");
                                       form.setValue("carModel", "");
+                                      form.setValue("carYear", "");
                                       form.setValue("carVariant", "");
                                     }} defaultValue={field.value}>
                                       <FormControl>
@@ -4979,6 +4982,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                                     <Select onValueChange={(value) => {
                                       field.onChange(value);
                                       setSelectedModel(value);
+                                      setSelectedYear("");
+                                      form.setValue("carYear", "");
                                       form.setValue("carVariant", "");
                                     }} defaultValue={field.value} disabled={!selectedManufacturer}>
                                       <FormControl>
@@ -5001,20 +5006,24 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                               <FormField
                                 control={form.control}
-                                name="carVariant"
+                                name="carYear"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Variant</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!selectedModel}>
+                                    <FormLabel>Year</FormLabel>
+                                    <Select onValueChange={(value) => {
+                                      field.onChange(value);
+                                      setSelectedYear(value);
+                                      form.setValue("carVariant", "");
+                                    }} defaultValue={field.value} disabled={!selectedModel}>
                                       <FormControl>
                                         <SelectTrigger>
-                                          <SelectValue placeholder={selectedModel ? "Select variant" : "Select model first"} />
+                                          <SelectValue placeholder={selectedModel ? "Select year" : "Select model first"} />
                                         </SelectTrigger>
                                       </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                        {getVariantsByModel(selectedManufacturer, selectedModel).map((variant) => (
-                                          <SelectItem key={variant.value} value={variant.value}>
-                                            {variant.label}
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999] max-h-[200px] overflow-y-auto">
+                                        {getYearsByModel(selectedManufacturer, selectedModel).map((year) => (
+                                          <SelectItem key={year} value={year.toString()}>
+                                            {year}
                                           </SelectItem>
                                         ))}
                                       </SelectContent>
@@ -5026,25 +5035,22 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                               <FormField
                                 control={form.control}
-                                name="carYear"
+                                name="carVariant"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Year</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormLabel>Variant</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!selectedYear}>
                                       <FormControl>
                                         <SelectTrigger>
-                                          <SelectValue placeholder="Select year" />
+                                          <SelectValue placeholder={selectedYear ? "Select variant" : "Select year first"} />
                                         </SelectTrigger>
                                       </FormControl>
-                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999] max-h-[200px] overflow-y-auto">
-                                        {Array.from({ length: 126 }, (_, i) => {
-                                          const year = 2025 - i;
-                                          return (
-                                            <SelectItem key={year} value={year.toString()}>
-                                              {year}
-                                            </SelectItem>
-                                          );
-                                        })}
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        {getVariantsByModelAndYear(selectedManufacturer, selectedModel, selectedYear ? parseInt(selectedYear) : undefined).map((variant) => (
+                                          <SelectItem key={variant.value} value={variant.value}>
+                                            {variant.label}
+                                          </SelectItem>
+                                        ))}
                                       </SelectContent>
                                     </Select>
                                     <FormMessage />
