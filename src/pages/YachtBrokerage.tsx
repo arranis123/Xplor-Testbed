@@ -143,32 +143,23 @@ const YachtBrokerage = () => {
               }, {
                 name: "Princess S78 Sportbridge (DEMO)",
                 type: "Sport Yacht"
-                }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
+              }].map(demo => <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
                     <div className="aspect-video rounded-t-lg relative overflow-hidden">
-                      <img 
-                        src={demo.name === "Ferretti 920 (DEMO)" ? "/lovable-uploads/8c6e6096-eb45-49a6-8406-e3732a079818.png" : 
-                             demo.name === "Princess S78 Sportbridge (DEMO)" ? "/lovable-uploads/fc30b054-22ce-4d7a-8111-1dbea54aa6b0.png" : 
-                             "/lovable-uploads/9f1ae7dd-e9ce-420d-80a5-fe2f58249a56.png"}
-                        alt="Yacht Virtual Tour"
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={demo.name === "Ferretti 920 (DEMO)" ? "/lovable-uploads/8c6e6096-eb45-49a6-8406-e3732a079818.png" : demo.name === "Princess S78 Sportbridge (DEMO)" ? "/lovable-uploads/fc30b054-22ce-4d7a-8111-1dbea54aa6b0.png" : "/lovable-uploads/9f1ae7dd-e9ce-420d-80a5-fe2f58249a56.png"} alt="Yacht Virtual Tour" className="w-full h-full object-cover" />
                     </div>
                     <CardHeader>
-                      <CardTitle className="text-lg">{demo.name}</CardTitle>
-                      <CardDescription>{demo.type}</CardDescription>
+                      
+                      
                     </CardHeader>
                     <CardContent>
-                      <Button 
-                        className="w-full bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black"
-                        onClick={() => {
-                          const getUrl = () => {
-                            if (demo.name === "Ferretti 920 (DEMO)") return 'https://burgess.theatro360.com/tour/EO-K9W3';
-                            if (demo.name === "Princess S78 Sportbridge (DEMO)") return 'https://burgess.theatro360.com/tour/HO-FW8W';
-                            return 'https://burgess.theatro360.com/tour/E4-3OOL';
-                          };
-                          window.open(getUrl(), '_blank');
-                        }}
-                      >
+                      <Button className="w-full bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={() => {
+                    const getUrl = () => {
+                      if (demo.name === "Ferretti 920 (DEMO)") return 'https://burgess.theatro360.com/tour/EO-K9W3';
+                      if (demo.name === "Princess S78 Sportbridge (DEMO)") return 'https://burgess.theatro360.com/tour/HO-FW8W';
+                      return 'https://burgess.theatro360.com/tour/E4-3OOL';
+                    };
+                    window.open(getUrl(), '_blank');
+                  }}>
                         Yacht Tour
                       </Button>
                     </CardContent>
