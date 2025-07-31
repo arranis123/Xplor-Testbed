@@ -5080,122 +5080,405 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                  {/* Car Specifications Tab */}
                  {category === "car" && (
                    <TabsContent value="specifications" className="space-y-6">
-                     <div className="space-y-4">
+                     <div className="space-y-6">
                        <h3 className="text-lg font-semibold flex items-center gap-2">
                          <Car className="h-5 w-5" />
                          Vehicle Specifications
                        </h3>
-                       <div className="grid grid-cols-2 gap-4">
-                         <FormField
-                           control={form.control}
-                           name="carEngineSize"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Engine Size</FormLabel>
-                               <FormControl>
-                                 <Input placeholder="e.g., 2.5L, 3000cc" {...field} />
-                               </FormControl>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
-                         <FormField
-                           control={form.control}
-                           name="carTransmission"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Transmission</FormLabel>
-                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                       
+                       {/* Performance & Engine */}
+                       <div className="space-y-4">
+                         <h4 className="text-md font-medium text-muted-foreground">Performance & Engine</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <FormField
+                             control={form.control}
+                             name="carEngineSize"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Engine Size</FormLabel>
                                  <FormControl>
-                                   <SelectTrigger>
-                                     <SelectValue placeholder="Select transmission" />
-                                   </SelectTrigger>
+                                   <Input placeholder="e.g., 2.5L, 3000cc" {...field} />
                                  </FormControl>
-                                 <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                   <SelectItem value="manual">Manual</SelectItem>
-                                   <SelectItem value="automatic">Automatic</SelectItem>
-                                   <SelectItem value="cvt">CVT</SelectItem>
-                                   <SelectItem value="dual-clutch">Dual Clutch</SelectItem>
-                                 </SelectContent>
-                               </Select>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
-                         <FormField
-                           control={form.control}
-                           name="carDriveType"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Drive Type</FormLabel>
-                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carBHP"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>BHP (Brake Horsepower)</FormLabel>
                                  <FormControl>
-                                   <SelectTrigger>
-                                     <SelectValue placeholder="Select drive type" />
-                                   </SelectTrigger>
+                                   <Input placeholder="e.g., 150, 300" {...field} />
                                  </FormControl>
-                                 <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                   <SelectItem value="fwd">Front-Wheel Drive</SelectItem>
-                                   <SelectItem value="rwd">Rear-Wheel Drive</SelectItem>
-                                   <SelectItem value="awd">All-Wheel Drive</SelectItem>
-                                   <SelectItem value="4wd">4-Wheel Drive</SelectItem>
-                                 </SelectContent>
-                               </Select>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
-                         <FormField
-                           control={form.control}
-                           name="carBodyStyle"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Body Style</FormLabel>
-                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carAcceleration"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>0-60 mph (seconds)</FormLabel>
                                  <FormControl>
-                                   <SelectTrigger>
-                                     <SelectValue placeholder="Select body style" />
-                                   </SelectTrigger>
+                                   <Input placeholder="e.g., 6.5, 8.2" {...field} />
                                  </FormControl>
-                                 <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                   <SelectItem value="2-door">2-Door</SelectItem>
-                                   <SelectItem value="4-door">4-Door</SelectItem>
-                                   <SelectItem value="5-door">5-Door</SelectItem>
-                                   <SelectItem value="wagon">Wagon</SelectItem>
-                                   <SelectItem value="convertible">Convertible</SelectItem>
-                                   <SelectItem value="coupe">Coupe</SelectItem>
-                                 </SelectContent>
-                               </Select>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
-                         <FormField
-                           control={form.control}
-                           name="carExteriorColor"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Exterior Color</FormLabel>
-                               <FormControl>
-                                 <Input placeholder="e.g., Black, White, Silver" {...field} />
-                               </FormControl>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
-                         <FormField
-                           control={form.control}
-                           name="carInteriorColor"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>Interior Color</FormLabel>
-                               <FormControl>
-                                 <Input placeholder="e.g., Black Leather, Beige Cloth" {...field} />
-                               </FormControl>
-                               <FormMessage />
-                             </FormItem>
-                           )}
-                         />
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carTopSpeed"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Top Speed (mph)</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., 120, 155" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+                       </div>
+
+                       {/* Transmission & Drive */}
+                       <div className="space-y-4">
+                         <h4 className="text-md font-medium text-muted-foreground">Transmission & Drive</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <FormField
+                             control={form.control}
+                             name="carTransmission"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Transmission</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select transmission" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="manual">Manual</SelectItem>
+                                     <SelectItem value="automatic">Automatic</SelectItem>
+                                     <SelectItem value="cvt">CVT</SelectItem>
+                                     <SelectItem value="dual-clutch">Dual Clutch</SelectItem>
+                                     <SelectItem value="semi-automatic">Semi-Automatic</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carDriveType"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Drive Type</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select drive type" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="fwd">Front-Wheel Drive</SelectItem>
+                                     <SelectItem value="rwd">Rear-Wheel Drive</SelectItem>
+                                     <SelectItem value="awd">All-Wheel Drive</SelectItem>
+                                     <SelectItem value="4wd">4-Wheel Drive</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+                       </div>
+
+                       {/* Body & Design */}
+                       <div className="space-y-4">
+                         <h4 className="text-md font-medium text-muted-foreground">Body & Design</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <FormField
+                             control={form.control}
+                             name="carBodyStyle"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Body Style</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select body style" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="hatchback">Hatchback</SelectItem>
+                                     <SelectItem value="saloon">Saloon</SelectItem>
+                                     <SelectItem value="estate">Estate</SelectItem>
+                                     <SelectItem value="suv">SUV</SelectItem>
+                                     <SelectItem value="coupe">Coupe</SelectItem>
+                                     <SelectItem value="convertible">Convertible</SelectItem>
+                                     <SelectItem value="mpv">MPV</SelectItem>
+                                     <SelectItem value="pickup">Pick-up</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carDoors"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Number of Doors</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select doors" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="2">2 Doors</SelectItem>
+                                     <SelectItem value="3">3 Doors</SelectItem>
+                                     <SelectItem value="4">4 Doors</SelectItem>
+                                     <SelectItem value="5">5 Doors</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carSeats"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Number of Seats</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select seats" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="2">2 Seats</SelectItem>
+                                     <SelectItem value="4">4 Seats</SelectItem>
+                                     <SelectItem value="5">5 Seats</SelectItem>
+                                     <SelectItem value="7">7 Seats</SelectItem>
+                                     <SelectItem value="8">8+ Seats</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carOwners"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Previous Owners</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select owners" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="0">0 (Brand New)</SelectItem>
+                                     <SelectItem value="1">1 Owner</SelectItem>
+                                     <SelectItem value="2">2 Owners</SelectItem>
+                                     <SelectItem value="3">3 Owners</SelectItem>
+                                     <SelectItem value="4+">4+ Owners</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+                       </div>
+
+                       {/* Colors */}
+                       <div className="space-y-4">
+                         <h4 className="text-md font-medium text-muted-foreground">Colors</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <FormField
+                             control={form.control}
+                             name="carExteriorColor"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Exterior Color</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., Black, White, Silver" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carInteriorColor"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Interior Color</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., Black Leather, Beige Cloth" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+                       </div>
+
+                       {/* Emissions & Efficiency */}
+                       <div className="space-y-4">
+                         <h4 className="text-md font-medium text-muted-foreground">Emissions & Efficiency</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <FormField
+                             control={form.control}
+                             name="carCO2Emissions"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>CO2 Emissions (g/km)</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., 120, 95" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carMpg"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>MPG (Combined)</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., 45.6, 32.1" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carEmissionClass"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Emission Class</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select emission class" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="euro6">Euro 6</SelectItem>
+                                     <SelectItem value="euro5">Euro 5</SelectItem>
+                                     <SelectItem value="euro4">Euro 4</SelectItem>
+                                     <SelectItem value="euro3">Euro 3</SelectItem>
+                                     <SelectItem value="other">Other</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carULEZ"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>ULEZ Compliant</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select ULEZ status" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="yes">Yes</SelectItem>
+                                     <SelectItem value="no">No</SelectItem>
+                                     <SelectItem value="unknown">Unknown</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
+                       </div>
+
+                       {/* Tax & Insurance */}
+                       <div className="space-y-4">
+                         <h4 className="text-md font-medium text-muted-foreground">Tax & Insurance</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <FormField
+                             control={form.control}
+                             name="carTaxBand"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Road Tax Band</FormLabel>
+                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                   <FormControl>
+                                     <SelectTrigger>
+                                       <SelectValue placeholder="Select tax band" />
+                                     </SelectTrigger>
+                                   </FormControl>
+                                   <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                     <SelectItem value="a">Band A (£0)</SelectItem>
+                                     <SelectItem value="b">Band B (£20)</SelectItem>
+                                     <SelectItem value="c">Band C (£35)</SelectItem>
+                                     <SelectItem value="d">Band D (£155)</SelectItem>
+                                     <SelectItem value="e">Band E (£175)</SelectItem>
+                                     <SelectItem value="f">Band F (£200)</SelectItem>
+                                     <SelectItem value="g">Band G (£235)</SelectItem>
+                                     <SelectItem value="h">Band H (£270)</SelectItem>
+                                     <SelectItem value="i">Band I (£305)</SelectItem>
+                                     <SelectItem value="j">Band J (£340)</SelectItem>
+                                     <SelectItem value="k">Band K (£375)</SelectItem>
+                                     <SelectItem value="l">Band L (£400)</SelectItem>
+                                     <SelectItem value="m">Band M (£475)</SelectItem>
+                                   </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carAnnualTax"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Annual Road Tax</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., £155, £375" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                           <FormField
+                             control={form.control}
+                             name="carInsuranceGroup"
+                             render={({ field }) => (
+                               <FormItem>
+                                 <FormLabel>Insurance Group</FormLabel>
+                                 <FormControl>
+                                   <Input placeholder="e.g., 15E, 22D, 50E" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                               </FormItem>
+                             )}
+                           />
+                         </div>
                        </div>
                      </div>
                    </TabsContent>
