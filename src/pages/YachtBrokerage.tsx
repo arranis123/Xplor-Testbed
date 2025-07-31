@@ -78,6 +78,18 @@ const YachtBrokerage = () => {
   }];
 
   return <div className="min-h-screen bg-background">
+      {/* Crew Call-to-Action Banner */}
+      <section className="bg-blue-600 text-white py-4">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-lg font-medium">
+            CALLING ALL YACHT CREW, if you want to change the yachting industry for ever, so that you are the one's in charge, 
+            <button className="underline ml-1 hover:text-blue-200 transition-colors" onClick={openCalendly}>
+              click here
+            </button>
+          </p>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-6 py-16">
