@@ -71,46 +71,53 @@ export class CarDataService {
     
     const modelLabel = selectedModel.label;
     
-    // Get all entries for this specific brand/model combination
-    const variants = this.vehiclesData
+    // For now, since the database doesn't have specific trim/engine variants,
+    // we'll create some common variants based on the model
+    // This would ideally come from a more detailed database
+    
+    // Check if this is a BMW series model that could have variants
+    if (manufacturerLabel === 'BMW' && modelLabel.includes('Serisi')) {
+      const seriesNumber = modelLabel.replace(' Serisi', '');
+      return this.generateBMWSeriesVariants(seriesNumber, modelValue);
+    }
+    
+    // For other manufacturers, use the category-based approach as fallback
+    const vehicles = this.vehiclesData
       .filter(vehicle => 
         vehicle.brand === manufacturerLabel && 
         vehicle.model === modelLabel
       );
     
-    // Each entry in the database represents a variant
-    // Group by category to create meaningful variant names
-    const variantsByCategory = variants.reduce((acc, variant, index) => {
-      const categoryKey = variant.category;
-      if (!acc[categoryKey]) {
-        acc[categoryKey] = [];
-      }
-      acc[categoryKey].push({
-        value: `${modelValue}-${categoryKey.toLowerCase().replace(/\s+/g, '-')}-${index}`,
-        label: `${modelLabel} (${categoryKey})`,
-        category: categoryKey
-      });
-      return acc;
-    }, {} as Record<string, CarVariant[]>);
+    if (vehicles.length === 0) return [];
     
-    // Flatten the variants and return them
-    const allVariants = Object.values(variantsByCategory).flat();
+    // Just return the base model as a single variant for now
+    return [{
+      value: `${modelValue}-base`,
+      label: `${modelLabel} (Standard)`,
+      category: vehicles[0].category
+    }];
+  }
+  
+  private static generateBMWSeriesVariants(seriesNumber: string, modelValue: string): CarVariant[] {
+    // Generate common BMW variants based on series
+    // This is a placeholder - ideally this data would come from the database
+    const variantMap: Record<string, string[]> = {
+      '1': ['116i', '118i', '120i', '125i', 'M135i'],
+      '2': ['218i', '220i', '225i', 'M235i'],
+      '3': ['316i', '318i', '320i', '325i', '330i', '335i', 'M3'],
+      '4': ['418i', '420i', '425i', '430i', '435i', 'M4'],
+      '5': ['520i', '525i', '530i', '535i', '540i', 'M5'],
+      '6': ['630i', '640i', '650i', 'M6'],
+      '7': ['730i', '740i', '750i', '760i'],
+      '8': ['840i', '850i', 'M8'],
+    };
     
-    // If multiple variants exist for the same category, add numbering
-    const categoryCount = {} as Record<string, number>;
+    const variants = variantMap[seriesNumber] || [`${seriesNumber}00i`];
     
-    return allVariants.map(variant => {
-      const categoryKey = variant.category!;
-      categoryCount[categoryKey] = (categoryCount[categoryKey] || 0) + 1;
-      
-      if (categoryCount[categoryKey] > 1) {
-        return {
-          ...variant,
-          label: `${modelLabel} (${categoryKey}) - Variant ${categoryCount[categoryKey]}`
-        };
-      }
-      
-      return variant;
-    });
+    return variants.map(variant => ({
+      value: `${modelValue}-${variant.toLowerCase()}`,
+      label: `BMW ${seriesNumber} Series ${variant}`,
+      category: 'Automobile'
+    }));
   }
 }
