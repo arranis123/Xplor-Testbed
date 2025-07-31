@@ -24,7 +24,7 @@ const Index = () => {
             <div className="absolute inset-0 bg-black/40"></div>
           </div>
           
-          <div className="relative z-10 text-white max-w-4xl px-mobile-md sm:px-8 lg:px-16">
+          <div className="relative z-10 text-white w-full max-w-md lg:max-w-lg xl:max-w-xl px-mobile-md sm:px-8 lg:px-16">
             <h1 className="text-mobile-4xl sm:text-5xl md:text-6xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
               xplor
             </h1>
