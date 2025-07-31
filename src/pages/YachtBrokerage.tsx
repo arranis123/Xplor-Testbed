@@ -302,7 +302,7 @@ const YachtBrokerage = () => {
                     <img 
                       src={broker.logo} 
                       alt={`${broker.name} logo`}
-                      className="h-8 w-auto max-w-20 object-contain opacity-100 contrast-125 brightness-110 grayscale hover:grayscale-0 transition-all duration-300"
+                      className="h-11 w-auto max-w-24 object-contain opacity-100 contrast-150 brightness-125 saturate-150 hover:scale-105 transition-all duration-300"
                     />
                   </div>
                   <span className="text-xs text-muted-foreground font-medium">{broker.name}</span>
