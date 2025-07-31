@@ -68,12 +68,54 @@ const CaptureServices = () => {
   ];
 
   const companyLogos = [
-    { name: "Netflix", logo: "🎬" },
-    { name: "AWS", logo: "☁️" },
-    { name: "WeWork", logo: "🏢" },
-    { name: "Choice Hotels", logo: "🏨" },
-    { name: "Waldorf Astoria", logo: "✨" },
-    { name: "Redfin", logo: "🏡" }
+    { 
+      name: "Netflix", 
+      logo: (
+        <div className="w-16 h-8 bg-red-600 text-white rounded flex items-center justify-center text-xs font-bold">
+          NETFLIX
+        </div>
+      )
+    },
+    { 
+      name: "AWS", 
+      logo: (
+        <div className="w-16 h-8 bg-orange-500 text-white rounded flex items-center justify-center text-xs font-bold">
+          AWS
+        </div>
+      )
+    },
+    { 
+      name: "WeWork", 
+      logo: (
+        <div className="w-16 h-8 bg-black text-white rounded flex items-center justify-center text-xs font-bold">
+          WeWork
+        </div>
+      )
+    },
+    { 
+      name: "Choice Hotels", 
+      logo: (
+        <div className="w-16 h-8 bg-blue-700 text-white rounded flex items-center justify-center text-xs font-bold">
+          CHOICE
+        </div>
+      )
+    },
+    { 
+      name: "Waldorf Astoria", 
+      logo: (
+        <div className="w-16 h-8 bg-gradient-to-r from-amber-600 to-yellow-500 text-white rounded flex items-center justify-center text-xs font-bold">
+          WALDORF
+        </div>
+      )
+    },
+    { 
+      name: "Redfin", 
+      logo: (
+        <div className="w-16 h-8 bg-red-500 text-white rounded flex items-center justify-center text-xs font-bold">
+          Redfin
+        </div>
+      )
+    }
   ];
 
   const faqs = [
@@ -288,7 +330,7 @@ const CaptureServices = () => {
             <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center opacity-60">
               {companyLogos.map((company) => (
                 <div key={company.name} className="text-center">
-                  <div className="text-4xl mb-2">{company.logo}</div>
+                  <div className="mb-2 flex justify-center">{company.logo}</div>
                   <span className="text-sm text-muted-foreground">{company.name}</span>
                 </div>
               ))}
