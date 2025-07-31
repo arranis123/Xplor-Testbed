@@ -333,9 +333,9 @@ serve(async (req) => {
 
   try {
     // Initialize Parse with Back4App credentials
-    const appId = Deno.env.get('BACK4APP_APPLICATION_ID');
-    const jsKey = Deno.env.get('BACK4APP_JAVASCRIPT_KEY');
-    const masterKey = Deno.env.get('BACK4APP_MASTER_KEY');
+    const appId = 'XkCU28c4NNa8NKO2CvVHhNkGVGAu1DENMZdzbfPG';
+    const jsKey = 'z5E3avuwqZMtp9BAvcctpUFHc0wotqpRNQRhN0Yx';
+    const masterKey = 'o7U21XEizdXes6zF67wF2bxgibU48UwM3UAJfOzP';
 
     if (!appId || !jsKey) {
       throw new Error('Back4App credentials not configured');
