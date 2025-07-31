@@ -5071,7 +5071,166 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
-                       </div>
+                        </div>
+                      )}
+
+                     {/* Car Details Section */}
+                     {category === "car" && (
+                       <>
+                         <div className="space-y-4">
+                           <h3 className="text-lg font-semibold flex items-center gap-2">
+                             <Car className="h-5 w-5" />
+                             Vehicle Information
+                           </h3>
+                           <div className="grid grid-cols-2 gap-4">
+                             <FormField
+                               control={form.control}
+                               name="carManufacturer"
+                               render={({ field }) => (
+                                 <FormItem>
+                                   <FormLabel>Manufacturer</FormLabel>
+                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                     <FormControl>
+                                       <SelectTrigger>
+                                         <SelectValue placeholder="Select manufacturer" />
+                                       </SelectTrigger>
+                                     </FormControl>
+                                     <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                       <SelectItem value="toyota">Toyota</SelectItem>
+                                       <SelectItem value="honda">Honda</SelectItem>
+                                       <SelectItem value="ford">Ford</SelectItem>
+                                       <SelectItem value="chevrolet">Chevrolet</SelectItem>
+                                       <SelectItem value="nissan">Nissan</SelectItem>
+                                       <SelectItem value="bmw">BMW</SelectItem>
+                                       <SelectItem value="mercedes-benz">Mercedes-Benz</SelectItem>
+                                       <SelectItem value="audi">Audi</SelectItem>
+                                       <SelectItem value="volkswagen">Volkswagen</SelectItem>
+                                       <SelectItem value="hyundai">Hyundai</SelectItem>
+                                       <SelectItem value="kia">Kia</SelectItem>
+                                       <SelectItem value="mazda">Mazda</SelectItem>
+                                       <SelectItem value="subaru">Subaru</SelectItem>
+                                       <SelectItem value="tesla">Tesla</SelectItem>
+                                       <SelectItem value="lexus">Lexus</SelectItem>
+                                       <SelectItem value="infiniti">Infiniti</SelectItem>
+                                       <SelectItem value="acura">Acura</SelectItem>
+                                       <SelectItem value="cadillac">Cadillac</SelectItem>
+                                       <SelectItem value="lincoln">Lincoln</SelectItem>
+                                       <SelectItem value="jaguar">Jaguar</SelectItem>
+                                       <SelectItem value="land-rover">Land Rover</SelectItem>
+                                       <SelectItem value="porsche">Porsche</SelectItem>
+                                       <SelectItem value="ferrari">Ferrari</SelectItem>
+                                       <SelectItem value="lamborghini">Lamborghini</SelectItem>
+                                       <SelectItem value="maserati">Maserati</SelectItem>
+                                       <SelectItem value="bentley">Bentley</SelectItem>
+                                       <SelectItem value="rolls-royce">Rolls-Royce</SelectItem>
+                                       <SelectItem value="aston-martin">Aston Martin</SelectItem>
+                                       <SelectItem value="mclaren">McLaren</SelectItem>
+                                       <SelectItem value="bugatti">Bugatti</SelectItem>
+                                       <SelectItem value="other">Other</SelectItem>
+                                     </SelectContent>
+                                   </Select>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+
+                             <FormField
+                               control={form.control}
+                               name="carModel"
+                               render={({ field }) => (
+                                 <FormItem>
+                                   <FormLabel>Model</FormLabel>
+                                   <FormControl>
+                                     <Input placeholder="e.g., Camry, Civic, Model S" {...field} />
+                                   </FormControl>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+
+                             <FormField
+                               control={form.control}
+                               name="carYear"
+                               render={({ field }) => (
+                                 <FormItem>
+                                   <FormLabel>Year</FormLabel>
+                                   <FormControl>
+                                     <Input placeholder="e.g., 2024" {...field} />
+                                   </FormControl>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+
+                             <FormField
+                               control={form.control}
+                               name="carCondition"
+                               render={({ field }) => (
+                                 <FormItem>
+                                   <FormLabel>Condition</FormLabel>
+                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                     <FormControl>
+                                       <SelectTrigger>
+                                         <SelectValue placeholder="Select condition" />
+                                       </SelectTrigger>
+                                     </FormControl>
+                                     <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                       <SelectItem value="new">New</SelectItem>
+                                       <SelectItem value="excellent">Excellent</SelectItem>
+                                       <SelectItem value="good">Good</SelectItem>
+                                       <SelectItem value="fair">Fair</SelectItem>
+                                       <SelectItem value="poor">Poor</SelectItem>
+                                       <SelectItem value="salvage">Salvage</SelectItem>
+                                     </SelectContent>
+                                   </Select>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+
+                             <FormField
+                               control={form.control}
+                               name="carMileage"
+                               render={({ field }) => (
+                                 <FormItem>
+                                   <FormLabel>Mileage</FormLabel>
+                                   <FormControl>
+                                     <Input placeholder="e.g., 25,000 miles" {...field} />
+                                   </FormControl>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+
+                             <FormField
+                               control={form.control}
+                               name="carFuelType"
+                               render={({ field }) => (
+                                 <FormItem>
+                                   <FormLabel>Fuel Type</FormLabel>
+                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                     <FormControl>
+                                       <SelectTrigger>
+                                         <SelectValue placeholder="Select fuel type" />
+                                       </SelectTrigger>
+                                     </FormControl>
+                                     <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                       <SelectItem value="gasoline">Gasoline</SelectItem>
+                                       <SelectItem value="diesel">Diesel</SelectItem>
+                                       <SelectItem value="electric">Electric</SelectItem>
+                                       <SelectItem value="hybrid">Hybrid</SelectItem>
+                                       <SelectItem value="plug-in-hybrid">Plug-in Hybrid</SelectItem>
+                                       <SelectItem value="hydrogen">Hydrogen</SelectItem>
+                                       <SelectItem value="other">Other</SelectItem>
+                                     </SelectContent>
+                                   </Select>
+                                   <FormMessage />
+                                 </FormItem>
+                               )}
+                             />
+                           </div>
+                         </div>
+                       </>
                      )}
 
                    </TabsContent>
