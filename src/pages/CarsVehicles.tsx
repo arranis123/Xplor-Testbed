@@ -229,7 +229,7 @@ const CarsVehicles = () => {
                     <p className="text-primary-foreground/90">
                       Upload your first vehicle and create a stunning virtual tour in minutes. Our platform supports all major automotive content formats.
                     </p>
-                    <Button size="lg" variant="secondary" className="w-full">
+                    <Button size="lg" variant="secondary" className="w-full text-black">
                       Upload Your First Vehicle
                     </Button>
                   </div>
