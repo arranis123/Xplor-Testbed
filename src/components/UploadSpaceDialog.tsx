@@ -26,6 +26,7 @@ import { YachtBrochure } from "./YachtBrochure";
 import { CrewProfileForm } from "./CrewProfileForm";
 import { RealEstatePropertyForm } from "./RealEstatePropertyForm";
 import { RealEstateAgentForm } from "./RealEstateAgentForm";
+import { YachtRulesForm } from "./YachtRulesForm";
 import { aisStreamService } from "../services/aisStreamService";
 import { CarDataService } from "@/services/carDataService";
 
@@ -8735,12 +8736,18 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        </>
                      )}
 
-                     {/* Yacht Charter Rules Section - keep unchanged */}
-                     {category === "yacht" && (
-                       <>
-                         {/* ... existing yacht rules remain unchanged ... */}
-                       </>
-                      )}
+                      {/* Yacht Charter Rules Section */}
+                      {category === "yacht" && (
+                        <YachtRulesForm 
+                          onSubmit={(data) => {
+                            console.log('Yacht rules data:', data);
+                            // Handle the yacht rules data submission here
+                          }}
+                          onCancel={() => {
+                            // Handle cancel if needed
+                          }}
+                        />
+                       )}
                       
                       {/* Hotel Policies Section for Hotel/Resort categories */}
                       {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && (
