@@ -84,17 +84,21 @@ const CaptureServices = () => {
     { 
       name: "Hilton Worldwide", 
       logo: (
-        <div className="h-8 w-16 bg-blue-600 text-white rounded flex items-center justify-center text-xs font-bold">
-          Hilton
-        </div>
+        <img 
+          src="/lovable-uploads/9bfb88d3-dbb4-4763-8f50-fcb672976283.png" 
+          alt="Hilton Worldwide" 
+          className="h-8 w-auto max-w-20 object-contain"
+        />
       )
     },
     { 
       name: "H World Group", 
       logo: (
-        <div className="h-8 w-16 bg-orange-500 text-white rounded flex items-center justify-center text-xs font-bold">
-          H World
-        </div>
+        <img 
+          src="/lovable-uploads/6ad3281a-a5d0-44a9-a553-384f5d39e7fa.png" 
+          alt="H World Group" 
+          className="h-8 w-auto max-w-16 object-contain"
+        />
       )
     },
     { 
@@ -113,17 +117,21 @@ const CaptureServices = () => {
     { 
       name: "Wyndham Hotels & Resorts", 
       logo: (
-        <div className="h-8 w-18 bg-teal-600 text-white rounded flex items-center justify-center text-xs font-bold">
-          Wyndham
-        </div>
+        <img 
+          src="/lovable-uploads/6cdc2896-6f3e-4e17-8888-9a915dc6fc19.png" 
+          alt="Wyndham Hotels & Resorts" 
+          className="h-8 w-auto max-w-24 object-contain"
+        />
       )
     },
     { 
       name: "Accor", 
       logo: (
-        <div className="h-8 w-16 bg-purple-700 text-white rounded flex items-center justify-center text-xs font-bold">
-          Accor
-        </div>
+        <img 
+          src="/lovable-uploads/0c8d415d-b85e-416b-8605-6efa731d96e1.png" 
+          alt="Accor" 
+          className="h-8 w-auto max-w-16 object-contain"
+        />
       )
     }
   ];
