@@ -14,7 +14,7 @@ const Index = () => {
       
       <main>
         {/* Hero Section */}
-        <section className="relative h-[60vh] sm:h-[70vh] flex items-start pt-16 sm:pt-20 overflow-hidden">
+        <section className="relative h-[60vh] sm:h-[70vh] flex items-start pt-8 sm:pt-12 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
               src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" 
