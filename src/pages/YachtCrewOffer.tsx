@@ -2,9 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
+import { useState } from "react";
 
 const YachtCrewOffer = () => {
   const navigate = useNavigate();
+  const [showUploadDialog, setShowUploadDialog] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -23,8 +26,20 @@ const YachtCrewOffer = () => {
         </div>
       </div>
 
+      {/* Add Your Yacht Button - Top */}
+      <div className="max-w-4xl mx-auto px-6 py-6">
+        <div className="flex justify-center">
+          <Button 
+            onClick={() => setShowUploadDialog(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+          >
+            Add Your Yacht
+          </Button>
+        </div>
+      </div>
+
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-6 py-12">
+      <div className="max-w-4xl mx-auto px-6 pb-12">
         <Card>
           <CardContent className="p-8">
             <h2 className="text-2xl font-bold mb-6 text-blue-600">
@@ -159,6 +174,25 @@ const YachtCrewOffer = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Add Your Yacht Button - Bottom */}
+      <div className="max-w-4xl mx-auto px-6 pb-12">
+        <div className="flex justify-center">
+          <Button 
+            onClick={() => setShowUploadDialog(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+          >
+            Add Your Yacht
+          </Button>
+        </div>
+      </div>
+
+      {/* Upload Dialog */}
+      <UploadSpaceDialog
+        open={showUploadDialog}
+        onOpenChange={setShowUploadDialog}
+        category="yacht"
+      />
     </div>
   );
 };
