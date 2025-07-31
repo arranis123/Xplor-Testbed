@@ -6,6 +6,12 @@ import { Link } from "react-router-dom";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
 import scanningHeroImage from "@/assets/3d-scanning-hero.jpg";
 import vrTechImage from "@/assets/vr-tech.jpg";
+import luxuryYacht1 from "@/assets/luxury-yacht-1.jpg";
+import luxuryYacht2 from "@/assets/luxury-yacht-2.jpg";
+import luxuryProperty1 from "@/assets/luxury-property-1.jpg";
+import luxuryInterior from "@/assets/luxury-interior.jpg";
+import modernHouse from "@/assets/modern-house.jpg";
+import yachtDetail from "@/assets/yacht-detail.jpg";
 
 const Index = () => {
   return (
@@ -131,7 +137,7 @@ const Index = () => {
               </div>
               <div className="relative">
                 <img 
-                  src="https://images.unsplash.com/photo-1551038247-3d9af20df552?auto=format&fit=crop&w=800&q=80" 
+                  src={luxuryProperty1} 
                   alt="Luxury Property Architecture"
                   className="rounded-lg shadow-medium w-full"
                 />
@@ -146,7 +152,7 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="relative">
                 <img 
-                  src="https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?auto=format&fit=crop&w=800&q=80" 
+                  src={modernHouse} 
                   alt="Luxury Glass Architecture"
                   className="rounded-lg shadow-medium w-full"
                 />
@@ -241,7 +247,7 @@ const Index = () => {
               </div>
               <div className="relative">
                 <img 
-                  src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=800&q=80" 
+                  src={luxuryYacht1} 
                   alt="Luxury yacht on ocean waves"
                   className="rounded-lg shadow-medium w-full object-cover h-[400px]"
                 />
@@ -267,7 +273,7 @@ const Index = () => {
               <Card className="overflow-hidden hover:shadow-medium transition-all duration-300 group">
                 <div className="relative">
                   <img 
-                    src="https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=400&q=80" 
+                    src={luxuryInterior} 
                     alt="Modern architectural property"
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -292,7 +298,7 @@ const Index = () => {
               <Card className="overflow-hidden hover:shadow-medium transition-all duration-300 group">
                 <div className="relative">
                   <img 
-                    src="https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?auto=format&fit=crop&w=400&q=80" 
+                    src={yachtDetail} 
                     alt="Glass tower luxury property"
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -317,7 +323,7 @@ const Index = () => {
               <Card className="overflow-hidden hover:shadow-medium transition-all duration-300 group">
                 <div className="relative">
                   <img 
-                    src="https://images.unsplash.com/photo-1493397212122-2b85dda8106b?auto=format&fit=crop&w=400&q=80" 
+                    src={luxuryYacht2} 
                     alt="Unique wavy architecture property"
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
