@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Anchor, Clock, MapPin, Shield, Star, CheckCircle, Waves, Users, Camera, ArrowRight, Ship, Globe } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import yachtHeroImage from "@/assets/yacht-hero-man-with-equipment.jpg";
 import northropJohnsonLogo from "@/assets/northrop-johnson-logo.jpg";
 import burgessYachtsLogo from "@/assets/burgess-yachts-logo.jpg";
@@ -12,8 +13,14 @@ import edmistonLogo from "@/assets/edmiston-logo.jpg";
 import camperNicholsonsLogo from "@/assets/camper-nicholsons-logo.jpg";
 
 const YachtBrokerage = () => {
+  const navigate = useNavigate();
+
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
+  };
+
+  const goToCrewOffer = () => {
+    navigate('/yacht-crew-offer');
   };
 
   const yachtServices = [{
@@ -83,7 +90,7 @@ const YachtBrokerage = () => {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-lg font-medium">
             CALLING ALL YACHT CREW, if you want to change the yachting industry for ever, so that you are the one's in charge, 
-            <button className="underline ml-1 hover:text-blue-200 transition-colors" onClick={openCalendly}>
+            <button className="underline ml-1 hover:text-blue-200 transition-colors" onClick={goToCrewOffer}>
               click here
             </button>
           </p>

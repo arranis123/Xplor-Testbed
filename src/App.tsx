@@ -29,6 +29,7 @@ const CaptureServices = lazy(() => import("./pages/CaptureServices"));
 const VRCameras = lazy(() => import("./pages/VRCameras"));
 const CaptureBusinessSignup = lazy(() => import("./pages/CaptureBusinessSignup"));
 const YachtBrokerage = lazy(() => import("./pages/YachtBrokerage"));
+const YachtCrewOffer = lazy(() => import("./pages/YachtCrewOffer"));
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => {
               <Route path="/capture-business-signup" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureBusinessSignup /></Suspense></AppLayout>} />
               <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
               <Route path="/yacht-brokerage" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtBrokerage /></Suspense></AppLayout>} />
+              <Route path="/yacht-crew-offer" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtCrewOffer /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />
