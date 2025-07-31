@@ -124,6 +124,12 @@ const YachtBrokerage = () => {
           </div>
           <div className="relative">
             <img src={yachtHeroImage} alt="Professional man on yacht deck showcasing yacht capture services" className="w-full h-auto rounded-lg shadow-medium" />
+            <div className="absolute bottom-4 right-4">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-dark text-xplor-black" onClick={openCalendly}>
+                <Globe className="h-5 w-5 mr-2" />
+                Find Technician Near You
+              </Button>
+            </div>
           </div>
         </div>
       </section>
