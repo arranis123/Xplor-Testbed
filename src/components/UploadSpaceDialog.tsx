@@ -1662,26 +1662,6 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     { value: "hybrid-electric-yacht", label: "Hybrid & Electric Yachts" },
   ];
 
-  const carPropertyTypes = [
-    { value: "sedan", label: "Sedan" },
-    { value: "suv", label: "SUV" },
-    { value: "hatchback", label: "Hatchback" },
-    { value: "coupe", label: "Coupe" },
-    { value: "convertible", label: "Convertible" },
-    { value: "pickup-truck", label: "Pickup Truck" },
-    { value: "minivan", label: "Minivan" },
-    { value: "luxury-car", label: "Luxury Car" },
-    { value: "sports-car", label: "Sports Car" },
-    { value: "electric-vehicle", label: "Electric Vehicle" },
-    { value: "hybrid-vehicle", label: "Hybrid Vehicle" },
-    { value: "commercial-van", label: "Commercial Van" },
-    { value: "motorcycle", label: "Motorcycle" },
-    { value: "atv", label: "ATV/Quad Bike" },
-    { value: "rv", label: "RV/Motorhome" },
-    { value: "boat", label: "Boat" },
-    { value: "jet-ski", label: "Jet Ski" },
-    { value: "snowmobile", label: "Snowmobile" },
-  ];
 
   const sailingYachtSubtypes = [
     { value: "sloop-single-mast", label: "Sloop (single-mast)" },
