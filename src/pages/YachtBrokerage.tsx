@@ -365,22 +365,6 @@ const YachtBrokerage = () => {
         </div>
       </section>
 
-      {/* Marine Expertise */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-6">
-            Marine-certified expertise, worldwide availability.
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Our certified marine technicians understand the unique challenges of yacht photography and 3D capture. 
-            Available in major yachting destinations worldwide with specialized waterproof equipment.
-          </p>
-          <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
-            <Globe className="h-5 w-5 mr-2" />
-            Find Technician Near You
-          </Button>
-        </div>
-      </section>
 
       {/* Service Packages */}
       <section className="py-16 bg-muted/30">
