@@ -29,6 +29,7 @@ import { RealEstateAgentForm } from "./RealEstateAgentForm";
 import { YachtRulesForm } from "./YachtRulesForm";
 import { aisStreamService } from "../services/aisStreamService";
 import { CarDataService } from "@/services/carDataService";
+import { ExperienceForm } from "./ExperienceForm";
 
 const uploadFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -844,6 +845,26 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       safetyRequirements: [],
     },
   });
+
+  
+  // Set defaults based on category
+  useEffect(() => {
+    console.log("Setting defaults for category:", category);
+    if (category === "experiences") {
+      form.setValue('propertyType', 'experience');
+      form.setValue('availability', 'available');
+      form.setValue('visibility', 'public');
+      console.log("Experience defaults set");
+    } else if (category === "yacht") {
+      form.setValue('propertyType', 'motor-yacht');
+    } else if (category === "real-estate") {
+      form.setValue('propertyType', 'apartment');
+    } else if (category === "car") {
+      form.setValue('propertyType', 'car');
+    } else if (category === "hotel-resort") {
+      form.setValue('propertyType', 'hotel');
+    }
+  }, [category, form]);
 
   // Helper function to convert Google Plus Code to coordinates
   const convertPlusCodeToCoordinates = async (plusCode: string) => {
@@ -2394,14 +2415,16 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <Tabs defaultValue="basic" className="w-full">
-                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-8" : (category === "real-estate") ? "grid-cols-7" : (category === "yacht" || category === "car") ? "grid-cols-8" : "grid-cols-7"}`}>
-                  <TabsTrigger value="basic">{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Basic Info" : "Basic Info"}</TabsTrigger>
+                <TabsList className={`grid w-full ${(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "grid-cols-8" : (category === "real-estate") ? "grid-cols-7" : (category === "yacht" || category === "car") ? "grid-cols-8" : (category === "experiences") ? "grid-cols-7" : "grid-cols-7"}`}>
+                  <TabsTrigger value="basic">{(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? "Hotel Basic Info" : category === "experiences" ? "Experience Info" : "Basic Info"}</TabsTrigger>
                    {(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") ? (
                      <TabsTrigger value="hotel-details">Rooms</TabsTrigger>
                    ) : category === "yacht" ? (
                      <TabsTrigger value="details">Yacht Details</TabsTrigger>
                    ) : category === "car" ? (
                      <TabsTrigger value="details">Vehicle Details</TabsTrigger>
+                   ) : category === "experiences" ? (
+                     <TabsTrigger value="details">Experience Details</TabsTrigger>
                    ) : (
                      <TabsTrigger value="details">Property Details</TabsTrigger>
                    )}
@@ -2415,7 +2438,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                        <TabsTrigger value="special-deals">Special Deals</TabsTrigger>
                      </>
                    )}
-                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && category !== "car" && (
+                  {!(category === "hotel" || category === "hotel/resort" || category === "hotel-resort") && category !== "real-estate" && category !== "car" && category !== "experiences" && (
                     <TabsTrigger value="amenities">Amenities</TabsTrigger>
                    )}
                    {category === "yacht" && (
@@ -5383,6 +5406,11 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             </div>
                           </div>
                        </>
+                     )}
+
+                     {/* Experience Details Section */}
+                     {category === "experiences" && (
+                       <ExperienceForm form={form} />
                      )}
 
                    </TabsContent>
