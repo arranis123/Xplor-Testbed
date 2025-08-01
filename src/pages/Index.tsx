@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Ship, Home, Bell, MapPin } from "lucide-react";
+import { Ship, Home, Landmark, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import TourProFinderForm from "@/components/TourProFinderForm";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
@@ -110,7 +110,7 @@ const Index = () => {
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card sm:col-span-2 md:col-span-1">
                 <CardHeader className="p-mobile-lg sm:p-6">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-grey rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                    <Bell className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                    <Landmark className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
                   <CardTitle className="text-mobile-lg sm:text-xl">Experiences</CardTitle>
                   <CardDescription className="text-mobile-sm sm:text-base">
