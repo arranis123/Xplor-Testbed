@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Anchor, Users, Award, DollarSign, MessageCircle, Phone, FileText } from "lucide-react";
+import ContactForm from "@/components/ContactForm";
 const YachtOwnersClients = () => {
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
   return <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 space-y-12">
         {/* Hero Section */}
@@ -268,7 +271,7 @@ const YachtOwnersClients = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setIsContactFormOpen(true)}>
               <MessageCircle className="w-5 h-5 mr-2" />
               Contact Us
             </Button>
@@ -280,6 +283,11 @@ const YachtOwnersClients = () => {
           </div>
         </section>
       </main>
+
+      <ContactForm 
+        open={isContactFormOpen} 
+        onOpenChange={setIsContactFormOpen} 
+      />
     </div>;
 };
 export default YachtOwnersClients;
