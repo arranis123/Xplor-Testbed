@@ -141,7 +141,7 @@ const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CheckCircle className="h-6 w-6 text-primary" />
-            Become a Verified Xplor Technician
+            Become a Verified Tour Pro
           </DialogTitle>
           <DialogDescription>
             Complete this comprehensive application to join our global network of verified capture specialists.
