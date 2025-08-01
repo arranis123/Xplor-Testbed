@@ -13,7 +13,7 @@ const YachtOwnersClients = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              Xplor Charters
+              <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> Charters
             </h1>
           </div>
           <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
@@ -28,7 +28,7 @@ const YachtOwnersClients = () => {
         <section className="space-y-8">
           <div className="text-center">
             <h3 className="text-3xl font-bold text-foreground mb-4">
-              Why Choose Xplor as Your Central Charter Broker?
+              Why Choose <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as Your Central Charter Broker?
             </h3>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
               At Xplor, we believe a great charter starts with a great crew — and we back that belief with action.
@@ -43,7 +43,7 @@ const YachtOwnersClients = () => {
                   <span className="text-3xl font-bold text-muted-foreground">Commission Share</span>
                 </div>
                 <p className="text-lg text-foreground max-w-3xl mx-auto">
-                  When you appoint Xplor as your central charter broker, 50% of the brokerage commission we earn 
+                  When you appoint <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as your central charter broker, 50% of the brokerage commission we earn 
                   is distributed evenly among the onboard crew. This isn't a bonus or a tip — it's a guaranteed 
                   share of success for the people who deliver your guest experience.
                 </p>
@@ -104,7 +104,7 @@ const YachtOwnersClients = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Yachts listed with Xplor stand out to charterers who appreciate ethical and crew-centric policies.
+                  Yachts listed with <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> stand out to charterers who appreciate ethical and crew-centric policies.
                 </p>
               </CardContent>
             </Card>
@@ -120,7 +120,7 @@ const YachtOwnersClients = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  The commission sharing comes from Xplor's fee — not your charter income.
+                  The commission sharing comes from <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>'s fee — not your charter income.
                 </p>
               </CardContent>
             </Card>
@@ -159,7 +159,7 @@ const YachtOwnersClients = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Repeat clients booking directly with Xplor keep commissions in the hands of those who earned them: the crew and the platform that made it possible.
+                  Repeat clients booking directly with <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> keep commissions in the hands of those who earned them: the crew and the platform that made it possible.
                 </p>
               </CardContent>
             </Card>
@@ -196,14 +196,14 @@ const YachtOwnersClients = () => {
                     <tr className="border-b">
                       <th className="text-left p-4 font-semibold">Broker Role</th>
                       <th className="text-left p-4 font-semibold">Traditional Broker</th>
-                      <th className="text-left p-4 font-semibold bg-primary/5">Xplor as Central Broker</th>
+                      <th className="text-left p-4 font-semibold bg-primary/5"><span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as Central Broker</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b">
                       <td className="p-4 font-medium">Crew Commission</td>
                       <td className="p-4 text-muted-foreground">0%</td>
-                      <td className="p-4 bg-white font-semibold text-muted-foreground">50% of Xplor's fee</td>
+                      <td className="p-4 bg-white font-semibold text-muted-foreground">50% of <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>'s fee</td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-4 font-medium">Owner Cost</td>
@@ -237,7 +237,7 @@ const YachtOwnersClients = () => {
               Most charter commissions disappear into a network of intermediaries.
             </p>
             <p className="text-lg font-semibold text-foreground">
-              At Xplor, we put it back where it belongs — with the crew that makes it all happen.
+              At <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>, we put it back where it belongs — with the crew that makes it all happen.
             </p>
           </div>
         </section>
@@ -246,7 +246,7 @@ const YachtOwnersClients = () => {
         <section className="space-y-8">
           <div className="text-center">
             <h3 className="text-3xl font-bold text-foreground mb-4">
-              Appoint Xplor as Central Broker Today
+              Appoint <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as Central Broker Today
             </h3>
           </div>
 
