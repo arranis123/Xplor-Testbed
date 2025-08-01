@@ -79,7 +79,7 @@ const Pricing = () => {
         "Phone & email support"
       ],
       buttonText: "Start Free Trial",
-      buttonVariant: "outline" as const,
+      buttonVariant: "default" as const,
       popular: false,
       icon: Users
     },
@@ -226,11 +226,13 @@ const Pricing = () => {
                     ))}
                   </div>
                   
-                  <Button 
+                   <Button 
                     className={`w-full ${
                       tier.buttonVariant === 'default' 
                         ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black' 
-                        : ''
+                        : tier.buttonText === 'Start Free Trial' 
+                          ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black'
+                          : ''
                     }`}
                     variant={tier.buttonVariant}
                     asChild={tier.name !== 'Enterprise'}
