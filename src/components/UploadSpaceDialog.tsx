@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic, Package, Truck, Play, ExternalLink } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic, Package, Truck, Play, ExternalLink, Search } from "lucide-react";
 import MapboxLocationPicker from "./MapboxLocationPicker";
 import { MapboxService } from "@/services/mapboxService";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -476,6 +476,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   const [selectedVehicleType, setSelectedVehicleType] = useState<string>("");
   const [selectedManufacturer, setSelectedManufacturer] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
+  const [manufacturerSearch, setManufacturerSearch] = useState<string>("");
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactFormType, setContactFormType] = useState<'floor-plans' | 'itinerary' | 'brochure' | 'crew-profile'>('floor-plans');
   const [showItineraryForm, setShowItineraryForm] = useState(false);
@@ -4960,36 +4961,53 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                             </div>
                             <div className="grid grid-cols-2 gap-4">
-                              <FormField
-                                control={form.control}
-                                name="carManufacturer"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Manufacturer</FormLabel>
-                                     <Select onValueChange={(value) => {
-                                       field.onChange(value);
-                                       setSelectedManufacturer(value);
-                                       setSelectedModel("");
-                                       form.setValue("carModel", "");
-                                       form.setValue("carVariant", "");
-                                     }} defaultValue={field.value} disabled={!selectedVehicleType}>
-                                       <FormControl>
-                                         <SelectTrigger>
-                                           <SelectValue placeholder={selectedVehicleType ? "Select manufacturer" : "Select vehicle type first"} />
-                                         </SelectTrigger>
-                                       </FormControl>
-                                        <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
-                                          {CarDataService.getManufacturersByVehicleType(selectedVehicleType).map((manufacturer) => (
-                                            <SelectItem key={manufacturer.value} value={manufacturer.value}>
-                                              {manufacturer.label}
-                                            </SelectItem>
-                                          ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
+                               <FormField
+                                 control={form.control}
+                                 name="carManufacturer"
+                                 render={({ field }) => (
+                                   <FormItem>
+                                     <FormLabel>Manufacturer</FormLabel>
+                                     <div className="space-y-2">
+                                       <div className="relative">
+                                         <Input
+                                           placeholder={selectedVehicleType ? "Search manufacturer..." : "Select vehicle type first"}
+                                           value={manufacturerSearch}
+                                           onChange={(e) => setManufacturerSearch(e.target.value)}
+                                           disabled={!selectedVehicleType}
+                                           className="pr-8"
+                                         />
+                                         <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                                       </div>
+                                       <Select onValueChange={(value) => {
+                                         field.onChange(value);
+                                         setSelectedManufacturer(value);
+                                         setSelectedModel("");
+                                         form.setValue("carModel", "");
+                                         form.setValue("carVariant", "");
+                                         setManufacturerSearch(""); // Clear search after selection
+                                       }} defaultValue={field.value} disabled={!selectedVehicleType}>
+                                         <FormControl>
+                                           <SelectTrigger>
+                                             <SelectValue placeholder={selectedVehicleType ? "Select manufacturer" : "Select vehicle type first"} />
+                                           </SelectTrigger>
+                                         </FormControl>
+                                         <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                           {CarDataService.getManufacturersByVehicleType(selectedVehicleType)
+                                             .filter(manufacturer => 
+                                               manufacturer.label.toLowerCase().includes(manufacturerSearch.toLowerCase())
+                                             )
+                                             .map((manufacturer) => (
+                                               <SelectItem key={manufacturer.value} value={manufacturer.value}>
+                                                 {manufacturer.label}
+                                               </SelectItem>
+                                             ))}
+                                         </SelectContent>
+                                       </Select>
+                                     </div>
+                                     <FormMessage />
+                                   </FormItem>
+                                 )}
+                               />
 
                               <FormField
                                 control={form.control}
