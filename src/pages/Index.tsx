@@ -71,7 +71,7 @@ const Index = () => {
             <h1 className="text-mobile-5xl sm:text-7xl md:text-8xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
               xplor
             </h1>
-            <h2 className="text-mobile-lg sm:text-2xl md:text-3xl font-light mb-mobile-lg sm:mb-6 opacity-90">
+            <h2 className="text-mobile-lg sm:text-2xl md:text-3xl font-light mb-mobile-lg sm:mb-6 opacity-90 text-gray-700">
               The World's Map of Virtual Spaces
             </h2>
             <p className="text-mobile-sm sm:text-base md:text-lg mb-mobile-xl sm:mb-8 opacity-90 leading-relaxed">
