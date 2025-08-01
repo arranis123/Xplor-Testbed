@@ -28,7 +28,7 @@ const Pricing = () => {
       name: "Starter",
       price: "Free",
       storage: "1 GB",
-      maxTours: "10 tours",
+      maxTours: "1 tour",
       description: "Perfect for getting started with virtual tours",
       features: [
         "Upload 360 images or VR tours",
