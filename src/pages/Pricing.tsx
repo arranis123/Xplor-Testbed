@@ -35,7 +35,7 @@ const Pricing = () => {
         "Community support"
       ],
       buttonText: "Get Started Free",
-      buttonVariant: "outline" as const,
+      buttonVariant: "default" as const,
       popular: false,
       icon: Star
     },
@@ -98,7 +98,7 @@ const Pricing = () => {
         "Custom storage tiers"
       ],
       buttonText: "Contact Sales",
-      buttonVariant: "outline" as const,
+      buttonVariant: "default" as const,
       popular: false,
       icon: Building
     }
