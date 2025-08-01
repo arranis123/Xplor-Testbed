@@ -5,21 +5,50 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Compass, Users, Shield, Package, Truck, AlertTriangle } from "lucide-react";
 
 const languages = [
-  { id: "english", label: "English" },
-  { id: "spanish", label: "Spanish" },
-  { id: "french", label: "French" },
-  { id: "german", label: "German" },
-  { id: "italian", label: "Italian" },
-  { id: "portuguese", label: "Portuguese" },
-  { id: "mandarin", label: "Mandarin Chinese" },
-  { id: "japanese", label: "Japanese" },
-  { id: "korean", label: "Korean" },
-  { id: "arabic", label: "Arabic" },
-  { id: "russian", label: "Russian" },
-  { id: "dutch", label: "Dutch" },
-  { id: "swedish", label: "Swedish" },
-  { id: "norwegian", label: "Norwegian" },
-  { id: "danish", label: "Danish" },
+  { value: "english", label: "English" },
+  { value: "spanish", label: "Spanish" },
+  { value: "french", label: "French" },
+  { value: "german", label: "German" },
+  { value: "italian", label: "Italian" },
+  { value: "portuguese", label: "Portuguese" },
+  { value: "dutch", label: "Dutch" },
+  { value: "mandarin", label: "Mandarin Chinese" },
+  { value: "cantonese", label: "Cantonese" },
+  { value: "japanese", label: "Japanese" },
+  { value: "korean", label: "Korean" },
+  { value: "arabic", label: "Arabic" },
+  { value: "russian", label: "Russian" },
+  { value: "hindi", label: "Hindi" },
+  { value: "bengali", label: "Bengali" },
+  { value: "turkish", label: "Turkish" },
+  { value: "thai", label: "Thai" },
+  { value: "vietnamese", label: "Vietnamese" },
+  { value: "indonesian", label: "Indonesian" },
+  { value: "malay", label: "Malay" },
+  { value: "tagalog", label: "Tagalog" },
+  { value: "swedish", label: "Swedish" },
+  { value: "norwegian", label: "Norwegian" },
+  { value: "danish", label: "Danish" },
+  { value: "finnish", label: "Finnish" },
+  { value: "polish", label: "Polish" },
+  { value: "czech", label: "Czech" },
+  { value: "hungarian", label: "Hungarian" },
+  { value: "romanian", label: "Romanian" },
+  { value: "bulgarian", label: "Bulgarian" },
+  { value: "serbian", label: "Serbian" },
+  { value: "croatian", label: "Croatian" },
+  { value: "ukrainian", label: "Ukrainian" },
+  { value: "greek", label: "Greek" },
+  { value: "hebrew", label: "Hebrew" },
+  { value: "persian", label: "Persian (Farsi)" },
+  { value: "urdu", label: "Urdu" },
+  { value: "swahili", label: "Swahili" },
+  { value: "amharic", label: "Amharic" },
+  { value: "yoruba", label: "Yoruba" },
+  { value: "hausa", label: "Hausa" },
+  { value: "afrikaans", label: "Afrikaans" },
+  { value: "zulu", label: "Zulu" },
+  { value: "xhosa", label: "Xhosa" },
 ];
 
 const commonIncludes = [
@@ -111,31 +140,56 @@ export function ExperienceForm({ form }: ExperienceFormProps) {
         
         <FormField
           control={form.control}
-          name="languages"
+          name="primaryLanguage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Primary Language</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="bg-background">
+                    <SelectValue placeholder="Select primary language" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-background border shadow-lg z-50">
+                  {languages.map((language) => (
+                    <SelectItem key={language.value} value={language.value}>
+                      {language.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="additionalLanguages"
           render={() => (
             <FormItem>
-              <FormLabel>Languages Available</FormLabel>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              <FormLabel>Additional Languages (Optional)</FormLabel>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 max-h-48 overflow-y-auto">
                 {languages.map((language) => (
                   <FormField
-                    key={language.id}
+                    key={language.value}
                     control={form.control}
-                    name="languages"
+                    name="additionalLanguages"
                     render={({ field }) => {
                       return (
                         <FormItem
-                          key={language.id}
+                          key={language.value}
                           className="flex flex-row items-start space-x-3 space-y-0"
                         >
                           <FormControl>
                             <Checkbox
-                              checked={field.value?.includes(language.id)}
+                              checked={field.value?.includes(language.value)}
                               onCheckedChange={(checked) => {
                                 return checked
-                                  ? field.onChange([...field.value || [], language.id])
+                                  ? field.onChange([...field.value || [], language.value])
                                   : field.onChange(
                                       field.value?.filter(
-                                        (value: string) => value !== language.id
+                                        (value: string) => value !== language.value
                                       )
                                     )
                               }}
