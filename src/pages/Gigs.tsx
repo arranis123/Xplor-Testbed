@@ -376,106 +376,25 @@ const Gigs = () => {
         </div>
       </section>
 
-      {/* Application Form */}
+      {/* Call to Action */}
       <section className="py-20 bg-secondary/5">
-        <div className="max-w-2xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Ready to Start Capturing the World?
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Join our growing global network and turn your skills into revenue with Xplor.
-            </p>
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Application Form</CardTitle>
-              <CardDescription>Tell us about yourself and let's get started</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium">Full Name</label>
-                    <Input 
-                      placeholder="Enter your name"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange("name", e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Location</label>
-                    <Input 
-                      placeholder="City, Country"
-                      value={formData.location}
-                      onChange={(e) => handleInputChange("location", e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Email Address</label>
-                  <Input 
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Skill Level</label>
-                  <Select onValueChange={(value) => handleInputChange("skillLevel", value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select your experience level" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="beginner">Beginner - New to virtual tours</SelectItem>
-                      <SelectItem value="intermediate">Intermediate - Some experience</SelectItem>
-                      <SelectItem value="professional">Professional - Experienced photographer/operator</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Equipment Owned</label>
-                  <Textarea 
-                    placeholder="List any cameras, drones, or VR equipment you own"
-                    value={formData.equipment}
-                    onChange={(e) => handleInputChange("equipment", e.target.value)}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Portfolio Upload (Optional)</label>
-                  <Input 
-                    type="file"
-                    accept=".pdf,.zip,.jpg,.jpeg,.png"
-                    onChange={handleFileChange}
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Upload portfolio files (PDF, ZIP, or images)
-                  </p>
-                </div>
-
-                <div className="flex justify-center">
-                  <Button 
-                    type="button" 
-                    size="lg" 
-                    className="px-8 py-4"
-                    onClick={() => setShowVerificationForm(true)}
-                  >
-                    <CheckCircle className="mr-2 h-5 w-5" />
-                    Become a Verified Technician
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+            Ready to Start Capturing the World?
+          </h2>
+          <p className="text-xl text-muted-foreground mb-12">
+            Join our growing global network and turn your skills into revenue with Xplor.
+          </p>
+          
+          <Button 
+            type="button" 
+            size="lg" 
+            className="text-xl px-12 py-6 h-auto"
+            onClick={() => setShowVerificationForm(true)}
+          >
+            <CheckCircle className="mr-3 h-6 w-6" />
+            Become a Verified Technician
+          </Button>
         </div>
       </section>
 
