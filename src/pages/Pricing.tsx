@@ -38,6 +38,7 @@ const Pricing = () => {
         "Standard visibility",
         "Mobile-friendly playback",
         "Global map visibility",
+        "2 Team Members",
         "Community support"
       ],
       buttonText: "Get Started Free",
