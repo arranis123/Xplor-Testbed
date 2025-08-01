@@ -132,7 +132,17 @@ const Header = () => {
                     location.pathname === "/spaces" ? "bg-muted font-medium" : ""
                   }`}
                 >
-                  All Spaces
+                  My Spaces
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/recently-viewed" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/recently-viewed" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Recently Viewed
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -155,6 +165,66 @@ const Header = () => {
                   Users
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/capture-services" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/capture-services" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Capture Services
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/gigs" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/gigs" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Tour Pros
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/vr-cameras" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/vr-cameras" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Xplor Marketplace
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/cars-vehicles" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/cars-vehicles" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Cars & Vehicles
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/yacht-brokerage" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/yacht-brokerage" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Yacht Brokerage
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/settings" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/settings" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  Settings
+                </Link>
+              </DropdownMenuItem>
               {shouldShowAdmin && (
                 <DropdownMenuItem asChild>
                   <Link 
@@ -167,16 +237,6 @@ const Header = () => {
                   </Link>
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem asChild>
-                <Link 
-                  to="/settings" 
-                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
-                    location.pathname === "/settings" ? "bg-muted font-medium" : ""
-                  }`}
-                >
-                  Settings
-                </Link>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
