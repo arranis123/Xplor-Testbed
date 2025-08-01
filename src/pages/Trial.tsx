@@ -13,7 +13,8 @@ import {
   Clock,
   CreditCard,
   ArrowLeft,
-  Zap
+  Zap,
+  Phone
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -37,10 +38,15 @@ const Trial = () => {
       originalPrice: "$19",
       savings: "",
       features: [
-        "Unlimited uploads",
-        "Analytics dashboard", 
-        "Embed support",
+        "Tour analytics",
+        "Priority listing",
         "Custom branding",
+        "Embed on websites",
+        "Analytics dashboard",
+        "Mobile-friendly playback",
+        "Global map visibility",
+        "Public user profile",
+        "5 team Members",
         "Priority email support"
       ]
     },
@@ -52,11 +58,27 @@ const Trial = () => {
       savings: "",
       features: [
         "Everything in Pro",
-        "5 team members",
-        "White-label tours", 
+        "Bulk uploads",
+        "10 team members",
         "Lead tracking",
-        "Geo heatmaps",
+        "Advanced analytics",
+        "Team collaboration tools",
         "Phone & email support"
+      ]
+    },
+    enterprise: {
+      name: "Enterprise",
+      price: "Custom Pricing",
+      period: "",
+      originalPrice: "",
+      savings: "",
+      features: [
+        "Everything in Business",
+        "API access",
+        "SLA",
+        "Unlimited tours",
+        "CRM integration",
+        "Custom storage tiers"
       ]
     }
   };
@@ -70,9 +92,15 @@ const Trial = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement trial signup logic when Supabase is connected
-    console.log("Trial signup:", { selectedPlan, formData });
-    alert("Trial signup functionality will be implemented when backend is connected!");
+    if (selectedPlan === "enterprise") {
+      // TODO: Implement contact us logic
+      console.log("Contact request:", { selectedPlan, formData });
+      alert("Thank you for your interest! Our sales team will contact you shortly.");
+    } else {
+      // TODO: Implement trial signup logic when Supabase is connected
+      console.log("Trial signup:", { selectedPlan, formData });
+      alert("Trial signup functionality will be implemented when backend is connected!");
+    }
   };
 
   const isFormValid = formData.firstName && formData.lastName && formData.email && formData.agreeToTerms;
@@ -168,40 +196,47 @@ const Trial = () => {
               ))}
             </div>
 
-            {/* Trial Benefits */}
-            <Card className="border-green-200 bg-green-50/50">
-              <CardHeader>
-                <CardTitle className="text-lg text-green-800 flex items-center gap-2">
-                  <Shield className="h-5 w-5" />
-                  30-Day Trial Includes
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {[
-                    "Full access to all features",
-                    "No credit card required to start",
-                    "Cancel anytime during trial",
-                    "24/7 customer support",
-                    "Free onboarding session"
-                  ].map((benefit) => (
-                    <div key={benefit} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-                      <span className="text-sm text-green-800">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Trial Benefits - Only show for non-Enterprise plans */}
+            {selectedPlan !== "enterprise" && (
+              <Card className="border-green-200 bg-green-50/50">
+                <CardHeader>
+                  <CardTitle className="text-lg text-green-800 flex items-center gap-2">
+                    <Shield className="h-5 w-5" />
+                    30-Day Trial Includes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {[
+                      "Full access to all features",
+                      "No credit card required to start",
+                      "Cancel anytime during trial",
+                      "24/7 customer support",
+                      "Free onboarding session"
+                    ].map((benefit) => (
+                      <div key={benefit} className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
+                        <span className="text-sm text-green-800">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Signup Form */}
           <div>
             <Card className="border-border">
               <CardHeader>
-                <CardTitle className="text-xl text-foreground">Create Your Account</CardTitle>
+                <CardTitle className="text-xl text-foreground">
+                  {selectedPlan === "enterprise" ? "Request Enterprise Quote" : "Create Your Account"}
+                </CardTitle>
                 <CardDescription>
-                  Fill in your details to start your free trial
+                  {selectedPlan === "enterprise" 
+                    ? "Fill in your details and our sales team will contact you with a custom quote" 
+                    : "Fill in your details to start your free trial"
+                  }
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -291,15 +326,34 @@ const Trial = () => {
                     className="w-full bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black font-medium"
                     size="lg"
                   >
-                    <Zap className="h-4 w-4 mr-2" />
-                    Start My Free Trial
+                    {selectedPlan === "enterprise" ? (
+                      <>
+                        <Phone className="h-4 w-4 mr-2" />
+                        Contact Sales Team
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="h-4 w-4 mr-2" />
+                        Start My Free Trial
+                      </>
+                    )}
                   </Button>
 
                   <div className="text-center pt-4">
                     <p className="text-xs text-muted-foreground">
-                      Your trial starts immediately. No credit card required.
-                      <br />
-                      You can add billing details anytime during your trial.
+                      {selectedPlan === "enterprise" ? (
+                        <>
+                          Our sales team will contact you within 24 hours.
+                          <br />
+                          We'll prepare a custom quote based on your requirements.
+                        </>
+                      ) : (
+                        <>
+                          Your trial starts immediately. No credit card required.
+                          <br />
+                          You can add billing details anytime during your trial.
+                        </>
+                      )}
                     </p>
                   </div>
                 </form>
