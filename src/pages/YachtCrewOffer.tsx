@@ -263,15 +263,15 @@ const YachtCrewOffer = () => {
               <p className="text-lg mb-8 text-slate-600">Thousands of crew worldwide are stepping into a new charter economy — one that recognizes the team that delivers.</p>
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-slate-600" />
+                  <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
                   <span className="text-slate-600">Talk to your Captain or Manager</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-slate-600" />
+                  <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
                   <span className="text-slate-600">Ask to appoint Xplor as the Central Charter Broker</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-slate-600" />
+                  <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
                   <span className="text-slate-600">Let us handle the rest</span>
                 </div>
               </div>
