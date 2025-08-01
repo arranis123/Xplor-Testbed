@@ -16,36 +16,23 @@ import luxuryProperty1 from "@/assets/luxury-property-1.jpg";
 import luxuryInterior from "@/assets/luxury-interior.jpg";
 import modernHouse from "@/assets/modern-house.jpg";
 import yachtDetail from "@/assets/yacht-detail.jpg";
-
 const Index = () => {
   const [showFinderForm, setShowFinderForm] = useState(false);
-  
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <Header />
       
       <main>
         {/* Hero Section */}
         <section className="relative h-[60vh] sm:h-[70vh] flex items-start pt-8 sm:pt-12 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img 
-              src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" 
-              alt="Luxury Properties Worldwide Map"
-              className="w-full h-full object-cover"
-            />
+            <img src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" alt="Luxury Properties Worldwide Map" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/10"></div>
           </div>
           
           {/* Crew Member Button - Top Right */}
           <div className="fixed top-1/2 right-4 transform -translate-y-1/2 z-20">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-xplor-grey px-6 py-4 font-medium w-64 h-16 rounded-lg"
-              asChild
-            >
-              <Link to="/yacht-crew-offer" className="flex items-center justify-center text-center leading-tight">
-                ARE YOU A CREW MEMBER IN THE YACHTING INDUSTRY? WE HAVE A PLAN, CLICK HERE TO FIND OUT MORE
-              </Link>
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-xplor-grey px-6 py-4 font-medium w-64 h-16 rounded-lg" asChild>
+              
             </Button>
           </div>
           
@@ -160,11 +147,7 @@ const Index = () => {
                 </div>
               </div>
               <div className="relative">
-                <img 
-                  src={luxuryProperty1} 
-                  alt="Luxury Property Architecture"
-                  className="rounded-lg shadow-medium w-full"
-                />
+                <img src={luxuryProperty1} alt="Luxury Property Architecture" className="rounded-lg shadow-medium w-full" />
               </div>
             </div>
           </div>
@@ -175,11 +158,7 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="relative">
-                <img 
-                  src={modernHouse} 
-                  alt="Luxury Glass Architecture"
-                  className="rounded-lg shadow-medium w-full"
-                />
+                <img src={modernHouse} alt="Luxury Glass Architecture" className="rounded-lg shadow-medium w-full" />
               </div>
               <div>
                 <h2 className="text-4xl font-bold text-foreground mb-6">
@@ -270,11 +249,7 @@ const Index = () => {
                 </Button>
               </div>
               <div className="relative">
-                <img 
-                  src={luxuryYacht1} 
-                  alt="Luxury yacht on ocean waves"
-                  className="rounded-lg shadow-medium w-full object-cover h-[400px]"
-                />
+                <img src={luxuryYacht1} alt="Luxury yacht on ocean waves" className="rounded-lg shadow-medium w-full object-cover h-[400px]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
               </div>
             </div>
@@ -296,11 +271,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <Card className="overflow-hidden hover:shadow-medium transition-all duration-300 group">
                 <div className="relative">
-                  <img 
-                    src={luxuryInterior} 
-                    alt="Modern architectural property"
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <img src={luxuryInterior} alt="Modern architectural property" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4">
                     <span className="bg-xplor-yellow text-xplor-black px-3 py-1 rounded-full text-sm font-medium">
                       Modern
@@ -321,11 +292,7 @@ const Index = () => {
 
               <Card className="overflow-hidden hover:shadow-medium transition-all duration-300 group">
                 <div className="relative">
-                  <img 
-                    src={yachtDetail} 
-                    alt="Glass tower luxury property"
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <img src={yachtDetail} alt="Glass tower luxury property" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4">
                     <span className="bg-xplor-yellow text-xplor-black px-3 py-1 rounded-full text-sm font-medium">
                       Urban
@@ -346,11 +313,7 @@ const Index = () => {
 
               <Card className="overflow-hidden hover:shadow-medium transition-all duration-300 group">
                 <div className="relative">
-                  <img 
-                    src={luxuryYacht2} 
-                    alt="Unique wavy architecture property"
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <img src={luxuryYacht2} alt="Unique wavy architecture property" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4">
                     <span className="bg-xplor-yellow text-xplor-black px-3 py-1 rounded-full text-sm font-medium">
                       Iconic
@@ -428,8 +391,6 @@ const Index = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
