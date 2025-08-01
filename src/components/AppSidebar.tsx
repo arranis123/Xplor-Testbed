@@ -43,6 +43,7 @@ const baseItems = [
   { title: "Xplor Marketplace", url: "/vr-cameras", icon: ShoppingCart },
   { title: "Cars & Vehicles", url: "/cars-vehicles", icon: Car },
   { title: "Yacht Brokerage", url: "/yacht-brokerage", icon: Anchor },
+  { title: "Yacht Owners & Clients", url: "/yacht-owners-clients", icon: Anchor },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
