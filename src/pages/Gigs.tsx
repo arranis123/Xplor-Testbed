@@ -363,12 +363,6 @@ const Gigs = () => {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="training">
-              <AccordionTrigger className="text-left">Is training really free?</AccordionTrigger>
-              <AccordionContent>
-                Yes! Our comprehensive onboarding and training program is completely free. This includes access to our learning platform, technical guides, best practices, and ongoing support from our team.
-              </AccordionContent>
-            </AccordionItem>
 
             <AccordionItem value="support">
               <AccordionTrigger className="text-left">What support do I get from Xplor?</AccordionTrigger>
