@@ -57,9 +57,11 @@ const Index = () => {
                       Yacht Owners
                     </Button>
                   </Link>
-                  <Button size="sm" variant="outline" className="font-medium w-full">
-                    Charter Clients
-                  </Button>
+                  <Link to="/yacht-owners-clients">
+                    <Button size="sm" variant="outline" className="font-medium w-full">
+                      Charter Clients
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
