@@ -19,24 +19,43 @@ const YachtCrewOffer = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-5xl font-bold mb-4">Crew-First Chartering with Xplor</h1>
-          <p className="text-xl text-white/90">Earn More. Get Recognized. Be Part of a Better Model.</p>
+          <h1 className="text-5xl font-bold mb-4">⚓ FairShare by Xplor</h1>
+          <p className="text-xl text-white/90">Real Recognition. Real Reward.</p>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-16">
-        {/* What Is Xplor's Crew Commission Model */}
+        {/* What is FairShare */}
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">What Is Xplor's Crew Commission Model?</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4">💬 What is FairShare?</CardTitle>
             </CardHeader>
             <CardContent className="text-lg leading-relaxed">
               <p className="mb-6">
-                At Xplor, we believe you — the crew — are the heart of the charter experience. That's why we've built a model where you don't just work the charter — you share in its success.
+                FairShare by Xplor is a crew-focused commission-sharing program that ensures you don't just work the charter — you share in the success.
               </p>
+              <p className="mb-6">
+                Whether Xplor is appointed as the central charter broker or acts as a third-party introducing broker, we guarantee that <strong>50% of the net commission we receive goes directly to you and your crew</strong> — split evenly and transparently.
+              </p>
+              <div className="bg-muted/30 p-6 rounded-lg">
+                <p className="font-semibold mb-2">It's not a tip.</p>
+                <p className="font-semibold mb-2">It's not your salary.</p>
+                <p className="font-semibold">It's a real, contractual bonus for the real work you do.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* You Already Give 100% */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-4">💼 You Already Give 100%. FairShare Gives Back.</CardTitle>
+            </CardHeader>
+            <CardContent className="text-lg leading-relaxed text-center">
               <p>
-                Whenever a charter is booked through Xplor, we give <strong>50% of our commission directly back to the crew</strong>. That means more income, more recognition, and more motivation — without relying on tips alone.
+                As a professional yacht crew member, your time, talent, and service directly shape every guest's experience. While salary provides stability and gratuities reward generosity, <strong>FairShare provides fairness</strong>.
               </p>
             </CardContent>
           </Card>
@@ -46,7 +65,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">How It Works</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">🔎 How It Works</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -55,126 +74,39 @@ const YachtCrewOffer = () => {
                     <span className="text-2xl font-bold text-primary">1</span>
                   </div>
                   <h3 className="font-semibold mb-2">Charter Booked</h3>
-                  <p className="text-sm text-muted-foreground">Charter is booked through Xplor (either direct or through our central broker role)</p>
+                  <p className="text-sm text-muted-foreground">A charter is booked through Xplor — either as the central broker or as an introducing broker</p>
                 </div>
                 <div className="text-center">
                   <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">2</span>
                   </div>
                   <h3 className="font-semibold mb-2">Commission Earned</h3>
-                  <p className="text-sm text-muted-foreground">Xplor receives commission from the charter fee</p>
+                  <p className="text-sm text-muted-foreground">Xplor earns a commission on the charter (typically 10–20% of the charter fee)</p>
                 </div>
                 <div className="text-center">
                   <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">3</span>
                   </div>
                   <h3 className="font-semibold mb-2">50% Split</h3>
-                  <p className="text-sm text-muted-foreground">50% of that commission is split evenly among the active crew onboard</p>
+                  <p className="text-sm text-muted-foreground">50% of that net commission is split equally among the active crew onboard during the charter</p>
                 </div>
                 <div className="text-center">
                   <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">4</span>
                   </div>
                   <h3 className="font-semibold mb-2">You Get Paid</h3>
-                  <p className="text-sm text-muted-foreground">You get paid — fairly, transparently, and consistently</p>
+                  <p className="text-sm text-muted-foreground">You receive your share directly, with transparent reporting and zero guesswork</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         </section>
 
-        {/* What You Get */}
+        {/* FairShare vs Traditional */}
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">What You Get</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold mb-2">Guaranteed Bonus for Every Charter Booked Through Xplor</h3>
-                      <p className="text-muted-foreground">No more hoping for tips or depending on guest generosity.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold mb-2">Performance-Based Income</h3>
-                      <p className="text-muted-foreground">The better your charter, the more likely repeat clients book through Xplor — which means more commission back to you.</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold mb-2">Be Part of a Global Crew Network</h3>
-                      <p className="text-muted-foreground">Certified Xplor yachts and crew get prioritized visibility, direct bookings, and guest loyalty.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold mb-2">Transparent Payouts</h3>
-                      <p className="text-muted-foreground">You'll know exactly how much you're receiving and when — no guesswork.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Who Is Eligible */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">Who Is Eligible?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-6 text-center">
-                <div>
-                  <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">Active Crew Members</h3>
-                  <p className="text-muted-foreground">Any active, full-time crew member working onboard during a charter booked through Xplor</p>
-                </div>
-                <div>
-                  <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">All Charter Types</h3>
-                  <p className="text-muted-foreground">Applies to both Central Agent and Third-Party Broker charters</p>
-                </div>
-                <div>
-                  <Star className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">Equal Distribution</h3>
-                  <p className="text-muted-foreground">Payout is made evenly among the team, regardless of role</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* How You Can Help */}
-        <section className="mb-16">
-          <Card className="bg-muted/50">
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">How You Can Help</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-lg mb-6">Want to benefit from this model?</p>
-              <p className="mb-8">Encourage your captain or management team to appoint Xplor as the central broker.</p>
-              <p className="text-muted-foreground">We'll provide a ready-to-send message or help with the conversation — just ask.</p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Comparison Table */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">Why It Matters</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">💡 FairShare vs Traditional Chartering</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
@@ -182,25 +114,30 @@ const YachtCrewOffer = () => {
                   <thead>
                     <tr className="border-b">
                       <th className="text-left p-4 font-semibold">&nbsp;</th>
-                      <th className="text-left p-4 font-semibold">Traditional Charter Model</th>
-                      <th className="text-left p-4 font-semibold bg-primary/5">Xplor Crew-First Model</th>
+                      <th className="text-left p-4 font-semibold">Traditional Brokers</th>
+                      <th className="text-left p-4 font-semibold bg-primary/5">FairShare by Xplor</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b">
-                      <td className="p-4 font-medium">Commission Distribution</td>
-                      <td className="p-4 text-muted-foreground">Commission goes to brokers</td>
-                      <td className="p-4 bg-primary/5 font-semibold">Commission shared with you</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="p-4 font-medium">Crew Income</td>
-                      <td className="p-4 text-muted-foreground">Crew depends on tips only</td>
-                      <td className="p-4 bg-primary/5 font-semibold">You get guaranteed bonuses</td>
+                      <td className="p-4 font-medium">Commission Sharing</td>
+                      <td className="p-4 text-muted-foreground">None</td>
+                      <td className="p-4 bg-primary/5 font-semibold">50% of net commission to crew</td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-4 font-medium">Transparency</td>
-                      <td className="p-4 text-muted-foreground">No transparency</td>
-                      <td className="p-4 bg-primary/5 font-semibold">Clear payouts, per charter</td>
+                      <td className="p-4 text-muted-foreground">Low</td>
+                      <td className="p-4 bg-primary/5 font-semibold">Full visibility of payouts</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="p-4 font-medium">Income Sources</td>
+                      <td className="p-4 text-muted-foreground">Salary + Tips</td>
+                      <td className="p-4 bg-primary/5 font-semibold">Salary + Tips + Commission</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="p-4 font-medium">Recognition for Crew</td>
+                      <td className="p-4 text-muted-foreground">Indirect</td>
+                      <td className="p-4 bg-primary/5 font-semibold">Direct, structured, guaranteed</td>
                     </tr>
                   </tbody>
                 </table>
@@ -209,59 +146,141 @@ const YachtCrewOffer = () => {
           </Card>
         </section>
 
-        {/* Testimonials */}
+        {/* Why It Matters */}
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">Crew Testimonials</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">🛥️ Why It Matters</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-8">
-                <div className="bg-muted/30 p-6 rounded-lg">
-                  <p className="text-lg mb-4 italic">"We finally feel like part of the business, not just part of the boat."</p>
-                  <p className="text-sm text-muted-foreground">— Chief Stewardess, 55m Charter Yacht</p>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                      <span className="text-lg">🏆</span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">Motivated Crews Deliver Better Charters</h3>
+                      <p className="text-muted-foreground">When you know you're rewarded fairly, everyone wins — especially the guests.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                      <span className="text-lg">📈</span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">More Than Tips</h3>
+                      <p className="text-muted-foreground">Tipping is unpredictable. FairShare is not. It's a guaranteed reward from the charter itself.</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-muted/30 p-6 rounded-lg">
-                  <p className="text-lg mb-4 italic">"Xplor's model actually rewards us for doing great work. It makes a real difference."</p>
-                  <p className="text-sm text-muted-foreground">— Engineer, 45m Feadship</p>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                      <span className="text-lg">🔁</span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">Repeat Guests, Repeat Bonuses</h3>
+                      <p className="text-muted-foreground">Guests who book again through Xplor bring commission back to your team — without middlemen.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                      <span className="text-lg">🔐</span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">No Extra Cost to the Owner</h3>
+                      <p className="text-muted-foreground">FairShare comes from Xplor's commission, not the yacht's revenue. It's ethical, sustainable, and owner-approved.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
         </section>
 
-        {/* Call to Action */}
+        {/* Who Gets Paid */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">👨‍✈️ Who Gets Paid?</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-lg mb-4">
+                If you're part of the active crew on board during the charter — regardless of your rank or department — you're part of FairShare. The commission pool is split evenly, from captain to stew to deckhand.
+              </p>
+              <div className="bg-muted/30 p-6 rounded-lg">
+                <p className="font-semibold">No favoritism. No gatekeeping. Just fairness.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* What You Can Do */}
+        <section className="mb-16">
+          <Card className="bg-muted/50">
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-4">📢 What You Can Do</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-lg mb-6">Want to earn more for the work you already do?</p>
+              <p className="mb-8">Encourage your captain, yacht manager, or owner to appoint Xplor as the Central Charter Broker.</p>
+              <p className="text-muted-foreground">We'll handle everything — including contracts, marketing, and commission processing — while ensuring your crew gets rewarded.</p>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Need Help Starting the Conversation */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">✉️ Need Help Starting the Conversation?</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-lg mb-8">We've prepared a downloadable message you can send to your captain or management company to help them understand the benefits of working with Xplor and enrolling the yacht in the FairShare program.</p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button variant="default" size="lg">
+                  📥 Download Captain Letter Template
+                </Button>
+                <Button variant="outline" size="lg">
+                  📩 Contact Crew Support
+                </Button>
+                <Button variant="outline" size="lg">
+                  🧾 See Example Commission Payout Sheet
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Join the Movement */}
         <section>
           <Card className="bg-primary text-white">
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4 text-white">Join the Crew-First Movement</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4 text-white">🌍 Join the Movement</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
+              <p className="text-lg mb-8 text-white/90">Thousands of crew worldwide are stepping into a new charter economy — one that recognizes the team that delivers.</p>
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-white" />
-                  <span>Talk to your Captain or Manager</span>
+                  <span>✔ Talk to your Captain or Manager</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-white" />
-                  <span>Ask to appoint Xplor as the Central Charter Broker</span>
+                  <span>✔ Ask to appoint Xplor as the Central Charter Broker</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-white" />
-                  <span>Let us handle the rest</span>
+                  <span>✔ Let us handle the rest</span>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <Button variant="secondary" size="lg">
-                  Schedule a Crew Briefing
-                </Button>
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-                  Contact Xplor Crew Support
-                </Button>
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-                  Download Info Pack for Yacht Management
+                  📞 Talk to a FairShare Advisor
                 </Button>
               </div>
+              <p className="text-white/90 font-semibold">🔒 Fair. Transparent. Guaranteed. Only with Xplor.</p>
             </CardContent>
           </Card>
         </section>
