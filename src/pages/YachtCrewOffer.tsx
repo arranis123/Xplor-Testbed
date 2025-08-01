@@ -20,7 +20,7 @@ const YachtCrewOffer = () => {
             Back
           </Button>
           <h1 className="text-5xl font-bold mb-4">FairShare by Xplor</h1>
-          <p className="text-xl text-white/90">Real Recognition. Real Reward.</p>
+          <p className="text-xl text-slate-600">Real Recognition. Real Reward.</p>
         </div>
       </div>
 
