@@ -153,7 +153,7 @@ const Pricing = () => {
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
               Choose Your 
-              <span className="text-xplor-yellow font-typografix"> xplor </span>
+              <span className="text-xplor-grey font-typografix"> xplor </span>
               Plan
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
