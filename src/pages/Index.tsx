@@ -36,29 +36,29 @@ const Index = () => {
             </Button>
           </div>
 
-          {/* FairShare Program Box - Center Right */}
-          <div className="absolute top-1/2 right-8 lg:right-16 transform -translate-y-1/2 z-20 hidden md:block">
-            <Card className="bg-white/95 backdrop-blur-sm border-primary/20 max-w-sm">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-foreground mb-3">
+          {/* FairShare Program Box - Top Right */}
+          <div className="absolute top-4 right-4 z-20 hidden md:block">
+            <Card className="bg-white/95 backdrop-blur-sm border-primary/20 max-w-xs">
+              <CardContent className="p-4">
+                <h3 className="text-sm font-bold text-foreground mb-2">
                   <span className="text-primary">FairShare</span> Program
                 </h3>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-xs text-muted-foreground mb-3">
                   Crew get 50% of charter commissions
                 </p>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                   <Link to="/yacht-crew-offer">
-                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-full">
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-full text-xs py-1">
                       Yacht Crew
                     </Button>
                   </Link>
                   <Link to="/yacht-owners-clients">
-                    <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium w-full">
+                    <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium w-full text-xs py-1">
                       Yacht Owners
                     </Button>
                   </Link>
                   <Link to="/yacht-owners-clients">
-                    <Button size="sm" variant="outline" className="font-medium w-full">
+                    <Button size="sm" variant="outline" className="font-medium w-full text-xs py-1">
                       Charter Clients
                     </Button>
                   </Link>
