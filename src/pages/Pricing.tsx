@@ -62,7 +62,7 @@ const Pricing = () => {
         "Mobile-friendly playback",
         "Global map visibility",
         "Public user profile",
-        "5 team Members",
+        "10 team members",
         "Priority email support"
       ],
       buttonText: "Start Free Trial",
