@@ -137,7 +137,7 @@ const Gigs = () => {
           </div>
 
           <div className="text-center">
-            <Button size="lg" variant="outline" className="text-lg px-8 py-4 bg-yellow-400 hover:bg-yellow-500">
+            <Button size="lg" className="text-lg px-8 py-4">
               Become a Verified Tour Pro
             </Button>
           </div>
