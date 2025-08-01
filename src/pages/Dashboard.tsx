@@ -296,11 +296,18 @@ const Dashboard = () => {
       {/* Subscription Plan Overview */}
       <Card className="border-border">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Crown className="h-5 w-5 text-yellow-500" />
-            Subscription Plan - {subscriptionData.plan}
-          </CardTitle>
-          <CardDescription>Your current plan usage and limits</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Crown className="h-5 w-5 text-yellow-500" />
+                Subscription Plan - {subscriptionData.plan}
+              </CardTitle>
+              <CardDescription>Your current plan usage and limits</CardDescription>
+            </div>
+            <Button variant="outline" asChild>
+              <a href="/pricing">Upgrade My Plan</a>
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
