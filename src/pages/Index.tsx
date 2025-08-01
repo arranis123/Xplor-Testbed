@@ -52,10 +52,7 @@ const Index = () => {
               </Button>
               <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
                 <DialogTrigger asChild>
-                  <Button size="lg" variant="outline" className="text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium border-white/20 text-white hover:bg-white/10">
-                    <MapPin className="mr-2 h-4 w-4" />
-                    Find Tour Pro
-                  </Button>
+                  
                 </DialogTrigger>
                 <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
                   <TourProFinderForm onClose={() => setShowFinderForm(false)} />
