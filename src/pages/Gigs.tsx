@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import VerificationForm from "@/components/VerificationForm";
 import { 
   Camera, 
   Plane, 
@@ -27,6 +28,7 @@ import {
 
 const Gigs = () => {
   const { toast } = useToast();
+  const [showVerificationForm, setShowVerificationForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -461,7 +463,12 @@ const Gigs = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button type="submit" size="lg" className="flex-1">
+                  <Button 
+                    type="button" 
+                    size="lg" 
+                    className="flex-1"
+                    onClick={() => setShowVerificationForm(true)}
+                  >
                     <CheckCircle className="mr-2 h-5 w-5" />
                     Become a Verified Technician
                   </Button>
@@ -475,6 +482,11 @@ const Gigs = () => {
           </Card>
         </div>
       </section>
+
+      <VerificationForm 
+        open={showVerificationForm} 
+        onOpenChange={setShowVerificationForm}
+      />
     </div>
   );
 };
