@@ -32,7 +32,7 @@ const Trial = () => {
   const plans = {
     pro: {
       name: "Pro",
-      price: "$19",
+      price: "$29",
       period: "/month",
       originalPrice: "$19",
       savings: "",
