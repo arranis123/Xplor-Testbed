@@ -19,7 +19,7 @@ const YachtCrewOffer = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-5xl font-bold mb-4 text-slate-600">FairShare by Xplor</h1>
+          <h1 className="text-5xl font-bold mb-4 text-slate-600">FairShare by <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span></h1>
           <p className="text-xl text-slate-600">Real Recognition. Real Reward.</p>
         </div>
       </div>
@@ -33,10 +33,10 @@ const YachtCrewOffer = () => {
             </CardHeader>
             <CardContent className="text-lg leading-relaxed text-slate-600">
               <p className="mb-6">
-                FairShare by Xplor is a crew-focused commission-sharing program that ensures you don't just work the charter — you share in the success.
+                FairShare by <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> is a crew-focused commission-sharing program that ensures you don't just work the charter — you share in the success.
               </p>
               <p className="mb-6">
-                Whether Xplor is appointed as the central charter broker or acts as a third-party introducing broker, we guarantee that <strong>50% of the net commission we receive goes directly to you and your crew</strong> — split evenly and transparently.
+                Whether <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> is appointed as the central charter broker or acts as a third-party introducing broker, we guarantee that <strong>50% of the net commission we receive goes directly to you and your crew</strong> — split evenly and transparently.
               </p>
               <div className="bg-muted/30 p-6 rounded-lg">
                 <p className="font-semibold mb-2 text-slate-700">It's not a tip.</p>
@@ -74,14 +74,14 @@ const YachtCrewOffer = () => {
                     <span className="text-2xl font-bold text-primary">1</span>
                   </div>
                   <h3 className="font-semibold mb-2 text-slate-700">Charter Booked</h3>
-                  <p className="text-sm text-slate-600">A charter is booked through Xplor — either as the central broker or as an introducing broker</p>
+                  <p className="text-sm text-slate-600">A charter is booked through <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> — either as the central broker or as an introducing broker</p>
                 </div>
                 <div className="text-center">
                   <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">2</span>
                   </div>
                   <h3 className="font-semibold mb-2 text-slate-700">Commission Earned</h3>
-                  <p className="text-sm text-slate-600">Xplor earns a commission on the charter (typically 10–20% of the charter fee)</p>
+                  <p className="text-sm text-slate-600"><span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> earns a commission on the charter (typically 10–20% of the charter fee)</p>
                 </div>
                 <div className="text-center">
                   <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -115,7 +115,7 @@ const YachtCrewOffer = () => {
                     <tr className="border-b">
                       <th className="text-left p-4 font-semibold text-slate-700 bg-white">&nbsp;</th>
                       <th className="text-left p-4 font-semibold text-slate-700 bg-white">Traditional Brokers</th>
-                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">FairShare by Xplor</th>
+                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">FairShare by <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -181,7 +181,7 @@ const YachtCrewOffer = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2 text-slate-700">Repeat Guests, Repeat Bonuses</h3>
-                      <p className="text-slate-600">Guests who book again through Xplor bring commission back to your team — without middlemen.</p>
+                      <p className="text-slate-600">Guests who book again through <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> bring commission back to your team — without middlemen.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -190,7 +190,7 @@ const YachtCrewOffer = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2 text-slate-700">No Extra Cost to the Owner</h3>
-                      <p className="text-slate-600">FairShare comes from Xplor's commission, not the yacht's revenue. It's ethical, sustainable, and owner-approved.</p>
+                      <p className="text-slate-600">FairShare comes from <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>'s commission, not the yacht's revenue. It's ethical, sustainable, and owner-approved.</p>
                     </div>
                   </div>
                 </div>
@@ -224,7 +224,7 @@ const YachtCrewOffer = () => {
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg mb-6 text-slate-600">Want to earn more for the work you already do?</p>
-              <p className="mb-8 text-slate-600">Encourage your captain, yacht manager, or owner to appoint Xplor as the Central Charter Broker.</p>
+              <p className="mb-8 text-slate-600">Encourage your captain, yacht manager, or owner to appoint <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as the Central Charter Broker.</p>
               <p className="text-slate-600">We'll handle everything — including contracts, marketing, and commission processing — while ensuring your crew gets rewarded.</p>
             </CardContent>
           </Card>
@@ -237,7 +237,7 @@ const YachtCrewOffer = () => {
               <CardTitle className="text-3xl text-center mb-8">Need Help Starting the Conversation?</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-lg mb-8 text-slate-600">We've prepared a downloadable message you can send to your captain or management company to help them understand the benefits of working with Xplor and enrolling the yacht in the FairShare program.</p>
+              <p className="text-lg mb-8 text-slate-600">We've prepared a downloadable message you can send to your captain or management company to help them understand the benefits of working with <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> and enrolling the yacht in the FairShare program.</p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button variant="default" size="lg">
                   Download Captain Letter Template
@@ -268,7 +268,7 @@ const YachtCrewOffer = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
-                  <span className="text-slate-600">Ask to appoint Xplor as the Central Charter Broker</span>
+                  <span className="text-slate-600">Ask to appoint <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as the Central Charter Broker</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
@@ -280,7 +280,7 @@ const YachtCrewOffer = () => {
                   Talk to a FairShare Advisor
                 </Button>
               </div>
-              <p className="text-slate-600 font-semibold">Fair. Transparent. Guaranteed. Only with Xplor.</p>
+              <p className="text-slate-600 font-semibold">Fair. Transparent. Guaranteed. Only with <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>.</p>
             </CardContent>
           </Card>
         </section>
