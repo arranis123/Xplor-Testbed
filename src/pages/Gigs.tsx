@@ -9,25 +9,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import VerificationForm from "@/components/VerificationForm";
-import { 
-  Camera, 
-  Plane, 
-  MapPin, 
-  DollarSign, 
-  Globe, 
-  TrendingUp, 
-  GraduationCap,
-  CheckCircle,
-  Users,
-  Star,
-  Download,
-  Briefcase,
-  Clock,
-  Award
-} from "lucide-react";
-
+import { Camera, Plane, MapPin, DollarSign, Globe, TrendingUp, GraduationCap, CheckCircle, Users, Star, Download, Briefcase, Clock, Award } from "lucide-react";
 const Gigs = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [showVerificationForm, setShowVerificationForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -37,27 +23,28 @@ const Gigs = () => {
     equipment: "",
     portfolio: null as File | null
   });
-
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, portfolio: file }));
+    setFormData(prev => ({
+      ...prev,
+      portfolio: file
+    }));
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
       title: "Application Submitted!",
-      description: "We'll review your application and get back to you within 48 hours.",
+      description: "We'll review your application and get back to you within 48 hours."
     });
     console.log("Form submitted:", formData);
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         <div className="absolute inset-0 bg-[url('/lovable-uploads/yacht-hero-man-with-equipment.jpg')] bg-cover bg-center opacity-10" />
@@ -73,9 +60,7 @@ const Gigs = () => {
               <CheckCircle className="mr-2 h-5 w-5" />
               Become a Verified Tour Pro
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-              Start Your Verification
-            </Button>
+            
           </div>
         </div>
       </section>
@@ -230,21 +215,33 @@ const Gigs = () => {
           </div>
 
           <div className="grid md:grid-cols-5 gap-8">
-            {[
-              { step: "1", title: "Apply Online", description: "Complete our simple application form" },
-              { step: "2", title: "Complete Free Onboarding", description: "Access our training materials and resources" },
-              { step: "3", title: "Pass the Verification Test", description: "Demonstrate your skills and knowledge" },
-              { step: "4", title: "Get Matched to Projects", description: "Receive projects in your area" },
-              { step: "5", title: "Capture Tours, Get Paid", description: "Grow with us and build your reputation" }
-            ].map((item, index) => (
-              <div key={index} className="text-center">
+            {[{
+            step: "1",
+            title: "Apply Online",
+            description: "Complete our simple application form"
+          }, {
+            step: "2",
+            title: "Complete Free Onboarding",
+            description: "Access our training materials and resources"
+          }, {
+            step: "3",
+            title: "Pass the Verification Test",
+            description: "Demonstrate your skills and knowledge"
+          }, {
+            step: "4",
+            title: "Get Matched to Projects",
+            description: "Receive projects in your area"
+          }, {
+            step: "5",
+            title: "Capture Tours, Get Paid",
+            description: "Grow with us and build your reputation"
+          }].map((item, index) => <div key={index} className="text-center">
                 <div className="bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                   {item.step}
                 </div>
                 <h3 className="font-semibold mb-2">{item.title}</h3>
                 <p className="text-muted-foreground text-sm">{item.description}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
 
           <div className="text-center mt-12">
@@ -275,9 +272,7 @@ const Gigs = () => {
                     <h3 className="font-semibold">Maria Santos</h3>
                     <p className="text-muted-foreground text-sm">Lisbon-based Drone Pilot</p>
                     <div className="flex items-center gap-1 mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
+                      {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />)}
                     </div>
                   </div>
                 </div>
@@ -297,9 +292,7 @@ const Gigs = () => {
                     <h3 className="font-semibold">Ahmed Al-Rashid</h3>
                     <p className="text-muted-foreground text-sm">Dubai Yacht Photographer</p>
                     <div className="flex items-center gap-1 mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
+                      {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />)}
                     </div>
                   </div>
                 </div>
@@ -319,9 +312,7 @@ const Gigs = () => {
                     <h3 className="font-semibold">Jennifer Park</h3>
                     <p className="text-muted-foreground text-sm">Real Estate Specialist, NYC</p>
                     <div className="flex items-center gap-1 mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
+                      {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />)}
                     </div>
                   </div>
                 </div>
@@ -386,24 +377,14 @@ const Gigs = () => {
             Join our growing global network and turn your skills into revenue with Xplor.
           </p>
           
-          <Button 
-            type="button" 
-            size="lg" 
-            className="text-xl px-12 py-6 h-auto"
-            onClick={() => setShowVerificationForm(true)}
-          >
+          <Button type="button" size="lg" className="text-xl px-12 py-6 h-auto" onClick={() => setShowVerificationForm(true)}>
             <CheckCircle className="mr-3 h-6 w-6" />
             Become a Verified Technician
           </Button>
         </div>
       </section>
 
-      <VerificationForm 
-        open={showVerificationForm} 
-        onOpenChange={setShowVerificationForm}
-      />
-    </div>
-  );
+      <VerificationForm open={showVerificationForm} onOpenChange={setShowVerificationForm} />
+    </div>;
 };
-
 export default Gigs;
