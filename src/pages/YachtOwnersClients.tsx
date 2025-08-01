@@ -219,7 +219,7 @@ const YachtOwnersClients = () => {
                     <tr>
                       <td className="p-4 font-medium">Client Impact</td>
                       <td className="p-4 text-muted-foreground">Limited</td>
-                      <td className="p-4 bg-primary/5 font-semibold text-primary">Enhanced experience</td>
+                      <td className="p-4 bg-primary/5 font-semibold text-slate-600">Enhanced experience</td>
                     </tr>
                   </tbody>
                 </table>
