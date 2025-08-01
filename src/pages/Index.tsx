@@ -37,13 +37,13 @@ const Index = () => {
           </div>
           
           {/* Crew Member Button - Top Right */}
-          <div className="absolute top-4 right-4 z-20">
+          <div className="fixed top-1/2 right-4 transform -translate-y-1/2 z-20">
             <Button 
-              size="sm" 
-              className="bg-primary hover:bg-primary/90 text-xplor-grey text-xs sm:text-sm px-3 sm:px-4 py-2 font-medium whitespace-nowrap"
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-xplor-grey px-6 py-4 font-medium w-64 h-16 rounded-lg"
               asChild
             >
-              <Link to="/yacht-crew-offer">
+              <Link to="/yacht-crew-offer" className="flex items-center justify-center text-center leading-tight">
                 ARE YOU A CREW MEMBER IN THE YACHTING INDUSTRY? WE HAVE A PLAN, CLICK HERE TO FIND OUT MORE
               </Link>
             </Button>
