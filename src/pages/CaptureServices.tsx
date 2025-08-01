@@ -165,6 +165,21 @@ const CaptureServices = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Ad Banner */}
+      <div className="bg-xplor-yellow py-3 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-sm md:text-base text-xplor-black font-medium">
+            Are you a Photographer, Virtual Tour creator, Capture specialist, or perhaps someone who wants to get started in this field?{" "}
+            <button 
+              onClick={() => window.location.href = '/gigs'}
+              className="underline font-semibold hover:no-underline transition-all"
+            >
+              Click Here to find out more and join xplor
+            </button>
+          </p>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-6 py-16">
