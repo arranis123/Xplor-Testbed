@@ -6,13 +6,12 @@ import { Anchor, Users, Award, DollarSign, MessageCircle, Phone, FileText } from
 import ContactForm from "@/components/ContactForm";
 const YachtOwnersClients = () => {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-
   return <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 space-y-12">
         {/* Hero Section */}
         <section className="text-center space-y-6">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Anchor className="w-8 h-8 text-primary" />
+            
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
               Xplor Charters
             </h1>
@@ -284,10 +283,7 @@ const YachtOwnersClients = () => {
         </section>
       </main>
 
-      <ContactForm 
-        open={isContactFormOpen} 
-        onOpenChange={setIsContactFormOpen} 
-      />
+      <ContactForm open={isContactFormOpen} onOpenChange={setIsContactFormOpen} />
     </div>;
 };
 export default YachtOwnersClients;
