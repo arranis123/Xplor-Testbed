@@ -35,6 +35,35 @@ const Index = () => {
               
             </Button>
           </div>
+
+          {/* FairShare Program Box - Center Right */}
+          <div className="absolute top-1/2 right-8 lg:right-16 transform -translate-y-1/2 z-20 hidden md:block">
+            <Card className="bg-white/95 backdrop-blur-sm border-primary/20 max-w-sm">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-foreground mb-3">
+                  <span className="text-primary">FairShare</span> Program
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Crew get 50% of charter commissions
+                </p>
+                <div className="flex flex-col gap-2">
+                  <Link to="/yacht-crew-offer">
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-full">
+                      Yacht Crew
+                    </Button>
+                  </Link>
+                  <Link to="/yacht-owners-clients">
+                    <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium w-full">
+                      Yacht Owners
+                    </Button>
+                  </Link>
+                  <Button size="sm" variant="outline" className="font-medium w-full">
+                    Charter Clients
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           
           <div className="relative z-10 text-white w-full max-w-md lg:max-w-lg xl:max-w-xl px-mobile-md sm:px-8 lg:px-16">
             <h1 className="text-mobile-5xl sm:text-7xl md:text-8xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
@@ -119,38 +148,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* FairShare Program Section */}
-        <section className="py-20 bg-primary/5">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/20 max-w-4xl mx-auto">
-                <CardContent className="p-8">
-                  <h2 className="text-3xl font-bold text-foreground mb-6">
-                    Checkout our <span className="text-primary">FairShare</span> program for yachts
-                  </h2>
-                  <p className="text-xl text-muted-foreground mb-8">
-                    Where crew get 50% of charter commissions
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link to="/yacht-crew-offer">
-                      <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
-                        Yacht Crew
-                      </Button>
-                    </Link>
-                    <Link to="/yacht-owners-clients">
-                      <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium">
-                        Yacht Owners
-                      </Button>
-                    </Link>
-                    <Button size="lg" variant="outline" className="font-medium">
-                      Yacht Charter Clients
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
 
         {/* Gigs CTA Section */}
         <section className="py-20 bg-accent/30">
