@@ -119,6 +119,39 @@ const Index = () => {
           </div>
         </section>
 
+        {/* FairShare Program Section */}
+        <section className="py-20 bg-primary/5">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/20 max-w-4xl mx-auto">
+                <CardContent className="p-8">
+                  <h2 className="text-3xl font-bold text-foreground mb-6">
+                    Checkout our <span className="text-primary">FairShare</span> program for yachts
+                  </h2>
+                  <p className="text-xl text-muted-foreground mb-8">
+                    Where crew get 50% of charter commissions
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link to="/yacht-crew-offer">
+                      <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
+                        Yacht Crew
+                      </Button>
+                    </Link>
+                    <Link to="/yacht-owners-clients">
+                      <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium">
+                        Yacht Owners
+                      </Button>
+                    </Link>
+                    <Button size="lg" variant="outline" className="font-medium">
+                      Yacht Charter Clients
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Gigs CTA Section */}
         <section className="py-20 bg-accent/30">
           <div className="container mx-auto px-4">
