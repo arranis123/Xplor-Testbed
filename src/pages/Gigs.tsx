@@ -69,7 +69,7 @@ const Gigs = () => {
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">Become a Verified xplor Technician. Capture spaces. Earn income. Work anywhere.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 py-4">
+            <Button size="lg" className="text-lg px-8 py-4" onClick={() => setShowVerificationForm(true)}>
               <CheckCircle className="mr-2 h-5 w-5" />
               Become a Verified Tour Pro
             </Button>
