@@ -77,21 +77,21 @@ const YachtCrewOffer = () => {
                   <p className="text-sm text-muted-foreground">A charter is booked through Xplor — either as the central broker or as an introducing broker</p>
                 </div>
                 <div className="text-center">
-                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">2</span>
                   </div>
                   <h3 className="font-semibold mb-2">Commission Earned</h3>
                   <p className="text-sm text-muted-foreground">Xplor earns a commission on the charter (typically 10–20% of the charter fee)</p>
                 </div>
                 <div className="text-center">
-                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">3</span>
                   </div>
                   <h3 className="font-semibold mb-2">50% Split</h3>
                   <p className="text-sm text-muted-foreground">50% of that net commission is split equally among the active crew onboard during the charter</p>
                 </div>
                 <div className="text-center">
-                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold text-primary">4</span>
                   </div>
                   <h3 className="font-semibold mb-2">You Get Paid</h3>
@@ -156,7 +156,7 @@ const YachtCrewOffer = () => {
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
                       <span className="text-lg">🏆</span>
                     </div>
                     <div>
@@ -165,7 +165,7 @@ const YachtCrewOffer = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
                       <span className="text-lg">📈</span>
                     </div>
                     <div>
@@ -176,7 +176,7 @@ const YachtCrewOffer = () => {
                 </div>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
                       <span className="text-lg">🔁</span>
                     </div>
                     <div>
@@ -185,7 +185,7 @@ const YachtCrewOffer = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
                       <span className="text-lg">🔐</span>
                     </div>
                     <div>
