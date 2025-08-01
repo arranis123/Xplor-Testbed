@@ -80,7 +80,7 @@ const Pricing = () => {
       features: [
         "Everything in Pro",
         "Bulk uploads",
-        "5 team members",
+        "10 team members",
         "Lead tracking",
         "Advanced analytics",
         "Team collaboration tools",
