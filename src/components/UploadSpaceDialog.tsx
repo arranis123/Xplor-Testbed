@@ -5097,7 +5097,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                     
 
                      {/* Default property details for non-real-estate and non-car */}
-                     {category !== "real-estate" && category !== "car" && (
+                     {category !== "real-estate" && category !== "car" && category !== "experiences" && (
                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                          <FormField
                            control={form.control}
