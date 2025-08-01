@@ -204,7 +204,7 @@ const YachtOwnersClients = () => {
                     <tr className="border-b">
                       <td className="p-4 font-medium">Crew Commission</td>
                       <td className="p-4 text-muted-foreground">0%</td>
-                      <td className="p-4 bg-muted font-semibold text-muted-foreground">50% of Xplor's fee</td>
+                      <td className="p-4 bg-white font-semibold text-muted-foreground">50% of Xplor's fee</td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-4 font-medium">Owner Cost</td>
