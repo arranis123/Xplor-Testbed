@@ -2460,7 +2460,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                            name="title"
                            render={({ field }) => (
                              <FormItem>
-                               <FormLabel>{category === "yacht" ? "Yacht Name" : "Property Title"}</FormLabel>
+                               <FormLabel>{category === "yacht" ? "Yacht Name" : category === "experiences" ? "Experience Title" : "Property Title"}</FormLabel>
                                <FormControl>
                                  <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
                                </FormControl>
