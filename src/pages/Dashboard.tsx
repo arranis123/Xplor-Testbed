@@ -123,149 +123,15 @@ const Dashboard = () => {
                 Cars & Vehicles
               </DropdownMenuItem>
               
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <Compass className="h-4 w-4 mr-2" />
-                  Experiences
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="w-64">
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("outdoor-activities");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <MapPin className="h-4 w-4 mr-2" />
-                    Outdoor Activities
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("tours-sightseeing");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <Compass className="h-4 w-4 mr-2" />
-                    Tours & Sightseeing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("cultural-historical");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Cultural & Historical Experiences
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("food-drink");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Food & Drink Experiences
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("shopping-markets");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Shopping & Markets
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("nature-parks");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Nature & Parks
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("water-sports");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Water Sports & Activities
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("nightlife-entertainment");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Nightlife & Entertainment
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("spa-wellness");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Spa & Wellness
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("classes-workshops");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Classes & Workshops
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("events-festivals");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Events & Festivals
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("family-friendly");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Family-Friendly Activities
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("adventure-extreme");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Adventure & Extreme Sports
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("museums-galleries");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Museums & Galleries
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={() => {
-                      setSelectedCategory("wildlife-animals");
-                      setUploadDialogOpen(true);
-                    }}
-                  >
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    Wildlife & Animal Encounters
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("experiences");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Compass className="h-4 w-4 mr-2" />
+                Experiences
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -489,149 +355,15 @@ const Dashboard = () => {
                   Cars & Vehicles
                 </DropdownMenuItem>
                 
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Compass className="h-4 w-4 mr-2" />
-                    Experiences
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="w-64">
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("outdoor-activities");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <MapPin className="h-4 w-4 mr-2" />
-                      Outdoor Activities
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("tours-sightseeing");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <Compass className="h-4 w-4 mr-2" />
-                      Tours & Sightseeing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("cultural-historical");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Cultural & Historical Experiences
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("food-drink");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Food & Drink Experiences
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("shopping-markets");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Shopping & Markets
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("nature-parks");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Nature & Parks
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("water-sports");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Water Sports & Activities
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("nightlife-entertainment");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Nightlife & Entertainment
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("spa-wellness");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Spa & Wellness
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("classes-workshops");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Classes & Workshops
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("events-festivals");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Events & Festivals
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("family-friendly");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Family-Friendly Activities
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("adventure-extreme");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Adventure & Extreme Sports
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("museums-galleries");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Museums & Galleries
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        setSelectedCategory("wildlife-animals");
-                        setUploadDialogOpen(true);
-                      }}
-                    >
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      Wildlife & Animal Encounters
-                    </DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("experiences");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Compass className="h-4 w-4 mr-2" />
+                  Experiences
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button variant="outline" className="w-full justify-start">

@@ -455,6 +455,24 @@ const uploadFormSchema = z.object({
   vehicleCanBeDelivered: z.string().optional(),
   onSiteViewingLocationType: z.string().optional(),
   vehicleAccessNotes: z.string().optional(),
+  
+  // Experience-specific fields
+  experienceType: z.string().optional(),
+  duration: z.string().optional(),
+  difficulty: z.string().optional(),
+  groupSize: z.string().optional(),
+  ageRestriction: z.string().optional(),
+  season: z.string().optional(),
+  languages: z.array(z.string()).optional(),
+  includes: z.array(z.string()).optional(),
+  excludes: z.array(z.string()).optional(),
+  meetingPoint: z.string().optional(),
+  transportation: z.string().optional(),
+  cancellationPolicy: z.string().optional(),
+  weatherPolicy: z.string().optional(),
+  equipmentProvided: z.array(z.string()).optional(),
+  equipmentRequired: z.array(z.string()).optional(),
+  safetyRequirements: z.array(z.string()).optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -806,6 +824,24 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       technicalManualAvailability: false,
       pinCode: "",
       pinRequestEmail: "",
+      
+      // Experience-specific default values
+      experienceType: "",
+      duration: "",
+      difficulty: "",
+      groupSize: "",
+      ageRestriction: "",
+      season: "",
+      languages: [],
+      includes: [],
+      excludes: [],
+      meetingPoint: "",
+      transportation: "",
+      cancellationPolicy: "",
+      weatherPolicy: "",
+      equipmentProvided: [],
+      equipmentRequired: [],
+      safetyRequirements: [],
     },
   });
 
@@ -3291,8 +3327,217 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                              </FormItem>
                            )}
                          />
-                         )}
+                          )}
 
+                        {/* Experience-specific fields */}
+                        {category === "experiences" && (
+                          <div className="space-y-4 p-4 border rounded-lg bg-muted/10">
+                            <h3 className="text-lg font-medium flex items-center gap-2">
+                              <Compass className="h-5 w-5" />
+                              Experience Details
+                            </h3>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name="experienceType"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Experience Type</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select experience type" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="outdoor-activities">🥾 Outdoor Activities</SelectItem>
+                                        <SelectItem value="tours-sightseeing">🗺️ Tours & Sightseeing</SelectItem>
+                                        <SelectItem value="cultural-historical">🏛️ Cultural & Historical</SelectItem>
+                                        <SelectItem value="food-drink">🍷 Food & Drink</SelectItem>
+                                        <SelectItem value="shopping-markets">🛍️ Shopping & Markets</SelectItem>
+                                        <SelectItem value="nature-parks">🌲 Nature & Parks</SelectItem>
+                                        <SelectItem value="water-sports">🏄 Water Sports</SelectItem>
+                                        <SelectItem value="nightlife-entertainment">🎭 Nightlife & Entertainment</SelectItem>
+                                        <SelectItem value="spa-wellness">🧘 Spa & Wellness</SelectItem>
+                                        <SelectItem value="classes-workshops">📚 Classes & Workshops</SelectItem>
+                                        <SelectItem value="events-festivals">🎉 Events & Festivals</SelectItem>
+                                        <SelectItem value="family-friendly">👨‍👩‍👧‍👦 Family-Friendly</SelectItem>
+                                        <SelectItem value="adventure-extreme">⛰️ Adventure & Extreme Sports</SelectItem>
+                                        <SelectItem value="museums-galleries">🖼️ Museums & Galleries</SelectItem>
+                                        <SelectItem value="wildlife-animals">🦁 Wildlife & Animals</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              
+                              <FormField
+                                control={form.control}
+                                name="duration"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Duration</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select duration" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="1-hour">1 Hour</SelectItem>
+                                        <SelectItem value="2-hours">2 Hours</SelectItem>
+                                        <SelectItem value="half-day">Half Day (3-4 hours)</SelectItem>
+                                        <SelectItem value="full-day">Full Day (6-8 hours)</SelectItem>
+                                        <SelectItem value="2-days">2 Days</SelectItem>
+                                        <SelectItem value="3-days">3 Days</SelectItem>
+                                        <SelectItem value="week">1 Week</SelectItem>
+                                        <SelectItem value="custom">Custom Duration</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              
+                              <FormField
+                                control={form.control}
+                                name="difficulty"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Difficulty Level</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select difficulty" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="easy">Easy - Suitable for all ages</SelectItem>
+                                        <SelectItem value="moderate">Moderate - Some physical activity required</SelectItem>
+                                        <SelectItem value="challenging">Challenging - Good fitness level required</SelectItem>
+                                        <SelectItem value="expert">Expert - Advanced skills required</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              
+                              <FormField
+                                control={form.control}
+                                name="groupSize"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Maximum Group Size</FormLabel>
+                                    <FormControl>
+                                      <Input 
+                                        placeholder="e.g., 8 people" 
+                                        {...field} 
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              
+                              <FormField
+                                control={form.control}
+                                name="ageRestriction"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Age Restrictions</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select age restrictions" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="all-ages">All Ages Welcome</SelectItem>
+                                        <SelectItem value="family-friendly">Family Friendly (5+)</SelectItem>
+                                        <SelectItem value="teen-plus">Teen and Up (13+)</SelectItem>
+                                        <SelectItem value="adult-only">Adults Only (18+)</SelectItem>
+                                        <SelectItem value="senior-friendly">Senior Friendly</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              
+                              <FormField
+                                control={form.control}
+                                name="season"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Best Season</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select best season" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="year-round">Year Round</SelectItem>
+                                        <SelectItem value="spring">Spring</SelectItem>
+                                        <SelectItem value="summer">Summer</SelectItem>
+                                        <SelectItem value="autumn">Autumn</SelectItem>
+                                        <SelectItem value="winter">Winter</SelectItem>
+                                        <SelectItem value="spring-summer">Spring & Summer</SelectItem>
+                                        <SelectItem value="autumn-winter">Autumn & Winter</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            
+                            <FormField
+                              control={form.control}
+                              name="meetingPoint"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Meeting Point</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      placeholder="Describe where participants should meet (e.g., Hotel lobby, specific address, landmark)"
+                                      {...field} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            
+                            <FormField
+                              control={form.control}
+                              name="transportation"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Transportation</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Transportation details" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="included">Transportation Included</SelectItem>
+                                      <SelectItem value="not-included">Transportation Not Included</SelectItem>
+                                      <SelectItem value="pickup-available">Hotel Pickup Available</SelectItem>
+                                      <SelectItem value="meet-on-site">Meet at Experience Location</SelectItem>
+                                      <SelectItem value="public-transport">Accessible by Public Transport</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        )}
 
                     </div>
 
