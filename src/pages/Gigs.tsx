@@ -49,8 +49,8 @@ const Gigs = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         <div className="absolute inset-0 bg-[url('/lovable-uploads/yacht-hero-man-with-equipment.jpg')] bg-cover bg-center opacity-10" />
         <div className="relative max-w-7xl mx-auto px-6 py-24 text-center">
-          <Button size="lg" variant="outline" className="mb-8 text-lg px-8 py-4 bg-background/80 backdrop-blur-sm border-2">
-            <MapPin className="mr-2 h-5 w-5" />
+          <Button size="lg" variant="outline" className="mb-8 text-xl px-12 py-6 bg-background/80 backdrop-blur-sm border-2 h-auto">
+            <MapPin className="mr-3 h-6 w-6" />
             Find an xplor Tour Pro in your area
           </Button>
           
