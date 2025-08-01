@@ -50,7 +50,7 @@ const Gigs = () => {
         <div className="absolute inset-0 bg-[url('/lovable-uploads/yacht-hero-man-with-equipment.jpg')] bg-cover bg-center opacity-10" />
         <div className="relative max-w-7xl mx-auto px-6 py-24 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-            Become a Tour Pro for <span className="text-primary">xplor</span> and Join the Future of Virtual Exploration
+            Become a Tour Pro for <span className="text-xplor-grey font-typografix">xplor</span> and Join the Future of Virtual Exploration
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Become a Verified Xplor Technician. Capture spaces. Earn income. Work anywhere.
