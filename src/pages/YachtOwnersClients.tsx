@@ -275,9 +275,21 @@ const YachtOwnersClients = () => {
               Contact Us
             </Button>
             
-            <Button size="lg" variant="outline">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => {
+                // Create a simple PDF download
+                const link = document.createElement('a');
+                link.href = '/central-agency-agreement.pdf';
+                link.download = 'xplor-central-agency-agreement.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+            >
               <FileText className="w-5 h-5 mr-2" />
-              Request Central Agency Agreement
+              Download Central Agency Agreement
             </Button>
           </div>
         </section>
