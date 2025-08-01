@@ -446,6 +446,15 @@ const uploadFormSchema = z.object({
   carAnnualTax: z.string().optional(),
   
   carKeyFeatures: z.array(z.string()).optional(),
+  
+  // Car Rules & Access fields
+  testDrivesAllowed: z.string().optional(),
+  privateViewingsAllowed: z.string().optional(),
+  inPersonInspections: z.string().optional(),
+  vehicleIsOperational: z.string().optional(),
+  vehicleCanBeDelivered: z.string().optional(),
+  onSiteViewingLocationType: z.string().optional(),
+  vehicleAccessNotes: z.string().optional(),
 });
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
@@ -8876,9 +8885,177 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                             />
                           </div>
                         </div>
+                       )}
+
+                      {/* Car Rules & Access Section */}
+                      {category === "car" && (
+                        <div className="space-y-6">
+                          <div>
+                            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                              <Car className="h-5 w-5" />
+                              Vehicle Rules & Access
+                            </h3>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name="testDrivesAllowed"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Test Drives Allowed</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select option" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        <SelectItem value="yes">Yes</SelectItem>
+                                        <SelectItem value="no">No</SelectItem>
+                                        <SelectItem value="dealer-arranged-only">Dealer-arranged only</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="privateViewingsAllowed"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Private Viewings Allowed</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select option" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        <SelectItem value="yes">Yes</SelectItem>
+                                        <SelectItem value="no">No</SelectItem>
+                                        <SelectItem value="by-appointment-only">By appointment only</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="inPersonInspections"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>In-Person Inspections</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select option" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        <SelectItem value="allowed">Allowed</SelectItem>
+                                        <SelectItem value="not-allowed">Not allowed</SelectItem>
+                                        <SelectItem value="limited-availability">Limited availability</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="vehicleIsOperational"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Vehicle Is Operational</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select option" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        <SelectItem value="yes">Yes</SelectItem>
+                                        <SelectItem value="no">No</SelectItem>
+                                        <SelectItem value="not-applicable">Not applicable</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="vehicleCanBeDelivered"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Vehicle Can Be Delivered</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select option" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        <SelectItem value="yes">Yes</SelectItem>
+                                        <SelectItem value="no">No</SelectItem>
+                                        <SelectItem value="delivery-optional">Delivery optional (add notes)</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="onSiteViewingLocationType"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>On-site Viewing Location Type</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Select option" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="bg-popover text-popover-foreground border shadow-xl z-[9999]">
+                                        <SelectItem value="dealership">Dealership</SelectItem>
+                                        <SelectItem value="private-garage">Private Garage</SelectItem>
+                                        <SelectItem value="auction-house">Auction House</SelectItem>
+                                        <SelectItem value="showroom">Showroom</SelectItem>
+                                        <SelectItem value="mobile-by-appointment">Mobile (by appointment)</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+
+                            {/* Additional Notes Section */}
+                            <div className="mt-6">
+                              <FormField
+                                control={form.control}
+                                name="vehicleAccessNotes"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Additional Access Notes</FormLabel>
+                                    <FormControl>
+                                      <Textarea 
+                                        placeholder="Any additional information about vehicle access, viewing restrictions, or special requirements..."
+                                        className="min-h-[80px]"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       )}
-                    </div>
-                 </TabsContent>
+                     </div>
+                  </TabsContent>
 
                 <TabsContent value="media" className="space-y-4">
                   <div className="space-y-6">
