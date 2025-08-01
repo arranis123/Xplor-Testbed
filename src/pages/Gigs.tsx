@@ -379,7 +379,7 @@ const Gigs = () => {
           
           <Button type="button" size="lg" className="text-xl px-12 py-6 h-auto" onClick={() => setShowVerificationForm(true)}>
             <CheckCircle className="mr-3 h-6 w-6" />
-            Become a Verified Technician
+            Become a Verified Tour Pro
           </Button>
         </div>
       </section>
