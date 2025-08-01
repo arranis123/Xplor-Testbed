@@ -14,7 +14,8 @@ import {
   Anchor,
   Car,
   UserCheck,
-  ShoppingCart
+  ShoppingCart,
+  Building
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -42,6 +43,7 @@ const baseItems = [
   { title: "Tour Pros", url: "/gigs", icon: UserCheck },
   { title: "Xplor Marketplace", url: "/vr-cameras", icon: ShoppingCart },
   { title: "Cars & Vehicles", url: "/cars-vehicles", icon: Car },
+  { title: "Real Estate", url: "/real-estate", icon: Building },
   { title: "Yacht Brokerage", url: "/yacht-brokerage", icon: Anchor },
   { title: "Yacht Owners & Clients", url: "/yacht-owners-clients", icon: Anchor },
   { title: "Yacht Crew", url: "/yacht-crew-offer", icon: Anchor },
