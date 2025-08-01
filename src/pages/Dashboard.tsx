@@ -6,11 +6,21 @@ import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area, AreaChart } from 'recharts';
 import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const location = useLocation();
+
+  // Handle navigation state to auto-open upload dialog
+  useEffect(() => {
+    if (location.state?.openUpload && location.state?.category) {
+      setSelectedCategory(location.state.category);
+      setUploadDialogOpen(true);
+    }
+  }, [location.state]);
   
   const stats = [
     { title: "Total Spaces", value: "24", icon: FolderOpen, color: "text-blue-600", change: "+12%" },

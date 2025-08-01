@@ -4,8 +4,15 @@ import { Car, Truck, Bike, Shield, Upload, Play, Star, CheckCircle } from "lucid
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 const CarsVehicles = () => {
   const [activeDemo, setActiveDemo] = useState("sedan");
+  const navigate = useNavigate();
+
+  const handleAddVehicle = () => {
+    // Navigate to dashboard with cars category
+    navigate("/dashboard", { state: { openUpload: true, category: "car" } });
+  };
   const vehicleTypes = [{
     id: "sedan",
     name: "Sedans & Coupes",
@@ -94,7 +101,7 @@ const CarsVehicles = () => {
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" variant="secondary" className="text-lg px-8 py-4 text-black">
+                  <Button size="lg" variant="secondary" className="text-lg px-8 py-4 text-black" onClick={handleAddVehicle}>
                     Add a Vehicle
                   </Button>
                   
@@ -229,7 +236,7 @@ const CarsVehicles = () => {
                     <p className="text-primary-foreground/90">
                       Upload your first vehicle and create a stunning virtual tour in minutes. Our platform supports all major automotive content formats.
                     </p>
-                    <Button size="lg" variant="secondary" className="w-full text-black">
+                    <Button size="lg" variant="secondary" className="w-full text-black" onClick={handleAddVehicle}>
                       Upload Your First Vehicle
                     </Button>
                   </div>
