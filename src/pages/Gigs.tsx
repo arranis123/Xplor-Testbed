@@ -345,7 +345,7 @@ const Gigs = () => {
             <AccordionItem value="equipment">
               <AccordionTrigger className="text-left">What equipment do I need?</AccordionTrigger>
               <AccordionContent>
-                We support various equipment levels. Basic requirements include a smartphone or camera capable of 360° capture. We also work with Matterport cameras, Insta360 cameras, drones, and professional photography equipment. Don't have equipment? We can help you get started with rental programs.
+                We support various equipment levels. Basic requirements include a smartphone or camera capable of 360° capture. We also work with Matterport cameras, Insta360 cameras, drones, and professional photography equipment. Don't have equipment? Click here for our online market place with instructional videos, equipment reviews and top recommendations.
               </AccordionContent>
             </AccordionItem>
 
