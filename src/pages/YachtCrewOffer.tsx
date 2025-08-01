@@ -19,7 +19,7 @@ const YachtCrewOffer = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-5xl font-bold mb-4">⚓ FairShare by Xplor</h1>
+          <h1 className="text-5xl font-bold mb-4">FairShare by Xplor</h1>
           <p className="text-xl text-white/90">Real Recognition. Real Reward.</p>
         </div>
       </div>
@@ -29,7 +29,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">💬 What is FairShare?</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4">What is FairShare?</CardTitle>
             </CardHeader>
             <CardContent className="text-lg leading-relaxed">
               <p className="mb-6">
@@ -51,7 +51,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">💼 You Already Give 100%. FairShare Gives Back.</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4">You Already Give 100%. FairShare Gives Back.</CardTitle>
             </CardHeader>
             <CardContent className="text-lg leading-relaxed text-center">
               <p>
@@ -65,7 +65,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">🔎 How It Works</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">How It Works</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -106,7 +106,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">💡 FairShare vs Traditional Chartering</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">FairShare vs Traditional Chartering</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
@@ -150,14 +150,14 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">🛥️ Why It Matters</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">Why It Matters</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg">🏆</span>
+                      <span className="text-lg font-semibold text-white">★</span>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Motivated Crews Deliver Better Charters</h3>
@@ -166,7 +166,7 @@ const YachtCrewOffer = () => {
                   </div>
                   <div className="flex items-start gap-4">
                     <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg">📈</span>
+                      <span className="text-lg font-semibold text-white">↗</span>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">More Than Tips</h3>
@@ -177,7 +177,7 @@ const YachtCrewOffer = () => {
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg">🔁</span>
+                      <span className="text-lg font-semibold text-white">↻</span>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Repeat Guests, Repeat Bonuses</h3>
@@ -186,7 +186,7 @@ const YachtCrewOffer = () => {
                   </div>
                   <div className="flex items-start gap-4">
                     <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg">🔐</span>
+                      <span className="text-lg font-semibold text-white">■</span>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">No Extra Cost to the Owner</h3>
@@ -203,7 +203,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">👨‍✈️ Who Gets Paid?</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">Who Gets Paid?</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg mb-4">
@@ -220,7 +220,7 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card className="bg-muted/50">
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">📢 What You Can Do</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4">What You Can Do</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg mb-6">Want to earn more for the work you already do?</p>
@@ -234,19 +234,19 @@ const YachtCrewOffer = () => {
         <section className="mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">✉️ Need Help Starting the Conversation?</CardTitle>
+              <CardTitle className="text-3xl text-center mb-8">Need Help Starting the Conversation?</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg mb-8">We've prepared a downloadable message you can send to your captain or management company to help them understand the benefits of working with Xplor and enrolling the yacht in the FairShare program.</p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button variant="default" size="lg">
-                  📥 Download Captain Letter Template
+                  Download Captain Letter Template
                 </Button>
                 <Button variant="outline" size="lg">
-                  📩 Contact Crew Support
+                  Contact Crew Support
                 </Button>
                 <Button variant="outline" size="lg">
-                  🧾 See Example Commission Payout Sheet
+                  See Example Commission Payout Sheet
                 </Button>
               </div>
             </CardContent>
@@ -257,30 +257,30 @@ const YachtCrewOffer = () => {
         <section>
           <Card className="bg-primary text-white">
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4 text-white">🌍 Join the Movement</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4 text-white">Join the Movement</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg mb-8 text-white/90">Thousands of crew worldwide are stepping into a new charter economy — one that recognizes the team that delivers.</p>
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-white" />
-                  <span>✔ Talk to your Captain or Manager</span>
+                  <span>Talk to your Captain or Manager</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-white" />
-                  <span>✔ Ask to appoint Xplor as the Central Charter Broker</span>
+                  <span>Ask to appoint Xplor as the Central Charter Broker</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-6 w-6 text-white" />
-                  <span>✔ Let us handle the rest</span>
+                  <span>Let us handle the rest</span>
                 </div>
               </div>
               <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <Button variant="secondary" size="lg">
-                  📞 Talk to a FairShare Advisor
+                  Talk to a FairShare Advisor
                 </Button>
               </div>
-              <p className="text-white/90 font-semibold">🔒 Fair. Transparent. Guaranteed. Only with Xplor.</p>
+              <p className="text-white/90 font-semibold">Fair. Transparent. Guaranteed. Only with Xplor.</p>
             </CardContent>
           </Card>
         </section>
