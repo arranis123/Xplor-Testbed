@@ -1,198 +1,271 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, CheckCircle, Star, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
-import { useState } from "react";
 
 const YachtCrewOffer = () => {
   const navigate = useNavigate();
-  const [showUploadDialog, setShowUploadDialog] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-xplor-black text-white py-6">
-        <div className="max-w-4xl mx-auto px-6">
+      <div className="bg-primary text-white py-16">
+        <div className="max-w-6xl mx-auto px-6 text-center">
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="text-white hover:bg-xplor-grey mb-4"
+            className="text-white hover:bg-white/10 mb-8 absolute top-6 left-6"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-3xl font-bold">Yacht Crew Offer</h1>
+          <h1 className="text-5xl font-bold mb-4">Crew-First Chartering with Xplor</h1>
+          <p className="text-xl text-white/90">Earn More. Get Recognized. Be Part of a Better Model.</p>
         </div>
       </div>
 
-      {/* Add Your Yacht Button - Top */}
-      <div className="max-w-4xl mx-auto px-6 py-6">
-        <div className="flex justify-center">
-          <Button 
-            onClick={() => setShowUploadDialog(true)}
-            className="bg-muted hover:bg-muted/80 text-foreground px-8 py-3 text-lg"
-          >
-            Add Your Yacht
-          </Button>
-        </div>
-      </div>
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        {/* What Is Xplor's Crew Commission Model */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-4">What Is Xplor's Crew Commission Model?</CardTitle>
+            </CardHeader>
+            <CardContent className="text-lg leading-relaxed">
+              <p className="mb-6">
+                At Xplor, we believe you — the crew — are the heart of the charter experience. That's why we've built a model where you don't just work the charter — you share in its success.
+              </p>
+              <p>
+                Whenever a charter is booked through Xplor, we give <strong>50% of our commission directly back to the crew</strong>. That means more income, more recognition, and more motivation — without relying on tips alone.
+              </p>
+            </CardContent>
+          </Card>
+        </section>
 
-      {/* Content */}
-      <div className="max-w-4xl mx-auto px-6 pb-12">
-        <Card>
-          <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-700 font-satoshi">
-              xplor Brokerage Charter Commission Model
-            </h2>
-            
-            <p className="text-lg mb-8 leading-relaxed">
-              <span className="font-typografix">xplor</span> Brokerage is designed to reward the crew by distributing 50% of all charter commission fees evenly among them. When appointed as the central broker, we have the infrastructure to ensure direct and transparent payments to the crew—guaranteeing their share regardless of how or when the yacht is chartered.
-            </p>
+        {/* How It Works */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">How It Works</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold text-primary">1</span>
+                  </div>
+                  <h3 className="font-semibold mb-2">Charter Booked</h3>
+                  <p className="text-sm text-muted-foreground">Charter is booked through Xplor (either direct or through our central broker role)</p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold text-primary">2</span>
+                  </div>
+                  <h3 className="font-semibold mb-2">Commission Earned</h3>
+                  <p className="text-sm text-muted-foreground">Xplor receives commission from the charter fee</p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold text-primary">3</span>
+                  </div>
+                  <h3 className="font-semibold mb-2">50% Split</h3>
+                  <p className="text-sm text-muted-foreground">50% of that commission is split evenly among the active crew onboard</p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold text-primary">4</span>
+                  </div>
+                  <h3 className="font-semibold mb-2">You Get Paid</h3>
+                  <p className="text-sm text-muted-foreground">You get paid — fairly, transparently, and consistently</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
-            <p className="text-lg mb-12 leading-relaxed">
-              For charters booked directly through <span className="font-typografix">xplor</span>, with no third-party brokers involved, the full commission is shared exclusively between <span className="font-typografix">xplor</span> and the crew—maximizing the benefit for all onboard. This is ideal for repeat charter guests who prefer to book directly.
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Benefits to Crew */}
-              <div>
-                <h3 className="text-xl font-bold mb-6 text-muted-foreground flex items-center">
-                  🔹 Benefits to Crew
-                </h3>
-                
+        {/* What You Get */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">What You Get</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold mb-2">1. Guaranteed Income Boost</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Crew members receive a direct share (50%) of all charter commission fees, increasing their overall earnings beyond salary and gratuities.
-                    </p>
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-2">Guaranteed Bonus for Every Charter Booked Through Xplor</h3>
+                      <p className="text-muted-foreground">No more hoping for tips or depending on guest generosity.</p>
+                    </div>
                   </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">2. Consistent Compensation</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Payments are guaranteed regardless of the charter source (broker network or direct booking), offering financial stability.
-                    </p>
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-2">Performance-Based Income</h3>
+                      <p className="text-muted-foreground">The better your charter, the more likely repeat clients book through Xplor — which means more commission back to you.</p>
+                    </div>
                   </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">3. Direct Payouts</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Funds are distributed directly to crew by <span className="font-typografix">xplor</span>, ensuring transparency, fairness, and timely delivery.
-                    </p>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-2">Be Part of a Global Crew Network</h3>
+                      <p className="text-muted-foreground">Certified Xplor yachts and crew get prioritized visibility, direct bookings, and guest loyalty.</p>
+                    </div>
                   </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">4. Incentive for Exceptional Service</h4>
-                    <p className="text-sm text-muted-foreground">
-                      A tangible reward structure motivates crew to maintain high service levels, knowing repeat charters benefit them directly.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">5. Attracts Top Talent</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Yachts offering commission-sharing programs are more attractive to experienced crew looking for high-value roles.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">6. Improved Morale and Loyalty</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Sharing in the yacht's commercial success fosters a sense of ownership and teamwork among crew members.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">7. Repeat Guest Leverage</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Repeat guests booking directly through <span className="font-typografix">xplor</span> maximize the crew's commission share, giving crew a reason to nurture guest relationships.
-                    </p>
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-2">Transparent Payouts</h3>
+                      <p className="text-muted-foreground">You'll know exactly how much you're receiving and when — no guesswork.</p>
+                    </div>
                   </div>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </section>
 
-              {/* Benefits to Owners */}
-              <div>
-                <h3 className="text-xl font-bold mb-6 text-muted-foreground flex items-center">
-                  🔹 Benefits to Owners
-                </h3>
-                
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold mb-2">1. Enhanced Charter Performance</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Motivated, well-compensated crew lead to better guest experiences, increasing the likelihood of repeat bookings.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">2. Stronger Guest Retention</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Guests are more likely to return to a yacht with an enthusiastic, service-driven crew.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">3. Streamlined Broker-Crew Relationship</h4>
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-typografix">xplor</span>'s direct payout model minimizes administrative hassle and ensures clarity in commission handling.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">4. Transparent Commission Handling</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Eliminates ambiguity around who earns what—making financial reporting and charter accounting simpler.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">5. Market Differentiation</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Promotes the yacht as crew-focused and guest-centered, appealing to charter clients who value service continuity.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">6. Improved Crew Retention</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Financial incentives tied to charter performance reduce turnover and protect the investment in well-trained crew.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2">7. Direct Booking Incentives</h4>
-                    <p className="text-sm text-muted-foreground">
-                      When clients book directly through <span className="font-typografix">xplor</span>, owners reduce external broker fees, and more commission stays within the yacht's ecosystem.
-                    </p>
-                  </div>
+        {/* Who Is Eligible */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">Who Is Eligible?</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-6 text-center">
+                <div>
+                  <Users className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">Active Crew Members</h3>
+                  <p className="text-muted-foreground">Any active, full-time crew member working onboard during a charter booked through Xplor</p>
+                </div>
+                <div>
+                  <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">All Charter Types</h3>
+                  <p className="text-muted-foreground">Applies to both Central Agent and Third-Party Broker charters</p>
+                </div>
+                <div>
+                  <Star className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">Equal Distribution</h3>
+                  <p className="text-muted-foreground">Payout is made evenly among the team, regardless of role</p>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </section>
 
-      {/* Add Your Yacht Button - Bottom */}
-      <div className="max-w-4xl mx-auto px-6 pb-12">
-        <div className="flex justify-center">
-          <Button 
-            onClick={() => setShowUploadDialog(true)}
-            className="bg-muted hover:bg-muted/80 text-foreground px-8 py-3 text-lg"
-          >
-            Add Your Yacht
-          </Button>
-        </div>
-      </div>
+        {/* How You Can Help */}
+        <section className="mb-16">
+          <Card className="bg-muted/50">
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-4">How You Can Help</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-lg mb-6">Want to benefit from this model?</p>
+              <p className="mb-8">Encourage your captain or management team to appoint Xplor as the central broker.</p>
+              <p className="text-muted-foreground">We'll provide a ready-to-send message or help with the conversation — just ask.</p>
+            </CardContent>
+          </Card>
+        </section>
 
-      {/* Upload Dialog */}
-      <UploadSpaceDialog
-        open={showUploadDialog}
-        onOpenChange={setShowUploadDialog}
-        category="yacht"
-      />
+        {/* Comparison Table */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">Why It Matters</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-4 font-semibold">&nbsp;</th>
+                      <th className="text-left p-4 font-semibold">Traditional Charter Model</th>
+                      <th className="text-left p-4 font-semibold bg-primary/5">Xplor Crew-First Model</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b">
+                      <td className="p-4 font-medium">Commission Distribution</td>
+                      <td className="p-4 text-muted-foreground">Commission goes to brokers</td>
+                      <td className="p-4 bg-primary/5 font-semibold">Commission shared with you</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="p-4 font-medium">Crew Income</td>
+                      <td className="p-4 text-muted-foreground">Crew depends on tips only</td>
+                      <td className="p-4 bg-primary/5 font-semibold">You get guaranteed bonuses</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="p-4 font-medium">Transparency</td>
+                      <td className="p-4 text-muted-foreground">No transparency</td>
+                      <td className="p-4 bg-primary/5 font-semibold">Clear payouts, per charter</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Testimonials */}
+        <section className="mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-8">Crew Testimonials</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="bg-muted/30 p-6 rounded-lg">
+                  <p className="text-lg mb-4 italic">"We finally feel like part of the business, not just part of the boat."</p>
+                  <p className="text-sm text-muted-foreground">— Chief Stewardess, 55m Charter Yacht</p>
+                </div>
+                <div className="bg-muted/30 p-6 rounded-lg">
+                  <p className="text-lg mb-4 italic">"Xplor's model actually rewards us for doing great work. It makes a real difference."</p>
+                  <p className="text-sm text-muted-foreground">— Engineer, 45m Feadship</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Call to Action */}
+        <section>
+          <Card className="bg-primary text-white">
+            <CardHeader>
+              <CardTitle className="text-3xl text-center mb-4 text-white">Join the Crew-First Movement</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-6 w-6 text-white" />
+                  <span>Talk to your Captain or Manager</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-6 w-6 text-white" />
+                  <span>Ask to appoint Xplor as the Central Charter Broker</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-6 w-6 text-white" />
+                  <span>Let us handle the rest</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button variant="secondary" size="lg">
+                  Schedule a Crew Briefing
+                </Button>
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+                  Contact Xplor Crew Support
+                </Button>
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+                  Download Info Pack for Yacht Management
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
     </div>
   );
 };
