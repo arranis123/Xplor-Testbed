@@ -141,7 +141,7 @@ const Trial = () => {
                         <div>
                           <CardTitle className="text-lg">{plan.name}</CardTitle>
                           <div className="flex items-end gap-1">
-                            <span className="text-2xl font-bold text-foreground">$99</span>
+                            <span className="text-2xl font-bold text-foreground">{plan.price}</span>
                             <span className="text-muted-foreground">{plan.period}</span>
                           </div>
                         </div>
