@@ -41,7 +41,7 @@ const YachtOwnersClients = () => {
               <div className="text-center space-y-4">
                 <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
                   <span className="text-3xl font-bold text-green-800">50%</span>
-                  <span className="text-lg font-bold text-muted-foreground">Commission Share</span>
+                  <span className="text-3xl font-bold text-muted-foreground">Commission Share</span>
                 </div>
                 <p className="text-lg text-foreground max-w-3xl mx-auto">
                   When you appoint Xplor as your central charter broker, 50% of the brokerage commission we earn 
