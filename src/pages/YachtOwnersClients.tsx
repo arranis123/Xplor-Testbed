@@ -278,7 +278,7 @@ const YachtOwnersClients = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="bg-yellow-400 hover:bg-yellow-500 text-black border-yellow-400"
+              className="bg-green-300 hover:bg-green-400 text-black border-green-300"
               onClick={() => {
                 window.open('https://drive.google.com/file/d/1SjQO3ifeeB2JNgDFjRNadp-mfI0C970_/view?usp=sharing', '_blank');
               }}
