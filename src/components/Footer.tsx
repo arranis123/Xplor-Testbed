@@ -1,6 +1,13 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { MapPin } from "lucide-react";
+import TourProFinderForm from "@/components/TourProFinderForm";
 
 const Footer = () => {
+  const [showFinderForm, setShowFinderForm] = useState(false);
+  
   return (
     <footer className="w-full border-t border-border bg-background">
       <div className="container mx-auto px-4 py-12">
@@ -70,7 +77,25 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
+        {/* CTA Section */}
+        <div className="mt-12 py-8 border-t border-border text-center">
+          <h3 className="text-xl font-semibold text-foreground mb-4">
+            Need Professional Virtual Tour Services?
+          </h3>
+          <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
+            <DialogTrigger asChild>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                <MapPin className="mr-2 h-5 w-5" />
+                Find an Xplor Tour Pro
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <TourProFinderForm onClose={() => setShowFinderForm(false)} />
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
             <div className="w-6 h-6 bg-xplor-yellow rounded flex items-center justify-center">
               <span className="text-xplor-black font-bold text-xs">X</span>

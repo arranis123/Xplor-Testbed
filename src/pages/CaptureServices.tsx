@@ -1,8 +1,10 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { 
   Camera, 
   Clock, 
@@ -17,13 +19,14 @@ import {
   ArrowRight,
   ChevronDown
 } from "lucide-react";
+import TourProFinderForm from "@/components/TourProFinderForm";
 import captureHeroImage from "@/assets/capture-services-hero.jpg";
 import pro3CameraImage from "@/assets/pro3-camera.jpg";
 import VerificationForm from "@/components/VerificationForm";
-import { useState } from "react";
 
 const CaptureServices = () => {
   const [isVerificationFormOpen, setIsVerificationFormOpen] = useState(false);
+  const [showFinderForm, setShowFinderForm] = useState(false);
   
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
@@ -204,6 +207,17 @@ const CaptureServices = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" onClick={openCalendly}>
                 Book Now
               </Button>
+              <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
+                <DialogTrigger asChild>
+                  <Button size="lg" variant="outline">
+                    <MapPin className="mr-2 h-4 w-4" />
+                    Find Tour Pro
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                  <TourProFinderForm onClose={() => setShowFinderForm(false)} />
+                </DialogContent>
+              </Dialog>
               <Button size="lg" variant="outline" onClick={() => window.location.href = '/vr-cameras'}>
                 VR Cameras & Equipment
               </Button>

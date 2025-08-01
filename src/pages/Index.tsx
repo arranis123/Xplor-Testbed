@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Ship, Home, Bell } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Ship, Home, Bell, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import TourProFinderForm from "@/components/TourProFinderForm";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
 import scanningHeroImage from "@/assets/3d-scanning-hero.jpg";
 import vrTechImage from "@/assets/vr-tech.jpg";
@@ -15,6 +18,8 @@ import modernHouse from "@/assets/modern-house.jpg";
 import yachtDetail from "@/assets/yacht-detail.jpg";
 
 const Index = () => {
+  const [showFinderForm, setShowFinderForm] = useState(false);
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -45,6 +50,17 @@ const Index = () => {
               <Button size="lg" className="bg-primary hover:bg-primary/90 !text-xplor-grey text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium">
                 Map
               </Button>
+              <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
+                <DialogTrigger asChild>
+                  <Button size="lg" variant="outline" className="text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium border-white/20 text-white hover:bg-white/10">
+                    <MapPin className="mr-2 h-4 w-4" />
+                    Find Tour Pro
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                  <TourProFinderForm onClose={() => setShowFinderForm(false)} />
+                </DialogContent>
+              </Dialog>
               <Button size="lg" className="bg-primary hover:bg-primary/90 !text-xplor-grey text-mobile-base sm:text-lg px-mobile-xl sm:px-8 py-mobile-md sm:py-3 min-h-touch-comfortable font-medium" asChild>
                 <Link to="/auth">
                   Sign In

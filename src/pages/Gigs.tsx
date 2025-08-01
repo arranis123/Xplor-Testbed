@@ -7,10 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import VerificationForm from "@/components/VerificationForm";
+import TourProFinderForm from "@/components/TourProFinderForm";
 import { Camera, Plane, MapPin, DollarSign, Globe, TrendingUp, GraduationCap, CheckCircle, Users, Star, Download, Briefcase, Clock, Award } from "lucide-react";
 const Gigs = () => {
+  const [showFinderForm, setShowFinderForm] = useState(false);
   const {
     toast
   } = useToast();
@@ -49,10 +52,17 @@ const Gigs = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         <div className="absolute inset-0 bg-[url('/lovable-uploads/yacht-hero-man-with-equipment.jpg')] bg-cover bg-center opacity-10" />
         <div className="relative max-w-7xl mx-auto px-6 py-24 text-center">
-          <Button size="lg" variant="outline" className="mb-8 text-xl px-12 py-6 bg-background/80 backdrop-blur-sm border-2 h-auto">
-            <MapPin className="mr-3 h-6 w-6" />
-            Find an xplor Tour Pro in your area
-          </Button>
+          <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
+            <DialogTrigger asChild>
+              <Button size="lg" variant="outline" className="mb-8 text-xl px-12 py-6 bg-background/80 backdrop-blur-sm border-2 h-auto">
+                <MapPin className="mr-3 h-6 w-6" />
+                Find an xplor Tour Pro in your area
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <TourProFinderForm onClose={() => setShowFinderForm(false)} />
+            </DialogContent>
+          </Dialog>
           
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
             Become a Tour Pro for <span className="text-xplor-grey font-typografix">xplor</span> and Join the Future of Virtual Exploration

@@ -1,7 +1,9 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { 
@@ -14,8 +16,10 @@ import {
   Star,
   ArrowRight,
   Play,
-  Package
+  Package,
+  MapPin
 } from "lucide-react";
+import TourProFinderForm from "@/components/TourProFinderForm";
 import vrTechImage from "@/assets/vr-tech.jpg";
 import matterportPro3Image from "@/assets/matterport-pro3.jpg";
 import matterportPro2Image from "@/assets/matterport-pro2.jpg";
@@ -32,6 +36,7 @@ import vrHeadsetEnterpriseImage from "@/assets/vr-headset-enterprise.jpg";
 const VRCameras = () => {
   const { addItem, openCart } = useCart();
   const { toast } = useToast();
+  const [showFinderForm, setShowFinderForm] = useState(false);
   const cameraSpecs = [
     {
       name: "Matterport Pro3",
@@ -178,6 +183,17 @@ const VRCameras = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                 Shop Cameras
               </Button>
+              <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
+                <DialogTrigger asChild>
+                  <Button size="lg" variant="outline">
+                    <MapPin className="mr-2 h-4 w-4" />
+                    Find Tour Pro
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                  <TourProFinderForm onClose={() => setShowFinderForm(false)} />
+                </DialogContent>
+              </Dialog>
               <Button 
                 size="lg" 
                 variant="outline"

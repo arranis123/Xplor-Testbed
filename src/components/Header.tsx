@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartButton, CartSheet } from "@/components/Cart";
@@ -8,11 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Menu, MapPin } from "lucide-react";
+import TourProFinderForm from "@/components/TourProFinderForm";
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [showFinderForm, setShowFinderForm] = useState(false);
   
   const { user, signOut } = useAuth();
 
@@ -83,6 +87,15 @@ const Header = () => {
               </DropdownMenuItem>
               <DropdownMenuItem className="text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md">
                 Support
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <button 
+                  onClick={() => setShowFinderForm(true)}
+                  className="w-full text-left text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md flex items-center"
+                >
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Find Tour Pro
+                </button>
               </DropdownMenuItem>
               
               {/* Divider */}
@@ -171,6 +184,11 @@ const Header = () => {
         </div>
       </div>
       <CartSheet />
+      <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <TourProFinderForm onClose={() => setShowFinderForm(false)} />
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
