@@ -214,7 +214,7 @@ const YachtOwnersClients = () => {
                     <tr className="border-b">
                       <td className="p-4 font-medium">Crew Motivation</td>
                       <td className="p-4 text-muted-foreground">Variable</td>
-                      <td className="p-4 bg-primary/5 font-semibold text-primary">Strong, consistent</td>
+                      <td className="p-4 bg-primary/5 font-semibold text-slate-600">Strong, consistent</td>
                     </tr>
                     <tr>
                       <td className="p-4 font-medium">Client Impact</td>
