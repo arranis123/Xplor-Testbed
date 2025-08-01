@@ -113,31 +113,31 @@ const YachtCrewOffer = () => {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left p-4 font-semibold">&nbsp;</th>
-                      <th className="text-left p-4 font-semibold">Traditional Brokers</th>
-                      <th className="text-left p-4 font-semibold bg-primary/5">FairShare by Xplor</th>
+                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">&nbsp;</th>
+                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">Traditional Brokers</th>
+                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">FairShare by Xplor</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700">Commission Sharing</td>
-                      <td className="p-4 text-slate-600">None</td>
-                      <td className="p-4 bg-primary/5 font-semibold text-slate-700">50% of net commission to crew</td>
+                      <td className="p-4 font-medium text-slate-700 bg-white">Commission Sharing</td>
+                      <td className="p-4 text-slate-600 bg-white">None</td>
+                      <td className="p-4 bg-white font-semibold text-slate-700">50% of net commission to crew</td>
                     </tr>
                     <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700">Transparency</td>
-                      <td className="p-4 text-slate-600">Low</td>
-                      <td className="p-4 bg-primary/5 font-semibold text-slate-700">Full visibility of payouts</td>
+                      <td className="p-4 font-medium text-slate-700 bg-white">Transparency</td>
+                      <td className="p-4 text-slate-600 bg-white">Low</td>
+                      <td className="p-4 bg-white font-semibold text-slate-700">Full visibility of payouts</td>
                     </tr>
                     <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700">Income Sources</td>
-                      <td className="p-4 text-slate-600">Salary + Tips</td>
-                      <td className="p-4 bg-primary/5 font-semibold text-slate-700">Salary + Tips + Commission</td>
+                      <td className="p-4 font-medium text-slate-700 bg-white">Income Sources</td>
+                      <td className="p-4 text-slate-600 bg-white">Salary + Tips</td>
+                      <td className="p-4 bg-white font-semibold text-slate-700">Salary + Tips + Commission</td>
                     </tr>
                     <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700">Recognition for Crew</td>
-                      <td className="p-4 text-slate-600">Indirect</td>
-                      <td className="p-4 bg-primary/5 font-semibold text-slate-700">Direct, structured, guaranteed</td>
+                      <td className="p-4 font-medium text-slate-700 bg-white">Recognition for Crew</td>
+                      <td className="p-4 text-slate-600 bg-white">Indirect</td>
+                      <td className="p-4 bg-white font-semibold text-slate-700">Direct, structured, guaranteed</td>
                     </tr>
                   </tbody>
                 </table>
