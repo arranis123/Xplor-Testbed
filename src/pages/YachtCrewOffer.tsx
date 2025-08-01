@@ -255,32 +255,32 @@ const YachtCrewOffer = () => {
 
         {/* Join the Movement */}
         <section>
-          <Card className="bg-primary text-white">
+          <Card className="bg-primary text-slate-600">
             <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4 text-white">Join the Movement</CardTitle>
+              <CardTitle className="text-3xl text-center mb-4 text-slate-600">Join the Movement</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-lg mb-8 text-white/90">Thousands of crew worldwide are stepping into a new charter economy — one that recognizes the team that delivers.</p>
+              <p className="text-lg mb-8 text-slate-600">Thousands of crew worldwide are stepping into a new charter economy — one that recognizes the team that delivers.</p>
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-white" />
-                  <span>Talk to your Captain or Manager</span>
+                  <CheckCircle className="h-6 w-6 text-slate-600" />
+                  <span className="text-slate-600">Talk to your Captain or Manager</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-white" />
-                  <span>Ask to appoint Xplor as the Central Charter Broker</span>
+                  <CheckCircle className="h-6 w-6 text-slate-600" />
+                  <span className="text-slate-600">Ask to appoint Xplor as the Central Charter Broker</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-white" />
-                  <span>Let us handle the rest</span>
+                  <CheckCircle className="h-6 w-6 text-slate-600" />
+                  <span className="text-slate-600">Let us handle the rest</span>
                 </div>
               </div>
               <div className="flex flex-wrap justify-center gap-4 mb-8">
-                <Button variant="secondary" size="lg">
+                <Button variant="secondary" size="lg" className="text-slate-600">
                   Talk to a FairShare Advisor
                 </Button>
               </div>
-              <p className="text-white/90 font-semibold">Fair. Transparent. Guaranteed. Only with Xplor.</p>
+              <p className="text-slate-600 font-semibold">Fair. Transparent. Guaranteed. Only with Xplor.</p>
             </CardContent>
           </Card>
         </section>
