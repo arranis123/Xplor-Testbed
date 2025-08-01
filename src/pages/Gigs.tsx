@@ -336,7 +336,12 @@ const Gigs = () => {
             <AccordionItem value="equipment">
               <AccordionTrigger className="text-left">What equipment do I need?</AccordionTrigger>
               <AccordionContent>
-                We support various equipment levels. Basic requirements include a smartphone or camera capable of 360° capture. We also work with Matterport cameras, Insta360 cameras, drones, and professional photography equipment. Don't have equipment? Click here for our online market place with instructional videos, equipment reviews and top recommendations.
+                We support various equipment levels. Basic requirements include a smartphone or camera capable of 360° capture. We also work with Matterport cameras, Insta360 cameras, drones, and professional photography equipment. Don't have equipment? 
+                <div className="mt-4">
+                  <Button variant="outline" size="sm" onClick={() => window.location.href = '/vr-cameras'}>
+                    Visit Xplor Marketplace
+                  </Button>
+                </div>
               </AccordionContent>
             </AccordionItem>
 
