@@ -162,7 +162,7 @@ const Gigs = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Why Become a Certified Xplor Technician?
+              Why Become an xplor Tour Pro ?
             </h2>
           </div>
 
