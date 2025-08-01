@@ -106,7 +106,7 @@ const YachtBrokerage = () => {
             <p className="text-xl text-muted-foreground">Digital twin technology feels like it was specifically designed for the yachting industry. From helping buyers experience every detail of your yacht remotely, helping close deals faster, to making weekly progress scans of your new build yacht still in construction.....and then think of the implications of the unprecedented visual details (and accurate measurements) for planned maintenance & design changes. </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={openCalendly}>
+              <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard', { state: { openUpload: true, category: 'yacht' } })}>
                 <Anchor className="h-5 w-5 mr-2" />
                 Add Your Yacht
               </Button>
@@ -240,7 +240,7 @@ const YachtBrokerage = () => {
                   </Card>)}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard', { state: { openUpload: true, category: 'yacht' } })}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -280,7 +280,7 @@ const YachtBrokerage = () => {
                   </Card>)}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard', { state: { openUpload: true, category: 'yacht' } })}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -316,7 +316,7 @@ const YachtBrokerage = () => {
                   </Card>)}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard', { state: { openUpload: true, category: 'yacht' } })}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
@@ -349,7 +349,7 @@ const YachtBrokerage = () => {
                   </Card>)}
               </div>
               <div className="text-center mt-8">
-                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => setUploadDialogOpen(true)}>
+                <Button size="lg" className="bg-gray-700 hover:bg-gray-800 text-white" onClick={() => navigate('/dashboard', { state: { openUpload: true, category: 'yacht' } })}>
                   <Anchor className="h-5 w-5 mr-2" />
                   Add Your Yacht
                 </Button>
