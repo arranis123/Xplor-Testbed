@@ -111,17 +111,19 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-mobile-lg sm:gap-8">
-              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
-                <CardHeader className="p-mobile-lg sm:p-6">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                    <Ship className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" />
-                  </div>
-                  <CardTitle className="text-mobile-lg sm:text-xl">Yachts</CardTitle>
-                  <CardDescription className="text-mobile-sm sm:text-base">
-                    Charter world-class luxury yachts with professional crews and premium amenities
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+               <Link to="/yacht-brokerage">
+                 <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                   <CardHeader className="p-mobile-lg sm:p-6">
+                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                       <Ship className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" />
+                     </div>
+                     <CardTitle className="text-mobile-lg sm:text-xl">Yachts</CardTitle>
+                     <CardDescription className="text-mobile-sm sm:text-base">
+                       Charter world-class luxury yachts with professional crews and premium amenities
+                     </CardDescription>
+                   </CardHeader>
+                 </Card>
+               </Link>
 
               <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
                 <CardHeader className="p-mobile-lg sm:p-6">
