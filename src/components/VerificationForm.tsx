@@ -35,6 +35,7 @@ interface FormData {
   email: string;
   phone: string;
   country: string;
+  otherCountry?: string;
   city: string;
   timezone: string;
   
@@ -99,6 +100,7 @@ const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
   const [industriesServed, setIndustriesServed] = useState<string[]>([]);
   const [platformsUsed, setPlatformsUsed] = useState<string[]>([]);
   const [coverageAreas, setCoverageAreas] = useState<string[]>([]);
+  const [showOtherCountry, setShowOtherCountry] = useState(false);
 
   const ownsEquipment = watch("ownsEquipment");
 
@@ -221,7 +223,10 @@ const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="country">Country *</Label>
-                      <Select onValueChange={(value) => setValue("country", value)}>
+                      <Select onValueChange={(value) => {
+                        setValue("country", value);
+                        setShowOtherCountry(value === "other");
+                      }}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select your country" />
                         </SelectTrigger>
@@ -294,6 +299,19 @@ const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
+                      {showOtherCountry && (
+                        <div className="mt-2">
+                          <Label htmlFor="otherCountry">Please specify your country</Label>
+                          <Input 
+                            id="otherCountry"
+                            {...register("otherCountry", { 
+                              required: showOtherCountry ? "Please specify your country" : false 
+                            })}
+                            placeholder="Enter your country"
+                          />
+                          {errors.otherCountry && <p className="text-sm text-destructive">{errors.otherCountry.message}</p>}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="city">City/Town *</Label>
