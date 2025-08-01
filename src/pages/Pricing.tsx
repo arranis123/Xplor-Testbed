@@ -12,7 +12,13 @@ import {
   Headphones,
   ArrowRight,
   Crown,
-  Building
+  Building,
+  Home,
+  Hotel,
+  GraduationCap,
+  ShoppingBag,
+  Calendar,
+  Stethoscope
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -131,12 +137,12 @@ const Pricing = () => {
   ];
 
   const industries = [
-    { name: "Real Estate", icon: "🏠", description: "Showcase properties with immersive virtual tours" },
-    { name: "Hospitality", icon: "🏨", description: "Give guests a preview of their experience" },
-    { name: "Education", icon: "🎓", description: "Virtual campus tours and online learning" },
-    { name: "Retail", icon: "🛍️", description: "Create engaging shopping experiences" },
-    { name: "Events", icon: "🎪", description: "Virtual venue tours and event planning" },
-    { name: "Healthcare", icon: "🏥", description: "Facility tours for patients and staff" }
+    { name: "Real Estate", icon: Home, description: "Showcase properties with immersive virtual tours" },
+    { name: "Hospitality", icon: Hotel, description: "Give guests a preview of their experience" },
+    { name: "Education", icon: GraduationCap, description: "Virtual campus tours and online learning" },
+    { name: "Retail", icon: ShoppingBag, description: "Create engaging shopping experiences" },
+    { name: "Events", icon: Calendar, description: "Virtual venue tours and event planning" },
+    { name: "Healthcare", icon: Stethoscope, description: "Facility tours for patients and staff" }
   ];
 
   return (
@@ -290,7 +296,9 @@ const Pricing = () => {
               <Card key={industry.name} className="border-border hover:shadow-medium transition-shadow">
                 <CardHeader>
                   <div className="flex items-center gap-3">
-                    <div className="text-3xl">{industry.icon}</div>
+                    <div className="w-10 h-10 bg-xplor-yellow/10 rounded-full flex items-center justify-center">
+                      <industry.icon className="h-5 w-5 text-xplor-yellow" />
+                    </div>
                     <CardTitle className="text-lg text-foreground">{industry.name}</CardTitle>
                   </div>
                 </CardHeader>
