@@ -2456,21 +2456,44 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
 
                  <TabsContent value="basic" className="space-y-4">
                    <div className="grid grid-cols-2 gap-4">
-                       {category !== "car" && (
-                         <FormField
-                           control={form.control}
-                           name="title"
-                           render={({ field }) => (
-                             <FormItem>
-                               <FormLabel>{category === "yacht" ? "Yacht Name" : category === "experiences" ? "Experience Title" : "Property Title"}</FormLabel>
-                               <FormControl>
-                                 <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
-                               </FormControl>
-                               <FormMessage />
-                             </FormItem>
-                            )}
-                          />
-                       )}
+                        {category !== "car" && (
+                          <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>{category === "yacht" ? "Yacht Name" : category === "experiences" ? "Experience Title" : "Property Title"}</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., Modern Downtown Apartment" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                             )}
+                           />
+                        )}
+                        
+                        {/* Experience Description - only show for experiences */}
+                        {category === "experiences" && (
+                          <div className="col-span-2">
+                            <FormField
+                              control={form.control}
+                              name="description"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Experience Description</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      placeholder="Describe your experience in detail. What makes it special? What can guests expect?"
+                                      className="min-h-[100px]"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        )}
                        
                        {/* Real Estate Listing Type Field */}
                        {category === "real-estate" && (
