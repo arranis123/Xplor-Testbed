@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic, Package, Truck } from "lucide-react";
+import { Upload, X, ImageIcon, Video, MapPin, Home, DollarSign, Calendar as CalendarIcon, Ruler, Users, Car, Wifi, Shield, Bath, Bed, Coffee, Waves, Utensils, Tv, Wind, Heater, Gamepad2, TreePine, ParkingCircle, Dumbbell, Dog, Cigarette, PartyPopper, User, MessageCircle, Clock, Zap, Shirt, Laptop, Flame, HeartHandshake, AlertTriangle, Plus, FileText, ZoomIn, ZoomOut, Minus, Building, Cog, Ship, Phone, Plane, Camera, Music, Monitor, Anchor, Sailboat, Compass, Wrench, Settings, Eye, Globe, Sun, Star, Heart, Gift, Lock, Thermometer, Droplets, Wifi as WifiIcon, Radio, Headphones, Mic, Package, Truck, Play, ExternalLink } from "lucide-react";
 import MapboxLocationPicker from "./MapboxLocationPicker";
 import { MapboxService } from "@/services/mapboxService";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -501,6 +501,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     chefsMenu: File[];
     vrWalkthrough: (File & { roomId?: string })[];
     virtualTour: (File & { roomId?: string; url?: string })[];
+    carVirtualTours: (File & { url?: string })[];
+    carVideos: (File & { url?: string })[];
+    carDroneFootage: (File & { url?: string })[];
+    carDocuments: File[];
   }>({
     photos: [],
     videos: [],
@@ -513,6 +517,10 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     chefsMenu: [],
     vrWalkthrough: [],
     virtualTour: [],
+    carVirtualTours: [],
+    carVideos: [],
+    carDroneFootage: [],
+    carDocuments: [],
   });
 
   const form = useForm<UploadFormValues>({
@@ -2233,7 +2241,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
   ];
 
 
-  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'chefsMenu' | 'vrWalkthrough' | 'virtualTour', files: FileList | null | any[], roomId?: string) => {
+  const handleFileUpload = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'chefsMenu' | 'vrWalkthrough' | 'virtualTour' | 'carVirtualTours' | 'carVideos' | 'carDroneFootage' | 'carDocuments', files: FileList | null | any[], roomId?: string) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
@@ -2266,7 +2274,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
     });
   };
 
-  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'chefsMenu' | 'vrWalkthrough' | 'virtualTour', index: number) => {
+  const removeFile = (type: 'photos' | 'videos' | 'droneFootage' | 'documents' | 'floorPlans' | 'sampleItineraries' | 'crewProfile' | 'brochure' | 'chefsMenu' | 'vrWalkthrough' | 'virtualTour' | 'carVirtualTours' | 'carVideos' | 'carDroneFootage' | 'carDocuments', index: number) => {
     setUploadedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index),
@@ -2315,7 +2323,7 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
       
       // Reset form and close dialog
       form.reset();
-      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], chefsMenu: [], vrWalkthrough: [], virtualTour: [] });
+      setUploadedFiles({ photos: [], videos: [], droneFootage: [], documents: [], floorPlans: [], sampleItineraries: [], crewProfile: [], brochure: [], chefsMenu: [], vrWalkthrough: [], virtualTour: [], carVirtualTours: [], carVideos: [], carDroneFootage: [], carDocuments: [] });
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -9855,14 +9863,334 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                       </div>
                     )}
 
-                    <div>
-                      <Label className="text-lg font-medium mb-4 flex items-center gap-2">
-                        <FileText className="h-5 w-5" />
-                        Documents
-                      </Label>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Miscelaneous e.g, Sample Contracts, Awards, History, Build Specification etc
-                      </p>
+                    
+                    {/* Car Media Upload Sections */}
+                    {category === "car" && (
+                      <>
+                        {/* Virtual Tours Section */}
+                        <div>
+                          <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Monitor className="h-5 w-5" />
+                            Virtual Tours
+                          </Label>
+                          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Upload className="h-8 w-8" />
+                                <div className="text-center">
+                                  <p className="text-sm font-medium">Upload Virtual Tour Content</p>
+                                  <p className="text-xs">360° tours, VR content, or provide URLs to existing virtual tours</p>
+                                </div>
+                              </div>
+                              
+                              {/* URL Input Section */}
+                              <div className="w-full max-w-md space-y-2">
+                                <Label className="text-sm">Virtual Tour URLs</Label>
+                                <div className="flex gap-2">
+                                  <Input
+                                    id="car-virtual-tour-url-input"
+                                    placeholder="https://example.com/virtual-tour or embed link"
+                                    className="flex-1"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const input = document.getElementById('car-virtual-tour-url-input') as HTMLInputElement;
+                                      const url = input?.value?.trim();
+                                      if (url) {
+                                        handleFileUpload('carVirtualTours', [{
+                                          name: `Virtual Tour - ${url}`,
+                                          type: 'url',
+                                          url: url,
+                                          size: 0
+                                        } as any]);
+                                        input.value = '';
+                                      }
+                                    }}
+                                  >
+                                    Add URL
+                                  </Button>
+                                </div>
+                              </div>
+                              
+                              <div className="text-sm text-muted-foreground">OR</div>
+                              
+                              <Input
+                                id="car-virtual-upload"
+                                type="file"
+                                multiple
+                                accept="image/*,video/*,.mp4,.mov,.avi"
+                                className="max-w-xs"
+                                onChange={(e) => handleFileUpload('carVirtualTours', e.target.files)}
+                              />
+                            </div>
+                            {uploadedFiles.carVirtualTours && uploadedFiles.carVirtualTours.length > 0 && (
+                              <div className="mt-4 space-y-2">
+                                {uploadedFiles.carVirtualTours.map((file, index) => (
+                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                    <div className="flex items-center gap-2">
+                                      <Monitor className="h-4 w-4" />
+                                      <div className="flex flex-col">
+                                        <span className="text-sm truncate">{file.name}</span>
+                                        {(file as any).url && (
+                                          <span className="text-xs text-muted-foreground truncate">
+                                            URL: {(file as any).url}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => removeFile('carVirtualTours', index)}
+                                      className="text-destructive hover:text-destructive/80"
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Videos Section */}
+                        <div>
+                          <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Play className="h-5 w-5" />
+                            Videos
+                          </Label>
+                          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Upload className="h-8 w-8" />
+                                <div className="text-center">
+                                  <p className="text-sm font-medium">Upload Video Content</p>
+                                  <p className="text-xs">Car videos, walkarounds, test drives, or provide video URLs</p>
+                                </div>
+                              </div>
+                              
+                              {/* URL Input Section */}
+                              <div className="w-full max-w-md space-y-2">
+                                <Label className="text-sm">Video URLs</Label>
+                                <div className="flex gap-2">
+                                  <Input
+                                    id="car-video-url-input"
+                                    placeholder="https://youtube.com/watch?v=... or video link"
+                                    className="flex-1"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const input = document.getElementById('car-video-url-input') as HTMLInputElement;
+                                      const url = input?.value?.trim();
+                                      if (url) {
+                                        handleFileUpload('carVideos', [{
+                                          name: `Video - ${url}`,
+                                          type: 'url',
+                                          url: url,
+                                          size: 0
+                                        } as any]);
+                                        input.value = '';
+                                      }
+                                    }}
+                                  >
+                                    Add URL
+                                  </Button>
+                                </div>
+                              </div>
+                              
+                              <div className="text-sm text-muted-foreground">OR</div>
+                              
+                              <Input
+                                id="car-video-upload"
+                                type="file"
+                                multiple
+                                accept="video/*,.mp4,.mov,.avi,.mkv,.webm"
+                                className="max-w-xs"
+                                onChange={(e) => handleFileUpload('carVideos', e.target.files)}
+                              />
+                            </div>
+                            {uploadedFiles.carVideos && uploadedFiles.carVideos.length > 0 && (
+                              <div className="mt-4 space-y-2">
+                                {uploadedFiles.carVideos.map((file, index) => (
+                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                    <div className="flex items-center gap-2">
+                                      <Play className="h-4 w-4" />
+                                      <div className="flex flex-col">
+                                        <span className="text-sm truncate">{file.name}</span>
+                                        {(file as any).url && (
+                                          <span className="text-xs text-muted-foreground truncate">
+                                            URL: {(file as any).url}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => removeFile('carVideos', index)}
+                                      className="text-destructive hover:text-destructive/80"
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Drone Footage Section */}
+                        <div>
+                          <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <Plane className="h-5 w-5" />
+                            Drone Footage
+                          </Label>
+                          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Upload className="h-8 w-8" />
+                                <div className="text-center">
+                                  <p className="text-sm font-medium">Upload Drone Footage</p>
+                                  <p className="text-xs">Aerial views, overhead shots, or provide drone footage URLs</p>
+                                </div>
+                              </div>
+                              
+                              {/* URL Input Section */}
+                              <div className="w-full max-w-md space-y-2">
+                                <Label className="text-sm">Drone Footage URLs</Label>
+                                <div className="flex gap-2">
+                                  <Input
+                                    id="car-drone-url-input"
+                                    placeholder="https://example.com/drone-video or video link"
+                                    className="flex-1"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const input = document.getElementById('car-drone-url-input') as HTMLInputElement;
+                                      const url = input?.value?.trim();
+                                      if (url) {
+                                        handleFileUpload('carDroneFootage', [{
+                                          name: `Drone Footage - ${url}`,
+                                          type: 'url',
+                                          url: url,
+                                          size: 0
+                                        } as any]);
+                                        input.value = '';
+                                      }
+                                    }}
+                                  >
+                                    Add URL
+                                  </Button>
+                                </div>
+                              </div>
+                              
+                              <div className="text-sm text-muted-foreground">OR</div>
+                              
+                              <Input
+                                id="car-drone-upload"
+                                type="file"
+                                multiple
+                                accept="video/*,.mp4,.mov,.avi,.mkv,.webm"
+                                className="max-w-xs"
+                                onChange={(e) => handleFileUpload('carDroneFootage', e.target.files)}
+                              />
+                            </div>
+                            {uploadedFiles.carDroneFootage && uploadedFiles.carDroneFootage.length > 0 && (
+                              <div className="mt-4 space-y-2">
+                                {uploadedFiles.carDroneFootage.map((file, index) => (
+                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                    <div className="flex items-center gap-2">
+                                      <Plane className="h-4 w-4" />
+                                      <div className="flex flex-col">
+                                        <span className="text-sm truncate">{file.name}</span>
+                                        {(file as any).url && (
+                                          <span className="text-xs text-muted-foreground truncate">
+                                            URL: {(file as any).url}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => removeFile('carDroneFootage', index)}
+                                      className="text-destructive hover:text-destructive/80"
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Car Documents Section */}
+                        <div>
+                          <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                            <FileText className="h-5 w-5" />
+                            Vehicle Documents
+                          </Label>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Vehicle history, service records, certificates, insurance, etc.
+                          </p>
+                          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Upload className="h-8 w-8" />
+                                <div className="text-center">
+                                  <p className="text-sm font-medium">Upload Vehicle Documents</p>
+                                  <p className="text-xs">Drag and drop or click to browse</p>
+                                </div>
+                              </div>
+                              <Input
+                                type="file"
+                                multiple
+                                accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                                className="max-w-xs"
+                                onChange={(e) => handleFileUpload('carDocuments', e.target.files)}
+                              />
+                            </div>
+                            {uploadedFiles.carDocuments && uploadedFiles.carDocuments.length > 0 && (
+                              <div className="mt-4 space-y-2">
+                                {uploadedFiles.carDocuments.map((file, index) => (
+                                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
+                                    <div className="flex items-center gap-2">
+                                      <FileText className="h-4 w-4" />
+                                      <span className="text-sm truncate">{file.name}</span>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => removeFile('carDocuments', index)}
+                                      className="text-destructive hover:text-destructive/80"
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {/* General Documents Section */}
+                    {category !== "car" && (
+                      <div>
+                        <Label className="text-lg font-medium mb-4 flex items-center gap-2">
+                          <FileText className="h-5 w-5" />
+                          Documents
+                        </Label>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Miscelaneous e.g, Sample Contracts, Awards, History, Build Specification etc
+                        </p>
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                         <div className="flex flex-col items-center gap-4">
                           <div className="flex items-center gap-2 text-muted-foreground">
@@ -9900,7 +10228,8 @@ export function UploadSpaceDialog({ open, onOpenChange, category }: UploadSpaceD
                           </div>
                         )}
                       </div>
-                    </div>
+                      </div>
+                    )}
 
                     {totalFiles > 0 && (
                       <Card>
