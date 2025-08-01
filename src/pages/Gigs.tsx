@@ -462,19 +462,15 @@ const Gigs = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex justify-center">
                   <Button 
                     type="button" 
                     size="lg" 
-                    className="flex-1"
+                    className="px-8 py-4"
                     onClick={() => setShowVerificationForm(true)}
                   >
                     <CheckCircle className="mr-2 h-5 w-5" />
                     Become a Verified Technician
-                  </Button>
-                  <Button type="button" variant="outline" size="lg">
-                    <Download className="mr-2 h-5 w-5" />
-                    Download Info Pack
                   </Button>
                 </div>
               </form>
