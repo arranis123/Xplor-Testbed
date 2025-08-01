@@ -21,8 +21,10 @@ import {
   Stethoscope
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Pricing = () => {
+  const { user } = useAuth();
   const pricingTiers = [
     {
       name: "Starter",
@@ -246,7 +248,11 @@ const Pricing = () => {
                     asChild={tier.name !== 'Enterprise'}
                   >
                     {tier.name !== 'Enterprise' ? (
-                      <Link to="/trial">
+                      <Link to={
+                        tier.buttonText === 'Get Started Free' 
+                          ? (user ? "/dashboard" : "/auth") 
+                          : "/trial"
+                      }>
                         {tier.buttonText}
                         <ArrowRight className="h-4 w-4 ml-2" />
                       </Link>
@@ -431,7 +437,7 @@ const Pricing = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" asChild>
-              <Link to="/trial">Start Free Trial</Link>
+              <Link to={user ? "/dashboard" : "/trial"}>Start Free Trial</Link>
             </Button>
             <Button size="lg" variant="outline">
               Schedule Demo
