@@ -83,8 +83,8 @@ const CarsVehicles = () => {
 
       <div className="min-h-screen bg-background">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-primary-foreground overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/lovable-uploads/d7b16b5e-5336-435d-b326-38c27f982f57.png')] bg-cover bg-center opacity-20" />
+        <section className="relative bg-[url('/lovable-uploads/d7b16b5e-5336-435d-b326-38c27f982f57.png')] bg-cover bg-center text-white overflow-hidden">
+          <div className="absolute inset-0 bg-black/40" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
