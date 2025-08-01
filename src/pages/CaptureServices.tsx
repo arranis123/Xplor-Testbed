@@ -19,8 +19,12 @@ import {
 } from "lucide-react";
 import captureHeroImage from "@/assets/capture-services-hero.jpg";
 import pro3CameraImage from "@/assets/pro3-camera.jpg";
+import VerificationForm from "@/components/VerificationForm";
+import { useState } from "react";
 
 const CaptureServices = () => {
+  const [isVerificationFormOpen, setIsVerificationFormOpen] = useState(false);
+  
   const openCalendly = () => {
     window.open('https://calendly.com/xplor-info/30min', '_blank');
   };
@@ -171,7 +175,7 @@ const CaptureServices = () => {
           <p className="text-sm md:text-base text-xplor-black font-medium">
             Are you a Photographer, Virtual Tour creator, Capture specialist, or perhaps someone who wants to get started in this field?{" "}
             <button 
-              onClick={() => window.location.href = '/gigs'}
+              onClick={() => setIsVerificationFormOpen(true)}
               className="underline font-semibold hover:no-underline transition-all"
             >
               Click Here to find out more and join xplor
@@ -447,8 +451,8 @@ const CaptureServices = () => {
                 <Button className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black">
                   Order Digital Pro Now
                 </Button>
-                <Button variant="outline" onClick={() => window.location.href = '/capture-business-signup'}>
-                  Become a Technician
+                <Button variant="outline" onClick={() => setIsVerificationFormOpen(true)}>
+                  Become a Verified Tour Pro
                 </Button>
               </div>
             </div>
@@ -524,6 +528,11 @@ const CaptureServices = () => {
           </Accordion>
         </div>
       </section>
+
+      <VerificationForm 
+        open={isVerificationFormOpen} 
+        onOpenChange={setIsVerificationFormOpen} 
+      />
     </div>
   );
 };
