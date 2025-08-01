@@ -463,7 +463,7 @@ const Gigs = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button type="submit" size="lg" className="flex-1">
                     <CheckCircle className="mr-2 h-5 w-5" />
-                    Become a Certified Technician
+                    Become a Verified Technician
                   </Button>
                   <Button type="button" variant="outline" size="lg">
                     <Download className="mr-2 h-5 w-5" />
