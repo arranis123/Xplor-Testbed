@@ -165,22 +165,6 @@ const CaptureServices = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Ad Banner */}
-      <div className="bg-primary text-primary-foreground px-6 py-3">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-sm md:text-base">
-            Are you a Photographer, Virtual Tour creator, Capture specialist, or perhaps someone who wants to get started in this field? 
-            <Button 
-              variant="link" 
-              className="text-primary-foreground underline hover:text-primary-foreground/80 ml-1 p-0 h-auto font-normal"
-              onClick={() => window.location.href = '/gigs'}
-            >
-              Click Here to find out more and join xplor
-            </Button>
-          </p>
-        </div>
-      </div>
-
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-6 py-16">
