@@ -36,6 +36,19 @@ const Index = () => {
             <div className="absolute inset-0 bg-black/10"></div>
           </div>
           
+          {/* Crew Member Button - Top Right */}
+          <div className="absolute top-4 right-4 z-20">
+            <Button 
+              size="sm" 
+              className="bg-primary hover:bg-primary/90 text-xplor-grey text-xs sm:text-sm px-3 sm:px-4 py-2 font-medium whitespace-nowrap"
+              asChild
+            >
+              <Link to="/yacht-crew-offer">
+                ARE YOU A CREW MEMBER IN THE YACHTING INDUSTRY? WE HAVE A PLAN, CLICK HERE TO FIND OUT MORE
+              </Link>
+            </Button>
+          </div>
+          
           <div className="relative z-10 text-white w-full max-w-md lg:max-w-lg xl:max-w-xl px-mobile-md sm:px-8 lg:px-16">
             <h1 className="text-mobile-5xl sm:text-7xl md:text-8xl font-bold mb-mobile-sm sm:mb-2 font-typografix text-black">
               xplor
