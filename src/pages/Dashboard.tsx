@@ -114,7 +114,7 @@ const Dashboard = () => {
                 }}
               >
                 <Hotel className="h-4 w-4 mr-2" />
-                Hotel/Resort
+                Hotels & Resorts
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
@@ -455,7 +455,7 @@ const Dashboard = () => {
                   }}
                 >
                   <Hotel className="h-4 w-4 mr-2" />
-                  Hotel/Resort
+                  Hotels & Resorts
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
