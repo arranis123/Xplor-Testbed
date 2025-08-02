@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel, Building2, Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -212,6 +212,24 @@ const Dashboard = () => {
               >
                 <Golf className="h-4 w-4 mr-2" />
                 Golf Courses
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("government-hospitals");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Building2 className="h-4 w-4 mr-2" />
+                Government Buildings & Hospitals
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("merchant-shipping");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Anchor className="h-4 w-4 mr-2" />
+                Merchant Shipping
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -525,6 +543,24 @@ const Dashboard = () => {
                 >
                   <Golf className="h-4 w-4 mr-2" />
                   Golf Courses
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("government-hospitals");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Building2 className="h-4 w-4 mr-2" />
+                  Government Buildings & Hospitals
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("merchant-shipping");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Merchant Shipping
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
