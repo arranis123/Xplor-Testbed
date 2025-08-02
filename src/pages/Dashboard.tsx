@@ -102,7 +102,7 @@ const Dashboard = () => {
                 }}
               >
                 <Ship className="h-4 w-4 mr-2" />
-                Yacht
+                Yachts
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
@@ -415,7 +415,7 @@ const Dashboard = () => {
                   }}
                 >
                   <Ship className="h-4 w-4 mr-2" />
-                  Yacht
+                  Yachts
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
