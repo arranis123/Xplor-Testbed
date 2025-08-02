@@ -1,610 +1,862 @@
 import React, { useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Bed, Bath, Users, DollarSign, Star, MapPin, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Tv, Wind, Trash2, Info } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell } from "lucide-react";
+import { UseFormReturn } from "react-hook-form";
 
 interface HotelUploadFormProps {
   form: UseFormReturn<any>;
 }
 
-interface RoomProfile {
+interface Facility {
   id: string;
-  roomType: string;
-  bedConfiguration: string;
-  maxOccupancy: string;
+  name: string;
+  description: string;
+  tourUrl: string;
+  images: File[];
+  floorWing: string;
+  openToPublic: boolean;
+}
+
+interface RoomType {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  tourUrl: string;
+  images: File[];
+  maxGuests: number;
   roomSize: string;
-  roomSizeUnit?: string;
-  floorLevel: string;
-  averageNightlyRate: string;
+  roomSizeUnit: string;
+  bedType: string;
+  amenities: string[];
+  priceRange: string;
+  bookingUrl: string;
+  floorWing: string;
 }
 
 export function HotelUploadForm({ form }: HotelUploadFormProps) {
-  const [currentRoom, setCurrentRoom] = useState<Partial<RoomProfile>>({});
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
+  const [currentFacility, setCurrentFacility] = useState<Partial<Facility>>({});
+  const [currentRoom, setCurrentRoom] = useState<Partial<RoomType>>({});
 
-  // Use form state for room profiles instead of local state
-  const roomProfiles = form.watch("roomProfiles") || [];
+  const hotelCategories = [
+    { value: "hotel", label: "Hotel" },
+    { value: "resort", label: "Resort" },
+    { value: "boutique-hotel", label: "Boutique Hotel" },
+    { value: "hostel", label: "Hostel" },
+    { value: "serviced-apartments", label: "Serviced Apartments" }
+  ];
 
-  const addRoomProfile = () => {
-    if (currentRoom.roomType && currentRoom.bedConfiguration && currentRoom.maxOccupancy && currentRoom.averageNightlyRate) {
-      const newRoom: RoomProfile = {
+  const starRatings = [
+    { value: "1", label: "1 Star" },
+    { value: "2", label: "2 Stars" },
+    { value: "3", label: "3 Stars" },
+    { value: "4", label: "4 Stars" },
+    { value: "5", label: "5 Stars" }
+  ];
+
+  const countries = [
+    { value: "us", label: "United States" },
+    { value: "uk", label: "United Kingdom" },
+    { value: "ca", label: "Canada" },
+    { value: "au", label: "Australia" },
+    { value: "de", label: "Germany" },
+    { value: "fr", label: "France" },
+    { value: "es", label: "Spain" },
+    { value: "it", label: "Italy" },
+    { value: "jp", label: "Japan" },
+    { value: "ae", label: "United Arab Emirates" }
+  ];
+
+  const roomCategories = [
+    { value: "single", label: "Single" },
+    { value: "double", label: "Double" },
+    { value: "suite", label: "Suite" },
+    { value: "studio", label: "Studio" },
+    { value: "family", label: "Family" },
+    { value: "penthouse", label: "Penthouse" }
+  ];
+
+  const bedTypes = [
+    { value: "king", label: "King" },
+    { value: "queen", label: "Queen" },
+    { value: "twin", label: "Twin" },
+    { value: "bunk", label: "Bunk" },
+    { value: "sofa-bed", label: "Sofa Bed" }
+  ];
+
+  const amenitiesList = [
+    { id: "wifi", label: "WiFi", icon: Wifi },
+    { id: "mini-bar", label: "Mini Bar", icon: Coffee },
+    { id: "balcony", label: "Balcony", icon: Hotel },
+    { id: "bathtub", label: "Bathtub", icon: Waves },
+    { id: "ac", label: "AC", icon: Hotel },
+    { id: "tv", label: "TV", icon: Hotel },
+    { id: "desk", label: "Desk", icon: Hotel },
+    { id: "parking", label: "Parking", icon: Car },
+    { id: "restaurant", label: "Restaurant", icon: Utensils },
+    { id: "fitness", label: "Fitness Center", icon: Dumbbell }
+  ];
+
+  const addFacility = () => {
+    if (currentFacility.name && currentFacility.description) {
+      const facility: Facility = {
         id: Math.random().toString(36).substr(2, 9),
-        roomType: currentRoom.roomType,
-        bedConfiguration: currentRoom.bedConfiguration,
-        maxOccupancy: currentRoom.maxOccupancy,
-        roomSize: currentRoom.roomSize || '',
-        roomSizeUnit: currentRoom.roomSizeUnit || 'sqft',
-        floorLevel: currentRoom.floorLevel || '',
-        averageNightlyRate: currentRoom.averageNightlyRate
+        name: currentFacility.name || '',
+        description: currentFacility.description || '',
+        tourUrl: currentFacility.tourUrl || '',
+        images: currentFacility.images || [],
+        floorWing: currentFacility.floorWing || '',
+        openToPublic: currentFacility.openToPublic || false
       };
-      const updatedRoomProfiles = [...roomProfiles, newRoom];
-      form.setValue("roomProfiles", updatedRoomProfiles);
+      setFacilities([...facilities, facility]);
+      setCurrentFacility({});
+    }
+  };
+
+  const addRoomType = () => {
+    if (currentRoom.name && currentRoom.description && currentRoom.category) {
+      const room: RoomType = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: currentRoom.name || '',
+        description: currentRoom.description || '',
+        category: currentRoom.category || '',
+        tourUrl: currentRoom.tourUrl || '',
+        images: currentRoom.images || [],
+        maxGuests: currentRoom.maxGuests || 1,
+        roomSize: currentRoom.roomSize || '',
+        roomSizeUnit: currentRoom.roomSizeUnit || 'sqm',
+        bedType: currentRoom.bedType || '',
+        amenities: currentRoom.amenities || [],
+        priceRange: currentRoom.priceRange || '',
+        bookingUrl: currentRoom.bookingUrl || '',
+        floorWing: currentRoom.floorWing || ''
+      };
+      setRoomTypes([...roomTypes, room]);
       setCurrentRoom({});
     }
   };
 
-  const removeRoomProfile = (id: string) => {
-    const updatedRoomProfiles = roomProfiles.filter(room => room.id !== id);
-    form.setValue("roomProfiles", updatedRoomProfiles);
+  const removeFacility = (id: string) => {
+    setFacilities(facilities.filter(f => f.id !== id));
   };
 
-  const getRoomTypeLabel = (value: string) => {
-    return hotelRoomTypes.find(rt => rt.value === value)?.label.split(' – ')[0] || value;
+  const removeRoomType = (id: string) => {
+    setRoomTypes(roomTypes.filter(r => r.id !== id));
   };
-
-  const getBedConfigLabel = (value: string) => {
-    const bedConfigs = {
-      'single': '1 Single Bed',
-      'double': '1 Double Bed',
-      'queen': '1 Queen Bed',
-      'king': '1 King Bed',
-      'twin': '2 Twin Beds',
-      'double-double': '2 Double Beds',
-      'queen-queen': '2 Queen Beds',
-      'multiple': 'Multiple Beds',
-      'sofa-bed': 'Sofa Bed Available'
-    };
-    return bedConfigs[value as keyof typeof bedConfigs] || value;
-  };
-  const hotelPropertyTypes = [
-    { value: "hotel-room", label: "Hotel Room – Standard guest room in a traditional hotel" },
-    { value: "boutique-hotel", label: "Boutique Hotel – Stylish, smaller hotel with personalized service" },
-    { value: "resort", label: "Resort – Full-service property with leisure amenities (pools, restaurants, etc.)" },
-    { value: "aparthotel", label: "Aparthotel – Apartment-style rooms with hotel services (kitchenette, cleaning)" },
-    { value: "hostel", label: "Hostel – Budget lodging, often with shared dormitories" },
-    { value: "motel", label: "Motel – Roadside lodging with easy car access" },
-    { value: "guesthouse", label: "Guesthouse – Small, privately owned accommodation" },
-    { value: "inn", label: "Inn – Traditional and cozy lodging, often with breakfast" },
-    { value: "bed-and-breakfast", label: "Bed and Breakfast (B&B) – Home-like stay with breakfast included" },
-    { value: "capsule-hotel", label: "Capsule Hotel – Compact, pod-style sleeping spaces" },
-    { value: "luxury-hotel", label: "Luxury Hotel – High-end property with premium features and services" },
-    { value: "business-hotel", label: "Business Hotel – Designed for professionals and travelers" },
-    { value: "extended-stay-hotel", label: "Extended Stay Hotel – Equipped for long-term stays with self-service features" },
-    { value: "eco-hotel", label: "Eco-Hotel – Environmentally sustainable lodging" },
-    { value: "casino-hotel", label: "Casino Hotel – Hotel with integrated casino and entertainment" },
-  ];
-
-  const hotelAmenities = [
-    { id: "wifi", label: "Free WiFi", icon: Wifi },
-    { id: "parking", label: "Free Parking", icon: Car },
-    { id: "breakfast", label: "Free Breakfast", icon: Coffee },
-    { id: "restaurant", label: "Restaurant", icon: Utensils },
-    { id: "pool", label: "Swimming Pool", icon: Waves },
-    { id: "fitness", label: "Fitness Center", icon: Dumbbell },
-    { id: "spa", label: "Spa Services", icon: Bath },
-    { id: "tv", label: "Cable/Satellite TV", icon: Tv },
-    { id: "ac", label: "Air Conditioning", icon: Wind },
-    { id: "room-service", label: "24-Hour Room Service", icon: Coffee },
-    { id: "concierge", label: "Concierge Service", icon: Users },
-    { id: "business-center", label: "Business Center", icon: Wifi },
-    { id: "laundry", label: "Laundry Service", icon: Bath },
-    { id: "airport-shuttle", label: "Airport Shuttle", icon: Car },
-    { id: "bar", label: "Bar/Lounge", icon: Coffee },
-  ];
-
-  const hotelRoomTypes = [
-    // Standard Room Types (Common Across All Hotels)
-    { value: "single-room", label: "Single Room – 1 single bed for 1 guest" },
-    { value: "double-room", label: "Double Room – 1 double bed for 2 guests" },
-    { value: "twin-room", label: "Twin Room – 2 single beds for 2 guests" },
-    { value: "triple-room", label: "Triple Room – Beds for 3 guests (double + single or 3 singles)" },
-    { value: "quad-room", label: "Quad Room – Beds for 4 guests" },
-    { value: "king-room", label: "King Room – 1 king-sized bed" },
-    { value: "queen-room", label: "Queen Room – 1 queen-sized bed" },
-    { value: "family-room", label: "Family Room – Designed for families, often includes extra beds or sofa beds" },
-    { value: "accessible-room", label: "Accessible Room – Wheelchair-accessible, includes assistive features" },
-    { value: "connecting-rooms", label: "Connecting Rooms – Two rooms with an internal door between them" },
-    { value: "adjoining-rooms", label: "Adjoining Rooms – Next to each other, but no internal door" },
-
-    // Upgraded & Suite Room Types
-    { value: "deluxe-room", label: "Deluxe Room – Larger or more upgraded standard room" },
-    { value: "premier-room", label: "Premier Room – View, size, or amenity upgrade over Deluxe" },
-    { value: "executive-room", label: "Executive Room – Often includes lounge access, suited to business travelers" },
-    { value: "junior-suite", label: "Junior Suite – Includes a sitting area, typically open plan" },
-    { value: "suite", label: "Suite – Separate living and bedroom areas" },
-    { value: "executive-suite", label: "Executive Suite – Premium suite with work areas and VIP amenities" },
-    { value: "presidential-suite", label: "Presidential Suite – One of the largest, most luxurious suites in the hotel" },
-    { value: "royal-suite", label: "Royal Suite – Often the most prestigious suite; ultra-luxury" },
-    { value: "penthouse-suite", label: "Penthouse Suite – Located on the top floor, often with private terraces" },
-    { value: "duplex-suite", label: "Duplex Suite – Two-floor layout" },
-    { value: "honeymoon-suite", label: "Honeymoon Suite – Romantic amenities, often with jacuzzi or private terrace" },
-    { value: "bridal-suite", label: "Bridal Suite – Decorated for newlyweds, similar to honeymoon suite" },
-    { value: "studio-suite", label: "Studio Suite – Open-plan room with kitchenette or sitting area" },
-    { value: "family-suite", label: "Family Suite – Multi-room layout for family groups" },
-    { value: "governor-suite", label: "Governor / Ambassador Suite – High-end suite, just below presidential tier" },
-
-    // Resort-Specific & Luxury Room Types
-    { value: "beachfront-room", label: "Beachfront Room / Suite – Direct access or view of the beach" },
-    { value: "ocean-view-room", label: "Ocean View Room / Suite – Facing the sea, typically with balcony" },
-    { value: "garden-view-room", label: "Garden View Room – Views of landscaped grounds" },
-    { value: "mountain-lake-view", label: "Mountain / Lake View Room – Scenic natural vistas" },
-    { value: "overwater-bungalow", label: "Overwater Bungalow / Villa – Built over water, typically in island resorts" },
-    { value: "pool-villa", label: "Pool Villa – Private pool included" },
-    { value: "plunge-pool-suite", label: "Plunge Pool Suite – Includes small private plunge pool" },
-    { value: "jacuzzi-suite", label: "Jacuzzi Suite – Includes hot tub or in-room jacuzzi" },
-    { value: "swim-up-room", label: "Swim-up Room – Direct access to pool from the room terrace" },
-    { value: "private-villa", label: "Private Villa – Freestanding unit with private entrances" },
-    { value: "tent-glamping-suite", label: "Tent / Glamping Suite – Luxury canvas or semi-permanent structures" },
-    { value: "treehouse-villa", label: "Treehouse Villa – Elevated accommodation among trees" },
-    { value: "cave-room-suite", label: "Cave Room / Suite – Built into or styled like natural caves" },
-    { value: "igloo-ice-suite", label: "Igloo Room / Ice Suite – Seasonal, built from ice and snow" },
-
-    // By Guest Type or Use Case
-    { value: "business-room", label: "Business Room – Equipped with desk, fast Wi-Fi, ergonomic chair" },
-    { value: "solo-traveler-room", label: "Solo Traveler Room – Smaller rooms with solo traveler rates" },
-    { value: "couples-room", label: "Couples Room – Romantic setups with king beds and soft lighting" },
-    { value: "family-room-guest", label: "Family Room / Suite – Includes multiple beds or bunk beds" },
-    { value: "pet-friendly-room", label: "Pet-Friendly Room – Pet amenities and direct outdoor access" },
-    { value: "wellness-suite", label: "Wellness Suite – In-room spa tools, yoga mats, or massage tables" },
-    { value: "accessible-ada-room", label: "Accessible / ADA Room – Designed for disabled or limited mobility guests" },
-
-    // Extended Stay / Apartment-Style Units
-    { value: "studio-apartment", label: "Studio Apartment – Compact unit with kitchen and open layout" },
-    { value: "1-bedroom-apartment", label: "1-Bedroom Apartment – Living room + separate bedroom" },
-    { value: "2-bedroom-apartment", label: "2-Bedroom Apartment / Suite – For families or groups" },
-    { value: "penthouse-apartment", label: "Penthouse Apartment – Luxury residential-style suite" },
-    { value: "serviced-residence", label: "Serviced Residence – Apartment units with daily hotel services" },
-    { value: "condo-hotel-units", label: "Condo-Hotel Units – For rent or ownership with full hotel access" },
-  ];
-
-  const hotelChains = [
-    {
-      category: "Marriott International", 
-      options: [
-        { value: "jw-marriott", label: "JW Marriott" },
-        { value: "marriott-hotels", label: "Marriott Hotels & Resorts" },
-        { value: "ritz-carlton", label: "Ritz-Carlton" },
-        { value: "st-regis", label: "St. Regis" },
-        { value: "w-hotels", label: "W Hotels" },
-        { value: "luxury-collection", label: "The Luxury Collection" },
-        { value: "sheraton", label: "Sheraton" },
-        { value: "westin", label: "Westin" },
-        { value: "le-meridien", label: "Le Méridien" },
-        { value: "renaissance-hotels", label: "Renaissance Hotels" },
-        { value: "autograph-collection", label: "Autograph Collection" },
-        { value: "tribute-portfolio", label: "Tribute Portfolio" },
-        { value: "four-points-sheraton", label: "Four Points by Sheraton" },
-        { value: "ac-hotels", label: "AC Hotels" },
-        { value: "moxy", label: "Moxy" },
-        { value: "aloft", label: "Aloft" },
-        { value: "courtyard-marriott", label: "Courtyard by Marriott" },
-        { value: "residence-inn", label: "Residence Inn" },
-        { value: "springhill-suites", label: "SpringHill Suites" },
-        { value: "fairfield-inn", label: "Fairfield Inn & Suites" },
-        { value: "towneplace-suites", label: "TownePlace Suites" },
-        { value: "element", label: "Element" },
-        { value: "marriott-executive", label: "Marriott Executive Apartments" },
-        { value: "gaylord-hotels", label: "Gaylord Hotels" },
-        { value: "delta-hotels", label: "Delta Hotels" }
-      ]
-    },
-    {
-      category: "Hilton Worldwide",
-      options: [
-        { value: "waldorf-astoria", label: "Waldorf Astoria" },
-        { value: "conrad", label: "Conrad" },
-        { value: "lxr-hotels", label: "LXR Hotels & Resorts" },
-        { value: "hilton-hotels", label: "Hilton Hotels & Resorts" },
-        { value: "curio-collection", label: "Curio Collection" },
-        { value: "canopy-hilton", label: "Canopy by Hilton" },
-        { value: "doubletree", label: "DoubleTree" },
-        { value: "tapestry-collection", label: "Tapestry Collection" },
-        { value: "hilton-garden-inn", label: "Hilton Garden Inn" },
-        { value: "hampton-hilton", label: "Hampton by Hilton" },
-        { value: "tru-hilton", label: "Tru by Hilton" },
-        { value: "homewood-suites", label: "Homewood Suites" },
-        { value: "home2-suites", label: "Home2 Suites" },
-        { value: "motto-hilton", label: "Motto by Hilton" },
-        { value: "tempo-hilton", label: "Tempo by Hilton" },
-        { value: "signia-hilton", label: "Signia by Hilton" }
-      ]
-    },
-    {
-      category: "Hyatt Hotels Corporation",
-      options: [
-        { value: "park-hyatt", label: "Park Hyatt" },
-        { value: "grand-hyatt", label: "Grand Hyatt" },
-        { value: "andaz", label: "Andaz" },
-        { value: "hyatt-regency", label: "Hyatt Regency" },
-        { value: "hyatt-centric", label: "Hyatt Centric" },
-        { value: "hyatt-place", label: "Hyatt Place" },
-        { value: "hyatt-house", label: "Hyatt House" },
-        { value: "unbound-collection", label: "The Unbound Collection" },
-        { value: "destination-hyatt", label: "Destination by Hyatt" },
-        { value: "thompson-hotels", label: "Thompson Hotels" },
-        { value: "alila", label: "Alila" },
-        { value: "joie-de-vivre", label: "Joie de Vivre" },
-        { value: "caption-hyatt", label: "Caption by Hyatt" },
-        { value: "miraval", label: "Miraval" },
-        { value: "hyatt-ziva-zilara", label: "Hyatt Ziva / Hyatt Zilara (All-Inclusive)" }
-      ]
-    },
-    {
-      category: "Accor Group",
-      options: [
-        { value: "raffles", label: "Raffles" },
-        { value: "fairmont", label: "Fairmont" },
-        { value: "sofitel", label: "Sofitel" },
-        { value: "pullman", label: "Pullman" },
-        { value: "mgallery", label: "MGallery" },
-        { value: "swissotel", label: "Swissôtel" },
-        { value: "movenpick", label: "Mövenpick" },
-        { value: "grand-mercure", label: "Grand Mercure" },
-        { value: "novotel", label: "Novotel" },
-        { value: "mercure", label: "Mercure" },
-        { value: "ibis", label: "ibis" },
-        { value: "ibis-styles", label: "ibis Styles" },
-        { value: "ibis-budget", label: "ibis Budget" },
-        { value: "adagio-aparthotels", label: "Adagio Aparthotels" },
-        { value: "the-sebel", label: "The Sebel" },
-        { value: "tribe", label: "Tribe" },
-        { value: "25hours-hotels", label: "25hours Hotels" },
-        { value: "mama-shelter", label: "Mama Shelter" },
-        { value: "orient-express", label: "Orient Express (revival brand)" }
-      ]
-    },
-    {
-      category: "InterContinental Hotels Group (IHG)",
-      options: [
-        { value: "intercontinental", label: "InterContinental" },
-        { value: "kimpton", label: "Kimpton" },
-        { value: "regent-hotels", label: "Regent Hotels" },
-        { value: "six-senses", label: "Six Senses" },
-        { value: "hotel-indigo", label: "Hotel Indigo" },
-        { value: "voco", label: "voco" },
-        { value: "even-hotels", label: "EVEN Hotels" },
-        { value: "hualuxe", label: "Hualuxe" },
-        { value: "crowne-plaza", label: "Crowne Plaza" },
-        { value: "holiday-inn", label: "Holiday Inn" },
-        { value: "holiday-inn-express", label: "Holiday Inn Express" },
-        { value: "holiday-inn-club", label: "Holiday Inn Club Vacations" },
-        { value: "holiday-inn-resort", label: "Holiday Inn Resort" },
-        { value: "avid", label: "Avid" },
-        { value: "atwell-suites", label: "Atwell Suites" },
-        { value: "staybridge-suites", label: "Staybridge Suites" },
-        { value: "candlewood-suites", label: "Candlewood Suites" }
-      ]
-    },
-    {
-      category: "Radisson Hotel Group",
-      options: [
-        { value: "radisson-collection", label: "Radisson Collection" },
-        { value: "radisson-blu", label: "Radisson Blu" },
-        { value: "radisson-red", label: "Radisson RED" },
-        { value: "radisson", label: "Radisson" },
-        { value: "radisson-individuals", label: "Radisson Individuals" },
-        { value: "park-plaza", label: "Park Plaza" },
-        { value: "park-inn-radisson", label: "Park Inn by Radisson" },
-        { value: "country-inn-suites", label: "Country Inn & Suites" }
-      ]
-    },
-    {
-      category: "Wyndham Hotels & Resorts",
-      options: [
-        { value: "wyndham-grand", label: "Wyndham Grand" },
-        { value: "wyndham", label: "Wyndham" },
-        { value: "dolce-hotels", label: "Dolce Hotels & Resorts" },
-        { value: "tryp-wyndham", label: "TRYP by Wyndham" },
-        { value: "esplendor", label: "Esplendor" },
-        { value: "dazzler", label: "Dazzler" },
-        { value: "ramada", label: "Ramada" },
-        { value: "ramada-encore", label: "Ramada Encore" },
-        { value: "wingate", label: "Wingate" },
-        { value: "microtel", label: "Microtel" },
-        { value: "hawthorn-suites", label: "Hawthorn Suites" },
-        { value: "baymont-inn", label: "Baymont Inn & Suites" },
-        { value: "days-inn", label: "Days Inn" },
-        { value: "super-8", label: "Super 8" },
-        { value: "howard-johnson", label: "Howard Johnson" },
-        { value: "travelodge", label: "Travelodge" },
-        { value: "americinn", label: "AmericInn" }
-      ]
-    },
-    {
-      category: "Choice Hotels International",
-      options: [
-        { value: "ascend-hotel", label: "Ascend Hotel Collection" },
-        { value: "cambria-hotels", label: "Cambria Hotels" },
-        { value: "clarion", label: "Clarion" },
-        { value: "comfort-inn", label: "Comfort Inn / Comfort Suites" },
-        { value: "quality-inn", label: "Quality Inn" },
-        { value: "sleep-inn", label: "Sleep Inn" },
-        { value: "mainstay-suites", label: "MainStay Suites" },
-        { value: "suburban-studios", label: "Suburban Studios" },
-        { value: "econo-lodge", label: "Econo Lodge" },
-        { value: "rodeway-inn", label: "Rodeway Inn" },
-        { value: "everhome-suites", label: "Everhome Suites" },
-        { value: "woodspring-suites", label: "WoodSpring Suites" }
-      ]
-    },
-    {
-      category: "Four Seasons Hotels & Resorts",
-      options: [
-        { value: "four-seasons-hotels", label: "Four Seasons Hotels" },
-        { value: "four-seasons-residences", label: "Four Seasons Private Residences" },
-        { value: "four-seasons-yachts", label: "Four Seasons Yachts (in development)" }
-      ]
-    },
-    {
-      category: "Mandarin Oriental Hotel Group",
-      options: [
-        { value: "mandarin-oriental", label: "Mandarin Oriental Hotels (Luxury)" },
-        { value: "residences-mandarin", label: "Residences at Mandarin Oriental" }
-      ]
-    },
-    {
-      category: "Rosewood Hotel Group",
-      options: [
-        { value: "rosewood-hotels", label: "Rosewood Hotels & Resorts" },
-        { value: "new-world-hotels", label: "New World Hotels" },
-        { value: "khos", label: "KHOS" }
-      ]
-    },
-    {
-      category: "Minor Hotels",
-      options: [
-        { value: "anantara", label: "Anantara" },
-        { value: "avani", label: "Avani" },
-        { value: "nh-hotels", label: "NH Hotels" },
-        { value: "nh-collection", label: "NH Collection" },
-        { value: "tivoli", label: "Tivoli" },
-        { value: "oaks-hotels", label: "Oaks Hotels" },
-        { value: "elewana-collection", label: "Elewana Collection" }
-      ]
-    },
-    {
-      category: "Langham Hospitality Group",
-      options: [
-        { value: "the-langham", label: "The Langham" },
-        { value: "cordis-hotels", label: "Cordis Hotels" },
-        { value: "yingnflo", label: "Ying'nFlo" }
-      ]
-    },
-    {
-      category: "Banyan Tree Holdings",
-      options: [
-        { value: "banyan-tree", label: "Banyan Tree" },
-        { value: "angsana", label: "Angsana" },
-        { value: "cassia", label: "Cassia" },
-        { value: "dhawa", label: "Dhawa" },
-        { value: "laguna", label: "Laguna" }
-      ]
-    },
-    {
-      category: "LVMH Hotel Management",
-      options: [
-        { value: "cheval-blanc", label: "Cheval Blanc" },
-        { value: "belmond", label: "Belmond (formerly Orient-Express Hotels)" }
-      ]
-    }
-  ];
 
   return (
     <div className="space-y-6">
-      {/* Room Details */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-medium flex items-center gap-2">
-              <Bed className="h-5 w-5" />
-              Room Details
-            </h3>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <Info className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>How to Use Room Configuration</DialogTitle>
-                  <DialogDescription asChild>
-                    <div className="space-y-3 text-sm">
-                      <p>Follow these steps to configure multiple rooms for your hotel:</p>
-                      <ol className="list-decimal list-inside space-y-2">
-                        <li><strong>Fill out the room form</strong> with details (Room Type, Bed Configuration, Max Occupancy, Room Size with unit selector, Floor Level, and Nightly Rate)</li>
-                        <li><strong>Click "Add Room"</strong> to save the room configuration to your list</li>
-                        <li><strong>View all added rooms</strong> in the table below showing all room details</li>
-                        <li><strong>Remove rooms</strong> using the trash icon in each row</li>
-                        <li><strong>Add multiple different room types</strong> by repeating the process</li>
-                      </ol>
-                      <p className="text-xs text-muted-foreground mt-4">The form will clear after each addition and validate required fields before allowing you to add a room.</p>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <Button 
-            type="button"
-            onClick={addRoomProfile}
-            className="px-4 py-2"
-            disabled={!currentRoom.roomType || !currentRoom.bedConfiguration || !currentRoom.maxOccupancy || !currentRoom.averageNightlyRate}
-          >
-            Add Room
-          </Button>
-        </div>
-        
-        {/* Room Input Fields */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 p-4 border border-border rounded-lg">
-          <div>
-            <label className="text-sm font-medium mb-2 block">Room Type</label>
-            <Select 
-              value={currentRoom.roomType || ""} 
-              onValueChange={(value) => setCurrentRoom({...currentRoom, roomType: value})}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select room type" />
-              </SelectTrigger>
-              <SelectContent className="max-h-60">
-                {hotelRoomTypes.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    {type.label.split(' – ')[0]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="media">Media & Files</TabsTrigger>
+          <TabsTrigger value="facilities">Facilities</TabsTrigger>
+          <TabsTrigger value="rooms">Room Types</TabsTrigger>
+          <TabsTrigger value="submission">Submission</TabsTrigger>
+        </TabsList>
 
-          <div>
-            <label className="text-sm font-medium mb-2 block">Bed Configuration</label>
-            <Select 
-              value={currentRoom.bedConfiguration || ""} 
-              onValueChange={(value) => setCurrentRoom({...currentRoom, bedConfiguration: value})}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select bed configuration" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="single">1 Single Bed</SelectItem>
-                <SelectItem value="double">1 Double Bed</SelectItem>
-                <SelectItem value="queen">1 Queen Bed</SelectItem>
-                <SelectItem value="king">1 King Bed</SelectItem>
-                <SelectItem value="twin">2 Twin Beds</SelectItem>
-                <SelectItem value="double-double">2 Double Beds</SelectItem>
-                <SelectItem value="queen-queen">2 Queen Beds</SelectItem>
-                <SelectItem value="multiple">Multiple Beds</SelectItem>
-                <SelectItem value="sofa-bed">Sofa Bed Available</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        {/* SECTION 1: Hotel Overview */}
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Hotel className="h-5 w-5" />
+                Hotel Overview
+              </CardTitle>
+              <CardDescription>Basic information about your hotel property</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="hotelName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Hotel Name *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter hotel name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-          <div>
-            <label className="text-sm font-medium mb-2 block">Max Occupancy</label>
-            <Select 
-              value={currentRoom.maxOccupancy || ""} 
-              onValueChange={(value) => setCurrentRoom({...currentRoom, maxOccupancy: value})}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select max guests" />
-              </SelectTrigger>
-              <SelectContent>
-                {[...Array(10)].map((_, i) => (
-                  <SelectItem key={i + 1} value={(i + 1).toString()}>
-                    {i + 1} {i === 0 ? 'guest' : 'guests'}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+                <FormField
+                  control={form.control}
+                  name="hotelCategory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Hotel Category *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-background border-border shadow-lg z-50">
+                          {hotelCategories.map((category) => (
+                            <SelectItem key={category.value} value={category.value}>
+                              {category.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-          <div>
-            <label className="text-sm font-medium mb-2 block">Room Size</label>
-            <div className="flex gap-2">
-              <Input 
-                placeholder="e.g., 350"
-                value={currentRoom.roomSize || ""}
-                onChange={(e) => setCurrentRoom({...currentRoom, roomSize: e.target.value})}
-                className="flex-1"
+                <FormField
+                  control={form.control}
+                  name="starRating"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Star Rating</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select rating" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-background border-border shadow-lg z-50">
+                          {starRatings.map((rating) => (
+                            <SelectItem key={rating.value} value={rating.value}>
+                              <div className="flex items-center gap-1">
+                                {[...Array(parseInt(rating.value))].map((_, i) => (
+                                  <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                ))}
+                                <span className="ml-1">{rating.label}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="numberOfFloors"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Number of Floors</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 15" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description *</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Brief overview of the property (max 500 characters)" 
+                        maxLength={500}
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <Select 
-                value={currentRoom.roomSizeUnit || "sqft"} 
-                onValueChange={(value) => setCurrentRoom({...currentRoom, roomSizeUnit: value})}
-              >
-                <SelectTrigger className="w-20 bg-background border-2 border-border">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-background border border-border shadow-lg z-50">
-                  <SelectItem value="sqft">Sqft</SelectItem>
-                  <SelectItem value="sqm">Sqm</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
 
-          <div>
-            <label className="text-sm font-medium mb-2 block">Floor Level</label>
-            <Input 
-              placeholder="e.g., 5th Floor"
-              value={currentRoom.floorLevel || ""}
-              onChange={(e) => setCurrentRoom({...currentRoom, floorLevel: e.target.value})}
-            />
-          </div>
+              <FormField
+                control={form.control}
+                name="fullDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Description</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Detailed description of the property" 
+                        rows={6}
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <div>
-            <label className="text-sm font-medium mb-2 block">Average Nightly Rate</label>
-            <Input 
-              placeholder="e.g., $150"
-              value={currentRoom.averageNightlyRate || ""}
-              onChange={(e) => setCurrentRoom({...currentRoom, averageNightlyRate: e.target.value})}
-            />
-          </div>
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select country" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-background border-border shadow-lg z-50">
+                          {countries.map((country) => (
+                            <SelectItem key={country.value} value={country.value}>
+                              {country.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-        {/* Room Profiles Table */}
-        {roomProfiles.length > 0 && (
-          <div className="mt-6">
-            <h4 className="text-base font-medium mb-3">Added Room Profiles</h4>
-            <div className="border rounded-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Room Type</TableHead>
-                    <TableHead>Bed Configuration</TableHead>
-                    <TableHead>Max Occupancy</TableHead>
-                    <TableHead>Room Size</TableHead>
-                    <TableHead>Floor Level</TableHead>
-                    <TableHead>Nightly Rate</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {roomProfiles.map((room) => (
-                    <TableRow key={room.id}>
-                      <TableCell>{getRoomTypeLabel(room.roomType)}</TableCell>
-                      <TableCell>{getBedConfigLabel(room.bedConfiguration)}</TableCell>
-                      <TableCell>{room.maxOccupancy} guests</TableCell>
-                      <TableCell>{room.roomSize ? `${room.roomSize} ${room.roomSizeUnit || 'sqft'}` : 'N/A'}</TableCell>
-                      <TableCell>{room.floorLevel || 'N/A'}</TableCell>
-                      <TableCell>{room.averageNightlyRate}</TableCell>
-                      <TableCell>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => removeRoomProfile(room.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter city" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="fullAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Complete street address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="contactEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contact Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="hotel@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="websiteUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Hotel Website URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://hotelwebsite.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="bookingPageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Booking Page URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://booking.com/hotel" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="facebookUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Facebook URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://facebook.com/hotel" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="instagramUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Instagram URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://instagram.com/hotel" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* SECTION 2: Hotel Media & Files */}
+        <TabsContent value="media" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Camera className="h-5 w-5" />
+                Hotel Media & Files
+              </CardTitle>
+              <CardDescription>Upload images, videos, and virtual tours</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="mainImage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Main Hotel Image *</FormLabel>
+                    <FormControl>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">Click to upload main hotel image (JPG or PNG)</p>
+                        <Input type="file" accept="image/*" className="mt-2" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="galleryImages"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hotel Gallery</FormLabel>
+                    <FormControl>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">Upload additional hotel images</p>
+                        <Input type="file" accept="image/*" multiple className="mt-2" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="virtualTourUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Virtual Tour URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Matterport, 360°, YouTube URL, etc." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="floorPlan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Floor Plan Upload</FormLabel>
+                    <FormControl>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">Upload floor plan (PDF or Image)</p>
+                        <Input type="file" accept=".pdf,image/*" className="mt-2" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="promotionalVideo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hotel Promotional Video</FormLabel>
+                    <FormControl>
+                      <Input placeholder="YouTube URL or embed code" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* SECTION 3: Hotel Facilities */}
+        <TabsContent value="facilities" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Hotel Facilities
+              </CardTitle>
+              <CardDescription>Add facilities and amenities as named spaces</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="border border-border rounded-lg p-4 space-y-4">
+                <h4 className="font-medium">Add New Facility</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Facility name (e.g., Gym, Restaurant, Spa)"
+                    value={currentFacility.name || ''}
+                    onChange={(e) => setCurrentFacility({...currentFacility, name: e.target.value})}
+                  />
+                  <Input
+                    placeholder="Floor/Wing location"
+                    value={currentFacility.floorWing || ''}
+                    onChange={(e) => setCurrentFacility({...currentFacility, floorWing: e.target.value})}
+                  />
+                </div>
+                <Textarea
+                  placeholder="Description of the facility"
+                  value={currentFacility.description || ''}
+                  onChange={(e) => setCurrentFacility({...currentFacility, description: e.target.value})}
+                />
+                <Input
+                  placeholder="Virtual tour URL for this space"
+                  value={currentFacility.tourUrl || ''}
+                  onChange={(e) => setCurrentFacility({...currentFacility, tourUrl: e.target.value})}
+                />
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={currentFacility.openToPublic || false}
+                    onCheckedChange={(checked) => setCurrentFacility({...currentFacility, openToPublic: checked})}
+                  />
+                  <label className="text-sm">Open to Public?</label>
+                </div>
+                <Button 
+                  type="button" 
+                  onClick={addFacility}
+                  disabled={!currentFacility.name || !currentFacility.description}
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Facility
+                </Button>
+              </div>
+
+              {facilities.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="font-medium">Added Facilities</h4>
+                  {facilities.map((facility) => (
+                    <div key={facility.id} className="border border-border rounded p-3 flex justify-between items-start">
+                      <div>
+                        <div className="font-medium">{facility.name}</div>
+                        <div className="text-sm text-muted-foreground">{facility.description}</div>
+                        {facility.floorWing && <div className="text-xs text-muted-foreground">Location: {facility.floorWing}</div>}
+                        {facility.openToPublic && <Badge variant="secondary" className="mt-1">Public Access</Badge>}
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => removeFacility(facility.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        )}
-      </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
+        {/* SECTION 4: Room Types */}
+        <TabsContent value="rooms" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bed className="h-5 w-5" />
+                Room Types
+              </CardTitle>
+              <CardDescription>Add different room types with details</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="border border-border rounded-lg p-4 space-y-4">
+                <h4 className="font-medium">Add New Room Type</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Room name (e.g., Deluxe King Suite)"
+                    value={currentRoom.name || ''}
+                    onChange={(e) => setCurrentRoom({...currentRoom, name: e.target.value})}
+                  />
+                  <Select
+                    value={currentRoom.category || ''}
+                    onValueChange={(value) => setCurrentRoom({...currentRoom, category: value})}
+                  >
+                    <SelectTrigger className="bg-background border-border">
+                      <SelectValue placeholder="Room category" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border shadow-lg z-50">
+                      {roomCategories.map((category) => (
+                        <SelectItem key={category.value} value={category.value}>
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Textarea
+                  placeholder="Room description"
+                  value={currentRoom.description || ''}
+                  onChange={(e) => setCurrentRoom({...currentRoom, description: e.target.value})}
+                />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Input
+                    type="number"
+                    placeholder="Max guests"
+                    value={currentRoom.maxGuests || ''}
+                    onChange={(e) => setCurrentRoom({...currentRoom, maxGuests: parseInt(e.target.value)})}
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Room size"
+                      value={currentRoom.roomSize || ''}
+                      onChange={(e) => setCurrentRoom({...currentRoom, roomSize: e.target.value})}
+                    />
+                    <Select
+                      value={currentRoom.roomSizeUnit || 'sqm'}
+                      onValueChange={(value) => setCurrentRoom({...currentRoom, roomSizeUnit: value})}
+                    >
+                      <SelectTrigger className="w-20 bg-background border-border">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border-border shadow-lg z-50">
+                        <SelectItem value="sqm">sqm</SelectItem>
+                        <SelectItem value="sqft">sqft</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Select
+                    value={currentRoom.bedType || ''}
+                    onValueChange={(value) => setCurrentRoom({...currentRoom, bedType: value})}
+                  >
+                    <SelectTrigger className="bg-background border-border">
+                      <SelectValue placeholder="Bed type" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border shadow-lg z-50">
+                      {bedTypes.map((bed) => (
+                        <SelectItem key={bed.value} value={bed.value}>
+                          {bed.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Price range (e.g., €150–€250/night)"
+                    value={currentRoom.priceRange || ''}
+                    onChange={(e) => setCurrentRoom({...currentRoom, priceRange: e.target.value})}
+                  />
+                  <Input
+                    placeholder="Floor/Wing"
+                    value={currentRoom.floorWing || ''}
+                    onChange={(e) => setCurrentRoom({...currentRoom, floorWing: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Virtual tour URL"
+                    value={currentRoom.tourUrl || ''}
+                    onChange={(e) => setCurrentRoom({...currentRoom, tourUrl: e.target.value})}
+                  />
+                  <Input
+                    placeholder="Booking page URL"
+                    value={currentRoom.bookingUrl || ''}
+                    onChange={(e) => setCurrentRoom({...currentRoom, bookingUrl: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Room Amenities</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {amenitiesList.map((amenity) => {
+                      const Icon = amenity.icon;
+                      return (
+                        <div key={amenity.id} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={amenity.id}
+                            checked={currentRoom.amenities?.includes(amenity.id) || false}
+                            onCheckedChange={(checked) => {
+                              const amenities = currentRoom.amenities || [];
+                              if (checked) {
+                                setCurrentRoom({...currentRoom, amenities: [...amenities, amenity.id]});
+                              } else {
+                                setCurrentRoom({...currentRoom, amenities: amenities.filter(a => a !== amenity.id)});
+                              }
+                            }}
+                          />
+                          <label htmlFor={amenity.id} className="text-sm flex items-center gap-1">
+                            <Icon className="h-3 w-3" />
+                            {amenity.label}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <Button 
+                  type="button" 
+                  onClick={addRoomType}
+                  disabled={!currentRoom.name || !currentRoom.description || !currentRoom.category}
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Room Type
+                </Button>
+              </div>
 
+              {roomTypes.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="font-medium">Added Room Types</h4>
+                  {roomTypes.map((room) => (
+                    <div key={room.id} className="border border-border rounded p-3 flex justify-between items-start">
+                      <div>
+                        <div className="font-medium">{room.name}</div>
+                        <div className="text-sm text-muted-foreground">{room.description}</div>
+                        <div className="flex gap-2 mt-1">
+                          <Badge variant="outline">{room.category}</Badge>
+                          {room.maxGuests && <Badge variant="outline">{room.maxGuests} guests</Badge>}
+                          {room.roomSize && <Badge variant="outline">{room.roomSize} {room.roomSizeUnit}</Badge>}
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => removeRoomType(room.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
+        {/* SECTION 5: Visibility & Submission */}
+        <TabsContent value="submission" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Visibility & Submission</CardTitle>
+              <CardDescription>Final settings and submission details</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="listingVisibility"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Listing Visibility</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="bg-background border-border">
+                          <SelectValue placeholder="Select visibility" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-background border-border shadow-lg z-50">
+                        <SelectItem value="public">Public</SelectItem>
+                        <SelectItem value="unlisted">Unlisted</SelectItem>
+                        <SelectItem value="admin-only">Admin Only</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="submitterName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Submitter Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="submitterEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Submitter Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="your@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="agreeToTerms"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        I agree to Xplor Terms of Service *
+                      </FormLabel>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
