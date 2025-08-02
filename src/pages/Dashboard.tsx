@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +92,7 @@ const Dashboard = () => {
                   setUploadDialogOpen(true);
                 }}
               >
-                <FolderOpen className="h-4 w-4 mr-2" />
+                <Home className="h-4 w-4 mr-2" />
                 Real Estate
               </DropdownMenuItem>
               <DropdownMenuItem 
@@ -101,7 +101,7 @@ const Dashboard = () => {
                   setUploadDialogOpen(true);
                 }}
               >
-                <FolderOpen className="h-4 w-4 mr-2" />
+                <Ship className="h-4 w-4 mr-2" />
                 Yacht
               </DropdownMenuItem>
               <DropdownMenuItem 
@@ -110,7 +110,7 @@ const Dashboard = () => {
                   setUploadDialogOpen(true);
                 }}
               >
-                <FolderOpen className="h-4 w-4 mr-2" />
+                <Hotel className="h-4 w-4 mr-2" />
                 Hotel/Resort
               </DropdownMenuItem>
               <DropdownMenuItem 
@@ -405,7 +405,7 @@ const Dashboard = () => {
                     setUploadDialogOpen(true);
                   }}
                 >
-                  <FolderOpen className="h-4 w-4 mr-2" />
+                  <Home className="h-4 w-4 mr-2" />
                   Real Estate
                 </DropdownMenuItem>
                 <DropdownMenuItem 
@@ -414,7 +414,7 @@ const Dashboard = () => {
                     setUploadDialogOpen(true);
                   }}
                 >
-                  <FolderOpen className="h-4 w-4 mr-2" />
+                  <Ship className="h-4 w-4 mr-2" />
                   Yacht
                 </DropdownMenuItem>
                 <DropdownMenuItem 
@@ -423,7 +423,7 @@ const Dashboard = () => {
                     setUploadDialogOpen(true);
                   }}
                 >
-                  <FolderOpen className="h-4 w-4 mr-2" />
+                  <Hotel className="h-4 w-4 mr-2" />
                   Hotel/Resort
                 </DropdownMenuItem>
                 <DropdownMenuItem 
