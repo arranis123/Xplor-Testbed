@@ -15,7 +15,8 @@ import {
   Car,
   UserCheck,
   ShoppingCart,
-  Building
+  Building,
+  Info
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -52,6 +53,7 @@ const baseItems = [
 
 const originalItems = [
   { title: "Home", url: "/", icon: Home },
+  { title: "About", url: "/about", icon: Info },
   { title: "Pricing", url: "/pricing", icon: FolderOpen },
 ];
 
