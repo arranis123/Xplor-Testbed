@@ -16,15 +16,15 @@ export const UploadSpaceDialog: React.FC<UploadSpaceDialogProps> = ({
   onOpenChange,
   category = "",
 }) => {
-  const [museumDialogOpen, setMuseumDialogOpen] = useState(false);
-
   // If it's a museum/gallery category, show the dedicated form
-  React.useEffect(() => {
-    if (open && category === "museums-art") {
-      setMuseumDialogOpen(true);
-      onOpenChange(false); // Close the generic dialog
-    }
-  }, [open, category, onOpenChange]);
+  if (category === "museums-art") {
+    return (
+      <MuseumGalleryUploadDialog 
+        open={open}
+        onOpenChange={onOpenChange}
+      />
+    );
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,50 +33,43 @@ export const UploadSpaceDialog: React.FC<UploadSpaceDialogProps> = ({
   };
 
   return (
-    <>
-      <Dialog open={open && category !== "museums-art"} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Upload className="h-5 w-5" />
-              Upload New Virtual Space
-            </DialogTitle>
-            <DialogDescription>
-              Create a new virtual space by uploading photos, videos, and providing property details.
-            </DialogDescription>
-          </DialogHeader>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Upload className="h-5 w-5" />
+            Upload New Virtual Space
+          </DialogTitle>
+          <DialogDescription>
+            Create a new virtual space by uploading photos, videos, and providing property details.
+          </DialogDescription>
+        </DialogHeader>
 
-          <div className="flex-1 overflow-auto p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="text-center py-12">
-                <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">
-                  Upload form for {category || "general"} spaces
-                </h3>
-                <p className="text-muted-foreground">
-                  This is a simplified upload interface. The full form implementation will be added based on the category.
-                </p>
-              </div>
-            </form>
-          </div>
-
-          <DialogFooter className="flex-shrink-0">
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" onClick={handleSubmit}>
-                Save
-              </Button>
+        <div className="flex-1 overflow-auto p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="text-center py-12">
+              <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium mb-2">
+                Upload form for {category || "general"} spaces
+              </h3>
+              <p className="text-muted-foreground">
+                This is a simplified upload interface. The full form implementation will be added based on the category.
+              </p>
             </div>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </form>
+        </div>
 
-      <MuseumGalleryUploadDialog 
-        open={museumDialogOpen}
-        onOpenChange={setMuseumDialogOpen}
-      />
-    </>
+        <DialogFooter className="flex-shrink-0">
+          <div className="flex gap-2">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" onClick={handleSubmit}>
+              Save
+            </Button>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
