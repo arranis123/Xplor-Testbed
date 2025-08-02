@@ -3,6 +3,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { MuseumGalleryUploadDialog } from "./MuseumGalleryUploadDialog";
+import { RealEstateUploadDialog } from "./RealEstateUploadDialog";
+import { HotelUploadDialog } from "./HotelUploadDialog";
+import { ExperienceUploadDialog } from "./ExperienceUploadDialog";
+import { YachtUploadDialog } from "./YachtUploadDialog";
+import { CarUploadDialog } from "./CarUploadDialog";
 import { toast } from "sonner";
 
 interface UploadSpaceDialogProps {
@@ -22,10 +27,55 @@ export const UploadSpaceDialog: React.FC<UploadSpaceDialogProps> = ({
     onOpenChange(isOpen);
   };
 
-  // Handle museum category with specific form
+  // Handle specific categories with their dedicated forms
   if (category === "museums-art") {
     return (
       <MuseumGalleryUploadDialog 
+        open={open}
+        onOpenChange={handleDialogClose}
+      />
+    );
+  }
+
+  if (category === "real-estate") {
+    return (
+      <RealEstateUploadDialog 
+        open={open}
+        onOpenChange={handleDialogClose}
+      />
+    );
+  }
+
+  if (category === "hotel-resort") {
+    return (
+      <HotelUploadDialog 
+        open={open}
+        onOpenChange={handleDialogClose}
+      />
+    );
+  }
+
+  if (category === "experiences") {
+    return (
+      <ExperienceUploadDialog 
+        open={open}
+        onOpenChange={handleDialogClose}
+      />
+    );
+  }
+
+  if (category === "yachts") {
+    return (
+      <YachtUploadDialog 
+        open={open}
+        onOpenChange={handleDialogClose}
+      />
+    );
+  }
+
+  if (category === "cars-vehicles") {
+    return (
+      <CarUploadDialog 
         open={open}
         onOpenChange={handleDialogClose}
       />
