@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -131,6 +131,87 @@ const Dashboard = () => {
               >
                 <Compass className="h-4 w-4 mr-2" />
                 Experiences
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("museums-art");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Palette className="h-4 w-4 mr-2" />
+                Museums & Art Galleries
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("schools-education");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <GraduationCap className="h-4 w-4 mr-2" />
+                Schools & Educational Spaces
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("aircraft-jets");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Plane className="h-4 w-4 mr-2" />
+                Aircraft & Private Jets
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("offices-showrooms");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Building className="h-4 w-4 mr-2" />
+                Offices, Showrooms & Studios
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("retail-popup");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <ShoppingBag className="h-4 w-4 mr-2" />
+                Retail & Pop-Up Experiences
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("heritage-worship");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Landmark className="h-4 w-4 mr-2" />
+                Heritage Sites & Places of Worship
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("sets-stages");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Clapperboard className="h-4 w-4 mr-2" />
+                Sets, Stages & Venues
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("sports-theme");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <TreePine className="h-4 w-4 mr-2" />
+                Sports Stadiums & Theme Parks
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("golf-courses");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Golf className="h-4 w-4 mr-2" />
+                Golf Courses
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -363,6 +444,87 @@ const Dashboard = () => {
                 >
                   <Compass className="h-4 w-4 mr-2" />
                   Experiences
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("museums-art");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Palette className="h-4 w-4 mr-2" />
+                  Museums & Art Galleries
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("schools-education");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <GraduationCap className="h-4 w-4 mr-2" />
+                  Schools & Educational Spaces
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("aircraft-jets");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Plane className="h-4 w-4 mr-2" />
+                  Aircraft & Private Jets
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("offices-showrooms");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Building className="h-4 w-4 mr-2" />
+                  Offices, Showrooms & Studios
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("retail-popup");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <ShoppingBag className="h-4 w-4 mr-2" />
+                  Retail & Pop-Up Experiences
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("heritage-worship");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Landmark className="h-4 w-4 mr-2" />
+                  Heritage Sites & Places of Worship
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("sets-stages");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Clapperboard className="h-4 w-4 mr-2" />
+                  Sets, Stages & Venues
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("sports-theme");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <TreePine className="h-4 w-4 mr-2" />
+                  Sports Stadiums & Theme Parks
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("golf-courses");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Golf className="h-4 w-4 mr-2" />
+                  Golf Courses
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
