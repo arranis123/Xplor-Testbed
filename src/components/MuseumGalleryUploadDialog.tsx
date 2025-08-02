@@ -13,6 +13,7 @@ export const MuseumGalleryUploadDialog: React.FC<MuseumGalleryUploadDialogProps>
   open,
   onOpenChange,
 }) => {
+  console.log('MuseumGalleryUploadDialog rendered:', { open });
   const handleSubmit = async (data: any) => {
     try {
       // Here you would typically send the data to your backend

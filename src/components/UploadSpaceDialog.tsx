@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
@@ -16,15 +16,24 @@ export const UploadSpaceDialog: React.FC<UploadSpaceDialogProps> = ({
   onOpenChange,
   category = "",
 }) => {
-  // If it's a museum/gallery category, show the dedicated form
-  if (category === "museums-art") {
-    return (
-      <MuseumGalleryUploadDialog 
-        open={open}
-        onOpenChange={onOpenChange}
-      />
-    );
-  }
+  const [showMuseumDialog, setShowMuseumDialog] = useState(false);
+  const [showGenericDialog, setShowGenericDialog] = useState(false);
+  
+  useEffect(() => {
+    if (open) {
+      if (category === "museums-art") {
+        setShowMuseumDialog(true);
+        setShowGenericDialog(false);
+      } else {
+        setShowMuseumDialog(false);
+        setShowGenericDialog(true);
+      }
+    } else {
+      setShowMuseumDialog(false);
+      setShowGenericDialog(false);
+    }
+  }, [open, category]);
+  console.log('UploadSpaceDialog rendered:', { open, category, showMuseumDialog, showGenericDialog });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,44 +41,59 @@ export const UploadSpaceDialog: React.FC<UploadSpaceDialogProps> = ({
     onOpenChange(false);
   };
 
+  const handleDialogClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      setShowMuseumDialog(false);
+      setShowGenericDialog(false);
+    }
+    onOpenChange(isOpen);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Upload className="h-5 w-5" />
-            Upload New Virtual Space
-          </DialogTitle>
-          <DialogDescription>
-            Create a new virtual space by uploading photos, videos, and providing property details.
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <MuseumGalleryUploadDialog 
+        open={showMuseumDialog}
+        onOpenChange={handleDialogClose}
+      />
+      
+      <Dialog open={showGenericDialog} onOpenChange={handleDialogClose}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Upload className="h-5 w-5" />
+              Upload New Virtual Space
+            </DialogTitle>
+            <DialogDescription>
+              Create a new virtual space by uploading photos, videos, and providing property details.
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="flex-1 overflow-auto p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="text-center py-12">
-              <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium mb-2">
-                Upload form for {category || "general"} spaces
-              </h3>
-              <p className="text-muted-foreground">
-                This is a simplified upload interface. The full form implementation will be added based on the category.
-              </p>
-            </div>
-          </form>
-        </div>
-
-        <DialogFooter className="flex-shrink-0">
-          <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" onClick={handleSubmit}>
-              Save
-            </Button>
+          <div className="flex-1 overflow-auto p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="text-center py-12">
+                <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">
+                  Upload form for {category || "general"} spaces
+                </h3>
+                <p className="text-muted-foreground">
+                  This is a simplified upload interface. The full form implementation will be added based on the category.
+                </p>
+              </div>
+            </form>
           </div>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+
+          <DialogFooter className="flex-shrink-0">
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" onClick={() => handleDialogClose(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" onClick={handleSubmit}>
+                Save
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

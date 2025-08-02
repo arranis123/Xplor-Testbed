@@ -13,6 +13,8 @@ const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
+  
+  console.log('Dashboard state:', { uploadDialogOpen, selectedCategory });
 
   // Handle navigation state to auto-open upload dialog
   useEffect(() => {
@@ -88,6 +90,7 @@ const Dashboard = () => {
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuItem 
                 onClick={() => {
+                  console.log('Real Estate clicked');
                   setSelectedCategory("real-estate");
                   setUploadDialogOpen(true);
                 }}
@@ -134,6 +137,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
+                  console.log('Museums & Art Galleries clicked');
                   setSelectedCategory("museums-art");
                   setUploadDialogOpen(true);
                 }}
