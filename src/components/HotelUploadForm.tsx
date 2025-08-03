@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Link } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
 import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 
 interface HotelUploadFormProps {
@@ -67,6 +67,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [mapZoom, setMapZoom] = useState<number>(10);
+  const [hotelVirtualTours, setHotelVirtualTours] = useState<Array<{ id: string; name: string; url: string; file?: File }>>([]);
 
   const hotelCategories = [
     { value: "business-hotel", label: "Business Hotel" },
@@ -643,6 +644,26 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
     setRoomTypes(roomTypes.filter(r => r.id !== id));
   };
 
+  const addHotelVirtualTour = () => {
+    const newTour = {
+      id: Date.now().toString(),
+      name: '',
+      url: '',
+      file: undefined
+    };
+    setHotelVirtualTours([...hotelVirtualTours, newTour]);
+  };
+
+  const removeHotelVirtualTour = (id: string) => {
+    setHotelVirtualTours(hotelVirtualTours.filter(tour => tour.id !== id));
+  };
+
+  const updateHotelVirtualTour = (id: string, field: string, value: any) => {
+    setHotelVirtualTours(hotelVirtualTours.map(tour => 
+      tour.id === id ? { ...tour, [field]: value } : tour
+    ));
+  };
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="overview" className="w-full">
@@ -998,35 +1019,85 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             <CardContent className="space-y-6">
               {/* 360 Virtual Tours */}
               <div className="space-y-4">
-                <h4 className="font-semibold flex items-center gap-2">
-                  <Video className="h-4 w-4" />
-                  360 Virtual Tours
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Tour URLs</label>
-                    <Textarea 
-                      placeholder="Enter Matterport, Kuula, 3DVista URLs (one per line)"
-                      className="min-h-[100px]"
-                    />
+                <div className="flex items-center justify-between">
+                  <h4 className="font-semibold flex items-center gap-2">
+                    <Video className="h-4 w-4" />
+                    360 Virtual Tours
+                  </h4>
+                  <Button
+                    type="button"
+                    onClick={addHotelVirtualTour}
+                    variant="outline"
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Another Tour
+                  </Button>
+                </div>
+                
+                {hotelVirtualTours.length === 0 && (
+                  <div className="text-center py-8 border border-dashed border-border rounded-lg">
+                    <Video className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mb-4">No virtual tours added yet</p>
+                    <Button
+                      type="button"
+                      onClick={addHotelVirtualTour}
+                      variant="outline"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add First Tour
+                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Tour Files</label>
-                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
-                      <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
-                      <input
-                        type="file"
-                        multiple
-                        accept="video/*,.360,.mp4,.mov"
-                        className="hidden"
-                        id="hotel-tours-upload"
-                      />
-                      <label htmlFor="hotel-tours-upload" className="cursor-pointer">
-                        <p className="text-sm text-muted-foreground">Upload 360° files</p>
-                      </label>
+                )}
+
+                {hotelVirtualTours.map((tour, index) => (
+                  <div key={tour.id} className="border border-border rounded-lg p-4 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h5 className="font-medium">Tour {index + 1}</h5>
+                      <Button
+                        type="button"
+                        onClick={() => removeHotelVirtualTour(tour.id)}
+                        variant="ghost"
+                        size="sm"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Tour Name</label>
+                        <Input
+                          placeholder="Enter tour name (e.g., Main Lobby Tour, Pool Area)"
+                          value={tour.name}
+                          onChange={(e) => updateHotelVirtualTour(tour.id, 'name', e.target.value)}
+                        />
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Tour URL</label>
+                          <Input
+                            placeholder="Matterport, Kuula, 3DVista URL"
+                            value={tour.url}
+                            onChange={(e) => updateHotelVirtualTour(tour.id, 'url', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Tour File</label>
+                          <div className="border border-border rounded-lg p-3">
+                            <input
+                              type="file"
+                              accept="video/*,.360,.mp4,.mov"
+                              onChange={(e) => updateHotelVirtualTour(tour.id, 'file', e.target.files?.[0])}
+                              className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
 
               {/* Photos */}
