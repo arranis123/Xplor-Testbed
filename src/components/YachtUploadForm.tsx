@@ -460,7 +460,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       name="officialNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Official Number (or IMO number for larger vessels)</FormLabel>
+                          <FormLabel>Official Number</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter official number" {...field} />
                           </FormControl>
