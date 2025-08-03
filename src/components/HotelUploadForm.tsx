@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
+import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 
 interface HotelUploadFormProps {
   form: UseFormReturn<any>;
@@ -61,6 +62,8 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   const [tours, setTours] = useState<Tour[]>([]);
   const [currentTour, setCurrentTour] = useState<Partial<Tour>>({});
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [mapZoom, setMapZoom] = useState<number>(10);
 
   const hotelCategories = [
     { value: "business-hotel", label: "Business Hotel" },
@@ -908,6 +911,30 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                     </FormItem>
                   )}
                 />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-sm font-medium">Select Location on Map</h4>
+                    <p className="text-sm text-muted-foreground">Click on the map to set the hotel location</p>
+                  </div>
+                </div>
+                <div className="h-96 border rounded-lg overflow-hidden">
+                  <MapboxLocationPicker
+                    coordinates={mapCoordinates}
+                    onCoordinatesChange={(coords) => {
+                      setMapCoordinates(coords);
+                      if (coords) {
+                        form.setValue('latitude', coords.lat.toString());
+                        form.setValue('longitude', coords.lng.toString());
+                      }
+                    }}
+                    zoom={mapZoom}
+                    onZoomChange={setMapZoom}
+                    className="w-full h-full"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
