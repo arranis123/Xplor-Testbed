@@ -1490,7 +1490,7 @@ export function RealEstatePropertyForm({
         <Card>
           <CardHeader>
             <CardTitle>Room Types</CardTitle>
-            <CardDescription>Define the different room types in your property</CardDescription>
+            <CardDescription>Define the different room types in your property will automatically create an upload section for each room that you want to showcase to help structure and manage your listing.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {roomTypes.map((room, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
