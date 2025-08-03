@@ -675,22 +675,375 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
     switch (activeSection) {
       case "yacht-info":
         return renderYachtInfoSection()
+      case "pricing":
+        return renderPricingSection()
+      case "class":
+        return renderClassSection()
+      case "guest-rules":
+        return renderGuestRulesSection()
+      case "access":
+        return renderAccessSection()
+      case "safety":
+        return renderSafetySection()
+      case "cabin-types":
+        return renderCabinTypesSection()
+      case "deck-spaces":
+        return renderDeckSpacesSection()
       case "amenities":
         return renderAmenitiesSection()
+      case "media-files":
+        return renderMediaFilesSection()
+      case "management":
+        return renderManagementSection()
       default:
-        return (
-          <Card>
-            <CardHeader>
-              <CardTitle>{sections.find(s => s.id === activeSection)?.title}</CardTitle>
-              <CardDescription>This section is under development.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Content for this section will be added soon.</p>
-            </CardContent>
-          </Card>
-        )
+        return renderYachtInfoSection()
     }
   }
+
+  const renderPricingSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Charter Pricing</CardTitle>
+          <CardDescription>Set your charter rates and pricing structure</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="lowSeasonRateWeekly"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Low Season Rate (Weekly)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 50000" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="highSeasonRateWeekly"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>High Season Rate (Weekly)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 75000" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderClassSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Classification & Certification</CardTitle>
+          <CardDescription>Vessel classification and regulatory compliance information</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <FormField
+            control={form.control}
+            name="classificationSociety"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Classification Society</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Lloyd's Register, DNV GL" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderGuestRulesSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Guest Rules</CardTitle>
+          <CardDescription>Define rules and restrictions for guests</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="maxGuestsSleeping"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Max Guests Sleeping</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="childrenAllowed"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Children Allowed</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="yes">Yes</SelectItem>
+                      <SelectItem value="no">No</SelectItem>
+                      <SelectItem value="with_nanny">With Nanny Only</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderAccessSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Access Permissions</CardTitle>
+          <CardDescription>Define access rules for different areas of the yacht</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <FormField
+            control={form.control}
+            name="cabinAccess"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cabin Access</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="guest_only">Guest Only</SelectItem>
+                    <SelectItem value="owner_locked">Owner Locked</SelectItem>
+                    <SelectItem value="all_access">All Access</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderSafetySection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Safety & Security</CardTitle>
+          <CardDescription>Safety equipment and security measures</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <FormField
+            control={form.control}
+            name="safetyBriefing"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Safety Briefing</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="mandatory">Mandatory</SelectItem>
+                    <SelectItem value="optional">Optional</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderCabinTypesSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Cabin Types</CardTitle>
+          <CardDescription>Define the different cabin types available on your yacht. Defining the different types of cabins will automatically create Media upload sections for each cabin within the Media & Files tab</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {cabinTypes.map((cabin, index) => (
+            <div key={index} className="border rounded-lg p-4 space-y-4">
+              <div className="flex justify-between items-start">
+                <h4 className="font-medium">Cabin {index + 1}</h4>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeCabinType(index)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input
+                  placeholder="Cabin name"
+                  value={cabin.name}
+                  onChange={(e) => {
+                    const updated = [...cabinTypes]
+                    updated[index].name = e.target.value
+                    setCabinTypes(updated)
+                  }}
+                />
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={cabin.deckLevel}
+                  onChange={(e) => {
+                    const updated = [...cabinTypes]
+                    updated[index].deckLevel = e.target.value
+                    setCabinTypes(updated)
+                  }}
+                >
+                  <option value="">Select Deck Level</option>
+                  <option value="sun-deck">Sun Deck</option>
+                  <option value="bridge-deck">Bridge Deck</option>
+                  <option value="upper-deck">Upper Deck</option>
+                  <option value="main-deck">Main Deck</option>
+                  <option value="lower-deck">Lower Deck</option>
+                </select>
+              </div>
+            </div>
+          ))}
+          <Button type="button" variant="outline" onClick={addCabinType}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Cabin Type
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderDeckSpacesSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Deck Spaces</CardTitle>
+          <CardDescription>Define outdoor deck areas and spaces</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {deckSpaces.map((space, index) => (
+            <div key={index} className="border rounded-lg p-4 space-y-4">
+              <div className="flex justify-between items-start">
+                <h4 className="font-medium">Deck Space {index + 1}</h4>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeDeckSpace(index)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <Input
+                placeholder="Deck space name"
+                value={space.name}
+                onChange={(e) => {
+                  const updated = [...deckSpaces]
+                  updated[index].name = e.target.value
+                  setDeckSpaces(updated)
+                }}
+              />
+            </div>
+          ))}
+          <Button type="button" variant="outline" onClick={addDeckSpace}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Deck Space
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderMediaFilesSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Media & Files</CardTitle>
+          <CardDescription>Upload media assets for your yacht</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <Upload className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+            <p className="text-gray-600">Upload yacht photos, videos, and documents</p>
+            <Button type="button" variant="outline" className="mt-2">
+              Choose Files
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderManagementSection = () => (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Management & Visibility</CardTitle>
+          <CardDescription>Configure listing visibility and booking settings</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <FormField
+            control={form.control}
+            name="visibility"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Listing Visibility</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="public">Public</SelectItem>
+                    <SelectItem value="private">Private</SelectItem>
+                    <SelectItem value="invite_only">Invite Only</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  )
 
   return (
     <div className="flex h-screen bg-gray-50">
