@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
@@ -1536,27 +1537,63 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 </Button>
               </div>
 
-              {roomTypes.length > 0 && (
-                <div className="space-y-2">
-                  <h4 className="font-medium">Added Room Types</h4>
-                  {roomTypes.map((room) => (
-                    <div key={room.id} className="border border-border rounded p-3 flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">{room.name}</div>
-                        <div className="text-sm text-muted-foreground">{room.description}</div>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="outline">{room.category}</Badge>
-                          {room.maxGuests && <Badge variant="outline">{room.maxGuests} guests</Badge>}
-                          {room.roomSize && <Badge variant="outline">{room.roomSize} {room.roomSizeUnit}</Badge>}
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm" onClick={() => removeRoomType(room.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
+               {roomTypes.length > 0 && (
+                 <div className="mt-6">
+                   <h4 className="font-medium mb-4">Created Rooms</h4>
+                   <div className="border rounded-lg">
+                     <Table>
+                       <TableHeader>
+                         <TableRow>
+                           <TableHead>Room Name</TableHead>
+                           <TableHead>Category</TableHead>
+                           <TableHead>Max Guests</TableHead>
+                           <TableHead>Room Size</TableHead>
+                           <TableHead>Bed Type</TableHead>
+                           <TableHead>Price Range</TableHead>
+                           <TableHead>Floor/Wing</TableHead>
+                           <TableHead className="w-[100px]">Actions</TableHead>
+                         </TableRow>
+                       </TableHeader>
+                       <TableBody>
+                         {roomTypes.map((room) => (
+                           <TableRow key={room.id}>
+                             <TableCell className="font-medium">
+                               <div>
+                                 <div className="font-medium">{room.name}</div>
+                                 <div className="text-sm text-muted-foreground line-clamp-2">
+                                   {room.description}
+                                 </div>
+                               </div>
+                             </TableCell>
+                             <TableCell>
+                               <Badge variant="outline">
+                                 {roomCategories.find(cat => cat.value === room.category)?.label || room.category}
+                               </Badge>
+                             </TableCell>
+                             <TableCell>{room.maxGuests || '-'}</TableCell>
+                             <TableCell>
+                               {room.roomSize ? `${room.roomSize} ${room.roomSizeUnit}` : '-'}
+                             </TableCell>
+                             <TableCell>{room.bedType || '-'}</TableCell>
+                             <TableCell>{room.priceRange || '-'}</TableCell>
+                             <TableCell>{room.floorWing || '-'}</TableCell>
+                             <TableCell>
+                               <Button 
+                                 variant="outline" 
+                                 size="sm" 
+                                 onClick={() => removeRoomType(room.id)}
+                                 className="h-8 w-8 p-0"
+                               >
+                                 <Trash2 className="h-4 w-4" />
+                               </Button>
+                             </TableCell>
+                           </TableRow>
+                         ))}
+                       </TableBody>
+                     </Table>
+                   </div>
+                 </div>
+               )}
             </CardContent>
           </Card>
         </TabsContent>
