@@ -523,11 +523,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                  <SelectValue placeholder="Select listing type" />
                                </SelectTrigger>
                              </FormControl>
-                             <SelectContent>
-                               <SelectItem value="for-sale">For Sale</SelectItem>
-                               <SelectItem value="for-charter">For Charter</SelectItem>
-                               <SelectItem value="both">Both</SelectItem>
-                             </SelectContent>
+                              <SelectContent>
+                                <SelectItem value="charter">Charter</SelectItem>
+                                <SelectItem value="sale">Sale</SelectItem>
+                                <SelectItem value="both">Both</SelectItem>
+                              </SelectContent>
                            </Select>
                            <FormMessage />
                          </FormItem>
