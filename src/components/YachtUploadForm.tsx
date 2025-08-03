@@ -516,7 +516,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                        name="listingType"
                        render={({ field }) => (
                          <FormItem>
-                           <FormLabel>Listing Type</FormLabel>
+                           <FormLabel>Sale/Charter/Both</FormLabel>
                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                              <FormControl>
                                <SelectTrigger>
