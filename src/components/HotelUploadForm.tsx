@@ -358,12 +358,38 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   ];
 
   const roomCategories = [
-    { value: "single", label: "Single" },
-    { value: "double", label: "Double" },
+    { value: "single-room", label: "Single Room" },
+    { value: "double-room", label: "Double Room" },
+    { value: "twin-room", label: "Twin Room" },
+    { value: "triple-room", label: "Triple Room" },
+    { value: "quad-room", label: "Quad Room" },
+    { value: "king-room", label: "King Room" },
+    { value: "queen-room", label: "Queen Room" },
+    { value: "double-double-room", label: "Double Double Room" },
+    { value: "studio-room", label: "Studio Room" },
     { value: "suite", label: "Suite" },
-    { value: "studio", label: "Studio" },
-    { value: "family", label: "Family" },
-    { value: "penthouse", label: "Penthouse" }
+    { value: "junior-suite", label: "Junior Suite" },
+    { value: "executive-suite", label: "Executive Suite" },
+    { value: "presidential-suite", label: "Presidential Suite" },
+    { value: "penthouse-suite", label: "Penthouse Suite" },
+    { value: "connecting-rooms", label: "Connecting Rooms" },
+    { value: "adjoining-rooms", label: "Adjoining Rooms" },
+    { value: "accessible-room", label: "Accessible Room (ADA / Mobility-Friendly)" },
+    { value: "family-room", label: "Family Room" },
+    { value: "bunk-room", label: "Bunk Room" },
+    { value: "sofa-bed-room", label: "Sofa Bed Room" },
+    { value: "apartment-condo-suite", label: "Apartment / Condo Suite" },
+    { value: "duplex-room-loft", label: "Duplex Room / Loft" },
+    { value: "cabana-room", label: "Cabana Room" },
+    { value: "garden-room", label: "Garden Room" },
+    { value: "pool-access-room", label: "Pool Access Room" },
+    { value: "sea-view-room", label: "Sea View Room" },
+    { value: "mountain-view-room", label: "Mountain View Room" },
+    { value: "city-view-room", label: "City View Room" },
+    { value: "courtyard-view-room", label: "Courtyard View Room" },
+    { value: "balcony-room", label: "Balcony Room" },
+    { value: "smoking-room", label: "Smoking Room" },
+    { value: "non-smoking-room", label: "Non-Smoking Room" }
   ];
 
   const bedTypes = [
