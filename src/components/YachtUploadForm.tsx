@@ -24,6 +24,18 @@ const yachtRulesSchema = z.object({
   mmsiNumber: z.string().optional(),
   imoNumber: z.string().optional(),
   
+  // Pricing
+  salePrice: z.string().optional(),
+  charterPriceWeekly: z.string().optional(),
+  charterPriceDaily: z.string().optional(),
+  currency: z.string().optional(),
+  priceIncludes: z.string().optional(),
+  priceExcludes: z.string().optional(),
+  securityDeposit: z.string().optional(),
+  advanceProvisioningAllowance: z.string().optional(),
+  deliveryFees: z.string().optional(),
+  brokerageFee: z.string().optional(),
+  
   // Registration Details
   portOfRegistry: z.string().optional(),
   flagState: z.string().optional(),
@@ -118,7 +130,7 @@ const yachtRulesSchema = z.object({
 
   // Legal & Financial
   charterContract: z.literal("yes"),
-  securityDeposit: z.enum(["yes", "no"]),
+  securityDepositRequired: z.enum(["yes", "no"]),
   depositAmount: z.string().optional(),
   insuranceCoverage: z.enum(["covered", "recommended", "required"]),
   vatHandling: z.enum(["included", "not_included", "on_request"]),
@@ -292,9 +304,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           <Tabs defaultValue="yacht-info" className="w-full">
-            <TabsList className="grid w-full grid-cols-8">
+            <TabsList className="grid w-full grid-cols-9">
               <TabsTrigger value="yacht-info">Yacht Info</TabsTrigger>
               <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
+              <TabsTrigger value="pricing">Pricing</TabsTrigger>
               <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
               <TabsTrigger value="media-files">Media & Files</TabsTrigger>
               <TabsTrigger value="guest-rules">Guest Rules</TabsTrigger>
@@ -858,6 +871,179 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <SelectItem value="pending">Pending</SelectItem>
                             </SelectContent>
                           </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="pricing" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pricing</CardTitle>
+                  <CardDescription>Configure pricing details for sale or charter</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="salePrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Sale Price</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter sale price" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="charterPriceWeekly"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Charter Price (Weekly)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter weekly charter price" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="charterPriceDaily"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Charter Price (Daily)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter daily charter price" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="currency"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Currency</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select currency" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="usd">USD</SelectItem>
+                              <SelectItem value="eur">EUR</SelectItem>
+                              <SelectItem value="gbp">GBP</SelectItem>
+                              <SelectItem value="aud">AUD</SelectItem>
+                              <SelectItem value="cad">CAD</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="securityDeposit"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Security Deposit</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter security deposit amount" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="advanceProvisioningAllowance"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Advance Provisioning Allowance (APA)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter APA amount" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="deliveryFees"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Delivery Fees</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter delivery fees" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="brokerageFee"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Brokerage Fee</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter brokerage fee" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="priceIncludes"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Price Includes</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="List what is included in the price"
+                              className="resize-none"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="priceExcludes"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Price Excludes</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="List what is excluded from the price"
+                              className="resize-none"
+                              {...field}
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
