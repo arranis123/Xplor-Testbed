@@ -1857,6 +1857,28 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                     </div>
                   )}
 
+                  {form.watch('createPin') === 'custom' && (
+                    <FormField
+                      control={form.control}
+                      name="customPin"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Custom PIN</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="password" 
+                              placeholder="Enter your custom PIN" 
+                              maxLength={8}
+                              {...field} 
+                            />
+                          </FormControl>
+                          <p className="text-xs text-muted-foreground">Enter a 4-8 digit PIN for access control</p>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
                   <FormField
                     control={form.control}
                     name="pinRequestEmail"
