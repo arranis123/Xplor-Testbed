@@ -105,14 +105,14 @@ const yachtRulesSchema = z.object({
   ndaRequired: z.enum(["yes", "no", "celebrities_only"]),
 })
 
-type YachtRulesFormData = z.infer<typeof yachtRulesSchema>
+type YachtUploadFormData = z.infer<typeof yachtRulesSchema>
 
-interface YachtRulesFormProps {
-  onSubmit: (data: YachtRulesFormData) => void
+interface YachtUploadFormProps {
+  onSubmit: (data: YachtUploadFormData) => void
   onCancel: () => void
 }
 
-export function YachtRulesForm({ onSubmit, onCancel }: YachtRulesFormProps) {
+export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
   const { toast } = useToast()
   
   // State for dynamic sections
@@ -130,7 +130,7 @@ export function YachtRulesForm({ onSubmit, onCancel }: YachtRulesFormProps) {
   const [spaceMedia, setSpaceMedia] = useState({})
   const [cabinMedia, setCabinMedia] = useState({})
   
-  const form = useForm<YachtRulesFormData>({
+  const form = useForm<YachtUploadFormData>({
     resolver: zodResolver(yachtRulesSchema),
     defaultValues: {
       yachtName: '',
@@ -227,7 +227,7 @@ export function YachtRulesForm({ onSubmit, onCancel }: YachtRulesFormProps) {
     setCabinTypes(cabinTypes.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = (data: YachtRulesFormData) => {
+  const handleSubmit = (data: YachtUploadFormData) => {
     const formData = {
       ...data,
       deckSpaces,

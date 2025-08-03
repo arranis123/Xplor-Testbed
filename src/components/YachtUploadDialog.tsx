@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { YachtRulesForm } from './YachtRulesForm';
+import { YachtUploadForm } from './YachtUploadForm';
 import { Ship } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -50,7 +50,7 @@ export const YachtUploadDialog: React.FC<YachtUploadDialogProps> = ({
         </DialogHeader>
         
         <div className="flex-1 overflow-auto">
-          <YachtRulesForm 
+          <YachtUploadForm 
             onSubmit={handleSubmit}
             onCancel={handleCancel}
           />
