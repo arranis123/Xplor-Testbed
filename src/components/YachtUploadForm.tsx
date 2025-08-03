@@ -425,10 +425,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
           <Tabs defaultValue="yacht-info" className="w-full">
             <TabsList className="grid w-full grid-cols-10">
               <TabsTrigger value="yacht-info">Yacht Info</TabsTrigger>
-              <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
               <TabsTrigger value="pricing">Pricing</TabsTrigger>
               <TabsTrigger value="class">Class</TabsTrigger>
               <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
+              <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
               <TabsTrigger value="media-files">Media & Files</TabsTrigger>
               <TabsTrigger value="guest-rules">Guest Rules</TabsTrigger>
               <TabsTrigger value="access">Access</TabsTrigger>
