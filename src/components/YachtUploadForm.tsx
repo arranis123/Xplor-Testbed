@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useToast } from "@/hooks/use-toast"
-import { Plus, X, Upload, Link, Image, Video, FileText, Plane, ChevronDown, HelpCircle } from "lucide-react"
+import { Plus, X, Upload, Link, Image, Video, FileText, Plane, ChevronDown, HelpCircle, Download, ExternalLink } from "lucide-react"
 
 const yachtRulesSchema = z.object({
   // Basic Info
@@ -7472,6 +7472,28 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         </FormItem>
                       )}
                     />
+                    
+                    {/* Co-Brokerage Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        className="flex-1"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Co-Brokerage Agreement
+                      </Button>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        className="flex-1"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Receive Link from DocuSign
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
