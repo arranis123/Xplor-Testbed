@@ -12,6 +12,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useToast } from "@/hooks/use-toast"
 import { Plus, X, Upload, Link, Image, Video, FileText, Plane, ChevronDown, HelpCircle } from "lucide-react"
@@ -6694,146 +6697,508 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             <TabsContent value="documents" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Documents & Certificates</CardTitle>
-                  <CardDescription>Upload and manage important yacht documentation</CardDescription>
+                  <CardTitle>Yacht Documents</CardTitle>
+                  <CardDescription>Upload and manage official yacht documents organized by category with security controls</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    {form.watch("documents")?.map((document, index) => (
-                      <div key={index} className="p-4 border rounded-lg bg-muted/30">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <FormField
-                            control={form.control}
-                            name={`documents.${index}.name`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Document Name</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="e.g., Insurance Certificate" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name={`documents.${index}.type`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Document Type</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="Select type" />
-                                    </SelectTrigger>
-                                  </FormControl>
+                  
+                  {/* Charter-Specific Documents */}
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="charter-specific">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        🔝 Charter-Specific Documents
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        {[
+                          { name: "Charter Brochure / PDF", field: "charterBrochure", description: "Marketing or overview document for guests" },
+                          { name: "Sample Charter Contract", field: "sampleCharterContract", description: "MYBA, IYBA, or custom contract template" },
+                          { name: "APA Guidelines / Provisions Policy", field: "apaGuidelines", description: "Outline of how APA is managed" },
+                          { name: "Guest Welcome Pack / Yacht Manual", field: "guestWelcomePack", description: "Includes rules, crew contact, itinerary, etc." },
+                          { name: "Crew List & CVs", field: "crewListCvs", description: "Full crew profiles in PDF or spreadsheet" },
+                          { name: "Sample Menus", field: "sampleMenus", description: "Optional culinary previews" },
+                          { name: "Watersports & Toy Waivers", field: "watersportWaivers", description: "Jet ski licenses, dive waivers, etc." }
+                        ].map((doc) => (
+                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{doc.name}</h4>
+                                <p className="text-sm text-muted-foreground">{doc.description}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline">📎</Badge>
+                                <span className="text-sm text-muted-foreground">⚠️ Missing</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                              <div>
+                                <Label className="text-xs">Last Updated</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Expiry Date</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Visibility</Label>
+                                <Select>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue placeholder="Public" />
+                                  </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="insurance">Insurance</SelectItem>
-                                    <SelectItem value="registration">Registration</SelectItem>
-                                    <SelectItem value="charter_license">Charter License</SelectItem>
-                                    <SelectItem value="safety_certificate">Safety Certificate</SelectItem>
-                                    <SelectItem value="survey_report">Survey Report</SelectItem>
-                                    <SelectItem value="other">Other</SelectItem>
+                                    <SelectItem value="public">Public</SelectItem>
+                                    <SelectItem value="broker-only">Broker Only</SelectItem>
+                                    <SelectItem value="private">Private</SelectItem>
                                   </SelectContent>
                                 </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name={`documents.${index}.expiryDate`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Expiry Date (Optional)</FormLabel>
-                                <FormControl>
-                                  <Input type="date" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <div className="mt-4 space-y-4">
-                          <FormField
-                            control={form.control}
-                            name={`documents.${index}.description`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Description (Optional)</FormLabel>
-                                <FormControl>
-                                  <Textarea placeholder="Additional details about this document..." {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Button type="button" variant="outline" size="sm">
-                                <Upload className="h-4 w-4 mr-2" />
-                                Upload Document
-                              </Button>
-                              {document.url && (
-                                <span className="text-sm text-green-600">✓ Uploaded</span>
-                              )}
+                              </div>
+                              <div>
+                                <Label className="text-xs">PIN Protection</Label>
+                                <Input placeholder="Optional PIN" className="h-8" />
+                              </div>
                             </div>
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => {
-                                const currentDocs = form.getValues("documents") || [];
-                                const newDocs = currentDocs.filter((_, i) => i !== index);
-                                form.setValue("documents", newDocs);
-                              }}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" size="sm">
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload
+                                </Button>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id={`download-${doc.field}`} />
+                                  <Label htmlFor={`download-${doc.field}`} className="text-xs">Allow Download</Label>
+                                </div>
+                              </div>
+                              <Button type="button" variant="ghost" size="sm">
+                                📤 Generate Link
+                              </Button>
+                            </div>
+                            
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Textarea placeholder="Additional comments..." className="h-20" />
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      const currentDocs = form.getValues("documents") || [];
-                      form.setValue("documents", [
-                        ...currentDocs,
-                        {
-                          name: "",
-                          type: "other" as const,
-                          url: "",
-                          uploadDate: "",
-                          expiryDate: "",
-                          description: "",
-                        }
-                      ]);
-                    }}
-                    className="w-full"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Document
-                  </Button>
+                    {/* Optional & Marketing Documents */}
+                    <AccordionItem value="marketing-optional">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        🔝 Optional & Marketing Documents
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        {[
+                          { name: "Builder's Brochure (PDF)", field: "buildersBrochure", description: "Original promotional material" },
+                          { name: "Interior Design Documentation", field: "interiorDesignDocs", description: "Schematics, drawings, branded specs" },
+                          { name: "Awards or Press Mentions", field: "awardsPress", description: "PDF clippings or screenshots" },
+                          { name: "3D Tour / Matterport URL Document", field: "threeDTour", description: "PDF or .txt file with tour links or instructions" },
+                          { name: "Owner's Notes or Vessel Letter", field: "ownerNotes", description: "Custom comments, care notes, personal overview" }
+                        ].map((doc) => (
+                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{doc.name}</h4>
+                                <p className="text-sm text-muted-foreground">{doc.description}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline">📎</Badge>
+                                <span className="text-sm text-muted-foreground">⚠️ Missing</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                              <div>
+                                <Label className="text-xs">Last Updated</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Expiry Date</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Visibility</Label>
+                                <Select>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue placeholder="Public" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="public">Public</SelectItem>
+                                    <SelectItem value="broker-only">Broker Only</SelectItem>
+                                    <SelectItem value="private">Private</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-xs">PIN Protection</Label>
+                                <Input placeholder="Optional PIN" className="h-8" />
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" size="sm">
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload
+                                </Button>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id={`download-${doc.field}`} />
+                                  <Label htmlFor={`download-${doc.field}`} className="text-xs">Allow Download</Label>
+                                </div>
+                              </div>
+                              <Button type="button" variant="ghost" size="sm">
+                                📤 Generate Link
+                              </Button>
+                            </div>
+                            
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Textarea placeholder="Additional comments..." className="h-20" />
+                            </div>
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
 
+                    {/* Legal & Ownership Documents */}
+                    <AccordionItem value="legal-ownership">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        📂 Legal & Ownership Documents
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        {[
+                          { name: "Certificate of Registry", field: "certificateOfRegistry", description: "Flag and jurisdiction details" },
+                          { name: "Bill of Sale", field: "billOfSale", description: "For ownership transfer verification" },
+                          { name: "Builder's Certificate", field: "buildersCertificate", description: "Original manufacturing certificate" },
+                          { name: "Proof of Ownership", field: "proofOfOwnership", description: "Generic document upload field" },
+                          { name: "Certificate of Incorporation", field: "certificateOfIncorporation", description: "For legal entity listing" },
+                          { name: "VAT Status Documentation", field: "vatStatusDocs", description: "Paid/exempt declarations" },
+                          { name: "Charter License", field: "charterLicense", description: "Regional or flag authority licenses" },
+                          { name: "Local Cruising Permits", field: "cruisingPermits", description: "Temporary or area-based charter approvals" }
+                        ].map((doc) => (
+                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{doc.name}</h4>
+                                <p className="text-sm text-muted-foreground">{doc.description}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline">📎</Badge>
+                                <span className="text-sm text-muted-foreground">⚠️ Missing</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                              <div>
+                                <Label className="text-xs">Last Updated</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Expiry Date</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Visibility</Label>
+                                <Select>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue placeholder="Broker Only" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="public">Public</SelectItem>
+                                    <SelectItem value="broker-only">Broker Only</SelectItem>
+                                    <SelectItem value="private">Private</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-xs">PIN Protection</Label>
+                                <Input placeholder="Optional PIN" className="h-8" />
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" size="sm">
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload
+                                </Button>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id={`download-${doc.field}`} />
+                                  <Label htmlFor={`download-${doc.field}`} className="text-xs">Allow Download</Label>
+                                </div>
+                              </div>
+                              <Button type="button" variant="ghost" size="sm">
+                                📤 Generate Link
+                              </Button>
+                            </div>
+                            
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Textarea placeholder="Additional comments..." className="h-20" />
+                            </div>
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+
+                    {/* Compliance & Classification Documents */}
+                    <AccordionItem value="compliance-classification">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        📂 Compliance & Classification Documents
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        {[
+                          { name: "Class Certificate (BV, Lloyd's, etc.)", field: "classCertificate", description: "Required for many commercial charters" },
+                          { name: "Tonnage Certificate", field: "tonnageCertificate", description: "GT and NT data" },
+                          { name: "Load Line Certificate", field: "loadLineCertificate", description: "Required for >24m vessels" },
+                          { name: "MCA LY2 / LY3 / MLC 2006 Cert", field: "mcaCertificate", description: "Compliance with crew and safety standards" },
+                          { name: "ISM Compliance Certificate", field: "ismCertificate", description: "Safety management standard" },
+                          { name: "Fire & Safety Equipment Log", field: "fireAndSafetyLog", description: "Current or last audit log" },
+                          { name: "Charter Insurance Certificate", field: "charterInsurance", description: "Commercial P&I or hull coverage" },
+                          { name: "Survey Reports (last 3–5 years)", field: "surveyReports", description: "Full or summary inspections" }
+                        ].map((doc) => (
+                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{doc.name}</h4>
+                                <p className="text-sm text-muted-foreground">{doc.description}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline">📎</Badge>
+                                <span className="text-sm text-muted-foreground">⚠️ Missing</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                              <div>
+                                <Label className="text-xs">Last Updated</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Expiry Date</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Visibility</Label>
+                                <Select>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue placeholder="Broker Only" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="public">Public</SelectItem>
+                                    <SelectItem value="broker-only">Broker Only</SelectItem>
+                                    <SelectItem value="private">Private</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-xs">PIN Protection</Label>
+                                <Input placeholder="Optional PIN" className="h-8" />
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" size="sm">
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload
+                                </Button>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id={`download-${doc.field}`} />
+                                  <Label htmlFor={`download-${doc.field}`} className="text-xs">Allow Download</Label>
+                                </div>
+                              </div>
+                              <Button type="button" variant="ghost" size="sm">
+                                📤 Generate Link
+                              </Button>
+                            </div>
+                            
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Textarea placeholder="Additional comments..." className="h-20" />
+                            </div>
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+
+                    {/* Technical & Operational Documentation */}
+                    <AccordionItem value="technical-operational">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        📂 Technical & Operational Documentation
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        {[
+                          { name: "General Arrangement Plan (GA)", field: "generalArrangementPlan", description: "Deck-by-deck layout" },
+                          { name: "Stability Booklet", field: "stabilityBooklet", description: "Required for charter and class" },
+                          { name: "Engine Room Schematics", field: "engineRoomSchematics", description: "Tech layout for engineers or surveyors" },
+                          { name: "Electrical System Diagram", field: "electricalSystemDiagram", description: "For refits or resale reviews" },
+                          { name: "Technical Specification Sheet", field: "technicalSpecSheet", description: "Central doc for full build info" }
+                        ].map((doc) => (
+                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{doc.name}</h4>
+                                <p className="text-sm text-muted-foreground">{doc.description}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline">📎</Badge>
+                                <span className="text-sm text-muted-foreground">⚠️ Missing</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                              <div>
+                                <Label className="text-xs">Last Updated</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Expiry Date</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Visibility</Label>
+                                <Select>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue placeholder="Broker Only" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="public">Public</SelectItem>
+                                    <SelectItem value="broker-only">Broker Only</SelectItem>
+                                    <SelectItem value="private">Private</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-xs">PIN Protection</Label>
+                                <Input placeholder="Optional PIN" className="h-8" />
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" size="sm">
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload
+                                </Button>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id={`download-${doc.field}`} />
+                                  <Label htmlFor={`download-${doc.field}`} className="text-xs">Allow Download</Label>
+                                </div>
+                              </div>
+                              <Button type="button" variant="ghost" size="sm">
+                                📤 Generate Link
+                              </Button>
+                            </div>
+                            
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Textarea placeholder="Additional comments..." className="h-20" />
+                            </div>
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+
+                    {/* Maintenance & Refit History */}
+                    <AccordionItem value="maintenance-refit">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        📂 Maintenance & Refit History
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        {[
+                          { name: "Engine Service Reports", field: "engineServiceReports", description: "Manufacturer or shipyard certified" },
+                          { name: "Generator Service Logs", field: "generatorServiceLogs", description: "Same as above" },
+                          { name: "Dry Dock / Haul-Out Reports", field: "dryDockReports", description: "Summary or full invoices" },
+                          { name: "Refit History & Invoices", field: "refitHistory", description: "Include date ranges and value (if possible)" },
+                          { name: "ISM / Safety Drill Records", field: "ismSafetyRecords", description: "Charter readiness indicator" }
+                        ].map((doc) => (
+                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{doc.name}</h4>
+                                <p className="text-sm text-muted-foreground">{doc.description}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline">📎</Badge>
+                                <span className="text-sm text-muted-foreground">⚠️ Missing</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                              <div>
+                                <Label className="text-xs">Last Updated</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Expiry Date</Label>
+                                <Input type="date" className="h-8" />
+                              </div>
+                              <div>
+                                <Label className="text-xs">Visibility</Label>
+                                <Select>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue placeholder="Broker Only" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="public">Public</SelectItem>
+                                    <SelectItem value="broker-only">Broker Only</SelectItem>
+                                    <SelectItem value="private">Private</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-xs">PIN Protection</Label>
+                                <Input placeholder="Optional PIN" className="h-8" />
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" size="sm">
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload
+                                </Button>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id={`download-${doc.field}`} />
+                                  <Label htmlFor={`download-${doc.field}`} className="text-xs">Allow Download</Label>
+                                </div>
+                              </div>
+                              <Button type="button" variant="ghost" size="sm">
+                                📤 Generate Link
+                              </Button>
+                            </div>
+                            
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Textarea placeholder="Additional comments..." className="h-20" />
+                            </div>
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+
+                  {/* Global Actions */}
                   <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                    <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">Recommended Documents</h4>
-                    <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
-                      <li>• Valid Insurance Certificate</li>
-                      <li>• Yacht Registration</li>
-                      <li>• Commercial Charter License (if applicable)</li>
-                      <li>• Safety Equipment Certificate</li>
-                      <li>• Recent Survey Report</li>
-                      <li>• Radio License</li>
-                    </ul>
+                    <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-4">Batch Operations</h4>
+                    <div className="flex flex-wrap gap-2">
+                      <Button type="button" variant="outline" size="sm">
+                        📁 Upload Multiple Files
+                      </Button>
+                      <Button type="button" variant="outline" size="sm">
+                        🔄 Request Missing Documents
+                      </Button>
+                      <Button type="button" variant="outline" size="sm">
+                        📧 Send Document Package
+                      </Button>
+                      <Button type="button" variant="outline" size="sm">
+                        🔗 Generate Master Share Link
+                      </Button>
+                    </div>
                   </div>
+
                 </CardContent>
               </Card>
             </TabsContent>
