@@ -1,17 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { Building, Home, MapPin, Ruler, Bed, Bath, Car, Wrench, Shield, Leaf, Calendar, Phone, Star } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Building, Home, MapPin, Ruler, Bed, Bath, Car, Wrench, Shield, Leaf, Calendar, Phone, Star, Plus, X, Upload, Link } from "lucide-react";
 
 interface RealEstatePropertyFormProps {
   form: UseFormReturn<any>;
 }
 
 export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
+  // State for dynamic sections
+  const [propertyFeatures, setPropertyFeatures] = useState([{ name: '', description: '' }])
+  const [roomTypes, setRoomTypes] = useState([{ name: '', size: '', description: '' }])
+  
+  // State for media uploads
+  const [propertyVirtualTours, setPropertyVirtualTours] = useState([{ name: '', url: '', file: null }])
+  const [propertyPhotos, setPropertyPhotos] = useState([])
+  const [propertyVideos, setPropertyVideos] = useState([])
+  const [propertyDroneFootage, setPropertyDroneFootage] = useState([])
+  const [propertyFloorPlans, setPropertyFloorPlans] = useState([])
+  const [propertyDocuments, setPropertyDocuments] = useState([])
+  
+  const [featureMedia, setFeatureMedia] = useState({})
+  const [roomMedia, setRoomMedia] = useState({})
+  
+  // Helper functions for media management
+  const addPropertyVirtualTour = () => {
+    setPropertyVirtualTours([...propertyVirtualTours, { name: '', url: '', file: null }])
+  }
+  
+  const removePropertyVirtualTour = (index: number) => {
+    setPropertyVirtualTours(propertyVirtualTours.filter((_, i) => i !== index))
+  }
+  
+  const updatePropertyVirtualTour = (index: number, field: string, value: any) => {
+    const updated = [...propertyVirtualTours]
+    updated[index] = { ...updated[index], [field]: value }
+    setPropertyVirtualTours(updated)
+  }
+  
+  const addPropertyFeature = () => {
+    setPropertyFeatures([...propertyFeatures, { name: '', description: '' }])
+  }
+  
+  const removePropertyFeature = (index: number) => {
+    setPropertyFeatures(propertyFeatures.filter((_, i) => i !== index))
+  }
+  
+  const addRoomType = () => {
+    setRoomTypes([...roomTypes, { name: '', size: '', description: '' }])
+  }
+  
+  const removeRoomType = (index: number) => {
+    setRoomTypes(roomTypes.filter((_, i) => i !== index))
+  }
   const propertyTypeOptions = [
     { category: "🏡 Single-Family Residential", options: [
       { value: "detached-house", label: "Detached House" },
@@ -241,7 +289,16 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
   }, [watchedPrice, watchedSalePrice, watchedPlotSize, form]);
 
   return (
-    <div className="space-y-8">
+    <Tabs defaultValue="property-details" className="w-full">
+      <TabsList className="grid w-full grid-cols-5">
+        <TabsTrigger value="property-details">Property Details</TabsTrigger>
+        <TabsTrigger value="property-features">Property Features</TabsTrigger>
+        <TabsTrigger value="room-types">Room Types</TabsTrigger>
+        <TabsTrigger value="media-files">Media & Files</TabsTrigger>
+        <TabsTrigger value="agent-info">Agent Info</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="property-details" className="space-y-8">
       {/* Rooms & Layout */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -1452,6 +1509,367 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
           )}
         />
       </div>
-    </div>
+      </TabsContent>
+
+      <TabsContent value="property-features" className="space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Property Features</CardTitle>
+            <CardDescription>Define the special features and amenities of your property</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {propertyFeatures.map((feature, index) => (
+              <div key={index} className="border rounded-lg p-4 space-y-4">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-medium">Feature {index + 1}</h4>
+                  {propertyFeatures.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removePropertyFeature(index)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium">Feature Name</label>
+                    <Input
+                      placeholder="e.g., Swimming Pool, Garden"
+                      value={feature.name}
+                      onChange={(e) => {
+                        const updated = [...propertyFeatures]
+                        updated[index].name = e.target.value
+                        setPropertyFeatures(updated)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Description</label>
+                    <Input
+                      placeholder="Brief description"
+                      value={feature.description}
+                      onChange={(e) => {
+                        const updated = [...propertyFeatures]
+                        updated[index].description = e.target.value
+                        setPropertyFeatures(updated)
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={addPropertyFeature}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Property Feature
+            </Button>
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="room-types" className="space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Room Types</CardTitle>
+            <CardDescription>Define the different room types in your property</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {roomTypes.map((room, index) => (
+              <div key={index} className="border rounded-lg p-4 space-y-4">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-medium">Room Type {index + 1}</h4>
+                  {roomTypes.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeRoomType(index)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-sm font-medium">Room Name</label>
+                    <Input
+                      placeholder="e.g., Master Bedroom, Living Room"
+                      value={room.name}
+                      onChange={(e) => {
+                        const updated = [...roomTypes]
+                        updated[index].name = e.target.value
+                        setRoomTypes(updated)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Size</label>
+                    <Input
+                      placeholder="e.g., 20 sqm"
+                      value={room.size}
+                      onChange={(e) => {
+                        const updated = [...roomTypes]
+                        updated[index].size = e.target.value
+                        setRoomTypes(updated)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Description</label>
+                    <Input
+                      placeholder="Brief description"
+                      value={room.description}
+                      onChange={(e) => {
+                        const updated = [...roomTypes]
+                        updated[index].description = e.target.value
+                        setRoomTypes(updated)
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={addRoomType}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Room Type
+            </Button>
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="media-files" className="space-y-6">
+        {/* Property Media (Main Property) */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Property Media (Main Property)</CardTitle>
+            <CardDescription>Upload general media assets that represent the property as a whole</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* 360 Virtual Tours */}
+            <div className="space-y-4">
+              <h4 className="font-medium flex items-center gap-2">
+                <Link className="h-4 w-4" />
+                360 Virtual Tours
+              </h4>
+              {propertyVirtualTours.map((tour, index) => (
+                <div key={index} className="border rounded-lg p-4 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Tour {index + 1}</span>
+                    {propertyVirtualTours.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removePropertyVirtualTour(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium">Tour Name</label>
+                      <Input
+                        placeholder="e.g., Main Living Area Tour"
+                        value={tour.name}
+                        onChange={(e) => updatePropertyVirtualTour(index, 'name', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">URL Link</label>
+                      <Input
+                        placeholder="https://..."
+                        value={tour.url}
+                        onChange={(e) => updatePropertyVirtualTour(index, 'url', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">File Upload</label>
+                    <Input
+                      type="file"
+                      accept=".mp4,.mov,.avi"
+                      onChange={(e) => updatePropertyVirtualTour(index, 'file', e.target.files?.[0])}
+                    />
+                  </div>
+                </div>
+              ))}
+              <Button type="button" variant="outline" onClick={addPropertyVirtualTour}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Another Tour
+              </Button>
+            </div>
+
+            {/* Photos */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Photos</h4>
+              <div>
+                <label className="text-sm font-medium">Upload Photos</label>
+                <Input type="file" multiple accept="image/*" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Photo URLs</label>
+                <Textarea placeholder="Enter photo URLs (one per line)" />
+              </div>
+            </div>
+
+            {/* Videos */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Videos</h4>
+              <div>
+                <label className="text-sm font-medium">Upload Videos</label>
+                <Input type="file" multiple accept="video/*" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Video URLs (YouTube, Vimeo)</label>
+                <Textarea placeholder="Enter video URLs (one per line)" />
+              </div>
+            </div>
+
+            {/* Drone Footage */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Drone Footage</h4>
+              <div>
+                <label className="text-sm font-medium">Upload Drone Videos</label>
+                <Input type="file" multiple accept="video/*" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Drone Footage URLs</label>
+                <Textarea placeholder="Enter drone footage URLs (one per line)" />
+              </div>
+            </div>
+
+            {/* Floor Plans */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Floor Plans</h4>
+              <div>
+                <label className="text-sm font-medium">Upload Floor Plans</label>
+                <Input type="file" multiple accept=".pdf,.jpg,.png" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Floor Plan URLs</label>
+                <Textarea placeholder="Enter floor plan URLs (one per line)" />
+              </div>
+            </div>
+
+            {/* Documents */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Documents</h4>
+              <div>
+                <label className="text-sm font-medium">Upload Documents</label>
+                <Input type="file" multiple accept=".pdf,.doc,.docx" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Document URLs</label>
+                <Textarea placeholder="Enter document URLs (one per line)" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Property Features Media */}
+        {propertyFeatures.length > 0 && propertyFeatures.some(feature => feature.name) && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Media for Property Features</CardTitle>
+              <CardDescription>Upload media for each property feature you've defined</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {propertyFeatures.filter(feature => feature.name).map((feature, index) => (
+                <div key={index} className="border rounded-lg p-4 space-y-4">
+                  <h4 className="font-medium">{feature.name}</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium">360 Virtual Tours</label>
+                      <Input type="file" accept="video/*" />
+                      <Input placeholder="Tour URL" className="mt-2" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Photos</label>
+                      <Input type="file" multiple accept="image/*" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium">Videos</label>
+                      <Input type="file" multiple accept="video/*" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Drone Footage</label>
+                      <Input type="file" multiple accept="video/*" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Room Types Media */}
+        {roomTypes.length > 0 && roomTypes.some(room => room.name) && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Media for Room Types</CardTitle>
+              <CardDescription>Upload media for each room type you've defined</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {roomTypes.filter(room => room.name).map((room, index) => (
+                <div key={index} className="border rounded-lg p-4 space-y-4">
+                  <h4 className="font-medium">{room.name}</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium">360 Virtual Tour (Required)</label>
+                      <Input type="file" accept="video/*" />
+                      <Input placeholder="Tour URL" className="mt-2" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Room Photos</label>
+                      <Input type="file" multiple accept="image/*" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium">Walkthrough Video</label>
+                      <Input type="file" accept="video/*" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Floor Plan</label>
+                      <Input type="file" accept=".pdf,.jpg,.png" />
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox />
+                    <label className="text-sm">Mark as featured media for this room</label>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Save as Draft */}
+        <div className="flex justify-center">
+          <Button type="button" variant="outline">
+            Save as Draft
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="agent-info" className="space-y-8">
+        {/* Agent information content would go here */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Agent & Contact Information</CardTitle>
+            <CardDescription>Enter agent details and contact information</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* Agent form fields would be added here */}
+            <p>Agent information form will be added here</p>
+          </CardContent>
+        </Card>
+      </TabsContent>
+    </Tabs>
   );
 }

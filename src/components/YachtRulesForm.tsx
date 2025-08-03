@@ -12,8 +12,31 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
+import { Plus, X, Upload, Link } from "lucide-react"
 
 const yachtRulesSchema = z.object({
+  // Yacht Details
+  yachtName: z.string().min(1, "Yacht name is required"),
+  yachtType: z.string().min(1, "Yacht type is required"),
+  length: z.string().optional(),
+  beam: z.string().optional(),
+  draft: z.string().optional(),
+  builder: z.string().optional(),
+  yearBuilt: z.string().optional(),
+  
+  // Deck Spaces
+  deckSpaces: z.array(z.object({
+    name: z.string(),
+    description: z.string().optional(),
+  })).optional(),
+  
+  // Cabin Types
+  cabinTypes: z.array(z.object({
+    name: z.string(),
+    sleeps: z.number().optional(),
+    description: z.string().optional(),
+  })).optional(),
+
   // Guest Rules
   maxGuestsSleeping: z.number().min(1).max(50),
   maxGuestsDayUse: z.number().min(1).max(100),
@@ -92,9 +115,33 @@ interface YachtRulesFormProps {
 export function YachtRulesForm({ onSubmit, onCancel }: YachtRulesFormProps) {
   const { toast } = useToast()
   
+  // State for dynamic sections
+  const [deckSpaces, setDeckSpaces] = useState([{ name: '', description: '' }])
+  const [cabinTypes, setCabinTypes] = useState([{ name: '', sleeps: 2, description: '' }])
+  
+  // State for media uploads
+  const [yachtVirtualTours, setYachtVirtualTours] = useState([{ name: '', url: '', file: null }])
+  const [yachtPhotos, setYachtPhotos] = useState([])
+  const [yachtVideos, setYachtVideos] = useState([])
+  const [yachtDroneFootage, setYachtDroneFootage] = useState([])
+  const [yachtFloorPlans, setYachtFloorPlans] = useState([])
+  const [yachtDocuments, setYachtDocuments] = useState([])
+  
+  const [spaceMedia, setSpaceMedia] = useState({})
+  const [cabinMedia, setCabinMedia] = useState({})
+  
   const form = useForm<YachtRulesFormData>({
     resolver: zodResolver(yachtRulesSchema),
     defaultValues: {
+      yachtName: '',
+      yachtType: '',
+      length: '',
+      beam: '',
+      draft: '',
+      builder: '',
+      yearBuilt: '',
+      deckSpaces: [],
+      cabinTypes: [],
       maxGuestsSleeping: 10,
       maxGuestsDayUse: 12,
       childrenAllowed: "yes",
@@ -149,11 +196,59 @@ export function YachtRulesForm({ onSubmit, onCancel }: YachtRulesFormProps) {
     },
   })
 
+  // Helper functions for media management
+  const addYachtVirtualTour = () => {
+    setYachtVirtualTours([...yachtVirtualTours, { name: '', url: '', file: null }])
+  }
+  
+  const removeYachtVirtualTour = (index: number) => {
+    setYachtVirtualTours(yachtVirtualTours.filter((_, i) => i !== index))
+  }
+  
+  const updateYachtVirtualTour = (index: number, field: string, value: any) => {
+    const updated = [...yachtVirtualTours]
+    updated[index] = { ...updated[index], [field]: value }
+    setYachtVirtualTours(updated)
+  }
+  
+  const addDeckSpace = () => {
+    setDeckSpaces([...deckSpaces, { name: '', description: '' }])
+  }
+  
+  const removeDeckSpace = (index: number) => {
+    setDeckSpaces(deckSpaces.filter((_, i) => i !== index))
+  }
+  
+  const addCabinType = () => {
+    setCabinTypes([...cabinTypes, { name: '', sleeps: 2, description: '' }])
+  }
+  
+  const removeCabinType = (index: number) => {
+    setCabinTypes(cabinTypes.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = (data: YachtRulesFormData) => {
-    onSubmit(data)
+    const formData = {
+      ...data,
+      deckSpaces,
+      cabinTypes,
+      media: {
+        yacht: {
+          virtualTours: yachtVirtualTours,
+          photos: yachtPhotos,
+          videos: yachtVideos,
+          droneFootage: yachtDroneFootage,
+          floorPlans: yachtFloorPlans,
+          documents: yachtDocuments,
+        },
+        spaces: spaceMedia,
+        cabins: cabinMedia,
+      }
+    }
+    onSubmit(formData)
     toast({
-      title: "Yacht rules saved",
-      description: "Your yacht rules and access parameters have been configured.",
+      title: "Yacht listing saved",
+      description: "Your yacht listing and media have been configured.",
     })
   }
 
@@ -166,16 +261,485 @@ export function YachtRulesForm({ onSubmit, onCancel }: YachtRulesFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-          <Tabs defaultValue="guest-rules" className="w-full">
-            <TabsList className="grid w-full grid-cols-7">
+          <Tabs defaultValue="yacht-details" className="w-full">
+            <TabsList className="grid w-full grid-cols-8">
+              <TabsTrigger value="yacht-details">Yacht Details</TabsTrigger>
+              <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
+              <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
+              <TabsTrigger value="media-files">Media & Files</TabsTrigger>
               <TabsTrigger value="guest-rules">Guest Rules</TabsTrigger>
               <TabsTrigger value="access">Access</TabsTrigger>
-              <TabsTrigger value="cleaning">Cleaning</TabsTrigger>
               <TabsTrigger value="safety">Safety</TabsTrigger>
-              <TabsTrigger value="location">Location</TabsTrigger>
-              <TabsTrigger value="legal">Legal</TabsTrigger>
               <TabsTrigger value="management">Management</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="yacht-details" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Yacht Information</CardTitle>
+                  <CardDescription>Enter basic information about your yacht</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="yachtName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Yacht Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter yacht name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="yachtType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Yacht Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select yacht type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="motor-yacht">Motor Yacht</SelectItem>
+                              <SelectItem value="sailing-yacht">Sailing Yacht</SelectItem>
+                              <SelectItem value="catamaran">Catamaran</SelectItem>
+                              <SelectItem value="super-yacht">Super Yacht</SelectItem>
+                              <SelectItem value="mega-yacht">Mega Yacht</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="length"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Length (ft/m)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 120 ft" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="beam"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Beam (ft/m)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 25 ft" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="draft"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Draft (ft/m)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 8 ft" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="builder"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Builder</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Sunseeker" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="yearBuilt"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Year Built</FormLabel>
+                          <FormControl>
+                            <Input type="number" placeholder="e.g., 2020" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="deck-spaces" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Deck Spaces</CardTitle>
+                  <CardDescription>Define the different deck areas and spaces on your yacht</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {deckSpaces.map((space, index) => (
+                    <div key={index} className="border rounded-lg p-4 space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h4 className="font-medium">Deck Space {index + 1}</h4>
+                        {deckSpaces.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeDeckSpace(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-medium">Space Name</label>
+                          <Input
+                            placeholder="e.g., Upper Deck, Flybridge"
+                            value={space.name}
+                            onChange={(e) => {
+                              const updated = [...deckSpaces]
+                              updated[index].name = e.target.value
+                              setDeckSpaces(updated)
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium">Description</label>
+                          <Input
+                            placeholder="Brief description"
+                            value={space.description}
+                            onChange={(e) => {
+                              const updated = [...deckSpaces]
+                              updated[index].description = e.target.value
+                              setDeckSpaces(updated)
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <Button type="button" variant="outline" onClick={addDeckSpace}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Deck Space
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="cabin-types" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Cabin Types</CardTitle>
+                  <CardDescription>Define the different cabin types available on your yacht</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {cabinTypes.map((cabin, index) => (
+                    <div key={index} className="border rounded-lg p-4 space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h4 className="font-medium">Cabin Type {index + 1}</h4>
+                        {cabinTypes.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeCabinType(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <label className="text-sm font-medium">Cabin Name</label>
+                          <Input
+                            placeholder="e.g., Master Suite, VIP Cabin"
+                            value={cabin.name}
+                            onChange={(e) => {
+                              const updated = [...cabinTypes]
+                              updated[index].name = e.target.value
+                              setCabinTypes(updated)
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium">Sleeps</label>
+                          <Input
+                            type="number"
+                            placeholder="2"
+                            value={cabin.sleeps}
+                            onChange={(e) => {
+                              const updated = [...cabinTypes]
+                              updated[index].sleeps = parseInt(e.target.value)
+                              setCabinTypes(updated)
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium">Description</label>
+                          <Input
+                            placeholder="Brief description"
+                            value={cabin.description}
+                            onChange={(e) => {
+                              const updated = [...cabinTypes]
+                              updated[index].description = e.target.value
+                              setCabinTypes(updated)
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <Button type="button" variant="outline" onClick={addCabinType}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Cabin Type
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="media-files" className="space-y-6">
+              {/* Yacht Media (Main Property) */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Yacht Media (Main Property)</CardTitle>
+                  <CardDescription>Upload general media assets that represent the yacht as a whole</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* 360 Virtual Tours */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Link className="h-4 w-4" />
+                      360 Virtual Tours
+                    </h4>
+                    {yachtVirtualTours.map((tour, index) => (
+                      <div key={index} className="border rounded-lg p-4 space-y-4">
+                        <div className="flex justify-between items-center">
+                          <span className="font-medium">Tour {index + 1}</span>
+                          {yachtVirtualTours.length > 1 && (
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeYachtVirtualTour(index)}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Tour Name</label>
+                            <Input
+                              placeholder="e.g., Main Deck Tour"
+                              value={tour.name}
+                              onChange={(e) => updateYachtVirtualTour(index, 'name', e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">URL Link</label>
+                            <Input
+                              placeholder="https://..."
+                              value={tour.url}
+                              onChange={(e) => updateYachtVirtualTour(index, 'url', e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium">File Upload</label>
+                          <Input
+                            type="file"
+                            accept=".mp4,.mov,.avi"
+                            onChange={(e) => updateYachtVirtualTour(index, 'file', e.target.files?.[0])}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                    <Button type="button" variant="outline" onClick={addYachtVirtualTour}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Another Tour
+                    </Button>
+                  </div>
+
+                  {/* Photos */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium">Photos</h4>
+                    <div>
+                      <label className="text-sm font-medium">Upload Photos</label>
+                      <Input type="file" multiple accept="image/*" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Photo URLs</label>
+                      <Textarea placeholder="Enter photo URLs (one per line)" />
+                    </div>
+                  </div>
+
+                  {/* Videos */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium">Videos</h4>
+                    <div>
+                      <label className="text-sm font-medium">Upload Videos</label>
+                      <Input type="file" multiple accept="video/*" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Video URLs (YouTube, Vimeo)</label>
+                      <Textarea placeholder="Enter video URLs (one per line)" />
+                    </div>
+                  </div>
+
+                  {/* Drone Footage */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium">Drone Footage</h4>
+                    <div>
+                      <label className="text-sm font-medium">Upload Drone Videos</label>
+                      <Input type="file" multiple accept="video/*" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Drone Footage URLs</label>
+                      <Textarea placeholder="Enter drone footage URLs (one per line)" />
+                    </div>
+                  </div>
+
+                  {/* Floor Plans */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium">Floor Plans</h4>
+                    <div>
+                      <label className="text-sm font-medium">Upload Floor Plans</label>
+                      <Input type="file" multiple accept=".pdf,.jpg,.png" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Floor Plan URLs</label>
+                      <Textarea placeholder="Enter floor plan URLs (one per line)" />
+                    </div>
+                  </div>
+
+                  {/* Documents */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium">Documents</h4>
+                    <div>
+                      <label className="text-sm font-medium">Upload Documents</label>
+                      <Input type="file" multiple accept=".pdf,.doc,.docx" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Document URLs</label>
+                      <Textarea placeholder="Enter document URLs (one per line)" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Deck Spaces Media */}
+              {deckSpaces.length > 0 && deckSpaces.some(space => space.name) && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Media for Deck Spaces</CardTitle>
+                    <CardDescription>Upload media for each deck space you've defined</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {deckSpaces.filter(space => space.name).map((space, index) => (
+                      <div key={index} className="border rounded-lg p-4 space-y-4">
+                        <h4 className="font-medium">{space.name}</h4>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">360 Virtual Tours</label>
+                            <Input type="file" accept="video/*" />
+                            <Input placeholder="Tour URL" className="mt-2" />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Photos</label>
+                            <Input type="file" multiple accept="image/*" />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Videos</label>
+                            <Input type="file" multiple accept="video/*" />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Drone Footage</label>
+                            <Input type="file" multiple accept="video/*" />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Cabin Types Media */}
+              {cabinTypes.length > 0 && cabinTypes.some(cabin => cabin.name) && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Media for Cabin Types</CardTitle>
+                    <CardDescription>Upload media for each cabin type you've defined</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {cabinTypes.filter(cabin => cabin.name).map((cabin, index) => (
+                      <div key={index} className="border rounded-lg p-4 space-y-4">
+                        <h4 className="font-medium">{cabin.name}</h4>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">360 Virtual Tour (Required)</label>
+                            <Input type="file" accept="video/*" />
+                            <Input placeholder="Tour URL" className="mt-2" />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Cabin Photos</label>
+                            <Input type="file" multiple accept="image/*" />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Walkthrough Video</label>
+                            <Input type="file" accept="video/*" />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Floor Plan</label>
+                            <Input type="file" accept=".pdf,.jpg,.png" />
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox />
+                          <label className="text-sm">Mark as featured media for this cabin</label>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Save as Draft */}
+              <div className="flex justify-center">
+                <Button type="button" variant="outline">
+                  Save as Draft
+                </Button>
+              </div>
+            </TabsContent>
 
             <TabsContent value="guest-rules" className="space-y-4">
               <Card>
