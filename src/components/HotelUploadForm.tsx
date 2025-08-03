@@ -36,6 +36,7 @@ interface Tour {
   tourUrl?: string;
   tourFile?: File;
   description: string;
+  assignedRoom?: string;
 }
 
 interface RoomType {
@@ -1094,6 +1095,26 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   onChange={(e) => setCurrentTour({...currentTour, description: e.target.value})}
                 />
 
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Assign to Room (Optional)</label>
+                  <Select
+                    value={currentTour.assignedRoom || ''}
+                    onValueChange={(value) => setCurrentTour({...currentTour, assignedRoom: value})}
+                  >
+                    <SelectTrigger className="bg-background border-border">
+                      <SelectValue placeholder="Select room or leave for general hotel tour" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border shadow-lg z-50">
+                      <SelectItem value="">General Hotel Tour</SelectItem>
+                      {roomTypes.map((room) => (
+                        <SelectItem key={room.id} value={room.id}>
+                          {room.name} ({room.category})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {currentTour.type === 'url' && (
                   <Input
                     placeholder="Matterport, 360°, YouTube URL, etc."
@@ -1140,15 +1161,23 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <div>
                         <div className="font-medium">{tour.name}</div>
                         <div className="text-sm text-muted-foreground">{tour.description}</div>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
-                          {tour.type === 'url' && tour.tourUrl && (
-                            <Badge variant="secondary" className="text-xs">URL: {tour.tourUrl.substring(0, 30)}...</Badge>
-                          )}
-                          {tour.type === 'file' && tour.tourFile && (
-                            <Badge variant="secondary" className="text-xs">File: {tour.tourFile.name}</Badge>
-                          )}
-                        </div>
+                         <div className="flex gap-2 mt-1">
+                           <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
+                           {tour.assignedRoom && (
+                             <Badge variant="secondary" className="text-xs">
+                               Room: {roomTypes.find(r => r.id === tour.assignedRoom)?.name || 'Unknown'}
+                             </Badge>
+                           )}
+                           {!tour.assignedRoom && (
+                             <Badge variant="outline" className="text-xs">General Hotel</Badge>
+                           )}
+                           {tour.type === 'url' && tour.tourUrl && (
+                             <Badge variant="secondary" className="text-xs">URL: {tour.tourUrl.substring(0, 30)}...</Badge>
+                           )}
+                           {tour.type === 'file' && tour.tourFile && (
+                             <Badge variant="secondary" className="text-xs">File: {tour.tourFile.name}</Badge>
+                           )}
+                         </div>
                       </div>
                       <Button variant="outline" size="sm" onClick={() => removeTour(tour.id)}>
                         <Trash2 className="h-4 w-4" />
@@ -1194,13 +1223,34 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Hotel Gallery</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Upload additional hotel images</p>
-                        <Input type="file" accept="image/*" multiple className="mt-2" {...field} />
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
+                        <Select
+                          value={form.watch('galleryRoomAssignment') || ''}
+                          onValueChange={(value) => form.setValue('galleryRoomAssignment', value)}
+                        >
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select room or leave for general hotel photos" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border shadow-lg z-50">
+                            <SelectItem value="">General Hotel Photos</SelectItem>
+                            {roomTypes.map((room) => (
+                              <SelectItem key={room.id} value={room.id}>
+                                {room.name} ({room.category})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    </FormControl>
+                      <FormControl>
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">Upload additional hotel images</p>
+                          <Input type="file" accept="image/*" multiple className="mt-2" {...field} />
+                        </div>
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -1224,25 +1274,46 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Upload Hotel Videos</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          multiple
-                          accept="video/*"
-                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                          className="hidden"
-                          id="hotel-videos-upload"
-                        />
-                        <label htmlFor="hotel-videos-upload" className="cursor-pointer">
-                          <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                          <p className="text-lg font-medium mb-2">Upload Hotel Videos</p>
-                          <p className="text-sm text-muted-foreground">
-                            Drop videos here or click to browse. Supports MP4, MOV, AVI
-                          </p>
-                        </label>
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
+                        <Select
+                          value={form.watch('videosRoomAssignment') || ''}
+                          onValueChange={(value) => form.setValue('videosRoomAssignment', value)}
+                        >
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select room or leave for general hotel videos" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border shadow-lg z-50">
+                            <SelectItem value="">General Hotel Videos</SelectItem>
+                            {roomTypes.map((room) => (
+                              <SelectItem key={room.id} value={room.id}>
+                                {room.name} ({room.category})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    </FormControl>
+                      <FormControl>
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <input
+                            type="file"
+                            multiple
+                            accept="video/*"
+                            onChange={(e) => field.onChange(Array.from(e.target.files || []))}
+                            className="hidden"
+                            id="hotel-videos-upload"
+                          />
+                          <label htmlFor="hotel-videos-upload" className="cursor-pointer">
+                            <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                            <p className="text-lg font-medium mb-2">Upload Hotel Videos</p>
+                            <p className="text-sm text-muted-foreground">
+                              Drop videos here or click to browse. Supports MP4, MOV, AVI
+                            </p>
+                          </label>
+                        </div>
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -1266,25 +1337,46 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Upload Drone Footage</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          multiple
-                          accept="video/*,image/*"
-                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                          className="hidden"
-                          id="drone-footage-upload"
-                        />
-                        <label htmlFor="drone-footage-upload" className="cursor-pointer">
-                          <Camera className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                          <p className="text-lg font-medium mb-2">Upload Drone Footage</p>
-                          <p className="text-sm text-muted-foreground">
-                            Drop aerial footage here or click to browse. Supports videos and images
-                          </p>
-                        </label>
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
+                        <Select
+                          value={form.watch('droneRoomAssignment') || ''}
+                          onValueChange={(value) => form.setValue('droneRoomAssignment', value)}
+                        >
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select room or leave for general hotel drone footage" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border shadow-lg z-50">
+                            <SelectItem value="">General Hotel Drone Footage</SelectItem>
+                            {roomTypes.map((room) => (
+                              <SelectItem key={room.id} value={room.id}>
+                                {room.name} ({room.category})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    </FormControl>
+                      <FormControl>
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <input
+                            type="file"
+                            multiple
+                            accept="video/*,image/*"
+                            onChange={(e) => field.onChange(Array.from(e.target.files || []))}
+                            className="hidden"
+                            id="drone-footage-upload"
+                          />
+                          <label htmlFor="drone-footage-upload" className="cursor-pointer">
+                            <Camera className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                            <p className="text-lg font-medium mb-2">Upload Drone Footage</p>
+                            <p className="text-sm text-muted-foreground">
+                              Drop aerial footage here or click to browse. Supports videos and images
+                            </p>
+                          </label>
+                        </div>
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -1308,25 +1400,46 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Upload Documents</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          multiple
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                          className="hidden"
-                          id="hotel-documents-upload"
-                        />
-                        <label htmlFor="hotel-documents-upload" className="cursor-pointer">
-                          <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                          <p className="text-lg font-medium mb-2">Upload Documents</p>
-                          <p className="text-sm text-muted-foreground">
-                            Menus, awards, certificates, etc. Supports PDF, DOC, JPG, PNG
-                          </p>
-                        </label>
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
+                        <Select
+                          value={form.watch('documentsRoomAssignment') || ''}
+                          onValueChange={(value) => form.setValue('documentsRoomAssignment', value)}
+                        >
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select room or leave for general hotel documents" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border shadow-lg z-50">
+                            <SelectItem value="">General Hotel Documents</SelectItem>
+                            {roomTypes.map((room) => (
+                              <SelectItem key={room.id} value={room.id}>
+                                {room.name} ({room.category})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    </FormControl>
+                      <FormControl>
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <input
+                            type="file"
+                            multiple
+                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                            onChange={(e) => field.onChange(Array.from(e.target.files || []))}
+                            className="hidden"
+                            id="hotel-documents-upload"
+                          />
+                          <label htmlFor="hotel-documents-upload" className="cursor-pointer">
+                            <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                            <p className="text-lg font-medium mb-2">Upload Documents</p>
+                            <p className="text-sm text-muted-foreground">
+                              Menus, awards, certificates, etc. Supports PDF, DOC, JPG, PNG
+                            </p>
+                          </label>
+                        </div>
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -1351,13 +1464,34 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Floor Plan Upload</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Upload floor plan (PDF or Image)</p>
-                        <Input type="file" accept=".pdf,image/*" className="mt-2" {...field} />
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
+                        <Select
+                          value={form.watch('floorPlanRoomAssignment') || ''}
+                          onValueChange={(value) => form.setValue('floorPlanRoomAssignment', value)}
+                        >
+                          <SelectTrigger className="bg-background border-border">
+                            <SelectValue placeholder="Select room or leave for general hotel floor plan" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border shadow-lg z-50">
+                            <SelectItem value="">General Hotel Floor Plan</SelectItem>
+                            {roomTypes.map((room) => (
+                              <SelectItem key={room.id} value={room.id}>
+                                {room.name} ({room.category})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    </FormControl>
+                      <FormControl>
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">Upload floor plan (PDF or Image)</p>
+                          <Input type="file" accept=".pdf,image/*" className="mt-2" {...field} />
+                        </div>
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
