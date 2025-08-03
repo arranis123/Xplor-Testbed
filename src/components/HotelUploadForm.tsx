@@ -620,7 +620,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="location">Location</TabsTrigger>
           <TabsTrigger value="amenities">Amenities</TabsTrigger>
-          <TabsTrigger value="rooms">Room Types</TabsTrigger>
+          <TabsTrigger value="rooms">Rooms</TabsTrigger>
           <TabsTrigger value="submission">Submission</TabsTrigger>
           <TabsTrigger value="media">Media & Files</TabsTrigger>
         </TabsList>
