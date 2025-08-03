@@ -652,14 +652,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             </CardContent>
           </Card>
 
-          {/* Hotel Media Section */}
+          {/* Hotel Photos Section */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Camera className="h-5 w-5" />
-                Hotel Media & Files
+                Hotel Photos
               </CardTitle>
-              <CardDescription>Upload images, videos, and documentation</CardDescription>
+              <CardDescription>Upload high-quality photos of your hotel</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
@@ -697,6 +697,145 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   </FormItem>
                 )}
               />
+            </CardContent>
+          </Card>
+
+          {/* Hotel Videos Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Video className="h-5 w-5" />
+                Hotel Videos
+              </CardTitle>
+              <CardDescription>Upload promotional and showcase videos</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="hotelVideos"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Upload Hotel Videos</FormLabel>
+                    <FormControl>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                        <input
+                          type="file"
+                          multiple
+                          accept="video/*"
+                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
+                          className="hidden"
+                          id="hotel-videos-upload"
+                        />
+                        <label htmlFor="hotel-videos-upload" className="cursor-pointer">
+                          <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                          <p className="text-lg font-medium mb-2">Upload Hotel Videos</p>
+                          <p className="text-sm text-muted-foreground">
+                            Drop videos here or click to browse. Supports MP4, MOV, AVI
+                          </p>
+                        </label>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Drone Footage Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Camera className="h-5 w-5" />
+                Drone Footage
+              </CardTitle>
+              <CardDescription>Upload aerial footage and drone videos</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="droneFootage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Upload Drone Footage</FormLabel>
+                    <FormControl>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                        <input
+                          type="file"
+                          multiple
+                          accept="video/*,image/*"
+                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
+                          className="hidden"
+                          id="drone-footage-upload"
+                        />
+                        <label htmlFor="drone-footage-upload" className="cursor-pointer">
+                          <Camera className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                          <p className="text-lg font-medium mb-2">Upload Drone Footage</p>
+                          <p className="text-sm text-muted-foreground">
+                            Drop aerial footage here or click to browse. Supports videos and images
+                          </p>
+                        </label>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Documents Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Documents
+              </CardTitle>
+              <CardDescription>Upload menus, awards, certificates, and other documents</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="hotelDocuments"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Upload Documents</FormLabel>
+                    <FormControl>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                        <input
+                          type="file"
+                          multiple
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
+                          className="hidden"
+                          id="hotel-documents-upload"
+                        />
+                        <label htmlFor="hotel-documents-upload" className="cursor-pointer">
+                          <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                          <p className="text-lg font-medium mb-2">Upload Documents</p>
+                          <p className="text-sm text-muted-foreground">
+                            Menus, awards, certificates, etc. Supports PDF, DOC, JPG, PNG
+                          </p>
+                        </label>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Floor Plan Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Floor Plans
+              </CardTitle>
+              <CardDescription>Upload hotel floor plans and layouts</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
 
               <FormField
                 control={form.control}
