@@ -45,6 +45,10 @@ interface RoomType {
   category: string;
   assignedTours: string[];
   images: File[];
+  videos: File[];
+  droneFootage: File[];
+  floorPlans: File[];
+  virtualTours: Tour[];
   maxGuests: number;
   roomSize: string;
   roomSizeUnit: string;
@@ -619,6 +623,10 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         category: currentRoom.category || '',
         assignedTours: currentRoom.assignedTours || [],
         images: currentRoom.images || [],
+        videos: currentRoom.videos || [],
+        droneFootage: currentRoom.droneFootage || [],
+        floorPlans: currentRoom.floorPlans || [],
+        virtualTours: currentRoom.virtualTours || [],
         maxGuests: currentRoom.maxGuests || 1,
         roomSize: currentRoom.roomSize || '',
         roomSizeUnit: currentRoom.roomSizeUnit || 'sqm',
@@ -971,413 +979,398 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
 
         {/* SECTION 3: Hotel Media & Files */}
         <TabsContent value="media" className="space-y-6">
-          {/* Virtual Tours Section - Moved to Top */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Video className="h-5 w-5" />
-                Virtual Tours Management
-              </CardTitle>
-              <CardDescription>Create and manage virtual tours that can be assigned to room types</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Add New Tour */}
-              <div className="border border-border rounded-lg p-4 space-y-4">
-                <h4 className="font-medium">Add New Virtual Tour</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Select
-                    value={currentTour.name || ''}
-                    onValueChange={(value) => setCurrentTour({...currentTour, name: value})}
-                  >
-                    <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Select tour name" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background border-border shadow-lg z-50 max-h-80 overflow-y-auto">
-                      {/* Public Areas */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground">PUBLIC AREAS</div>
-                      <SelectItem value="Main Lobby">Main Lobby</SelectItem>
-                      <SelectItem value="Reception / Front Desk">Reception / Front Desk</SelectItem>
-                      <SelectItem value="Lounge / Waiting Area">Lounge / Waiting Area</SelectItem>
-                      <SelectItem value="Concierge Desk">Concierge Desk</SelectItem>
-                      <SelectItem value="Business Center / Co-working Space">Business Center / Co-working Space</SelectItem>
-                      <SelectItem value="Hallways / Corridors">Hallways / Corridors</SelectItem>
-                      
-                      {/* Food & Beverage */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">FOOD & BEVERAGE</div>
-                      <SelectItem value="Main Restaurant(s)">Main Restaurant(s)</SelectItem>
-                      <SelectItem value="Fine Dining Room">Fine Dining Room</SelectItem>
-                      <SelectItem value="Buffet Area">Buffet Area</SelectItem>
-                      <SelectItem value="Poolside Bar">Poolside Bar</SelectItem>
-                      <SelectItem value="Coffee Shop or Café">Coffee Shop or Café</SelectItem>
-                      <SelectItem value="Rooftop Bar or Lounge">Rooftop Bar or Lounge</SelectItem>
-                      <SelectItem value="Wine Cellar / Tasting Room">Wine Cellar / Tasting Room</SelectItem>
-                      <SelectItem value="Private Dining Room">Private Dining Room</SelectItem>
-                      <SelectItem value="Kitchen Tour">Kitchen Tour</SelectItem>
-                      
-                      {/* Event & Meeting Spaces */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">EVENT & MEETING SPACES</div>
-                      <SelectItem value="Grand Ballroom">Grand Ballroom</SelectItem>
-                      <SelectItem value="Conference Room(s)">Conference Room(s)</SelectItem>
-                      <SelectItem value="Meeting Rooms">Meeting Rooms</SelectItem>
-                      <SelectItem value="Breakout Rooms">Breakout Rooms</SelectItem>
-                      <SelectItem value="Pre-function Areas">Pre-function Areas</SelectItem>
-                      <SelectItem value="VIP Lounges">VIP Lounges</SelectItem>
-                      <SelectItem value="Outdoor Event Lawn / Terrace">Outdoor Event Lawn / Terrace</SelectItem>
-                      <SelectItem value="Wedding Gazebo or Pavilion">Wedding Gazebo or Pavilion</SelectItem>
-                      
-                      {/* Wellness & Recreation */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">WELLNESS & RECREATION</div>
-                      <SelectItem value="Gym / Fitness Center">Gym / Fitness Center</SelectItem>
-                      <SelectItem value="Spa / Treatment Rooms">Spa / Treatment Rooms</SelectItem>
-                      <SelectItem value="Sauna / Steam Room">Sauna / Steam Room</SelectItem>
-                      <SelectItem value="Meditation Room / Yoga Studio">Meditation Room / Yoga Studio</SelectItem>
-                      <SelectItem value="Wellness Reception or Juice Bar">Wellness Reception or Juice Bar</SelectItem>
-                      <SelectItem value="Locker Rooms / Changing Areas">Locker Rooms / Changing Areas</SelectItem>
-                      
-                      {/* Leisure Areas */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">LEISURE AREAS</div>
-                      <SelectItem value="Outdoor Swimming Pool">Outdoor Swimming Pool</SelectItem>
-                      <SelectItem value="Indoor Swimming Pool">Indoor Swimming Pool</SelectItem>
-                      <SelectItem value="Children's Pool">Children's Pool</SelectItem>
-                      <SelectItem value="Pool Deck / Cabanas">Pool Deck / Cabanas</SelectItem>
-                      <SelectItem value="Hot Tub / Jacuzzi">Hot Tub / Jacuzzi</SelectItem>
-                      <SelectItem value="Beach Area">Beach Area</SelectItem>
-                      <SelectItem value="Rooftop Deck / Sky Lounge">Rooftop Deck / Sky Lounge</SelectItem>
-                      <SelectItem value="Garden / Courtyard">Garden / Courtyard</SelectItem>
-                      <SelectItem value="Game Room / Recreation Area">Game Room / Recreation Area</SelectItem>
-                      <SelectItem value="Cinema / Screening Room">Cinema / Screening Room</SelectItem>
-                      
-                      {/* Retail & Convenience */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">RETAIL & CONVENIENCE</div>
-                      <SelectItem value="Hotel Gift Shop">Hotel Gift Shop</SelectItem>
-                      <SelectItem value="Designer Boutiques">Designer Boutiques</SelectItem>
-                      <SelectItem value="Convenience Store / Mini Mart">Convenience Store / Mini Mart</SelectItem>
-                      <SelectItem value="Jewelry / Souvenir Shop">Jewelry / Souvenir Shop</SelectItem>
-                      <SelectItem value="Hair or Nail Salon">Hair or Nail Salon</SelectItem>
-                      <SelectItem value="In-house Travel or Tour Desk">In-house Travel or Tour Desk</SelectItem>
-                      
-                      {/* Specialty Areas */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">SPECIALTY AREAS</div>
-                      <SelectItem value="Airport Transfer Lounge">Airport Transfer Lounge</SelectItem>
-                      <SelectItem value="Executive Club Lounge / VIP Lounge">Executive Club Lounge / VIP Lounge</SelectItem>
-                      <SelectItem value="Butler's Pantry or Guest Services Station">Butler's Pantry or Guest Services Station</SelectItem>
-                      <SelectItem value="Art Gallery or On-site Exhibition">Art Gallery or On-site Exhibition</SelectItem>
-                      <SelectItem value="Library or Reading Room">Library or Reading Room</SelectItem>
-                      <SelectItem value="Kids' Club or Play Area">Kids' Club or Play Area</SelectItem>
-                      <SelectItem value="Pet Relief Area / Pet Spa">Pet Relief Area / Pet Spa</SelectItem>
-                      
-                      {/* Back-of-House */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">BACK-OF-HOUSE (OPTIONAL)</div>
-                      <SelectItem value="Staff Reception or Office">Staff Reception or Office</SelectItem>
-                      <SelectItem value="Service Corridor">Service Corridor</SelectItem>
-                      <SelectItem value="Laundry or Sustainability Facility">Laundry or Sustainability Facility</SelectItem>
-                      <SelectItem value="Green Energy Installations">Green Energy Installations</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select
-                    value={currentTour.type || ''}
-                    onValueChange={(value: 'url' | 'file') => setCurrentTour({...currentTour, type: value, tourUrl: '', tourFile: undefined})}
-                  >
-                    <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Tour type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background border-border shadow-lg z-50">
-                      <SelectItem value="url">URL Link</SelectItem>
-                      <SelectItem value="file">File Upload</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <Textarea
-                  placeholder="Tour description"
-                  value={currentTour.description || ''}
-                  onChange={(e) => setCurrentTour({...currentTour, description: e.target.value})}
-                />
-
-                {currentTour.type === 'url' && (
-                  <Input
-                    placeholder="Matterport, 360°, YouTube URL, etc."
-                    value={currentTour.tourUrl || ''}
-                    onChange={(e) => setCurrentTour({...currentTour, tourUrl: e.target.value})}
-                  />
-                )}
-
-                {currentTour.type === 'file' && (
-                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                    <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Upload tour file (Video, 360° image, etc.)</p>
-                    <Input 
-                      type="file" 
-                      accept="video/*,image/*,.mp4,.mov,.360" 
-                      className="mt-2"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setCurrentTour({...currentTour, tourFile: file});
-                        }
-                      }}
-                    />
-                  </div>
-                )}
-
-                <Button 
-                  type="button" 
-                  onClick={addTour}
-                  disabled={!currentTour.name || !currentTour.description || (!currentTour.tourUrl && !currentTour.tourFile)}
-                  className="w-full"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Tour
-                </Button>
+          {roomTypes.length === 0 ? (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Bed className="h-5 w-5" />
+                  No Rooms Created
+                </CardTitle>
+                <CardDescription>
+                  Please create rooms in the "Rooms" tab first before assigning media and files.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ) : (
+            <div className="space-y-6">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-semibold">Assign Media & Files to Rooms</h3>
+                <p className="text-muted-foreground">Upload and assign virtual tours, photos, videos, drone footage, and floor plans to specific rooms.</p>
               </div>
 
-              {/* Display Added Tours */}
-              {tours.length > 0 && (
-                <div className="space-y-2">
-                  <h4 className="font-medium">Added Tours</h4>
-                  {tours.map((tour) => (
-                    <div key={tour.id} className="border border-border rounded p-3 flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">{tour.name}</div>
-                        <div className="text-sm text-muted-foreground">{tour.description}</div>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
-                          {tour.type === 'url' && tour.tourUrl && (
-                            <Badge variant="secondary" className="text-xs">URL: {tour.tourUrl.substring(0, 30)}...</Badge>
+              {roomTypes.map((room) => (
+                <Card key={room.id}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Bed className="h-5 w-5" />
+                      {room.name}
+                      <Badge variant="outline" className="ml-2">
+                        {roomCategories.find(cat => cat.value === room.category)?.label || room.category}
+                      </Badge>
+                    </CardTitle>
+                    <CardDescription>{room.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Tabs defaultValue="virtual-tours" className="w-full">
+                      <TabsList className="grid w-full grid-cols-5">
+                        <TabsTrigger value="virtual-tours">Virtual Tours</TabsTrigger>
+                        <TabsTrigger value="photos">Photos</TabsTrigger>
+                        <TabsTrigger value="videos">Videos</TabsTrigger>
+                        <TabsTrigger value="drone">Drone Footage</TabsTrigger>
+                        <TabsTrigger value="floor-plans">Floor Plans</TabsTrigger>
+                      </TabsList>
+
+                      {/* Virtual Tours */}
+                      <TabsContent value="virtual-tours" className="space-y-4">
+                        <div className="border border-border rounded-lg p-4">
+                          <h4 className="font-medium mb-4">Add Virtual Tour for {room.name}</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <Select
+                              value={currentTour.name || ''}
+                              onValueChange={(value) => setCurrentTour({...currentTour, name: value})}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select tour type" />
+                              </SelectTrigger>
+                              <SelectContent className="max-h-80 overflow-y-auto">
+                                <SelectItem value="Room Interior">Room Interior</SelectItem>
+                                <SelectItem value="Bathroom">Bathroom</SelectItem>
+                                <SelectItem value="Balcony/Terrace">Balcony/Terrace</SelectItem>
+                                <SelectItem value="Room View">Room View</SelectItem>
+                                <SelectItem value="Closet/Storage">Closet/Storage</SelectItem>
+                                <SelectItem value="Kitchenette">Kitchenette</SelectItem>
+                                <SelectItem value="Living Area">Living Area</SelectItem>
+                                <SelectItem value="Bedroom">Bedroom</SelectItem>
+                                <SelectItem value="Suite Features">Suite Features</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <Select
+                              value={currentTour.type || ''}
+                              onValueChange={(value: 'url' | 'file') => setCurrentTour({...currentTour, type: value, tourUrl: '', tourFile: undefined})}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Upload method" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="url">URL Link</SelectItem>
+                                <SelectItem value="file">File Upload</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <Textarea
+                            placeholder="Tour description"
+                            value={currentTour.description || ''}
+                            onChange={(e) => setCurrentTour({...currentTour, description: e.target.value})}
+                            className="mb-4"
+                          />
+
+                          {currentTour.type === 'url' && (
+                            <Input
+                              placeholder="Matterport, 360°, YouTube URL, etc."
+                              value={currentTour.tourUrl || ''}
+                              onChange={(e) => setCurrentTour({...currentTour, tourUrl: e.target.value})}
+                              className="mb-4"
+                            />
                           )}
-                          {tour.type === 'file' && tour.tourFile && (
-                            <Badge variant="secondary" className="text-xs">File: {tour.tourFile.name}</Badge>
+
+                          {currentTour.type === 'file' && (
+                            <div className="border-2 border-dashed border-border rounded-lg p-6 text-center mb-4">
+                              <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                              <p className="text-sm text-muted-foreground">Upload tour file (Video, 360° image, etc.)</p>
+                              <Input 
+                                type="file" 
+                                accept="video/*,image/*,.mp4,.mov,.360" 
+                                className="mt-2"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    setCurrentTour({...currentTour, tourFile: file});
+                                  }
+                                }}
+                              />
+                            </div>
                           )}
+
+                          <Button 
+                            type="button" 
+                            onClick={() => {
+                              if (currentTour.name && currentTour.description && (currentTour.tourUrl || currentTour.tourFile)) {
+                                const tour: Tour = {
+                                  id: Math.random().toString(36).substr(2, 9),
+                                  name: currentTour.name || '',
+                                  type: currentTour.tourFile ? 'file' : 'url',
+                                  tourUrl: currentTour.tourUrl || '',
+                                  tourFile: currentTour.tourFile,
+                                  description: currentTour.description || ''
+                                };
+                                const updatedRooms = roomTypes.map(r => 
+                                  r.id === room.id 
+                                    ? { ...r, virtualTours: [...(r.virtualTours || []), tour] }
+                                    : r
+                                );
+                                setRoomTypes(updatedRooms);
+                                setCurrentTour({});
+                              }
+                            }}
+                            disabled={!currentTour.name || !currentTour.description || (!currentTour.tourUrl && !currentTour.tourFile)}
+                            className="w-full"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Virtual Tour
+                          </Button>
                         </div>
-                      </div>
-                      <Button variant="outline" size="sm" onClick={() => removeTour(tour.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
 
-          {/* Hotel Photos Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Camera className="h-5 w-5" />
-                Hotel Photos
-              </CardTitle>
-              <CardDescription>Upload high-quality photos of your hotel</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="mainImage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Main Hotel Image *</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Click to upload main hotel image (JPG or PNG)</p>
-                        <Input type="file" accept="image/*" className="mt-2" {...field} />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                        {room.virtualTours && room.virtualTours.length > 0 && (
+                          <div className="space-y-2">
+                            <h4 className="font-medium">Virtual Tours for {room.name}</h4>
+                            {room.virtualTours.map((tour) => (
+                              <div key={tour.id} className="border border-border rounded p-3 flex justify-between items-start">
+                                <div>
+                                  <div className="font-medium">{tour.name}</div>
+                                  <div className="text-sm text-muted-foreground">{tour.description}</div>
+                                  <div className="flex gap-2 mt-1">
+                                    <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
+                                  </div>
+                                </div>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => {
+                                    const updatedRooms = roomTypes.map(r => 
+                                      r.id === room.id 
+                                        ? { ...r, virtualTours: r.virtualTours?.filter(t => t.id !== tour.id) || [] }
+                                        : r
+                                    );
+                                    setRoomTypes(updatedRooms);
+                                  }}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </TabsContent>
 
-              <FormField
-                control={form.control}
-                name="galleryImages"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hotel Gallery</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Upload additional hotel images</p>
-                        <Input type="file" accept="image/*" multiple className="mt-2" {...field} />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Hotel Videos Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Video className="h-5 w-5" />
-                Hotel Videos
-              </CardTitle>
-              <CardDescription>Upload promotional and showcase videos</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="hotelVideos"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Hotel Videos</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          multiple
-                          accept="video/*"
-                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                          className="hidden"
-                          id="hotel-videos-upload"
-                        />
-                        <label htmlFor="hotel-videos-upload" className="cursor-pointer">
-                          <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                          <p className="text-lg font-medium mb-2">Upload Hotel Videos</p>
-                          <p className="text-sm text-muted-foreground">
-                            Drop videos here or click to browse. Supports MP4, MOV, AVI
-                          </p>
-                        </label>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Drone Footage Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Camera className="h-5 w-5" />
-                Drone Footage
-              </CardTitle>
-              <CardDescription>Upload aerial footage and drone videos</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="droneFootage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Drone Footage</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          multiple
-                          accept="video/*,image/*"
-                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                          className="hidden"
-                          id="drone-footage-upload"
-                        />
-                        <label htmlFor="drone-footage-upload" className="cursor-pointer">
+                      {/* Photos */}
+                      <TabsContent value="photos" className="space-y-4">
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
                           <Camera className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                          <p className="text-lg font-medium mb-2">Upload Drone Footage</p>
-                          <p className="text-sm text-muted-foreground">
-                            Drop aerial footage here or click to browse. Supports videos and images
+                          <p className="text-lg font-medium mb-2">Upload Photos for {room.name}</p>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Drop room photos here or click to browse. Supports JPG, PNG
                           </p>
-                        </label>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+                          <Input 
+                            type="file" 
+                            accept="image/*" 
+                            multiple
+                            onChange={(e) => {
+                              const files = Array.from(e.target.files || []);
+                              if (files.length > 0) {
+                                const updatedRooms = roomTypes.map(r => 
+                                  r.id === room.id 
+                                    ? { ...r, images: [...(r.images || []), ...files] }
+                                    : r
+                                );
+                                setRoomTypes(updatedRooms);
+                              }
+                            }}
+                          />
+                        </div>
+                        {room.images && room.images.length > 0 && (
+                          <div>
+                            <h4 className="font-medium mb-2">Uploaded Photos ({room.images.length})</h4>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                              {room.images.map((image, index) => (
+                                <div key={index} className="relative border rounded p-2">
+                                  <span className="text-xs text-muted-foreground">{image.name}</span>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="absolute top-1 right-1 h-6 w-6 p-0"
+                                    onClick={() => {
+                                      const updatedRooms = roomTypes.map(r => 
+                                        r.id === room.id 
+                                          ? { ...r, images: r.images?.filter((_, i) => i !== index) || [] }
+                                          : r
+                                      );
+                                      setRoomTypes(updatedRooms);
+                                    }}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </TabsContent>
 
-          {/* Documents Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Documents
-              </CardTitle>
-              <CardDescription>Upload menus, awards, certificates, and other documents</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="hotelDocuments"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Documents</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          multiple
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                          onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                          className="hidden"
-                          id="hotel-documents-upload"
-                        />
-                        <label htmlFor="hotel-documents-upload" className="cursor-pointer">
+                      {/* Videos */}
+                      <TabsContent value="videos" className="space-y-4">
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                          <p className="text-lg font-medium mb-2">Upload Videos for {room.name}</p>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Drop room videos here or click to browse. Supports MP4, MOV, AVI
+                          </p>
+                          <Input 
+                            type="file" 
+                            accept="video/*" 
+                            multiple
+                            onChange={(e) => {
+                              const files = Array.from(e.target.files || []);
+                              if (files.length > 0) {
+                                const updatedRooms = roomTypes.map(r => 
+                                  r.id === room.id 
+                                    ? { ...r, videos: [...(r.videos || []), ...files] }
+                                    : r
+                                );
+                                setRoomTypes(updatedRooms);
+                              }
+                            }}
+                          />
+                        </div>
+                        {room.videos && room.videos.length > 0 && (
+                          <div>
+                            <h4 className="font-medium mb-2">Uploaded Videos ({room.videos.length})</h4>
+                            <div className="space-y-2">
+                              {room.videos.map((video, index) => (
+                                <div key={index} className="flex justify-between items-center border rounded p-2">
+                                  <span className="text-sm">{video.name}</span>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const updatedRooms = roomTypes.map(r => 
+                                        r.id === room.id 
+                                          ? { ...r, videos: r.videos?.filter((_, i) => i !== index) || [] }
+                                          : r
+                                      );
+                                      setRoomTypes(updatedRooms);
+                                    }}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </TabsContent>
+
+                      {/* Drone Footage */}
+                      <TabsContent value="drone" className="space-y-4">
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                          <Camera className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                          <p className="text-lg font-medium mb-2">Upload Drone Footage for {room.name}</p>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Drop drone footage here or click to browse. Supports videos and images
+                          </p>
+                          <Input 
+                            type="file" 
+                            accept="video/*,image/*" 
+                            multiple
+                            onChange={(e) => {
+                              const files = Array.from(e.target.files || []);
+                              if (files.length > 0) {
+                                const updatedRooms = roomTypes.map(r => 
+                                  r.id === room.id 
+                                    ? { ...r, droneFootage: [...(r.droneFootage || []), ...files] }
+                                    : r
+                                );
+                                setRoomTypes(updatedRooms);
+                              }
+                            }}
+                          />
+                        </div>
+                        {room.droneFootage && room.droneFootage.length > 0 && (
+                          <div>
+                            <h4 className="font-medium mb-2">Uploaded Drone Footage ({room.droneFootage.length})</h4>
+                            <div className="space-y-2">
+                              {room.droneFootage.map((file, index) => (
+                                <div key={index} className="flex justify-between items-center border rounded p-2">
+                                  <span className="text-sm">{file.name}</span>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const updatedRooms = roomTypes.map(r => 
+                                        r.id === room.id 
+                                          ? { ...r, droneFootage: r.droneFootage?.filter((_, i) => i !== index) || [] }
+                                          : r
+                                      );
+                                      setRoomTypes(updatedRooms);
+                                    }}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </TabsContent>
+
+                      {/* Floor Plans */}
+                      <TabsContent value="floor-plans" className="space-y-4">
+                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
                           <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                          <p className="text-lg font-medium mb-2">Upload Documents</p>
-                          <p className="text-sm text-muted-foreground">
-                            Menus, awards, certificates, etc. Supports PDF, DOC, JPG, PNG
+                          <p className="text-lg font-medium mb-2">Upload Floor Plans for {room.name}</p>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Drop floor plans here or click to browse. Supports PDF, JPG, PNG
                           </p>
-                        </label>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Floor Plan Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Floor Plans
-              </CardTitle>
-              <CardDescription>Upload hotel floor plans and layouts</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-
-              <FormField
-                control={form.control}
-                name="floorPlan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Floor Plan Upload</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Upload floor plan (PDF or Image)</p>
-                        <Input type="file" accept=".pdf,image/*" className="mt-2" {...field} />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="promotionalVideo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hotel Promotional Video</FormLabel>
-                    <FormControl>
-                      <Input placeholder="YouTube URL or embed code" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+                          <Input 
+                            type="file" 
+                            accept=".pdf,image/*" 
+                            multiple
+                            onChange={(e) => {
+                              const files = Array.from(e.target.files || []);
+                              if (files.length > 0) {
+                                const updatedRooms = roomTypes.map(r => 
+                                  r.id === room.id 
+                                    ? { ...r, floorPlans: [...(r.floorPlans || []), ...files] }
+                                    : r
+                                );
+                                setRoomTypes(updatedRooms);
+                              }
+                            }}
+                          />
+                        </div>
+                        {room.floorPlans && room.floorPlans.length > 0 && (
+                          <div>
+                            <h4 className="font-medium mb-2">Uploaded Floor Plans ({room.floorPlans.length})</h4>
+                            <div className="space-y-2">
+                              {room.floorPlans.map((file, index) => (
+                                <div key={index} className="flex justify-between items-center border rounded p-2">
+                                  <span className="text-sm">{file.name}</span>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const updatedRooms = roomTypes.map(r => 
+                                        r.id === room.id 
+                                          ? { ...r, floorPlans: r.floorPlans?.filter((_, i) => i !== index) || [] }
+                                          : r
+                                      );
+                                      setRoomTypes(updatedRooms);
+                                    }}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </TabsContent>
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </TabsContent>
 
         {/* SECTION 3: Hotel Amenities */}
