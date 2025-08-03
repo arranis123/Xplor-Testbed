@@ -966,6 +966,346 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             </TabsContent>
 
             <TabsContent value="pricing" className="space-y-4">
+              {/* Sale Price Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Sale Price Information</CardTitle>
+                  <CardDescription>Configure sale pricing and terms</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="askingPrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Asking Price Amount</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter asking price" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="askingPriceCurrency"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Currency</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select currency" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="usd">USD</SelectItem>
+                              <SelectItem value="eur">EUR</SelectItem>
+                              <SelectItem value="gbp">GBP</SelectItem>
+                              <SelectItem value="aed">AED</SelectItem>
+                              <SelectItem value="aud">AUD</SelectItem>
+                              <SelectItem value="cad">CAD</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="isPriceNegotiable"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">Price Negotiable?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="displayPricePublicly"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">Display Price Publicly?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="pricingType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Pricing Type</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select pricing type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="fixed">Fixed Price</SelectItem>
+                            <SelectItem value="poa">Price on Application (POA)</SelectItem>
+                            <SelectItem value="auction">Auction / Tender</SelectItem>
+                            <SelectItem value="offers">Open to Offers</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="priceReductionNote"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Recent Price Reduction (add note/date)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., Reduced by $50K on Jan 2024" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="yachtCurrentLocation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Current Location (Port, Marina, Country)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., Monaco, Port Hercules" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="vatStatus"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>VAT Status of Sale</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select VAT status" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="paid">VAT Paid</SelectItem>
+                              <SelectItem value="not-paid">VAT Not Paid</SelectItem>
+                              <SelectItem value="exempt">VAT Exempt</SelectItem>
+                              <SelectItem value="qualifying">VAT Qualifying</SelectItem>
+                              <SelectItem value="buyer-jurisdiction">VAT Applicable in Buyer's Jurisdiction</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="vatIncludedInPrice"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">VAT Included in Asking Price?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="lastAskingPrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Asking Price (if changed recently)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Previous asking price" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="estimatedRunningCosts"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Estimated Running Costs (annual)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Annual running costs" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="refitsUpgradesCost"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Refits / Upgrades Cost Summary</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Summary of recent refits and costs" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="brokerCommission"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Broker Commission % (internal use only)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Commission percentage" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="saleOwnershipType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Ownership Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select ownership type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="sole">Sole Ownership</SelectItem>
+                              <SelectItem value="co-ownership">Co-Ownership</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="mortgageEncumbrance"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">Mortgage or Encumbrance?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="availableImmediately"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">Available Immediately?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="partExchangeConsidered"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">Part Exchange Considered?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="notesToBuyer"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Notes to Buyer (Optional)</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Notable sale incentives, delivery options, included add-ons, survey terms, etc." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
               {/* Base Charter Rates */}
               <Card>
                 <CardHeader>
@@ -973,345 +1313,6 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Configure seasonal charter pricing</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* Sale Price Section */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg">Sale Price Information</CardTitle>
-                      <CardDescription>Configure sale pricing and terms</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="askingPrice"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Asking Price Amount</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Enter asking price" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="askingPriceCurrency"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Currency</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select currency" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="usd">USD</SelectItem>
-                                  <SelectItem value="eur">EUR</SelectItem>
-                                  <SelectItem value="gbp">GBP</SelectItem>
-                                  <SelectItem value="aed">AED</SelectItem>
-                                  <SelectItem value="aud">AUD</SelectItem>
-                                  <SelectItem value="cad">CAD</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="isPriceNegotiable"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">Price Negotiable?</FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="displayPricePublicly"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">Display Price Publicly?</FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <FormField
-                        control={form.control}
-                        name="pricingType"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Pricing Type</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select pricing type" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="fixed">Fixed Price</SelectItem>
-                                <SelectItem value="poa">Price on Application (POA)</SelectItem>
-                                <SelectItem value="auction">Auction / Tender</SelectItem>
-                                <SelectItem value="offers">Open to Offers</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="priceReductionNote"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Recent Price Reduction (add note/date)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Reduced by $50K on Jan 2024" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="yachtCurrentLocation"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Current Location (Port, Marina, Country)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Monaco, Port Hercules" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="vatStatus"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>VAT Status of Sale</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select VAT status" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="paid">VAT Paid</SelectItem>
-                                  <SelectItem value="not-paid">VAT Not Paid</SelectItem>
-                                  <SelectItem value="exempt">VAT Exempt</SelectItem>
-                                  <SelectItem value="qualifying">VAT Qualifying</SelectItem>
-                                  <SelectItem value="buyer-jurisdiction">VAT Applicable in Buyer's Jurisdiction</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="vatIncludedInPrice"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">VAT Included in Asking Price?</FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="lastAskingPrice"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Last Asking Price (if changed recently)</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Previous asking price" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="estimatedRunningCosts"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Estimated Running Costs (annual)</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Annual running costs" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="refitsUpgradesCost"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Refits / Upgrades Cost Summary</FormLabel>
-                              <FormControl>
-                                <Textarea placeholder="Summary of recent refits and costs" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="brokerCommission"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Broker Commission % (internal use only)</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Commission percentage" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="saleOwnershipType"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Ownership Type</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select ownership type" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="sole">Sole Ownership</SelectItem>
-                                  <SelectItem value="co-ownership">Co-Ownership</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="mortgageEncumbrance"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">Mortgage or Encumbrance?</FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="availableImmediately"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">Available Immediately?</FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="partExchangeConsidered"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">Part Exchange Considered?</FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <FormField
-                        control={form.control}
-                        name="notesToBuyer"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Notes to Buyer (Optional)</FormLabel>
-                            <FormControl>
-                              <Textarea placeholder="Notable sale incentives, delivery options, included add-ons, survey terms, etc." {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </CardContent>
-                  </Card>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
