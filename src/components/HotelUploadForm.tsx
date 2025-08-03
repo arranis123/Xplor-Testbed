@@ -1524,39 +1524,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Assign Tours</label>
-                    <div className="space-y-2 max-h-24 overflow-y-auto border border-border rounded p-2">
-                      {tours.length === 0 ? (
-                        <p className="text-sm text-muted-foreground">No tours available. Add tours in Media & Files section.</p>
-                      ) : (
-                        tours.map((tour) => (
-                          <div key={tour.id} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`tour-${tour.id}`}
-                              checked={currentRoom.assignedTours?.includes(tour.id) || false}
-                              onCheckedChange={(checked) => {
-                                const assignedTours = currentRoom.assignedTours || [];
-                                if (checked) {
-                                  setCurrentRoom({...currentRoom, assignedTours: [...assignedTours, tour.id]});
-                                } else {
-                                  setCurrentRoom({...currentRoom, assignedTours: assignedTours.filter(t => t !== tour.id)});
-                                }
-                              }}
-                            />
-                            <label htmlFor={`tour-${tour.id}`} className="text-sm">
-                              {tour.name} ({tour.type})
-                            </label>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                  <Input
-                    placeholder="Booking page URL"
-                    value={currentRoom.bookingUrl || ''}
-                    onChange={(e) => setCurrentRoom({...currentRoom, bookingUrl: e.target.value})}
-                  />
                 </div>
                 <Button
                   type="button" 
