@@ -26,9 +26,77 @@ const yachtRulesSchema = z.object({
   
   // Pricing
   salePrice: z.string().optional(),
-  charterPriceWeekly: z.string().optional(),
-  charterPriceDaily: z.string().optional(),
+  
+  // Base Charter Rates
+  lowSeasonRateWeekly: z.string().optional(),
+  highSeasonRateWeekly: z.string().optional(),
+  midSeasonRateWeekly: z.string().optional(),
+  shoulderSeasonRate: z.string().optional(),
+  dayRate: z.string().optional(),
+  weekendRate: z.string().optional(),
+  hourlyRate: z.string().optional(),
+  customQuotePOA: z.boolean().optional(),
+  
+  // Currency & Duration
   currency: z.string().optional(),
+  showCurrencySymbol: z.boolean().optional(),
+  minimumCharterDuration: z.string().optional(),
+  maximumCharterDuration: z.string().optional(),
+  flexibleBookingAvailable: z.boolean().optional(),
+  
+  // What's Included
+  crewIncluded: z.boolean().optional(),
+  fuelIncluded: z.boolean().optional(),
+  foodBeverageIncluded: z.boolean().optional(),
+  waterToysIncluded: z.boolean().optional(),
+  dockingFeesIncluded: z.boolean().optional(),
+  localVATIncluded: z.boolean().optional(),
+  
+  // Additional Pricing Details
+  apaPercentage: z.string().optional(),
+  apaNotes: z.string().optional(),
+  vatPercentage: z.string().optional(),
+  vatIncludedInBase: z.boolean().optional(),
+  securityDepositAmount: z.string().optional(),
+  securityDepositType: z.string().optional(),
+  deliveryFeesCharged: z.boolean().optional(),
+  deliveryFromTo: z.string().optional(),
+  deliveryPriceType: z.string().optional(),
+  deliveryRate: z.string().optional(),
+  
+  // Discounts & Offers
+  earlyBookingDiscount: z.string().optional(),
+  lastMinuteDiscount: z.string().optional(),
+  repeatClientDiscount: z.string().optional(),
+  multiWeekDiscount: z.string().optional(),
+  brokerCommissionPercent: z.string().optional(),
+  customOffers: z.string().optional(),
+  
+  // Season Dates
+  highSeasonStart: z.string().optional(),
+  highSeasonEnd: z.string().optional(),
+  lowSeasonStart: z.string().optional(),
+  lowSeasonEnd: z.string().optional(),
+  midSeasonStart: z.string().optional(),
+  midSeasonEnd: z.string().optional(),
+  
+  // Charter Packages
+  dayCruisePackage: z.boolean().optional(),
+  weekendEscape: z.boolean().optional(),
+  weeklyCharter: z.boolean().optional(),
+  corporateCharter: z.boolean().optional(),
+  weddingEventCharter: z.boolean().optional(),
+  scubaDivingCharter: z.boolean().optional(),
+  fishingCharter: z.boolean().optional(),
+  wellnessSpaCharter: z.boolean().optional(),
+  
+  // Location-Specific Info
+  commercialCharterLicensed: z.boolean().optional(),
+  primaryHomePort: z.string().optional(),
+  availableCruisingAreas: z.string().optional(),
+  seasonalLocations: z.string().optional(),
+  
+  // Legacy fields (keeping for compatibility)
   priceIncludes: z.string().optional(),
   priceExcludes: z.string().optional(),
   securityDeposit: z.string().optional(),
@@ -134,7 +202,7 @@ const yachtRulesSchema = z.object({
   depositAmount: z.string().optional(),
   insuranceCoverage: z.enum(["covered", "recommended", "required"]),
   vatHandling: z.enum(["included", "not_included", "on_request"]),
-  apaPercentage: z.number().min(0).max(50),
+  apaPercentageOld: z.number().min(0).max(50),
 
   // Access Management
   visibility: z.enum(["public", "private", "invite_only"]),
@@ -226,7 +294,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       securityDeposit: "yes",
       insuranceCoverage: "covered",
       vatHandling: "not_included",
-      apaPercentage: 30,
+      apaPercentageOld: 30,
       visibility: "private",
       bookingType: "request_to_book",
       hostApproval: "yes",
@@ -881,10 +949,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             </TabsContent>
 
             <TabsContent value="pricing" className="space-y-4">
+              {/* Base Charter Rates */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Pricing</CardTitle>
-                  <CardDescription>Configure pricing details for sale or charter</CardDescription>
+                  <CardTitle>Base Charter Rates</CardTitle>
+                  <CardDescription>Configure seasonal charter pricing</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -904,12 +973,12 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                     <FormField
                       control={form.control}
-                      name="charterPriceWeekly"
+                      name="lowSeasonRateWeekly"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Charter Price (Weekly)</FormLabel>
+                          <FormLabel>Low-Season Rate (Weekly)</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter weekly charter price" {...field} />
+                            <Input placeholder="Enter low season weekly rate" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -918,18 +987,120 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                     <FormField
                       control={form.control}
-                      name="charterPriceDaily"
+                      name="highSeasonRateWeekly"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Charter Price (Daily)</FormLabel>
+                          <FormLabel>High-Season Rate (Weekly)</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter daily charter price" {...field} />
+                            <Input placeholder="Enter high season weekly rate" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
 
+                    <FormField
+                      control={form.control}
+                      name="midSeasonRateWeekly"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mid-Season Rate (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter mid season weekly rate" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="shoulderSeasonRate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Shoulder Season Rate (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter shoulder season rate" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="dayRate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Day Rate (10-20% of weekly)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter daily rate" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="weekendRate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Weekend Rate (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter weekend rate" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="hourlyRate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Hourly Rate (For events/day charters)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter hourly rate" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="customQuotePOA"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>Custom Quote / POA (Price on Application)</FormLabel>
+                          <FormDescription>
+                            Enable this if pricing is variable or only available on request
+                          </FormDescription>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Currency & Duration */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Currency & Charter Duration</CardTitle>
+                  <CardDescription>Configure currency display and booking duration options</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="currency"
@@ -946,6 +1117,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <SelectItem value="usd">USD</SelectItem>
                               <SelectItem value="eur">EUR</SelectItem>
                               <SelectItem value="gbp">GBP</SelectItem>
+                              <SelectItem value="aed">AED</SelectItem>
                               <SelectItem value="aud">AUD</SelectItem>
                               <SelectItem value="cad">CAD</SelectItem>
                             </SelectContent>
@@ -957,13 +1129,23 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                     <FormField
                       control={form.control}
-                      name="securityDeposit"
+                      name="minimumCharterDuration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Security Deposit</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter security deposit amount" {...field} />
-                          </FormControl>
+                          <FormLabel>Minimum Charter Duration</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select minimum duration" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="1-day">1 Day</SelectItem>
+                              <SelectItem value="3-days">3 Days</SelectItem>
+                              <SelectItem value="7-days">7 Days</SelectItem>
+                              <SelectItem value="14-days">14 Days</SelectItem>
+                            </SelectContent>
+                          </Select>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -971,40 +1153,12 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                     <FormField
                       control={form.control}
-                      name="advanceProvisioningAllowance"
+                      name="maximumCharterDuration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Advance Provisioning Allowance (APA)</FormLabel>
+                          <FormLabel>Maximum Charter Duration</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter APA amount" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="deliveryFees"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Delivery Fees</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter delivery fees" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="brokerageFee"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Brokerage Fee</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter brokerage fee" {...field} />
+                            <Input placeholder="e.g., 30 days, No limit" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1015,16 +1169,181 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <div className="space-y-4">
                     <FormField
                       control={form.control}
-                      name="priceIncludes"
+                      name="showCurrencySymbol"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Display currency symbol alongside rates</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="flexibleBookingAvailable"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Flexible Booking Available</FormLabel>
+                            <FormDescription>
+                              Allow flexible dates and duration adjustments
+                            </FormDescription>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* What's Included in Base Rate */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>What's Included in the Base Rate?</CardTitle>
+                  <CardDescription>Select what is included in your charter pricing</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="crewIncluded"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Crew</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="fuelIncluded"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Fuel (Within standard cruising limits)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="foodBeverageIncluded"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Food & Beverage (APA applies vs all-inclusive)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="waterToysIncluded"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Water Toys / Jet Skis</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="dockingFeesIncluded"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Docking Fees (if included at home port)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="localVATIncluded"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Local VAT / Tax</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Additional Pricing Details */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Additional Pricing Details</CardTitle>
+                  <CardDescription>Configure additional charges and fees</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="apaPercentage"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Price Includes</FormLabel>
+                          <FormLabel>APA (Advance Provisioning Allowance) %</FormLabel>
                           <FormControl>
-                            <Textarea 
-                              placeholder="List what is included in the price"
-                              className="resize-none"
-                              {...field}
-                            />
+                            <Input placeholder="e.g., 25-35%" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1033,13 +1352,129 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                     <FormField
                       control={form.control}
-                      name="priceExcludes"
+                      name="vatPercentage"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Price Excludes</FormLabel>
+                          <FormLabel>VAT / Sales Tax %</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter VAT percentage" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="securityDepositAmount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Security Deposit Amount</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter security deposit amount" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="securityDepositType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Security Deposit Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select deposit type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="flat-fee">Flat Fee</SelectItem>
+                              <SelectItem value="percentage">Percentage of Charter</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="deliveryFromTo"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Delivery From / To Locations</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter delivery locations" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="deliveryRate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Delivery Rate</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., $500 per nautical mile" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="vatIncludedInBase"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>VAT Included in Base Rate</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="deliveryFeesCharged"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Delivery / Repositioning Fees Charged</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="apaNotes"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>APA Notes</FormLabel>
                           <FormControl>
                             <Textarea 
-                              placeholder="List what is excluded from the price"
+                              placeholder="Clarify how APA is handled"
                               className="resize-none"
                               {...field}
                             />
@@ -1049,6 +1484,239 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       )}
                     />
                   </div>
+                </CardContent>
+              </Card>
+
+              {/* Charter Packages */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Charter Packages</CardTitle>
+                  <CardDescription>Select available charter packages and experiences</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="dayCruisePackage"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Day Cruise Package</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="weekendEscape"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Weekend Escape</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="weeklyCharter"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Weekly Charter</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="corporateCharter"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Corporate Charter / Event Hire</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="weddingEventCharter"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Wedding / Private Event</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="scubaDivingCharter"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Scuba / Diving Charter</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="fishingCharter"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Fishing Charter</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="wellnessSpaCharter"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Wellness / Spa Charter</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Location-Specific Info */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Location-Specific Information</CardTitle>
+                  <CardDescription>Charter location and licensing details</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="primaryHomePort"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Primary Home Port</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Monaco, Fort Lauderdale" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="availableCruisingAreas"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Available Cruising Areas</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Mediterranean, Caribbean" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="seasonalLocations"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Seasonal Locations (Winter/Summer)</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Describe seasonal location changes"
+                              className="resize-none"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="commercialCharterLicensed"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>Yacht currently licensed for commercial charter</FormLabel>
+                          <FormDescription>
+                            Confirm the yacht has proper commercial charter licensing
+                          </FormDescription>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </CardContent>
               </Card>
             </TabsContent>
