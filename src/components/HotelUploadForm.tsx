@@ -338,7 +338,9 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
     { value: "2", label: "2 Stars" },
     { value: "3", label: "3 Stars" },
     { value: "4", label: "4 Stars" },
-    { value: "5", label: "5 Stars" }
+    { value: "5", label: "5 Stars" },
+    { value: "5-luxury", label: "5-Star Luxury (optional advanced filter)" },
+    { value: "not-rated", label: "Not Rated / Unclassified" }
   ];
 
   const countries = [
