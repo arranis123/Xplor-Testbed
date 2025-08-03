@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -306,12 +306,51 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <SelectValue placeholder="Select yacht type" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
-                              <SelectItem value="motor-yacht">Motor Yacht</SelectItem>
-                              <SelectItem value="sailing-yacht">Sailing Yacht</SelectItem>
-                              <SelectItem value="catamaran">Catamaran</SelectItem>
-                              <SelectItem value="super-yacht">Super Yacht</SelectItem>
-                              <SelectItem value="mega-yacht">Mega Yacht</SelectItem>
+                            <SelectContent className="max-h-[300px]">
+                              <SelectGroup>
+                                <SelectLabel>Motor Yachts</SelectLabel>
+                                <SelectItem value="motor-yacht">Motor Yacht</SelectItem>
+                                <SelectItem value="superyacht">Superyacht (24m–60m)</SelectItem>
+                                <SelectItem value="megayacht">Megayacht (60m+)</SelectItem>
+                                <SelectItem value="sport-yacht">Sport Yacht</SelectItem>
+                                <SelectItem value="flybridge-yacht">Flybridge Yacht</SelectItem>
+                                <SelectItem value="hardtop-open-yacht">Hardtop / Open Yacht</SelectItem>
+                                <SelectItem value="cruiser">Cruiser</SelectItem>
+                                <SelectItem value="trawler-yacht">Trawler Yacht</SelectItem>
+                                <SelectItem value="cabin-cruiser">Cabin Cruiser</SelectItem>
+                                <SelectItem value="day-boat">Day Boat</SelectItem>
+                                <SelectItem value="jet-boat">Jet Boat</SelectItem>
+                                <SelectItem value="power-catamaran">Power Catamaran</SelectItem>
+                                <SelectItem value="classic-yacht">Classic Yacht</SelectItem>
+                                <SelectItem value="custom-yacht">Custom Yacht</SelectItem>
+                                <SelectItem value="semi-custom-yacht">Semi-Custom Yacht</SelectItem>
+                              </SelectGroup>
+                              <SelectGroup>
+                                <SelectLabel>Sailing Yachts</SelectLabel>
+                                <SelectItem value="sailing-yacht">Sailing Yacht</SelectItem>
+                                <SelectItem value="catamaran-sailing">Catamaran (Sailing)</SelectItem>
+                                <SelectItem value="trimaran">Trimaran</SelectItem>
+                                <SelectItem value="gulet">Gulet</SelectItem>
+                                <SelectItem value="classic-sailing-yacht">Classic Sailing Yacht</SelectItem>
+                              </SelectGroup>
+                              <SelectGroup>
+                                <SelectLabel>Explorer & Long-Range</SelectLabel>
+                                <SelectItem value="expedition-yacht">Expedition Yacht / Explorer Yacht</SelectItem>
+                                <SelectItem value="trawler-yacht-explorer">Trawler Yacht</SelectItem>
+                                <SelectItem value="support-vessel">Support Vessel / Shadow Boat</SelectItem>
+                              </SelectGroup>
+                              <SelectGroup>
+                                <SelectLabel>Special Purpose / Sport</SelectLabel>
+                                <SelectItem value="fishing-yacht">Fishing Yacht / Sportfisher</SelectItem>
+                                <SelectItem value="chase-boat">Chase Boat / Tender</SelectItem>
+                                <SelectItem value="jet-boat-sport">Jet Boat</SelectItem>
+                                <SelectItem value="rib">RIB (Rigid Inflatable Boat)</SelectItem>
+                              </SelectGroup>
+                              <SelectGroup>
+                                <SelectLabel>Liveaboard & Commercial</SelectLabel>
+                                <SelectItem value="houseboat">Houseboat</SelectItem>
+                                <SelectItem value="passenger-vessel">Passenger Vessel (Mini Cruise / Hotel Yacht)</SelectItem>
+                              </SelectGroup>
                             </SelectContent>
                           </Select>
                           <FormMessage />
