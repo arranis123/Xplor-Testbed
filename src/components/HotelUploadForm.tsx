@@ -1098,14 +1098,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Assign to Room (Optional)</label>
                   <Select
-                    value={currentTour.assignedRoom || ''}
+                    value={currentTour.assignedRoom || 'general'}
                     onValueChange={(value) => setCurrentTour({...currentTour, assignedRoom: value})}
                   >
                     <SelectTrigger className="bg-background border-border">
                       <SelectValue placeholder="Select room or leave for general hotel tour" />
                     </SelectTrigger>
                     <SelectContent className="bg-background border-border shadow-lg z-50">
-                      <SelectItem value="">General Hotel Tour</SelectItem>
+                      <SelectItem value="general">General Hotel Tour</SelectItem>
                       {roomTypes.map((room) => (
                         <SelectItem key={room.id} value={room.id}>
                           {room.name} ({room.category})
@@ -1163,12 +1163,12 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                         <div className="text-sm text-muted-foreground">{tour.description}</div>
                          <div className="flex gap-2 mt-1">
                            <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
-                           {tour.assignedRoom && (
+                           {tour.assignedRoom && tour.assignedRoom !== 'general' && (
                              <Badge variant="secondary" className="text-xs">
                                Room: {roomTypes.find(r => r.id === tour.assignedRoom)?.name || 'Unknown'}
                              </Badge>
                            )}
-                           {!tour.assignedRoom && (
+                           {(!tour.assignedRoom || tour.assignedRoom === 'general') && (
                              <Badge variant="outline" className="text-xs">General Hotel</Badge>
                            )}
                            {tour.type === 'url' && tour.tourUrl && (
@@ -1227,14 +1227,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Assign to Room (Optional)</label>
                         <Select
-                          value={form.watch('galleryRoomAssignment') || ''}
+                          value={form.watch('galleryRoomAssignment') || 'general'}
                           onValueChange={(value) => form.setValue('galleryRoomAssignment', value)}
                         >
                           <SelectTrigger className="bg-background border-border">
                             <SelectValue placeholder="Select room or leave for general hotel photos" />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="">General Hotel Photos</SelectItem>
+                            <SelectItem value="general">General Hotel Photos</SelectItem>
                             {roomTypes.map((room) => (
                               <SelectItem key={room.id} value={room.id}>
                                 {room.name} ({room.category})
@@ -1278,14 +1278,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Assign to Room (Optional)</label>
                         <Select
-                          value={form.watch('videosRoomAssignment') || ''}
+                          value={form.watch('videosRoomAssignment') || 'general'}
                           onValueChange={(value) => form.setValue('videosRoomAssignment', value)}
                         >
                           <SelectTrigger className="bg-background border-border">
                             <SelectValue placeholder="Select room or leave for general hotel videos" />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="">General Hotel Videos</SelectItem>
+                            <SelectItem value="general">General Hotel Videos</SelectItem>
                             {roomTypes.map((room) => (
                               <SelectItem key={room.id} value={room.id}>
                                 {room.name} ({room.category})
@@ -1341,14 +1341,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Assign to Room (Optional)</label>
                         <Select
-                          value={form.watch('droneRoomAssignment') || ''}
+                          value={form.watch('droneRoomAssignment') || 'general'}
                           onValueChange={(value) => form.setValue('droneRoomAssignment', value)}
                         >
                           <SelectTrigger className="bg-background border-border">
                             <SelectValue placeholder="Select room or leave for general hotel drone footage" />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="">General Hotel Drone Footage</SelectItem>
+                            <SelectItem value="general">General Hotel Drone Footage</SelectItem>
                             {roomTypes.map((room) => (
                               <SelectItem key={room.id} value={room.id}>
                                 {room.name} ({room.category})
@@ -1404,14 +1404,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Assign to Room (Optional)</label>
                         <Select
-                          value={form.watch('documentsRoomAssignment') || ''}
+                          value={form.watch('documentsRoomAssignment') || 'general'}
                           onValueChange={(value) => form.setValue('documentsRoomAssignment', value)}
                         >
                           <SelectTrigger className="bg-background border-border">
                             <SelectValue placeholder="Select room or leave for general hotel documents" />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="">General Hotel Documents</SelectItem>
+                            <SelectItem value="general">General Hotel Documents</SelectItem>
                             {roomTypes.map((room) => (
                               <SelectItem key={room.id} value={room.id}>
                                 {room.name} ({room.category})
@@ -1468,14 +1468,14 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Assign to Room (Optional)</label>
                         <Select
-                          value={form.watch('floorPlanRoomAssignment') || ''}
+                          value={form.watch('floorPlanRoomAssignment') || 'general'}
                           onValueChange={(value) => form.setValue('floorPlanRoomAssignment', value)}
                         >
                           <SelectTrigger className="bg-background border-border">
                             <SelectValue placeholder="Select room or leave for general hotel floor plan" />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="">General Hotel Floor Plan</SelectItem>
+                            <SelectItem value="general">General Hotel Floor Plan</SelectItem>
                             {roomTypes.map((room) => (
                               <SelectItem key={room.id} value={room.id}>
                                 {room.name} ({room.category})
