@@ -4035,7 +4035,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               Cancel
             </Button>
             <Button type="submit">
-              Save Yacht Rules
+              Save
             </Button>
           </div>
         </form>
