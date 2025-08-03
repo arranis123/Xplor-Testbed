@@ -194,6 +194,10 @@ const yachtRulesSchema = z.object({
   // Cabin Types
   cabinTypes: z.array(z.object({
     name: z.string(),
+    deckLevel: z.string().optional(),
+    cabinType: z.string().optional(),
+    bedConfiguration: z.array(z.string()).optional(),
+    cabinFeatures: z.array(z.string()).optional(),
     sleeps: z.number().optional(),
     description: z.string().optional(),
   })).optional(),
@@ -278,7 +282,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
   
   // State for dynamic sections
   const [deckSpaces, setDeckSpaces] = useState([{ name: '', deckType: '', description: '' }])
-  const [cabinTypes, setCabinTypes] = useState([{ name: '', sleeps: 2, description: '' }])
+  const [cabinTypes, setCabinTypes] = useState([{ name: '', deckLevel: '', cabinType: '', bedConfiguration: [], cabinFeatures: [], sleeps: 2, description: '' }])
   
   // State for media uploads
   const [yachtVirtualTours, setYachtVirtualTours] = useState([{ name: '', url: '', file: null }])
@@ -381,7 +385,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
   }
   
   const addCabinType = () => {
-    setCabinTypes([...cabinTypes, { name: '', sleeps: 2, description: '' }])
+    setCabinTypes([...cabinTypes, { name: '', deckLevel: '', cabinType: '', bedConfiguration: [], cabinFeatures: [], sleeps: 2, description: '' }])
   }
   
   const removeCabinType = (index: number) => {
@@ -2845,43 +2849,225 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           </Button>
                         )}
                       </div>
-                      <div className="grid grid-cols-3 gap-4">
+                      <div className="space-y-4">
+                        {/* Deck Level */}
                         <div>
-                          <label className="text-sm font-medium">Cabin Name</label>
-                          <Input
-                            placeholder="e.g., Master Suite, VIP Cabin"
-                            value={cabin.name}
-                            onChange={(e) => {
+                          <label className="text-sm font-medium">Deck Level</label>
+                          <Select
+                            value={cabin.deckLevel}
+                            onValueChange={(value) => {
                               const updated = [...cabinTypes]
-                              updated[index].name = e.target.value
+                              updated[index].deckLevel = value
                               setCabinTypes(updated)
                             }}
-                          />
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select deck level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="sun-deck">Sun Deck</SelectItem>
+                              <SelectItem value="bridge-deck">Bridge Deck</SelectItem>
+                              <SelectItem value="upper-deck">Upper Deck</SelectItem>
+                              <SelectItem value="main-deck">Main Deck</SelectItem>
+                              <SelectItem value="lower-deck">Lower Deck</SelectItem>
+                              <SelectItem value="tank-crew-deck">Tank Deck / Crew Deck</SelectItem>
+                              <SelectItem value="convertible-interior">Convertible Interior (e.g., Salon, Office)</SelectItem>
+                              <SelectItem value="other">Other (Manual Entry)</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
+
+                        {/* Cabin Type */}
                         <div>
-                          <label className="text-sm font-medium">Sleeps</label>
-                          <Input
-                            type="number"
-                            placeholder="2"
-                            value={cabin.sleeps}
-                            onChange={(e) => {
+                          <label className="text-sm font-medium">Cabin Type</label>
+                          <Select
+                            value={cabin.cabinType}
+                            onValueChange={(value) => {
                               const updated = [...cabinTypes]
-                              updated[index].sleeps = parseInt(e.target.value)
+                              updated[index].cabinType = value
                               setCabinTypes(updated)
                             }}
-                          />
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select cabin type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Owner / VIP</SelectLabel>
+                                <SelectItem value="master-cabin">Master Cabin / Owner's Suite</SelectItem>
+                                <SelectItem value="vip-cabin">VIP Cabin / VIP Suite</SelectItem>
+                                <SelectItem value="private-owners-deck">Private Owner's Deck Cabin</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Guest Cabins</SelectLabel>
+                                <SelectItem value="double-cabin">Double Cabin</SelectItem>
+                                <SelectItem value="twin-cabin">Twin Cabin</SelectItem>
+                                <SelectItem value="convertible-twin-double">Convertible Twin/Double Cabin</SelectItem>
+                                <SelectItem value="triple-cabin">Triple Cabin</SelectItem>
+                                <SelectItem value="quad-family-cabin">Quad Cabin / Family Cabin</SelectItem>
+                                <SelectItem value="pullman-cabin">Pullman Cabin</SelectItem>
+                                <SelectItem value="bunk-bed-cabin">Bunk Bed Cabin</SelectItem>
+                                <SelectItem value="accessible-cabin">Accessible Cabin</SelectItem>
+                                <SelectItem value="cinema-convertible">Cinema Room Convertible Cabin</SelectItem>
+                                <SelectItem value="office-convertible">Office Convertible Cabin</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Crew & Staff</SelectLabel>
+                                <SelectItem value="captains-cabin">Captain's Cabin</SelectItem>
+                                <SelectItem value="engineers-cabin">Engineer's Cabin</SelectItem>
+                                <SelectItem value="officer-chief-stew">Officer / Chief Stew Cabin</SelectItem>
+                                <SelectItem value="double-crew-cabin">Double Crew Cabin</SelectItem>
+                                <SelectItem value="triple-crew-cabin">Triple Crew Cabin</SelectItem>
+                                <SelectItem value="nanny-staff-cabin">Nanny / Staff Cabin</SelectItem>
+                                <SelectItem value="security-escort-cabin">Security / Escort Cabin</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Auxiliary Sleeping Areas</SelectLabel>
+                                <SelectItem value="sofa-bed-convertible">Sofa Bed / Convertible Salon Cabin</SelectItem>
+                                <SelectItem value="gym-spa-convertible">Gym / Spa Convertible Cabin</SelectItem>
+                                <SelectItem value="guest-overflow">Guest Overflow Cabin</SelectItem>
+                                <SelectItem value="childrens-cabin">Children's Cabin</SelectItem>
+                                <SelectItem value="day-cabin">Day Cabin</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
                         </div>
+
+                        {/* Bed Configuration */}
                         <div>
-                          <label className="text-sm font-medium">Description</label>
-                          <Input
-                            placeholder="Brief description"
-                            value={cabin.description}
-                            onChange={(e) => {
-                              const updated = [...cabinTypes]
-                              updated[index].description = e.target.value
-                              setCabinTypes(updated)
-                            }}
-                          />
+                          <label className="text-sm font-medium">Bed Configuration</label>
+                          <div className="grid grid-cols-3 gap-2 mt-2">
+                            {['King Bed', 'Queen Bed', 'Double Bed', 'Single Bed', 'Twin Beds', 'Bunk Beds (2+)', 'Pullman Bed', 'Sofa Bed', 'Custom'].map((bed) => (
+                              <label key={bed} className="flex items-center space-x-2 text-sm">
+                                <Checkbox
+                                  checked={cabin.bedConfiguration?.includes(bed) || false}
+                                  onCheckedChange={(checked) => {
+                                    const updated = [...cabinTypes]
+                                    if (!updated[index].bedConfiguration) {
+                                      updated[index].bedConfiguration = []
+                                    }
+                                    if (checked) {
+                                      updated[index].bedConfiguration = [...updated[index].bedConfiguration, bed]
+                                    } else {
+                                      updated[index].bedConfiguration = updated[index].bedConfiguration.filter(b => b !== bed)
+                                    }
+                                    setCabinTypes(updated)
+                                  }}
+                                />
+                                <span>{bed}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Cabin Features */}
+                        <div>
+                          <label className="text-sm font-medium">Cabin Features</label>
+                          <div className="grid grid-cols-3 gap-2 mt-2">
+                            {[
+                              'Ensuite Bathroom', 'Shared Bathroom', 'Shower', 'Bathtub', 'Walk-in Closet', 'Vanity / Desk',
+                              'Sofa Seating Area', 'Sea View / Windows', 'Porthole Only', 'Balcony / Terrace', 'Skylight / Overhead Hatch',
+                              'Entertainment System', 'Soundproofing / Acoustic Treatment', 'Direct Access to Deck / Salon',
+                              'Private Office or Lounge', 'Safe / Lockbox', 'Accessible / Mobility Friendly'
+                            ].map((feature) => (
+                              <label key={feature} className="flex items-center space-x-2 text-sm">
+                                <Checkbox
+                                  checked={cabin.cabinFeatures?.includes(feature) || false}
+                                  onCheckedChange={(checked) => {
+                                    const updated = [...cabinTypes]
+                                    if (!updated[index].cabinFeatures) {
+                                      updated[index].cabinFeatures = []
+                                    }
+                                    if (checked) {
+                                      updated[index].cabinFeatures = [...updated[index].cabinFeatures, feature]
+                                    } else {
+                                      updated[index].cabinFeatures = updated[index].cabinFeatures.filter(f => f !== feature)
+                                    }
+                                    setCabinTypes(updated)
+                                  }}
+                                />
+                                <span>{feature}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Basic Info Grid */}
+                        <div className="grid grid-cols-3 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Cabin Name</label>
+                            <Input
+                              placeholder="e.g., Master Suite, VIP Cabin"
+                              value={cabin.name}
+                              onChange={(e) => {
+                                const updated = [...cabinTypes]
+                                updated[index].name = e.target.value
+                                setCabinTypes(updated)
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Sleeps (Pax Count)</label>
+                            <Input
+                              type="number"
+                              placeholder="2"
+                              min="1"
+                              max="10"
+                              value={cabin.sleeps}
+                              onChange={(e) => {
+                                const updated = [...cabinTypes]
+                                updated[index].sleeps = parseInt(e.target.value) || 1
+                                setCabinTypes(updated)
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Description</label>
+                            <Input
+                              placeholder="Brief description"
+                              value={cabin.description}
+                              onChange={(e) => {
+                                const updated = [...cabinTypes]
+                                updated[index].description = e.target.value
+                                setCabinTypes(updated)
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Optional Media Upload per Cabin */}
+                        <div className="border-t pt-4">
+                          <h5 className="font-medium text-sm mb-3">Optional Media Upload per Cabin</h5>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-sm font-medium">360° Virtual Tour</label>
+                              <Input
+                                type="file"
+                                accept=".jpg,.jpeg,.png"
+                                placeholder="Upload 360° tour"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium">Photos</label>
+                              <Input
+                                type="file"
+                                multiple
+                                accept=".jpg,.jpeg,.png"
+                                placeholder="Upload photos"
+                              />
+                            </div>
+                          </div>
+                          <div className="mt-2">
+                            <label className="text-sm font-medium">Floorplan / Layout</label>
+                            <Input
+                              type="file"
+                              accept=".pdf,.jpg,.jpeg,.png"
+                              placeholder="Upload floorplan"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
