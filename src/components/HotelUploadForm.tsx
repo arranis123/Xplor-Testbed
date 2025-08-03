@@ -911,6 +911,20 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                     <FormMessage />
                   </FormItem>
                 )}
+               />
+
+              <FormField
+                control={form.control}
+                name="googlePlusCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Google Plus Code</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., 8Q7X+VW New York" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
