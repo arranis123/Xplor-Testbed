@@ -1054,14 +1054,6 @@ export function RealEstatePropertyForm({
                     <FormLabel className="text-sm font-normal">Home Office</FormLabel>
                   </FormItem>} />
 
-                <FormField control={form.control} name="underfloorHeating" render={({
-                  field
-                }) => <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <FormLabel className="text-sm font-normal">Underfloor Heating</FormLabel>
-                  </FormItem>} />
 
                 <FormField control={form.control} name="smartLighting" render={({
                   field
@@ -1120,23 +1112,6 @@ export function RealEstatePropertyForm({
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                <FormField control={form.control} name="openKitchen" render={({
-                  field
-                }) => <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <FormLabel className="text-sm font-normal">Open Kitchen</FormLabel>
-                  </FormItem>} />
-
-                <FormField control={form.control} name="closedKitchen" render={({
-                  field
-                }) => <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <FormLabel className="text-sm font-normal">Closed Kitchen</FormLabel>
-                  </FormItem>} />
 
                 <FormField control={form.control} name="kitchenIsland" render={({
                   field
