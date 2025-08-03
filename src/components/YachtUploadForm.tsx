@@ -121,6 +121,34 @@ const yachtRulesSchema = z.object({
   deliveryFees: z.string().optional(),
   brokerageFee: z.string().optional(),
   
+  // Class Information
+  classificationSociety: z.string().optional(),
+  classificationStatus: z.string().optional(),
+  initialClassificationDate: z.string().optional(),
+  lastRenewalDate: z.string().optional(),
+  nextSurveyDue: z.string().optional(),
+  classNotations: z.string().optional(),
+  classCertificateUpload: z.string().optional(),
+  mcaCommercialCode: z.boolean().optional(),
+  ismCode: z.boolean().optional(),
+  ispsCode: z.boolean().optional(),
+  mlc: z.boolean().optional(),
+  solas: z.boolean().optional(),
+  marpol: z.boolean().optional(),
+  ceCertification: z.boolean().optional(),
+  rcdRcr: z.boolean().optional(),
+  uscgDocumentation: z.boolean().optional(),
+  surveyType: z.string().optional(),
+  lastSurveyDate: z.string().optional(),
+  surveyorName: z.string().optional(),
+  surveyReportUpload: z.string().optional(),
+  iceClassRating: z.string().optional(),
+  fireClassSafetyZones: z.string().optional(),
+  hullIdentificationNumber: z.string().optional(),
+  stabilityDocumentationAvailable: z.boolean().optional(),
+  loadLineCertificate: z.boolean().optional(),
+  flagStateInspectionRecord: z.boolean().optional(),
+  
   // Registration Details
   portOfRegistry: z.string().optional(),
   flagState: z.string().optional(),
@@ -389,10 +417,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           <Tabs defaultValue="yacht-info" className="w-full">
-            <TabsList className="grid w-full grid-cols-9">
+            <TabsList className="grid w-full grid-cols-10">
               <TabsTrigger value="yacht-info">Yacht Info</TabsTrigger>
               <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
               <TabsTrigger value="pricing">Pricing</TabsTrigger>
+              <TabsTrigger value="class">Class</TabsTrigger>
               <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
               <TabsTrigger value="media-files">Media & Files</TabsTrigger>
               <TabsTrigger value="guest-rules">Guest Rules</TabsTrigger>
@@ -2120,6 +2149,527 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                     <Plus className="h-4 w-4 mr-2" />
                     Add Deck Space
                   </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="class" className="space-y-4">
+              {/* Classification Society */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Classification Society</CardTitle>
+                  <CardDescription>Vessel classification and society information</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="classificationSociety"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Classification Society</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select classification society" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Major Classification Societies</SelectLabel>
+                              <SelectItem value="lloyds-register">Lloyd's Register (LR)</SelectItem>
+                              <SelectItem value="bureau-veritas">Bureau Veritas (BV)</SelectItem>
+                              <SelectItem value="rina">RINA (Registro Italiano Navale)</SelectItem>
+                              <SelectItem value="dnv">DNV (Det Norske Veritas / GL)</SelectItem>
+                              <SelectItem value="abs">ABS (American Bureau of Shipping)</SelectItem>
+                              <SelectItem value="ccs">CCS (China Classification Society)</SelectItem>
+                              <SelectItem value="nk">NK (Nippon Kaiji Kyokai)</SelectItem>
+                              <SelectItem value="kr">KR (Korean Register)</SelectItem>
+                              <SelectItem value="prs">Polish Register of Shipping (PRS)</SelectItem>
+                              <SelectItem value="turkish-lloyd">Turkish Lloyd</SelectItem>
+                              <SelectItem value="croatian-register">Croatian Register of Shipping</SelectItem>
+                              <SelectItem value="other">Other (manual entry)</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="classificationStatus"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Classification Status</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select classification status" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="classed">Classed</SelectItem>
+                            <SelectItem value="not-classed">Not Classed</SelectItem>
+                            <SelectItem value="built-to-class">Built to Class but Not Maintained</SelectItem>
+                            <SelectItem value="de-classed">De-Classed / Withdrawn</SelectItem>
+                            <SelectItem value="in-class-conditions">In Class with Conditions</SelectItem>
+                            <SelectItem value="reclassification">Undergoing Reclassification</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Class Certificate Details */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Class Certificate Details</CardTitle>
+                  <CardDescription>Classification certificate information and dates</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="initialClassificationDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Date of Initial Classification</FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="lastRenewalDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Date of Last Renewal</FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="nextSurveyDue"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Date of Next Survey / Renewal Due</FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="classNotations"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Class Notation(s)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., ✠100A1, MCA LY3" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Enter classification notations (e.g., ✠100A1, MCA LY3)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="classCertificateUpload"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Upload Class Certificate</FormLabel>
+                        <FormControl>
+                          <Input type="file" accept=".pdf,.jpg,.png" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Upload PDF or image file of the class certificate
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Compliance Standards */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Compliance Standards</CardTitle>
+                  <CardDescription>Select applicable compliance standards and certifications</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="mcaCommercialCode"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>MCA Commercial Code (LY2 / LY3 / MGN 280)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ismCode"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>ISM Code (International Safety Management)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ispsCode"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>ISPS Code (International Ship & Port Facility Security)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="mlc"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>MLC (Maritime Labour Convention)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="solas"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>SOLAS (Safety of Life at Sea)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="marpol"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>MARPOL (Marine Pollution Compliance)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ceCertification"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>CE Certification (for EU-built vessels)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="rcdRcr"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>RCD / RCR (Recreational Craft Directive)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="uscgDocumentation"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>USCG Documentation (if applicable)</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Survey & Technical Records */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Survey & Technical Records</CardTitle>
+                  <CardDescription>Survey information and technical documentation</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="surveyType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Type of Survey Completed</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select survey type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="full-survey">Full Survey</SelectItem>
+                              <SelectItem value="partial-survey">Partial Survey</SelectItem>
+                              <SelectItem value="pre-sale-survey">Pre-Sale Survey</SelectItem>
+                              <SelectItem value="condition-valuation">Condition & Valuation</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="lastSurveyDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Date of Last Survey</FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="surveyorName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Surveyor Name / Company</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter surveyor details" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="surveyReportUpload"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Upload Survey Report</FormLabel>
+                        <FormControl>
+                          <Input type="file" accept=".pdf" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Upload survey report in PDF format
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Additional Classification Notes */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Additional Classification Notes</CardTitle>
+                  <CardDescription>Additional vessel classification and documentation details</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="iceClassRating"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Ice Class Rating (if applicable)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 1A, 1AS, B" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="fireClassSafetyZones"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Fire Class / Safety Zones</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter fire safety classification" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="hullIdentificationNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Hull Identification Number (HIN)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter HIN" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="stabilityDocumentationAvailable"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Stability Documentation Available</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="loadLineCertificate"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Load Line Certificate</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="flagStateInspectionRecord"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>Flag State Inspection Record</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
