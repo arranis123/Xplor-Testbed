@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
-import { Plus, X, Upload, Link } from "lucide-react"
+import { Plus, X, Upload, Link, Image, Video, FileText, Plane } from "lucide-react"
 
 const yachtRulesSchema = z.object({
   // Basic Info
@@ -2884,11 +2884,25 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         </div>
                         <div>
                           <label className="text-sm font-medium">File Upload</label>
-                          <Input
-                            type="file"
-                            accept=".mp4,.mov,.avi"
-                            onChange={(e) => updateYachtVirtualTour(index, 'file', e.target.files?.[0])}
-                          />
+                          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                            <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground mb-2">Drag and drop video files here, or</p>
+                            <Input
+                              type="file"
+                              accept=".mp4,.mov,.avi"
+                              className="hidden"
+                              id={`tour-upload-${index}`}
+                              onChange={(e) => updateYachtVirtualTour(index, 'file', e.target.files?.[0])}
+                            />
+                            <label
+                              htmlFor={`tour-upload-${index}`}
+                              className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                            >
+                              <Upload className="h-4 w-4 mr-2" />
+                              Choose File
+                            </label>
+                            <p className="text-xs text-muted-foreground mt-2">MP4, MOV, AVI up to 100MB</p>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -2900,10 +2914,25 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                   {/* Photos */}
                   <div className="space-y-4">
-                    <h4 className="font-medium">Photos</h4>
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Image className="h-4 w-4" />
+                      Photos
+                    </h4>
                     <div>
                       <label className="text-sm font-medium">Upload Photos</label>
-                      <Input type="file" multiple accept="image/*" />
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                        <Image className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground mb-2">Drag and drop images here, or</p>
+                        <Input type="file" multiple accept="image/*" className="hidden" id="photos-upload" />
+                        <label
+                          htmlFor="photos-upload"
+                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Files
+                        </label>
+                        <p className="text-xs text-muted-foreground mt-2">JPG, PNG, WEBP up to 10MB each</p>
+                      </div>
                     </div>
                     <div>
                       <label className="text-sm font-medium">Photo URLs</label>
@@ -2913,10 +2942,25 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                   {/* Videos */}
                   <div className="space-y-4">
-                    <h4 className="font-medium">Videos</h4>
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Video className="h-4 w-4" />
+                      Videos
+                    </h4>
                     <div>
                       <label className="text-sm font-medium">Upload Videos</label>
-                      <Input type="file" multiple accept="video/*" />
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                        <Video className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground mb-2">Drag and drop videos here, or</p>
+                        <Input type="file" multiple accept="video/*" className="hidden" id="videos-upload" />
+                        <label
+                          htmlFor="videos-upload"
+                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Files
+                        </label>
+                        <p className="text-xs text-muted-foreground mt-2">MP4, MOV, AVI up to 100MB each</p>
+                      </div>
                     </div>
                     <div>
                       <label className="text-sm font-medium">Video URLs (YouTube, Vimeo)</label>
@@ -2926,10 +2970,25 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                   {/* Drone Footage */}
                   <div className="space-y-4">
-                    <h4 className="font-medium">Drone Footage</h4>
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Plane className="h-4 w-4" />
+                      Drone Footage
+                    </h4>
                     <div>
                       <label className="text-sm font-medium">Upload Drone Videos</label>
-                      <Input type="file" multiple accept="video/*" />
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                        <Plane className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground mb-2">Drag and drop drone footage here, or</p>
+                        <Input type="file" multiple accept="video/*" className="hidden" id="drone-upload" />
+                        <label
+                          htmlFor="drone-upload"
+                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Files
+                        </label>
+                        <p className="text-xs text-muted-foreground mt-2">MP4, MOV, AVI up to 100MB each</p>
+                      </div>
                     </div>
                     <div>
                       <label className="text-sm font-medium">Drone Footage URLs</label>
@@ -2939,10 +2998,25 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                   {/* Floor Plans */}
                   <div className="space-y-4">
-                    <h4 className="font-medium">Floor Plans</h4>
+                    <h4 className="font-medium flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      Floor Plans
+                    </h4>
                     <div>
                       <label className="text-sm font-medium">Upload Floor Plans</label>
-                      <Input type="file" multiple accept=".pdf,.jpg,.png" />
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground mb-2">Drag and drop floor plans here, or</p>
+                        <Input type="file" multiple accept=".pdf,.jpg,.png" className="hidden" id="floorplans-upload" />
+                        <label
+                          htmlFor="floorplans-upload"
+                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Files
+                        </label>
+                        <p className="text-xs text-muted-foreground mt-2">PDF, JPG, PNG up to 25MB each</p>
+                      </div>
                     </div>
                     <div>
                       <label className="text-sm font-medium">Floor Plan URLs</label>
@@ -2952,10 +3026,25 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                   {/* Documents */}
                   <div className="space-y-4">
-                    <h4 className="font-medium">Documents</h4>
+                    <h4 className="font-medium flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      Documents
+                    </h4>
                     <div>
                       <label className="text-sm font-medium">Upload Documents</label>
-                      <Input type="file" multiple accept=".pdf,.doc,.docx" />
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground mb-2">Drag and drop documents here, or</p>
+                        <Input type="file" multiple accept=".pdf,.doc,.docx" className="hidden" id="documents-upload" />
+                        <label
+                          htmlFor="documents-upload"
+                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Files
+                        </label>
+                        <p className="text-xs text-muted-foreground mt-2">PDF, DOC, DOCX up to 25MB each</p>
+                      </div>
                     </div>
                     <div>
                       <label className="text-sm font-medium">Document URLs</label>
@@ -2979,22 +3068,58 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="text-sm font-medium">360 Virtual Tours</label>
-                            <Input type="file" accept="video/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Upload className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" accept="video/*" className="hidden" id={`deck-tour-${index}`} />
+                              <label
+                                htmlFor={`deck-tour-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose File
+                              </label>
+                            </div>
                             <Input placeholder="Tour URL" className="mt-2" />
                           </div>
                           <div>
                             <label className="text-sm font-medium">Photos</label>
-                            <Input type="file" multiple accept="image/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Image className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" multiple accept="image/*" className="hidden" id={`deck-photos-${index}`} />
+                              <label
+                                htmlFor={`deck-photos-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose Files
+                              </label>
+                            </div>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="text-sm font-medium">Videos</label>
-                            <Input type="file" multiple accept="video/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Video className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" multiple accept="video/*" className="hidden" id={`deck-videos-${index}`} />
+                              <label
+                                htmlFor={`deck-videos-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose Files
+                              </label>
+                            </div>
                           </div>
                           <div>
                             <label className="text-sm font-medium">Drone Footage</label>
-                            <Input type="file" multiple accept="video/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Plane className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" multiple accept="video/*" className="hidden" id={`deck-drone-${index}`} />
+                              <label
+                                htmlFor={`deck-drone-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose Files
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -3017,22 +3142,58 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="text-sm font-medium">360 Virtual Tour (Required)</label>
-                            <Input type="file" accept="video/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Upload className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" accept="video/*" className="hidden" id={`cabin-tour-${index}`} />
+                              <label
+                                htmlFor={`cabin-tour-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose File
+                              </label>
+                            </div>
                             <Input placeholder="Tour URL" className="mt-2" />
                           </div>
                           <div>
                             <label className="text-sm font-medium">Cabin Photos</label>
-                            <Input type="file" multiple accept="image/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Image className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" multiple accept="image/*" className="hidden" id={`cabin-photos-${index}`} />
+                              <label
+                                htmlFor={`cabin-photos-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose Files
+                              </label>
+                            </div>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="text-sm font-medium">Walkthrough Video</label>
-                            <Input type="file" accept="video/*" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <Video className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" accept="video/*" className="hidden" id={`cabin-video-${index}`} />
+                              <label
+                                htmlFor={`cabin-video-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose File
+                              </label>
+                            </div>
                           </div>
                           <div>
                             <label className="text-sm font-medium">Floor Plan</label>
-                            <Input type="file" accept=".pdf,.jpg,.png" />
+                            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
+                              <FileText className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+                              <Input type="file" accept=".pdf,.jpg,.png" className="hidden" id={`cabin-floorplan-${index}`} />
+                              <label
+                                htmlFor={`cabin-floorplan-${index}`}
+                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                              >
+                                Choose File
+                              </label>
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
