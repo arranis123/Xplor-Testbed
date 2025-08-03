@@ -294,15 +294,86 @@ const yachtRulesSchema = z.object({
   cleaningFee: z.string(),
   crewTipGuidelines: z.string(),
 
-  // Safety & Security
-  lifeJackets: z.literal("yes"),
-  safetyBriefing: z.enum(["mandatory", "optional"]),
-  firstAidTrained: z.enum(["yes", "no"]),
-  securityCameras: z.enum(["yes", "no"]),
-  camerasLocation: z.string().optional(),
-  fireSuppressionSystems: z.literal("yes"),
-  nightWatch: z.enum(["crew_duty", "port_security", "none"]),
-  alcoholRestrictionNavigation: z.enum(["yes", "no"]),
+  // Safety & Security - Section 1: General Safety Equipment
+  certifiedLifejackets: z.boolean().default(false),
+  inflatableLifeRafts: z.boolean().default(false),
+  lifeRaftCapacity: z.string().optional(),
+  epirb: z.boolean().default(false),
+  fireExtinguishers: z.boolean().default(false),
+  fireSuppressionSystem: z.boolean().default(false),
+  smokeCoDetectors: z.boolean().default(false),
+  emergencyFlares: z.boolean().default(false),
+  satellitePhone: z.boolean().default(false),
+  aedDefibrillator: z.boolean().default(false),
+  firstAidKit: z.boolean().default(false),
+  emergencyLighting: z.boolean().default(false),
+  musterStation: z.boolean().default(false),
+  generalSafetyNotes: z.string().optional(),
+
+  // Section 2: Crew Certifications & Protocols
+  captainCommercialLicense: z.boolean().default(false),
+  crewStcwCertified: z.boolean().default(false),
+  safetyBriefingRequired: z.boolean().default(false),
+  trainedMedicalResponder: z.boolean().default(false),
+  regularSafetyDrills: z.boolean().default(false),
+  evacuationPlanPosted: z.boolean().default(false),
+  childElderlySafetyProcedures: z.boolean().default(false),
+
+  // Section 3: Fire & Electrical Safety
+  fireproofMaterials: z.boolean().default(false),
+  fireRetardantUpholstery: z.boolean().default(false),
+  galleyFireSuppression: z.boolean().default(false),
+  circuitBreakers: z.boolean().default(false),
+  engineRoomSealed: z.boolean().default(false),
+  smokeAlarmsAllAreas: z.boolean().default(false),
+  batteryCutoffSystems: z.boolean().default(false),
+
+  // Section 4: Navigational Safety
+  aisRadarGpsActive: z.boolean().default(false),
+  stabilizers: z.boolean().default(false),
+  weatherMonitoring: z.boolean().default(false),
+  redundantNavigation: z.boolean().default(false),
+  vhfRadioBridge24_7: z.boolean().default(false),
+  bridgeAccessRestricted: z.boolean().default(false),
+
+  // Section 5: Physical & Deck Safety
+  nonSlipDeckSurfaces: z.boolean().default(false),
+  childSafeRailings: z.boolean().default(false),
+  grabHandles: z.boolean().default(false),
+  swimmingZonesMarked: z.boolean().default(false),
+  waterToysSupervised: z.boolean().default(false),
+  antiJellyfishPool: z.boolean().default(false),
+  deckLightingNight: z.boolean().default(false),
+  uvProtectedAreas: z.boolean().default(false),
+
+  // Section 6: Medical & Sanitation Preparedness
+  medicalGradeFirstAid: z.boolean().default(false),
+  dedicatedMedicalStorage: z.boolean().default(false),
+  nearbyHospitalsListed: z.boolean().default(false),
+  nurseMedicOnboard: z.boolean().default(false),
+  emergencyEvacuationPlan: z.boolean().default(false),
+  sanitizerStations: z.boolean().default(false),
+  healthSanitationProtocols: z.boolean().default(false),
+
+  // Section 7: Certifications & Legal Compliance
+  commercialCharterCert: z.boolean().default(false),
+  mcaLy3Compliant: z.boolean().default(false),
+  ismCompliance: z.boolean().default(false),
+  fireSafetyLogMaintained: z.boolean().default(false),
+  vatPaid: z.boolean().default(false),
+  charterInsuranceCoverage: z.boolean().default(false),
+  localCruisingPermits: z.boolean().default(false),
+
+  // Additional safety notes for each section
+  crewCertificationNotes: z.string().optional(),
+  fireElectricalSafetyNotes: z.string().optional(),
+  navigationalSafetyNotes: z.string().optional(),
+  physicalDeckSafetyNotes: z.string().optional(),
+  medicalSanitationNotes: z.string().optional(),
+  certificationsComplianceNotes: z.string().optional(),
+
+  // Verified by Captain toggle
+  verifiedByCaptain: z.boolean().default(false),
 
   // Location-Based Rules
   allowedRegions: z.string(),
@@ -438,13 +509,62 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       laundryService: "charges_apply",
       cleaningFee: "Included in charter rate",
       crewTipGuidelines: "10-15% of charter fee",
-      lifeJackets: "yes",
-      safetyBriefing: "mandatory",
-      firstAidTrained: "yes",
-      securityCameras: "no",
-      fireSuppressionSystems: "yes",
-      nightWatch: "crew_duty",
-      alcoholRestrictionNavigation: "yes",
+      // Safety default values - all false by default, can be enabled
+      certifiedLifejackets: false,
+      inflatableLifeRafts: false,
+      epirb: false,
+      fireExtinguishers: false,
+      fireSuppressionSystem: false,
+      smokeCoDetectors: false,
+      emergencyFlares: false,
+      satellitePhone: false,
+      aedDefibrillator: false,
+      firstAidKit: false,
+      emergencyLighting: false,
+      musterStation: false,
+      captainCommercialLicense: false,
+      crewStcwCertified: false,
+      safetyBriefingRequired: false,
+      trainedMedicalResponder: false,
+      regularSafetyDrills: false,
+      evacuationPlanPosted: false,
+      childElderlySafetyProcedures: false,
+      fireproofMaterials: false,
+      fireRetardantUpholstery: false,
+      galleyFireSuppression: false,
+      circuitBreakers: false,
+      engineRoomSealed: false,
+      smokeAlarmsAllAreas: false,
+      batteryCutoffSystems: false,
+      aisRadarGpsActive: false,
+      stabilizers: false,
+      weatherMonitoring: false,
+      redundantNavigation: false,
+      vhfRadioBridge24_7: false,
+      bridgeAccessRestricted: false,
+      nonSlipDeckSurfaces: false,
+      childSafeRailings: false,
+      grabHandles: false,
+      swimmingZonesMarked: false,
+      waterToysSupervised: false,
+      antiJellyfishPool: false,
+      deckLightingNight: false,
+      uvProtectedAreas: false,
+      medicalGradeFirstAid: false,
+      dedicatedMedicalStorage: false,
+      nearbyHospitalsListed: false,
+      nurseMedicOnboard: false,
+      emergencyEvacuationPlan: false,
+      sanitizerStations: false,
+      healthSanitationProtocols: false,
+      commercialCharterCert: false,
+      mcaLy3Compliant: false,
+      ismCompliance: false,
+      fireSafetyLogMaintained: false,
+      vatPaid: false,
+      charterInsuranceCoverage: false,
+      localCruisingPermits: false,
+      verifiedByCaptain: false,
       allowedRegions: "",
       portAccessRules: "prebooked_only",
       overnightAnchor: "weather_dependent",
@@ -5241,138 +5361,1277 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             <TabsContent value="safety" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Safety & Security</CardTitle>
-                  <CardDescription>Configure safety protocols and security measures</CardDescription>
+                  <CardTitle>Safety Information</CardTitle>
+                  <CardDescription>Comprehensive safety equipment, certifications, and protocols</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="safetyBriefing"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Safety Briefing at Check-in</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="mandatory">Mandatory</SelectItem>
-                              <SelectItem value="optional">Optional</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="firstAidTrained"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Crew Trained in First Aid</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="yes">Yes</SelectItem>
-                              <SelectItem value="no">No</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                <CardContent className="space-y-6">
+                  <TooltipProvider>
+                    {/* Section 1: General Safety Equipment */}
+                    <Collapsible defaultOpen>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">General Safety Equipment</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="certifiedLifejackets"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Certified Lifejackets (incl. child sizes)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="inflatableLifeRafts"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Inflatable Life Rafts
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
 
-                  <FormField
-                    control={form.control}
-                    name="securityCameras"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Security Cameras Onboard</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="yes">Yes</SelectItem>
-                            <SelectItem value="no">No</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormField
+                            control={form.control}
+                            name="epirb"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      EPIRB (Emergency Beacon)
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Emergency Position Indicating Radio Beacon
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
 
-                  {form.watch("securityCameras") === "yes" && (
-                    <FormField
-                      control={form.control}
-                      name="camerasLocation"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Camera Locations</FormLabel>
-                          <FormControl>
-                            <Textarea placeholder="Describe camera locations for guest awareness..." {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
+                          <FormField
+                            control={form.control}
+                            name="fireExtinguishers"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Fire Extinguishers (in all areas)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="nightWatch"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Night Watch / Deck Security</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormField
+                            control={form.control}
+                            name="fireSuppressionSystem"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Fire Suppression System (engine room/galley)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="smokeCoDetectors"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Smoke & CO2 Detectors
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="emergencyFlares"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Emergency Flares & Signal Devices
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="satellitePhone"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Satellite Phone / Emergency Comms System
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="aedDefibrillator"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      AED / Defibrillator
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Automated External Defibrillator
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="firstAidKit"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  First Aid Kit (up-to-date)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="emergencyLighting"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Emergency Lighting
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="musterStation"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Muster Station / Assembly Area
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {form.watch("inflatableLifeRafts") && (
+                          <FormField
+                            control={form.control}
+                            name="lifeRaftCapacity"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Life Raft Capacity</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., 12 persons" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+
+                        <FormField
+                          control={form.control}
+                          name="generalSafetyNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (General Safety)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., Replaced AED in 2024, Life rafts serviced annually..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Section 2: Crew Certifications & Protocols */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">Crew Certifications & Protocols</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="captainCommercialLicense"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      Captain holds valid commercial license (STCW/MCA)
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Standards of Training, Certification and Watchkeeping / Maritime and Coastguard Agency
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="crewStcwCertified"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  All crew are STCW certified
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="safetyBriefingRequired"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Safety briefing required on embarkation
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="trainedMedicalResponder"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Trained medical responder onboard
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="regularSafetyDrills"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Regular crew safety drills conducted
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="evacuationPlanPosted"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Posted emergency evacuation plan
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="childElderlySafetyProcedures"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Child/elderly safety procedures in place
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="crewCertificationNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (Crew Certifications)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., Captain has 15 years experience, Chief Officer is certified paramedic..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Section 3: Fire & Electrical Safety */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">Fire & Electrical Safety</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="fireproofMaterials"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Fireproof cabin and interior materials
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="fireRetardantUpholstery"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Fire retardant upholstery and fabrics
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="galleyFireSuppression"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Galley fire suppression system
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="circuitBreakers"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Circuit breakers with surge protection
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="engineRoomSealed"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Engine room is sealed and fire-rated
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="smokeAlarmsAllAreas"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Smoke alarms in all guest and crew areas
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="batteryCutoffSystems"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Battery cutoff and isolation systems
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="fireElectricalSafetyNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (Fire & Electrical Safety)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., Fire suppression system serviced 2024, All electrical systems inspected annually..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Section 4: Navigational Safety */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">Navigational Safety</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="aisRadarGpsActive"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      AIS, radar, and GPS active
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Automatic Identification System for vessel tracking
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="stabilizers"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Stabilizers (zero-speed or underway)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="weatherMonitoring"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Weather monitoring system
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="redundantNavigation"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Dual/redundant navigation systems
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="vhfRadioBridge24_7"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  VHF radio and bridge watch active 24/7
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="bridgeAccessRestricted"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Bridge access restricted while underway
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="navigationalSafetyNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (Navigational Safety)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., Dual GPS systems installed, Weather routing software updated..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Section 5: Physical & Deck Safety */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">Physical & Deck Safety</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="nonSlipDeckSurfaces"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Non-slip deck surfaces
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="childSafeRailings"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Child-safe railings or safety nets
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="grabHandles"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Grab handles on stairs and bathrooms
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="swimmingZonesMarked"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Swimming zones clearly marked
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="waterToysSupervised"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Use of water toys supervised
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="antiJellyfishPool"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Anti-jellyfish pool available
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="deckLightingNight"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Deck lighting at night
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="uvProtectedAreas"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  UV-protected outdoor shaded areas
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="physicalDeckSafetyNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (Physical & Deck Safety)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., New non-slip coating applied 2024, Safety nets installed for families..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Section 6: Medical & Sanitation Preparedness */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">Medical & Sanitation Preparedness</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="medicalGradeFirstAid"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Medical-grade first aid kit onboard
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="dedicatedMedicalStorage"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Dedicated medical storage area
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="nearbyHospitalsListed"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      Nearby hospitals/ports listed in SOP
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Standard Operating Procedures
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="nurseMedicOnboard"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Nurse/medic onboard (full-time or on-call)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="emergencyEvacuationPlan"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Emergency evacuation plan available (sea/air)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="sanitizerStations"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Sanitizer stations onboard
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="healthSanitationProtocols"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Covid-19 / health sanitation protocols enforced
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="medicalSanitationNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (Medical & Sanitation)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., Crew member certified in advanced first aid, helicopter landing zone available..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Section 7: Certifications & Legal Compliance */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                        <h3 className="text-lg font-semibold">Certifications & Legal Compliance</h3>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="commercialCharterCert"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Commercial charter certification valid
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="mcaLy3Compliant"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      MCA LY3 / MLC 2006 compliant
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Maritime and Coastguard Agency Large Yacht Category 3 / Maritime Labour Convention
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="ismCompliance"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-1">
+                                      ISM compliance certificate (if applicable)
+                                      <HelpCircle className="h-3 w-3" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      International Safety Management Code
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="fireSafetyLogMaintained"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Fire safety log maintained
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="vatPaid"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  VAT Paid (if listed as VAT paid)
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="charterInsuranceCoverage"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Charter insurance coverage in place
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="localCruisingPermits"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  Local cruising permits for current season
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="certificationsComplianceNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Additional Notes (Certifications & Compliance)</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="e.g., MCA certificate renewed 2024, All permits valid until 2025..." 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* Verified by Captain Toggle */}
+                    <div className="pt-4 border-t">
+                      <FormField
+                        control={form.control}
+                        name="verifiedByCaptain"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center justify-between">
+                            <div className="space-y-0.5">
+                              <FormLabel className="text-base font-medium">
+                                Verified by Captain
+                              </FormLabel>
+                              <FormDescription>
+                                Confirm that this safety information has been verified by the vessel's captain or qualified officer
+                              </FormDescription>
+                            </div>
                             <FormControl>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
-                            <SelectContent>
-                              <SelectItem value="crew_duty">Crew Duty</SelectItem>
-                              <SelectItem value="port_security">Port Security</SelectItem>
-                              <SelectItem value="none">None</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="alcoholRestrictionNavigation"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Alcohol Restriction During Navigation</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="yes">Yes</SelectItem>
-                              <SelectItem value="no">No</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </TooltipProvider>
                 </CardContent>
               </Card>
             </TabsContent>
