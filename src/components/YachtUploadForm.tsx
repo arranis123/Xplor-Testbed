@@ -11,8 +11,10 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useToast } from "@/hooks/use-toast"
-import { Plus, X, Upload, Link, Image, Video, FileText, Plane } from "lucide-react"
+import { Plus, X, Upload, Link, Image, Video, FileText, Plane, ChevronDown, HelpCircle } from "lucide-react"
 
 const yachtRulesSchema = z.object({
   // Basic Info
@@ -221,16 +223,54 @@ const yachtRulesSchema = z.object({
   crewSupport: z.array(z.string()).optional(),
   certificationsCapabilities: z.array(z.string()).optional(),
 
-  // Guest Rules
+  // Guest Rules & Access - Section 1: Access Information
+  embarkationPort: z.string().optional(),
+  disembarkationPort: z.string().optional(),
+  embarkationTime: z.string().optional(),
+  disembarkationTime: z.string().optional(),
+  boardingInstructionsRequired: z.boolean().optional(),
+  captainsBriefingRequired: z.boolean().optional(),
+  crewAssistsWithLuggage: z.boolean().optional(),
+  idRequiredAtCheckIn: z.boolean().optional(),
+  shoreAccess: z.array(z.string()).optional(),
+  marinaDockName: z.string().optional(),
+
+  // Section 2: Navigation & Movement
+  yachtCanMoveDuringCharter: z.boolean().optional(),
+  itineraryCustomizable: z.boolean().optional(),
+  nightCruisingAllowed: z.boolean().optional(),
+  tenderUsePermittedByGuests: z.boolean().optional(),
+  cruisingRestrictions: z.array(z.string()).optional(),
+
+  // Section 3: Guest Use Rules
+  maxDayGuests: z.number().optional(),
+  maxNightGuests: z.number().optional(),
+  extraGuestsRequireApproval: z.boolean().optional(),
+  galleyUsePermitted: z.boolean().optional(),
+  bridgeAccessAllowed: z.array(z.string()).optional(),
+  quietHoursStart: z.string().optional(),
+  quietHoursEnd: z.string().optional(),
+  crewQuartersAccess: z.boolean().optional(),
+
+  // Section 4: Children & Pets
+  childrenAllowed: z.boolean().optional(),
+  minimumAge: z.number().optional(),
+  childproofingAvailable: z.boolean().optional(),
+  petsAllowed: z.array(z.string()).optional(),
+  petNotes: z.string().optional(),
+
+  // Section 5: Behavior & Onboard Conduct
+  smokingPolicy: z.array(z.string()).optional(),
+  vapingPermitted: z.boolean().optional(),
+  shoesOnboard: z.array(z.string()).optional(),
+  alcoholPolicy: z.array(z.string()).optional(),
+  illegalSubstancesProhibited: z.boolean().optional(),
+  firearmsWeaponsNotAllowed: z.boolean().optional(),
+  noPartiesWithoutApproval: z.boolean().optional(),
+
+  // Legacy fields for compatibility
   maxGuestsSleeping: z.number().min(1).max(50),
   maxGuestsDayUse: z.number().min(1).max(100),
-  childrenAllowed: z.enum(["yes", "no", "with_nanny"]),
-  petsAllowed: z.enum(["yes", "no", "on_request"]),
-  smokingAllowed: z.enum(["yes", "no", "outdoor_only"]),
-  alcoholConsumption: z.enum(["permitted", "on_request", "not_allowed"]),
-  shoesOnboard: z.enum(["allowed", "no_shoes", "interior_only"]),
-  quietHoursStart: z.string(),
-  quietHoursEnd: z.string(),
   eventsAllowed: z.enum(["yes", "no", "approval_only"]),
   minAgeToBook: z.number().min(18).max(65),
   checkInTime: z.string(),
@@ -341,15 +381,45 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       adventureGear: [],
       crewSupport: [],
       certificationsCapabilities: [],
-      maxGuestsSleeping: 10,
-      maxGuestsDayUse: 12,
-      childrenAllowed: "yes",
-      petsAllowed: "no",
-      smokingAllowed: "outdoor_only",
-      alcoholConsumption: "permitted",
-      shoesOnboard: "no_shoes",
+      // Guest Rules & Access defaults
+      embarkationPort: "",
+      disembarkationPort: "",
+      embarkationTime: "12:00",
+      disembarkationTime: "10:00",
+      boardingInstructionsRequired: false,
+      captainsBriefingRequired: true,
+      crewAssistsWithLuggage: true,
+      idRequiredAtCheckIn: true,
+      shoreAccess: [],
+      marinaDockName: "",
+      yachtCanMoveDuringCharter: true,
+      itineraryCustomizable: true,
+      nightCruisingAllowed: false,
+      tenderUsePermittedByGuests: false,
+      cruisingRestrictions: [],
+      maxDayGuests: 12,
+      maxNightGuests: 10,
+      extraGuestsRequireApproval: true,
+      galleyUsePermitted: false,
+      bridgeAccessAllowed: [],
       quietHoursStart: "23:00",
       quietHoursEnd: "08:00",
+      crewQuartersAccess: false,
+      childrenAllowed: true,
+      minimumAge: 0,
+      childproofingAvailable: false,
+      petsAllowed: [],
+      petNotes: "",
+      smokingPolicy: [],
+      vapingPermitted: false,
+      shoesOnboard: [],
+      alcoholPolicy: [],
+      illegalSubstancesProhibited: true,
+      firearmsWeaponsNotAllowed: true,
+      noPartiesWithoutApproval: true,
+      // Legacy compatibility
+      maxGuestsSleeping: 10,
+      maxGuestsDayUse: 12,
       eventsAllowed: "approval_only",
       minAgeToBook: 25,
       checkInTime: "12:00",
@@ -466,6 +536,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 <TabsTrigger value="yacht-info" className="w-full justify-start">Yacht Info</TabsTrigger>
                 <TabsTrigger value="pricing" className="w-full justify-start">Pricing</TabsTrigger>
                 <TabsTrigger value="class" className="w-full justify-start">Class</TabsTrigger>
+                <TabsTrigger value="guest-rules-access" className="w-full justify-start">Guest Rules & Access</TabsTrigger>
                 
                 <TabsTrigger value="access" className="w-full justify-start">Access</TabsTrigger>
                 <TabsTrigger value="safety" className="w-full justify-start">Safety</TabsTrigger>
@@ -2939,6 +3010,792 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="guest-rules-access" className="space-y-6">
+              <TooltipProvider>
+                {/* Section 1: Access Information */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
+                    <h3 className="text-lg font-semibold">Access Information</h3>
+                    <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-4">
+                    <Card>
+                      <CardContent className="p-6 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="embarkationPort"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Embarkation Port</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="Enter embarkation port" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="disembarkationPort"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Disembarkation Port</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="Enter disembarkation port" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="embarkationTime"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Embarkation Time</FormLabel>
+                                <FormControl>
+                                  <Input type="time" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="disembarkationTime"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Disembarkation Time</FormLabel>
+                                <FormControl>
+                                  <Input type="time" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="boardingInstructionsRequired"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Boarding Instructions Required?</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="captainsBriefingRequired"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Captain's Briefing Required Before Departure</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="crewAssistsWithLuggage"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Crew Assists with Luggage</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="idRequiredAtCheckIn"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">ID Required at Check-in</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="shoreAccess"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Shore Access (multi-select)</FormLabel>
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                {["By Tender", "By Gangway", "Via Port Office", "Restricted Hours Only"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={option}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={option} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="marinaDockName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Marina/Dock Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Enter marina or dock name" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CardContent>
+                    </Card>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Section 2: Navigation & Movement */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
+                    <h3 className="text-lg font-semibold">Navigation & Movement</h3>
+                    <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-4">
+                    <Card>
+                      <CardContent className="p-6 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="yachtCanMoveDuringCharter"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Yacht Can Move During Charter</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="itineraryCustomizable"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Itinerary Customizable</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="nightCruisingAllowed"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Night Cruising Allowed</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="tenderUsePermittedByGuests"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Tender Use Permitted by Guests</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="cruisingRestrictions"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Cruising Restrictions (multi-select)</FormLabel>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                {["Coastal Only", "International Waters Not Permitted", "Zone Restricted", "Owner's Approval Required", "None"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={`cruise-${option}`}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={`cruise-${option}`} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CardContent>
+                    </Card>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Section 3: Guest Use Rules */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
+                    <h3 className="text-lg font-semibold">Guest Use Rules</h3>
+                    <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-4">
+                    <Card>
+                      <CardContent className="p-6 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="maxDayGuests"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Max Day Guests</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="number" 
+                                    min="1" 
+                                    max="100" 
+                                    placeholder="12"
+                                    {...field}
+                                    onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="maxNightGuests"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Max Night Guests</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="number" 
+                                    min="1" 
+                                    max="50" 
+                                    placeholder="10"
+                                    {...field}
+                                    onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="extraGuestsRequireApproval"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Extra Guests Require Approval</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="galleyUsePermitted"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Galley Use Permitted</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="bridgeAccessAllowed"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Bridge Access Allowed (multi-select)</FormLabel>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                {["Yes", "No", "With Captain Supervision"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={`bridge-${option}`}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={`bridge-${option}`} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="quietHoursStart"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Quiet Hours Start</FormLabel>
+                                <FormControl>
+                                  <Input type="time" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="quietHoursEnd"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Quiet Hours End</FormLabel>
+                                <FormControl>
+                                  <Input type="time" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="crewQuartersAccess"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              <div className="space-y-0.5">
+                                <FormLabel className="text-base">Crew Quarters Access</FormLabel>
+                                <FormDescription>Allow guests access to crew quarters</FormDescription>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </CardContent>
+                    </Card>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Section 4: Children & Pets */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
+                    <h3 className="text-lg font-semibold">Children & Pets</h3>
+                    <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-4">
+                    <Card>
+                      <CardContent className="p-6 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="childrenAllowed"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Children Allowed</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="childproofingAvailable"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Childproofing Available</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name="minimumAge"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Minimum Age</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  type="number" 
+                                  min="0" 
+                                  max="18" 
+                                  placeholder="0"
+                                  {...field}
+                                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                />
+                              </FormControl>
+                              <FormDescription>Minimum age for children (0 = no restriction)</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="petsAllowed"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Pets Allowed (multi-select)</FormLabel>
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                {["Yes", "No", "Small Pets Only", "By Request Only"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={`pets-${option}`}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={`pets-${option}`} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="petNotes"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Pet Notes</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Additional notes about pet policies..."
+                                  className="min-h-[100px]"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </CardContent>
+                    </Card>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Section 5: Behavior & Onboard Conduct */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
+                    <h3 className="text-lg font-semibold">Behavior & Onboard Conduct</h3>
+                    <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-4">
+                    <Card>
+                      <CardContent className="p-6 space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="smokingPolicy"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Smoking Policy (multi-select)</FormLabel>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                {["Not Allowed", "Designated Areas Only", "Outdoor Only"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={`smoking-${option}`}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={`smoking-${option}`} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="vapingPermitted"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              <div className="space-y-0.5">
+                                <FormLabel className="text-base">Vaping Permitted</FormLabel>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="shoesOnboard"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Shoes Onboard (multi-select)</FormLabel>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                {["No Shoes", "Yacht Shoes Only", "No Restriction"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={`shoes-${option}`}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={`shoes-${option}`} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="alcoholPolicy"
+                          render={({ field }) => (
+                            <FormItem>
+                              <div className="flex items-center gap-2">
+                                <FormLabel>Alcohol Policy (multi-select)</FormLabel>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>BYO = Bring Your Own alcohol</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </div>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                {["BYO Allowed", "Crew Served Only", "Yacht-Stocked Bar"].map((option) => (
+                                  <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox
+                                      id={`alcohol-${option}`}
+                                      checked={field.value?.includes(option) || false}
+                                      onCheckedChange={(checked) => {
+                                        const currentValue = field.value || []
+                                        if (checked) {
+                                          field.onChange([...currentValue, option])
+                                        } else {
+                                          field.onChange(currentValue.filter((v: string) => v !== option))
+                                        }
+                                      }}
+                                    />
+                                    <label htmlFor={`alcohol-${option}`} className="text-sm">{option}</label>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="illegalSubstancesProhibited"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Illegal Substances Prohibited</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="firearmsWeaponsNotAllowed"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">Firearms / Weapons Not Allowed</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="noPartiesWithoutApproval"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">No Parties Without Approval</FormLabel>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CollapsibleContent>
+                </Collapsible>
+              </TooltipProvider>
             </TabsContent>
 
             <TabsContent value="cabin-types" className="space-y-4">
