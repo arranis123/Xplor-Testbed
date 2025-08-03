@@ -461,19 +461,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           <Tabs defaultValue="yacht-info" className="w-full">
-            <TabsList className="grid w-full grid-cols-11">
-              <TabsTrigger value="yacht-info">Yacht Info</TabsTrigger>
-              <TabsTrigger value="pricing">Pricing</TabsTrigger>
-              <TabsTrigger value="class">Class</TabsTrigger>
-              <TabsTrigger value="guest-rules">Guest Rules</TabsTrigger>
-              <TabsTrigger value="access">Access</TabsTrigger>
-              <TabsTrigger value="safety">Safety</TabsTrigger>
-              <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
-              <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
-              <TabsTrigger value="amenities">Amenities & Toys</TabsTrigger>
-              <TabsTrigger value="media-files">Media & Files</TabsTrigger>
-              <TabsTrigger value="management">Management</TabsTrigger>
-            </TabsList>
+            <div className="flex gap-6">
+              <TabsList className="flex flex-col h-fit w-60 p-2 space-y-1">
+                <TabsTrigger value="yacht-info" className="w-full justify-start">Yacht Info</TabsTrigger>
+                <TabsTrigger value="pricing" className="w-full justify-start">Pricing</TabsTrigger>
+                <TabsTrigger value="class" className="w-full justify-start">Class</TabsTrigger>
+                <TabsTrigger value="guest-rules" className="w-full justify-start">Guest Rules</TabsTrigger>
+                <TabsTrigger value="access" className="w-full justify-start">Access</TabsTrigger>
+                <TabsTrigger value="safety" className="w-full justify-start">Safety</TabsTrigger>
+                <TabsTrigger value="cabin-types" className="w-full justify-start">Cabin Types</TabsTrigger>
+                <TabsTrigger value="deck-spaces" className="w-full justify-start">Deck Spaces</TabsTrigger>
+                <TabsTrigger value="amenities" className="w-full justify-start">Amenities & Toys</TabsTrigger>
+                <TabsTrigger value="media-files" className="w-full justify-start">Media & Files</TabsTrigger>
+                <TabsTrigger value="management" className="w-full justify-start">Management</TabsTrigger>
+              </TabsList>
+              
+              <div className="flex-1">
 
             <TabsContent value="yacht-info" className="space-y-4">
                {/* Basic Info */}
@@ -5163,6 +5166,8 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardContent>
               </Card>
             </TabsContent>
+              </div>
+            </div>
           </Tabs>
 
           <div className="flex justify-end space-x-4 pt-6">
