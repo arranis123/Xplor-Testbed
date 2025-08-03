@@ -15,14 +15,43 @@ import { useToast } from "@/hooks/use-toast"
 import { Plus, X, Upload, Link } from "lucide-react"
 
 const yachtRulesSchema = z.object({
-  // Yacht Details
+  // Vessel Identity
   yachtName: z.string().min(1, "Yacht name is required"),
   yachtType: z.string().min(1, "Yacht type is required"),
+  officialNumber: z.string().optional(),
+  callSign: z.string().optional(),
+  mmsiNumber: z.string().optional(),
+  imoNumber: z.string().optional(),
+  
+  // Registration Details
+  portOfRegistry: z.string().optional(),
+  flagState: z.string().optional(),
+  dateOfRegistration: z.string().optional(),
+  placeOfIssue: z.string().optional(),
+  issuingAuthority: z.string().optional(),
+  registryExpirationDate: z.string().optional(),
+  
+  // Tonnage & Dimensions
+  grossTonnage: z.string().optional(),
+  netTonnage: z.string().optional(),
   length: z.string().optional(),
   beam: z.string().optional(),
   draft: z.string().optional(),
-  builder: z.string().optional(),
   yearBuilt: z.string().optional(),
+  builder: z.string().optional(),
+  placeOfBuild: z.string().optional(),
+  
+  // Ownership & Management
+  ownerName: z.string().optional(),
+  ownerAddress: z.string().optional(),
+  ownershipType: z.string().optional(),
+  managingCompany: z.string().optional(),
+  beneficialOwner: z.string().optional(),
+  
+  // Operational Status
+  vesselUse: z.string().optional(),
+  navigationLimits: z.string().optional(),
+  registryStatus: z.string().optional(),
   
   // Deck Spaces
   deckSpaces: z.array(z.object({
@@ -274,36 +303,96 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             </TabsList>
 
             <TabsContent value="yacht-info" className="space-y-4">
+              {/* Vessel Identity */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Yacht Information</CardTitle>
-                  <CardDescription>Enter basic information about your yacht</CardDescription>
+                  <CardTitle>Vessel Identity</CardTitle>
+                  <CardDescription>
+                    Basic vessel identification details
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="yachtName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Yacht Name</FormLabel>
+                          <FormLabel>Vessel Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter yacht name" {...field} />
+                            <Input placeholder="Enter vessel name" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
+                    <FormField
+                      control={form.control}
+                      name="officialNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Official Number (or IMO number for larger vessels)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter official number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="callSign"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Call Sign</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter call sign" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="mmsiNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>MMSI Number (if applicable)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter MMSI number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="imoNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>IMO Number (commercial yachts over 24m)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter IMO number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <FormField
                       control={form.control}
                       name="yachtType"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Yacht Type</FormLabel>
+                          <FormLabel>Type of Vessel</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select yacht type" />
+                                <SelectValue placeholder="Select vessel type" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="max-h-[300px]">
@@ -358,72 +447,393 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       )}
                     />
                   </div>
-                  
-                  <div className="grid grid-cols-3 gap-4">
+                </CardContent>
+              </Card>
+
+              {/* Registration Details */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Registration Details</CardTitle>
+                  <CardDescription>
+                    Vessel registration and flag state information
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="length"
+                      name="portOfRegistry"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Length (ft/m)</FormLabel>
+                          <FormLabel>Port of Registry</FormLabel>
                           <FormControl>
-                            <Input placeholder="e.g., 120 ft" {...field} />
+                            <Input placeholder="e.g., George Town, London, Valletta" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={form.control}
-                      name="beam"
+                      name="flagState"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Beam (ft/m)</FormLabel>
+                          <FormLabel>Flag State / Country of Registration</FormLabel>
                           <FormControl>
-                            <Input placeholder="e.g., 25 ft" {...field} />
+                            <Input placeholder="Enter flag state" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={form.control}
-                      name="draft"
+                      name="dateOfRegistration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Draft (ft/m)</FormLabel>
+                          <FormLabel>Date of Registration</FormLabel>
                           <FormControl>
-                            <Input placeholder="e.g., 8 ft" {...field} />
+                            <Input type="date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="placeOfIssue"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Place of Issue</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Where the registry was issued" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="issuingAuthority"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Issuing Authority</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Cayman Islands Shipping Registry, MCA, USCG" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="registryExpirationDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Expiration Date of Registry</FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
+                </CardContent>
+              </Card>
+
+              {/* Tonnage & Dimensions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Tonnage & Dimensions</CardTitle>
+                  <CardDescription>
+                    Vessel specifications and build information
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <FormField
                       control={form.control}
-                      name="builder"
+                      name="grossTonnage"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Builder</FormLabel>
+                          <FormLabel>Gross Tonnage (GT)</FormLabel>
                           <FormControl>
-                            <Input placeholder="e.g., Sunseeker" {...field} />
+                            <Input type="number" placeholder="Enter GT" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
+                    <FormField
+                      control={form.control}
+                      name="netTonnage"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Net Tonnage (NT)</FormLabel>
+                          <FormControl>
+                            <Input type="number" placeholder="Enter NT" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="length"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Length Overall (LOA)</FormLabel>
+                          <FormControl>
+                            <Input type="number" placeholder="Meters" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="beam"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Beam (Width)</FormLabel>
+                          <FormControl>
+                            <Input type="number" placeholder="Meters" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="draft"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Depth / Draft</FormLabel>
+                          <FormControl>
+                            <Input type="number" placeholder="Meters" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <FormField
                       control={form.control}
                       name="yearBuilt"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Year Built</FormLabel>
+                          <FormLabel>Year of Build</FormLabel>
                           <FormControl>
-                            <Input type="number" placeholder="e.g., 2020" {...field} />
+                            <Input type="number" placeholder="2023" {...field} />
                           </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="builder"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Builder / Shipyard</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter builder name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="placeOfBuild"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Place of Build</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter build location" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Ownership & Management */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Ownership & Management</CardTitle>
+                  <CardDescription>
+                    Owner and management company details
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="ownerName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Owner Name(s)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter owner name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ownerAddress"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Owner Address</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Enter owner address" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ownershipType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Ownership Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select ownership type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="individual">Individual</SelectItem>
+                              <SelectItem value="company">Company</SelectItem>
+                              <SelectItem value="trust">Trust</SelectItem>
+                              <SelectItem value="partnership">Partnership</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="managingCompany"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Managing Company / Commercial Manager</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter managing company (if applicable)" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="beneficialOwner"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Beneficial Owner</FormLabel>
+                          <FormControl>
+                            <Input placeholder="If known or disclosed" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Operational Status */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Operational Status</CardTitle>
+                  <CardDescription>
+                    Current operational and registry status
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="vesselUse"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Commercial or Private Use</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select use type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="private">Private Use</SelectItem>
+                              <SelectItem value="commercial">Commercial Use</SelectItem>
+                              <SelectItem value="charter">Charter</SelectItem>
+                              <SelectItem value="research">Research</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="navigationLimits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Navigation Limits / Area of Operation</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter operational area" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="registryStatus"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Status / Validity of Registry</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select registry status" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="active">Active</SelectItem>
+                              <SelectItem value="expired">Expired</SelectItem>
+                              <SelectItem value="suspended">Suspended</SelectItem>
+                              <SelectItem value="pending">Pending</SelectItem>
+                            </SelectContent>
+                          </Select>
                           <FormMessage />
                         </FormItem>
                       )}
