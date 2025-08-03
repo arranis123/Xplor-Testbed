@@ -477,11 +477,95 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
               <div className="border border-border rounded-lg p-4 space-y-4">
                 <h4 className="font-medium">Add New Virtual Tour</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Tour name (e.g., Hotel Lobby Tour, Premium Suite Tour)"
+                  <Select
                     value={currentTour.name || ''}
-                    onChange={(e) => setCurrentTour({...currentTour, name: e.target.value})}
-                  />
+                    onValueChange={(value) => setCurrentTour({...currentTour, name: value})}
+                  >
+                    <SelectTrigger className="bg-background border-border">
+                      <SelectValue placeholder="Select tour name" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border shadow-lg z-50 max-h-80 overflow-y-auto">
+                      {/* Public Areas */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground">PUBLIC AREAS</div>
+                      <SelectItem value="Main Lobby">Main Lobby</SelectItem>
+                      <SelectItem value="Reception / Front Desk">Reception / Front Desk</SelectItem>
+                      <SelectItem value="Lounge / Waiting Area">Lounge / Waiting Area</SelectItem>
+                      <SelectItem value="Concierge Desk">Concierge Desk</SelectItem>
+                      <SelectItem value="Business Center / Co-working Space">Business Center / Co-working Space</SelectItem>
+                      <SelectItem value="Hallways / Corridors">Hallways / Corridors</SelectItem>
+                      
+                      {/* Food & Beverage */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">FOOD & BEVERAGE</div>
+                      <SelectItem value="Main Restaurant(s)">Main Restaurant(s)</SelectItem>
+                      <SelectItem value="Fine Dining Room">Fine Dining Room</SelectItem>
+                      <SelectItem value="Buffet Area">Buffet Area</SelectItem>
+                      <SelectItem value="Poolside Bar">Poolside Bar</SelectItem>
+                      <SelectItem value="Coffee Shop or Café">Coffee Shop or Café</SelectItem>
+                      <SelectItem value="Rooftop Bar or Lounge">Rooftop Bar or Lounge</SelectItem>
+                      <SelectItem value="Wine Cellar / Tasting Room">Wine Cellar / Tasting Room</SelectItem>
+                      <SelectItem value="Private Dining Room">Private Dining Room</SelectItem>
+                      <SelectItem value="Kitchen Tour">Kitchen Tour</SelectItem>
+                      
+                      {/* Event & Meeting Spaces */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">EVENT & MEETING SPACES</div>
+                      <SelectItem value="Grand Ballroom">Grand Ballroom</SelectItem>
+                      <SelectItem value="Conference Room(s)">Conference Room(s)</SelectItem>
+                      <SelectItem value="Meeting Rooms">Meeting Rooms</SelectItem>
+                      <SelectItem value="Breakout Rooms">Breakout Rooms</SelectItem>
+                      <SelectItem value="Pre-function Areas">Pre-function Areas</SelectItem>
+                      <SelectItem value="VIP Lounges">VIP Lounges</SelectItem>
+                      <SelectItem value="Outdoor Event Lawn / Terrace">Outdoor Event Lawn / Terrace</SelectItem>
+                      <SelectItem value="Wedding Gazebo or Pavilion">Wedding Gazebo or Pavilion</SelectItem>
+                      
+                      {/* Wellness & Recreation */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">WELLNESS & RECREATION</div>
+                      <SelectItem value="Gym / Fitness Center">Gym / Fitness Center</SelectItem>
+                      <SelectItem value="Spa / Treatment Rooms">Spa / Treatment Rooms</SelectItem>
+                      <SelectItem value="Sauna / Steam Room">Sauna / Steam Room</SelectItem>
+                      <SelectItem value="Meditation Room / Yoga Studio">Meditation Room / Yoga Studio</SelectItem>
+                      <SelectItem value="Wellness Reception or Juice Bar">Wellness Reception or Juice Bar</SelectItem>
+                      <SelectItem value="Locker Rooms / Changing Areas">Locker Rooms / Changing Areas</SelectItem>
+                      
+                      {/* Leisure Areas */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">LEISURE AREAS</div>
+                      <SelectItem value="Outdoor Swimming Pool">Outdoor Swimming Pool</SelectItem>
+                      <SelectItem value="Indoor Swimming Pool">Indoor Swimming Pool</SelectItem>
+                      <SelectItem value="Children's Pool">Children's Pool</SelectItem>
+                      <SelectItem value="Pool Deck / Cabanas">Pool Deck / Cabanas</SelectItem>
+                      <SelectItem value="Hot Tub / Jacuzzi">Hot Tub / Jacuzzi</SelectItem>
+                      <SelectItem value="Beach Area">Beach Area</SelectItem>
+                      <SelectItem value="Rooftop Deck / Sky Lounge">Rooftop Deck / Sky Lounge</SelectItem>
+                      <SelectItem value="Garden / Courtyard">Garden / Courtyard</SelectItem>
+                      <SelectItem value="Game Room / Recreation Area">Game Room / Recreation Area</SelectItem>
+                      <SelectItem value="Cinema / Screening Room">Cinema / Screening Room</SelectItem>
+                      
+                      {/* Retail & Convenience */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">RETAIL & CONVENIENCE</div>
+                      <SelectItem value="Hotel Gift Shop">Hotel Gift Shop</SelectItem>
+                      <SelectItem value="Designer Boutiques">Designer Boutiques</SelectItem>
+                      <SelectItem value="Convenience Store / Mini Mart">Convenience Store / Mini Mart</SelectItem>
+                      <SelectItem value="Jewelry / Souvenir Shop">Jewelry / Souvenir Shop</SelectItem>
+                      <SelectItem value="Hair or Nail Salon">Hair or Nail Salon</SelectItem>
+                      <SelectItem value="In-house Travel or Tour Desk">In-house Travel or Tour Desk</SelectItem>
+                      
+                      {/* Specialty Areas */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">SPECIALTY AREAS</div>
+                      <SelectItem value="Airport Transfer Lounge">Airport Transfer Lounge</SelectItem>
+                      <SelectItem value="Executive Club Lounge / VIP Lounge">Executive Club Lounge / VIP Lounge</SelectItem>
+                      <SelectItem value="Butler's Pantry or Guest Services Station">Butler's Pantry or Guest Services Station</SelectItem>
+                      <SelectItem value="Art Gallery or On-site Exhibition">Art Gallery or On-site Exhibition</SelectItem>
+                      <SelectItem value="Library or Reading Room">Library or Reading Room</SelectItem>
+                      <SelectItem value="Kids' Club or Play Area">Kids' Club or Play Area</SelectItem>
+                      <SelectItem value="Pet Relief Area / Pet Spa">Pet Relief Area / Pet Spa</SelectItem>
+                      
+                      {/* Back-of-House */}
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">BACK-OF-HOUSE (OPTIONAL)</div>
+                      <SelectItem value="Staff Reception or Office">Staff Reception or Office</SelectItem>
+                      <SelectItem value="Service Corridor">Service Corridor</SelectItem>
+                      <SelectItem value="Laundry or Sustainability Facility">Laundry or Sustainability Facility</SelectItem>
+                      <SelectItem value="Green Energy Installations">Green Energy Installations</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <Select
                     value={currentTour.type || ''}
                     onValueChange={(value: 'url' | 'file') => setCurrentTour({...currentTour, type: value, tourUrl: '', tourFile: undefined})}
