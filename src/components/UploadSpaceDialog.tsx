@@ -64,7 +64,7 @@ export const UploadSpaceDialog: React.FC<UploadSpaceDialogProps> = ({
     );
   }
 
-  if (category === "yachts") {
+  if (category === "yacht" || category === "yachts") {
     return (
       <YachtUploadDialog 
         open={open}
