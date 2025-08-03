@@ -172,6 +172,12 @@ const yachtRulesSchema = z.object({
   builder: z.string().optional(),
   placeOfBuild: z.string().optional(),
   
+  // Guest and Crew Info
+  guestCabins: z.number().optional(),
+  crewCabins: z.number().optional(),
+  maxGuests: z.number().optional(),
+  maxCrew: z.number().optional(),
+  
   // Ownership & Management
   ownerName: z.string().optional(),
   ownerAddress: z.string().optional(),
@@ -305,6 +311,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       draft: '',
       builder: '',
       yearBuilt: '',
+      guestCabins: 0,
+      crewCabins: 0,
+      maxGuests: 0,
+      maxCrew: 0,
       deckSpaces: [],
       cabinTypes: [],
       maxGuestsSleeping: 10,
@@ -831,33 +841,109 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="length"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Length Overall (LOA)</FormLabel>
-                          <FormControl>
-                            <Input type="number" placeholder="Meters" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                     <FormField
+                       control={form.control}
+                       name="length"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Length Overall (LOA)</FormLabel>
+                           <FormControl>
+                             <Input type="number" placeholder="Meters" {...field} />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
 
-                    <FormField
-                      control={form.control}
-                      name="beam"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Beam (Width)</FormLabel>
-                          <FormControl>
-                            <Input type="number" placeholder="Meters" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                     <FormField
+                       control={form.control}
+                       name="beam"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Beam (Width)</FormLabel>
+                           <FormControl>
+                             <Input type="number" placeholder="Meters" {...field} />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="guestCabins"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Number of Guest Cabins</FormLabel>
+                           <FormControl>
+                             <Input
+                               type="number"
+                               placeholder="e.g., 5"
+                               {...field}
+                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                             />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="crewCabins"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Number of Crew Cabins</FormLabel>
+                           <FormControl>
+                             <Input
+                               type="number"
+                               placeholder="e.g., 6"
+                               {...field}
+                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                             />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="maxGuests"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Max Number of Guests</FormLabel>
+                           <FormControl>
+                             <Input
+                               type="number"
+                               placeholder="e.g., 12"
+                               {...field}
+                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                             />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="maxCrew"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Max Number of Crew</FormLabel>
+                           <FormControl>
+                             <Input
+                               type="number"
+                               placeholder="e.g., 10"
+                               {...field}
+                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                             />
+                           </FormControl>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
 
                     <FormField
                       control={form.control}
