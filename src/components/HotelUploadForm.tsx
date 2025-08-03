@@ -51,6 +51,7 @@ interface RoomType {
   bedType: string;
   amenities: string[];
   priceRange: string;
+  priceCurrency: string;
   bookingUrl: string;
   floorWing: string;
 }
@@ -624,6 +625,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         bedType: currentRoom.bedType || '',
         amenities: currentRoom.amenities || [],
         priceRange: currentRoom.priceRange || '',
+        priceCurrency: currentRoom.priceCurrency || 'USD',
         bookingUrl: currentRoom.bookingUrl || '',
         floorWing: currentRoom.floorWing || ''
       };
@@ -1513,11 +1515,63 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   </Select>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Price range (e.g., €150–€250/night)"
-                    value={currentRoom.priceRange || ''}
-                    onChange={(e) => setCurrentRoom({...currentRoom, priceRange: e.target.value})}
-                  />
+                  <div className="flex gap-2">
+                    <Select
+                      value={currentRoom.priceCurrency || 'USD'}
+                      onValueChange={(value) => setCurrentRoom({...currentRoom, priceCurrency: value})}
+                    >
+                      <SelectTrigger className="w-24">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="USD">USD</SelectItem>
+                        <SelectItem value="EUR">EUR</SelectItem>
+                        <SelectItem value="GBP">GBP</SelectItem>
+                        <SelectItem value="JPY">JPY</SelectItem>
+                        <SelectItem value="CAD">CAD</SelectItem>
+                        <SelectItem value="AUD">AUD</SelectItem>
+                        <SelectItem value="CHF">CHF</SelectItem>
+                        <SelectItem value="CNY">CNY</SelectItem>
+                        <SelectItem value="SEK">SEK</SelectItem>
+                        <SelectItem value="NOK">NOK</SelectItem>
+                        <SelectItem value="DKK">DKK</SelectItem>
+                        <SelectItem value="PLN">PLN</SelectItem>
+                        <SelectItem value="CZK">CZK</SelectItem>
+                        <SelectItem value="HUF">HUF</SelectItem>
+                        <SelectItem value="RUB">RUB</SelectItem>
+                        <SelectItem value="BRL">BRL</SelectItem>
+                        <SelectItem value="MXN">MXN</SelectItem>
+                        <SelectItem value="INR">INR</SelectItem>
+                        <SelectItem value="KRW">KRW</SelectItem>
+                        <SelectItem value="SGD">SGD</SelectItem>
+                        <SelectItem value="HKD">HKD</SelectItem>
+                        <SelectItem value="TWD">TWD</SelectItem>
+                        <SelectItem value="THB">THB</SelectItem>
+                        <SelectItem value="MYR">MYR</SelectItem>
+                        <SelectItem value="IDR">IDR</SelectItem>
+                        <SelectItem value="PHP">PHP</SelectItem>
+                        <SelectItem value="VND">VND</SelectItem>
+                        <SelectItem value="AED">AED</SelectItem>
+                        <SelectItem value="SAR">SAR</SelectItem>
+                        <SelectItem value="EGP">EGP</SelectItem>
+                        <SelectItem value="ZAR">ZAR</SelectItem>
+                        <SelectItem value="TRY">TRY</SelectItem>
+                        <SelectItem value="ILS">ILS</SelectItem>
+                        <SelectItem value="NZD">NZD</SelectItem>
+                        <SelectItem value="CLP">CLP</SelectItem>
+                        <SelectItem value="COP">COP</SelectItem>
+                        <SelectItem value="PEN">PEN</SelectItem>
+                        <SelectItem value="UYU">UYU</SelectItem>
+                        <SelectItem value="ARS">ARS</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      placeholder="Price range (e.g., 150–250/night)"
+                      value={currentRoom.priceRange || ''}
+                      onChange={(e) => setCurrentRoom({...currentRoom, priceRange: e.target.value})}
+                      className="flex-1"
+                    />
+                  </div>
                   <Input
                     placeholder="Floor/Wing"
                     value={currentRoom.floorWing || ''}
@@ -1575,7 +1629,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                                {room.roomSize ? `${room.roomSize} ${room.roomSizeUnit}` : '-'}
                              </TableCell>
                              <TableCell>{room.bedType || '-'}</TableCell>
-                             <TableCell>{room.priceRange || '-'}</TableCell>
+                             <TableCell>{room.priceRange ? `${room.priceCurrency || 'USD'} ${room.priceRange}` : '-'}</TableCell>
                              <TableCell>{room.floorWing || '-'}</TableCell>
                              <TableCell>
                                <Button 
