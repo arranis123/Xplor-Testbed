@@ -1843,6 +1843,20 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                     )}
                   />
 
+                  {form.watch('createPin') === 'auto-generate' && (
+                    <div className="p-4 bg-muted/50 border border-border rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <label className="text-sm font-medium">Auto-Generated PIN</label>
+                          <p className="text-xs text-muted-foreground">This PIN will be required for access</p>
+                        </div>
+                        <div className="text-lg font-mono font-bold tracking-wider bg-background px-3 py-1 rounded border">
+                          {Math.random().toString().slice(2, 8)}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <FormField
                     control={form.control}
                     name="pinRequestEmail"
