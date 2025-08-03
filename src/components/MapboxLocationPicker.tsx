@@ -27,92 +27,117 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
   const map = useRef<mapboxgl.Map | null>(null);
   const marker = useRef<mapboxgl.Marker | null>(null);
   const [mapboxToken, setMapboxToken] = useState<string>('');
-  const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null); // null = not tested, true = valid, false = invalid
-  const [isInitializing, setIsInitializing] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [isLoadingToken, setIsLoadingToken] = useState(false);
 
-  // Initialize map when token is provided
+  // Load token and initialize map
   useEffect(() => {
-    const activeToken = mapboxToken || MapboxService.getToken();
-    if (!mapContainer.current || !activeToken) return;
+    const initializeMap = async () => {
+      if (!mapContainer.current) return;
 
-    // Validate token format
-    if (!activeToken.startsWith('pk.')) {
-      setIsTokenValid(false);
-      toast({
-        title: "Invalid Token Format",
-        description: "Mapbox public tokens must start with 'pk.'",
-        variant: "destructive",
-      });
-      return;
-    }
+      setIsLoadingToken(true);
+      setIsInitializing(true);
 
-    try {
-      mapboxgl.accessToken = activeToken;
-      
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: coordinates ? [coordinates.lng, coordinates.lat] : [0, 0],
-        zoom: zoom,
-        attributionControl: false
-      });
-
-      // Add navigation controls
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-      // Handle successful load
-      map.current.on('load', () => {
-        setIsTokenValid(true);
-        toast({
-          title: "Map Loaded",
-          description: "Mapbox map initialized successfully!",
-        });
-      });
-
-      // Handle map clicks to set location
-      map.current.on('click', (e) => {
-        const { lng, lat } = e.lngLat;
-        onCoordinatesChange({ lat, lng });
-      });
-
-      // Handle zoom changes
-      map.current.on('zoom', () => {
-        if (map.current && onZoomChange) {
-          onZoomChange(map.current.getZoom());
+      try {
+        const token = await MapboxService.getToken();
+        
+        if (!token) {
+          setIsLoadingToken(false);
+          setIsInitializing(false);
+          return;
         }
-      });
 
-      // Handle errors
-      map.current.on('error', (e) => {
-        console.error('Mapbox error:', e);
+        // Validate token format
+        if (!token.startsWith('pk.')) {
+          setIsTokenValid(false);
+          setIsLoadingToken(false);
+          setIsInitializing(false);
+          toast({
+            title: "Invalid Token Format",
+            description: "Mapbox public tokens must start with 'pk.'",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        setMapboxToken(token);
+        mapboxgl.accessToken = token;
+        
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: coordinates ? [coordinates.lng, coordinates.lat] : [0, 0],
+          zoom: zoom,
+          attributionControl: false
+        });
+
+        // Add navigation controls
+        map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+        // Handle successful load
+        map.current.on('load', () => {
+          setIsTokenValid(true);
+          setIsLoadingToken(false);
+          setIsInitializing(false);
+          toast({
+            title: "Map Loaded",
+            description: "Mapbox map initialized successfully!",
+          });
+        });
+
+        // Handle map clicks to set location
+        map.current.on('click', (e) => {
+          const { lng, lat } = e.lngLat;
+          onCoordinatesChange({ lat, lng });
+        });
+
+        // Handle zoom changes
+        map.current.on('zoom', () => {
+          if (map.current && onZoomChange) {
+            onZoomChange(map.current.getZoom());
+          }
+        });
+
+        // Handle errors
+        map.current.on('error', (e) => {
+          console.error('Mapbox error:', e);
+          setIsTokenValid(false);
+          setIsLoadingToken(false);
+          setIsInitializing(false);
+          toast({
+            title: "Mapbox Error",
+            description: "Failed to load map. Please check your connection.",
+            variant: "destructive",
+          });
+        });
+
+      } catch (error) {
+        console.error('Mapbox initialization error:', error);
         setIsTokenValid(false);
+        setIsLoadingToken(false);
+        setIsInitializing(false);
         toast({
           title: "Mapbox Error",
-          description: "Failed to load map. Please check your token and internet connection.",
+          description: "Failed to load Mapbox token from server.",
           variant: "destructive",
         });
-      });
+      }
+    };
 
-      return () => {
-        if (map.current) {
-          map.current.remove();
-          map.current = null;
-        }
-      };
-    } catch (error) {
-      console.error('Mapbox initialization error:', error);
-      setIsTokenValid(false);
-      toast({
-        title: "Mapbox Error",
-        description: "Invalid Mapbox token. Please check your token and try again.",
-        variant: "destructive",
-      });
-    }
-  }, [mapboxToken]);
+    initializeMap();
+
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, []);
 
   // Update marker when coordinates change
   useEffect(() => {
-    if (!map.current || !coordinates) return;
+    if (!map.current || !coordinates || !isTokenValid) return;
 
     // Remove existing marker
     if (marker.current) {
@@ -165,58 +190,15 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
     }
   };
 
-  const handleTokenSubmit = () => {
-    if (mapboxToken.trim()) {
-      setIsInitializing(true);
-      setIsTokenValid(null); // Reset to untested state
-      
-      const tokenToStore = mapboxToken.trim();
-      MapboxService.setToken(tokenToStore); // Use centralized service
-      
-      // Force re-initialization by clearing current map
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-      
-      setIsInitializing(false);
-      
-      toast({
-        title: "Token Saved",
-        description: "Mapbox token has been saved for all users to use.",
-      });
-    }
-  };
-
-  // Load token from centralized service on mount
-  useEffect(() => {
-    const savedToken = MapboxService.getToken();
-    if (savedToken) {
-      setMapboxToken(savedToken);
-    }
-  }, []);
-
-  // Show token input only if no token is available anywhere
-  if (!mapboxToken && !MapboxService.hasToken()) {
+  // Show loading state while fetching token
+  if (isLoadingToken || isInitializing) {
     return (
       <div className={`${className} bg-muted rounded-lg flex flex-col items-center justify-center p-4`}>
-        <MapPin className="h-8 w-8 mb-4 text-muted-foreground" />
-        <h3 className="text-sm font-medium mb-2">Mapbox Token Required</h3>
-        <p className="text-xs text-muted-foreground text-center mb-4">
-          Enter your Mapbox public token to enable the interactive map. 
-          Get your free token from <a href="https://mapbox.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">mapbox.com</a>
+        <MapPin className="h-8 w-8 mb-4 text-muted-foreground animate-pulse" />
+        <h3 className="text-sm font-medium mb-2">Loading Map...</h3>
+        <p className="text-xs text-muted-foreground text-center">
+          Fetching Mapbox token and initializing map
         </p>
-        <div className="flex gap-2 w-full max-w-sm">
-          <Input
-            placeholder="pk.eyJ1Ijoi..."
-            value={mapboxToken}
-            onChange={(e) => setMapboxToken(e.target.value)}
-            className="text-xs"
-          />
-          <Button size="sm" onClick={handleTokenSubmit} disabled={!mapboxToken.trim()}>
-            Use
-          </Button>
-        </div>
       </div>
     );
   }
@@ -225,16 +207,26 @@ const MapboxLocationPicker: React.FC<MapboxLocationPickerProps> = ({
     return (
       <div className={`${className} bg-muted rounded-lg flex flex-col items-center justify-center p-4`}>
         <MapPin className="h-8 w-8 mb-4 text-muted-foreground" />
-        <h3 className="text-sm font-medium mb-2 text-destructive">Invalid Mapbox Token</h3>
+        <h3 className="text-sm font-medium mb-2 text-destructive">Mapbox Token Error</h3>
         <p className="text-xs text-muted-foreground text-center mb-4">
-          The provided Mapbox token is invalid. Please check your token and try again.
+          There was an issue with the Mapbox token configuration. Please contact support.
         </p>
         <Button size="sm" onClick={() => {
-          MapboxService.clearToken();
-          setMapboxToken('');
           setIsTokenValid(null);
+          setIsLoadingToken(true);
+          // Try to reload the token
+          MapboxService.getToken().then(token => {
+            if (token) {
+              setMapboxToken(token);
+              setIsTokenValid(true);
+            }
+          }).catch(() => {
+            setIsTokenValid(false);
+          }).finally(() => {
+            setIsLoadingToken(false);
+          });
         }}>
-          Enter New Token
+          Retry
         </Button>
       </div>
     );

@@ -1,37 +1,75 @@
+import { supabase } from "@/integrations/supabase/client";
+
 // Centralized Mapbox token management service
 let GLOBAL_MAPBOX_TOKEN = '';
+let tokenPromise: Promise<string> | null = null;
 
 export class MapboxService {
-  static setToken(token: string): void {
-    GLOBAL_MAPBOX_TOKEN = token;
-    localStorage.setItem('mapbox_token', token);
+  static async fetchTokenFromSupabase(): Promise<string> {
+    try {
+      const { data, error } = await supabase.functions.invoke('get-mapbox-token');
+      
+      if (error) {
+        console.error('Error fetching Mapbox token:', error);
+        throw new Error('Failed to fetch Mapbox token');
+      }
+      
+      if (data?.token) {
+        GLOBAL_MAPBOX_TOKEN = data.token;
+        return data.token;
+      }
+      
+      throw new Error('No token received from server');
+    } catch (error) {
+      console.error('Error in fetchTokenFromSupabase:', error);
+      throw error;
+    }
   }
 
-  static getToken(): string {
+  static async getToken(): Promise<string> {
+    // Return cached token if available
     if (GLOBAL_MAPBOX_TOKEN) {
       return GLOBAL_MAPBOX_TOKEN;
     }
     
-    const savedToken = localStorage.getItem('mapbox_token');
-    if (savedToken) {
-      GLOBAL_MAPBOX_TOKEN = savedToken;
-      return savedToken;
+    // If we're already fetching, wait for that promise
+    if (tokenPromise) {
+      return tokenPromise;
     }
     
-    return '';
+    // Fetch token from Supabase
+    tokenPromise = this.fetchTokenFromSupabase();
+    
+    try {
+      const token = await tokenPromise;
+      tokenPromise = null; // Clear the promise after successful fetch
+      return token;
+    } catch (error) {
+      tokenPromise = null; // Clear the promise on error
+      throw error;
+    }
   }
 
-  static hasToken(): boolean {
-    return !!this.getToken();
+  static getTokenSync(): string {
+    return GLOBAL_MAPBOX_TOKEN;
+  }
+
+  static async hasToken(): Promise<boolean> {
+    try {
+      const token = await this.getToken();
+      return !!token;
+    } catch {
+      return false;
+    }
   }
 
   static clearToken(): void {
     GLOBAL_MAPBOX_TOKEN = '';
-    localStorage.removeItem('mapbox_token');
+    tokenPromise = null;
   }
 
   static async reverseGeocode(lng: number, lat: number): Promise<any> {
-    const token = this.getToken();
+    const token = await this.getToken();
     if (!token) {
       throw new Error('Mapbox token not available');
     }
