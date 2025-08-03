@@ -366,6 +366,16 @@ const yachtRulesSchema = z.object({
   // Verified by Captain toggle
   verifiedByCaptain: z.boolean().default(false),
 
+  // Documents section
+  documents: z.array(z.object({
+    name: z.string(),
+    type: z.enum(['insurance', 'registration', 'charter_license', 'safety_certificate', 'survey_report', 'other']),
+    url: z.string().optional(),
+    uploadDate: z.string().optional(),
+    expiryDate: z.string().optional(),
+    description: z.string().optional(),
+  })).default([]),
+
   // Location-Based Rules
   allowedRegions: z.string(),
   portAccessRules: z.enum(["restricted", "prebooked_only", "open"]),
@@ -548,6 +558,8 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       emergencyEvacuationPlan: false,
       sanitizerStations: false,
       healthSanitationProtocols: false,
+      verifiedByCaptain: false,
+      documents: [],
       allowedRegions: "",
       portAccessRules: "prebooked_only",
       overnightAnchor: "weather_dependent",
@@ -647,6 +659,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 <TabsTrigger value="deck-spaces" className="w-full justify-start">Deck Spaces</TabsTrigger>
                 <TabsTrigger value="amenities" className="w-full justify-start">Amenities & Toys</TabsTrigger>
                 <TabsTrigger value="media-files" className="w-full justify-start">Media & Files</TabsTrigger>
+                <TabsTrigger value="documents" className="w-full justify-start">Documents</TabsTrigger>
                 <TabsTrigger value="management" className="w-full justify-start">Management</TabsTrigger>
               </TabsList>
               
@@ -6673,6 +6686,153 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         </FormItem>
                       )}
                     />
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="documents" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Documents & Certificates</CardTitle>
+                  <CardDescription>Upload and manage important yacht documentation</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    {form.watch("documents")?.map((document, index) => (
+                      <div key={index} className="p-4 border rounded-lg bg-muted/30">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <FormField
+                            control={form.control}
+                            name={`documents.${index}.name`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Document Name</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., Insurance Certificate" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name={`documents.${index}.type`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Document Type</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select type" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="insurance">Insurance</SelectItem>
+                                    <SelectItem value="registration">Registration</SelectItem>
+                                    <SelectItem value="charter_license">Charter License</SelectItem>
+                                    <SelectItem value="safety_certificate">Safety Certificate</SelectItem>
+                                    <SelectItem value="survey_report">Survey Report</SelectItem>
+                                    <SelectItem value="other">Other</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name={`documents.${index}.expiryDate`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Expiry Date (Optional)</FormLabel>
+                                <FormControl>
+                                  <Input type="date" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <div className="mt-4 space-y-4">
+                          <FormField
+                            control={form.control}
+                            name={`documents.${index}.description`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Description (Optional)</FormLabel>
+                                <FormControl>
+                                  <Textarea placeholder="Additional details about this document..." {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Button type="button" variant="outline" size="sm">
+                                <Upload className="h-4 w-4 mr-2" />
+                                Upload Document
+                              </Button>
+                              {document.url && (
+                                <span className="text-sm text-green-600">✓ Uploaded</span>
+                              )}
+                            </div>
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => {
+                                const currentDocs = form.getValues("documents") || [];
+                                const newDocs = currentDocs.filter((_, i) => i !== index);
+                                form.setValue("documents", newDocs);
+                              }}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      const currentDocs = form.getValues("documents") || [];
+                      form.setValue("documents", [
+                        ...currentDocs,
+                        {
+                          name: "",
+                          type: "other" as const,
+                          url: "",
+                          uploadDate: "",
+                          expiryDate: "",
+                          description: "",
+                        }
+                      ]);
+                    }}
+                    className="w-full"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Document
+                  </Button>
+
+                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                    <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">Recommended Documents</h4>
+                    <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                      <li>• Valid Insurance Certificate</li>
+                      <li>• Yacht Registration</li>
+                      <li>• Commercial Charter License (if applicable)</li>
+                      <li>• Safety Equipment Certificate</li>
+                      <li>• Recent Survey Report</li>
+                      <li>• Radio License</li>
+                    </ul>
                   </div>
                 </CardContent>
               </Card>
