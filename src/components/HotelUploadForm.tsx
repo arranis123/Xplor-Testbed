@@ -60,6 +60,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   const [currentRoom, setCurrentRoom] = useState<Partial<RoomType>>({});
   const [tours, setTours] = useState<Tour[]>([]);
   const [currentTour, setCurrentTour] = useState<Partial<Tour>>({});
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   const hotelCategories = [
     { value: "hotel", label: "Hotel" },
@@ -108,16 +109,176 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   ];
 
   const amenitiesList = [
-    { id: "wifi", label: "WiFi", icon: Wifi },
-    { id: "mini-bar", label: "Mini Bar", icon: Coffee },
-    { id: "balcony", label: "Balcony", icon: Hotel },
-    { id: "bathtub", label: "Bathtub", icon: Waves },
-    { id: "ac", label: "AC", icon: Hotel },
-    { id: "tv", label: "TV", icon: Hotel },
-    { id: "desk", label: "Desk", icon: Hotel },
-    { id: "parking", label: "Parking", icon: Car },
-    { id: "restaurant", label: "Restaurant", icon: Utensils },
-    { id: "fitness", label: "Fitness Center", icon: Dumbbell }
+    // Room Amenities
+    { category: "Room Amenities", id: "air-conditioning", label: "Air Conditioning", icon: Hotel },
+    { category: "Room Amenities", id: "heating", label: "Heating", icon: Hotel },
+    { category: "Room Amenities", id: "flat-screen-tv", label: "Flat-Screen TV", icon: Hotel },
+    { category: "Room Amenities", id: "satellite-cable", label: "Satellite / Cable Channels", icon: Hotel },
+    { category: "Room Amenities", id: "wifi", label: "Wi-Fi / High-Speed Internet", icon: Wifi },
+    { category: "Room Amenities", id: "minibar", label: "Minibar", icon: Coffee },
+    { category: "Room Amenities", id: "safe-lockbox", label: "Safe / Lockbox", icon: Hotel },
+    { category: "Room Amenities", id: "desk-workstation", label: "Desk / Workstation", icon: Hotel },
+    { category: "Room Amenities", id: "coffee-maker", label: "Coffee Maker / Nespresso Machine", icon: Coffee },
+    { category: "Room Amenities", id: "kettle-tea", label: "Kettle / Tea Set", icon: Coffee },
+    { category: "Room Amenities", id: "telephone", label: "Telephone", icon: Hotel },
+    { category: "Room Amenities", id: "alarm-clock", label: "Alarm Clock / Wake-Up Service", icon: Hotel },
+    { category: "Room Amenities", id: "iron-board", label: "Iron and Ironing Board", icon: Hotel },
+    { category: "Room Amenities", id: "hairdryer", label: "Hairdryer", icon: Hotel },
+    { category: "Room Amenities", id: "bathrobe-slippers", label: "Bathrobe & Slippers", icon: Hotel },
+    { category: "Room Amenities", id: "blackout-curtains", label: "Blackout Curtains", icon: Hotel },
+    { category: "Room Amenities", id: "balcony-terrace", label: "Balcony / Terrace", icon: Hotel },
+    { category: "Room Amenities", id: "soundproofed", label: "Soundproofed Rooms", icon: Hotel },
+    { category: "Room Amenities", id: "smoking-options", label: "Smoking / Non-Smoking Options", icon: Hotel },
+    { category: "Room Amenities", id: "room-service", label: "In-Room Dining / Room Service", icon: Utensils },
+    { category: "Room Amenities", id: "kitchenette", label: "Kitchenette / Full Kitchen", icon: Utensils },
+    { category: "Room Amenities", id: "laundry-facilities", label: "Laundry Facilities (In-Room or Shared)", icon: Hotel },
+    
+    // Bathroom Amenities
+    { category: "Bathroom Amenities", id: "walk-in-shower", label: "Walk-in Shower", icon: Waves },
+    { category: "Bathroom Amenities", id: "bathtub", label: "Bathtub (Standard, Jetted, or Soaking)", icon: Waves },
+    { category: "Bathroom Amenities", id: "double-vanity", label: "Double Vanity", icon: Hotel },
+    { category: "Bathroom Amenities", id: "premium-toiletries", label: "Premium Toiletries", icon: Hotel },
+    { category: "Bathroom Amenities", id: "bidet", label: "Bidet", icon: Hotel },
+    { category: "Bathroom Amenities", id: "towel-warmer", label: "Towel Warmer", icon: Hotel },
+    { category: "Bathroom Amenities", id: "makeup-mirror", label: "Makeup Mirror", icon: Hotel },
+    { category: "Bathroom Amenities", id: "bathroom-phone", label: "Bathroom Phone", icon: Hotel },
+    
+    // Connectivity & Tech
+    { category: "Connectivity & Tech", id: "free-wifi", label: "Free Wi-Fi", icon: Wifi },
+    { category: "Connectivity & Tech", id: "wired-internet", label: "Wired Internet", icon: Wifi },
+    { category: "Connectivity & Tech", id: "smart-tv", label: "Smart TV / Streaming Access", icon: Hotel },
+    { category: "Connectivity & Tech", id: "usb-charging", label: "USB Charging Ports", icon: Hotel },
+    { category: "Connectivity & Tech", id: "bluetooth-speakers", label: "Bluetooth Speakers", icon: Hotel },
+    { category: "Connectivity & Tech", id: "chromecast-appletv", label: "Chromecast or Apple TV", icon: Hotel },
+    { category: "Connectivity & Tech", id: "digital-key", label: "Digital Key or Mobile Room Access", icon: Hotel },
+    { category: "Connectivity & Tech", id: "smart-lighting", label: "Smart Lighting / Thermostat", icon: Hotel },
+    { category: "Connectivity & Tech", id: "room-tablet", label: "In-room Tablet / Hotel App Access", icon: Hotel },
+    
+    // Food & Beverage
+    { category: "Food & Beverage", id: "onsite-restaurants", label: "On-Site Restaurant(s)", icon: Utensils },
+    { category: "Food & Beverage", id: "bar-lounge", label: "Bar / Lounge", icon: Coffee },
+    { category: "Food & Beverage", id: "rooftop-bar", label: "Rooftop Bar", icon: Coffee },
+    { category: "Food & Beverage", id: "pool-bar", label: "Pool Bar", icon: Coffee },
+    { category: "Food & Beverage", id: "breakfast-buffet", label: "Breakfast Buffet", icon: Utensils },
+    { category: "Food & Beverage", id: "alacarte-breakfast", label: "À La Carte Breakfast", icon: Utensils },
+    { category: "Food & Beverage", id: "room-dining", label: "In-Room Dining / Room Service", icon: Utensils },
+    { category: "Food & Beverage", id: "grab-go", label: "Grab & Go / Deli Counter", icon: Utensils },
+    { category: "Food & Beverage", id: "cafe-coffee", label: "Café / Coffee Shop", icon: Coffee },
+    { category: "Food & Beverage", id: "mini-market", label: "Mini Market / Convenience Store", icon: Hotel },
+    { category: "Food & Beverage", id: "wine-cellar", label: "Wine Cellar / Tasting Room", icon: Coffee },
+    { category: "Food & Beverage", id: "welcome-drink", label: "Complimentary Welcome Drink", icon: Coffee },
+    { category: "Food & Beverage", id: "kids-menu", label: "Kids' Menu or High Chairs", icon: Utensils },
+    { category: "Food & Beverage", id: "special-diet", label: "Special Diet Menus (Vegan, Gluten-Free, etc.)", icon: Utensils },
+    
+    // Wellness & Fitness
+    { category: "Wellness & Fitness", id: "spa", label: "Spa", icon: Hotel },
+    { category: "Wellness & Fitness", id: "sauna", label: "Sauna", icon: Hotel },
+    { category: "Wellness & Fitness", id: "steam-room", label: "Steam Room", icon: Hotel },
+    { category: "Wellness & Fitness", id: "jacuzzi-hot-tub", label: "Jacuzzi / Hot Tub", icon: Waves },
+    { category: "Wellness & Fitness", id: "massage-services", label: "Massage Services", icon: Hotel },
+    { category: "Wellness & Fitness", id: "yoga-studio", label: "Yoga Studio", icon: Dumbbell },
+    { category: "Wellness & Fitness", id: "meditation-room", label: "Meditation Room", icon: Hotel },
+    { category: "Wellness & Fitness", id: "fitness-center", label: "Fitness Center / Gym", icon: Dumbbell },
+    { category: "Wellness & Fitness", id: "personal-trainer", label: "Personal Trainer", icon: Dumbbell },
+    { category: "Wellness & Fitness", id: "fitness-classes", label: "Fitness Classes", icon: Dumbbell },
+    { category: "Wellness & Fitness", id: "wellness-packages", label: "Wellness Retreat Packages", icon: Hotel },
+    
+    // Leisure & Recreation
+    { category: "Leisure & Recreation", id: "outdoor-pool", label: "Outdoor Pool", icon: Waves },
+    { category: "Leisure & Recreation", id: "indoor-pool", label: "Indoor Pool", icon: Waves },
+    { category: "Leisure & Recreation", id: "children-pool", label: "Children's Pool", icon: Waves },
+    { category: "Leisure & Recreation", id: "infinity-pool", label: "Infinity Pool", icon: Waves },
+    { category: "Leisure & Recreation", id: "rooftop-pool", label: "Rooftop Pool", icon: Waves },
+    { category: "Leisure & Recreation", id: "beach-access", label: "Private Beach Access", icon: Waves },
+    { category: "Leisure & Recreation", id: "cabanas-poolside", label: "Cabanas / Poolside Lounge", icon: Hotel },
+    { category: "Leisure & Recreation", id: "game-room", label: "Game Room", icon: Hotel },
+    { category: "Leisure & Recreation", id: "cinema", label: "Cinema / Screening Room", icon: Hotel },
+    { category: "Leisure & Recreation", id: "library", label: "Library / Reading Room", icon: Hotel },
+    { category: "Leisure & Recreation", id: "garden-courtyard", label: "Garden or Courtyard", icon: Hotel },
+    { category: "Leisure & Recreation", id: "bike-rental", label: "Bike Rental", icon: Car },
+    { category: "Leisure & Recreation", id: "water-sports", label: "Water Sports Equipment", icon: Waves },
+    { category: "Leisure & Recreation", id: "golf-course", label: "Golf Course Access", icon: Hotel },
+    { category: "Leisure & Recreation", id: "tennis-courts", label: "Tennis Courts", icon: Hotel },
+    
+    // Family & Kids
+    { category: "Family & Kids", id: "family-rooms", label: "Family Rooms / Connecting Rooms", icon: Users },
+    { category: "Family & Kids", id: "baby-cots", label: "Baby Cots / Cribs", icon: Users },
+    { category: "Family & Kids", id: "babysitting", label: "Babysitting Services", icon: Users },
+    { category: "Family & Kids", id: "kids-club", label: "Kids' Club", icon: Users },
+    { category: "Family & Kids", id: "children-activities", label: "Children's Activities", icon: Users },
+    { category: "Family & Kids", id: "playground", label: "Playground", icon: Users },
+    { category: "Family & Kids", id: "childproofing", label: "Childproofing Equipment", icon: Users },
+    { category: "Family & Kids", id: "children-pool-kids", label: "Children's Pool", icon: Waves },
+    
+    // Pet-Friendly Services
+    { category: "Pet-Friendly Services", id: "pet-rooms", label: "Pet-Friendly Rooms", icon: Hotel },
+    { category: "Pet-Friendly Services", id: "pet-welcome", label: "Pet Welcome Kit", icon: Hotel },
+    { category: "Pet-Friendly Services", id: "dog-park", label: "On-Site Dog Park", icon: Hotel },
+    { category: "Pet-Friendly Services", id: "pet-sitting", label: "Pet Sitting or Walking", icon: Hotel },
+    { category: "Pet-Friendly Services", id: "pet-menu", label: "Pet Menu or Treats", icon: Utensils },
+    { category: "Pet-Friendly Services", id: "pet-spa", label: "Pet Spa / Grooming", icon: Hotel },
+    
+    // Shopping & Retail
+    { category: "Shopping & Retail", id: "gift-shop", label: "Gift Shop", icon: Hotel },
+    { category: "Shopping & Retail", id: "boutiques", label: "Designer Boutiques", icon: Hotel },
+    { category: "Shopping & Retail", id: "beauty-salon", label: "Beauty Salon / Hairdresser", icon: Hotel },
+    { category: "Shopping & Retail", id: "jewelry-shop", label: "Jewelry or Watch Shop", icon: Hotel },
+    { category: "Shopping & Retail", id: "art-gallery", label: "Art Gallery", icon: Hotel },
+    
+    // Business & Events
+    { category: "Business & Events", id: "business-center", label: "Business Center", icon: Hotel },
+    { category: "Business & Events", id: "meeting-rooms", label: "Meeting Rooms", icon: Users },
+    { category: "Business & Events", id: "conference-rooms", label: "Conference Rooms", icon: Users },
+    { category: "Business & Events", id: "event-venues", label: "Event Venues / Banquet Halls", icon: Users },
+    { category: "Business & Events", id: "coworking", label: "Coworking Space", icon: Hotel },
+    { category: "Business & Events", id: "av-equipment", label: "AV Equipment Rental", icon: Hotel },
+    { category: "Business & Events", id: "printing", label: "Printing / Scanning Services", icon: Hotel },
+    { category: "Business & Events", id: "executive-lounge", label: "Executive Lounge", icon: Hotel },
+    { category: "Business & Events", id: "vip-checkin", label: "VIP Check-In Area", icon: Hotel },
+    
+    // Transportation & Access
+    { category: "Transportation & Access", id: "onsite-parking", label: "On-Site Parking", icon: Car },
+    { category: "Transportation & Access", id: "valet-parking", label: "Valet Parking", icon: Car },
+    { category: "Transportation & Access", id: "ev-charging", label: "EV Charging Station", icon: Car },
+    { category: "Transportation & Access", id: "airport-shuttle", label: "Airport Shuttle", icon: Car },
+    { category: "Transportation & Access", id: "chauffeur", label: "Chauffeur / Car Service", icon: Car },
+    { category: "Transportation & Access", id: "bike-scooter", label: "Bike or Scooter Rentals", icon: Car },
+    { category: "Transportation & Access", id: "private-jet", label: "Private Jet Transfer", icon: Car },
+    { category: "Transportation & Access", id: "dock-marina", label: "Dock / Marina Access", icon: Waves },
+    { category: "Transportation & Access", id: "helipad", label: "Helipad", icon: Car },
+    
+    // Accessibility Features
+    { category: "Accessibility Features", id: "wheelchair-rooms", label: "Wheelchair Accessible Rooms", icon: Hotel },
+    { category: "Accessibility Features", id: "elevator-access", label: "Elevator Access", icon: Hotel },
+    { category: "Accessibility Features", id: "braille-signage", label: "Braille Signage", icon: Hotel },
+    { category: "Accessibility Features", id: "visual-alarm", label: "Visual Alarm Alert", icon: Hotel },
+    { category: "Accessibility Features", id: "accessible-bathrooms", label: "Accessible Bathrooms", icon: Hotel },
+    { category: "Accessibility Features", id: "ramps", label: "Ramps / Step-Free Entry", icon: Hotel },
+    { category: "Accessibility Features", id: "hearing-aid", label: "Hearing Aid Compatible Phones", icon: Hotel },
+    
+    // Safety & Security
+    { category: "Safety & Security", id: "24hour-security", label: "24-Hour Security", icon: Hotel },
+    { category: "Safety & Security", id: "key-card", label: "Key Card Access", icon: Hotel },
+    { category: "Safety & Security", id: "fire-alarms", label: "Fire Alarms & Smoke Detectors", icon: Hotel },
+    { category: "Safety & Security", id: "cctv", label: "CCTV in Common Areas", icon: Hotel },
+    { category: "Safety & Security", id: "inroom-safe", label: "In-Room Safe", icon: Hotel },
+    { category: "Safety & Security", id: "emergency-procedures", label: "Emergency Procedures / Evacuation Maps", icon: Hotel },
+    { category: "Safety & Security", id: "security-staff", label: "Security Staff or Concierge", icon: Hotel },
+    
+    // General Services
+    { category: "General Services", id: "24hour-reception", label: "24-Hour Reception", icon: Hotel },
+    { category: "General Services", id: "concierge", label: "Concierge Services", icon: Hotel },
+    { category: "General Services", id: "luggage-storage", label: "Luggage Storage", icon: Hotel },
+    { category: "General Services", id: "daily-housekeeping", label: "Daily Housekeeping", icon: Hotel },
+    { category: "General Services", id: "dry-cleaning", label: "Dry Cleaning / Laundry", icon: Hotel },
+    { category: "General Services", id: "shoe-shine", label: "Shoe Shine", icon: Hotel },
+    { category: "General Services", id: "currency-exchange", label: "Currency Exchange", icon: Hotel },
+    { category: "General Services", id: "multilingual-staff", label: "Multilingual Staff", icon: Hotel },
+    { category: "General Services", id: "wake-up-call", label: "Wake-Up Call", icon: Hotel },
+    { category: "General Services", id: "early-checkin", label: "Early Check-In / Late Check-Out", icon: Hotel },
+    { category: "General Services", id: "express-checkin", label: "Express Check-In / Check-Out", icon: Hotel },
+    { category: "General Services", id: "butler-service", label: "Butler Service", icon: Hotel },
+    { category: "General Services", id: "turndown-service", label: "Turndown Service", icon: Hotel }
   ];
 
   const addFacility = () => {
@@ -192,7 +353,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="media">Media & Files</TabsTrigger>
-          <TabsTrigger value="facilities">Facilities</TabsTrigger>
+          <TabsTrigger value="amenities">Amenities</TabsTrigger>
           <TabsTrigger value="rooms">Room Types</TabsTrigger>
           <TabsTrigger value="submission">Submission</TabsTrigger>
         </TabsList>
@@ -872,77 +1033,54 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           </Card>
         </TabsContent>
 
-        {/* SECTION 3: Hotel Facilities */}
-        <TabsContent value="facilities" className="space-y-6">
+        {/* SECTION 3: Hotel Amenities */}
+        <TabsContent value="amenities" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Hotel Facilities
+                <Star className="h-5 w-5" />
+                Hotel Amenities
               </CardTitle>
-              <CardDescription>Add facilities and amenities as named spaces</CardDescription>
+              <CardDescription>Select amenities available at your hotel</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="border border-border rounded-lg p-4 space-y-4">
-                <h4 className="font-medium">Add New Facility</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Facility name (e.g., Gym, Restaurant, Spa)"
-                    value={currentFacility.name || ''}
-                    onChange={(e) => setCurrentFacility({...currentFacility, name: e.target.value})}
-                  />
-                  <Input
-                    placeholder="Floor/Wing location"
-                    value={currentFacility.floorWing || ''}
-                    onChange={(e) => setCurrentFacility({...currentFacility, floorWing: e.target.value})}
-                  />
+            <CardContent className="space-y-6">
+              {Object.entries(
+                amenitiesList.reduce((acc, amenity) => {
+                  if (!acc[amenity.category]) {
+                    acc[amenity.category] = [];
+                  }
+                  acc[amenity.category].push(amenity);
+                  return acc;
+                }, {} as Record<string, typeof amenitiesList>)
+              ).map(([category, categoryAmenities]) => (
+                <div key={category} className="space-y-3">
+                  <h4 className="font-medium text-primary">{category}</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {categoryAmenities.map((amenity) => {
+                      const Icon = amenity.icon;
+                      return (
+                        <div key={amenity.id} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={amenity.id}
+                            checked={selectedAmenities.includes(amenity.id)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedAmenities([...selectedAmenities, amenity.id]);
+                              } else {
+                                setSelectedAmenities(selectedAmenities.filter(a => a !== amenity.id));
+                              }
+                            }}
+                          />
+                          <label htmlFor={amenity.id} className="text-sm flex items-center gap-2 cursor-pointer">
+                            <Icon className="h-4 w-4 text-muted-foreground" />
+                            {amenity.label}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-                <Textarea
-                  placeholder="Description of the facility"
-                  value={currentFacility.description || ''}
-                  onChange={(e) => setCurrentFacility({...currentFacility, description: e.target.value})}
-                />
-                <Input
-                  placeholder="Virtual tour URL for this space"
-                  value={currentFacility.tourUrl || ''}
-                  onChange={(e) => setCurrentFacility({...currentFacility, tourUrl: e.target.value})}
-                />
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={currentFacility.openToPublic || false}
-                    onCheckedChange={(checked) => setCurrentFacility({...currentFacility, openToPublic: checked})}
-                  />
-                  <label className="text-sm">Open to Public?</label>
-                </div>
-                <Button 
-                  type="button" 
-                  onClick={addFacility}
-                  disabled={!currentFacility.name || !currentFacility.description}
-                  className="w-full"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Facility
-                </Button>
-              </div>
-
-              {facilities.length > 0 && (
-                <div className="space-y-2">
-                  <h4 className="font-medium">Added Facilities</h4>
-                  {facilities.map((facility) => (
-                    <div key={facility.id} className="border border-border rounded p-3 flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">{facility.name}</div>
-                        <div className="text-sm text-muted-foreground">{facility.description}</div>
-                        {facility.floorWing && <div className="text-xs text-muted-foreground">Location: {facility.floorWing}</div>}
-                        {facility.openToPublic && <Badge variant="secondary" className="mt-1">Public Access</Badge>}
-                      </div>
-                      <Button variant="outline" size="sm" onClick={() => removeFacility(facility.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              ))}
             </CardContent>
           </Card>
         </TabsContent>
