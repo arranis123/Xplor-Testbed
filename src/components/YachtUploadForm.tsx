@@ -2189,7 +2189,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               <Card>
                 <CardHeader>
                   <CardTitle>Deck Spaces</CardTitle>
-                  <CardDescription>Define the different deck areas and spaces on your yacht</CardDescription>
+                  <CardDescription>Yachts can be huge with lots of nooks and crannies. Defining the different spaces on your yacht will create multiple upload options within the Media & Files upload tab to help organize your listing into sections.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {deckSpaces.map((space, index) => (
