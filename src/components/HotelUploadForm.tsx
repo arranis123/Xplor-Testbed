@@ -651,7 +651,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
           <TabsTrigger value="location">Location</TabsTrigger>
           <TabsTrigger value="amenities">Amenities</TabsTrigger>
           <TabsTrigger value="rooms">Rooms</TabsTrigger>
-          <TabsTrigger value="submission">Submission</TabsTrigger>
+          <TabsTrigger value="submission">Visibility</TabsTrigger>
           <TabsTrigger value="media">Media & Files</TabsTrigger>
         </TabsList>
 
@@ -1789,10 +1789,10 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         {/* SECTION 5: Visibility & Submission */}
         <TabsContent value="submission" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Visibility & Submission</CardTitle>
-              <CardDescription>Final settings and submission details</CardDescription>
-            </CardHeader>
+             <CardHeader>
+               <CardTitle>Visibility Settings</CardTitle>
+               <CardDescription>Configure listing visibility and access settings</CardDescription>
+             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
                 control={form.control}
