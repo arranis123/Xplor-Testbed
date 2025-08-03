@@ -113,6 +113,226 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
     { value: "underwater", label: "Underwater Hotel" }
   ];
 
+  const hotelChains = [
+    // Marriott International
+    { category: "Marriott International", value: "marriott-hotels-resorts", label: "Marriott Hotels & Resorts" },
+    { category: "Marriott International", value: "jw-marriott", label: "JW Marriott" },
+    { category: "Marriott International", value: "ritz-carlton", label: "The Ritz-Carlton" },
+    { category: "Marriott International", value: "edition", label: "Edition" },
+    { category: "Marriott International", value: "w-hotels", label: "W Hotels" },
+    { category: "Marriott International", value: "sheraton", label: "Sheraton" },
+    { category: "Marriott International", value: "westin", label: "Westin" },
+    { category: "Marriott International", value: "le-meridien", label: "Le Méridien" },
+    { category: "Marriott International", value: "renaissance-hotels", label: "Renaissance Hotels" },
+    { category: "Marriott International", value: "autograph-collection", label: "Autograph Collection" },
+    { category: "Marriott International", value: "tribute-portfolio", label: "Tribute Portfolio" },
+    { category: "Marriott International", value: "courtyard-marriott", label: "Courtyard by Marriott" },
+    { category: "Marriott International", value: "ac-hotels", label: "AC Hotels" },
+    { category: "Marriott International", value: "moxy-hotels", label: "Moxy Hotels" },
+    { category: "Marriott International", value: "residence-inn", label: "Residence Inn" },
+    { category: "Marriott International", value: "springhill-suites", label: "SpringHill Suites" },
+    { category: "Marriott International", value: "fairfield-inn-suites", label: "Fairfield Inn & Suites" },
+    { category: "Marriott International", value: "towneplace-suites", label: "TownePlace Suites" },
+    { category: "Marriott International", value: "marriott-executive-apartments", label: "Marriott Executive Apartments" },
+    { category: "Marriott International", value: "delta-hotels", label: "Delta Hotels" },
+    { category: "Marriott International", value: "protea-hotels", label: "Protea Hotels" },
+    { category: "Marriott International", value: "gaylord-hotels", label: "Gaylord Hotels" },
+
+    // Hilton Worldwide
+    { category: "Hilton Worldwide", value: "hilton-hotels-resorts", label: "Hilton Hotels & Resorts" },
+    { category: "Hilton Worldwide", value: "waldorf-astoria", label: "Waldorf Astoria" },
+    { category: "Hilton Worldwide", value: "conrad-hotels", label: "Conrad Hotels & Resorts" },
+    { category: "Hilton Worldwide", value: "lxr-hotels", label: "LXR Hotels & Resorts" },
+    { category: "Hilton Worldwide", value: "curio-collection", label: "Curio Collection" },
+    { category: "Hilton Worldwide", value: "canopy-hilton", label: "Canopy by Hilton" },
+    { category: "Hilton Worldwide", value: "signia-hilton", label: "Signia Hilton" },
+    { category: "Hilton Worldwide", value: "doubletree-hilton", label: "DoubleTree by Hilton" },
+    { category: "Hilton Worldwide", value: "tapestry-collection", label: "Tapestry Collection" },
+    { category: "Hilton Worldwide", value: "embassy-suites", label: "Embassy Suites" },
+    { category: "Hilton Worldwide", value: "hilton-garden-inn", label: "Hilton Garden Inn" },
+    { category: "Hilton Worldwide", value: "hampton-hilton", label: "Hampton by Hilton" },
+    { category: "Hilton Worldwide", value: "tru-hilton", label: "Tru by Hilton" },
+    { category: "Hilton Worldwide", value: "homewood-suites", label: "Homewood Suites" },
+    { category: "Hilton Worldwide", value: "home2-suites", label: "Home2 Suites" },
+    { category: "Hilton Worldwide", value: "hilton-grand-vacations", label: "Hilton Grand Vacations" },
+
+    // InterContinental Hotels Group (IHG)
+    { category: "InterContinental Hotels Group (IHG)", value: "intercontinental-hotels", label: "InterContinental Hotels & Resorts" },
+    { category: "InterContinental Hotels Group (IHG)", value: "kimpton-hotels", label: "Kimpton Hotels" },
+    { category: "InterContinental Hotels Group (IHG)", value: "regent-hotels", label: "Regent Hotels" },
+    { category: "InterContinental Hotels Group (IHG)", value: "hotel-indigo", label: "Hotel Indigo" },
+    { category: "InterContinental Hotels Group (IHG)", value: "voco", label: "voco" },
+    { category: "InterContinental Hotels Group (IHG)", value: "hualuxe-hotels", label: "Hualuxe Hotels" },
+    { category: "InterContinental Hotels Group (IHG)", value: "crowne-plaza", label: "Crowne Plaza" },
+    { category: "InterContinental Hotels Group (IHG)", value: "even-hotels", label: "Even Hotels" },
+    { category: "InterContinental Hotels Group (IHG)", value: "holiday-inn", label: "Holiday Inn" },
+    { category: "InterContinental Hotels Group (IHG)", value: "holiday-inn-express", label: "Holiday Inn Express" },
+    { category: "InterContinental Hotels Group (IHG)", value: "holiday-inn-resort", label: "Holiday Inn Resort" },
+    { category: "InterContinental Hotels Group (IHG)", value: "holiday-inn-club", label: "Holiday Inn Club Vacations" },
+    { category: "InterContinental Hotels Group (IHG)", value: "avid-hotels", label: "Avid Hotels" },
+    { category: "InterContinental Hotels Group (IHG)", value: "staybridge-suites", label: "Staybridge Suites" },
+    { category: "InterContinental Hotels Group (IHG)", value: "candlewood-suites", label: "Candlewood Suites" },
+
+    // Accor Group
+    { category: "Accor Group", value: "sofitel", label: "Sofitel" },
+    { category: "Accor Group", value: "fairmont", label: "Fairmont" },
+    { category: "Accor Group", value: "raffles", label: "Raffles" },
+    { category: "Accor Group", value: "pullman", label: "Pullman" },
+    { category: "Accor Group", value: "mgallery", label: "MGallery" },
+    { category: "Accor Group", value: "swissotel", label: "Swissôtel" },
+    { category: "Accor Group", value: "movenpick", label: "Mövenpick" },
+    { category: "Accor Group", value: "grand-mercure", label: "Grand Mercure" },
+    { category: "Accor Group", value: "novotel", label: "Novotel" },
+    { category: "Accor Group", value: "mercure", label: "Mercure" },
+    { category: "Accor Group", value: "adagio", label: "Adagio" },
+    { category: "Accor Group", value: "ibis", label: "ibis" },
+    { category: "Accor Group", value: "ibis-styles", label: "ibis Styles" },
+    { category: "Accor Group", value: "ibis-budget", label: "ibis Budget" },
+    { category: "Accor Group", value: "the-sebel", label: "The Sebel" },
+    { category: "Accor Group", value: "tribe", label: "Tribe" },
+    { category: "Accor Group", value: "orient-express", label: "Orient Express" },
+    { category: "Accor Group", value: "mama-shelter", label: "Mama Shelter" },
+    { category: "Accor Group", value: "25hours-hotels", label: "25hours Hotels" },
+    { category: "Accor Group", value: "jo-joe", label: "Jo&Joe" },
+    { category: "Accor Group", value: "greet", label: "Greet" },
+    { category: "Accor Group", value: "banyan-tree", label: "Banyan Tree" },
+
+    // Hyatt Hotels Corporation
+    { category: "Hyatt Hotels Corporation", value: "park-hyatt", label: "Park Hyatt" },
+    { category: "Hyatt Hotels Corporation", value: "grand-hyatt", label: "Grand Hyatt" },
+    { category: "Hyatt Hotels Corporation", value: "hyatt-regency", label: "Hyatt Regency" },
+    { category: "Hyatt Hotels Corporation", value: "andaz", label: "Andaz" },
+    { category: "Hyatt Hotels Corporation", value: "alila", label: "Alila" },
+    { category: "Hyatt Hotels Corporation", value: "thompson-hotels", label: "Thompson Hotels" },
+    { category: "Hyatt Hotels Corporation", value: "hyatt-centric", label: "Hyatt Centric" },
+    { category: "Hyatt Hotels Corporation", value: "jdv-hyatt", label: "JdV by Hyatt (Joie de Vivre)" },
+    { category: "Hyatt Hotels Corporation", value: "unbound-collection", label: "The Unbound Collection" },
+    { category: "Hyatt Hotels Corporation", value: "caption-hyatt", label: "Caption by Hyatt" },
+    { category: "Hyatt Hotels Corporation", value: "hyatt-place", label: "Hyatt Place" },
+    { category: "Hyatt Hotels Corporation", value: "hyatt-house", label: "Hyatt House" },
+    { category: "Hyatt Hotels Corporation", value: "destination-hyatt", label: "Destination by Hyatt" },
+    { category: "Hyatt Hotels Corporation", value: "miraval", label: "Miraval" },
+    { category: "Hyatt Hotels Corporation", value: "secrets-resorts", label: "Secrets Resorts & Spas" },
+    { category: "Hyatt Hotels Corporation", value: "dreams-resorts", label: "Dreams Resorts & Spas" },
+    { category: "Hyatt Hotels Corporation", value: "zoetry-wellness", label: "Zoëtry Wellness & Spa Resorts" },
+    { category: "Hyatt Hotels Corporation", value: "alua-hotels", label: "Alua Hotels & Resorts" },
+    { category: "Hyatt Hotels Corporation", value: "breathless-resorts", label: "Breathless Resorts & Spas" },
+
+    // Radisson Hotel Group
+    { category: "Radisson Hotel Group", value: "radisson-collection", label: "Radisson Collection" },
+    { category: "Radisson Hotel Group", value: "radisson-blu", label: "Radisson Blu" },
+    { category: "Radisson Hotel Group", value: "radisson-red", label: "Radisson RED" },
+    { category: "Radisson Hotel Group", value: "radisson-individuals", label: "Radisson Individuals" },
+    { category: "Radisson Hotel Group", value: "radisson", label: "Radisson" },
+    { category: "Radisson Hotel Group", value: "park-plaza", label: "Park Plaza" },
+    { category: "Radisson Hotel Group", value: "park-inn-radisson", label: "Park Inn by Radisson" },
+    { category: "Radisson Hotel Group", value: "country-inn-suites", label: "Country Inn & Suites by Radisson" },
+    { category: "Radisson Hotel Group", value: "prizeotel", label: "Prizeotel" },
+    { category: "Radisson Hotel Group", value: "artotel", label: "Art'otel" },
+
+    // Wyndham Hotels & Resorts
+    { category: "Wyndham Hotels & Resorts", value: "wyndham-grand", label: "Wyndham Grand" },
+    { category: "Wyndham Hotels & Resorts", value: "dolce-hotels", label: "Dolce Hotels & Resorts" },
+    { category: "Wyndham Hotels & Resorts", value: "tryp-wyndham", label: "TRYP by Wyndham" },
+    { category: "Wyndham Hotels & Resorts", value: "wyndham", label: "Wyndham" },
+    { category: "Wyndham Hotels & Resorts", value: "esplendor", label: "Esplendor" },
+    { category: "Wyndham Hotels & Resorts", value: "dazzler-hotels", label: "Dazzler Hotels" },
+    { category: "Wyndham Hotels & Resorts", value: "wingate-wyndham", label: "Wingate by Wyndham" },
+    { category: "Wyndham Hotels & Resorts", value: "ramada", label: "Ramada" },
+    { category: "Wyndham Hotels & Resorts", value: "ramada-encore", label: "Ramada Encore" },
+    { category: "Wyndham Hotels & Resorts", value: "baymont-wyndham", label: "Baymont by Wyndham" },
+    { category: "Wyndham Hotels & Resorts", value: "microtel-inn", label: "Microtel Inn & Suites" },
+    { category: "Wyndham Hotels & Resorts", value: "days-inn", label: "Days Inn" },
+    { category: "Wyndham Hotels & Resorts", value: "super-8", label: "Super 8" },
+    { category: "Wyndham Hotels & Resorts", value: "howard-johnson", label: "Howard Johnson" },
+    { category: "Wyndham Hotels & Resorts", value: "travelodge", label: "Travelodge" },
+    { category: "Wyndham Hotels & Resorts", value: "la-quinta", label: "La Quinta Inn & Suites" },
+    { category: "Wyndham Hotels & Resorts", value: "americinn", label: "AmericInn" },
+    { category: "Wyndham Hotels & Resorts", value: "hawthorn-suites", label: "Hawthorn Suites" },
+
+    // Choice Hotels International
+    { category: "Choice Hotels International", value: "ascend-hotel", label: "Ascend Hotel Collection" },
+    { category: "Choice Hotels International", value: "cambria-hotels", label: "Cambria Hotels" },
+    { category: "Choice Hotels International", value: "clarion", label: "Clarion" },
+    { category: "Choice Hotels International", value: "quality-inn", label: "Quality Inn" },
+    { category: "Choice Hotels International", value: "comfort-inn", label: "Comfort Inn / Comfort Suites" },
+    { category: "Choice Hotels International", value: "sleep-inn", label: "Sleep Inn" },
+    { category: "Choice Hotels International", value: "econo-lodge", label: "Econo Lodge" },
+    { category: "Choice Hotels International", value: "rodeway-inn", label: "Rodeway Inn" },
+    { category: "Choice Hotels International", value: "mainstay-suites", label: "MainStay Suites" },
+    { category: "Choice Hotels International", value: "woodspring-suites", label: "WoodSpring Suites" },
+    { category: "Choice Hotels International", value: "everhome-suites", label: "Everhome Suites" },
+    { category: "Choice Hotels International", value: "suburban-extended", label: "Suburban Extended Stay" },
+
+    // Minor Hotels
+    { category: "Minor Hotels", value: "anantara", label: "Anantara Hotels & Resorts" },
+    { category: "Minor Hotels", value: "avani-hotels", label: "Avani Hotels & Resorts" },
+    { category: "Minor Hotels", value: "oaks-hotels", label: "Oaks Hotels & Resorts" },
+    { category: "Minor Hotels", value: "tivoli-hotels", label: "Tivoli Hotels" },
+    { category: "Minor Hotels", value: "nh-hotels", label: "NH Hotels" },
+    { category: "Minor Hotels", value: "nh-collection", label: "NH Collection" },
+    { category: "Minor Hotels", value: "nhow", label: "nhow" },
+    { category: "Minor Hotels", value: "elewana-collection", label: "Elewana Collection" },
+
+    // Melia Hotels International
+    { category: "Melia Hotels International", value: "gran-melia", label: "Gran Meliá" },
+    { category: "Melia Hotels International", value: "me-melia", label: "ME by Meliá" },
+    { category: "Melia Hotels International", value: "paradisus-melia", label: "Paradisus by Meliá" },
+    { category: "Melia Hotels International", value: "melia-hotels", label: "Meliá Hotels & Resorts" },
+    { category: "Melia Hotels International", value: "innside-melia", label: "INNSiDE by Meliá" },
+    { category: "Melia Hotels International", value: "sol-hotels", label: "Sol Hotels" },
+
+    // Louvre Hotels Group
+    { category: "Louvre Hotels Group", value: "royal-tulip", label: "Royal Tulip" },
+    { category: "Louvre Hotels Group", value: "golden-tulip", label: "Golden Tulip" },
+    { category: "Louvre Hotels Group", value: "tulip-inn", label: "Tulip Inn" },
+    { category: "Louvre Hotels Group", value: "campanile", label: "Campanile" },
+    { category: "Louvre Hotels Group", value: "kyriad", label: "Kyriad" },
+    { category: "Louvre Hotels Group", value: "premiere-classe", label: "Première Classe" },
+    { category: "Louvre Hotels Group", value: "hotels-preference", label: "Hôtels & Préférence" },
+    { category: "Louvre Hotels Group", value: "metropolo", label: "Metropolo" },
+    { category: "Louvre Hotels Group", value: "sarovar-hotels", label: "Sarovar Hotels" },
+
+    // Best Western Hotels & Resorts
+    { category: "Best Western Hotels & Resorts", value: "best-western", label: "Best Western" },
+    { category: "Best Western Hotels & Resorts", value: "best-western-plus", label: "Best Western Plus" },
+    { category: "Best Western Hotels & Resorts", value: "best-western-premier", label: "Best Western Premier" },
+    { category: "Best Western Hotels & Resorts", value: "bw-signature", label: "BW Signature Collection" },
+    { category: "Best Western Hotels & Resorts", value: "bw-premier", label: "BW Premier Collection" },
+    { category: "Best Western Hotels & Resorts", value: "surestay-hotel", label: "SureStay Hotel by Best Western" },
+    { category: "Best Western Hotels & Resorts", value: "surestay-plus", label: "SureStay Plus" },
+    { category: "Best Western Hotels & Resorts", value: "surestay-studio", label: "SureStay Studio" },
+    { category: "Best Western Hotels & Resorts", value: "surestay-collection", label: "SureStay Collection" },
+    { category: "Best Western Hotels & Resorts", value: "aiden-best-western", label: "Aiden by Best Western" },
+    { category: "Best Western Hotels & Resorts", value: "sadie-best-western", label: "Sadie by Best Western" },
+    { category: "Best Western Hotels & Resorts", value: "executive-residency", label: "Executive Residency by Best Western" },
+
+    // Other Notable Regional & Luxury Groups
+    { category: "Other Notable Groups", value: "four-seasons", label: "Four Seasons Hotels & Resorts" },
+    { category: "Other Notable Groups", value: "leading-hotels", label: "The Leading Hotels of the World (LHW)" },
+    { category: "Other Notable Groups", value: "rosewood-hotels", label: "Rosewood Hotels & Resorts" },
+    { category: "Other Notable Groups", value: "mandarin-oriental", label: "Mandarin Oriental Hotel Group" },
+    { category: "Other Notable Groups", value: "belmond", label: "Belmond" },
+    { category: "Other Notable Groups", value: "aman-resorts", label: "Aman Resorts" },
+    { category: "Other Notable Groups", value: "six-senses", label: "Six Senses" },
+    { category: "Other Notable Groups", value: "bulgari-hotels", label: "Bulgari Hotels & Resorts" },
+    { category: "Other Notable Groups", value: "capella-hotels", label: "Capella Hotels & Resorts" },
+    { category: "Other Notable Groups", value: "oberoi-hotels", label: "Oberoi Hotels & Resorts" },
+    { category: "Other Notable Groups", value: "taj-hotels", label: "Taj Hotels (IHCL)" },
+    { category: "Other Notable Groups", value: "itc-hotels", label: "ITC Hotels" },
+    { category: "Other Notable Groups", value: "jumeirah-hotels", label: "Jumeirah Hotels & Resorts" },
+    { category: "Other Notable Groups", value: "shangri-la", label: "Shangri-La Hotels and Resorts" },
+    { category: "Other Notable Groups", value: "langham-hotels", label: "Langham Hotels" },
+    { category: "Other Notable Groups", value: "ghm-hotels", label: "GHM Hotels" },
+    { category: "Other Notable Groups", value: "dusit-international", label: "Dusit International" },
+    { category: "Other Notable Groups", value: "millennium-copthorne", label: "Millennium & Copthorne Hotels" },
+    { category: "Other Notable Groups", value: "citizenm", label: "CitizenM" },
+    { category: "Other Notable Groups", value: "selina-hotels", label: "Selina Hotels" },
+    { category: "Other Notable Groups", value: "zoku", label: "Zoku" },
+    { category: "Other Notable Groups", value: "red-planet", label: "Red Planet Hotels" },
+    { category: "Other Notable Groups", value: "yotel", label: "Yotel" }
+  ];
+
   const starRatings = [
     { value: "1", label: "1 Star" },
     { value: "2", label: "2 Stars" },
@@ -450,52 +670,92 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                 />
 
-                <FormField
-                  control={form.control}
-                  name="starRating"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Star Rating</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="bg-background border-border">
-                            <SelectValue placeholder="Select rating" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-background border-border shadow-lg z-50">
-                          {starRatings.map((rating) => (
-                            <SelectItem key={rating.value} value={rating.value}>
-                              <div className="flex items-center gap-1">
-                                {[...Array(parseInt(rating.value))].map((_, i) => (
-                                  <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                ))}
-                                <span className="ml-1">{rating.label}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                 <FormField
+                   control={form.control}
+                   name="hotelChain"
+                   render={({ field }) => (
+                     <FormItem>
+                       <FormLabel>Hotel Chain</FormLabel>
+                       <Select onValueChange={field.onChange} defaultValue={field.value}>
+                         <FormControl>
+                           <SelectTrigger className="bg-background border-border">
+                             <SelectValue placeholder="Select hotel chain" />
+                           </SelectTrigger>
+                         </FormControl>
+                         <SelectContent className="bg-background border-border shadow-lg z-50 max-h-96 overflow-y-auto">
+                           {Object.entries(
+                             hotelChains.reduce((acc, chain) => {
+                               if (!acc[chain.category]) {
+                                 acc[chain.category] = [];
+                               }
+                               acc[chain.category].push(chain);
+                               return acc;
+                             }, {} as Record<string, typeof hotelChains>)
+                           ).map(([category, categoryChains]) => (
+                             <div key={category}>
+                               <div className="px-2 py-1 text-xs font-semibold text-muted-foreground border-b">
+                                 {category}
+                               </div>
+                               {categoryChains.map((chain) => (
+                                 <SelectItem key={chain.value} value={chain.value}>
+                                   {chain.label}
+                                 </SelectItem>
+                               ))}
+                             </div>
+                           ))}
+                         </SelectContent>
+                       </Select>
+                       <FormMessage />
+                     </FormItem>
+                   )}
+                 />
 
-                <FormField
-                  control={form.control}
-                  name="numberOfFloors"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Number of Floors</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="e.g., 15" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                 <FormField
+                   control={form.control}
+                   name="starRating"
+                   render={({ field }) => (
+                     <FormItem>
+                       <FormLabel>Star Rating</FormLabel>
+                       <Select onValueChange={field.onChange} defaultValue={field.value}>
+                         <FormControl>
+                           <SelectTrigger className="bg-background border-border">
+                             <SelectValue placeholder="Select rating" />
+                           </SelectTrigger>
+                         </FormControl>
+                         <SelectContent className="bg-background border-border shadow-lg z-50">
+                           {starRatings.map((rating) => (
+                             <SelectItem key={rating.value} value={rating.value}>
+                               <div className="flex items-center gap-1">
+                                 {[...Array(parseInt(rating.value))].map((_, i) => (
+                                   <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                 ))}
+                                 <span className="ml-1">{rating.label}</span>
+                               </div>
+                             </SelectItem>
+                           ))}
+                         </SelectContent>
+                       </Select>
+                       <FormMessage />
+                     </FormItem>
+                   )}
+                 />
+
+                 <FormField
+                   control={form.control}
+                   name="numberOfFloors"
+                   render={({ field }) => (
+                     <FormItem>
+                       <FormLabel>Number of Floors</FormLabel>
+                       <FormControl>
+                         <Input type="number" placeholder="e.g., 15" {...field} />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
+                   )}
+                 />
+               </div>
 
               <FormField
                 control={form.control}
