@@ -1,24 +1,23 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Label } from "@/components/ui/label"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useToast } from "@/hooks/use-toast"
-import { Plus, X, Upload, Link, Image, Video, FileText, Plane, ChevronDown, HelpCircle, Download, ExternalLink } from "lucide-react"
-
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
+import { Plus, X, Upload, Link, Image, Video, FileText, Plane, ChevronDown, HelpCircle, Download, ExternalLink } from "lucide-react";
 const yachtRulesSchema = z.object({
   // Basic Info
   yachtName: z.string().min(1, "Yacht name is required"),
@@ -28,12 +27,10 @@ const yachtRulesSchema = z.object({
   callSign: z.string().optional(),
   mmsiNumber: z.string().optional(),
   imoNumber: z.string().optional(),
-  
   // Yacht Listing Types by Build / Readiness Stage - Dropdown Filters
   buildReadinessStage: z.string().optional(),
   operationalStatus: z.string().optional(),
   specialListingCategory: z.string().optional(),
-  
   // Sale Price
   askingPrice: z.string().optional(),
   askingPriceCurrency: z.string().optional(),
@@ -53,7 +50,6 @@ const yachtRulesSchema = z.object({
   availableImmediately: z.boolean().optional(),
   partExchangeConsidered: z.boolean().optional(),
   notesToBuyer: z.string().optional(),
-  
   // Base Charter Rates
   lowSeasonRateWeekly: z.string().optional(),
   highSeasonRateWeekly: z.string().optional(),
@@ -63,14 +59,12 @@ const yachtRulesSchema = z.object({
   weekendRate: z.string().optional(),
   hourlyRate: z.string().optional(),
   customQuotePOA: z.boolean().optional(),
-  
   // Currency & Duration
   currency: z.string().optional(),
   showCurrencySymbol: z.boolean().optional(),
   minimumCharterDuration: z.string().optional(),
   maximumCharterDuration: z.string().optional(),
   flexibleBookingAvailable: z.boolean().optional(),
-  
   // What's Included
   crewIncluded: z.boolean().optional(),
   fuelIncluded: z.boolean().optional(),
@@ -78,7 +72,6 @@ const yachtRulesSchema = z.object({
   waterToysIncluded: z.boolean().optional(),
   dockingFeesIncluded: z.boolean().optional(),
   localVATIncluded: z.boolean().optional(),
-  
   // Additional Pricing Details
   apaPercentage: z.string().optional(),
   apaNotes: z.string().optional(),
@@ -90,7 +83,6 @@ const yachtRulesSchema = z.object({
   deliveryFromTo: z.string().optional(),
   deliveryPriceType: z.string().optional(),
   deliveryRate: z.string().optional(),
-  
   // Discounts & Offers
   earlyBookingDiscount: z.string().optional(),
   lastMinuteDiscount: z.string().optional(),
@@ -98,7 +90,6 @@ const yachtRulesSchema = z.object({
   multiWeekDiscount: z.string().optional(),
   brokerCommissionPercent: z.string().optional(),
   customOffers: z.string().optional(),
-  
   // Season Dates
   highSeasonStart: z.string().optional(),
   highSeasonEnd: z.string().optional(),
@@ -106,7 +97,6 @@ const yachtRulesSchema = z.object({
   lowSeasonEnd: z.string().optional(),
   midSeasonStart: z.string().optional(),
   midSeasonEnd: z.string().optional(),
-  
   // Charter Packages
   dayCruisePackage: z.boolean().optional(),
   weekendEscape: z.boolean().optional(),
@@ -116,13 +106,11 @@ const yachtRulesSchema = z.object({
   scubaDivingCharter: z.boolean().optional(),
   fishingCharter: z.boolean().optional(),
   wellnessSpaCharter: z.boolean().optional(),
-  
   // Location-Specific Info
   commercialCharterLicensed: z.boolean().optional(),
   primaryHomePort: z.string().optional(),
   availableCruisingAreas: z.string().optional(),
   seasonalLocations: z.string().optional(),
-  
   // Legacy fields (keeping for compatibility)
   priceIncludes: z.string().optional(),
   priceExcludes: z.string().optional(),
@@ -130,7 +118,6 @@ const yachtRulesSchema = z.object({
   advanceProvisioningAllowance: z.string().optional(),
   deliveryFees: z.string().optional(),
   brokerageFee: z.string().optional(),
-  
   // Class Information
   classificationSociety: z.string().optional(),
   classificationStatus: z.string().optional(),
@@ -158,7 +145,6 @@ const yachtRulesSchema = z.object({
   stabilityDocumentationAvailable: z.boolean().optional(),
   loadLineCertificate: z.boolean().optional(),
   flagStateInspectionRecord: z.boolean().optional(),
-  
   // Registration Details
   portOfRegistry: z.string().optional(),
   flagState: z.string().optional(),
@@ -166,7 +152,6 @@ const yachtRulesSchema = z.object({
   placeOfIssue: z.string().optional(),
   issuingAuthority: z.string().optional(),
   registryExpirationDate: z.string().optional(),
-  
   // Tonnage & Dimensions
   grossTonnage: z.string().optional(),
   netTonnage: z.string().optional(),
@@ -176,32 +161,27 @@ const yachtRulesSchema = z.object({
   yearBuilt: z.string().optional(),
   builder: z.string().optional(),
   placeOfBuild: z.string().optional(),
-  
   // Guest and Crew Info
   guestCabins: z.number().optional(),
   crewCabins: z.number().optional(),
   maxGuests: z.number().optional(),
   maxCrew: z.number().optional(),
-  
   // Ownership & Management
   ownerName: z.string().optional(),
   ownerAddress: z.string().optional(),
   ownershipType: z.string().optional(),
   managingCompany: z.string().optional(),
   beneficialOwner: z.string().optional(),
-  
   // Operational Status
   vesselUse: z.string().optional(),
   navigationLimits: z.string().optional(),
   registryStatus: z.string().optional(),
-  
   // Deck Spaces
   deckSpaces: z.array(z.object({
     name: z.string(),
     deckType: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().optional()
   })).optional(),
-  
   // Cabin Types
   cabinTypes: z.array(z.object({
     name: z.string(),
@@ -210,9 +190,8 @@ const yachtRulesSchema = z.object({
     bedConfiguration: z.array(z.string()).optional(),
     cabinFeatures: z.array(z.string()).optional(),
     sleeps: z.number().optional(),
-    description: z.string().optional(),
+    description: z.string().optional()
   })).optional(),
-
   // Amenities & Toys
   interiorAmenities: z.array(z.string()).optional(),
   accommodationFeatures: z.array(z.string()).optional(),
@@ -225,7 +204,6 @@ const yachtRulesSchema = z.object({
   adventureGear: z.array(z.string()).optional(),
   crewSupport: z.array(z.string()).optional(),
   certificationsCapabilities: z.array(z.string()).optional(),
-
   // Guest Rules & Access - Section 1: Access Information
   embarkationPort: z.string().optional(),
   disembarkationPort: z.string().optional(),
@@ -237,14 +215,12 @@ const yachtRulesSchema = z.object({
   idRequiredAtCheckIn: z.boolean().optional(),
   shoreAccess: z.array(z.string()).optional(),
   marinaDockName: z.string().optional(),
-
   // Section 2: Navigation & Movement
   yachtCanMoveDuringCharter: z.boolean().optional(),
   itineraryCustomizable: z.boolean().optional(),
   nightCruisingAllowed: z.boolean().optional(),
   tenderUsePermittedByGuests: z.boolean().optional(),
   cruisingRestrictions: z.array(z.string()).optional(),
-
   // Section 3: Guest Use Rules
   maxDayGuests: z.number().optional(),
   maxNightGuests: z.number().optional(),
@@ -254,14 +230,12 @@ const yachtRulesSchema = z.object({
   quietHoursStart: z.string().optional(),
   quietHoursEnd: z.string().optional(),
   crewQuartersAccess: z.boolean().optional(),
-
   // Section 4: Children & Pets
   childrenAllowed: z.boolean().optional(),
   minimumAge: z.number().optional(),
   childproofingAvailable: z.boolean().optional(),
   petsAllowed: z.array(z.string()).optional(),
   petNotes: z.string().optional(),
-
   // Section 5: Behavior & Onboard Conduct
   smokingPolicy: z.array(z.string()).optional(),
   vapingPermitted: z.boolean().optional(),
@@ -270,7 +244,6 @@ const yachtRulesSchema = z.object({
   illegalSubstancesProhibited: z.boolean().optional(),
   firearmsWeaponsNotAllowed: z.boolean().optional(),
   noPartiesWithoutApproval: z.boolean().optional(),
-
   // Legacy fields for compatibility
   maxGuestsSleeping: z.number().min(1).max(50),
   maxGuestsDayUse: z.number().min(1).max(100),
@@ -278,7 +251,6 @@ const yachtRulesSchema = z.object({
   minAgeToBook: z.number().min(18).max(65),
   checkInTime: z.string(),
   checkOutTime: z.string(),
-
   // Access Permissions
   cabinAccess: z.enum(["guest_only", "owner_locked", "all_access"]),
   galleyAccess: z.enum(["guest_allowed", "crew_only"]),
@@ -290,13 +262,11 @@ const yachtRulesSchema = z.object({
   waterToys: z.enum(["free_use", "with_crew", "rental_charges"]),
   jacuzziAccess: z.enum(["yes", "no", "crew_supervision"]),
   wifiAccess: z.enum(["free", "limited", "extra_charge"]),
-
   // Cleaning & Maintenance
   dailyHousekeeping: z.enum(["included", "optional", "extra_charge"]),
   laundryService: z.enum(["available", "not_available", "charges_apply"]),
   cleaningFee: z.string(),
   crewTipGuidelines: z.string(),
-
   // Safety & Security - Section 1: General Safety Equipment
   certifiedLifejackets: z.boolean().default(false),
   inflatableLifeRafts: z.boolean().default(false),
@@ -312,7 +282,6 @@ const yachtRulesSchema = z.object({
   emergencyLighting: z.boolean().default(false),
   musterStation: z.boolean().default(false),
   generalSafetyNotes: z.string().optional(),
-
   // Section 2: Crew Certifications & Protocols
   captainCommercialLicense: z.boolean().default(false),
   crewStcwCertified: z.boolean().default(false),
@@ -321,7 +290,6 @@ const yachtRulesSchema = z.object({
   regularSafetyDrills: z.boolean().default(false),
   evacuationPlanPosted: z.boolean().default(false),
   childElderlySafetyProcedures: z.boolean().default(false),
-
   // Section 3: Fire & Electrical Safety
   fireproofMaterials: z.boolean().default(false),
   fireRetardantUpholstery: z.boolean().default(false),
@@ -330,7 +298,6 @@ const yachtRulesSchema = z.object({
   engineRoomSealed: z.boolean().default(false),
   smokeAlarmsAllAreas: z.boolean().default(false),
   batteryCutoffSystems: z.boolean().default(false),
-
   // Section 4: Navigational Safety
   aisRadarGpsActive: z.boolean().default(false),
   stabilizers: z.boolean().default(false),
@@ -338,7 +305,6 @@ const yachtRulesSchema = z.object({
   redundantNavigation: z.boolean().default(false),
   vhfRadioBridge24_7: z.boolean().default(false),
   bridgeAccessRestricted: z.boolean().default(false),
-
   // Section 5: Physical & Deck Safety
   nonSlipDeckSurfaces: z.boolean().default(false),
   childSafeRailings: z.boolean().default(false),
@@ -348,7 +314,6 @@ const yachtRulesSchema = z.object({
   antiJellyfishPool: z.boolean().default(false),
   deckLightingNight: z.boolean().default(false),
   uvProtectedAreas: z.boolean().default(false),
-
   // Section 6: Medical & Sanitation Preparedness
   medicalGradeFirstAid: z.boolean().default(false),
   dedicatedMedicalStorage: z.boolean().default(false),
@@ -357,7 +322,6 @@ const yachtRulesSchema = z.object({
   emergencyEvacuationPlan: z.boolean().default(false),
   sanitizerStations: z.boolean().default(false),
   healthSanitationProtocols: z.boolean().default(false),
-
   // Additional safety notes for each section
   crewCertificationNotes: z.string().optional(),
   fireElectricalSafetyNotes: z.string().optional(),
@@ -365,10 +329,8 @@ const yachtRulesSchema = z.object({
   physicalDeckSafetyNotes: z.string().optional(),
   medicalSanitationNotes: z.string().optional(),
   certificationsComplianceNotes: z.string().optional(),
-
   // Verified by Captain toggle
   verifiedByCaptain: z.boolean().default(false),
-
   // Documents section
   documents: z.array(z.object({
     name: z.string(),
@@ -376,15 +338,13 @@ const yachtRulesSchema = z.object({
     url: z.string().optional(),
     uploadDate: z.string().optional(),
     expiryDate: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().optional()
   })).default([]),
-
   // Location-Based Rules
   allowedRegions: z.string(),
   portAccessRules: z.enum(["restricted", "prebooked_only", "open"]),
   overnightAnchor: z.enum(["yes", "no", "weather_dependent"]),
   dockingPermitted: z.enum(["yes", "no", "captain_discretion"]),
-
   // Legal & Financial
   charterContract: z.literal("yes"),
   securityDepositRequired: z.enum(["yes", "no"]),
@@ -392,7 +352,6 @@ const yachtRulesSchema = z.object({
   insuranceCoverage: z.enum(["covered", "recommended", "required"]),
   vatHandling: z.enum(["included", "not_included", "on_request"]),
   apaPercentageOld: z.number().min(0).max(50),
-
   // Access Management
   visibility: z.enum(["public", "private", "invite_only"]),
   privatePinCode: z.string().optional(),
@@ -403,34 +362,50 @@ const yachtRulesSchema = z.object({
   virtualTourAccess: z.enum(["public", "logged_in", "on_request"]),
   reviewsVisible: z.enum(["yes", "no"]),
   guestIdVerification: z.enum(["yes", "no"]),
-  ndaRequired: z.enum(["yes", "no", "celebrities_only"]),
-})
-
-type YachtUploadFormData = z.infer<typeof yachtRulesSchema>
-
+  ndaRequired: z.enum(["yes", "no", "celebrities_only"])
+});
+type YachtUploadFormData = z.infer<typeof yachtRulesSchema>;
 interface YachtUploadFormProps {
-  onSubmit: (data: YachtUploadFormData) => void
-  onCancel: () => void
+  onSubmit: (data: YachtUploadFormData) => void;
+  onCancel: () => void;
 }
+export function YachtUploadForm({
+  onSubmit,
+  onCancel
+}: YachtUploadFormProps) {
+  const {
+    toast
+  } = useToast();
 
-export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
-  const { toast } = useToast()
-  
   // State for dynamic sections
-  const [deckSpaces, setDeckSpaces] = useState([{ name: '', deckType: '', description: '' }])
-  const [cabinTypes, setCabinTypes] = useState([{ name: '', deckLevel: '', cabinType: '', bedConfiguration: [], cabinFeatures: [], sleeps: 2, description: '' }])
-  
+  const [deckSpaces, setDeckSpaces] = useState([{
+    name: '',
+    deckType: '',
+    description: ''
+  }]);
+  const [cabinTypes, setCabinTypes] = useState([{
+    name: '',
+    deckLevel: '',
+    cabinType: '',
+    bedConfiguration: [],
+    cabinFeatures: [],
+    sleeps: 2,
+    description: ''
+  }]);
+
   // State for media uploads
-  const [yachtVirtualTours, setYachtVirtualTours] = useState([{ name: '', url: '', file: null }])
-  const [yachtPhotos, setYachtPhotos] = useState([])
-  const [yachtVideos, setYachtVideos] = useState([])
-  const [yachtDroneFootage, setYachtDroneFootage] = useState([])
-  const [yachtFloorPlans, setYachtFloorPlans] = useState([])
-  const [yachtDocuments, setYachtDocuments] = useState([])
-  
-  const [spaceMedia, setSpaceMedia] = useState({})
-  const [cabinMedia, setCabinMedia] = useState({})
-  
+  const [yachtVirtualTours, setYachtVirtualTours] = useState([{
+    name: '',
+    url: '',
+    file: null
+  }]);
+  const [yachtPhotos, setYachtPhotos] = useState([]);
+  const [yachtVideos, setYachtVideos] = useState([]);
+  const [yachtDroneFootage, setYachtDroneFootage] = useState([]);
+  const [yachtFloorPlans, setYachtFloorPlans] = useState([]);
+  const [yachtDocuments, setYachtDocuments] = useState([]);
+  const [spaceMedia, setSpaceMedia] = useState({});
+  const [cabinMedia, setCabinMedia] = useState({});
   const form = useForm<YachtUploadFormData>({
     resolver: zodResolver(yachtRulesSchema),
     defaultValues: {
@@ -581,41 +556,53 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       virtualTourAccess: "logged_in",
       reviewsVisible: "yes",
       guestIdVerification: "yes",
-      ndaRequired: "celebrities_only",
-    },
-  })
+      ndaRequired: "celebrities_only"
+    }
+  });
 
   // Helper functions for media management
   const addYachtVirtualTour = () => {
-    setYachtVirtualTours([...yachtVirtualTours, { name: '', url: '', file: null }])
-  }
-  
+    setYachtVirtualTours([...yachtVirtualTours, {
+      name: '',
+      url: '',
+      file: null
+    }]);
+  };
   const removeYachtVirtualTour = (index: number) => {
-    setYachtVirtualTours(yachtVirtualTours.filter((_, i) => i !== index))
-  }
-  
+    setYachtVirtualTours(yachtVirtualTours.filter((_, i) => i !== index));
+  };
   const updateYachtVirtualTour = (index: number, field: string, value: any) => {
-    const updated = [...yachtVirtualTours]
-    updated[index] = { ...updated[index], [field]: value }
-    setYachtVirtualTours(updated)
-  }
-  
+    const updated = [...yachtVirtualTours];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    };
+    setYachtVirtualTours(updated);
+  };
   const addDeckSpace = () => {
-    setDeckSpaces([...deckSpaces, { name: '', deckType: '', description: '' }])
-  }
-  
+    setDeckSpaces([...deckSpaces, {
+      name: '',
+      deckType: '',
+      description: ''
+    }]);
+  };
   const removeDeckSpace = (index: number) => {
-    setDeckSpaces(deckSpaces.filter((_, i) => i !== index))
-  }
-  
+    setDeckSpaces(deckSpaces.filter((_, i) => i !== index));
+  };
   const addCabinType = () => {
-    setCabinTypes([...cabinTypes, { name: '', deckLevel: '', cabinType: '', bedConfiguration: [], cabinFeatures: [], sleeps: 2, description: '' }])
-  }
-  
+    setCabinTypes([...cabinTypes, {
+      name: '',
+      deckLevel: '',
+      cabinType: '',
+      bedConfiguration: [],
+      cabinFeatures: [],
+      sleeps: 2,
+      description: ''
+    }]);
+  };
   const removeCabinType = (index: number) => {
-    setCabinTypes(cabinTypes.filter((_, i) => i !== index))
-  }
-
+    setCabinTypes(cabinTypes.filter((_, i) => i !== index));
+  };
   const handleSubmit = (data: YachtUploadFormData) => {
     const formData = {
       ...data,
@@ -628,21 +615,19 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
           videos: yachtVideos,
           droneFootage: yachtDroneFootage,
           floorPlans: yachtFloorPlans,
-          documents: yachtDocuments,
+          documents: yachtDocuments
         },
         spaces: spaceMedia,
-        cabins: cabinMedia,
+        cabins: cabinMedia
       }
-    }
-    onSubmit(formData)
+    };
+    onSubmit(formData);
     toast({
       title: "Yacht listing saved",
-      description: "Your yacht listing and media have been configured.",
-    })
-  }
-
-  return (
-    <div className="max-w-4xl mx-auto p-6">
+      description: "Your yacht listing and media have been configured."
+    });
+  };
+  return <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold">Yacht Upload Form</h2>
         <p className="text-muted-foreground">Configure rules and access permissions for your yacht charter</p>
@@ -681,81 +666,59 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                  </CardHeader>
                  <CardContent className="space-y-4">
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <FormField
-                       control={form.control}
-                       name="yachtName"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="yachtName" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Vessel Name</FormLabel>
                            <FormControl>
                              <Input placeholder="Enter vessel name" {...field} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="officialNumber"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="officialNumber" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Official Number</FormLabel>
                            <FormControl>
                              <Input placeholder="Enter official number" {...field} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                      )}
-                    />
+                         </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="callSign"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="callSign" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Call Sign</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter call sign" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="mmsiNumber"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="mmsiNumber" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>MMSI Number (if applicable)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter MMSI number" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="imoNumber"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="imoNumber" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>IMO Number (commercial yachts over 24m)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter IMO number" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="listingType"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="listingType" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Sale/Charter/Both</FormLabel>
                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                              <FormControl>
@@ -770,16 +733,12 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                </SelectContent>
                            </Select>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                      />
+                         </FormItem>} />
 
                       {/* Yacht Listing Types by Build / Readiness Stage */}
-                      <FormField
-                        control={form.control}
-                        name="buildReadinessStage"
-                        render={({ field }) => (
-                          <FormItem>
+                      <FormField control={form.control} name="buildReadinessStage" render={({
+                        field
+                      }) => <FormItem>
                             <FormLabel>🛠️ Build / Readiness Stage</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
@@ -807,15 +766,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </SelectContent>
                             </Select>
                             <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                          </FormItem>} />
 
-                      <FormField
-                        control={form.control}
-                        name="operationalStatus"
-                        render={({ field }) => (
-                          <FormItem>
+                      <FormField control={form.control} name="operationalStatus" render={({
+                        field
+                      }) => <FormItem>
                             <FormLabel>🧭 Operational Status</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
@@ -830,15 +785,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </SelectContent>
                             </Select>
                             <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                          </FormItem>} />
 
-                      <FormField
-                        control={form.control}
-                        name="specialListingCategory"
-                        render={({ field }) => (
-                          <FormItem>
+                      <FormField control={form.control} name="specialListingCategory" render={({
+                        field
+                      }) => <FormItem>
                             <FormLabel>⚠️ Special Listing Category</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
@@ -855,15 +806,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </SelectContent>
                             </Select>
                             <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                          </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="yachtType"
-                      render={({ field }) => (
-                        <FormItem>
+                     <FormField control={form.control} name="yachtType" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Type of Vessel</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -919,9 +866,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -936,89 +881,65 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="portOfRegistry"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="portOfRegistry" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Port of Registry</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., George Town, London, Valletta" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="flagState"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="flagState" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Flag State / Country of Registration</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter flag state" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="dateOfRegistration"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="dateOfRegistration" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Date of Registration</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="placeOfIssue"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="placeOfIssue" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Place of Issue</FormLabel>
                           <FormControl>
                             <Input placeholder="Where the registry was issued" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="issuingAuthority"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="issuingAuthority" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Issuing Authority</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., Cayman Islands Shipping Registry, MCA, USCG" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="registryExpirationDate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="registryExpirationDate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Expiration Date of Registry</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -1033,193 +954,125 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="grossTonnage"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="grossTonnage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Gross Tonnage (GT)</FormLabel>
                           <FormControl>
                             <Input type="number" placeholder="Enter GT" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="netTonnage"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="netTonnage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Net Tonnage (NT)</FormLabel>
                           <FormControl>
                             <Input type="number" placeholder="Enter NT" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="length"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="length" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Length Overall (LOA)</FormLabel>
                            <FormControl>
                              <Input type="number" placeholder="Meters" {...field} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="beam"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="beam" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Beam (Width)</FormLabel>
                            <FormControl>
                              <Input type="number" placeholder="Meters" {...field} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="guestCabins"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="guestCabins" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Number of Guest Cabins</FormLabel>
                            <FormControl>
-                             <Input
-                               type="number"
-                               placeholder="e.g., 5"
-                               {...field}
-                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                             />
+                             <Input type="number" placeholder="e.g., 5" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="crewCabins"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="crewCabins" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Number of Crew Cabins</FormLabel>
                            <FormControl>
-                             <Input
-                               type="number"
-                               placeholder="e.g., 6"
-                               {...field}
-                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                             />
+                             <Input type="number" placeholder="e.g., 6" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="maxGuests"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="maxGuests" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Max Number of Guests</FormLabel>
                            <FormControl>
-                             <Input
-                               type="number"
-                               placeholder="e.g., 12"
-                               {...field}
-                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                             />
+                             <Input type="number" placeholder="e.g., 12" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                     <FormField
-                       control={form.control}
-                       name="maxCrew"
-                       render={({ field }) => (
-                         <FormItem>
+                     <FormField control={form.control} name="maxCrew" render={({
+                        field
+                      }) => <FormItem>
                            <FormLabel>Max Number of Crew</FormLabel>
                            <FormControl>
-                             <Input
-                               type="number"
-                               placeholder="e.g., 10"
-                               {...field}
-                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                             />
+                             <Input type="number" placeholder="e.g., 10" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                            </FormControl>
                            <FormMessage />
-                         </FormItem>
-                       )}
-                     />
+                         </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="draft"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="draft" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Depth / Draft</FormLabel>
                           <FormControl>
                             <Input type="number" placeholder="Meters" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="yearBuilt"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="yearBuilt" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Year of Build</FormLabel>
                           <FormControl>
                             <Input type="number" placeholder="2023" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="builder"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="builder" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Builder / Shipyard</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter builder name" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="placeOfBuild"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="placeOfBuild" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Place of Build</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter build location" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -1234,39 +1087,29 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="ownerName"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="ownerName" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Owner Name(s)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter owner name" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="ownerAddress"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="ownerAddress" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Owner Address</FormLabel>
                           <FormControl>
                             <Textarea placeholder="Enter owner address" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="ownershipType"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="ownershipType" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Ownership Type</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1283,37 +1126,27 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="managingCompany"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="managingCompany" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Managing Company / Commercial Manager</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter managing company (if applicable)" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="beneficialOwner"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="beneficialOwner" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Beneficial Owner</FormLabel>
                           <FormControl>
                             <Input placeholder="If known or disclosed" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -1328,11 +1161,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="vesselUse"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="vesselUse" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Commercial or Private Use</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1349,29 +1180,21 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="navigationLimits"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="navigationLimits" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Navigation Limits / Area of Operation</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter operational area" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="registryStatus"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="registryStatus" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Status / Validity of Registry</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1387,9 +1210,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -1404,25 +1225,19 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="askingPrice"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="askingPrice" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Asking Price Amount</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter asking price" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="askingPriceCurrency"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="askingPriceCurrency" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Currency</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1440,54 +1255,36 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="isPriceNegotiable"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={form.control} name="isPriceNegotiable" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">Price Negotiable?</FormLabel>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="displayPricePublicly"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={form.control} name="displayPricePublicly" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">Display Price Publicly?</FormLabel>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="pricingType"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="pricingType" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Pricing Type</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -1503,44 +1300,32 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           </SelectContent>
                         </Select>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={form.control}
-                    name="priceReductionNote"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="priceReductionNote" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Recent Price Reduction (add note/date)</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., Reduced by $50K on Jan 2024" {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={form.control}
-                    name="yachtCurrentLocation"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="yachtCurrentLocation" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Current Location (Port, Marina, Country)</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., Monaco, Port Hercules" {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="vatStatus"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="vatStatus" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>VAT Status of Sale</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1557,95 +1342,68 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="vatIncludedInPrice"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={form.control} name="vatIncludedInPrice" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">VAT Included in Asking Price?</FormLabel>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="lastAskingPrice"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="lastAskingPrice" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Last Asking Price (if changed recently)</FormLabel>
                           <FormControl>
                             <Input placeholder="Previous asking price" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="estimatedRunningCosts"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="estimatedRunningCosts" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Estimated Running Costs (annual)</FormLabel>
                           <FormControl>
                             <Input placeholder="Annual running costs" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="refitsUpgradesCost"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="refitsUpgradesCost" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Refits / Upgrades Cost Summary</FormLabel>
                           <FormControl>
                             <Textarea placeholder="Summary of recent refits and costs" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="brokerCommission"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="brokerCommission" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Broker Commission % (internal use only)</FormLabel>
                           <FormControl>
                             <Input placeholder="Commission percentage" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="saleOwnershipType"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="saleOwnershipType" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Ownership Type</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1659,80 +1417,53 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="mortgageEncumbrance"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={form.control} name="mortgageEncumbrance" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">Mortgage or Encumbrance?</FormLabel>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="availableImmediately"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={form.control} name="availableImmediately" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">Available Immediately?</FormLabel>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="partExchangeConsidered"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={form.control} name="partExchangeConsidered" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">Part Exchange Considered?</FormLabel>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="notesToBuyer"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="notesToBuyer" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Notes to Buyer (Optional)</FormLabel>
                         <FormControl>
                           <Textarea placeholder="Notable sale incentives, delivery options, included add-ons, survey terms, etc." {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -1746,115 +1477,82 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    <FormField
-                      control={form.control}
-                      name="lowSeasonRateWeekly"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="lowSeasonRateWeekly" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Low-Season Rate (Weekly)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter low season weekly rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="highSeasonRateWeekly"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="highSeasonRateWeekly" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>High-Season Rate (Weekly)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter high season weekly rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="midSeasonRateWeekly"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="midSeasonRateWeekly" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Mid-Season Rate (Optional)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter mid season weekly rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="shoulderSeasonRate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="shoulderSeasonRate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Shoulder Season Rate (Optional)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter shoulder season rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="dayRate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="dayRate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Day Rate (10-20% of weekly)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter daily rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="weekendRate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="weekendRate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Weekend Rate (Optional)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter weekend rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="hourlyRate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="hourlyRate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Hourly Rate (For events/day charters)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter hourly rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="customQuotePOA"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                  <FormField control={form.control} name="customQuotePOA" render={({
+                      field
+                    }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel>Custom Quote / POA (Price on Application)</FormLabel>
@@ -1862,9 +1560,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             Enable this if pricing is variable or only available on request
                           </FormDescription>
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -1876,11 +1572,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="currency"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="currency" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Currency</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1898,15 +1592,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="minimumCharterDuration"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="minimumCharterDuration" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Minimum Charter Duration</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -1922,54 +1612,36 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="maximumCharterDuration"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="maximumCharterDuration" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Maximum Charter Duration</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., 30 days, No limit" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="showCurrencySymbol"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="showCurrencySymbol" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Display currency symbol alongside rates</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="flexibleBookingAvailable"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="flexibleBookingAvailable" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Flexible Booking Available</FormLabel>
@@ -1977,9 +1649,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               Allow flexible dates and duration adjustments
                             </FormDescription>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -1992,113 +1662,71 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="crewIncluded"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="crewIncluded" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Crew</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="fuelIncluded"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="fuelIncluded" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Fuel (Within standard cruising limits)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="foodBeverageIncluded"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="foodBeverageIncluded" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Food & Beverage (APA applies vs all-inclusive)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="waterToysIncluded"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="waterToysIncluded" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Water Toys / Jet Skis</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="dockingFeesIncluded"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="dockingFeesIncluded" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Docking Fees (if included at home port)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="localVATIncluded"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="localVATIncluded" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Local VAT / Tax</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -2111,53 +1739,39 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="apaPercentage"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="apaPercentage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>APA (Advance Provisioning Allowance) %</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., 25-35%" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="vatPercentage"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="vatPercentage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>VAT / Sales Tax %</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter VAT percentage" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="securityDepositAmount"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="securityDepositAmount" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Security Deposit Amount</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter security deposit amount" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="securityDepositType"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="securityDepositType" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Security Deposit Type</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -2171,93 +1785,61 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="deliveryFromTo"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="deliveryFromTo" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Delivery From / To Locations</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter delivery locations" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="deliveryRate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="deliveryRate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Delivery Rate</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., $500 per nautical mile" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="vatIncludedInBase"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="vatIncludedInBase" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>VAT Included in Base Rate</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="deliveryFeesCharged"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="deliveryFeesCharged" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Delivery / Repositioning Fees Charged</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="apaNotes"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="apaNotes" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>APA Notes</FormLabel>
                           <FormControl>
-                            <Textarea 
-                              placeholder="Clarify how APA is handled"
-                              className="resize-none"
-                              {...field}
-                            />
+                            <Textarea placeholder="Clarify how APA is handled" className="resize-none" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -2270,149 +1852,93 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="dayCruisePackage"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="dayCruisePackage" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Day Cruise Package</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="weekendEscape"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="weekendEscape" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Weekend Escape</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="weeklyCharter"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="weeklyCharter" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Weekly Charter</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="corporateCharter"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="corporateCharter" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Corporate Charter / Event Hire</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="weddingEventCharter"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="weddingEventCharter" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Wedding / Private Event</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="scubaDivingCharter"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="scubaDivingCharter" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Scuba / Diving Charter</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="fishingCharter"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="fishingCharter" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Fishing Charter</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="wellnessSpaCharter"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="wellnessSpaCharter" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Wellness / Spa Charter</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -2425,63 +1951,42 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="primaryHomePort"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="primaryHomePort" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Primary Home Port</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., Monaco, Fort Lauderdale" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="availableCruisingAreas"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="availableCruisingAreas" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Available Cruising Areas</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., Mediterranean, Caribbean" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="seasonalLocations"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="seasonalLocations" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Seasonal Locations (Winter/Summer)</FormLabel>
                           <FormControl>
-                            <Textarea 
-                              placeholder="Describe seasonal location changes"
-                              className="resize-none"
-                              {...field}
-                            />
+                            <Textarea placeholder="Describe seasonal location changes" className="resize-none" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="commercialCharterLicensed"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                  <FormField control={form.control} name="commercialCharterLicensed" render={({
+                      field
+                    }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel>Yacht currently licensed for commercial charter</FormLabel>
@@ -2489,9 +1994,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             Confirm the yacht has proper commercial charter licensing
                           </FormDescription>
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
             </TabsContent>
@@ -2500,35 +2003,24 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               <Card>
                 <CardHeader>
                   <CardTitle>Deck Spaces other than Cabins</CardTitle>
-                  <CardDescription>Yachts can be huge with lots of nooks and crannies. Defining the different spaces on your yacht will automatically create multiple upload options within the Media & Files upload tab to help organize your listing into sections.</CardDescription>
+                  <CardDescription>Defining the different spaces on your yacht will automatically create multiple upload options within the Media & Files upload tab to help organize your listing into sections.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {deckSpaces.map((space, index) => (
-                    <div key={index} className="border rounded-lg p-4 space-y-4">
+                  {deckSpaces.map((space, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
                       <div className="flex justify-between items-center">
                         <h4 className="font-medium">Deck Space {index + 1}</h4>
-                        {deckSpaces.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeDeckSpace(index)}
-                          >
+                        {deckSpaces.length > 1 && <Button type="button" variant="ghost" size="sm" onClick={() => removeDeckSpace(index)}>
                             <X className="h-4 w-4" />
-                          </Button>
-                        )}
+                          </Button>}
                       </div>
                       <div className="grid grid-cols-1 gap-4">
                         <div>
                           <label className="text-sm font-medium">Deck Type</label>
-                          <Select
-                            value={space.deckType}
-                            onValueChange={(value) => {
-                              const updated = [...deckSpaces]
-                              updated[index].deckType = value
-                              setDeckSpaces(updated)
-                            }}
-                          >
+                          <Select value={space.deckType} onValueChange={value => {
+                            const updated = [...deckSpaces];
+                            updated[index].deckType = value;
+                            setDeckSpaces(updated);
+                          }}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select deck type" />
                             </SelectTrigger>
@@ -2578,32 +2070,23 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="text-sm font-medium">Space Name</label>
-                            <Input
-                              placeholder="e.g., Upper Deck, Flybridge"
-                              value={space.name}
-                              onChange={(e) => {
-                                const updated = [...deckSpaces]
-                                updated[index].name = e.target.value
-                                setDeckSpaces(updated)
-                              }}
-                            />
+                            <Input placeholder="e.g., Upper Deck, Flybridge" value={space.name} onChange={e => {
+                              const updated = [...deckSpaces];
+                              updated[index].name = e.target.value;
+                              setDeckSpaces(updated);
+                            }} />
                           </div>
                           <div>
                             <label className="text-sm font-medium">Description</label>
-                            <Input
-                              placeholder="Brief description"
-                              value={space.description}
-                              onChange={(e) => {
-                                const updated = [...deckSpaces]
-                                updated[index].description = e.target.value
-                                setDeckSpaces(updated)
-                              }}
-                            />
+                            <Input placeholder="Brief description" value={space.description} onChange={e => {
+                              const updated = [...deckSpaces];
+                              updated[index].description = e.target.value;
+                              setDeckSpaces(updated);
+                            }} />
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                   <Button type="button" variant="outline" onClick={addDeckSpace}>
                     <Plus className="h-4 w-4 mr-2" />
                     Add Deck Space
@@ -2620,11 +2103,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Vessel classification and society information</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="classificationSociety"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="classificationSociety" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Classification Society</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -2651,15 +2132,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           </SelectContent>
                         </Select>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={form.control}
-                    name="classificationStatus"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="classificationStatus" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Classification Status</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -2677,9 +2154,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           </SelectContent>
                         </Select>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -2691,54 +2166,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="initialClassificationDate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="initialClassificationDate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Date of Initial Classification</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="lastRenewalDate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="lastRenewalDate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Date of Last Renewal</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="nextSurveyDue"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="nextSurveyDue" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Date of Next Survey / Renewal Due</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="classNotations"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="classNotations" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Class Notation(s)</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., ✠100A1, MCA LY3" {...field} />
@@ -2747,15 +2208,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           Enter classification notations (e.g., ✠100A1, MCA LY3)
                         </FormDescription>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={form.control}
-                    name="classCertificateUpload"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="classCertificateUpload" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Upload Class Certificate</FormLabel>
                         <FormControl>
                           <Input type="file" accept=".pdf,.jpg,.png" {...field} />
@@ -2764,9 +2221,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           Upload PDF or image file of the class certificate
                         </FormDescription>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -2778,167 +2233,104 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="mcaCommercialCode"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="mcaCommercialCode" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>MCA Commercial Code (LY2 / LY3 / MGN 280)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="ismCode"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="ismCode" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>ISM Code (International Safety Management)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="ispsCode"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="ispsCode" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>ISPS Code (International Ship & Port Facility Security)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="mlc"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="mlc" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>MLC (Maritime Labour Convention)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="solas"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="solas" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>SOLAS (Safety of Life at Sea)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="marpol"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="marpol" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>MARPOL (Marine Pollution Compliance)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="ceCertification"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="ceCertification" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>CE Certification (for EU-built vessels)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="rcdRcr"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="rcdRcr" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>RCD / RCR (Recreational Craft Directive)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="uscgDocumentation"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="uscgDocumentation" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>USCG Documentation (if applicable)</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -2951,11 +2343,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="surveyType"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="surveyType" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Type of Survey Completed</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -2971,44 +2361,32 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="lastSurveyDate"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="lastSurveyDate" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Date of Last Survey</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="surveyorName"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="surveyorName" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Surveyor Name / Company</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter surveyor details" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="surveyReportUpload"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="surveyReportUpload" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Upload Survey Report</FormLabel>
                         <FormControl>
                           <Input type="file" accept=".pdf" {...field} />
@@ -3017,9 +2395,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           Upload survey report in PDF format
                         </FormDescription>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -3031,103 +2407,70 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="iceClassRating"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="iceClassRating" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Ice Class Rating (if applicable)</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., 1A, 1AS, B" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="fireClassSafetyZones"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="fireClassSafetyZones" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Fire Class / Safety Zones</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter fire safety classification" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="hullIdentificationNumber"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="hullIdentificationNumber" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Hull Identification Number (HIN)</FormLabel>
                           <FormControl>
                             <Input placeholder="Enter HIN" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="stabilityDocumentationAvailable"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="stabilityDocumentationAvailable" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Stability Documentation Available</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="loadLineCertificate"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="loadLineCertificate" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Load Line Certificate</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
 
-                    <FormField
-                      control={form.control}
-                      name="flagStateInspectionRecord"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormField control={form.control} name="flagStateInspectionRecord" render={({
+                        field
+                      }) => <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>Flag State Inspection Record</FormLabel>
                           </div>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -3145,180 +2488,122 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                     <Card>
                       <CardContent className="p-6 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="embarkationPort"
-                            render={({ field }) => (
-                              <FormItem>
+                          <FormField control={form.control} name="embarkationPort" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Embarkation Port</FormLabel>
                                 <FormControl>
                                   <Input placeholder="Enter embarkation port" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="disembarkationPort"
-                            render={({ field }) => (
-                              <FormItem>
+                              </FormItem>} />
+                          <FormField control={form.control} name="disembarkationPort" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Disembarkation Port</FormLabel>
                                 <FormControl>
                                   <Input placeholder="Enter disembarkation port" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="embarkationTime"
-                            render={({ field }) => (
-                              <FormItem>
+                          <FormField control={form.control} name="embarkationTime" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Embarkation Time</FormLabel>
                                 <FormControl>
                                   <Input type="time" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="disembarkationTime"
-                            render={({ field }) => (
-                              <FormItem>
+                              </FormItem>} />
+                          <FormField control={form.control} name="disembarkationTime" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Disembarkation Time</FormLabel>
                                 <FormControl>
                                   <Input type="time" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="boardingInstructionsRequired"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="boardingInstructionsRequired" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Boarding Instructions Required?</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="captainsBriefingRequired"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="captainsBriefingRequired" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Captain's Briefing Required Before Departure</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="crewAssistsWithLuggage"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="crewAssistsWithLuggage" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Crew Assists with Luggage</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="idRequiredAtCheckIn"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="idRequiredAtCheckIn" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">ID Required at Check-in</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="shoreAccess"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="shoreAccess" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Shore Access (multi-select)</FormLabel>
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                {["By Tender", "By Gangway", "Via Port Office", "Restricted Hours Only"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={option}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["By Tender", "By Gangway", "Via Port Office", "Restricted Hours Only"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={option} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={option} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
-                        <FormField
-                          control={form.control}
-                          name="marinaDockName"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="marinaDockName" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Marina/Dock Name</FormLabel>
                               <FormControl>
                                 <Input placeholder="Enter marina or dock name" {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CardContent>
                     </Card>
                   </CollapsibleContent>
@@ -3334,108 +2619,70 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                     <Card>
                       <CardContent className="p-6 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="yachtCanMoveDuringCharter"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="yachtCanMoveDuringCharter" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Yacht Can Move During Charter</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="itineraryCustomizable"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="itineraryCustomizable" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Itinerary Customizable</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="nightCruisingAllowed"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="nightCruisingAllowed" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Night Cruising Allowed</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="tenderUsePermittedByGuests"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="tenderUsePermittedByGuests" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Tender Use Permitted by Guests</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="cruisingRestrictions"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="cruisingRestrictions" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Cruising Restrictions (multi-select)</FormLabel>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                {["Coastal Only", "International Waters Not Permitted", "Zone Restricted", "Owner's Approval Required", "None"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={`cruise-${option}`}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["Coastal Only", "International Waters Not Permitted", "Zone Restricted", "Owner's Approval Required", "None"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={`cruise-${option}`} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={`cruise-${option}`} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CardContent>
                     </Card>
                   </CollapsibleContent>
@@ -3451,162 +2698,101 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                     <Card>
                       <CardContent className="p-6 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="maxDayGuests"
-                            render={({ field }) => (
-                              <FormItem>
+                          <FormField control={form.control} name="maxDayGuests" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Max Day Guests</FormLabel>
                                 <FormControl>
-                                  <Input 
-                                    type="number" 
-                                    min="1" 
-                                    max="100" 
-                                    placeholder="12"
-                                    {...field}
-                                    onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                                  />
+                                  <Input type="number" min="1" max="100" placeholder="12" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="maxNightGuests"
-                            render={({ field }) => (
-                              <FormItem>
+                              </FormItem>} />
+                          <FormField control={form.control} name="maxNightGuests" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Max Night Guests</FormLabel>
                                 <FormControl>
-                                  <Input 
-                                    type="number" 
-                                    min="1" 
-                                    max="50" 
-                                    placeholder="10"
-                                    {...field}
-                                    onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                                  />
+                                  <Input type="number" min="1" max="50" placeholder="10" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="extraGuestsRequireApproval"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="extraGuestsRequireApproval" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Extra Guests Require Approval</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="galleyUsePermitted"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="galleyUsePermitted" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Galley Use Permitted</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="bridgeAccessAllowed"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="bridgeAccessAllowed" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Bridge Access Allowed (multi-select)</FormLabel>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                {["Yes", "No", "With Captain Supervision"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={`bridge-${option}`}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["Yes", "No", "With Captain Supervision"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={`bridge-${option}`} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={`bridge-${option}`} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="quietHoursStart"
-                            render={({ field }) => (
-                              <FormItem>
+                          <FormField control={form.control} name="quietHoursStart" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Quiet Hours Start</FormLabel>
                                 <FormControl>
                                   <Input type="time" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="quietHoursEnd"
-                            render={({ field }) => (
-                              <FormItem>
+                              </FormItem>} />
+                          <FormField control={form.control} name="quietHoursEnd" render={({
+                              field
+                            }) => <FormItem>
                                 <FormLabel>Quiet Hours End</FormLabel>
                                 <FormControl>
                                   <Input type="time" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="crewQuartersAccess"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        <FormField control={form.control} name="crewQuartersAccess" render={({
+                            field
+                          }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                               <div className="space-y-0.5">
                                 <FormLabel className="text-base">Crew Quarters Access</FormLabel>
                                 <FormDescription>Allow guests access to crew quarters</FormDescription>
                               </div>
                               <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
+                                <Switch checked={field.value} onCheckedChange={field.onChange} />
                               </FormControl>
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CardContent>
                     </Card>
                   </CollapsibleContent>
@@ -3622,111 +2808,68 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                     <Card>
                       <CardContent className="p-6 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="childrenAllowed"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="childrenAllowed" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Children Allowed</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="childproofingAvailable"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="childproofingAvailable" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Childproofing Available</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="minimumAge"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="minimumAge" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Minimum Age</FormLabel>
                               <FormControl>
-                                <Input 
-                                  type="number" 
-                                  min="0" 
-                                  max="18" 
-                                  placeholder="0"
-                                  {...field}
-                                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                                />
+                                <Input type="number" min="0" max="18" placeholder="0" {...field} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
                               </FormControl>
                               <FormDescription>Minimum age for children (0 = no restriction)</FormDescription>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
-                        <FormField
-                          control={form.control}
-                          name="petsAllowed"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="petsAllowed" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Pets Allowed (multi-select)</FormLabel>
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                {["Yes", "No", "Small Pets Only", "By Request Only"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={`pets-${option}`}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["Yes", "No", "Small Pets Only", "By Request Only"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={`pets-${option}`} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={`pets-${option}`} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
-                        <FormField
-                          control={form.control}
-                          name="petNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="petNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Pet Notes</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="Additional notes about pet policies..."
-                                  className="min-h-[100px]"
-                                  {...field}
-                                />
+                                <Textarea placeholder="Additional notes about pet policies..." className="min-h-[100px]" {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CardContent>
                     </Card>
                   </CollapsibleContent>
@@ -3741,89 +2884,60 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CollapsibleContent className="pt-4">
                     <Card>
                       <CardContent className="p-6 space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="smokingPolicy"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="smokingPolicy" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Smoking Policy (multi-select)</FormLabel>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                {["Not Allowed", "Designated Areas Only", "Outdoor Only"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={`smoking-${option}`}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["Not Allowed", "Designated Areas Only", "Outdoor Only"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={`smoking-${option}`} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={`smoking-${option}`} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
-                        <FormField
-                          control={form.control}
-                          name="vapingPermitted"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        <FormField control={form.control} name="vapingPermitted" render={({
+                            field
+                          }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                               <div className="space-y-0.5">
                                 <FormLabel className="text-base">Vaping Permitted</FormLabel>
                               </div>
                               <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
+                                <Switch checked={field.value} onCheckedChange={field.onChange} />
                               </FormControl>
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
-                        <FormField
-                          control={form.control}
-                          name="shoesOnboard"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="shoesOnboard" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Shoes Onboard (multi-select)</FormLabel>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                {["No Shoes", "Yacht Shoes Only", "No Restriction"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={`shoes-${option}`}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["No Shoes", "Yacht Shoes Only", "No Restriction"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={`shoes-${option}`} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={`shoes-${option}`} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
-                        <FormField
-                          control={form.control}
-                          name="alcoholPolicy"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="alcoholPolicy" render={({
+                            field
+                          }) => <FormItem>
                               <div className="flex items-center gap-2">
                                 <FormLabel>Alcohol Policy (multi-select)</FormLabel>
                                 <Tooltip>
@@ -3836,81 +2950,52 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 </Tooltip>
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                {["BYO Allowed", "Crew Served Only", "Yacht-Stocked Bar"].map((option) => (
-                                  <div key={option} className="flex items-center space-x-2">
-                                    <Checkbox
-                                      id={`alcohol-${option}`}
-                                      checked={field.value?.includes(option) || false}
-                                      onCheckedChange={(checked) => {
-                                        const currentValue = field.value || []
-                                        if (checked) {
-                                          field.onChange([...currentValue, option])
-                                        } else {
-                                          field.onChange(currentValue.filter((v: string) => v !== option))
-                                        }
-                                      }}
-                                    />
+                                {["BYO Allowed", "Crew Served Only", "Yacht-Stocked Bar"].map(option => <div key={option} className="flex items-center space-x-2">
+                                    <Checkbox id={`alcohol-${option}`} checked={field.value?.includes(option) || false} onCheckedChange={checked => {
+                                  const currentValue = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...currentValue, option]);
+                                  } else {
+                                    field.onChange(currentValue.filter((v: string) => v !== option));
+                                  }
+                                }} />
                                     <label htmlFor={`alcohol-${option}`} className="text-sm">{option}</label>
-                                  </div>
-                                ))}
+                                  </div>)}
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="illegalSubstancesProhibited"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <FormField control={form.control} name="illegalSubstancesProhibited" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Illegal Substances Prohibited</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="firearmsWeaponsNotAllowed"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="firearmsWeaponsNotAllowed" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">Firearms / Weapons Not Allowed</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="noPartiesWithoutApproval"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              </FormItem>} />
+                          <FormField control={form.control} name="noPartiesWithoutApproval" render={({
+                              field
+                            }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                 <div className="space-y-0.5">
                                   <FormLabel className="text-base">No Parties Without Approval</FormLabel>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
                       </CardContent>
                     </Card>
@@ -3926,33 +3011,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Define the different cabin types available on your yacht. Defining the different types of cabins will automatically create Media upload sections for each cabin within the Media & Files tab</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {cabinTypes.map((cabin, index) => (
-                    <div key={index} className="border rounded-lg p-4 space-y-4">
+                  {cabinTypes.map((cabin, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
                       <div className="flex justify-between items-center">
                         <h4 className="font-medium">Cabin Type {index + 1}</h4>
-                        {cabinTypes.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeCabinType(index)}
-                          >
+                        {cabinTypes.length > 1 && <Button type="button" variant="ghost" size="sm" onClick={() => removeCabinType(index)}>
                             <X className="h-4 w-4" />
-                          </Button>
-                        )}
+                          </Button>}
                       </div>
                       <div className="space-y-4">
                         {/* Deck Level */}
                         <div>
                           <label className="text-sm font-medium">Deck Level</label>
-                          <Select
-                            value={cabin.deckLevel}
-                            onValueChange={(value) => {
-                              const updated = [...cabinTypes]
-                              updated[index].deckLevel = value
-                              setCabinTypes(updated)
-                            }}
-                          >
+                          <Select value={cabin.deckLevel} onValueChange={value => {
+                            const updated = [...cabinTypes];
+                            updated[index].deckLevel = value;
+                            setCabinTypes(updated);
+                          }}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select deck level" />
                             </SelectTrigger>
@@ -3972,14 +3046,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         {/* Cabin Type */}
                         <div>
                           <label className="text-sm font-medium">Cabin Type</label>
-                          <Select
-                            value={cabin.cabinType}
-                            onValueChange={(value) => {
-                              const updated = [...cabinTypes]
-                              updated[index].cabinType = value
-                              setCabinTypes(updated)
-                            }}
-                          >
+                          <Select value={cabin.cabinType} onValueChange={value => {
+                            const updated = [...cabinTypes];
+                            updated[index].cabinType = value;
+                            setCabinTypes(updated);
+                          }}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select cabin type" />
                             </SelectTrigger>
@@ -4032,26 +3103,21 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <div>
                           <label className="text-sm font-medium">Bed Configuration</label>
                           <div className="grid grid-cols-3 gap-2 mt-2">
-                            {['King Bed', 'Queen Bed', 'Double Bed', 'Single Bed', 'Twin Beds', 'Bunk Beds (2+)', 'Pullman Bed', 'Sofa Bed', 'Custom'].map((bed) => (
-                              <label key={bed} className="flex items-center space-x-2 text-sm">
-                                <Checkbox
-                                  checked={cabin.bedConfiguration?.includes(bed) || false}
-                                  onCheckedChange={(checked) => {
-                                    const updated = [...cabinTypes]
-                                    if (!updated[index].bedConfiguration) {
-                                      updated[index].bedConfiguration = []
-                                    }
-                                    if (checked) {
-                                      updated[index].bedConfiguration = [...updated[index].bedConfiguration, bed]
-                                    } else {
-                                      updated[index].bedConfiguration = updated[index].bedConfiguration.filter(b => b !== bed)
-                                    }
-                                    setCabinTypes(updated)
-                                  }}
-                                />
+                            {['King Bed', 'Queen Bed', 'Double Bed', 'Single Bed', 'Twin Beds', 'Bunk Beds (2+)', 'Pullman Bed', 'Sofa Bed', 'Custom'].map(bed => <label key={bed} className="flex items-center space-x-2 text-sm">
+                                <Checkbox checked={cabin.bedConfiguration?.includes(bed) || false} onCheckedChange={checked => {
+                                const updated = [...cabinTypes];
+                                if (!updated[index].bedConfiguration) {
+                                  updated[index].bedConfiguration = [];
+                                }
+                                if (checked) {
+                                  updated[index].bedConfiguration = [...updated[index].bedConfiguration, bed];
+                                } else {
+                                  updated[index].bedConfiguration = updated[index].bedConfiguration.filter(b => b !== bed);
+                                }
+                                setCabinTypes(updated);
+                              }} />
                                 <span>{bed}</span>
-                              </label>
-                            ))}
+                              </label>)}
                           </div>
                         </div>
 
@@ -4059,31 +3125,21 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <div>
                           <label className="text-sm font-medium">Cabin Features</label>
                           <div className="grid grid-cols-3 gap-2 mt-2">
-                            {[
-                              'Ensuite Bathroom', 'Shared Bathroom', 'Shower', 'Bathtub', 'Walk-in Closet', 'Vanity / Desk',
-                              'Sofa Seating Area', 'Sea View / Windows', 'Porthole Only', 'Balcony / Terrace', 'Skylight / Overhead Hatch',
-                              'Entertainment System', 'Soundproofing / Acoustic Treatment', 'Direct Access to Deck / Salon',
-                              'Private Office or Lounge', 'Safe / Lockbox', 'Accessible / Mobility Friendly'
-                            ].map((feature) => (
-                              <label key={feature} className="flex items-center space-x-2 text-sm">
-                                <Checkbox
-                                  checked={cabin.cabinFeatures?.includes(feature) || false}
-                                  onCheckedChange={(checked) => {
-                                    const updated = [...cabinTypes]
-                                    if (!updated[index].cabinFeatures) {
-                                      updated[index].cabinFeatures = []
-                                    }
-                                    if (checked) {
-                                      updated[index].cabinFeatures = [...updated[index].cabinFeatures, feature]
-                                    } else {
-                                      updated[index].cabinFeatures = updated[index].cabinFeatures.filter(f => f !== feature)
-                                    }
-                                    setCabinTypes(updated)
-                                  }}
-                                />
+                            {['Ensuite Bathroom', 'Shared Bathroom', 'Shower', 'Bathtub', 'Walk-in Closet', 'Vanity / Desk', 'Sofa Seating Area', 'Sea View / Windows', 'Porthole Only', 'Balcony / Terrace', 'Skylight / Overhead Hatch', 'Entertainment System', 'Soundproofing / Acoustic Treatment', 'Direct Access to Deck / Salon', 'Private Office or Lounge', 'Safe / Lockbox', 'Accessible / Mobility Friendly'].map(feature => <label key={feature} className="flex items-center space-x-2 text-sm">
+                                <Checkbox checked={cabin.cabinFeatures?.includes(feature) || false} onCheckedChange={checked => {
+                                const updated = [...cabinTypes];
+                                if (!updated[index].cabinFeatures) {
+                                  updated[index].cabinFeatures = [];
+                                }
+                                if (checked) {
+                                  updated[index].cabinFeatures = [...updated[index].cabinFeatures, feature];
+                                } else {
+                                  updated[index].cabinFeatures = updated[index].cabinFeatures.filter(f => f !== feature);
+                                }
+                                setCabinTypes(updated);
+                              }} />
                                 <span>{feature}</span>
-                              </label>
-                            ))}
+                              </label>)}
                           </div>
                         </div>
 
@@ -4091,42 +3147,27 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <div className="grid grid-cols-3 gap-4">
                           <div>
                             <label className="text-sm font-medium">Cabin Name</label>
-                            <Input
-                              placeholder="e.g., Master Suite, VIP Cabin"
-                              value={cabin.name}
-                              onChange={(e) => {
-                                const updated = [...cabinTypes]
-                                updated[index].name = e.target.value
-                                setCabinTypes(updated)
-                              }}
-                            />
+                            <Input placeholder="e.g., Master Suite, VIP Cabin" value={cabin.name} onChange={e => {
+                              const updated = [...cabinTypes];
+                              updated[index].name = e.target.value;
+                              setCabinTypes(updated);
+                            }} />
                           </div>
                           <div>
                             <label className="text-sm font-medium">Sleeps (Pax Count)</label>
-                            <Input
-                              type="number"
-                              placeholder="2"
-                              min="1"
-                              max="10"
-                              value={cabin.sleeps}
-                              onChange={(e) => {
-                                const updated = [...cabinTypes]
-                                updated[index].sleeps = parseInt(e.target.value) || 1
-                                setCabinTypes(updated)
-                              }}
-                            />
+                            <Input type="number" placeholder="2" min="1" max="10" value={cabin.sleeps} onChange={e => {
+                              const updated = [...cabinTypes];
+                              updated[index].sleeps = parseInt(e.target.value) || 1;
+                              setCabinTypes(updated);
+                            }} />
                           </div>
                           <div>
                             <label className="text-sm font-medium">Description</label>
-                            <Input
-                              placeholder="Brief description"
-                              value={cabin.description}
-                              onChange={(e) => {
-                                const updated = [...cabinTypes]
-                                updated[index].description = e.target.value
-                                setCabinTypes(updated)
-                              }}
-                            />
+                            <Input placeholder="Brief description" value={cabin.description} onChange={e => {
+                              const updated = [...cabinTypes];
+                              updated[index].description = e.target.value;
+                              setCabinTypes(updated);
+                            }} />
                           </div>
                         </div>
 
@@ -4136,34 +3177,20 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <label className="text-sm font-medium">360° Virtual Tour</label>
-                              <Input
-                                type="file"
-                                accept=".jpg,.jpeg,.png"
-                                placeholder="Upload 360° tour"
-                              />
+                              <Input type="file" accept=".jpg,.jpeg,.png" placeholder="Upload 360° tour" />
                             </div>
                             <div>
                               <label className="text-sm font-medium">Photos</label>
-                              <Input
-                                type="file"
-                                multiple
-                                accept=".jpg,.jpeg,.png"
-                                placeholder="Upload photos"
-                              />
+                              <Input type="file" multiple accept=".jpg,.jpeg,.png" placeholder="Upload photos" />
                             </div>
                           </div>
                           <div className="mt-2">
                             <label className="text-sm font-medium">Floorplan / Layout</label>
-                            <Input
-                              type="file"
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              placeholder="Upload floorplan"
-                            />
+                            <Input type="file" accept=".pdf,.jpg,.jpeg,.png" placeholder="Upload floorplan" />
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                   <Button type="button" variant="outline" onClick={addCabinType}>
                     <Plus className="h-4 w-4 mr-2" />
                     Add Cabin Type
@@ -4180,45 +3207,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select interior features available on your yacht</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="interiorAmenities"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="interiorAmenities" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Main Salon", "Formal Dining Area", "Skylounge / Upper Salon", "Cinema / Movie Room",
-                            "Library / Study / Office", "Wine Cellar / Humidor", "Bar (Interior)", "Observation Lounge",
-                            "Fireplace", "Elevator / Lift", "Onboard Art Collection", "Grand Piano",
-                            "Aquarium", "Interior Sound System", "Smart Home Controls", "Air Conditioning", "Heating System"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="interiorAmenities"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Main Salon", "Formal Dining Area", "Skylounge / Upper Salon", "Cinema / Movie Room", "Library / Study / Office", "Wine Cellar / Humidor", "Bar (Interior)", "Observation Lounge", "Fireplace", "Elevator / Lift", "Onboard Art Collection", "Grand Piano", "Aquarium", "Interior Sound System", "Smart Home Controls", "Air Conditioning", "Heating System"].map(item => <FormField key={item} control={form.control} name="interiorAmenities" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4229,43 +3233,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select accommodation features and amenities</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="accommodationFeatures"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="accommodationFeatures" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Owner's Suite", "VIP Suites", "Ensuite Bathrooms", "Walk-in Closets",
-                            "Massage Room", "Hammam / Steam Room", "Sauna", "Interior Jacuzzi"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="accommodationFeatures"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Owner's Suite", "VIP Suites", "Ensuite Bathrooms", "Walk-in Closets", "Massage Room", "Hammam / Steam Room", "Sauna", "Interior Jacuzzi"].map(item => <FormField key={item} control={form.control} name="accommodationFeatures" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4276,46 +3259,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select exterior features and deck amenities</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="exteriorAmenities"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="exteriorAmenities" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Sun Deck with Loungers", "Exterior Jacuzzi", "Infinity Pool / Plunge Pool", "Al Fresco Dining Area",
-                            "Outdoor Bar / BBQ", "Beach Club", "Fold-Down Balconies", "Swim Platform",
-                            "On-Deck Showers", "Day Beds / Cabana Setup", "Outdoor Cinema", "Fire Pit",
-                            "Open-Air Gym", "Helipad", "Outdoor Sound System", "Deck Shade Awnings",
-                            "Underwater Lighting", "Heated Decks"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="exteriorAmenities"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Sun Deck with Loungers", "Exterior Jacuzzi", "Infinity Pool / Plunge Pool", "Al Fresco Dining Area", "Outdoor Bar / BBQ", "Beach Club", "Fold-Down Balconies", "Swim Platform", "On-Deck Showers", "Day Beds / Cabana Setup", "Outdoor Cinema", "Fire Pit", "Open-Air Gym", "Helipad", "Outdoor Sound System", "Deck Shade Awnings", "Underwater Lighting", "Heated Decks"].map(item => <FormField key={item} control={form.control} name="exteriorAmenities" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4326,43 +3285,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select wellness and fitness facilities</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="wellnessAndFitness"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="wellnessAndFitness" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Fully Equipped Gym", "Yoga / Pilates Area", "Spa / Treatment Room", "Hammam / Sauna / Steam Room",
-                            "Beauty Salon", "Massage Therapist Cabin", "Medical Room"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="wellnessAndFitness"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Fully Equipped Gym", "Yoga / Pilates Area", "Spa / Treatment Room", "Hammam / Sauna / Steam Room", "Beauty Salon", "Massage Therapist Cabin", "Medical Room"].map(item => <FormField key={item} control={form.control} name="wellnessAndFitness" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4373,43 +3311,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select entertainment and technology features</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="entertainmentTech"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="entertainmentTech" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Satellite TV / Streaming", "High-Speed Wi-Fi", "Gaming Console", "Karaoke System",
-                            "DJ Booth", "Drone Equipment", "Conference Room", "Media Server / Apple TV", "Tablet / iPad Controls"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="entertainmentTech"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Satellite TV / Streaming", "High-Speed Wi-Fi", "Gaming Console", "Karaoke System", "DJ Booth", "Drone Equipment", "Conference Room", "Media Server / Apple TV", "Tablet / iPad Controls"].map(item => <FormField key={item} control={form.control} name="entertainmentTech" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4420,43 +3337,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select galley and culinary amenities</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="galleyFeatures"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="galleyFeatures" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Commercial Galley", "Teppanyaki Grill", "Pizza Oven", "Wine Cellar / Fridge",
-                            "Juice Bar", "Chef's Table", "Cold Room", "Walk-In Freezer"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="galleyFeatures"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Commercial Galley", "Teppanyaki Grill", "Pizza Oven", "Wine Cellar / Fridge", "Juice Bar", "Chef's Table", "Cold Room", "Walk-In Freezer"].map(item => <FormField key={item} control={form.control} name="galleyFeatures" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4467,44 +3363,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select motorized water toys and equipment</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="waterToysMotorized"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="waterToysMotorized" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Jet Skis", "Seabobs", "eFoils / Fliteboards", "Jet Surfboards",
-                            "Hoverboards", "Tenders", "Waterski Equipment", "Towables (Donuts, Tubes)",
-                            "RIBs / Chase Boats", "Mini-Sub / Submarine", "Underwater Scooters"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="waterToysMotorized"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Jet Skis", "Seabobs", "eFoils / Fliteboards", "Jet Surfboards", "Hoverboards", "Tenders", "Waterski Equipment", "Towables (Donuts, Tubes)", "RIBs / Chase Boats", "Mini-Sub / Submarine", "Underwater Scooters"].map(item => <FormField key={item} control={form.control} name="waterToysMotorized" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4515,44 +3389,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select non-motorized water toys and equipment</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="waterToysNonMotorized"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="waterToysNonMotorized" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Kayaks", "Paddleboards / SUPs", "Windsurfers", "Surfboards",
-                            "Kiteboarding Gear", "Snorkeling Gear", "Scuba Diving Equipment", "Inflatable Water Park",
-                            "Floating Pool / Jellyfish Net", "Beach Setups", "Fishing Gear"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="waterToysNonMotorized"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Kayaks", "Paddleboards / SUPs", "Windsurfers", "Surfboards", "Kiteboarding Gear", "Snorkeling Gear", "Scuba Diving Equipment", "Inflatable Water Park", "Floating Pool / Jellyfish Net", "Beach Setups", "Fishing Gear"].map(item => <FormField key={item} control={form.control} name="waterToysNonMotorized" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4563,44 +3415,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select adventure and exploration equipment</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="adventureGear"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="adventureGear" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Dive Compressor", "Rebreathers", "Diving Suits", "Underwater Cameras",
-                            "FPV Drones", "Expedition Tools", "Snowmobiles", "Bikes",
-                            "Off-Road Vehicles", "Jetpack / Flyboard", "Helicopter", "Support Vessel"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="adventureGear"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Dive Compressor", "Rebreathers", "Diving Suits", "Underwater Cameras", "FPV Drones", "Expedition Tools", "Snowmobiles", "Bikes", "Off-Road Vehicles", "Jetpack / Flyboard", "Helicopter", "Support Vessel"].map(item => <FormField key={item} control={form.control} name="adventureGear" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4611,44 +3441,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select crew and support services</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="crewSupport"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="crewSupport" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Dedicated Crew Quarters", "Captain's Cabin", "Crew Mess & Lounge", "Onboard Chef",
-                            "Masseuse / Spa Therapist", "Dive Instructor", "Watersports Instructor", "Personal Trainer",
-                            "Nanny / Children's Staff", "Event Host / DJ"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="crewSupport"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Dedicated Crew Quarters", "Captain's Cabin", "Crew Mess & Lounge", "Onboard Chef", "Masseuse / Spa Therapist", "Dive Instructor", "Watersports Instructor", "Personal Trainer", "Nanny / Children's Staff", "Event Host / DJ"].map(item => <FormField key={item} control={form.control} name="crewSupport" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
 
@@ -4659,43 +3467,22 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Select certifications and special capabilities</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="certificationsCapabilities"
-                    render={() => (
-                      <FormItem>
+                  <FormField control={form.control} name="certificationsCapabilities" render={() => <FormItem>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {[
-                            "Commercial Charter Compliant", "MCA / MLC Certified", "Wheelchair Accessible", "Pet-Friendly",
-                            "Zero-Speed Stabilizers", "Cruising Permit (Specific Regions)", "Winterized / Ice Class", "Green Tech (Hybrid, Solar, etc.)"
-                          ].map((item) => (
-                            <FormField
-                              key={item}
-                              control={form.control}
-                              name="certificationsCapabilities"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                          {["Commercial Charter Compliant", "MCA / MLC Certified", "Wheelchair Accessible", "Pet-Friendly", "Zero-Speed Stabilizers", "Cruising Permit (Specific Regions)", "Winterized / Ice Class", "Green Tech (Hybrid, Solar, etc.)"].map(item => <FormField key={item} control={form.control} name="certificationsCapabilities" render={({
+                          field
+                        }) => {
+                          return <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
                                     <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(item)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...(field.value || []), item])
-                                            : field.onChange(field.value?.filter((value: string) => value !== item))
-                                        }}
-                                      />
+                                      <Checkbox checked={field.value?.includes(item)} onCheckedChange={checked => {
+                                return checked ? field.onChange([...(field.value || []), item]) : field.onChange(field.value?.filter((value: string) => value !== item));
+                              }} />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">{item}</FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
+                                  </FormItem>;
+                        }} />)}
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
             </TabsContent>
@@ -4714,37 +3501,21 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       <Link className="h-4 w-4" />
                       360 Virtual Tours
                     </h4>
-                    {yachtVirtualTours.map((tour, index) => (
-                      <div key={index} className="border rounded-lg p-4 space-y-4">
+                    {yachtVirtualTours.map((tour, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
                         <div className="flex justify-between items-center">
                           <span className="font-medium">Tour {index + 1}</span>
-                          {yachtVirtualTours.length > 1 && (
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => removeYachtVirtualTour(index)}
-                            >
+                          {yachtVirtualTours.length > 1 && <Button type="button" variant="ghost" size="sm" onClick={() => removeYachtVirtualTour(index)}>
                               <X className="h-4 w-4" />
-                            </Button>
-                          )}
+                            </Button>}
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="text-sm font-medium">Tour Name</label>
-                            <Input
-                              placeholder="e.g., Main Deck Tour"
-                              value={tour.name}
-                              onChange={(e) => updateYachtVirtualTour(index, 'name', e.target.value)}
-                            />
+                            <Input placeholder="e.g., Main Deck Tour" value={tour.name} onChange={e => updateYachtVirtualTour(index, 'name', e.target.value)} />
                           </div>
                           <div>
                             <label className="text-sm font-medium">URL Link</label>
-                            <Input
-                              placeholder="https://..."
-                              value={tour.url}
-                              onChange={(e) => updateYachtVirtualTour(index, 'url', e.target.value)}
-                            />
+                            <Input placeholder="https://..." value={tour.url} onChange={e => updateYachtVirtualTour(index, 'url', e.target.value)} />
                           </div>
                         </div>
                         <div>
@@ -4752,25 +3523,15 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
                             <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                             <p className="text-sm text-muted-foreground mb-2">Drag and drop video files here, or</p>
-                            <Input
-                              type="file"
-                              accept=".mp4,.mov,.avi"
-                              className="hidden"
-                              id={`tour-upload-${index}`}
-                              onChange={(e) => updateYachtVirtualTour(index, 'file', e.target.files?.[0])}
-                            />
-                            <label
-                              htmlFor={`tour-upload-${index}`}
-                              className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                            >
+                            <Input type="file" accept=".mp4,.mov,.avi" className="hidden" id={`tour-upload-${index}`} onChange={e => updateYachtVirtualTour(index, 'file', e.target.files?.[0])} />
+                            <label htmlFor={`tour-upload-${index}`} className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                               <Upload className="h-4 w-4 mr-2" />
                               Choose File
                             </label>
                             <p className="text-xs text-muted-foreground mt-2">MP4, MOV, AVI up to 100MB</p>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                     <Button type="button" variant="outline" onClick={addYachtVirtualTour}>
                       <Plus className="h-4 w-4 mr-2" />
                       Add Another Tour
@@ -4789,10 +3550,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <Image className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                         <p className="text-sm text-muted-foreground mb-2">Drag and drop images here, or</p>
                         <Input type="file" multiple accept="image/*" className="hidden" id="photos-upload" />
-                        <label
-                          htmlFor="photos-upload"
-                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                        >
+                        <label htmlFor="photos-upload" className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                           <Upload className="h-4 w-4 mr-2" />
                           Choose Files
                         </label>
@@ -4817,10 +3575,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <Video className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                         <p className="text-sm text-muted-foreground mb-2">Drag and drop videos here, or</p>
                         <Input type="file" multiple accept="video/*" className="hidden" id="videos-upload" />
-                        <label
-                          htmlFor="videos-upload"
-                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                        >
+                        <label htmlFor="videos-upload" className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                           <Upload className="h-4 w-4 mr-2" />
                           Choose Files
                         </label>
@@ -4845,10 +3600,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <Plane className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                         <p className="text-sm text-muted-foreground mb-2">Drag and drop drone footage here, or</p>
                         <Input type="file" multiple accept="video/*" className="hidden" id="drone-upload" />
-                        <label
-                          htmlFor="drone-upload"
-                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                        >
+                        <label htmlFor="drone-upload" className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                           <Upload className="h-4 w-4 mr-2" />
                           Choose Files
                         </label>
@@ -4873,10 +3625,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                         <p className="text-sm text-muted-foreground mb-2">Drag and drop floor plans here, or</p>
                         <Input type="file" multiple accept=".pdf,.jpg,.png" className="hidden" id="floorplans-upload" />
-                        <label
-                          htmlFor="floorplans-upload"
-                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                        >
+                        <label htmlFor="floorplans-upload" className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                           <Upload className="h-4 w-4 mr-2" />
                           Choose Files
                         </label>
@@ -4901,10 +3650,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                         <p className="text-sm text-muted-foreground mb-2">Drag and drop documents here, or</p>
                         <Input type="file" multiple accept=".pdf,.doc,.docx" className="hidden" id="documents-upload" />
-                        <label
-                          htmlFor="documents-upload"
-                          className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                        >
+                        <label htmlFor="documents-upload" className="inline-flex items-center px-3 py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                           <Upload className="h-4 w-4 mr-2" />
                           Choose Files
                         </label>
@@ -4920,15 +3666,13 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               </Card>
 
               {/* Deck Spaces Media */}
-              {deckSpaces.length > 0 && deckSpaces.some(space => space.name) && (
-                <Card>
+              {deckSpaces.length > 0 && deckSpaces.some(space => space.name) && <Card>
                   <CardHeader>
                     <CardTitle>Media for Deck Spaces</CardTitle>
                     <CardDescription>Upload media for each deck space you've defined</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {deckSpaces.filter(space => space.name).map((space, index) => (
-                      <div key={index} className="border rounded-lg p-4 space-y-4">
+                    {deckSpaces.filter(space => space.name).map((space, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
                         <h4 className="font-medium">{space.name}</h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -4936,10 +3680,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Upload className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" accept="video/*" className="hidden" id={`deck-tour-${index}`} />
-                              <label
-                                htmlFor={`deck-tour-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`deck-tour-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose File
                               </label>
                             </div>
@@ -4950,10 +3691,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Image className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" multiple accept="image/*" className="hidden" id={`deck-photos-${index}`} />
-                              <label
-                                htmlFor={`deck-photos-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`deck-photos-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose Files
                               </label>
                             </div>
@@ -4965,10 +3703,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Video className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" multiple accept="video/*" className="hidden" id={`deck-videos-${index}`} />
-                              <label
-                                htmlFor={`deck-videos-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`deck-videos-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose Files
                               </label>
                             </div>
@@ -4978,31 +3713,24 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Plane className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" multiple accept="video/*" className="hidden" id={`deck-drone-${index}`} />
-                              <label
-                                htmlFor={`deck-drone-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`deck-drone-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose Files
                               </label>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                   </CardContent>
-                </Card>
-              )}
+                </Card>}
 
               {/* Cabin Types Media */}
-              {cabinTypes.length > 0 && cabinTypes.some(cabin => cabin.name) && (
-                <Card>
+              {cabinTypes.length > 0 && cabinTypes.some(cabin => cabin.name) && <Card>
                   <CardHeader>
                     <CardTitle>Media for Cabin Types</CardTitle>
                     <CardDescription>Upload media for each cabin type you've defined</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {cabinTypes.filter(cabin => cabin.name).map((cabin, index) => (
-                      <div key={index} className="border rounded-lg p-4 space-y-4">
+                    {cabinTypes.filter(cabin => cabin.name).map((cabin, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
                         <h4 className="font-medium">{cabin.name}</h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -5010,10 +3738,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Upload className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" accept="video/*" className="hidden" id={`cabin-tour-${index}`} />
-                              <label
-                                htmlFor={`cabin-tour-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`cabin-tour-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose File
                               </label>
                             </div>
@@ -5024,10 +3749,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Image className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" multiple accept="image/*" className="hidden" id={`cabin-photos-${index}`} />
-                              <label
-                                htmlFor={`cabin-photos-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`cabin-photos-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose Files
                               </label>
                             </div>
@@ -5039,10 +3761,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <Video className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" accept="video/*" className="hidden" id={`cabin-video-${index}`} />
-                              <label
-                                htmlFor={`cabin-video-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`cabin-video-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose File
                               </label>
                             </div>
@@ -5052,10 +3771,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                               <FileText className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
                               <Input type="file" accept=".pdf,.jpg,.png" className="hidden" id={`cabin-floorplan-${index}`} />
-                              <label
-                                htmlFor={`cabin-floorplan-${index}`}
-                                className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                              >
+                              <label htmlFor={`cabin-floorplan-${index}`} className="inline-flex items-center px-2 py-1 border border-primary text-primary rounded text-xs font-medium hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
                                 Choose File
                               </label>
                             </div>
@@ -5065,11 +3781,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           <Checkbox />
                           <label className="text-sm">Mark as featured media for this cabin</label>
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                   </CardContent>
-                </Card>
-              )}
+                </Card>}
 
               {/* Save as Draft */}
               <div className="flex justify-center">
@@ -5088,11 +3802,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="cabinAccess"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="cabinAccess" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Cabins</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5107,14 +3819,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="galleyAccess"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="galleyAccess" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Galley (Kitchen)</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5128,17 +3836,13 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="bridgeAccess"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="bridgeAccess" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Bridge / Helm Station</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5152,14 +3856,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="tenderGarage"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="tenderGarage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Tender Garage</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5173,17 +3873,13 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="swimPlatform"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="swimPlatform" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Swim Platform</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5197,14 +3893,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="waterToys"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="waterToys" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Water Toys</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5219,17 +3911,13 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="jacuzziAccess"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="jacuzziAccess" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Jacuzzi / Spa</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5244,14 +3932,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="wifiAccess"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="wifiAccess" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Wi-Fi Access</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5266,9 +3950,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -5282,11 +3964,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="dailyHousekeeping"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="dailyHousekeeping" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Daily Housekeeping</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5301,14 +3981,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="laundryService"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="laundryService" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Laundry Service</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -5323,38 +3999,28 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="cleaningFee"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="cleaningFee" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Post-Charter Cleaning Fee</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., Included in charter rate or €500" {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={form.control}
-                    name="crewTipGuidelines"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="crewTipGuidelines" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Crew Tip Guidelines</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., 10-15% of charter fee" {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
             </TabsContent>
@@ -5375,52 +4041,33 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleTrigger>
                       <CollapsibleContent className="p-4 space-y-4">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="certifiedLifejackets"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="certifiedLifejackets" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Certified Lifejackets (incl. child sizes)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                           
-                          <FormField
-                            control={form.control}
-                            name="inflatableLifeRafts"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="inflatableLifeRafts" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Inflatable Life Rafts
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="epirb"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="epirb" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   <Tooltip>
@@ -5433,110 +4080,68 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                     </TooltipContent>
                                   </Tooltip>
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="fireExtinguishers"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="fireExtinguishers" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Fire Extinguishers (in all areas)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="fireSuppressionSystem"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="fireSuppressionSystem" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Fire Suppression System (engine room/galley)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="smokeCoDetectors"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="smokeCoDetectors" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Smoke & CO2 Detectors
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="emergencyFlares"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="emergencyFlares" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Emergency Flares & Signal Devices
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="satellitePhone"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="satellitePhone" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Satellite Phone / Emergency Comms System
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="aedDefibrillator"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="aedDefibrillator" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   <Tooltip>
@@ -5549,97 +4154,61 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                     </TooltipContent>
                                   </Tooltip>
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="firstAidKit"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="firstAidKit" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   First Aid Kit (up-to-date)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="emergencyLighting"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="emergencyLighting" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Emergency Lighting
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="musterStation"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="musterStation" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Muster Station / Assembly Area
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        {form.watch("inflatableLifeRafts") && (
-                          <FormField
-                            control={form.control}
-                            name="lifeRaftCapacity"
-                            render={({ field }) => (
-                              <FormItem>
+                        {form.watch("inflatableLifeRafts") && <FormField control={form.control} name="lifeRaftCapacity" render={({
+                            field
+                          }) => <FormItem>
                                 <FormLabel>Life Raft Capacity</FormLabel>
                                 <FormControl>
                                   <Input placeholder="e.g., 12 persons" {...field} />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
+                              </FormItem>} />}
 
-                        <FormField
-                          control={form.control}
-                          name="generalSafetyNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="generalSafetyNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Additional Notes (General Safety)</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., Replaced AED in 2024, Life rafts serviced annually..." 
-                                  {...field} 
-                                />
+                                <Textarea placeholder="e.g., Replaced AED in 2024, Life rafts serviced annually..." {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CollapsibleContent>
                     </Collapsible>
 
@@ -5651,16 +4220,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleTrigger>
                       <CollapsibleContent className="p-4 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="captainCommercialLicense"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="captainCommercialLicense" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   <Tooltip>
@@ -5673,135 +4237,84 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                     </TooltipContent>
                                   </Tooltip>
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="crewStcwCertified"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="crewStcwCertified" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   All crew are STCW certified
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="safetyBriefingRequired"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="safetyBriefingRequired" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Safety briefing required on embarkation
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="trainedMedicalResponder"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="trainedMedicalResponder" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Trained medical responder onboard
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="regularSafetyDrills"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="regularSafetyDrills" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Regular crew safety drills conducted
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="evacuationPlanPosted"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="evacuationPlanPosted" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Posted emergency evacuation plan
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="childElderlySafetyProcedures"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="childElderlySafetyProcedures" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Child/elderly safety procedures in place
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="crewCertificationNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="crewCertificationNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Additional Notes (Crew Certifications)</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., Captain has 15 years experience, Chief Officer is certified paramedic..." 
-                                  {...field} 
-                                />
+                                <Textarea placeholder="e.g., Captain has 15 years experience, Chief Officer is certified paramedic..." {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CollapsibleContent>
                     </Collapsible>
 
@@ -5813,149 +4326,93 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleTrigger>
                       <CollapsibleContent className="p-4 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="fireproofMaterials"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="fireproofMaterials" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Fireproof cabin and interior materials
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="fireRetardantUpholstery"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="fireRetardantUpholstery" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Fire retardant upholstery and fabrics
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="galleyFireSuppression"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="galleyFireSuppression" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Galley fire suppression system
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="circuitBreakers"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="circuitBreakers" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Circuit breakers with surge protection
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="engineRoomSealed"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="engineRoomSealed" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Engine room is sealed and fire-rated
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="smokeAlarmsAllAreas"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="smokeAlarmsAllAreas" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Smoke alarms in all guest and crew areas
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="batteryCutoffSystems"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="batteryCutoffSystems" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Battery cutoff and isolation systems
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="fireElectricalSafetyNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="fireElectricalSafetyNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Additional Notes (Fire & Electrical Safety)</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., Fire suppression system serviced 2024, All electrical systems inspected annually..." 
-                                  {...field} 
-                                />
+                                <Textarea placeholder="e.g., Fire suppression system serviced 2024, All electrical systems inspected annually..." {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CollapsibleContent>
                     </Collapsible>
 
@@ -5967,16 +4424,11 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleTrigger>
                       <CollapsibleContent className="p-4 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="aisRadarGpsActive"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="aisRadarGpsActive" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   <Tooltip>
@@ -5989,117 +4441,73 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                     </TooltipContent>
                                   </Tooltip>
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="stabilizers"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="stabilizers" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Stabilizers (zero-speed or underway)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="weatherMonitoring"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="weatherMonitoring" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Weather monitoring system
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="redundantNavigation"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="redundantNavigation" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Dual/redundant navigation systems
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="vhfRadioBridge24_7"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="vhfRadioBridge24_7" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   VHF radio and bridge watch active 24/7
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="bridgeAccessRestricted"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="bridgeAccessRestricted" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Bridge access restricted while underway
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="navigationalSafetyNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="navigationalSafetyNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Additional Notes (Navigational Safety)</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., Dual GPS systems installed, Weather routing software updated..." 
-                                  {...field} 
-                                />
+                                <Textarea placeholder="e.g., Dual GPS systems installed, Weather routing software updated..." {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CollapsibleContent>
                     </Collapsible>
 
@@ -6111,167 +4519,104 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleTrigger>
                       <CollapsibleContent className="p-4 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="nonSlipDeckSurfaces"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="nonSlipDeckSurfaces" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Non-slip deck surfaces
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="childSafeRailings"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="childSafeRailings" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Child-safe railings or safety nets
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="grabHandles"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="grabHandles" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Grab handles on stairs and bathrooms
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="swimmingZonesMarked"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="swimmingZonesMarked" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Swimming zones clearly marked
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="waterToysSupervised"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="waterToysSupervised" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Use of water toys supervised
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="antiJellyfishPool"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="antiJellyfishPool" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Anti-jellyfish pool available
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="deckLightingNight"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="deckLightingNight" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Deck lighting at night
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="uvProtectedAreas"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="uvProtectedAreas" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   UV-protected outdoor shaded areas
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="physicalDeckSafetyNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="physicalDeckSafetyNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Additional Notes (Physical & Deck Safety)</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., New non-slip coating applied 2024, Safety nets installed for families..." 
-                                  {...field} 
-                                />
+                                <Textarea placeholder="e.g., New non-slip coating applied 2024, Safety nets installed for families..." {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CollapsibleContent>
                     </Collapsible>
 
@@ -6283,52 +4628,33 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleTrigger>
                       <CollapsibleContent className="p-4 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="medicalGradeFirstAid"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="medicalGradeFirstAid" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Medical-grade first aid kit onboard
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="dedicatedMedicalStorage"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="dedicatedMedicalStorage" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Dedicated medical storage area
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="nearbyHospitalsListed"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="nearbyHospitalsListed" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   <Tooltip>
@@ -6341,109 +4667,70 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                     </TooltipContent>
                                   </Tooltip>
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="nurseMedicOnboard"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="nurseMedicOnboard" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Nurse/medic onboard (full-time or on-call)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="emergencyEvacuationPlan"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="emergencyEvacuationPlan" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Emergency evacuation plan available (sea/air)
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="sanitizerStations"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="sanitizerStations" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Sanitizer stations onboard
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
 
-                          <FormField
-                            control={form.control}
-                            name="healthSanitationProtocols"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                          <FormField control={form.control} name="healthSanitationProtocols" render={({
+                              field
+                            }) => <FormItem className="flex items-center space-x-2">
                                 <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                                 <FormLabel className="text-sm font-normal">
                                   Covid-19 / health sanitation protocols enforced
                                 </FormLabel>
-                              </FormItem>
-                            )}
-                          />
+                              </FormItem>} />
                         </div>
 
-                        <FormField
-                          control={form.control}
-                          name="medicalSanitationNotes"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="medicalSanitationNotes" render={({
+                            field
+                          }) => <FormItem>
                               <FormLabel>Additional Notes (Medical & Sanitation)</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., Crew member certified in advanced first aid, helicopter landing zone available..." 
-                                  {...field} 
-                                />
+                                <Textarea placeholder="e.g., Crew member certified in advanced first aid, helicopter landing zone available..." {...field} />
                               </FormControl>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </CollapsibleContent>
                     </Collapsible>
 
                     {/* Verified by Captain Toggle */}
                     <div className="pt-4 border-t">
-                      <FormField
-                        control={form.control}
-                        name="verifiedByCaptain"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between">
+                      <FormField control={form.control} name="verifiedByCaptain" render={({
+                          field
+                        }) => <FormItem className="flex items-center justify-between">
                             <div className="space-y-0.5">
                               <FormLabel className="text-base font-medium">
                                 Verified by Captain
@@ -6453,21 +4740,14 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </FormDescription>
                             </div>
                             <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
+                              <Switch checked={field.value} onCheckedChange={field.onChange} />
                             </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                          </FormItem>} />
                     </div>
                     <div className="pt-4 border-t">
-                      <FormField
-                        control={form.control}
-                        name="verifiedByCaptain"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between">
+                      <FormField control={form.control} name="verifiedByCaptain" render={({
+                          field
+                        }) => <FormItem className="flex items-center justify-between">
                             <div className="space-y-0.5">
                               <FormLabel className="text-base font-medium">
                                 Verified by Captain
@@ -6477,14 +4757,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </FormDescription>
                             </div>
                             <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
+                              <Switch checked={field.value} onCheckedChange={field.onChange} />
                             </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                          </FormItem>} />
                     </div>
                   </TooltipProvider>
                 </CardContent>
@@ -6498,26 +4773,20 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Set geographical and location restrictions</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="allowedRegions"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="allowedRegions" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Allowed Cruising Regions</FormLabel>
                         <FormControl>
                           <Textarea placeholder="e.g., Amalfi Coast only, French Riviera, Balearic Islands..." {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="portAccessRules"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="portAccessRules" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Port Access Rules</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -6532,14 +4801,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="overnightAnchor"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="overnightAnchor" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Overnight at Anchor Allowed</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -6554,16 +4819,12 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  <FormField
-                    control={form.control}
-                    name="dockingPermitted"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="dockingPermitted" render={({
+                      field
+                    }) => <FormItem>
                         <FormLabel>Docking Permitted During Charter</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -6578,9 +4839,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           </SelectContent>
                         </Select>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                 </CardContent>
               </Card>
             </TabsContent>
@@ -6593,11 +4852,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="securityDeposit"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="securityDeposit" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Security Deposit Required</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -6611,14 +4868,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="insuranceCoverage"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="insuranceCoverage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Insurance Coverage</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -6633,33 +4886,23 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
-                  {form.watch("securityDeposit") === "yes" && (
-                    <FormField
-                      control={form.control}
-                      name="depositAmount"
-                      render={({ field }) => (
-                        <FormItem>
+                  {form.watch("securityDeposit") === "yes" && <FormField control={form.control} name="depositAmount" render={({
+                      field
+                    }) => <FormItem>
                           <FormLabel>Security Deposit Amount</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., €10,000 or 20% of charter rate" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
+                        </FormItem>} />}
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="vatHandling"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="vatHandling" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>VAT / Tax Handling</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -6674,23 +4917,17 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="apaPercentage"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="apaPercentage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Advance Provisioning Allowance (%)</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
                           <FormDescription>Percentage of charter rate (typically 30%)</FormDescription>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -6711,16 +4948,35 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         🔝 Charter-Specific Documents
                       </AccordionTrigger>
                       <AccordionContent className="space-y-4">
-                        {[
-                          { name: "Charter Brochure / PDF", field: "charterBrochure", description: "Marketing or overview document for guests" },
-                          { name: "Sample Charter Contract", field: "sampleCharterContract", description: "MYBA, IYBA, or custom contract template" },
-                          { name: "APA Guidelines / Provisions Policy", field: "apaGuidelines", description: "Outline of how APA is managed" },
-                          { name: "Guest Welcome Pack / Yacht Manual", field: "guestWelcomePack", description: "Includes rules, crew contact, itinerary, etc." },
-                          { name: "Crew List & CVs", field: "crewListCvs", description: "Full crew profiles in PDF or spreadsheet" },
-                          { name: "Sample Menus", field: "sampleMenus", description: "Optional culinary previews" },
-                          { name: "Watersports & Toy Waivers", field: "watersportWaivers", description: "Jet ski licenses, dive waivers, etc." }
-                        ].map((doc) => (
-                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                        {[{
+                            name: "Charter Brochure / PDF",
+                            field: "charterBrochure",
+                            description: "Marketing or overview document for guests"
+                          }, {
+                            name: "Sample Charter Contract",
+                            field: "sampleCharterContract",
+                            description: "MYBA, IYBA, or custom contract template"
+                          }, {
+                            name: "APA Guidelines / Provisions Policy",
+                            field: "apaGuidelines",
+                            description: "Outline of how APA is managed"
+                          }, {
+                            name: "Guest Welcome Pack / Yacht Manual",
+                            field: "guestWelcomePack",
+                            description: "Includes rules, crew contact, itinerary, etc."
+                          }, {
+                            name: "Crew List & CVs",
+                            field: "crewListCvs",
+                            description: "Full crew profiles in PDF or spreadsheet"
+                          }, {
+                            name: "Sample Menus",
+                            field: "sampleMenus",
+                            description: "Optional culinary previews"
+                          }, {
+                            name: "Watersports & Toy Waivers",
+                            field: "watersportWaivers",
+                            description: "Jet ski licenses, dive waivers, etc."
+                          }].map(doc => <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{doc.name}</h4>
@@ -6764,13 +5020,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <div>
                                 <Label className="text-xs">Enter PIN Code</Label>
                                 <div className="flex gap-2">
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    className="h-8 flex-1"
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" className="h-8 flex-1" maxLength={10} minLength={4} />
                                   <div className="flex items-center gap-1">
                                     <Checkbox id={`show-pin-${doc.field}`} />
                                     <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
@@ -6799,8 +5049,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <Label className="text-xs">Notes</Label>
                               <Textarea placeholder="Additional comments..." className="h-20" />
                             </div>
-                          </div>
-                        ))}
+                          </div>)}
                       </AccordionContent>
                     </AccordionItem>
 
@@ -6810,14 +5059,27 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         🔝 Optional & Marketing Documents
                       </AccordionTrigger>
                       <AccordionContent className="space-y-4">
-                        {[
-                          { name: "Builder's Brochure (PDF)", field: "buildersBrochure", description: "Original promotional material" },
-                          { name: "Interior Design Documentation", field: "interiorDesignDocs", description: "Schematics, drawings, branded specs" },
-                          { name: "Awards or Press Mentions", field: "awardsPress", description: "PDF clippings or screenshots" },
-                          { name: "3D Tour / Matterport URL Document", field: "threeDTour", description: "PDF or .txt file with tour links or instructions" },
-                          { name: "Owner's Notes or Vessel Letter", field: "ownerNotes", description: "Custom comments, care notes, personal overview" }
-                        ].map((doc) => (
-                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                        {[{
+                            name: "Builder's Brochure (PDF)",
+                            field: "buildersBrochure",
+                            description: "Original promotional material"
+                          }, {
+                            name: "Interior Design Documentation",
+                            field: "interiorDesignDocs",
+                            description: "Schematics, drawings, branded specs"
+                          }, {
+                            name: "Awards or Press Mentions",
+                            field: "awardsPress",
+                            description: "PDF clippings or screenshots"
+                          }, {
+                            name: "3D Tour / Matterport URL Document",
+                            field: "threeDTour",
+                            description: "PDF or .txt file with tour links or instructions"
+                          }, {
+                            name: "Owner's Notes or Vessel Letter",
+                            field: "ownerNotes",
+                            description: "Custom comments, care notes, personal overview"
+                          }].map(doc => <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{doc.name}</h4>
@@ -6861,13 +5123,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <div>
                                 <Label className="text-xs">Enter PIN Code</Label>
                                 <div className="flex gap-2">
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    className="h-8 flex-1"
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" className="h-8 flex-1" maxLength={10} minLength={4} />
                                   <div className="flex items-center gap-1">
                                     <Checkbox id={`show-pin-${doc.field}`} />
                                     <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
@@ -6896,8 +5152,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <Label className="text-xs">Notes</Label>
                               <Textarea placeholder="Additional comments..." className="h-20" />
                             </div>
-                          </div>
-                        ))}
+                          </div>)}
                       </AccordionContent>
                     </AccordionItem>
 
@@ -6907,17 +5162,39 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         📂 Legal & Ownership Documents
                       </AccordionTrigger>
                       <AccordionContent className="space-y-4">
-                        {[
-                          { name: "Certificate of Registry", field: "certificateOfRegistry", description: "Flag and jurisdiction details" },
-                          { name: "Bill of Sale", field: "billOfSale", description: "For ownership transfer verification" },
-                          { name: "Builder's Certificate", field: "buildersCertificate", description: "Original manufacturing certificate" },
-                          { name: "Proof of Ownership", field: "proofOfOwnership", description: "Generic document upload field" },
-                          { name: "Certificate of Incorporation", field: "certificateOfIncorporation", description: "For legal entity listing" },
-                          { name: "VAT Status Documentation", field: "vatStatusDocs", description: "Paid/exempt declarations" },
-                          { name: "Charter License", field: "charterLicense", description: "Regional or flag authority licenses" },
-                          { name: "Local Cruising Permits", field: "cruisingPermits", description: "Temporary or area-based charter approvals" }
-                        ].map((doc) => (
-                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                        {[{
+                            name: "Certificate of Registry",
+                            field: "certificateOfRegistry",
+                            description: "Flag and jurisdiction details"
+                          }, {
+                            name: "Bill of Sale",
+                            field: "billOfSale",
+                            description: "For ownership transfer verification"
+                          }, {
+                            name: "Builder's Certificate",
+                            field: "buildersCertificate",
+                            description: "Original manufacturing certificate"
+                          }, {
+                            name: "Proof of Ownership",
+                            field: "proofOfOwnership",
+                            description: "Generic document upload field"
+                          }, {
+                            name: "Certificate of Incorporation",
+                            field: "certificateOfIncorporation",
+                            description: "For legal entity listing"
+                          }, {
+                            name: "VAT Status Documentation",
+                            field: "vatStatusDocs",
+                            description: "Paid/exempt declarations"
+                          }, {
+                            name: "Charter License",
+                            field: "charterLicense",
+                            description: "Regional or flag authority licenses"
+                          }, {
+                            name: "Local Cruising Permits",
+                            field: "cruisingPermits",
+                            description: "Temporary or area-based charter approvals"
+                          }].map(doc => <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{doc.name}</h4>
@@ -6961,13 +5238,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <div>
                                 <Label className="text-xs">Enter PIN Code</Label>
                                 <div className="flex gap-2">
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    className="h-8 flex-1"
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" className="h-8 flex-1" maxLength={10} minLength={4} />
                                   <div className="flex items-center gap-1">
                                     <Checkbox id={`show-pin-${doc.field}`} />
                                     <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
@@ -6996,8 +5267,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <Label className="text-xs">Notes</Label>
                               <Textarea placeholder="Additional comments..." className="h-20" />
                             </div>
-                          </div>
-                        ))}
+                          </div>)}
                       </AccordionContent>
                     </AccordionItem>
 
@@ -7007,17 +5277,39 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         📂 Compliance & Classification Documents
                       </AccordionTrigger>
                       <AccordionContent className="space-y-4">
-                        {[
-                          { name: "Class Certificate (BV, Lloyd's, etc.)", field: "classCertificate", description: "Required for many commercial charters" },
-                          { name: "Tonnage Certificate", field: "tonnageCertificate", description: "GT and NT data" },
-                          { name: "Load Line Certificate", field: "loadLineCertificate", description: "Required for >24m vessels" },
-                          { name: "MCA LY2 / LY3 / MLC 2006 Cert", field: "mcaCertificate", description: "Compliance with crew and safety standards" },
-                          { name: "ISM Compliance Certificate", field: "ismCertificate", description: "Safety management standard" },
-                          { name: "Fire & Safety Equipment Log", field: "fireAndSafetyLog", description: "Current or last audit log" },
-                          { name: "Charter Insurance Certificate", field: "charterInsurance", description: "Commercial P&I or hull coverage" },
-                          { name: "Survey Reports (last 3–5 years)", field: "surveyReports", description: "Full or summary inspections" }
-                        ].map((doc) => (
-                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                        {[{
+                            name: "Class Certificate (BV, Lloyd's, etc.)",
+                            field: "classCertificate",
+                            description: "Required for many commercial charters"
+                          }, {
+                            name: "Tonnage Certificate",
+                            field: "tonnageCertificate",
+                            description: "GT and NT data"
+                          }, {
+                            name: "Load Line Certificate",
+                            field: "loadLineCertificate",
+                            description: "Required for >24m vessels"
+                          }, {
+                            name: "MCA LY2 / LY3 / MLC 2006 Cert",
+                            field: "mcaCertificate",
+                            description: "Compliance with crew and safety standards"
+                          }, {
+                            name: "ISM Compliance Certificate",
+                            field: "ismCertificate",
+                            description: "Safety management standard"
+                          }, {
+                            name: "Fire & Safety Equipment Log",
+                            field: "fireAndSafetyLog",
+                            description: "Current or last audit log"
+                          }, {
+                            name: "Charter Insurance Certificate",
+                            field: "charterInsurance",
+                            description: "Commercial P&I or hull coverage"
+                          }, {
+                            name: "Survey Reports (last 3–5 years)",
+                            field: "surveyReports",
+                            description: "Full or summary inspections"
+                          }].map(doc => <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{doc.name}</h4>
@@ -7061,13 +5353,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <div>
                                 <Label className="text-xs">Enter PIN Code</Label>
                                 <div className="flex gap-2">
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    className="h-8 flex-1"
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" className="h-8 flex-1" maxLength={10} minLength={4} />
                                   <div className="flex items-center gap-1">
                                     <Checkbox id={`show-pin-${doc.field}`} />
                                     <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
@@ -7096,8 +5382,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <Label className="text-xs">Notes</Label>
                               <Textarea placeholder="Additional comments..." className="h-20" />
                             </div>
-                          </div>
-                        ))}
+                          </div>)}
                       </AccordionContent>
                     </AccordionItem>
 
@@ -7107,14 +5392,27 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         📂 Technical & Operational Documentation
                       </AccordionTrigger>
                       <AccordionContent className="space-y-4">
-                        {[
-                          { name: "General Arrangement Plan (GA)", field: "generalArrangementPlan", description: "Deck-by-deck layout" },
-                          { name: "Stability Booklet", field: "stabilityBooklet", description: "Required for charter and class" },
-                          { name: "Engine Room Schematics", field: "engineRoomSchematics", description: "Tech layout for engineers or surveyors" },
-                          { name: "Electrical System Diagram", field: "electricalSystemDiagram", description: "For refits or resale reviews" },
-                          { name: "Technical Specification Sheet", field: "technicalSpecSheet", description: "Central doc for full build info" }
-                        ].map((doc) => (
-                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                        {[{
+                            name: "General Arrangement Plan (GA)",
+                            field: "generalArrangementPlan",
+                            description: "Deck-by-deck layout"
+                          }, {
+                            name: "Stability Booklet",
+                            field: "stabilityBooklet",
+                            description: "Required for charter and class"
+                          }, {
+                            name: "Engine Room Schematics",
+                            field: "engineRoomSchematics",
+                            description: "Tech layout for engineers or surveyors"
+                          }, {
+                            name: "Electrical System Diagram",
+                            field: "electricalSystemDiagram",
+                            description: "For refits or resale reviews"
+                          }, {
+                            name: "Technical Specification Sheet",
+                            field: "technicalSpecSheet",
+                            description: "Central doc for full build info"
+                          }].map(doc => <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{doc.name}</h4>
@@ -7158,13 +5456,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <div>
                                 <Label className="text-xs">Enter PIN Code</Label>
                                 <div className="flex gap-2">
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    className="h-8 flex-1"
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" className="h-8 flex-1" maxLength={10} minLength={4} />
                                   <div className="flex items-center gap-1">
                                     <Checkbox id={`show-pin-${doc.field}`} />
                                     <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
@@ -7193,8 +5485,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <Label className="text-xs">Notes</Label>
                               <Textarea placeholder="Additional comments..." className="h-20" />
                             </div>
-                          </div>
-                        ))}
+                          </div>)}
                       </AccordionContent>
                     </AccordionItem>
 
@@ -7204,14 +5495,27 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         📂 Maintenance & Refit History
                       </AccordionTrigger>
                       <AccordionContent className="space-y-4">
-                        {[
-                          { name: "Engine Service Reports", field: "engineServiceReports", description: "Manufacturer or shipyard certified" },
-                          { name: "Generator Service Logs", field: "generatorServiceLogs", description: "Same as above" },
-                          { name: "Dry Dock / Haul-Out Reports", field: "dryDockReports", description: "Summary or full invoices" },
-                          { name: "Refit History & Invoices", field: "refitHistory", description: "Include date ranges and value (if possible)" },
-                          { name: "ISM / Safety Drill Records", field: "ismSafetyRecords", description: "Charter readiness indicator" }
-                        ].map((doc) => (
-                          <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                        {[{
+                            name: "Engine Service Reports",
+                            field: "engineServiceReports",
+                            description: "Manufacturer or shipyard certified"
+                          }, {
+                            name: "Generator Service Logs",
+                            field: "generatorServiceLogs",
+                            description: "Same as above"
+                          }, {
+                            name: "Dry Dock / Haul-Out Reports",
+                            field: "dryDockReports",
+                            description: "Summary or full invoices"
+                          }, {
+                            name: "Refit History & Invoices",
+                            field: "refitHistory",
+                            description: "Include date ranges and value (if possible)"
+                          }, {
+                            name: "ISM / Safety Drill Records",
+                            field: "ismSafetyRecords",
+                            description: "Charter readiness indicator"
+                          }].map(doc => <div key={doc.field} className="p-4 border rounded-lg bg-muted/30 space-y-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{doc.name}</h4>
@@ -7255,13 +5559,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <div>
                                 <Label className="text-xs">Enter PIN Code</Label>
                                 <div className="flex gap-2">
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    className="h-8 flex-1"
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" className="h-8 flex-1" maxLength={10} minLength={4} />
                                   <div className="flex items-center gap-1">
                                     <Checkbox id={`show-pin-${doc.field}`} />
                                     <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
@@ -7290,8 +5588,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               <Label className="text-xs">Notes</Label>
                               <Textarea placeholder="Additional comments..." className="h-20" />
                             </div>
-                          </div>
-                        ))}
+                          </div>)}
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
@@ -7327,11 +5624,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="visibility"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="visibility" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Visibility</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7346,14 +5641,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bookingType"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="bookingType" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Booking Type</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7367,32 +5658,21 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   {/* Conditional PIN fields for Private visibility */}
-                  {form.watch("visibility") === "private" && (
-                    <div className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                  {form.watch("visibility") === "private" && <div className="p-4 border rounded-lg bg-muted/30 space-y-4">
                       <h4 className="font-medium text-foreground">Private Access Settings</h4>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="privatePinCode"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="privatePinCode" render={({
+                          field
+                        }) => <FormItem>
                               <FormLabel>Create PIN Code</FormLabel>
                               <div className="flex gap-2">
                                 <FormControl>
-                                  <Input 
-                                    type="password"
-                                    placeholder="4-10 characters" 
-                                    {...field}
-                                    maxLength={10}
-                                    minLength={4}
-                                  />
+                                  <Input type="password" placeholder="4-10 characters" {...field} maxLength={10} minLength={4} />
                                 </FormControl>
                                 <div className="flex items-center gap-1">
                                   <Checkbox id="show-management-pin" />
@@ -7400,40 +5680,27 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 </div>
                               </div>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                         
-                        <FormField
-                          control={form.control}
-                          name="pinRequestEmail"
-                          render={({ field }) => (
-                            <FormItem>
+                        <FormField control={form.control} name="pinRequestEmail" render={({
+                          field
+                        }) => <FormItem>
                               <FormLabel>Email for PIN Requests</FormLabel>
                               <FormControl>
-                                <Input 
-                                  type="email"
-                                  placeholder="contact@example.com" 
-                                  {...field}
-                                />
+                                <Input type="email" placeholder="contact@example.com" {...field} />
                               </FormControl>
                               <FormDescription className="text-xs text-amber-600">
                                 ⚠️ This email is visible to admin only
                               </FormDescription>
                               <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                            </FormItem>} />
                       </div>
-                    </div>
-                  )}
+                    </div>}
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="hostApproval"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="hostApproval" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Host Approval Required</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7447,14 +5714,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="coBrokerage"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="coBrokerage" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Co-Brokerage Allowed</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7469,27 +5732,15 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                     
                     {/* Co-Brokerage Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        size="sm"
-                        className="flex-1"
-                      >
+                      <Button type="button" variant="outline" size="sm" className="flex-1">
                         <Download className="w-4 h-4 mr-2" />
                         Download Co-Brokerage Agreement
                       </Button>
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        size="sm"
-                        className="flex-1"
-                      >
+                      <Button type="button" variant="outline" size="sm" className="flex-1">
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Receive Link from DocuSign
                       </Button>
@@ -7497,11 +5748,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="virtualTourAccess"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="virtualTourAccess" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Virtual Tour Access</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7516,14 +5765,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="reviewsVisible"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="reviewsVisible" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Reviews Visible</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7537,17 +5782,13 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="guestIdVerification"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="guestIdVerification" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>Guest ID Verification Required</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7561,14 +5802,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="ndaRequired"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="ndaRequired" render={({
+                        field
+                      }) => <FormItem>
                           <FormLabel>NDA Required</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -7583,9 +5820,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                             </SelectContent>
                           </Select>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                 </CardContent>
               </Card>
@@ -7604,6 +5839,5 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
           </div>
         </form>
       </Form>
-    </div>
-  )
+    </div>;
 }
