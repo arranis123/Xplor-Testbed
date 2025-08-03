@@ -395,6 +395,8 @@ const yachtRulesSchema = z.object({
 
   // Access Management
   visibility: z.enum(["public", "private", "invite_only"]),
+  privatePinCode: z.string().optional(),
+  pinRequestEmail: z.string().email().optional(),
   bookingType: z.enum(["instant_book", "request_to_book"]),
   hostApproval: z.enum(["yes", "no"]),
   coBrokerage: z.enum(["yes", "no", "with_agreement"]),
@@ -7369,6 +7371,62 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       )}
                     />
                   </div>
+
+                  {/* Conditional PIN fields for Private visibility */}
+                  {form.watch("visibility") === "private" && (
+                    <div className="p-4 border rounded-lg bg-muted/30 space-y-4">
+                      <h4 className="font-medium text-foreground">Private Access Settings</h4>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="privatePinCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Create PIN Code</FormLabel>
+                              <div className="flex gap-2">
+                                <FormControl>
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    {...field}
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                </FormControl>
+                                <div className="flex items-center gap-1">
+                                  <Checkbox id="show-management-pin" />
+                                  <Label htmlFor="show-management-pin" className="text-xs">Show PIN</Label>
+                                </div>
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="pinRequestEmail"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email for PIN Requests</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  type="email"
+                                  placeholder="contact@example.com" 
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormDescription className="text-xs text-amber-600">
+                                ⚠️ This email is visible to admin only
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
