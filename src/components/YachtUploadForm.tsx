@@ -6730,7 +6730,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <Label className="text-xs">Last Updated</Label>
                                 <Input type="date" className="h-8" />
@@ -6740,21 +6740,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <Input type="date" className="h-8" />
                               </div>
                               <div>
-                                <Label className="text-xs">Visibility</Label>
+                                <Label className="text-xs">Visibility & Access Control</Label>
                                 <Select>
                                   <SelectTrigger className="h-8">
-                                    <SelectValue placeholder="Public" />
+                                    <SelectValue placeholder="🔓 Public – No PIN Required" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="broker-only">Broker Only</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="public-no-pin">🔓 Public – No PIN Required</SelectItem>
+                                    <SelectItem value="public-pin-required">🔓 Public – PIN Required</SelectItem>
+                                    <SelectItem value="broker-only-no-pin">🧑‍💼 Broker-Only – No PIN</SelectItem>
+                                    <SelectItem value="broker-only-pin-required">🧑‍💼 Broker-Only – PIN Required</SelectItem>
+                                    <SelectItem value="private-no-pin">🔒 Private – No PIN</SelectItem>
+                                    <SelectItem value="private-pin-required">🔒 Private – PIN Required for Viewing/Download</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
+                            </div>
+                            
+                            {/* Conditional PIN Input - Only show when PIN Required options are selected */}
+                            <div className="space-y-2">
                               <div>
-                                <Label className="text-xs">PIN Protection</Label>
-                                <Input placeholder="Optional PIN" className="h-8" />
+                                <Label className="text-xs">Enter PIN Code</Label>
+                                <div className="flex gap-2">
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    className="h-8 flex-1"
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Checkbox id={`show-pin-${doc.field}`} />
+                                    <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             
@@ -6808,7 +6827,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <Label className="text-xs">Last Updated</Label>
                                 <Input type="date" className="h-8" />
@@ -6818,21 +6837,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <Input type="date" className="h-8" />
                               </div>
                               <div>
-                                <Label className="text-xs">Visibility</Label>
+                                <Label className="text-xs">Visibility & Access Control</Label>
                                 <Select>
                                   <SelectTrigger className="h-8">
-                                    <SelectValue placeholder="Public" />
+                                    <SelectValue placeholder="🔓 Public – No PIN Required" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="broker-only">Broker Only</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="public-no-pin">🔓 Public – No PIN Required</SelectItem>
+                                    <SelectItem value="public-pin-required">🔓 Public – PIN Required</SelectItem>
+                                    <SelectItem value="broker-only-no-pin">🧑‍💼 Broker-Only – No PIN</SelectItem>
+                                    <SelectItem value="broker-only-pin-required">🧑‍💼 Broker-Only – PIN Required</SelectItem>
+                                    <SelectItem value="private-no-pin">🔒 Private – No PIN</SelectItem>
+                                    <SelectItem value="private-pin-required">🔒 Private – PIN Required for Viewing/Download</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
+                            </div>
+                            
+                            {/* Conditional PIN Input */}
+                            <div className="space-y-2">
                               <div>
-                                <Label className="text-xs">PIN Protection</Label>
-                                <Input placeholder="Optional PIN" className="h-8" />
+                                <Label className="text-xs">Enter PIN Code</Label>
+                                <div className="flex gap-2">
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    className="h-8 flex-1"
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Checkbox id={`show-pin-${doc.field}`} />
+                                    <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             
@@ -6889,7 +6927,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <Label className="text-xs">Last Updated</Label>
                                 <Input type="date" className="h-8" />
@@ -6899,21 +6937,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <Input type="date" className="h-8" />
                               </div>
                               <div>
-                                <Label className="text-xs">Visibility</Label>
+                                <Label className="text-xs">Visibility & Access Control</Label>
                                 <Select>
                                   <SelectTrigger className="h-8">
-                                    <SelectValue placeholder="Broker Only" />
+                                    <SelectValue placeholder="🧑‍💼 Broker-Only – No PIN" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="broker-only">Broker Only</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="public-no-pin">🔓 Public – No PIN Required</SelectItem>
+                                    <SelectItem value="public-pin-required">🔓 Public – PIN Required</SelectItem>
+                                    <SelectItem value="broker-only-no-pin">🧑‍💼 Broker-Only – No PIN</SelectItem>
+                                    <SelectItem value="broker-only-pin-required">🧑‍💼 Broker-Only – PIN Required</SelectItem>
+                                    <SelectItem value="private-no-pin">🔒 Private – No PIN</SelectItem>
+                                    <SelectItem value="private-pin-required">🔒 Private – PIN Required for Viewing/Download</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
+                            </div>
+                            
+                            {/* Conditional PIN Input */}
+                            <div className="space-y-2">
                               <div>
-                                <Label className="text-xs">PIN Protection</Label>
-                                <Input placeholder="Optional PIN" className="h-8" />
+                                <Label className="text-xs">Enter PIN Code</Label>
+                                <div className="flex gap-2">
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    className="h-8 flex-1"
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Checkbox id={`show-pin-${doc.field}`} />
+                                    <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             
@@ -6970,7 +7027,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <Label className="text-xs">Last Updated</Label>
                                 <Input type="date" className="h-8" />
@@ -6980,21 +7037,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <Input type="date" className="h-8" />
                               </div>
                               <div>
-                                <Label className="text-xs">Visibility</Label>
+                                <Label className="text-xs">Visibility & Access Control</Label>
                                 <Select>
                                   <SelectTrigger className="h-8">
-                                    <SelectValue placeholder="Broker Only" />
+                                    <SelectValue placeholder="🧑‍💼 Broker-Only – No PIN" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="broker-only">Broker Only</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="public-no-pin">🔓 Public – No PIN Required</SelectItem>
+                                    <SelectItem value="public-pin-required">🔓 Public – PIN Required</SelectItem>
+                                    <SelectItem value="broker-only-no-pin">🧑‍💼 Broker-Only – No PIN</SelectItem>
+                                    <SelectItem value="broker-only-pin-required">🧑‍💼 Broker-Only – PIN Required</SelectItem>
+                                    <SelectItem value="private-no-pin">🔒 Private – No PIN</SelectItem>
+                                    <SelectItem value="private-pin-required">🔒 Private – PIN Required for Viewing/Download</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
+                            </div>
+                            
+                            {/* Conditional PIN Input */}
+                            <div className="space-y-2">
                               <div>
-                                <Label className="text-xs">PIN Protection</Label>
-                                <Input placeholder="Optional PIN" className="h-8" />
+                                <Label className="text-xs">Enter PIN Code</Label>
+                                <div className="flex gap-2">
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    className="h-8 flex-1"
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Checkbox id={`show-pin-${doc.field}`} />
+                                    <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             
@@ -7048,7 +7124,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <Label className="text-xs">Last Updated</Label>
                                 <Input type="date" className="h-8" />
@@ -7058,21 +7134,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <Input type="date" className="h-8" />
                               </div>
                               <div>
-                                <Label className="text-xs">Visibility</Label>
+                                <Label className="text-xs">Visibility & Access Control</Label>
                                 <Select>
                                   <SelectTrigger className="h-8">
-                                    <SelectValue placeholder="Broker Only" />
+                                    <SelectValue placeholder="🧑‍💼 Broker-Only – No PIN" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="broker-only">Broker Only</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="public-no-pin">🔓 Public – No PIN Required</SelectItem>
+                                    <SelectItem value="public-pin-required">🔓 Public – PIN Required</SelectItem>
+                                    <SelectItem value="broker-only-no-pin">🧑‍💼 Broker-Only – No PIN</SelectItem>
+                                    <SelectItem value="broker-only-pin-required">🧑‍💼 Broker-Only – PIN Required</SelectItem>
+                                    <SelectItem value="private-no-pin">🔒 Private – No PIN</SelectItem>
+                                    <SelectItem value="private-pin-required">🔒 Private – PIN Required for Viewing/Download</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
+                            </div>
+                            
+                            {/* Conditional PIN Input */}
+                            <div className="space-y-2">
                               <div>
-                                <Label className="text-xs">PIN Protection</Label>
-                                <Input placeholder="Optional PIN" className="h-8" />
+                                <Label className="text-xs">Enter PIN Code</Label>
+                                <div className="flex gap-2">
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    className="h-8 flex-1"
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Checkbox id={`show-pin-${doc.field}`} />
+                                    <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             
@@ -7126,7 +7221,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <Label className="text-xs">Last Updated</Label>
                                 <Input type="date" className="h-8" />
@@ -7136,21 +7231,40 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                                 <Input type="date" className="h-8" />
                               </div>
                               <div>
-                                <Label className="text-xs">Visibility</Label>
+                                <Label className="text-xs">Visibility & Access Control</Label>
                                 <Select>
                                   <SelectTrigger className="h-8">
-                                    <SelectValue placeholder="Broker Only" />
+                                    <SelectValue placeholder="🧑‍💼 Broker-Only – No PIN" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="broker-only">Broker Only</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
+                                    <SelectItem value="public-no-pin">🔓 Public – No PIN Required</SelectItem>
+                                    <SelectItem value="public-pin-required">🔓 Public – PIN Required</SelectItem>
+                                    <SelectItem value="broker-only-no-pin">🧑‍💼 Broker-Only – No PIN</SelectItem>
+                                    <SelectItem value="broker-only-pin-required">🧑‍💼 Broker-Only – PIN Required</SelectItem>
+                                    <SelectItem value="private-no-pin">🔒 Private – No PIN</SelectItem>
+                                    <SelectItem value="private-pin-required">🔒 Private – PIN Required for Viewing/Download</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
+                            </div>
+                            
+                            {/* Conditional PIN Input */}
+                            <div className="space-y-2">
                               <div>
-                                <Label className="text-xs">PIN Protection</Label>
-                                <Input placeholder="Optional PIN" className="h-8" />
+                                <Label className="text-xs">Enter PIN Code</Label>
+                                <div className="flex gap-2">
+                                  <Input 
+                                    type="password"
+                                    placeholder="4-10 characters" 
+                                    className="h-8 flex-1"
+                                    maxLength={10}
+                                    minLength={4}
+                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Checkbox id={`show-pin-${doc.field}`} />
+                                    <Label htmlFor={`show-pin-${doc.field}`} className="text-xs">Show PIN</Label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             
