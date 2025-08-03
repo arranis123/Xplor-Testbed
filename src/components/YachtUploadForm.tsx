@@ -355,15 +355,6 @@ const yachtRulesSchema = z.object({
   sanitizerStations: z.boolean().default(false),
   healthSanitationProtocols: z.boolean().default(false),
 
-  // Section 7: Certifications & Legal Compliance
-  commercialCharterCert: z.boolean().default(false),
-  mcaLy3Compliant: z.boolean().default(false),
-  ismCompliance: z.boolean().default(false),
-  fireSafetyLogMaintained: z.boolean().default(false),
-  vatPaid: z.boolean().default(false),
-  charterInsuranceCoverage: z.boolean().default(false),
-  localCruisingPermits: z.boolean().default(false),
-
   // Additional safety notes for each section
   crewCertificationNotes: z.string().optional(),
   fireElectricalSafetyNotes: z.string().optional(),
@@ -557,14 +548,6 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       emergencyEvacuationPlan: false,
       sanitizerStations: false,
       healthSanitationProtocols: false,
-      commercialCharterCert: false,
-      mcaLy3Compliant: false,
-      ismCompliance: false,
-      fireSafetyLogMaintained: false,
-      vatPaid: false,
-      charterInsuranceCoverage: false,
-      localCruisingPermits: false,
-      verifiedByCaptain: false,
       allowedRegions: "",
       portAccessRules: "prebooked_only",
       overnightAnchor: "weather_dependent",
@@ -6436,177 +6419,31 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       </CollapsibleContent>
                     </Collapsible>
 
-                    {/* Section 7: Certifications & Legal Compliance */}
-                    <Collapsible>
-                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
-                        <h3 className="text-lg font-semibold">Certifications & Legal Compliance</h3>
-                        <ChevronDown className="h-4 w-4" />
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="p-4 space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="commercialCharterCert"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  Commercial charter certification valid
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="mcaLy3Compliant"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  <Tooltip>
-                                    <TooltipTrigger className="flex items-center gap-1">
-                                      MCA LY3 / MLC 2006 compliant
-                                      <HelpCircle className="h-3 w-3" />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      Maritime and Coastguard Agency Large Yacht Category 3 / Maritime Labour Convention
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="ismCompliance"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  <Tooltip>
-                                    <TooltipTrigger className="flex items-center gap-1">
-                                      ISM compliance certificate (if applicable)
-                                      <HelpCircle className="h-3 w-3" />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      International Safety Management Code
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="fireSafetyLogMaintained"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  Fire safety log maintained
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="vatPaid"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  VAT Paid (if listed as VAT paid)
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="charterInsuranceCoverage"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  Charter insurance coverage in place
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="localCruisingPermits"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  Local cruising permits for current season
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <FormField
-                          control={form.control}
-                          name="certificationsComplianceNotes"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Additional Notes (Certifications & Compliance)</FormLabel>
-                              <FormControl>
-                                <Textarea 
-                                  placeholder="e.g., MCA certificate renewed 2024, All permits valid until 2025..." 
-                                  {...field} 
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </CollapsibleContent>
-                    </Collapsible>
-
                     {/* Verified by Captain Toggle */}
+                    <div className="pt-4 border-t">
+                      <FormField
+                        control={form.control}
+                        name="verifiedByCaptain"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center justify-between">
+                            <div className="space-y-0.5">
+                              <FormLabel className="text-base font-medium">
+                                Verified by Captain
+                              </FormLabel>
+                              <FormDescription>
+                                Confirm that this safety information has been verified by the vessel's captain or qualified officer
+                              </FormDescription>
+                            </div>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                     <div className="pt-4 border-t">
                       <FormField
                         control={form.control}
