@@ -261,9 +261,9 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-          <Tabs defaultValue="yacht-details" className="w-full">
+          <Tabs defaultValue="yacht-info" className="w-full">
             <TabsList className="grid w-full grid-cols-8">
-              <TabsTrigger value="yacht-details">Yacht Details</TabsTrigger>
+              <TabsTrigger value="yacht-info">Yacht Info</TabsTrigger>
               <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
               <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
               <TabsTrigger value="media-files">Media & Files</TabsTrigger>
@@ -273,7 +273,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               <TabsTrigger value="management">Management</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="yacht-details" className="space-y-4">
+            <TabsContent value="yacht-info" className="space-y-4">
               <Card>
                 <CardHeader>
                   <CardTitle>Yacht Information</CardTitle>
