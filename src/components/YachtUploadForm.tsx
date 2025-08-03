@@ -431,61 +431,6 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             </TabsList>
 
             <TabsContent value="yacht-info" className="space-y-4">
-               {/* Yacht Listing Types by Build / Readiness Stage */}
-               <Card>
-                 <CardHeader>
-                   <CardTitle>Yacht Listing Types by Build / Readiness Stage</CardTitle>
-                   <CardDescription>
-                     Choose the category that best describes your yacht's current status
-                   </CardDescription>
-                 </CardHeader>
-                 <CardContent className="space-y-6">
-                   <div className="space-y-4">
-                     <div>
-                       <h4 className="font-semibold text-sm mb-2">🛠️ Design & Construction Phases</h4>
-                       <div className="text-sm space-y-1 text-muted-foreground">
-                         <div><strong>Concept / Design Only</strong> – A project still on paper or in digital render stage. No construction started.</div>
-                         <div><strong>Project / Build Slot Available</strong> – A yard slot has been reserved or promoted; buyer can customize the design.</div>
-                         <div><strong>Under Construction / In Build</strong> – Physical construction is underway at a shipyard.</div>
-                         <div><strong>Hull Launched / Unfinished Project</strong> – The hull is complete but not fitted out; yacht can be finished or converted.</div>
-                         <div><strong>Partially Completed Yacht</strong> – Superstructure and basic systems may be installed, but interior and systems unfinished.</div>
-                       </div>
-                     </div>
-
-                     <div>
-                       <h4 className="font-semibold text-sm mb-2">🚢 Ready for Market / Operation</h4>
-                       <div className="text-sm space-y-1 text-muted-foreground">
-                         <div><strong>New Delivery / Recently Delivered</strong> – Newly launched and fully operational; unused by owners or guests.</div>
-                         <div><strong>Turnkey New Yacht</strong> – Fully outfitted, ready for immediate use, but never chartered or lived aboard.</div>
-                         <div><strong>Pre-Owned / Brokerage Yacht</strong> – Actively in use or previously used; now offered for resale.</div>
-                         <div><strong>Refitted Yacht</strong> – Recently upgraded or rebuilt to modern standards (include refit year).</div>
-                         <div><strong>Conversion Opportunity</strong> – Ex-commercial or military vessel being marketed for luxury conversion.</div>
-                       </div>
-                     </div>
-
-                     <div>
-                       <h4 className="font-semibold text-sm mb-2">🧭 Operational Status</h4>
-                       <div className="text-sm space-y-1 text-muted-foreground">
-                         <div><strong>In Navigation / Fully Operational</strong> – Licensed, registered, and currently cruising.</div>
-                         <div><strong>Laid-Up / Out of Service</strong> – Temporarily not in operation; may require recommissioning.</div>
-                         <div><strong>Out of Class</strong> – Previously classed yacht that no longer maintains compliance.</div>
-                       </div>
-                     </div>
-
-                     <div>
-                       <h4 className="font-semibold text-sm mb-2">⚠️ Special Listing Categories</h4>
-                       <div className="text-sm space-y-1 text-muted-foreground">
-                         <div><strong>Off Market</strong> – Yacht is not actively being promoted but may be available on request.</div>
-                         <div><strong>Charter-Ready</strong> – Commercially certified and listed for immediate charter.</div>
-                         <div><strong>Not for Sale to U.S. Residents While in U.S. Waters</strong> (For foreign-flagged yachts to comply with U.S. law)</div>
-                         <div><strong>In Survey / Pre-Sale Condition Assessment</strong> – A survey is underway or recommended before sale.</div>
-                         <div><strong>Yacht Fraction / Co-Ownership Opportunity</strong> – The listing offers partial ownership or timeshare.</div>
-                       </div>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-
                {/* Basic Info */}
                <Card>
                  <CardHeader>
