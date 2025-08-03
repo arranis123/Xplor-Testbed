@@ -1532,35 +1532,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                     onChange={(e) => setCurrentRoom({...currentRoom, bookingUrl: e.target.value})}
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Room Amenities</label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {amenitiesList.map((amenity) => {
-                      const Icon = amenity.icon;
-                      return (
-                        <div key={amenity.id} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={amenity.id}
-                            checked={currentRoom.amenities?.includes(amenity.id) || false}
-                            onCheckedChange={(checked) => {
-                              const amenities = currentRoom.amenities || [];
-                              if (checked) {
-                                setCurrentRoom({...currentRoom, amenities: [...amenities, amenity.id]});
-                              } else {
-                                setCurrentRoom({...currentRoom, amenities: amenities.filter(a => a !== amenity.id)});
-                              }
-                            }}
-                          />
-                          <label htmlFor={amenity.id} className="text-sm flex items-center gap-1">
-                            <Icon className="h-3 w-3" />
-                            {amenity.label}
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <Button 
+                <Button
                   type="button" 
                   onClick={addRoomType}
                   disabled={!currentRoom.name || !currentRoom.description || !currentRoom.category}
