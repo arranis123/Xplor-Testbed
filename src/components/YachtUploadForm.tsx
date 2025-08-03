@@ -18,6 +18,7 @@ const yachtRulesSchema = z.object({
   // Basic Info
   yachtName: z.string().min(1, "Yacht name is required"),
   yachtType: z.string().min(1, "Yacht type is required"),
+  listingType: z.string().min(1, "Listing type is required"),
   officialNumber: z.string().optional(),
   callSign: z.string().optional(),
   mmsiNumber: z.string().optional(),
@@ -383,9 +384,32 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="yachtType"
+                     <FormField
+                       control={form.control}
+                       name="listingType"
+                       render={({ field }) => (
+                         <FormItem>
+                           <FormLabel>Listing Type</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                             <FormControl>
+                               <SelectTrigger>
+                                 <SelectValue placeholder="Select listing type" />
+                               </SelectTrigger>
+                             </FormControl>
+                             <SelectContent>
+                               <SelectItem value="for-sale">For Sale</SelectItem>
+                               <SelectItem value="for-charter">For Charter</SelectItem>
+                               <SelectItem value="both">Both</SelectItem>
+                             </SelectContent>
+                           </Select>
+                           <FormMessage />
+                         </FormItem>
+                       )}
+                     />
+
+                     <FormField
+                       control={form.control}
+                       name="yachtType"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Type of Vessel</FormLabel>
