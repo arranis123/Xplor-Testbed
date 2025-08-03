@@ -727,16 +727,23 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                            </SelectTrigger>
                          </FormControl>
                          <SelectContent className="bg-background border-border shadow-lg z-50">
-                           {starRatings.map((rating) => (
-                             <SelectItem key={rating.value} value={rating.value}>
-                               <div className="flex items-center gap-1">
-                                 {[...Array(parseInt(rating.value))].map((_, i) => (
-                                   <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                 ))}
-                                 <span className="ml-1">{rating.label}</span>
-                               </div>
-                             </SelectItem>
-                           ))}
+                            {starRatings.map((rating) => (
+                              <SelectItem key={rating.value} value={rating.value}>
+                                <div className="flex items-center gap-1">
+                                  {(() => {
+                                    const numStars = parseInt(rating.value);
+                                    // Only show stars for numeric ratings
+                                    if (!isNaN(numStars) && numStars > 0 && numStars <= 5) {
+                                      return [...Array(numStars)].map((_, i) => (
+                                        <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                      ));
+                                    }
+                                    return null;
+                                  })()}
+                                  <span className="ml-1">{rating.label}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
                          </SelectContent>
                        </Select>
                        <FormMessage />
