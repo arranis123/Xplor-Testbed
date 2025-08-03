@@ -26,6 +26,7 @@ const yachtRulesSchema = z.object({
   
   // Pricing
   salePrice: z.string().optional(),
+  salePriceCurrency: z.string().optional(),
   
   // Base Charter Rates
   lowSeasonRateWeekly: z.string().optional(),
@@ -956,7 +957,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                   <CardDescription>Configure seasonal charter pricing</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <FormField
                       control={form.control}
                       name="salePrice"
@@ -970,6 +971,35 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                         </FormItem>
                       )}
                     />
+
+                    <FormField
+                      control={form.control}
+                      name="salePriceCurrency"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Sale Price Currency</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select currency" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="usd">USD</SelectItem>
+                              <SelectItem value="eur">EUR</SelectItem>
+                              <SelectItem value="gbp">GBP</SelectItem>
+                              <SelectItem value="aed">AED</SelectItem>
+                              <SelectItem value="aud">AUD</SelectItem>
+                              <SelectItem value="cad">CAD</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     <FormField
                       control={form.control}
