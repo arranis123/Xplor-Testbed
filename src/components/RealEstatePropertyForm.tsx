@@ -952,7 +952,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="interior">
             <AccordionTrigger className="flex items-center gap-2">
               <Sofa className="h-4 w-4" />
-              🛋️ Interior Features
+              Interior Features
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1118,7 +1118,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="kitchen">
             <AccordionTrigger className="flex items-center gap-2">
               <ChefHat className="h-4 w-4" />
-              🍽️ Kitchen Features
+              Kitchen Features
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1239,7 +1239,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="bedroom">
             <AccordionTrigger className="flex items-center gap-2">
               <BedIcon className="h-4 w-4" />
-              🛏️ Bedroom Features
+              Bedroom Features
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1323,7 +1323,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="bathroom">
             <AccordionTrigger className="flex items-center gap-2">
               <ShowerHead className="h-4 w-4" />
-              🚿 Bathroom Features
+              Bathroom Features
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1398,7 +1398,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="connectivity">
             <AccordionTrigger className="flex items-center gap-2">
               <Wifi className="h-4 w-4" />
-              🌐 Connectivity & Systems
+              Connectivity & Systems
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1519,7 +1519,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="building">
             <AccordionTrigger className="flex items-center gap-2">
               <Building className="h-4 w-4" />
-              🏢 Building Features (For Condos or Gated Complexes)
+              Building Features (For Condos or Gated Complexes)
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1621,7 +1621,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="exterior">
             <AccordionTrigger className="flex items-center gap-2">
               <TreePine className="h-4 w-4" />
-              🌳 Exterior & Garden
+              Exterior & Garden
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1723,7 +1723,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="pools">
             <AccordionTrigger className="flex items-center gap-2">
               <Waves className="h-4 w-4" />
-              🏊 Pools & Wellness
+              Pools & Wellness
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1835,7 +1835,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="entertainment">
             <AccordionTrigger className="flex items-center gap-2">
               <Gamepad2 className="h-4 w-4" />
-              🕹️ Entertainment & Leisure
+              Entertainment & Leisure
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -1937,7 +1937,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="parking">
             <AccordionTrigger className="flex items-center gap-2">
               <CarIcon className="h-4 w-4" />
-              🚗 Parking & Access
+              Parking & Access
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -2049,7 +2049,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="views">
             <AccordionTrigger className="flex items-center gap-2">
               <Eye className="h-4 w-4" />
-              🏞️ Views
+              Views
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -2133,7 +2133,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="construction">
             <AccordionTrigger className="flex items-center gap-2">
               <Hammer className="h-4 w-4" />
-              🏗️ Construction Details
+              Construction Details
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -2263,7 +2263,7 @@ export function RealEstatePropertyForm({
           <AccordionItem value="guest-access">
             <AccordionTrigger className="flex items-center gap-2">
               <Lock className="h-4 w-4" />
-              🔐 Guest Access & Rules
+              Guest Access & Rules
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
