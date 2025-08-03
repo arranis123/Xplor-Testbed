@@ -284,7 +284,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold">Yacht Rules & Access Parameters</h2>
+        <h2 className="text-2xl font-bold">Yacht Upload Form</h2>
         <p className="text-muted-foreground">Configure rules and access permissions for your yacht charter</p>
       </div>
 
