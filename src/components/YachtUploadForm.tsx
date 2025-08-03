@@ -2827,7 +2827,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               <Card>
                 <CardHeader>
                   <CardTitle>Cabin Types</CardTitle>
-                  <CardDescription>Define the different cabin types available on your yacht</CardDescription>
+                  <CardDescription>Define the different cabin types available on your yacht. Defining the different types of cabins will automatically create Media upload sections for each cabin within the Media & Files tab</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {cabinTypes.map((cabin, index) => (
