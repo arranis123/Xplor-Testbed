@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Plus, X, Upload, Link } from "lucide-react"
 
 const yachtRulesSchema = z.object({
-  // Vessel Identity
+  // Basic Info
   yachtName: z.string().min(1, "Yacht name is required"),
   yachtType: z.string().min(1, "Yacht type is required"),
   officialNumber: z.string().optional(),
@@ -303,10 +303,10 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             </TabsList>
 
             <TabsContent value="yacht-info" className="space-y-4">
-              {/* Vessel Identity */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Vessel Identity</CardTitle>
+               {/* Basic Info */}
+               <Card>
+                 <CardHeader>
+                   <CardTitle>Basic Info</CardTitle>
                   <CardDescription>
                     Basic vessel identification details
                   </CardDescription>
