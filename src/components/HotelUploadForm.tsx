@@ -986,543 +986,466 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
 
         {/* SECTION 3: Hotel Media & Files */}
         <TabsContent value="media" className="space-y-6">
-          {/* Virtual Tours Section - Moved to Top */}
+          {/* 1. Section: Parent Hotel Media */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Video className="h-5 w-5" />
-                Virtual Tours Management
+                <Hotel className="h-5 w-5" />
+                Hotel Media (Main Property)
               </CardTitle>
-              <CardDescription>Create and manage virtual tours that can be assigned to room types</CardDescription>
+              <CardDescription>Upload general media assets that represent the hotel as a whole</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Add New Tour */}
-              <div className="border border-border rounded-lg p-4 space-y-4">
-                <h4 className="font-medium">Add New Virtual Tour</h4>
-                <div className="space-y-4">
-                  <Select
-                    value={currentTour.name || ''}
-                    onValueChange={(value) => setCurrentTour({...currentTour, name: value})}
-                  >
-                    <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Select tour name" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background border-border shadow-lg z-50 max-h-80 overflow-y-auto">
-                      {/* Public Areas */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground">PUBLIC AREAS</div>
-                      <SelectItem value="Main Lobby">Main Lobby</SelectItem>
-                      <SelectItem value="Reception / Front Desk">Reception / Front Desk</SelectItem>
-                      <SelectItem value="Lounge / Waiting Area">Lounge / Waiting Area</SelectItem>
-                      <SelectItem value="Concierge Desk">Concierge Desk</SelectItem>
-                      <SelectItem value="Business Center / Co-working Space">Business Center / Co-working Space</SelectItem>
-                      <SelectItem value="Hallways / Corridors">Hallways / Corridors</SelectItem>
-                      
-                      {/* Food & Beverage */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">FOOD & BEVERAGE</div>
-                      <SelectItem value="Main Restaurant(s)">Main Restaurant(s)</SelectItem>
-                      <SelectItem value="Fine Dining Room">Fine Dining Room</SelectItem>
-                      <SelectItem value="Buffet Area">Buffet Area</SelectItem>
-                      <SelectItem value="Poolside Bar">Poolside Bar</SelectItem>
-                      <SelectItem value="Coffee Shop or Café">Coffee Shop or Café</SelectItem>
-                      <SelectItem value="Rooftop Bar or Lounge">Rooftop Bar or Lounge</SelectItem>
-                      <SelectItem value="Wine Cellar / Tasting Room">Wine Cellar / Tasting Room</SelectItem>
-                      <SelectItem value="Private Dining Room">Private Dining Room</SelectItem>
-                      <SelectItem value="Kitchen Tour">Kitchen Tour</SelectItem>
-                      
-                      {/* Event & Meeting Spaces */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">EVENT & MEETING SPACES</div>
-                      <SelectItem value="Grand Ballroom">Grand Ballroom</SelectItem>
-                      <SelectItem value="Conference Room(s)">Conference Room(s)</SelectItem>
-                      <SelectItem value="Meeting Rooms">Meeting Rooms</SelectItem>
-                      <SelectItem value="Breakout Rooms">Breakout Rooms</SelectItem>
-                      <SelectItem value="Pre-function Areas">Pre-function Areas</SelectItem>
-                      <SelectItem value="VIP Lounges">VIP Lounges</SelectItem>
-                      <SelectItem value="Outdoor Event Lawn / Terrace">Outdoor Event Lawn / Terrace</SelectItem>
-                      <SelectItem value="Wedding Gazebo or Pavilion">Wedding Gazebo or Pavilion</SelectItem>
-                      
-                      {/* Wellness & Recreation */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">WELLNESS & RECREATION</div>
-                      <SelectItem value="Gym / Fitness Center">Gym / Fitness Center</SelectItem>
-                      <SelectItem value="Spa / Treatment Rooms">Spa / Treatment Rooms</SelectItem>
-                      <SelectItem value="Sauna / Steam Room">Sauna / Steam Room</SelectItem>
-                      <SelectItem value="Meditation Room / Yoga Studio">Meditation Room / Yoga Studio</SelectItem>
-                      <SelectItem value="Wellness Reception or Juice Bar">Wellness Reception or Juice Bar</SelectItem>
-                      <SelectItem value="Locker Rooms / Changing Areas">Locker Rooms / Changing Areas</SelectItem>
-                      
-                      {/* Leisure Areas */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">LEISURE AREAS</div>
-                      <SelectItem value="Outdoor Swimming Pool">Outdoor Swimming Pool</SelectItem>
-                      <SelectItem value="Indoor Swimming Pool">Indoor Swimming Pool</SelectItem>
-                      <SelectItem value="Children's Pool">Children's Pool</SelectItem>
-                      <SelectItem value="Pool Deck / Cabanas">Pool Deck / Cabanas</SelectItem>
-                      <SelectItem value="Hot Tub / Jacuzzi">Hot Tub / Jacuzzi</SelectItem>
-                      <SelectItem value="Beach Area">Beach Area</SelectItem>
-                      <SelectItem value="Rooftop Deck / Sky Lounge">Rooftop Deck / Sky Lounge</SelectItem>
-                      <SelectItem value="Garden / Courtyard">Garden / Courtyard</SelectItem>
-                      <SelectItem value="Game Room / Recreation Area">Game Room / Recreation Area</SelectItem>
-                      <SelectItem value="Cinema / Screening Room">Cinema / Screening Room</SelectItem>
-                      
-                      {/* Retail & Convenience */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">RETAIL & CONVENIENCE</div>
-                      <SelectItem value="Hotel Gift Shop">Hotel Gift Shop</SelectItem>
-                      <SelectItem value="Designer Boutiques">Designer Boutiques</SelectItem>
-                      <SelectItem value="Convenience Store / Mini Mart">Convenience Store / Mini Mart</SelectItem>
-                      <SelectItem value="Jewelry / Souvenir Shop">Jewelry / Souvenir Shop</SelectItem>
-                      <SelectItem value="Hair or Nail Salon">Hair or Nail Salon</SelectItem>
-                      <SelectItem value="In-house Travel or Tour Desk">In-house Travel or Tour Desk</SelectItem>
-                      
-                      {/* Specialty Areas */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">SPECIALTY AREAS</div>
-                      <SelectItem value="Airport Transfer Lounge">Airport Transfer Lounge</SelectItem>
-                      <SelectItem value="Executive Club Lounge / VIP Lounge">Executive Club Lounge / VIP Lounge</SelectItem>
-                      <SelectItem value="Butler's Pantry or Guest Services Station">Butler's Pantry or Guest Services Station</SelectItem>
-                      <SelectItem value="Art Gallery or On-site Exhibition">Art Gallery or On-site Exhibition</SelectItem>
-                      <SelectItem value="Library or Reading Room">Library or Reading Room</SelectItem>
-                      <SelectItem value="Kids' Club or Play Area">Kids' Club or Play Area</SelectItem>
-                      <SelectItem value="Pet Relief Area / Pet Spa">Pet Relief Area / Pet Spa</SelectItem>
-                      
-                      {/* Back-of-House */}
-                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground mt-2">BACK-OF-HOUSE (OPTIONAL)</div>
-                      <SelectItem value="Staff Reception or Office">Staff Reception or Office</SelectItem>
-                      <SelectItem value="Service Corridor">Service Corridor</SelectItem>
-                      <SelectItem value="Laundry or Sustainability Facility">Laundry or Sustainability Facility</SelectItem>
-                      <SelectItem value="Green Energy Installations">Green Energy Installations</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  
-                  {/* Fixed URL Input Box */}
-                  <div className="border border-border rounded-lg p-4 space-y-3">
-                    <h5 className="font-medium flex items-center gap-2">
-                      <Link className="h-4 w-4" />
-                      URL Link
-                    </h5>
-                    <Input
-                      placeholder="Matterport, 360°, YouTube URL, etc."
-                      value={currentTour.tourUrl || ''}
-                      onChange={(e) => setCurrentTour({...currentTour, tourUrl: e.target.value, type: 'url', tourFile: undefined})}
+            <CardContent className="space-y-6">
+              {/* 360 Virtual Tours */}
+              <div className="space-y-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <Video className="h-4 w-4" />
+                  360 Virtual Tours
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Tour URLs</label>
+                    <Textarea 
+                      placeholder="Enter Matterport, Kuula, 3DVista URLs (one per line)"
+                      className="min-h-[100px]"
                     />
                   </div>
-
-                  {/* Fixed File Upload Box */}
-                  <div className="border border-border rounded-lg p-4 space-y-3">
-                    <h5 className="font-medium flex items-center gap-2">
-                      <Upload className="h-4 w-4" />
-                      File Upload
-                    </h5>
-                    <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">Upload tour file (Video, 360° image, etc.)</p>
-                      <Input 
-                        type="file" 
-                        accept="video/*,image/*,.mp4,.mov,.360" 
-                        className="mt-2"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            setCurrentTour({...currentTour, tourFile: file, type: 'file', tourUrl: ''});
-                          }
-                        }}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Tour Files</label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                      <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept="video/*,.360,.mp4,.mov"
+                        className="hidden"
+                        id="hotel-tours-upload"
                       />
+                      <label htmlFor="hotel-tours-upload" className="cursor-pointer">
+                        <p className="text-sm text-muted-foreground">Upload 360° files</p>
+                      </label>
                     </div>
                   </div>
                 </div>
-                
-                <Textarea
-                  placeholder="Tour description"
-                  value={currentTour.description || ''}
-                  onChange={(e) => setCurrentTour({...currentTour, description: e.target.value})}
-                />
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Assign to Room (Optional)</label>
-                  <Select
-                    value={currentTour.assignedRoom || 'general'}
-                    onValueChange={(value) => setCurrentTour({...currentTour, assignedRoom: value})}
-                  >
-                    <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Select room or leave for general hotel tour" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background border-border shadow-lg z-50">
-                      <SelectItem value="general">General Hotel Tour</SelectItem>
-                      {roomTypes.map((room) => (
-                        <SelectItem key={room.id} value={room.id}>
-                          {room.name} ({room.category})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-
-                <Button 
-                  type="button" 
-                  onClick={addTour}
-                  disabled={!currentTour.name || !currentTour.description || (!currentTour.tourUrl && !currentTour.tourFile)}
-                  className="w-full"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Tour
-                </Button>
               </div>
 
-              {/* Display Added Tours */}
-              {tours.length > 0 && (
-                <div className="space-y-2">
-                  <h4 className="font-medium">Added Tours</h4>
-                  {tours.map((tour) => (
-                    <div key={tour.id} className="border border-border rounded p-3 flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">{tour.name}</div>
-                        <div className="text-sm text-muted-foreground">{tour.description}</div>
-                         <div className="flex gap-2 mt-1">
-                           <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
-                           {tour.assignedRoom && tour.assignedRoom !== 'general' && (
-                             <Badge variant="secondary" className="text-xs">
-                               Room: {roomTypes.find(r => r.id === tour.assignedRoom)?.name || 'Unknown'}
-                             </Badge>
-                           )}
-                           {(!tour.assignedRoom || tour.assignedRoom === 'general') && (
-                             <Badge variant="outline" className="text-xs">General Hotel</Badge>
-                           )}
-                           {tour.type === 'url' && tour.tourUrl && (
-                             <Badge variant="secondary" className="text-xs">URL: {tour.tourUrl.substring(0, 30)}...</Badge>
-                           )}
-                           {tour.type === 'file' && tour.tourFile && (
-                             <Badge variant="secondary" className="text-xs">File: {tour.tourFile.name}</Badge>
-                           )}
-                         </div>
-                      </div>
-                      <Button variant="outline" size="sm" onClick={() => removeTour(tour.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+              {/* Photos */}
+              <div className="space-y-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <Camera className="h-4 w-4" />
+                  Photos
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Photo URLs</label>
+                    <Textarea 
+                      placeholder="Enter photo URLs (one per line)"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Photo Files</label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                      <Camera className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*,.jpg,.jpeg,.png,.webp"
+                        className="hidden"
+                        id="hotel-photos-upload"
+                      />
+                      <label htmlFor="hotel-photos-upload" className="cursor-pointer">
+                        <p className="text-sm text-muted-foreground">Upload hotel photos (max 15MB each)</p>
+                      </label>
                     </div>
-                  ))}
+                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </div>
 
-          {/* Hotel Photos Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Camera className="h-5 w-5" />
-                Hotel Photos
-              </CardTitle>
-              <CardDescription>Upload high-quality photos of your hotel</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="mainImage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Main Hotel Image *</FormLabel>
-                    <FormControl>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Click to upload main hotel image (JPG or PNG)</p>
-                        <Input type="file" accept="image/*" className="mt-2" {...field} />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="galleryImages"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hotel Gallery</FormLabel>
-                    <div className="space-y-3">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
-                        <Select
-                          value={form.watch('galleryRoomAssignment') || 'general'}
-                          onValueChange={(value) => form.setValue('galleryRoomAssignment', value)}
-                        >
-                          <SelectTrigger className="bg-background border-border">
-                            <SelectValue placeholder="Select room or leave for general hotel photos" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="general">General Hotel Photos</SelectItem>
-                            {roomTypes.map((room) => (
-                              <SelectItem key={room.id} value={room.id}>
-                                {room.name} ({room.category})
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <FormControl>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                          <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                          <p className="text-sm text-muted-foreground">Upload additional hotel images</p>
-                          <Input type="file" accept="image/*" multiple className="mt-2" {...field} />
-                        </div>
-                      </FormControl>
+              {/* Videos */}
+              <div className="space-y-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <Video className="h-4 w-4" />
+                  Videos
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Video URLs</label>
+                    <Textarea 
+                      placeholder="Enter YouTube, Vimeo URLs (one per line)"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Video Files</label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                      <Video className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept="video/*,.mp4,.mov"
+                        className="hidden"
+                        id="hotel-videos-upload"
+                      />
+                      <label htmlFor="hotel-videos-upload" className="cursor-pointer">
+                        <p className="text-sm text-muted-foreground">Upload videos (max 500MB each)</p>
+                      </label>
                     </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </div>
+                </div>
+              </div>
+
+              {/* Drone Footage */}
+              <div className="space-y-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <Video className="h-4 w-4" />
+                  Drone Footage
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Drone URLs</label>
+                    <Textarea 
+                      placeholder="Enter aerial/drone video URLs (one per line)"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Drone Files</label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                      <Video className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept="video/*,.mp4,.mov"
+                        className="hidden"
+                        id="hotel-drone-upload"
+                      />
+                      <label htmlFor="hotel-drone-upload" className="cursor-pointer">
+                        <p className="text-sm text-muted-foreground">Upload drone footage</p>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floor Plans */}
+              <div className="space-y-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  Floor Plans
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Floor Plan URLs</label>
+                    <Textarea 
+                      placeholder="Enter floor plan URLs (one per line)"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Floor Plan Files</label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                      <FileText className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept=".pdf,image/*"
+                        className="hidden"
+                        id="hotel-floorplans-upload"
+                      />
+                      <label htmlFor="hotel-floorplans-upload" className="cursor-pointer">
+                        <p className="text-sm text-muted-foreground">Upload floor plans</p>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Documents */}
+              <div className="space-y-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  Documents
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Document URLs</label>
+                    <Textarea 
+                      placeholder="Enter document URLs (one per line)"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Document Files</label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                      <FileText className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept=".pdf,.doc,.docx"
+                        className="hidden"
+                        id="hotel-documents-upload"
+                      />
+                      <label htmlFor="hotel-documents-upload" className="cursor-pointer">
+                        <p className="text-sm text-muted-foreground">Upload documents (max 20MB each)</p>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Hotel Videos Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Video className="h-5 w-5" />
-                Hotel Videos
-              </CardTitle>
-              <CardDescription>Upload promotional and showcase videos</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="hotelVideos"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Hotel Videos</FormLabel>
+          {/* 2. Section: Spaces Media (if facilities exist) */}
+          {facilities.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Star className="h-5 w-5" />
+                  Media for Hotel Spaces
+                </CardTitle>
+                <CardDescription>Upload media for each hotel space (e.g., Gym, Restaurant)</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {facilities.map((facility) => (
+                  <div key={facility.id} className="border border-border rounded-lg p-4 space-y-4">
+                    <h4 className="font-semibold text-lg">{facility.name}</h4>
+                    
+                    {/* 360 Virtual Tours */}
                     <div className="space-y-3">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
-                        <Select
-                          value={form.watch('videosRoomAssignment') || 'general'}
-                          onValueChange={(value) => form.setValue('videosRoomAssignment', value)}
-                        >
-                          <SelectTrigger className="bg-background border-border">
-                            <SelectValue placeholder="Select room or leave for general hotel videos" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="general">General Hotel Videos</SelectItem>
-                            {roomTypes.map((room) => (
-                              <SelectItem key={room.id} value={room.id}>
-                                {room.name} ({room.category})
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <FormControl>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                          <input
-                            type="file"
-                            multiple
-                            accept="video/*"
-                            onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                            className="hidden"
-                            id="hotel-videos-upload"
-                          />
-                          <label htmlFor="hotel-videos-upload" className="cursor-pointer">
-                            <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                            <p className="text-lg font-medium mb-2">Upload Hotel Videos</p>
-                            <p className="text-sm text-muted-foreground">
-                              Drop videos here or click to browse. Supports MP4, MOV, AVI
-                            </p>
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Video className="h-4 w-4" />
+                        360 Virtual Tours
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Tour URL (Matterport, Kuula, etc.)" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept="video/*,.360" className="hidden" id={`space-${facility.id}-tour`} />
+                          <label htmlFor={`space-${facility.id}-tour`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload tour file
                           </label>
                         </div>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Drone Footage Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Camera className="h-5 w-5" />
-                Drone Footage
-              </CardTitle>
-              <CardDescription>Upload aerial footage and drone videos</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="droneFootage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Drone Footage</FormLabel>
-                    <div className="space-y-3">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
-                        <Select
-                          value={form.watch('droneRoomAssignment') || 'general'}
-                          onValueChange={(value) => form.setValue('droneRoomAssignment', value)}
-                        >
-                          <SelectTrigger className="bg-background border-border">
-                            <SelectValue placeholder="Select room or leave for general hotel drone footage" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="general">General Hotel Drone Footage</SelectItem>
-                            {roomTypes.map((room) => (
-                              <SelectItem key={room.id} value={room.id}>
-                                {room.name} ({room.category})
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
                       </div>
-                      <FormControl>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                          <input
-                            type="file"
-                            multiple
-                            accept="video/*,image/*"
-                            onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                            className="hidden"
-                            id="drone-footage-upload"
-                          />
-                          <label htmlFor="drone-footage-upload" className="cursor-pointer">
-                            <Camera className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                            <p className="text-lg font-medium mb-2">Upload Drone Footage</p>
-                            <p className="text-sm text-muted-foreground">
-                              Drop aerial footage here or click to browse. Supports videos and images
-                            </p>
+                    </div>
+
+                    {/* Photos */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Camera className="h-4 w-4" />
+                        Photos
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Textarea placeholder="Photo URLs (one per line)" rows={3} />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" multiple accept="image/*" className="hidden" id={`space-${facility.id}-photos`} />
+                          <label htmlFor={`space-${facility.id}-photos`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload photos
                           </label>
                         </div>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Documents Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Documents
-              </CardTitle>
-              <CardDescription>Upload menus, awards, certificates, and other documents</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="hotelDocuments"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Documents</FormLabel>
-                    <div className="space-y-3">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
-                        <Select
-                          value={form.watch('documentsRoomAssignment') || 'general'}
-                          onValueChange={(value) => form.setValue('documentsRoomAssignment', value)}
-                        >
-                          <SelectTrigger className="bg-background border-border">
-                            <SelectValue placeholder="Select room or leave for general hotel documents" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="general">General Hotel Documents</SelectItem>
-                            {roomTypes.map((room) => (
-                              <SelectItem key={room.id} value={room.id}>
-                                {room.name} ({room.category})
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
                       </div>
-                      <FormControl>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                          <input
-                            type="file"
-                            multiple
-                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                            onChange={(e) => field.onChange(Array.from(e.target.files || []))}
-                            className="hidden"
-                            id="hotel-documents-upload"
-                          />
-                          <label htmlFor="hotel-documents-upload" className="cursor-pointer">
-                            <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                            <p className="text-lg font-medium mb-2">Upload Documents</p>
-                            <p className="text-sm text-muted-foreground">
-                              Menus, awards, certificates, etc. Supports PDF, DOC, JPG, PNG
-                            </p>
+                    </div>
+
+                    {/* Videos */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Video className="h-4 w-4" />
+                        Videos
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Video URL (YouTube, Vimeo)" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept="video/*" className="hidden" id={`space-${facility.id}-video`} />
+                          <label htmlFor={`space-${facility.id}-video`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload video
                           </label>
                         </div>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Floor Plan Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Floor Plans
-              </CardTitle>
-              <CardDescription>Upload hotel floor plans and layouts</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-
-              <FormField
-                control={form.control}
-                name="floorPlan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Floor Plan Upload</FormLabel>
-                    <div className="space-y-3">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Assign to Room (Optional)</label>
-                        <Select
-                          value={form.watch('floorPlanRoomAssignment') || 'general'}
-                          onValueChange={(value) => form.setValue('floorPlanRoomAssignment', value)}
-                        >
-                          <SelectTrigger className="bg-background border-border">
-                            <SelectValue placeholder="Select room or leave for general hotel floor plan" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border-border shadow-lg z-50">
-                            <SelectItem value="general">General Hotel Floor Plan</SelectItem>
-                            {roomTypes.map((room) => (
-                              <SelectItem key={room.id} value={room.id}>
-                                {room.name} ({room.category})
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
                       </div>
-                      <FormControl>
-                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                          <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                          <p className="text-sm text-muted-foreground">Upload floor plan (PDF or Image)</p>
-                          <Input type="file" accept=".pdf,image/*" className="mt-2" {...field} />
-                        </div>
-                      </FormControl>
                     </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                control={form.control}
-                name="promotionalVideo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hotel Promotional Video</FormLabel>
-                    <FormControl>
-                      <Input placeholder="YouTube URL or embed code" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                    {/* Drone Footage */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Video className="h-4 w-4" />
+                        Drone Footage
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Drone footage URL" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept="video/*" className="hidden" id={`space-${facility.id}-drone`} />
+                          <label htmlFor={`space-${facility.id}-drone`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload drone footage
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Floor Plans (Optional) */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Floor Plans (Optional)
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Floor plan URL" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept=".pdf,image/*" className="hidden" id={`space-${facility.id}-floorplan`} />
+                          <label htmlFor={`space-${facility.id}-floorplan`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload floor plan
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Documents (Optional) */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Documents (Optional)
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Document URL" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept=".pdf,.doc,.docx" className="hidden" id={`space-${facility.id}-docs`} />
+                          <label htmlFor={`space-${facility.id}-docs`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload documents
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* 3. Section: Room Type Media */}
+          {roomTypes.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Bed className="h-5 w-5" />
+                  Media for Room Types
+                </CardTitle>
+                <CardDescription>Upload media for each room type</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {roomTypes.map((room) => (
+                  <div key={room.id} className="border border-border rounded-lg p-4 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-lg">{room.name}</h4>
+                      <Badge variant="outline">{room.category}</Badge>
+                    </div>
+                    
+                    {/* 360 Virtual Tour (Required if available) */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Video className="h-4 w-4" />
+                        360 Virtual Tour <span className="text-red-500">*</span>
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Virtual tour URL (Matterport, Kuula, etc.)" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept="video/*,.360" className="hidden" id={`room-${room.id}-tour`} />
+                          <label htmlFor={`room-${room.id}-tour`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload tour file
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Room Photos */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Camera className="h-4 w-4" />
+                        Room Photos
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Textarea placeholder="Photo URLs (one per line)" rows={3} />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" multiple accept="image/*" className="hidden" id={`room-${room.id}-photos`} />
+                          <label htmlFor={`room-${room.id}-photos`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload room photos
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Walkthrough Video */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <Video className="h-4 w-4" />
+                        Walkthrough Video
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Walkthrough video URL" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept="video/*" className="hidden" id={`room-${room.id}-walkthrough`} />
+                          <label htmlFor={`room-${room.id}-walkthrough`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload walkthrough video
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Floor Plan */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Floor Plan
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Floor plan URL" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept=".pdf,image/*" className="hidden" id={`room-${room.id}-floorplan`} />
+                          <label htmlFor={`room-${room.id}-floorplan`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload floor plan
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Room Info PDF or Brochure */}
+                    <div className="space-y-3">
+                      <h5 className="font-medium flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Room Info PDF or Brochure
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input placeholder="Brochure URL" />
+                        <div className="border border-dashed border-border rounded p-2 text-center">
+                          <input type="file" accept=".pdf,.doc,.docx" className="hidden" id={`room-${room.id}-brochure`} />
+                          <label htmlFor={`room-${room.id}-brochure`} className="cursor-pointer text-sm text-muted-foreground">
+                            Upload brochure/info PDF
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Featured Media Checkbox */}
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id={`featured-${room.id}`} />
+                      <label htmlFor={`featured-${room.id}`} className="text-sm font-medium">
+                        Mark as featured media for this room
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Save as Draft Button */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h4 className="font-medium">Media Upload Progress</h4>
+                  <p className="text-sm text-muted-foreground">Save your media uploads as draft to continue later</p>
+                </div>
+                <Button variant="outline">
+                  Save as Draft
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
