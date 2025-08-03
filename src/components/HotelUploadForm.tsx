@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell } from "lucide-react";
+import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Link } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 
@@ -999,7 +999,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
               {/* Add New Tour */}
               <div className="border border-border rounded-lg p-4 space-y-4">
                 <h4 className="font-medium">Add New Virtual Tour</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   <Select
                     value={currentTour.name || ''}
                     onValueChange={(value) => setCurrentTour({...currentTour, name: value})}
@@ -1089,18 +1089,42 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <SelectItem value="Green Energy Installations">Green Energy Installations</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Select
-                    value={currentTour.type || ''}
-                    onValueChange={(value: 'url' | 'file') => setCurrentTour({...currentTour, type: value, tourUrl: '', tourFile: undefined})}
-                  >
-                    <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Tour type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background border-border shadow-lg z-50">
-                      <SelectItem value="url">URL Link</SelectItem>
-                      <SelectItem value="file">File Upload</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  
+                  {/* Fixed URL Input Box */}
+                  <div className="border border-border rounded-lg p-4 space-y-3">
+                    <h5 className="font-medium flex items-center gap-2">
+                      <Link className="h-4 w-4" />
+                      URL Link
+                    </h5>
+                    <Input
+                      placeholder="Matterport, 360°, YouTube URL, etc."
+                      value={currentTour.tourUrl || ''}
+                      onChange={(e) => setCurrentTour({...currentTour, tourUrl: e.target.value, type: 'url', tourFile: undefined})}
+                    />
+                  </div>
+
+                  {/* Fixed File Upload Box */}
+                  <div className="border border-border rounded-lg p-4 space-y-3">
+                    <h5 className="font-medium flex items-center gap-2">
+                      <Upload className="h-4 w-4" />
+                      File Upload
+                    </h5>
+                    <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">Upload tour file (Video, 360° image, etc.)</p>
+                      <Input 
+                        type="file" 
+                        accept="video/*,image/*,.mp4,.mov,.360" 
+                        className="mt-2"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setCurrentTour({...currentTour, tourFile: file, type: 'file', tourUrl: ''});
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
                 
                 <Textarea
@@ -1129,31 +1153,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   </Select>
                 </div>
 
-                {currentTour.type === 'url' && (
-                  <Input
-                    placeholder="Matterport, 360°, YouTube URL, etc."
-                    value={currentTour.tourUrl || ''}
-                    onChange={(e) => setCurrentTour({...currentTour, tourUrl: e.target.value})}
-                  />
-                )}
-
-                {currentTour.type === 'file' && (
-                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                    <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Upload tour file (Video, 360° image, etc.)</p>
-                    <Input 
-                      type="file" 
-                      accept="video/*,image/*,.mp4,.mov,.360" 
-                      className="mt-2"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setCurrentTour({...currentTour, tourFile: file});
-                        }
-                      }}
-                    />
-                  </div>
-                )}
 
                 <Button 
                   type="button" 
