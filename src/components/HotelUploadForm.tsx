@@ -27,12 +27,21 @@ interface Facility {
   openToPublic: boolean;
 }
 
+interface Tour {
+  id: string;
+  name: string;
+  type: 'url' | 'file';
+  tourUrl?: string;
+  tourFile?: File;
+  description: string;
+}
+
 interface RoomType {
   id: string;
   name: string;
   description: string;
   category: string;
-  tourUrl: string;
+  assignedTours: string[];
   images: File[];
   maxGuests: number;
   roomSize: string;
@@ -49,6 +58,8 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [currentFacility, setCurrentFacility] = useState<Partial<Facility>>({});
   const [currentRoom, setCurrentRoom] = useState<Partial<RoomType>>({});
+  const [tours, setTours] = useState<Tour[]>([]);
+  const [currentTour, setCurrentTour] = useState<Partial<Tour>>({});
 
   const hotelCategories = [
     { value: "hotel", label: "Hotel" },
@@ -125,6 +136,25 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
     }
   };
 
+  const addTour = () => {
+    if (currentTour.name && currentTour.description && (currentTour.tourUrl || currentTour.tourFile)) {
+      const tour: Tour = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: currentTour.name || '',
+        type: currentTour.tourFile ? 'file' : 'url',
+        tourUrl: currentTour.tourUrl || '',
+        tourFile: currentTour.tourFile,
+        description: currentTour.description || ''
+      };
+      setTours([...tours, tour]);
+      setCurrentTour({});
+    }
+  };
+
+  const removeTour = (id: string) => {
+    setTours(tours.filter(t => t.id !== id));
+  };
+
   const addRoomType = () => {
     if (currentRoom.name && currentRoom.description && currentRoom.category) {
       const room: RoomType = {
@@ -132,7 +162,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         name: currentRoom.name || '',
         description: currentRoom.description || '',
         category: currentRoom.category || '',
-        tourUrl: currentRoom.tourUrl || '',
+        assignedTours: currentRoom.assignedTours || [],
         images: currentRoom.images || [],
         maxGuests: currentRoom.maxGuests || 1,
         roomSize: currentRoom.roomSize || '',
@@ -433,13 +463,119 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
 
         {/* SECTION 2: Hotel Media & Files */}
         <TabsContent value="media" className="space-y-6">
+          {/* Virtual Tours Section - Moved to Top */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Video className="h-5 w-5" />
+                Virtual Tours Management
+              </CardTitle>
+              <CardDescription>Create and manage virtual tours that can be assigned to room types</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Add New Tour */}
+              <div className="border border-border rounded-lg p-4 space-y-4">
+                <h4 className="font-medium">Add New Virtual Tour</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Tour name (e.g., Hotel Lobby Tour, Premium Suite Tour)"
+                    value={currentTour.name || ''}
+                    onChange={(e) => setCurrentTour({...currentTour, name: e.target.value})}
+                  />
+                  <Select
+                    value={currentTour.type || ''}
+                    onValueChange={(value: 'url' | 'file') => setCurrentTour({...currentTour, type: value, tourUrl: '', tourFile: undefined})}
+                  >
+                    <SelectTrigger className="bg-background border-border">
+                      <SelectValue placeholder="Tour type" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border shadow-lg z-50">
+                      <SelectItem value="url">URL Link</SelectItem>
+                      <SelectItem value="file">File Upload</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <Textarea
+                  placeholder="Tour description"
+                  value={currentTour.description || ''}
+                  onChange={(e) => setCurrentTour({...currentTour, description: e.target.value})}
+                />
+
+                {currentTour.type === 'url' && (
+                  <Input
+                    placeholder="Matterport, 360°, YouTube URL, etc."
+                    value={currentTour.tourUrl || ''}
+                    onChange={(e) => setCurrentTour({...currentTour, tourUrl: e.target.value})}
+                  />
+                )}
+
+                {currentTour.type === 'file' && (
+                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                    <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">Upload tour file (Video, 360° image, etc.)</p>
+                    <Input 
+                      type="file" 
+                      accept="video/*,image/*,.mp4,.mov,.360" 
+                      className="mt-2"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setCurrentTour({...currentTour, tourFile: file});
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+
+                <Button 
+                  type="button" 
+                  onClick={addTour}
+                  disabled={!currentTour.name || !currentTour.description || (!currentTour.tourUrl && !currentTour.tourFile)}
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Tour
+                </Button>
+              </div>
+
+              {/* Display Added Tours */}
+              {tours.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="font-medium">Added Tours</h4>
+                  {tours.map((tour) => (
+                    <div key={tour.id} className="border border-border rounded p-3 flex justify-between items-start">
+                      <div>
+                        <div className="font-medium">{tour.name}</div>
+                        <div className="text-sm text-muted-foreground">{tour.description}</div>
+                        <div className="flex gap-2 mt-1">
+                          <Badge variant="outline">{tour.type === 'url' ? 'URL Link' : 'File Upload'}</Badge>
+                          {tour.type === 'url' && tour.tourUrl && (
+                            <Badge variant="secondary" className="text-xs">URL: {tour.tourUrl.substring(0, 30)}...</Badge>
+                          )}
+                          {tour.type === 'file' && tour.tourFile && (
+                            <Badge variant="secondary" className="text-xs">File: {tour.tourFile.name}</Badge>
+                          )}
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => removeTour(tour.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Hotel Media Section */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Camera className="h-5 w-5" />
                 Hotel Media & Files
               </CardTitle>
-              <CardDescription>Upload images, videos, and virtual tours</CardDescription>
+              <CardDescription>Upload images, videos, and documentation</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
@@ -472,20 +608,6 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                         <p className="text-sm text-muted-foreground">Upload additional hotel images</p>
                         <Input type="file" accept="image/*" multiple className="mt-2" {...field} />
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="virtualTourUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Virtual Tour URL</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Matterport, 360°, YouTube URL, etc." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -697,11 +819,34 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Virtual tour URL"
-                    value={currentRoom.tourUrl || ''}
-                    onChange={(e) => setCurrentRoom({...currentRoom, tourUrl: e.target.value})}
-                  />
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Assign Tours</label>
+                    <div className="space-y-2 max-h-24 overflow-y-auto border border-border rounded p-2">
+                      {tours.length === 0 ? (
+                        <p className="text-sm text-muted-foreground">No tours available. Add tours in Media & Files section.</p>
+                      ) : (
+                        tours.map((tour) => (
+                          <div key={tour.id} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`tour-${tour.id}`}
+                              checked={currentRoom.assignedTours?.includes(tour.id) || false}
+                              onCheckedChange={(checked) => {
+                                const assignedTours = currentRoom.assignedTours || [];
+                                if (checked) {
+                                  setCurrentRoom({...currentRoom, assignedTours: [...assignedTours, tour.id]});
+                                } else {
+                                  setCurrentRoom({...currentRoom, assignedTours: assignedTours.filter(t => t !== tour.id)});
+                                }
+                              }}
+                            />
+                            <label htmlFor={`tour-${tour.id}`} className="text-sm">
+                              {tour.name} ({tour.type})
+                            </label>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
                   <Input
                     placeholder="Booking page URL"
                     value={currentRoom.bookingUrl || ''}
