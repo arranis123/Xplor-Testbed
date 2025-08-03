@@ -1809,6 +1809,7 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                       <SelectContent className="bg-background border-border shadow-lg z-50">
                         <SelectItem value="public">Public</SelectItem>
                         <SelectItem value="unlisted">Unlisted</SelectItem>
+                        <SelectItem value="private">Private</SelectItem>
                         <SelectItem value="admin-only">Admin Only</SelectItem>
                       </SelectContent>
                     </Select>
@@ -1816,6 +1817,51 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
                   </FormItem>
                 )}
               />
+
+              {form.watch('listingVisibility') === 'private' && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="createPin"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Create PIN for Access</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="bg-background border-border">
+                              <SelectValue placeholder="Select PIN option" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="bg-background border-border shadow-lg z-50">
+                            <SelectItem value="auto-generate">Auto-generate PIN</SelectItem>
+                            <SelectItem value="custom">Custom PIN</SelectItem>
+                            <SelectItem value="no-pin">No PIN required</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="pinRequestEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email for PIN Requests</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="email" 
+                            placeholder="email@example.com" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
