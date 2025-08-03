@@ -208,6 +208,19 @@ const yachtRulesSchema = z.object({
     description: z.string().optional(),
   })).optional(),
 
+  // Amenities & Toys
+  interiorAmenities: z.array(z.string()).optional(),
+  accommodationFeatures: z.array(z.string()).optional(),
+  exteriorAmenities: z.array(z.string()).optional(),
+  wellnessAndFitness: z.array(z.string()).optional(),
+  entertainmentTech: z.array(z.string()).optional(),
+  galleyFeatures: z.array(z.string()).optional(),
+  waterToysMotorized: z.array(z.string()).optional(),
+  waterToysNonMotorized: z.array(z.string()).optional(),
+  adventureGear: z.array(z.string()).optional(),
+  crewSupport: z.array(z.string()).optional(),
+  certificationsCapabilities: z.array(z.string()).optional(),
+
   // Guest Rules
   maxGuestsSleeping: z.number().min(1).max(50),
   maxGuestsDayUse: z.number().min(1).max(100),
@@ -317,6 +330,17 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       maxCrew: 0,
       deckSpaces: [],
       cabinTypes: [],
+      interiorAmenities: [],
+      accommodationFeatures: [],
+      exteriorAmenities: [],
+      wellnessAndFitness: [],
+      entertainmentTech: [],
+      galleyFeatures: [],
+      waterToysMotorized: [],
+      waterToysNonMotorized: [],
+      adventureGear: [],
+      crewSupport: [],
+      certificationsCapabilities: [],
       maxGuestsSleeping: 10,
       maxGuestsDayUse: 12,
       childrenAllowed: "yes",
@@ -437,7 +461,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           <Tabs defaultValue="yacht-info" className="w-full">
-            <TabsList className="grid w-full grid-cols-10">
+            <TabsList className="grid w-full grid-cols-11">
               <TabsTrigger value="yacht-info">Yacht Info</TabsTrigger>
               <TabsTrigger value="pricing">Pricing</TabsTrigger>
               <TabsTrigger value="class">Class</TabsTrigger>
@@ -446,6 +470,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
               <TabsTrigger value="safety">Safety</TabsTrigger>
               <TabsTrigger value="cabin-types">Cabin Types</TabsTrigger>
               <TabsTrigger value="deck-spaces">Deck Spaces</TabsTrigger>
+              <TabsTrigger value="amenities">Amenities & Toys</TabsTrigger>
               <TabsTrigger value="media-files">Media & Files</TabsTrigger>
               <TabsTrigger value="management">Management</TabsTrigger>
             </TabsList>
@@ -3162,6 +3187,534 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                     <Plus className="h-4 w-4 mr-2" />
                     Add Cabin Type
                   </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="amenities" className="space-y-6">
+              {/* Interior Amenities */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Interior Amenities</CardTitle>
+                  <CardDescription>Select interior features available on your yacht</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="interiorAmenities"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Main Salon", "Formal Dining Area", "Skylounge / Upper Salon", "Cinema / Movie Room",
+                            "Library / Study / Office", "Wine Cellar / Humidor", "Bar (Interior)", "Observation Lounge",
+                            "Fireplace", "Elevator / Lift", "Onboard Art Collection", "Grand Piano",
+                            "Aquarium", "Interior Sound System", "Smart Home Controls", "Air Conditioning", "Heating System"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="interiorAmenities"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Accommodation Features */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Accommodation Features</CardTitle>
+                  <CardDescription>Select accommodation features and amenities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="accommodationFeatures"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Owner's Suite", "VIP Suites", "Ensuite Bathrooms", "Walk-in Closets",
+                            "Massage Room", "Hammam / Steam Room", "Sauna", "Interior Jacuzzi"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="accommodationFeatures"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Exterior Amenities */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Exterior Amenities</CardTitle>
+                  <CardDescription>Select exterior features and deck amenities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="exteriorAmenities"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Sun Deck with Loungers", "Exterior Jacuzzi", "Infinity Pool / Plunge Pool", "Al Fresco Dining Area",
+                            "Outdoor Bar / BBQ", "Beach Club", "Fold-Down Balconies", "Swim Platform",
+                            "On-Deck Showers", "Day Beds / Cabana Setup", "Outdoor Cinema", "Fire Pit",
+                            "Open-Air Gym", "Helipad", "Outdoor Sound System", "Deck Shade Awnings",
+                            "Underwater Lighting", "Heated Decks"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="exteriorAmenities"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Wellness & Fitness */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Wellness & Fitness</CardTitle>
+                  <CardDescription>Select wellness and fitness facilities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="wellnessAndFitness"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Fully Equipped Gym", "Yoga / Pilates Area", "Spa / Treatment Room", "Hammam / Sauna / Steam Room",
+                            "Beauty Salon", "Massage Therapist Cabin", "Medical Room"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="wellnessAndFitness"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Entertainment & Tech */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Entertainment & Tech</CardTitle>
+                  <CardDescription>Select entertainment and technology features</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="entertainmentTech"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Satellite TV / Streaming", "High-Speed Wi-Fi", "Gaming Console", "Karaoke System",
+                            "DJ Booth", "Drone Equipment", "Conference Room", "Media Server / Apple TV", "Tablet / iPad Controls"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="entertainmentTech"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Galley & Culinary Features */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Galley & Culinary Features</CardTitle>
+                  <CardDescription>Select galley and culinary amenities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="galleyFeatures"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Commercial Galley", "Teppanyaki Grill", "Pizza Oven", "Wine Cellar / Fridge",
+                            "Juice Bar", "Chef's Table", "Cold Room", "Walk-In Freezer"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="galleyFeatures"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Water Toys – Motorized */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Water Toys – Motorized</CardTitle>
+                  <CardDescription>Select motorized water toys and equipment</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="waterToysMotorized"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Jet Skis", "Seabobs", "eFoils / Fliteboards", "Jet Surfboards",
+                            "Hoverboards", "Tenders", "Waterski Equipment", "Towables (Donuts, Tubes)",
+                            "RIBs / Chase Boats", "Mini-Sub / Submarine", "Underwater Scooters"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="waterToysMotorized"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Water Toys – Non-Motorized */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Water Toys – Non-Motorized</CardTitle>
+                  <CardDescription>Select non-motorized water toys and equipment</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="waterToysNonMotorized"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Kayaks", "Paddleboards / SUPs", "Windsurfers", "Surfboards",
+                            "Kiteboarding Gear", "Snorkeling Gear", "Scuba Diving Equipment", "Inflatable Water Park",
+                            "Floating Pool / Jellyfish Net", "Beach Setups", "Fishing Gear"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="waterToysNonMotorized"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Adventure & Exploration Gear */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Adventure & Exploration Gear</CardTitle>
+                  <CardDescription>Select adventure and exploration equipment</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="adventureGear"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Dive Compressor", "Rebreathers", "Diving Suits", "Underwater Cameras",
+                            "FPV Drones", "Expedition Tools", "Snowmobiles", "Bikes",
+                            "Off-Road Vehicles", "Jetpack / Flyboard", "Helicopter", "Support Vessel"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="adventureGear"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Crew & Support Features */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Crew & Support Features</CardTitle>
+                  <CardDescription>Select crew and support services</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="crewSupport"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Dedicated Crew Quarters", "Captain's Cabin", "Crew Mess & Lounge", "Onboard Chef",
+                            "Masseuse / Spa Therapist", "Dive Instructor", "Watersports Instructor", "Personal Trainer",
+                            "Nanny / Children's Staff", "Event Host / DJ"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="crewSupport"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Certifications & Special Capabilities */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Certifications & Special Capabilities</CardTitle>
+                  <CardDescription>Select certifications and special capabilities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="certificationsCapabilities"
+                    render={() => (
+                      <FormItem>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            "Commercial Charter Compliant", "MCA / MLC Certified", "Wheelchair Accessible", "Pet-Friendly",
+                            "Zero-Speed Stabilizers", "Cruising Permit (Specific Regions)", "Winterized / Ice Class", "Green Tech (Hybrid, Solar, etc.)"
+                          ].map((item) => (
+                            <FormField
+                              key={item}
+                              control={form.control}
+                              name="certificationsCapabilities"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(item)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...(field.value || []), item])
+                                            : field.onChange(field.value?.filter((value: string) => value !== item))
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">{item}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </CardContent>
               </Card>
             </TabsContent>
