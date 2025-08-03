@@ -2188,7 +2188,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
             <TabsContent value="deck-spaces" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Deck Spaces</CardTitle>
+                  <CardTitle>Deck Spaces other than Cabins</CardTitle>
                   <CardDescription>Yachts can be huge with lots of nooks and crannies. Defining the different spaces on your yacht will create multiple upload options within the Media & Files upload tab to help organize your listing into sections.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
