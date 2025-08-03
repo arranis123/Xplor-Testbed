@@ -187,6 +187,7 @@ const yachtRulesSchema = z.object({
   // Deck Spaces
   deckSpaces: z.array(z.object({
     name: z.string(),
+    deckType: z.string().optional(),
     description: z.string().optional(),
   })).optional(),
   
@@ -276,7 +277,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
   const { toast } = useToast()
   
   // State for dynamic sections
-  const [deckSpaces, setDeckSpaces] = useState([{ name: '', description: '' }])
+  const [deckSpaces, setDeckSpaces] = useState([{ name: '', deckType: '', description: '' }])
   const [cabinTypes, setCabinTypes] = useState([{ name: '', sleeps: 2, description: '' }])
   
   // State for media uploads
@@ -372,7 +373,7 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
   }
   
   const addDeckSpace = () => {
-    setDeckSpaces([...deckSpaces, { name: '', description: '' }])
+    setDeckSpaces([...deckSpaces, { name: '', deckType: '', description: '' }])
   }
   
   const removeDeckSpace = (index: number) => {
@@ -2207,30 +2208,88 @@ export function YachtUploadForm({ onSubmit, onCancel }: YachtUploadFormProps) {
                           </Button>
                         )}
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                         <div>
-                          <label className="text-sm font-medium">Space Name</label>
-                          <Input
-                            placeholder="e.g., Upper Deck, Flybridge"
-                            value={space.name}
-                            onChange={(e) => {
+                          <label className="text-sm font-medium">Deck Type</label>
+                          <Select
+                            value={space.deckType}
+                            onValueChange={(value) => {
                               const updated = [...deckSpaces]
-                              updated[index].name = e.target.value
+                              updated[index].deckType = value
                               setDeckSpaces(updated)
                             }}
-                          />
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select deck type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Upper-Level Decks (Top–Down)</SelectLabel>
+                                <SelectItem value="sun-deck">Sun Deck - Highest open deck, often with sun loungers, spa pool, bar, gym, or helipad</SelectItem>
+                                <SelectItem value="bridge-deck">Bridge Deck - Home to the wheelhouse (bridge), captain's cabin, and often exterior lounges</SelectItem>
+                                <SelectItem value="owners-deck">Owner's Deck / Private Deck - A full deck reserved for the owner's suite and private use</SelectItem>
+                                <SelectItem value="sky-lounge-deck">Sky Lounge Deck - Features a second salon/lounge with bar, cinema, or game area</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Main Exterior & Social Decks</SelectLabel>
+                                <SelectItem value="main-deck">Main Deck - Includes main salon, dining area, galley, and often the master suite</SelectItem>
+                                <SelectItem value="upper-aft-deck">Upper Aft Deck / Upper Lounge Deck - Outdoor lounge or dining area at the rear</SelectItem>
+                                <SelectItem value="foredeck">Foredeck / Bow Deck - Forward-facing exterior deck with seating, sunpads, Jacuzzi</SelectItem>
+                                <SelectItem value="cockpit">Cockpit - Exterior area used for seating and helm controls</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Lower-Level Decks & Access</SelectLabel>
+                                <SelectItem value="lower-deck">Lower Deck - Contains guest cabins, crew quarters, engine room, and storage</SelectItem>
+                                <SelectItem value="beach-club-deck">Beach Club Deck / Swim Platform - At sea level; lounge area with water access</SelectItem>
+                                <SelectItem value="tender-garage-deck">Tender Garage Deck / Toys Deck - Space for storing tenders, Jet Skis, and water toys</SelectItem>
+                                <SelectItem value="crew-deck">Crew Deck / Crew Mess Area - Designated for crew operations, mess, laundry</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Functional or Specialized Decks</SelectLabel>
+                                <SelectItem value="helideck">Helideck / Helicopter Landing Deck - Certified landing area for helicopters</SelectItem>
+                                <SelectItem value="technical-deck">Technical Deck / Tank Deck - Houses systems like ballast, fuel tanks, watermakers</SelectItem>
+                                <SelectItem value="engine-room-deck">Engine Room Deck - Houses propulsion and mechanical systems</SelectItem>
+                                <SelectItem value="garage-access-deck">Garage Access Deck - Entry/exit platform for launching tenders and toys</SelectItem>
+                              </SelectGroup>
+                              
+                              <SelectGroup>
+                                <SelectLabel>Additional Sailing Yacht Decks</SelectLabel>
+                                <SelectItem value="flybridge">Flybridge (Open Helm Deck) - Includes helm controls and guest seating</SelectItem>
+                                <SelectItem value="coachroof-deck">Coachroof Deck - Slightly raised structure for headroom and visibility</SelectItem>
+                                <SelectItem value="cockpit-deck">Cockpit Deck - Primary control area for sailing yachts with winches and wheels</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
                         </div>
-                        <div>
-                          <label className="text-sm font-medium">Description</label>
-                          <Input
-                            placeholder="Brief description"
-                            value={space.description}
-                            onChange={(e) => {
-                              const updated = [...deckSpaces]
-                              updated[index].description = e.target.value
-                              setDeckSpaces(updated)
-                            }}
-                          />
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Space Name</label>
+                            <Input
+                              placeholder="e.g., Upper Deck, Flybridge"
+                              value={space.name}
+                              onChange={(e) => {
+                                const updated = [...deckSpaces]
+                                updated[index].name = e.target.value
+                                setDeckSpaces(updated)
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Description</label>
+                            <Input
+                              placeholder="Brief description"
+                              value={space.description}
+                              onChange={(e) => {
+                                const updated = [...deckSpaces]
+                                updated[index].description = e.target.value
+                                setDeckSpaces(updated)
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
