@@ -619,10 +619,10 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="location">Location</TabsTrigger>
-          <TabsTrigger value="media">Media & Files</TabsTrigger>
           <TabsTrigger value="amenities">Amenities</TabsTrigger>
           <TabsTrigger value="rooms">Room Types</TabsTrigger>
           <TabsTrigger value="submission">Submission</TabsTrigger>
+          <TabsTrigger value="media">Media & Files</TabsTrigger>
         </TabsList>
 
         {/* SECTION 1: Hotel Overview */}
