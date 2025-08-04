@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -32,12 +33,96 @@ import {
   Pin,
   Download,
   FileText,
-  Camera
+  Camera,
+  Check,
+  ChevronsUpDown
 } from "lucide-react";
 
 interface RealEstatePropertyFormProps {
   form: UseFormReturn<any>;
 }
+
+// Helper function to get property type label from value
+const getPropertyTypeLabel = (value: string): string => {
+  const propertyTypes = {
+    // Residential
+    "apartment": "Apartment",
+    "penthouse": "Penthouse", 
+    "condo": "Condo / Condominium",
+    "townhouse": "Townhouse",
+    "duplex": "Duplex",
+    "triplex": "Triplex",
+    "studio": "Studio",
+    "loft": "Loft",
+    "maisonette": "Maisonette",
+    "single-family": "Single-Family Home",
+    "multi-family": "Multi-Family Home",
+    "bungalow": "Bungalow",
+    "villa": "Villa",
+    "chalet": "Chalet",
+    "cabin": "Cabin",
+    "tiny-house": "Tiny House",
+    "manufactured-home": "Manufactured Home",
+    "mobile-home": "Mobile Home",
+    "modular-home": "Modular Home",
+    "farmhouse": "Farmhouse",
+    "country-house": "Country House",
+    "floating-home": "Floating Home",
+    "treehouse": "Treehouse",
+    "co-living": "Co-Living Unit",
+    "serviced-apartment": "Serviced Apartment",
+    "senior-living": "Retirement / Senior Living",
+    // Commercial
+    "office-space": "Office Space",
+    "retail-space": "Retail Space",
+    "shopping-mall": "Shopping Mall Unit",
+    "co-working": "Co-Working Space",
+    "showroom": "Showroom",
+    "medical-office": "Medical Office / Clinic",
+    "warehouse": "Warehouse",
+    "distribution-center": "Distribution Center",
+    "factory": "Factory / Industrial",
+    "commercial-building": "Commercial Building",
+    "mixed-use": "Mixed-Use Building",
+    "data-center": "Data Center",
+    "cold-storage": "Cold Storage Facility",
+    "self-storage": "Self-Storage Facility",
+    "car-dealership": "Car Dealership",
+    "bank": "Bank / Financial Building",
+    "research-lab": "Research Lab",
+    // Land & Development
+    "residential-land": "Residential Land",
+    "commercial-land": "Commercial Land",
+    "agricultural-land": "Agricultural Land / Farm",
+    "industrial-land": "Industrial Land",
+    "mixed-use-land": "Mixed-Use Land",
+    "vineyard": "Vineyard / Orchard",
+    "gated-plot": "Plot in Gated Community",
+    "island": "Island / Private Island",
+    "development-project": "Development Project",
+    "construction-site": "Construction Site",
+    "undeveloped-lot": "Undeveloped Lot",
+    "approved-parcel": "Approved Land Parcel",
+    "reclaimed-land": "Reclaimed Land",
+    // Specialty & Other
+    "parking-space": "Parking Space",
+    "marina-berth": "Marina Berth",
+    "hangar": "Hangar / Airstrip",
+    "greenhouse": "Greenhouse",
+    "barn": "Barn / Stable",
+    "wind-farm": "Wind Farm / Solar Site",
+    "telecom-tower": "Telecom Tower Site",
+    "storage-container": "Storage Container Unit",
+    "cryptomine": "Cryptomine Facility",
+    "billboard": "Billboard / Ad Space",
+    "historic-property": "Historic Property / Monument",
+    "off-grid": "Off-Grid Property",
+    "shelter": "Shelter / Bunker",
+    "other": "Other"
+  };
+  
+  return propertyTypes[value as keyof typeof propertyTypes] || value;
+};
 
 export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
   const [mediaFiles, setMediaFiles] = useState({
@@ -95,22 +180,191 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Property Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select property type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="single-family">Single Family</SelectItem>
-                          <SelectItem value="condo">Condo</SelectItem>
-                          <SelectItem value="townhouse">Townhouse</SelectItem>
-                          <SelectItem value="apartment">Apartment</SelectItem>
-                          <SelectItem value="land">Land</SelectItem>
-                          <SelectItem value="commercial">Commercial</SelectItem>
-                          <SelectItem value="hotel">Hotel</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-full justify-between",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? getPropertyTypeLabel(field.value) : "Select property type"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-0" align="start">
+                          <Command>
+                            <CommandInput placeholder="Search property types..." />
+                            <CommandEmpty>No property type found.</CommandEmpty>
+                            
+                            <CommandGroup heading="🏠 Residential">
+                              {[
+                                { value: "apartment", label: "Apartment" },
+                                { value: "penthouse", label: "Penthouse" },
+                                { value: "condo", label: "Condo / Condominium" },
+                                { value: "townhouse", label: "Townhouse" },
+                                { value: "duplex", label: "Duplex" },
+                                { value: "triplex", label: "Triplex" },
+                                { value: "studio", label: "Studio" },
+                                { value: "loft", label: "Loft" },
+                                { value: "maisonette", label: "Maisonette" },
+                                { value: "single-family", label: "Single-Family Home" },
+                                { value: "multi-family", label: "Multi-Family Home" },
+                                { value: "bungalow", label: "Bungalow" },
+                                { value: "villa", label: "Villa" },
+                                { value: "chalet", label: "Chalet" },
+                                { value: "cabin", label: "Cabin" },
+                                { value: "tiny-house", label: "Tiny House" },
+                                { value: "manufactured-home", label: "Manufactured Home" },
+                                { value: "mobile-home", label: "Mobile Home" },
+                                { value: "modular-home", label: "Modular Home" },
+                                { value: "farmhouse", label: "Farmhouse" },
+                                { value: "country-house", label: "Country House" },
+                                { value: "floating-home", label: "Floating Home" },
+                                { value: "treehouse", label: "Treehouse" },
+                                { value: "co-living", label: "Co-Living Unit" },
+                                { value: "serviced-apartment", label: "Serviced Apartment" },
+                                { value: "senior-living", label: "Retirement / Senior Living" }
+                              ].map((type) => (
+                                <CommandItem
+                                  key={type.value}
+                                  value={type.value}
+                                  onSelect={() => {
+                                    field.onChange(type.value);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      type.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {type.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+
+                            <CommandGroup heading="🏢 Commercial">
+                              {[
+                                { value: "office-space", label: "Office Space" },
+                                { value: "retail-space", label: "Retail Space" },
+                                { value: "shopping-mall", label: "Shopping Mall Unit" },
+                                { value: "co-working", label: "Co-Working Space" },
+                                { value: "showroom", label: "Showroom" },
+                                { value: "medical-office", label: "Medical Office / Clinic" },
+                                { value: "warehouse", label: "Warehouse" },
+                                { value: "distribution-center", label: "Distribution Center" },
+                                { value: "factory", label: "Factory / Industrial" },
+                                { value: "commercial-building", label: "Commercial Building" },
+                                { value: "mixed-use", label: "Mixed-Use Building" },
+                                { value: "data-center", label: "Data Center" },
+                                { value: "cold-storage", label: "Cold Storage Facility" },
+                                { value: "self-storage", label: "Self-Storage Facility" },
+                                { value: "car-dealership", label: "Car Dealership" },
+                                { value: "bank", label: "Bank / Financial Building" },
+                                { value: "research-lab", label: "Research Lab" }
+                              ].map((type) => (
+                                <CommandItem
+                                  key={type.value}
+                                  value={type.value}
+                                  onSelect={() => {
+                                    field.onChange(type.value);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      type.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {type.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+
+                            <CommandGroup heading="🏞️ Land & Development">
+                              {[
+                                { value: "residential-land", label: "Residential Land" },
+                                { value: "commercial-land", label: "Commercial Land" },
+                                { value: "agricultural-land", label: "Agricultural Land / Farm" },
+                                { value: "industrial-land", label: "Industrial Land" },
+                                { value: "mixed-use-land", label: "Mixed-Use Land" },
+                                { value: "vineyard", label: "Vineyard / Orchard" },
+                                { value: "gated-plot", label: "Plot in Gated Community" },
+                                { value: "island", label: "Island / Private Island" },
+                                { value: "development-project", label: "Development Project" },
+                                { value: "construction-site", label: "Construction Site" },
+                                { value: "undeveloped-lot", label: "Undeveloped Lot" },
+                                { value: "approved-parcel", label: "Approved Land Parcel" },
+                                { value: "reclaimed-land", label: "Reclaimed Land" }
+                              ].map((type) => (
+                                <CommandItem
+                                  key={type.value}
+                                  value={type.value}
+                                  onSelect={() => {
+                                    field.onChange(type.value);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      type.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {type.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+
+                            <CommandGroup heading="🅿️ Specialty & Other">
+                              {[
+                                { value: "parking-space", label: "Parking Space" },
+                                { value: "marina-berth", label: "Marina Berth" },
+                                { value: "hangar", label: "Hangar / Airstrip" },
+                                { value: "greenhouse", label: "Greenhouse" },
+                                { value: "barn", label: "Barn / Stable" },
+                                { value: "wind-farm", label: "Wind Farm / Solar Site" },
+                                { value: "telecom-tower", label: "Telecom Tower Site" },
+                                { value: "storage-container", label: "Storage Container Unit" },
+                                { value: "cryptomine", label: "Cryptomine Facility" },
+                                { value: "billboard", label: "Billboard / Ad Space" },
+                                { value: "historic-property", label: "Historic Property / Monument" },
+                                { value: "off-grid", label: "Off-Grid Property" },
+                                { value: "shelter", label: "Shelter / Bunker" },
+                                { value: "other", label: "Other" }
+                              ].map((type) => (
+                                <CommandItem
+                                  key={type.value}
+                                  value={type.value}
+                                  onSelect={() => {
+                                    field.onChange(type.value);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      type.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {type.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
