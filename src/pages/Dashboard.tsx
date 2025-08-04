@@ -163,7 +163,7 @@ const Dashboard = () => {
                 }}
               >
                 <Plane className="h-4 w-4 mr-2" />
-                Aircraft & Private Jets
+                Airports, Aviation & Aircraft
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
