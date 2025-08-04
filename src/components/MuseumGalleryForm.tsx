@@ -12,35 +12,40 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { X, Plus, Upload, Building2, MapPin, Contact, Camera, Tag, FileText, Settings } from 'lucide-react';
+import { X, Plus, Upload, Building2, MapPin, Contact, Camera, Tag, FileText, Settings, Shield } from 'lucide-react';
 import { toast } from 'sonner';
+import MapboxLocationPicker from './MapboxLocationPicker';
 
 const exhibitSchema = z.object({
   name: z.string().min(1, 'Room/Exhibit name is required'),
-  type: z.enum(['permanent', 'temporary']),
+  type: z.enum(['permanent', 'temporary', 'private', 'vip', 'outdoor']),
   description: z.string().optional(),
   tourUrl: z.string().url().optional().or(z.literal('')),
   floor: z.string().optional(),
+  associatedArtist: z.string().optional(),
 });
 
 const museumGallerySchema = z.object({
   // Section 1: Basic Information
   name: z.string().min(1, 'Institution name is required'),
-  type: z.enum(['museum', 'art-gallery', 'heritage-site', 'cultural-center', 'exhibition-hall']),
+  type: z.enum(['museum', 'art-gallery', 'cultural-center', 'exhibition-hall', 'other']),
   description: z.string().max(500, 'Description must be 500 characters or less'),
-  fullDescription: z.string(),
+  yearFounded: z.string().optional(),
+  ownerOrganization: z.string().optional(),
+  operatingStatus: z.enum(['open', 'temporarily-closed', 'permanent-exhibit-only', 'archived']),
 
-  // Section 2: Location & Access
-  country: z.string().min(1, 'Country is required'),
-  city: z.string().min(1, 'City is required'),
-  address: z.string().min(1, 'Address is required'),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
-  openToPublic: z.boolean(),
-  accessibilityFeatures: z.array(z.string()),
+  // Section 2: Categories & Content
+  focusAreas: z.array(z.string()),
+  typeOfCollections: z.string().optional(),
+  notableArtistsOrExhibits: z.string().optional(),
+
+  // Section 3: Exhibitions & Rooms (handled separately with exhibits array)
+  exhibits: z.array(exhibitSchema),
+
+  // Section 4: Visitor Information
   hoursOfOperation: z.string().optional(),
-
-  // Section 3: Contact & Website
+  entryFee: z.string().optional(),
+  onlineBookingAvailable: z.boolean().optional(),
   contactEmail: z.string().email().optional().or(z.literal('')),
   phoneNumber: z.string().optional(),
   websiteUrl: z.string().url().optional().or(z.literal('')),
@@ -49,20 +54,39 @@ const museumGallerySchema = z.object({
     instagram: z.string().url().optional().or(z.literal('')),
     twitter: z.string().url().optional().or(z.literal('')),
   }),
+  accessibilityFeatures: z.array(z.string()),
 
-  // Section 4: Virtual Tours & Media
+  // Section 5: Access & Rules
+  ageRestrictions: z.string().optional(),
+  photographyAllowed: z.boolean().optional(),
+  tripodsAllowed: z.boolean().optional(),
+  touchingExhibits: z.enum(['allowed', 'supervised', 'not-allowed']).optional(),
+  petsAllowed: z.boolean().optional(),
+  groupVisitsAllowed: z.boolean().optional(),
+  maxGroupSize: z.string().optional(),
+  covidGuidelines: z.string().optional(),
+  requiredIdOrPass: z.string().optional(),
+
+  // Section 6: Media & Files
   virtualTourUrl: z.string().url().optional().or(z.literal('')),
   tourDescription: z.string().optional(),
 
-  // Section 5: Categories & Tags
-  categories: z.array(z.string()),
-  tags: z.array(z.string()),
+  // Section 7: Location
+  country: z.string().min(1, 'Country is required'),
+  city: z.string().min(1, 'City is required'),
+  address: z.string().min(1, 'Address is required'),
+  postalCode: z.string().optional(),
+  googlePlusCode: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  nearbyTransport: z.array(z.string()),
 
-  // Section 6: Exhibits
-  exhibits: z.array(exhibitSchema),
-
-  // Section 7: Submission & Visibility
-  visibility: z.enum(['public', 'unlisted', 'private']),
+  // Section 8: Visibility & Permissions
+  visibility: z.enum(['public', 'link-only', 'private']),
+  pinProtection: z.boolean().optional(),
+  pin: z.string().optional(),
+  attribution: z.string().optional(),
+  partnerAffiliation: z.string().optional(),
   publishNow: z.boolean(),
   submitterName: z.string().min(1, 'Submitter name is required'),
   submitterEmail: z.string().email('Valid email is required'),
@@ -74,34 +98,42 @@ type MuseumGalleryFormData = z.infer<typeof museumGallerySchema>;
 const institutionTypes = [
   { value: 'museum', label: 'Museum' },
   { value: 'art-gallery', label: 'Art Gallery' },
-  { value: 'heritage-site', label: 'Heritage Site' },
   { value: 'cultural-center', label: 'Cultural Center' },
   { value: 'exhibition-hall', label: 'Exhibition Hall' },
+  { value: 'other', label: 'Other' },
+];
+
+const operatingStatuses = [
+  { value: 'open', label: 'Open' },
+  { value: 'temporarily-closed', label: 'Temporarily Closed' },
+  { value: 'permanent-exhibit-only', label: 'Permanent Exhibit Only' },
+  { value: 'archived', label: 'Archived' },
+];
+
+const focusAreaOptions = [
+  'Art (Modern)', 'Art (Classical)', 'Art (Contemporary)', 'History', 'Science', 'Nature', 
+  'Children / Interactive', 'Technology', 'Cultural Heritage', 'Temporary Exhibitions', 
+  'Private Collection', 'Architecture / Design', 'Photography', 'Other'
+];
+
+const touchingOptions = [
+  { value: 'allowed', label: 'Allowed' },
+  { value: 'supervised', label: 'Supervised' },
+  { value: 'not-allowed', label: 'Not Allowed' },
+];
+
+const transportOptions = [
+  'Bus', 'Metro/Subway', 'Train', 'Tram', 'Taxi', 'Car Parking', 'Bicycle Parking'
 ];
 
 const accessibilityOptions = [
   'Wheelchair Access',
-  'Elevator',
-  'Braille Labels',
+  'Guided Tours',
   'Audio Guides',
-  'Sign Language Tours',
-  'Large Print Materials',
-  'Other',
-];
-
-const categoryOptions = [
-  'Modern Art',
-  'Ancient History',
-  'Photography',
-  'Sculpture',
-  'Contemporary Art',
-  'Natural History',
-  'Science & Technology',
-  'Local History',
-  'Fine Arts',
-  'Cultural Heritage',
-  'Archaeological',
-  'Military History',
+  'Tactile Exhibits',
+  'Hearing Assistance',
+  'Elevator Access',
+  'Braille Materials',
 ];
 
 const countries = [
@@ -124,22 +156,27 @@ interface MuseumGalleryFormProps {
 
 export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, onCancel }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
+  const [selectedFocusAreas, setSelectedFocusAreas] = useState<string[]>([]);
 
   const form = useForm<MuseumGalleryFormData>({
     resolver: zodResolver(museumGallerySchema),
     defaultValues: {
-      openToPublic: true,
+      operatingStatus: 'open',
+      focusAreas: [],
       accessibilityFeatures: [],
+      onlineBookingAvailable: false,
+      photographyAllowed: true,
+      tripodsAllowed: false,
+      touchingExhibits: 'not-allowed',
+      petsAllowed: false,
+      groupVisitsAllowed: true,
+      pinProtection: false,
       socialMedia: {
         facebook: '',
         instagram: '',
         twitter: '',
       },
-      categories: [],
-      tags: [],
+      nearbyTransport: [],
       exhibits: [],
       visibility: 'public',
       publishNow: true,
@@ -155,8 +192,7 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
   const handleSubmit = async (data: MuseumGalleryFormData) => {
     setIsSubmitting(true);
     try {
-      data.categories = selectedCategories;
-      data.tags = tags;
+      data.focusAreas = selectedFocusAreas;
       await onSubmit(data);
       toast.success('Museum/Gallery submitted successfully!');
     } catch (error) {
@@ -166,22 +202,11 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
     }
   };
 
-  const addTag = () => {
-    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput('');
-    }
-  };
-
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
-  };
-
-  const toggleCategory = (category: string) => {
-    setSelectedCategories(prev =>
-      prev.includes(category)
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
+  const toggleFocusArea = (area: string) => {
+    setSelectedFocusAreas(prev =>
+      prev.includes(area)
+        ? prev.filter(a => a !== area)
+        : [...prev, area]
     );
   };
 
@@ -189,37 +214,42 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="grid w-full grid-cols-7">
-            <TabsTrigger value="basic" className="flex items-center gap-2">
-              <Building2 className="h-4 w-4" />
-              <span className="hidden md:inline">Basic Info</span>
+          <TabsList className="grid w-full grid-cols-8 text-xs">
+            <TabsTrigger value="basic" className="flex items-center gap-1">
+              <Building2 className="h-3 w-3" />
+              <span className="hidden lg:inline">Basic Info</span>
             </TabsTrigger>
-            <TabsTrigger value="location" className="flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              <span className="hidden md:inline">Location</span>
+            <TabsTrigger value="categories" className="flex items-center gap-1">
+              <Tag className="h-3 w-3" />
+              <span className="hidden lg:inline">Categories</span>
             </TabsTrigger>
-            <TabsTrigger value="contact" className="flex items-center gap-2">
-              <Contact className="h-4 w-4" />
-              <span className="hidden md:inline">Contact</span>
+            <TabsTrigger value="exhibits" className="flex items-center gap-1">
+              <FileText className="h-3 w-3" />
+              <span className="hidden lg:inline">Exhibitions</span>
             </TabsTrigger>
-            <TabsTrigger value="media" className="flex items-center gap-2">
-              <Camera className="h-4 w-4" />
-              <span className="hidden md:inline">Media</span>
+            <TabsTrigger value="visitor" className="flex items-center gap-1">
+              <Contact className="h-3 w-3" />
+              <span className="hidden lg:inline">Visitor Info</span>
             </TabsTrigger>
-            <TabsTrigger value="categories" className="flex items-center gap-2">
-              <Tag className="h-4 w-4" />
-              <span className="hidden md:inline">Categories</span>
+            <TabsTrigger value="access" className="flex items-center gap-1">
+              <Settings className="h-3 w-3" />
+              <span className="hidden lg:inline">Access</span>
             </TabsTrigger>
-            <TabsTrigger value="exhibits" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              <span className="hidden md:inline">Exhibits</span>
+            <TabsTrigger value="media" className="flex items-center gap-1">
+              <Camera className="h-3 w-3" />
+              <span className="hidden lg:inline">Media</span>
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span className="hidden md:inline">Settings</span>
+            <TabsTrigger value="location" className="flex items-center gap-1">
+              <MapPin className="h-3 w-3" />
+              <span className="hidden lg:inline">Location</span>
+            </TabsTrigger>
+            <TabsTrigger value="visibility" className="flex items-center gap-1">
+              <Shield className="h-3 w-3" />
+              <span className="hidden lg:inline">Visibility</span>
             </TabsTrigger>
           </TabsList>
 
+          {/* Tab 1: Basic Info */}
           <TabsContent value="basic" className="space-y-4">
             <Card>
               <CardHeader>
@@ -246,7 +276,7 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                   name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Type *</FormLabel>
+                      <FormLabel>Listing Type *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
@@ -271,7 +301,7 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Brief Description</FormLabel>
+                      <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Brief public-facing summary (max 500 characters)"
@@ -290,17 +320,58 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
 
                 <FormField
                   control={form.control}
-                  name="fullDescription"
+                  name="yearFounded"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Description</FormLabel>
+                      <FormLabel>Year Founded (optional)</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Detailed overview of the institution, collection, and history"
-                          className="resize-none min-h-[120px]"
+                        <Input
+                          placeholder="e.g., 1985"
                           {...field}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="ownerOrganization"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Owner / Managing Organization (optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., City Cultural Department"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="operatingStatus"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Operating Status</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select operating status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {operatingStatuses.map((status) => (
+                            <SelectItem key={status.value} value={status.value}>
+                              {status.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -309,187 +380,60 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
             </Card>
           </TabsContent>
 
-          <TabsContent value="location" className="space-y-4">
+          {/* Tab 2: Categories & Content */}
+          <TabsContent value="categories" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Location & Access</CardTitle>
-                <CardDescription>Provide location and accessibility information</CardDescription>
+                <CardTitle>Categories & Content</CardTitle>
+                <CardDescription>Define your institution's focus areas and collections</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Country *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select country" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {countries.map((country) => (
-                              <SelectItem key={country} value={country}>
-                                {country}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>City/Town *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter city or town" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <div>
+                  <FormLabel>Focus Area (multi-select)</FormLabel>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                    {focusAreaOptions.map((area) => (
+                      <div
+                        key={area}
+                        className={`p-2 border rounded-lg cursor-pointer transition-colors ${
+                          selectedFocusAreas.includes(area)
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-background hover:bg-accent'
+                        }`}
+                        onClick={() => toggleFocusArea(area)}
+                      >
+                        <span className="text-sm">{area}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <FormField
                   control={form.control}
-                  name="address"
+                  name="typeOfCollections"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Address *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter full address" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="latitude"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Latitude</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            step="any"
-                            placeholder="e.g., 40.7128"
-                            {...field}
-                            onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="longitude"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Longitude</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            step="any"
-                            placeholder="e.g., -74.0060"
-                            {...field}
-                            onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="openToPublic"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base">Open to Public</FormLabel>
-                        <FormDescription>
-                          Is this institution open for public visits?
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="accessibilityFeatures"
-                  render={() => (
-                    <FormItem>
-                      <div className="mb-4">
-                        <FormLabel className="text-base">Accessibility Features</FormLabel>
-                        <FormDescription>
-                          Select all accessibility features available
-                        </FormDescription>
-                      </div>
-                      {accessibilityOptions.map((item) => (
-                        <FormField
-                          key={item}
-                          control={form.control}
-                          name="accessibilityFeatures"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={item}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(item)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, item])
-                                        : field.onChange(
-                                            field.value?.filter((value) => value !== item)
-                                          )
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  {item}
-                                </FormLabel>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      ))}
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="hoursOfOperation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Hours of Operation</FormLabel>
+                      <FormLabel>Type of Collections</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="e.g., Mon-Fri: 9:00-17:00, Sat-Sun: 10:00-16:00"
+                          placeholder="Describe the types of collections in your institution"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="notableArtistsOrExhibits"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Notable Artists or Exhibits</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="List notable artists, exhibits, or collections"
                           className="resize-none"
                           {...field}
                         />
@@ -502,13 +446,221 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
             </Card>
           </TabsContent>
 
-          <TabsContent value="contact" className="space-y-4">
+          {/* Tab 3: Exhibitions & Rooms */}
+          <TabsContent value="exhibits" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Contact & Website</CardTitle>
-                <CardDescription>Provide contact information and online presence</CardDescription>
+                <CardTitle>Exhibitions & Rooms</CardTitle>
+                <CardDescription>Add information about specific spaces within your institution</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                {exhibitFields.map((field, index) => (
+                  <Card key={field.id} className="p-4">
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="font-medium">Room/Space {index + 1}</h4>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => removeExhibit(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`exhibits.${index}.name`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Room / Space Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Main Hall, Gallery A" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`exhibits.${index}.type`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="permanent">Permanent Exhibition</SelectItem>
+                                <SelectItem value="temporary">Temporary</SelectItem>
+                                <SelectItem value="private">Private Room</SelectItem>
+                                <SelectItem value="vip">VIP Room</SelectItem>
+                                <SelectItem value="outdoor">Outdoor Area</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`exhibits.${index}.description`}
+                        render={({ field }) => (
+                          <FormItem className="md:col-span-2">
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Describe this exhibit or room"
+                                className="resize-none"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`exhibits.${index}.associatedArtist`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Associated Artist or Theme (optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="e.g., Vincent van Gogh"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`exhibits.${index}.floor`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Floor Number</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Ground Floor, 2nd Floor" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`exhibits.${index}.tourUrl`}
+                        render={({ field }) => (
+                          <FormItem className="md:col-span-2">
+                            <FormLabel>Linked Tour URL (optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="url"
+                                placeholder="https://tour-url.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </Card>
+                ))}
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => appendExhibit({ 
+                    name: '', 
+                    type: 'permanent', 
+                    description: '', 
+                    tourUrl: '', 
+                    floor: '', 
+                    associatedArtist: '' 
+                  })}
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Room/Space
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Tab 4: Visitor Information */}
+          <TabsContent value="visitor" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Visitor Information</CardTitle>
+                <CardDescription>Provide information for visitors and contact details</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="hoursOfOperation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Opening Hours</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="e.g., Mon-Fri: 9:00-17:00, Sat-Sun: 10:00-16:00"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="entryFee"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Entry Fee</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., $15 adults, $10 students, Free for children under 12"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="onlineBookingAvailable"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Online Booking Available</FormLabel>
+                        <FormDescription>
+                          Can visitors book tickets online?
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -599,14 +751,251 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                     />
                   </div>
                 </div>
+
+                <FormField
+                  control={form.control}
+                  name="accessibilityFeatures"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel className="text-base">Accessibility Features</FormLabel>
+                        <FormDescription>
+                          Select all accessibility features available
+                        </FormDescription>
+                      </div>
+                      {accessibilityOptions.map((item) => (
+                        <FormField
+                          key={item}
+                          control={form.control}
+                          name="accessibilityFeatures"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item])
+                                        : field.onChange(
+                                            field.value?.filter((value) => value !== item)
+                                          )
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  {item}
+                                </FormLabel>
+                              </FormItem>
+                            )
+                          }}
+                        />
+                      ))}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </CardContent>
             </Card>
           </TabsContent>
 
+          {/* Tab 5: Access & Rules */}
+          <TabsContent value="access" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Access & Rules</CardTitle>
+                <CardDescription>Define access restrictions and visitor rules</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="ageRestrictions"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Age Restrictions (if any)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., Children under 16 must be accompanied by an adult"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="photographyAllowed"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Photography Allowed</FormLabel>
+                        <FormDescription>
+                          Can visitors take photos inside?
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="tripodsAllowed"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Tripods Allowed</FormLabel>
+                        <FormDescription>
+                          Are camera tripods permitted?
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="touchingExhibits"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Touching Exhibits</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select touching policy" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {touchingOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="petsAllowed"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Pets Allowed</FormLabel>
+                        <FormDescription>
+                          Are pets permitted (service animals are always allowed)?
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="groupVisitsAllowed"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Group Visits Allowed</FormLabel>
+                        <FormDescription>
+                          Are group tours and visits permitted?
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maxGroupSize"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Maximum Group Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., 25 people"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="covidGuidelines"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>COVID-19 Guidelines (optional)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Any special health and safety guidelines"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="requiredIdOrPass"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Required ID or Pass (optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., Valid ID required for entry"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Tab 6: Media & Files */}
           <TabsContent value="media" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Virtual Tours & Media</CardTitle>
+                <CardTitle>Media & Files</CardTitle>
                 <CardDescription>Upload or link virtual tours and media content</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -615,7 +1004,7 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                   name="virtualTourUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Virtual Tour URL</FormLabel>
+                      <FormLabel>360° Virtual Tours</FormLabel>
                       <FormControl>
                         <Input
                           type="url"
@@ -662,7 +1051,18 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                   </div>
 
                   <div className="space-y-2">
-                    <FormLabel>Upload Floor Plan</FormLabel>
+                    <FormLabel>Upload Videos</FormLabel>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                      <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="mt-2 text-sm text-gray-600">Upload videos (MP4/MOV)</p>
+                      <Button type="button" variant="outline" className="mt-2">
+                        Choose Files
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <FormLabel>Floor Plans or Layout Maps</FormLabel>
                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                       <Upload className="mx-auto h-12 w-12 text-gray-400" />
                       <p className="mt-2 text-sm text-gray-600">Upload floor plan (PDF or image)</p>
@@ -671,199 +1071,188 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                       </Button>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
-          <TabsContent value="categories" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Categories & Tags</CardTitle>
-                <CardDescription>Categorize your institution for better discoverability</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <FormLabel>Categories</FormLabel>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
-                    {categoryOptions.map((category) => (
-                      <div
-                        key={category}
-                        className={`p-2 border rounded-lg cursor-pointer transition-colors ${
-                          selectedCategories.includes(category)
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-background hover:bg-accent'
-                        }`}
-                        onClick={() => toggleCategory(category)}
-                      >
-                        <span className="text-sm">{category}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <FormLabel>Tags</FormLabel>
-                  <div className="flex gap-2 mt-2">
-                    <Input
-                      placeholder="Add a tag (e.g., Picasso, Impressionism)"
-                      value={tagInput}
-                      onChange={(e) => setTagInput(e.target.value)}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          addTag();
-                        }
-                      }}
-                    />
-                    <Button type="button" onClick={addTag}>
-                      Add
-                    </Button>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                        {tag}
-                        <X
-                          className="h-3 w-3 cursor-pointer"
-                          onClick={() => removeTag(tag)}
-                        />
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="exhibits" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Exhibit & Room Information</CardTitle>
-                <CardDescription>Add information about specific spaces within your institution</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {exhibitFields.map((field, index) => (
-                  <Card key={field.id} className="p-4">
-                    <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-medium">Exhibit/Room {index + 1}</h4>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => removeExhibit(index)}
-                      >
-                        <X className="h-4 w-4" />
+                  <div className="space-y-2">
+                    <FormLabel>Documents</FormLabel>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                      <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="mt-2 text-sm text-gray-600">Catalogues, brochures, PDFs</p>
+                      <Button type="button" variant="outline" className="mt-2">
+                        Choose Files
                       </Button>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name={`exhibits.${index}.name`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Name of Room/Exhibit</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter room or exhibit name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`exhibits.${index}.type`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Type</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select type" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="permanent">Permanent</SelectItem>
-                                <SelectItem value="temporary">Temporary</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`exhibits.${index}.description`}
-                        render={({ field }) => (
-                          <FormItem className="md:col-span-2">
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                              <Textarea
-                                placeholder="Describe this exhibit or room"
-                                className="resize-none"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`exhibits.${index}.tourUrl`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Linked Tour URL</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="url"
-                                placeholder="https://tour-url.com"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`exhibits.${index}.floor`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Floor or Wing</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Ground Floor, East Wing" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </Card>
-                ))}
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => appendExhibit({ name: '', type: 'permanent', description: '', tourUrl: '', floor: '' })}
-                  className="w-full"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Exhibit/Room
-                </Button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="settings" className="space-y-4">
+          {/* Tab 7: Location */}
+          <TabsContent value="location" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Submission & Visibility Settings</CardTitle>
-                <CardDescription>Configure how your listing will be published</CardDescription>
+                <CardTitle>Location</CardTitle>
+                <CardDescription>Provide location information</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Address *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter full address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Country *</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select country" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {countries.map((country) => (
+                              <SelectItem key={country} value={country}>
+                                {country}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter city" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="postalCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Postal Code</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter postal code" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="googlePlusCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Google Plus Code (optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., 9G8F+5X New York" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="space-y-2">
+                  <FormLabel>Map Location</FormLabel>
+                  <MapboxLocationPicker
+                    coordinates={form.watch('latitude') && form.watch('longitude') ? 
+                      { lat: form.watch('latitude')!, lng: form.watch('longitude')! } : undefined
+                    }
+                    onCoordinatesChange={(coords) => {
+                      if (Array.isArray(coords)) {
+                        form.setValue('latitude', coords[1]);
+                        form.setValue('longitude', coords[0]);
+                      } else {
+                        form.setValue('latitude', coords.lat);
+                        form.setValue('longitude', coords.lng);
+                      }
+                    }}
+                    className="h-64"
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="nearbyTransport"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel className="text-base">Nearby Public Transport</FormLabel>
+                        <FormDescription>
+                          Select all applicable transportation options
+                        </FormDescription>
+                      </div>
+                      {transportOptions.map((item) => (
+                        <FormField
+                          key={item}
+                          control={form.control}
+                          name="nearbyTransport"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item])
+                                        : field.onChange(
+                                            field.value?.filter((value) => value !== item)
+                                          )
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  {item}
+                                </FormLabel>
+                              </FormItem>
+                            )
+                          }}
+                        />
+                      ))}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Tab 8: Visibility & Permissions */}
+          <TabsContent value="visibility" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Visibility & Permissions</CardTitle>
+                <CardDescription>Configure how your listing will be published and accessed</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -871,7 +1260,7 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                   name="visibility"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Listing Visibility</FormLabel>
+                      <FormLabel>Visibility Level</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
@@ -880,10 +1269,86 @@ export const MuseumGalleryForm: React.FC<MuseumGalleryFormProps> = ({ onSubmit, 
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="public">Public</SelectItem>
-                          <SelectItem value="unlisted">Unlisted</SelectItem>
-                          <SelectItem value="private">Private (Admin Only)</SelectItem>
+                          <SelectItem value="link-only">Link Only</SelectItem>
+                          <SelectItem value="private">Private to Admin</SelectItem>
                         </SelectContent>
                       </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="pinProtection"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">PIN Protection</FormLabel>
+                        <FormDescription>
+                          Require a PIN to access this listing
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                {form.watch('pinProtection') && (
+                  <FormField
+                    control={form.control}
+                    name="pin"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>PIN</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="Enter 4-6 digit PIN"
+                            maxLength={6}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
+                <FormField
+                  control={form.control}
+                  name="attribution"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Attribution</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Name or entity for display credit"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="partnerAffiliation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Partner / Network Affiliation (optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., Museum Network, Cultural Association"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
