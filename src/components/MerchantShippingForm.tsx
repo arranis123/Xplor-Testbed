@@ -1431,227 +1431,229 @@ export default function MerchantShippingForm() {
                       </CardContent>
                     </Card>
                   ))}
+                </div>
+              )}
 
-                  {/* Location & Operational Area Content */}
-                  {activeTab === "location" && (
-                    <div className="space-y-6">
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Current Location</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                          <FormField
-                            control={form.control}
-                            name="currentLocation"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Current Location</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="e.g., Port of Rotterdam, Netherlands" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
+              {/* Location & Operational Area Content */}
+              {activeTab === "location" && (
+                <div className="space-y-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Current Location</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="currentLocation"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Current Location</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Port of Rotterdam, Netherlands" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="space-y-4">
+                        <h4 className="text-lg font-semibold flex items-center">
+                          <MapPin className="h-5 w-5 mr-2" />
+                          GPS Coordinates
+                        </h4>
+                        <div className="h-96 border rounded-lg overflow-hidden">
+                          <MapboxLocationPicker
+                            coordinates={form.watch('coordinates') && form.watch('coordinates')?.lat && form.watch('coordinates')?.lng ? 
+                              { lat: form.watch('coordinates')!.lat!, lng: form.watch('coordinates')!.lng! } : 
+                              undefined}
+                            onCoordinatesChange={(coords) => handleCoordinatesChange(coords.lat, coords.lng)}
+                            zoom={10}
                           />
+                        </div>
+                      </div>
 
-                          <div className="space-y-4">
-                            <h4 className="text-lg font-semibold flex items-center">
-                              <MapPin className="h-5 w-5 mr-2" />
-                              GPS Coordinates
-                            </h4>
-                            <div className="h-96 border rounded-lg overflow-hidden">
-                              <MapboxLocationPicker
-                                coordinates={form.watch('coordinates') && form.watch('coordinates')?.lat && form.watch('coordinates')?.lng ? 
-                                  { lat: form.watch('coordinates')!.lat!, lng: form.watch('coordinates')!.lng! } : 
-                                  undefined}
-                                onCoordinatesChange={(coords) => handleCoordinatesChange(coords.lat, coords.lng)}
-                                zoom={10}
+                      <FormField
+                        control={form.control}
+                        name="aisLiveFeed"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>AIS Live Feed URL</FormLabel>
+                            <FormControl>
+                              <Input placeholder="https://marinetraffic.com/..." {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {/* Visibility & Permissions Content */}
+              {activeTab === "visibility" && (
+                <div className="space-y-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Listing Settings</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="listingStatus"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Listing Status</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="live">Live</SelectItem>
+                                <SelectItem value="draft">Draft</SelectItem>
+                                <SelectItem value="private">Private</SelectItem>
+                                <SelectItem value="archived">Archived</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="visibility"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Visibility</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="public">Public</SelectItem>
+                                <SelectItem value="admin">Admin Only</SelectItem>
+                                <SelectItem value="link-only">Link Only</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="uploaderName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Uploader Name or Company</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Company or individual name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="assignedTourPro"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Assigned Tour Pro</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select tour pro" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="none">None</SelectItem>
+                                <SelectItem value="john-doe">John Doe</SelectItem>
+                                <SelectItem value="jane-smith">Jane Smith</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Access Control</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="verifiedByXplor"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
                               />
-                            </div>
-                          </div>
+                            </FormControl>
+                            <FormLabel>Listing Verified By Xplor</FormLabel>
+                          </FormItem>
+                        )}
+                      />
 
+                      <div className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="pinProtection"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                              <FormLabel>PIN Protection</FormLabel>
+                            </FormItem>
+                          )}
+                        />
+
+                        {form.watch("pinProtection") && (
                           <FormField
                             control={form.control}
-                            name="aisLiveFeed"
+                            name="pinCode"
                             render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>AIS Live Feed URL</FormLabel>
+                              <FormItem className="ml-6">
+                                <FormLabel>PIN Code</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="https://marinetraffic.com/..." {...field} />
+                                  <Input placeholder="Enter PIN code" type="password" {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
-                        </CardContent>
-                      </Card>
-                    </div>
-                  )}
+                        )}
+                      </div>
 
-                  {/* Visibility & Permissions Content */}
-                  {activeTab === "visibility" && (
-                    <div className="space-y-6">
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Listing Settings</CardTitle>
-                        </CardHeader>
-                        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <FormField
-                            control={form.control}
-                            name="listingStatus"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Listing Status</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="live">Live</SelectItem>
-                                    <SelectItem value="draft">Draft</SelectItem>
-                                    <SelectItem value="private">Private</SelectItem>
-                                    <SelectItem value="archived">Archived</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="visibility"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Visibility</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="public">Public</SelectItem>
-                                    <SelectItem value="admin">Admin Only</SelectItem>
-                                    <SelectItem value="link-only">Link Only</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="uploaderName"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Uploader Name or Company</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="Company or individual name" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="assignedTourPro"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Assigned Tour Pro</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="Select tour pro" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="none">None</SelectItem>
-                                    <SelectItem value="john-doe">John Doe</SelectItem>
-                                    <SelectItem value="jane-smith">Jane Smith</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </CardContent>
-                      </Card>
-
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Access Control</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                          <FormField
-                            control={form.control}
-                            name="verifiedByXplor"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel>Listing Verified By Xplor</FormLabel>
-                              </FormItem>
-                            )}
-                          />
-
-                          <div className="space-y-4">
-                            <FormField
-                              control={form.control}
-                              name="pinProtection"
-                              render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={field.onChange}
-                                    />
-                                  </FormControl>
-                                  <FormLabel>PIN Protection</FormLabel>
-                                </FormItem>
-                              )}
-                            />
-
-                            {form.watch("pinProtection") && (
-                              <FormField
-                                control={form.control}
-                                name="pinCode"
-                                render={({ field }) => (
-                                  <FormItem className="ml-6">
-                                    <FormLabel>PIN Code</FormLabel>
-                                    <FormControl>
-                                      <Input placeholder="Enter PIN code" type="password" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            )}
-                          </div>
-
-                          <div className="p-4 bg-muted rounded-lg">
-                            <h4 className="font-semibold mb-2">Shareable URL</h4>
-                            <p className="text-sm text-muted-foreground mb-2">
-                              This URL will be generated automatically when the listing is saved.
-                            </p>
-                            <Input 
-                              value="https://360emirates.com/merchant-shipping/..." 
-                              readOnly 
-                              className="bg-background"
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  )}
+                      <div className="p-4 bg-muted rounded-lg">
+                        <h4 className="font-semibold mb-2">Shareable URL</h4>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          This URL will be generated automatically when the listing is saved.
+                        </p>
+                        <Input 
+                          value="https://360emirates.com/merchant-shipping/..." 
+                          readOnly 
+                          className="bg-background"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="flex justify-between pt-6 border-t">
@@ -1672,7 +1674,5 @@ export default function MerchantShippingForm() {
         </div>
       </div>
     </div>
-  );
-}
   );
 }
