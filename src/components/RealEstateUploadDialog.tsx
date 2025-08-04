@@ -71,7 +71,7 @@ export const RealEstateUploadDialog: React.FC<RealEstateUploadDialogProps> = ({
                   type="submit"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Creating...' : 'Create Listing'}
+                  {isSubmitting ? 'Saving...' : 'Save'}
                 </Button>
               </div>
             </form>
