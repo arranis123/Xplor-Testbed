@@ -26,10 +26,12 @@ const YachtCrewOffer = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <div className="mt-16">
-            <p className="text-xl text-slate-700">By Xplor</p>
-          </div>
         </div>
+      </div>
+
+      {/* By Xplor Text */}
+      <div className="text-center py-8 bg-background">
+        <p className="text-xl text-slate-700">By Xplor</p>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-16">
