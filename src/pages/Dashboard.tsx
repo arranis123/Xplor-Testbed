@@ -11,6 +11,7 @@ import { AviationUploadDialog } from "@/components/AviationUploadDialog";
 import OfficesShowroomsStudiosUploadDialog from "@/components/OfficesShowroomsStudiosUploadDialog";
 import RetailPopUpUploadDialog from "@/components/RetailPopUpUploadDialog";
 import HeritageWorshipUploadDialog from "@/components/HeritageWorshipUploadDialog";
+import SetsStagesVenuesUploadDialog from "@/components/SetsStagesVenuesUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -20,6 +21,10 @@ const Dashboard = () => {
   const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
+  const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
+  const [retailPopUpUploadDialogOpen, setRetailPopUpUploadDialogOpen] = useState(false);
+  const [heritageWorshipUploadDialogOpen, setHeritageWorshipUploadDialogOpen] = useState(false);
+  const [setsStagesVenuesUploadDialogOpen, setSetsStagesVenuesUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -171,8 +176,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("offices-showrooms-studios");
-                  setUploadDialogOpen(true);
+                  setOfficesShowroomsStudiosUploadDialogOpen(true);
                 }}
               >
                 <Building className="h-4 w-4 mr-2" />
@@ -180,8 +184,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("retail-popup");
-                  setUploadDialogOpen(true);
+                  setRetailPopUpUploadDialogOpen(true);
                 }}
               >
                 <ShoppingBag className="h-4 w-4 mr-2" />
@@ -189,8 +192,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("heritage-worship");
-                  setUploadDialogOpen(true);
+                  setHeritageWorshipUploadDialogOpen(true);
                 }}
               >
                 <Landmark className="h-4 w-4 mr-2" />
@@ -198,8 +200,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("sets-stages");
-                  setUploadDialogOpen(true);
+                  setSetsStagesVenuesUploadDialogOpen(true);
                 }}
               >
                 <Clapperboard className="h-4 w-4 mr-2" />
@@ -665,6 +666,11 @@ const Dashboard = () => {
       <HeritageWorshipUploadDialog 
         open={uploadDialogOpen && selectedCategory === "heritage-worship"} 
         onOpenChange={setUploadDialogOpen}
+      />
+      
+      <SetsStagesVenuesUploadDialog
+        open={setsStagesVenuesUploadDialogOpen}
+        onOpenChange={setSetsStagesVenuesUploadDialogOpen}
       />
     </div>
   );
