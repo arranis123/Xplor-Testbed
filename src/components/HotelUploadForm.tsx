@@ -2838,8 +2838,7 @@ export function HotelUploadForm({
                   <h4 className="font-medium text-primary">{category}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {categoryAmenities.map(amenity => {
-                      const Icon = amenity.icon;
-                      return <div key={amenity.id} className="flex items-center space-x-2">
+                       return <div key={amenity.id} className="flex items-center space-x-2">
                           <Checkbox id={amenity.id} checked={selectedAmenities.includes(amenity.id)} onCheckedChange={checked => {
                           if (checked) {
                             setSelectedAmenities([...selectedAmenities, amenity.id]);
@@ -2848,7 +2847,6 @@ export function HotelUploadForm({
                           }
                         }} />
                           <label htmlFor={amenity.id} className="text-sm flex items-center gap-2 cursor-pointer">
-                            <Icon className="h-4 w-4 text-muted-foreground" />
                             {amenity.label}
                           </label>
                         </div>;
