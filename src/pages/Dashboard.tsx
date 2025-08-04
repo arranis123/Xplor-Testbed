@@ -20,6 +20,7 @@ import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilit
 import MaritimeInfrastructureUploadDialog from "@/components/MaritimeInfrastructureUploadDialog";
 import CruiseShipUploadDialog from "@/components/CruiseShipUploadDialog";
 import TrainTramUploadDialog from "@/components/TrainTramUploadDialog";
+import RestaurantBarUploadDialog from "@/components/RestaurantBarUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -32,6 +33,7 @@ const Dashboard = () => {
   const [showMaritimeInfrastructureDialog, setShowMaritimeInfrastructureDialog] = useState(false);
   const [showCruiseShipDialog, setShowCruiseShipDialog] = useState(false);
   const [showTrainTramDialog, setShowTrainTramDialog] = useState(false);
+  const [showRestaurantBarDialog, setShowRestaurantBarDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -286,10 +288,7 @@ const Dashboard = () => {
                 Trains & Trams
               </DropdownMenuItem>
               <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("restaurants-bars");
-                  setUploadDialogOpen(true);
-                }}
+                onClick={() => setShowRestaurantBarDialog(true)}
               >
                 <Utensils className="h-4 w-4 mr-2" />
                 Restaurants & Bars
@@ -755,6 +754,11 @@ const Dashboard = () => {
       <TrainTramUploadDialog
         open={showTrainTramDialog}
         onOpenChange={setShowTrainTramDialog}
+      />
+      
+      <RestaurantBarUploadDialog
+        open={showRestaurantBarDialog}
+        onOpenChange={setShowRestaurantBarDialog}
       />
     </div>
   );
