@@ -18,6 +18,7 @@ import GovHospitalUploadDialog from "@/components/GovHospitalUploadDialog";
 import MerchantShippingUploadDialog from "@/components/MerchantShippingUploadDialog";
 import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilityUploadDialog";
 import MaritimeInfrastructureUploadDialog from "@/components/MaritimeInfrastructureUploadDialog";
+import CruiseShipUploadDialog from "@/components/CruiseShipUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -28,6 +29,7 @@ const Dashboard = () => {
   const [showMerchantShippingDialog, setShowMerchantShippingDialog] = useState(false);
   const [showManufacturingFacilityDialog, setShowManufacturingFacilityDialog] = useState(false);
   const [showMaritimeInfrastructureDialog, setShowMaritimeInfrastructureDialog] = useState(false);
+  const [showCruiseShipDialog, setShowCruiseShipDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -264,12 +266,9 @@ const Dashboard = () => {
                 Maritime Infrastructure
               </DropdownMenuItem>
               <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("cruise-ships");
-                  setUploadDialogOpen(true);
-                }}
+                onClick={() => setShowCruiseShipDialog(true)}
               >
-                <Anchor className="h-4 w-4 mr-2" />
+                <Ship className="h-4 w-4 mr-2" />
                 Cruise Ships
               </DropdownMenuItem>
               <DropdownMenuItem 
@@ -647,12 +646,9 @@ const Dashboard = () => {
                   Maritime Infrastructure
                 </DropdownMenuItem>
                 <DropdownMenuItem 
-                  onClick={() => {
-                    setSelectedCategory("cruise-ships");
-                    setUploadDialogOpen(true);
-                  }}
+                  onClick={() => setShowCruiseShipDialog(true)}
                 >
-                  <Anchor className="h-4 w-4 mr-2" />
+                  <Ship className="h-4 w-4 mr-2" />
                   Cruise Ships
                 </DropdownMenuItem>
                 <DropdownMenuItem 
@@ -744,6 +740,11 @@ const Dashboard = () => {
       <MaritimeInfrastructureUploadDialog
         open={showMaritimeInfrastructureDialog}
         onOpenChange={setShowMaritimeInfrastructureDialog}
+      />
+      
+      <CruiseShipUploadDialog
+        open={showCruiseShipDialog}
+        onOpenChange={setShowCruiseShipDialog}
       />
     </div>
   );
