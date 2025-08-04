@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area, AreaChart } from 'recharts';
 import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
 import { CarUploadDialog } from "@/components/CarUploadDialog";
+import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -13,6 +14,7 @@ import { useLocation } from "react-router-dom";
 const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
+  const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -148,8 +150,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("schools-education");
-                  setUploadDialogOpen(true);
+                  setSchoolEducationDialogOpen(true);
                 }}
               >
                 <GraduationCap className="h-4 w-4 mr-2" />
@@ -608,6 +609,11 @@ const Dashboard = () => {
       <CarUploadDialog 
         open={carUploadDialogOpen} 
         onOpenChange={setCarUploadDialogOpen}
+      />
+      
+      <SchoolEducationUploadDialog 
+        open={schoolEducationDialogOpen} 
+        onOpenChange={setSchoolEducationDialogOpen}
       />
     </div>
   );
