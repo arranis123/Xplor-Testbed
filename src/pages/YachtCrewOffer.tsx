@@ -11,7 +11,7 @@ const YachtCrewOffer = () => {
       {/* Header */}
       <div className="relative py-16 bg-background">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-contain bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/lovable-uploads/45cc1ea1-be70-466b-a97c-c44b69684dfa.png)' }}
         />
         <div className="relative max-w-6xl mx-auto px-6 text-center">
