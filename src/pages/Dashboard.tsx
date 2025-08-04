@@ -19,6 +19,7 @@ import MerchantShippingUploadDialog from "@/components/MerchantShippingUploadDia
 import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilityUploadDialog";
 import MaritimeInfrastructureUploadDialog from "@/components/MaritimeInfrastructureUploadDialog";
 import CruiseShipUploadDialog from "@/components/CruiseShipUploadDialog";
+import TrainTramUploadDialog from "@/components/TrainTramUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -30,6 +31,7 @@ const Dashboard = () => {
   const [showManufacturingFacilityDialog, setShowManufacturingFacilityDialog] = useState(false);
   const [showMaritimeInfrastructureDialog, setShowMaritimeInfrastructureDialog] = useState(false);
   const [showCruiseShipDialog, setShowCruiseShipDialog] = useState(false);
+  const [showTrainTramDialog, setShowTrainTramDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -278,10 +280,7 @@ const Dashboard = () => {
                 Manufacturing Facilities
               </DropdownMenuItem>
               <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("trains-trams");
-                  setUploadDialogOpen(true);
-                }}
+                onClick={() => setShowTrainTramDialog(true)}
               >
                 <Train className="h-4 w-4 mr-2" />
                 Trains & Trams
@@ -657,6 +656,12 @@ const Dashboard = () => {
                   <Factory className="h-4 w-4 mr-2" />
                   Manufacturing Facilities
                 </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setShowTrainTramDialog(true)}
+                >
+                  <Train className="h-4 w-4 mr-2" />
+                  Trains & Trams
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button variant="outline" className="w-full justify-start">
@@ -745,6 +750,11 @@ const Dashboard = () => {
       <CruiseShipUploadDialog
         open={showCruiseShipDialog}
         onOpenChange={setShowCruiseShipDialog}
+      />
+      
+      <TrainTramUploadDialog
+        open={showTrainTramDialog}
+        onOpenChange={setShowTrainTramDialog}
       />
     </div>
   );
