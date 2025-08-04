@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
@@ -35,7 +35,8 @@ import {
   FileText,
   Camera,
   Check,
-  ChevronsUpDown
+  ChevronsUpDown,
+  Clock
 } from "lucide-react";
 
 interface RealEstatePropertyFormProps {
@@ -136,11 +137,12 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
   return (
     <div className="w-full max-w-6xl mx-auto">
       <Tabs defaultValue="basic-info" className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-8">
           <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
           <TabsTrigger value="details-features">Details & Features</TabsTrigger>
           <TabsTrigger value="amenities">Amenities</TabsTrigger>
           <TabsTrigger value="location">Location</TabsTrigger>
+          <TabsTrigger value="availability">Availability</TabsTrigger>
           <TabsTrigger value="access-rules">Access & Rules</TabsTrigger>
           <TabsTrigger value="media-files">Media & Files</TabsTrigger>
           <TabsTrigger value="visibility">Visibility</TabsTrigger>
@@ -1284,7 +1286,362 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
           </Card>
         </TabsContent>
 
-        {/* 5️⃣ Access & Rules Tab */}
+        {/* 5️⃣ Availability Tab */}
+        <TabsContent value="availability" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CalendarIcon className="h-5 w-5" />
+                Rental Booking Management
+              </CardTitle>
+              <CardDescription>
+                Configure rental booking availability and scheduling
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="rentalAvailable"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                      <div className="space-y-0.5">
+                        <FormLabel>Enable Rental Bookings</FormLabel>
+                        <FormDescription>
+                          Allow guests to book this property for rentals
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="minimumStay"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Minimum Stay (nights)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 2" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maximumStay"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Maximum Stay (nights)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 30" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="rentalPrice"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Rental Price (per night)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="Enter nightly rate" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-lg font-medium">Calendar API Integration</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="calendarApiProvider"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Calendar Provider</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select calendar provider" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="airbnb">Airbnb</SelectItem>
+                            <SelectItem value="booking">Booking.com</SelectItem>
+                            <SelectItem value="vrbo">VRBO</SelectItem>
+                            <SelectItem value="google">Google Calendar</SelectItem>
+                            <SelectItem value="outlook">Outlook</SelectItem>
+                            <SelectItem value="ical">iCal URL</SelectItem>
+                            <SelectItem value="custom">Custom API</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="calendarApiKey"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>API Key / URL</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter API key or calendar URL" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="calendarSyncFrequency"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sync Frequency</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select sync frequency" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="realtime">Real-time</SelectItem>
+                            <SelectItem value="15min">Every 15 minutes</SelectItem>
+                            <SelectItem value="hourly">Hourly</SelectItem>
+                            <SelectItem value="daily">Daily</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="autoBlockDates"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Auto-block Dates</FormLabel>
+                          <FormDescription>
+                            Automatically block dates from external calendars
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                Open House Scheduling
+              </CardTitle>
+              <CardDescription>
+                Schedule and manage open house events for property viewings
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="openHouseEnabled"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                      <div className="space-y-0.5">
+                        <FormLabel>Enable Open House</FormLabel>
+                        <FormDescription>
+                          Allow scheduling of open house events
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="openHouseDuration"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Default Duration (hours)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 2" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maxVisitors"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Maximum Visitors</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 20" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="requireRegistration"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                      <div className="space-y-0.5">
+                        <FormLabel>Require Registration</FormLabel>
+                        <FormDescription>
+                          Visitors must register before attending
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-lg font-medium">Scheduling API Integration</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="schedulingProvider"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Scheduling Provider</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select scheduling provider" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="calendly">Calendly</SelectItem>
+                            <SelectItem value="acuity">Acuity Scheduling</SelectItem>
+                            <SelectItem value="appointy">Appointy</SelectItem>
+                            <SelectItem value="setmore">Setmore</SelectItem>
+                            <SelectItem value="google">Google Calendar</SelectItem>
+                            <SelectItem value="outlook">Outlook</SelectItem>
+                            <SelectItem value="custom">Custom API</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="schedulingApiKey"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>API Key / Integration URL</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter API key or scheduling URL" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="notificationEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Notification Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="agent@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="autoConfirm"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Auto-confirm Bookings</FormLabel>
+                          <FormDescription>
+                            Automatically confirm open house registrations
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="availableTimeSlots"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Available Time Slots</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="e.g., Monday-Friday: 9:00 AM - 6:00 PM, Saturday: 10:00 AM - 4:00 PM" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* 6️⃣ Access & Rules Tab */}
         <TabsContent value="access-rules" className="space-y-6">
           <Card>
             <CardHeader>
