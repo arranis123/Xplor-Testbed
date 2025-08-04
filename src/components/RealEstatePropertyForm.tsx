@@ -136,17 +136,19 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
 
   return (
     <div className="w-full max-w-6xl mx-auto">
-      <Tabs defaultValue="basic-info" className="w-full">
-        <TabsList className="grid w-full grid-cols-8">
-          <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
-          <TabsTrigger value="details-features">Details & Features</TabsTrigger>
-          <TabsTrigger value="amenities">Amenities</TabsTrigger>
-          <TabsTrigger value="location">Location</TabsTrigger>
-          <TabsTrigger value="availability">Availability</TabsTrigger>
-          <TabsTrigger value="access-rules">Access & Rules</TabsTrigger>
-          <TabsTrigger value="media-files">Media & Files</TabsTrigger>
-          <TabsTrigger value="visibility">Visibility</TabsTrigger>
+      <Tabs defaultValue="basic-info" className="w-full flex gap-6">
+        <TabsList className="flex flex-col h-fit w-56 p-1">
+          <TabsTrigger value="basic-info" className="w-full justify-start">Basic Info</TabsTrigger>
+          <TabsTrigger value="details-features" className="w-full justify-start">Details & Features</TabsTrigger>
+          <TabsTrigger value="amenities" className="w-full justify-start">Amenities</TabsTrigger>
+          <TabsTrigger value="location" className="w-full justify-start">Location</TabsTrigger>
+          <TabsTrigger value="availability" className="w-full justify-start">Availability</TabsTrigger>
+          <TabsTrigger value="access-rules" className="w-full justify-start">Access & Rules</TabsTrigger>
+          <TabsTrigger value="media-files" className="w-full justify-start">Media & Files</TabsTrigger>
+          <TabsTrigger value="visibility" className="w-full justify-start">Visibility</TabsTrigger>
         </TabsList>
+
+        <div className="flex-1">
 
         {/* 1️⃣ Basic Info Tab */}
         <TabsContent value="basic-info" className="space-y-6">
@@ -2244,6 +2246,7 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
             </CardContent>
           </Card>
         </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
