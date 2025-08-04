@@ -1186,743 +1186,743 @@ export function HotelUploadForm({
   {
     category: "Room Amenities",
     id: "air-conditioning",
-    label: "Air Conditioning",
+    label: "❄️ Air Conditioning",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "heating",
-    label: "Heating",
+    label: "🔥 Heating",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "flat-screen-tv",
-    label: "Flat-Screen TV",
+    label: "📺 Flat-Screen TV",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "satellite-cable",
-    label: "Satellite / Cable Channels",
+    label: "📡 Satellite / Cable Channels",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "wifi",
-    label: "Wi-Fi / High-Speed Internet",
+    label: "📶 Wi-Fi / High-Speed Internet",
     icon: Wifi
   }, {
     category: "Room Amenities",
     id: "minibar",
-    label: "Minibar",
+    label: "🍺 Minibar",
     icon: Coffee
   }, {
     category: "Room Amenities",
     id: "safe-lockbox",
-    label: "Safe / Lockbox",
+    label: "🔐 Safe / Lockbox",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "desk-workstation",
-    label: "Desk / Workstation",
+    label: "🖥️ Desk / Workstation",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "coffee-maker",
-    label: "Coffee Maker / Nespresso Machine",
+    label: "☕ Coffee Maker / Nespresso Machine",
     icon: Coffee
   }, {
     category: "Room Amenities",
     id: "kettle-tea",
-    label: "Kettle / Tea Set",
+    label: "🫖 Kettle / Tea Set",
     icon: Coffee
   }, {
     category: "Room Amenities",
     id: "telephone",
-    label: "Telephone",
+    label: "☎️ Telephone",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "alarm-clock",
-    label: "Alarm Clock / Wake-Up Service",
+    label: "⏰ Alarm Clock / Wake-Up Service",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "iron-board",
-    label: "Iron and Ironing Board",
+    label: "👔 Iron and Ironing Board",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "hairdryer",
-    label: "Hairdryer",
+    label: "💨 Hairdryer",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "bathrobe-slippers",
-    label: "Bathrobe & Slippers",
+    label: "🥿 Bathrobe & Slippers",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "blackout-curtains",
-    label: "Blackout Curtains",
+    label: "🌙 Blackout Curtains",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "balcony-terrace",
-    label: "Balcony / Terrace",
+    label: "🏡 Balcony / Terrace",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "soundproofed",
-    label: "Soundproofed Rooms",
+    label: "🔇 Soundproofed Rooms",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "smoking-options",
-    label: "Smoking / Non-Smoking Options",
+    label: "🚭 Smoking / Non-Smoking Options",
     icon: Hotel
   }, {
     category: "Room Amenities",
     id: "room-service",
-    label: "In-Room Dining / Room Service",
+    label: "🛎️ In-Room Dining / Room Service",
     icon: Utensils
   }, {
     category: "Room Amenities",
     id: "kitchenette",
-    label: "Kitchenette / Full Kitchen",
+    label: "🍳 Kitchenette / Full Kitchen",
     icon: Utensils
   }, {
     category: "Room Amenities",
     id: "laundry-facilities",
-    label: "Laundry Facilities (In-Room or Shared)",
+    label: "🧺 Laundry Facilities (In-Room or Shared)",
     icon: Hotel
   },
   // Bathroom Amenities
   {
     category: "Bathroom Amenities",
     id: "walk-in-shower",
-    label: "Walk-in Shower",
+    label: "🚿 Walk-in Shower",
     icon: Waves
   }, {
     category: "Bathroom Amenities",
     id: "bathtub",
-    label: "Bathtub (Standard, Jetted, or Soaking)",
+    label: "🛁 Bathtub (Standard, Jetted, or Soaking)",
     icon: Waves
   }, {
     category: "Bathroom Amenities",
     id: "double-vanity",
-    label: "Double Vanity",
+    label: "🪞 Double Vanity",
     icon: Hotel
   }, {
     category: "Bathroom Amenities",
     id: "premium-toiletries",
-    label: "Premium Toiletries",
+    label: "🧴 Premium Toiletries",
     icon: Hotel
   }, {
     category: "Bathroom Amenities",
     id: "bidet",
-    label: "Bidet",
+    label: "🚽 Bidet",
     icon: Hotel
   }, {
     category: "Bathroom Amenities",
     id: "towel-warmer",
-    label: "Towel Warmer",
+    label: "🔥 Towel Warmer",
     icon: Hotel
   }, {
     category: "Bathroom Amenities",
     id: "makeup-mirror",
-    label: "Makeup Mirror",
+    label: "💄 Makeup Mirror",
     icon: Hotel
   }, {
     category: "Bathroom Amenities",
     id: "bathroom-phone",
-    label: "Bathroom Phone",
+    label: "📞 Bathroom Phone",
     icon: Hotel
   },
   // Connectivity & Tech
   {
     category: "Connectivity & Tech",
     id: "free-wifi",
-    label: "Free Wi-Fi",
+    label: "📶 Free Wi-Fi",
     icon: Wifi
   }, {
     category: "Connectivity & Tech",
     id: "wired-internet",
-    label: "Wired Internet",
+    label: "🔌 Wired Internet",
     icon: Wifi
   }, {
     category: "Connectivity & Tech",
     id: "smart-tv",
-    label: "Smart TV / Streaming Access",
+    label: "📱 Smart TV / Streaming Access",
     icon: Hotel
   }, {
     category: "Connectivity & Tech",
     id: "usb-charging",
-    label: "USB Charging Ports",
+    label: "🔌 USB Charging Ports",
     icon: Hotel
   }, {
     category: "Connectivity & Tech",
     id: "bluetooth-speakers",
-    label: "Bluetooth Speakers",
+    label: "🔊 Bluetooth Speakers",
     icon: Hotel
   }, {
     category: "Connectivity & Tech",
     id: "chromecast-appletv",
-    label: "Chromecast or Apple TV",
+    label: "📱 Chromecast or Apple TV",
     icon: Hotel
   }, {
     category: "Connectivity & Tech",
     id: "digital-key",
-    label: "Digital Key or Mobile Room Access",
+    label: "📲 Digital Key or Mobile Room Access",
     icon: Hotel
   }, {
     category: "Connectivity & Tech",
     id: "smart-lighting",
-    label: "Smart Lighting / Thermostat",
+    label: "💡 Smart Lighting / Thermostat",
     icon: Hotel
   }, {
     category: "Connectivity & Tech",
     id: "room-tablet",
-    label: "In-room Tablet / Hotel App Access",
+    label: "📱 In-room Tablet / Hotel App Access",
     icon: Hotel
   },
   // Food & Beverage
   {
     category: "Food & Beverage",
     id: "onsite-restaurants",
-    label: "On-Site Restaurant(s)",
+    label: "🍽️ On-Site Restaurant(s)",
     icon: Utensils
   }, {
     category: "Food & Beverage",
     id: "bar-lounge",
-    label: "Bar / Lounge",
+    label: "🍸 Bar / Lounge",
     icon: Coffee
   }, {
     category: "Food & Beverage",
     id: "rooftop-bar",
-    label: "Rooftop Bar",
+    label: "🏙️ Rooftop Bar",
     icon: Coffee
   }, {
     category: "Food & Beverage",
     id: "pool-bar",
-    label: "Pool Bar",
+    label: "🏊 Pool Bar",
     icon: Coffee
   }, {
     category: "Food & Beverage",
     id: "breakfast-buffet",
-    label: "Breakfast Buffet",
+    label: "🥐 Breakfast Buffet",
     icon: Utensils
   }, {
     category: "Food & Beverage",
     id: "alacarte-breakfast",
-    label: "À La Carte Breakfast",
+    label: "🍳 À La Carte Breakfast",
     icon: Utensils
   }, {
     category: "Food & Beverage",
     id: "room-dining",
-    label: "In-Room Dining / Room Service",
+    label: "🛎️ In-Room Dining / Room Service",
     icon: Utensils
   }, {
     category: "Food & Beverage",
     id: "grab-go",
-    label: "Grab & Go / Deli Counter",
+    label: "🥪 Grab & Go / Deli Counter",
     icon: Utensils
   }, {
     category: "Food & Beverage",
     id: "cafe-coffee",
-    label: "Café / Coffee Shop",
+    label: "☕ Café / Coffee Shop",
     icon: Coffee
   }, {
     category: "Food & Beverage",
     id: "mini-market",
-    label: "Mini Market / Convenience Store",
+    label: "🛒 Mini Market / Convenience Store",
     icon: Hotel
   }, {
     category: "Food & Beverage",
     id: "wine-cellar",
-    label: "Wine Cellar / Tasting Room",
+    label: "🍷 Wine Cellar / Tasting Room",
     icon: Coffee
   }, {
     category: "Food & Beverage",
     id: "welcome-drink",
-    label: "Complimentary Welcome Drink",
+    label: "🥂 Complimentary Welcome Drink",
     icon: Coffee
   }, {
     category: "Food & Beverage",
     id: "kids-menu",
-    label: "Kids' Menu or High Chairs",
+    label: "🧒 Kids' Menu or High Chairs",
     icon: Utensils
   }, {
     category: "Food & Beverage",
     id: "special-diet",
-    label: "Special Diet Menus (Vegan, Gluten-Free, etc.)",
+    label: "🥗 Special Diet Menus (Vegan, Gluten-Free, etc.)",
     icon: Utensils
   },
   // Wellness & Fitness
   {
     category: "Wellness & Fitness",
     id: "spa",
-    label: "Spa",
+    label: "💆 Spa",
     icon: Hotel
   }, {
     category: "Wellness & Fitness",
     id: "sauna",
-    label: "Sauna",
+    label: "🧖 Sauna",
     icon: Hotel
   }, {
     category: "Wellness & Fitness",
     id: "steam-room",
-    label: "Steam Room",
+    label: "💨 Steam Room",
     icon: Hotel
   }, {
     category: "Wellness & Fitness",
     id: "jacuzzi-hot-tub",
-    label: "Jacuzzi / Hot Tub",
+    label: "🛁 Jacuzzi / Hot Tub",
     icon: Waves
   }, {
     category: "Wellness & Fitness",
     id: "massage-services",
-    label: "Massage Services",
+    label: "💆‍♀️ Massage Services",
     icon: Hotel
   }, {
     category: "Wellness & Fitness",
     id: "yoga-studio",
-    label: "Yoga Studio",
+    label: "🧘 Yoga Studio",
     icon: Dumbbell
   }, {
     category: "Wellness & Fitness",
     id: "meditation-room",
-    label: "Meditation Room",
+    label: "🕯️ Meditation Room",
     icon: Hotel
   }, {
     category: "Wellness & Fitness",
     id: "fitness-center",
-    label: "Fitness Center / Gym",
+    label: "💪 Fitness Center / Gym",
     icon: Dumbbell
   }, {
     category: "Wellness & Fitness",
     id: "personal-trainer",
-    label: "Personal Trainer",
+    label: "🏃‍♂️ Personal Trainer",
     icon: Dumbbell
   }, {
     category: "Wellness & Fitness",
     id: "fitness-classes",
-    label: "Fitness Classes",
+    label: "🤸‍♀️ Fitness Classes",
     icon: Dumbbell
   }, {
     category: "Wellness & Fitness",
     id: "wellness-packages",
-    label: "Wellness Retreat Packages",
+    label: "🌸 Wellness Retreat Packages",
     icon: Hotel
   },
   // Leisure & Recreation
   {
     category: "Leisure & Recreation",
     id: "outdoor-pool",
-    label: "Outdoor Pool",
+    label: "🏊‍♂️ Outdoor Pool",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "indoor-pool",
-    label: "Indoor Pool",
+    label: "🏊‍♀️ Indoor Pool",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "children-pool",
-    label: "Children's Pool",
+    label: "👶 Children's Pool",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "infinity-pool",
-    label: "Infinity Pool",
+    label: "♾️ Infinity Pool",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "rooftop-pool",
-    label: "Rooftop Pool",
+    label: "🏙️ Rooftop Pool",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "beach-access",
-    label: "Private Beach Access",
+    label: "🏖️ Private Beach Access",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "cabanas-poolside",
-    label: "Cabanas / Poolside Lounge",
+    label: "⛱️ Cabanas / Poolside Lounge",
     icon: Hotel
   }, {
     category: "Leisure & Recreation",
     id: "game-room",
-    label: "Game Room",
+    label: "🎮 Game Room",
     icon: Hotel
   }, {
     category: "Leisure & Recreation",
     id: "cinema",
-    label: "Cinema / Screening Room",
+    label: "🎬 Cinema / Screening Room",
     icon: Hotel
   }, {
     category: "Leisure & Recreation",
     id: "library",
-    label: "Library / Reading Room",
+    label: "📚 Library / Reading Room",
     icon: Hotel
   }, {
     category: "Leisure & Recreation",
     id: "garden-courtyard",
-    label: "Garden or Courtyard",
+    label: "🌳 Garden or Courtyard",
     icon: Hotel
   }, {
     category: "Leisure & Recreation",
     id: "bike-rental",
-    label: "Bike Rental",
+    label: "🚴‍♂️ Bike Rental",
     icon: Car
   }, {
     category: "Leisure & Recreation",
     id: "water-sports",
-    label: "Water Sports Equipment",
+    label: "🏄‍♂️ Water Sports Equipment",
     icon: Waves
   }, {
     category: "Leisure & Recreation",
     id: "golf-course",
-    label: "Golf Course Access",
+    label: "⛳ Golf Course Access",
     icon: Hotel
   }, {
     category: "Leisure & Recreation",
     id: "tennis-courts",
-    label: "Tennis Courts",
+    label: "🎾 Tennis Courts",
     icon: Hotel
   },
   // Family & Kids
   {
     category: "Family & Kids",
     id: "family-rooms",
-    label: "Family Rooms / Connecting Rooms",
+    label: "👨‍👩‍👧‍👦 Family Rooms / Connecting Rooms",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "baby-cots",
-    label: "Baby Cots / Cribs",
+    label: "🍼 Baby Cots / Cribs",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "babysitting",
-    label: "Babysitting Services",
+    label: "👶 Babysitting Services",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "kids-club",
-    label: "Kids' Club",
+    label: "🎨 Kids' Club",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "children-activities",
-    label: "Children's Activities",
+    label: "🎪 Children's Activities",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "playground",
-    label: "Playground",
+    label: "🛝 Playground",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "childproofing",
-    label: "Childproofing Equipment",
+    label: "🔒 Childproofing Equipment",
     icon: Users
   }, {
     category: "Family & Kids",
     id: "children-pool-kids",
-    label: "Children's Pool",
+    label: "🧒 Children's Pool",
     icon: Waves
   },
   // Pet-Friendly Services
   {
     category: "Pet-Friendly Services",
     id: "pet-rooms",
-    label: "Pet-Friendly Rooms",
+    label: "🐕 Pet-Friendly Rooms",
     icon: Hotel
   }, {
     category: "Pet-Friendly Services",
     id: "pet-welcome",
-    label: "Pet Welcome Kit",
+    label: "🎁 Pet Welcome Kit",
     icon: Hotel
   }, {
     category: "Pet-Friendly Services",
     id: "dog-park",
-    label: "On-Site Dog Park",
+    label: "🐕‍🦺 On-Site Dog Park",
     icon: Hotel
   }, {
     category: "Pet-Friendly Services",
     id: "pet-sitting",
-    label: "Pet Sitting or Walking",
+    label: "🐾 Pet Sitting or Walking",
     icon: Hotel
   }, {
     category: "Pet-Friendly Services",
     id: "pet-menu",
-    label: "Pet Menu or Treats",
+    label: "🦴 Pet Menu or Treats",
     icon: Utensils
   }, {
     category: "Pet-Friendly Services",
     id: "pet-spa",
-    label: "Pet Spa / Grooming",
+    label: "🐩 Pet Spa / Grooming",
     icon: Hotel
   },
   // Shopping & Retail
   {
     category: "Shopping & Retail",
     id: "gift-shop",
-    label: "Gift Shop",
+    label: "🎁 Gift Shop",
     icon: Hotel
   }, {
     category: "Shopping & Retail",
     id: "boutiques",
-    label: "Designer Boutiques",
+    label: "👗 Designer Boutiques",
     icon: Hotel
   }, {
     category: "Shopping & Retail",
     id: "beauty-salon",
-    label: "Beauty Salon / Hairdresser",
+    label: "💇‍♀️ Beauty Salon / Hairdresser",
     icon: Hotel
   }, {
     category: "Shopping & Retail",
     id: "jewelry-shop",
-    label: "Jewelry or Watch Shop",
+    label: "💎 Jewelry or Watch Shop",
     icon: Hotel
   }, {
     category: "Shopping & Retail",
     id: "art-gallery",
-    label: "Art Gallery",
+    label: "🎨 Art Gallery",
     icon: Hotel
   },
   // Business & Events
   {
     category: "Business & Events",
     id: "business-center",
-    label: "Business Center",
+    label: "💼 Business Center",
     icon: Hotel
   }, {
     category: "Business & Events",
     id: "meeting-rooms",
-    label: "Meeting Rooms",
+    label: "🏢 Meeting Rooms",
     icon: Users
   }, {
     category: "Business & Events",
     id: "conference-rooms",
-    label: "Conference Rooms",
+    label: "👥 Conference Rooms",
     icon: Users
   }, {
     category: "Business & Events",
     id: "event-venues",
-    label: "Event Venues / Banquet Halls",
+    label: "🎊 Event Venues / Banquet Halls",
     icon: Users
   }, {
     category: "Business & Events",
     id: "coworking",
-    label: "Coworking Space",
+    label: "💻 Coworking Space",
     icon: Hotel
   }, {
     category: "Business & Events",
     id: "av-equipment",
-    label: "AV Equipment Rental",
+    label: "📽️ AV Equipment Rental",
     icon: Hotel
   }, {
     category: "Business & Events",
     id: "printing",
-    label: "Printing / Scanning Services",
+    label: "🖨️ Printing / Scanning Services",
     icon: Hotel
   }, {
     category: "Business & Events",
     id: "executive-lounge",
-    label: "Executive Lounge",
+    label: "🤵 Executive Lounge",
     icon: Hotel
   }, {
     category: "Business & Events",
     id: "vip-checkin",
-    label: "VIP Check-In Area",
+    label: "⭐ VIP Check-In Area",
     icon: Hotel
   },
   // Transportation & Access
   {
     category: "Transportation & Access",
     id: "onsite-parking",
-    label: "On-Site Parking",
+    label: "🅿️ On-Site Parking",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "valet-parking",
-    label: "Valet Parking",
+    label: "🚗 Valet Parking",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "ev-charging",
-    label: "EV Charging Station",
+    label: "⚡ EV Charging Station",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "airport-shuttle",
-    label: "Airport Shuttle",
+    label: "✈️ Airport Shuttle",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "chauffeur",
-    label: "Chauffeur / Car Service",
+    label: "🤵‍♂️ Chauffeur / Car Service",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "bike-scooter",
-    label: "Bike or Scooter Rentals",
+    label: "🛴 Bike or Scooter Rentals",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "private-jet",
-    label: "Private Jet Transfer",
+    label: "🛩️ Private Jet Transfer",
     icon: Car
   }, {
     category: "Transportation & Access",
     id: "dock-marina",
-    label: "Dock / Marina Access",
+    label: "🛥️ Dock / Marina Access",
     icon: Waves
   }, {
     category: "Transportation & Access",
     id: "helipad",
-    label: "Helipad",
+    label: "🚁 Helipad",
     icon: Car
   },
   // Accessibility Features
   {
     category: "Accessibility Features",
     id: "wheelchair-rooms",
-    label: "Wheelchair Accessible Rooms",
+    label: "♿ Wheelchair Accessible Rooms",
     icon: Hotel
   }, {
     category: "Accessibility Features",
     id: "elevator-access",
-    label: "Elevator Access",
+    label: "🛗 Elevator Access",
     icon: Hotel
   }, {
     category: "Accessibility Features",
     id: "braille-signage",
-    label: "Braille Signage",
+    label: "⠃ Braille Signage",
     icon: Hotel
   }, {
     category: "Accessibility Features",
     id: "visual-alarm",
-    label: "Visual Alarm Alert",
+    label: "🚨 Visual Alarm Alert",
     icon: Hotel
   }, {
     category: "Accessibility Features",
     id: "accessible-bathrooms",
-    label: "Accessible Bathrooms",
+    label: "🚿 Accessible Bathrooms",
     icon: Hotel
   }, {
     category: "Accessibility Features",
     id: "ramps",
-    label: "Ramps / Step-Free Entry",
+    label: "🏃‍♂️ Ramps / Step-Free Entry",
     icon: Hotel
   }, {
     category: "Accessibility Features",
     id: "hearing-aid",
-    label: "Hearing Aid Compatible Phones",
+    label: "🔊 Hearing Aid Compatible Phones",
     icon: Hotel
   },
   // Safety & Security
   {
     category: "Safety & Security",
     id: "24hour-security",
-    label: "24-Hour Security",
+    label: "🛡️ 24-Hour Security",
     icon: Hotel
   }, {
     category: "Safety & Security",
     id: "key-card",
-    label: "Key Card Access",
+    label: "🗝️ Key Card Access",
     icon: Hotel
   }, {
     category: "Safety & Security",
     id: "fire-alarms",
-    label: "Fire Alarms & Smoke Detectors",
+    label: "🚨 Fire Alarms & Smoke Detectors",
     icon: Hotel
   }, {
     category: "Safety & Security",
     id: "cctv",
-    label: "CCTV in Common Areas",
+    label: "📹 CCTV in Common Areas",
     icon: Hotel
   }, {
     category: "Safety & Security",
     id: "inroom-safe",
-    label: "In-Room Safe",
+    label: "🔐 In-Room Safe",
     icon: Hotel
   }, {
     category: "Safety & Security",
     id: "emergency-procedures",
-    label: "Emergency Procedures / Evacuation Maps",
+    label: "🆘 Emergency Procedures / Evacuation Maps",
     icon: Hotel
   }, {
     category: "Safety & Security",
     id: "security-staff",
-    label: "Security Staff or Concierge",
+    label: "👮‍♂️ Security Staff or Concierge",
     icon: Hotel
   },
   // General Services
   {
     category: "General Services",
     id: "24hour-reception",
-    label: "24-Hour Reception",
+    label: "🏨 24-Hour Reception",
     icon: Hotel
   }, {
     category: "General Services",
     id: "concierge",
-    label: "Concierge Services",
+    label: "🤵 Concierge Services",
     icon: Hotel
   }, {
     category: "General Services",
     id: "luggage-storage",
-    label: "Luggage Storage",
+    label: "🧳 Luggage Storage",
     icon: Hotel
   }, {
     category: "General Services",
     id: "daily-housekeeping",
-    label: "Daily Housekeeping",
+    label: "🧹 Daily Housekeeping",
     icon: Hotel
   }, {
     category: "General Services",
     id: "dry-cleaning",
-    label: "Dry Cleaning / Laundry",
+    label: "👔 Dry Cleaning / Laundry",
     icon: Hotel
   }, {
     category: "General Services",
     id: "shoe-shine",
-    label: "Shoe Shine",
+    label: "👞 Shoe Shine",
     icon: Hotel
   }, {
     category: "General Services",
     id: "currency-exchange",
-    label: "Currency Exchange",
+    label: "💱 Currency Exchange",
     icon: Hotel
   }, {
     category: "General Services",
     id: "multilingual-staff",
-    label: "Multilingual Staff",
+    label: "🌍 Multilingual Staff",
     icon: Hotel
   }, {
     category: "General Services",
     id: "wake-up-call",
-    label: "Wake-Up Call",
+    label: "⏰ Wake-Up Call",
     icon: Hotel
   }, {
     category: "General Services",
     id: "early-checkin",
-    label: "Early Check-In / Late Check-Out",
+    label: "🕐 Early Check-In / Late Check-Out",
     icon: Hotel
   }, {
     category: "General Services",
     id: "express-checkin",
-    label: "Express Check-In / Check-Out",
+    label: "⚡ Express Check-In / Check-Out",
     icon: Hotel
   }, {
     category: "General Services",
     id: "butler-service",
-    label: "Butler Service",
+    label: "🤵‍♂️ Butler Service",
     icon: Hotel
   }, {
     category: "General Services",
     id: "turndown-service",
-    label: "Turndown Service",
+    label: "🛏️ Turndown Service",
     icon: Hotel
   }];
   const addFacility = () => {
