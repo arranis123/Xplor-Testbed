@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel, Building2, Anchor, Factory } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel, Building2, Anchor, Factory, Train, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -246,6 +246,24 @@ const Dashboard = () => {
               >
                 <Factory className="h-4 w-4 mr-2" />
                 Manufacturing Facilities
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("trains-trams");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Train className="h-4 w-4 mr-2" />
+                Trains & Trams
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("restaurants-bars");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Utensils className="h-4 w-4 mr-2" />
+                Restaurants & Bars
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
