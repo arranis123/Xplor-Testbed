@@ -805,6 +805,36 @@ export default function RetailPopUpForm() {
                 <CardTitle>Media & Files</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Featured Image Section */}
+                <div>
+                  <Label className="text-base font-semibold">Featured Image</Label>
+                  <div className="space-y-3">
+                    <div className="mt-2 border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                      <div className="text-center">
+                        <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+                        <div className="mt-4">
+                          <label htmlFor="file-featured" className="cursor-pointer">
+                            <span className="mt-2 block text-sm font-medium text-foreground">
+                              Upload main image for your listing
+                            </span>
+                            <input
+                              id="file-featured"
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={(e) => handleFileUpload('featured', e.target.files)}
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Input placeholder="Or paste image URL" className="flex-1" />
+                      <Button variant="outline">Add URL</Button>
+                    </div>
+                  </div>
+                </div>
+
                 {Object.entries({
                   tours: "360° Virtual Tours",
                   photos: "Photos", 
@@ -840,6 +870,39 @@ export default function RetailPopUpForm() {
                         <Input placeholder={`Or paste URL to ${title.toLowerCase()}`} className="flex-1" />
                         <Button variant="outline">Add URL</Button>
                       </div>
+                      
+                      {/* Multiple Items Section */}
+                      {(['tours', 'videos', 'droneFootage'].includes(key)) && (
+                        <div className="space-y-3 mt-4">
+                          <Button variant="outline" className="w-full">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add {title}
+                          </Button>
+                          
+                          <Card className="p-4">
+                            <div className="flex justify-between items-start mb-3">
+                              <Badge variant="outline">{title}</Badge>
+                              <Button variant="ghost" size="sm">
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <Label className="text-sm font-medium">Name</Label>
+                                <Input placeholder={`e.g., ${key === 'tours' ? 'Store Virtual Tour' : key === 'videos' ? 'Product Showcase' : 'Exterior View'}`} />
+                              </div>
+                              <div>
+                                <Label className="text-sm font-medium">URL or File Upload</Label>
+                                <Input placeholder="Enter URL or upload file..." />
+                              </div>
+                              <div className="md:col-span-2">
+                                <Label className="text-sm font-medium">Description</Label>
+                                <Textarea placeholder={`Describe this ${title.toLowerCase()}...`} rows={2} />
+                              </div>
+                            </div>
+                          </Card>
+                        </div>
+                      )}
                     </div>
                     
                     {uploadedFiles[key].length > 0 && (

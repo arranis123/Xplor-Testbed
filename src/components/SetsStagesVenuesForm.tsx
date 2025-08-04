@@ -13,8 +13,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
 import MapboxLocationPicker from './MapboxLocationPicker';
 import { toast } from "sonner";
+import { Plus, X } from "lucide-react";
 
 const formSchema = z.object({
   // Basic Info
@@ -1415,55 +1417,174 @@ export default function SetsStagesVenuesForm() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-6">
+                  {/* Featured Image Section */}
                   <div>
-                    <h4 className="text-lg font-semibold mb-2">360° Virtual Tours</h4>
+                    <h4 className="text-lg font-semibold mb-2">Featured Image</h4>
                     <div className="space-y-3">
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Upload main image for your venue listing</p>
+                        <p className="text-sm text-muted-foreground mt-2">This will be the primary image shown in search results</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste image URL" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">360° Virtual Tours</h4>
+                    <div className="space-y-4">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                         <p className="text-muted-foreground">Drag and drop 360° tour files here, or click to browse</p>
                         <p className="text-sm text-muted-foreground mt-2">Recommended first for immersive experiences</p>
                       </div>
-                      <div className="flex gap-2">
-                        <Input placeholder="Or paste URL to 360° tour" className="flex-1" />
-                        <Button variant="outline">Add URL</Button>
+                      
+                      <div className="space-y-3">
+                        <Button variant="outline" className="w-full">
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add 360° Tour
+                        </Button>
+                        
+                        <Card className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <Badge variant="outline">360° Tour</Badge>
+                            <Button variant="ghost" size="sm">
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium">Tour Name</Label>
+                              <Input placeholder="e.g., Main Stage Tour" />
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium">URL or File Upload</Label>
+                              <Input placeholder="Enter URL or upload file..." />
+                            </div>
+                            <div className="md:col-span-2">
+                              <Label className="text-sm font-medium">Description</Label>
+                              <Textarea placeholder="Describe this tour..." rows={2} />
+                            </div>
+                          </div>
+                        </Card>
                       </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Photos</h4>
-                    <div className="space-y-3">
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                    <div className="space-y-4">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                         <p className="text-muted-foreground">Upload interior, stage, equipment, seating, and backstage photos</p>
                       </div>
-                      <div className="flex gap-2">
-                        <Input placeholder="Or paste image URLs" className="flex-1" />
-                        <Button variant="outline">Add URL</Button>
+                      
+                      <div className="space-y-3">
+                        <Button variant="outline" className="w-full">
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Photo
+                        </Button>
+                        
+                        <Card className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <Badge variant="outline">Photo</Badge>
+                            <Button variant="ghost" size="sm">
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium">Photo Name</Label>
+                              <Input placeholder="e.g., Main Stage Setup" />
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium">URL or File Upload</Label>
+                              <Input placeholder="Enter URL or upload file..." />
+                            </div>
+                            <div className="md:col-span-2">
+                              <Label className="text-sm font-medium">Description</Label>
+                              <Textarea placeholder="Describe this photo..." rows={2} />
+                            </div>
+                          </div>
+                        </Card>
                       </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Videos</h4>
-                    <div className="space-y-3">
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                    <div className="space-y-4">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                         <p className="text-muted-foreground">Upload performance videos, venue walkthroughs, setup videos</p>
                       </div>
-                      <div className="flex gap-2">
-                        <Input placeholder="Or paste video URLs (YouTube, Vimeo, etc.)" className="flex-1" />
-                        <Button variant="outline">Add URL</Button>
+                      
+                      <div className="space-y-3">
+                        <Button variant="outline" className="w-full">
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Video
+                        </Button>
+                        
+                        <Card className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <Badge variant="outline">Video</Badge>
+                            <Button variant="ghost" size="sm">
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium">Video Name</Label>
+                              <Input placeholder="e.g., Performance Showcase" />
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium">URL or File Upload</Label>
+                              <Input placeholder="YouTube, Vimeo, or upload file..." />
+                            </div>
+                            <div className="md:col-span-2">
+                              <Label className="text-sm font-medium">Description</Label>
+                              <Textarea placeholder="Describe this video..." rows={2} />
+                            </div>
+                          </div>
+                        </Card>
                       </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Drone Footage</h4>
-                    <div className="space-y-3">
-                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                    <div className="space-y-4">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                         <p className="text-muted-foreground">Upload aerial footage (if applicable)</p>
                       </div>
-                      <div className="flex gap-2">
-                        <Input placeholder="Or paste drone footage URLs" className="flex-1" />
-                        <Button variant="outline">Add URL</Button>
+                      
+                      <div className="space-y-3">
+                        <Button variant="outline" className="w-full">
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Drone Footage
+                        </Button>
+                        
+                        <Card className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <Badge variant="outline">Drone Footage</Badge>
+                            <Button variant="ghost" size="sm">
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium">Footage Name</Label>
+                              <Input placeholder="e.g., Venue Aerial View" />
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium">URL or File Upload</Label>
+                              <Input placeholder="Enter URL or upload file..." />
+                            </div>
+                            <div className="md:col-span-2">
+                              <Label className="text-sm font-medium">Description</Label>
+                              <Textarea placeholder="Describe this drone footage..." rows={2} />
+                            </div>
+                          </div>
+                        </Card>
                       </div>
                     </div>
                   </div>
