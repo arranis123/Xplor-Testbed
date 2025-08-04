@@ -16,6 +16,7 @@ import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThe
 import GolfCourseUploadDialog from "@/components/GolfCourseUploadDialog";
 import GovHospitalUploadDialog from "@/components/GovHospitalUploadDialog";
 import MerchantShippingUploadDialog from "@/components/MerchantShippingUploadDialog";
+import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilityUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
   const [showMerchantShippingDialog, setShowMerchantShippingDialog] = useState(false);
+  const [showManufacturingFacilityDialog, setShowManufacturingFacilityDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -272,10 +274,7 @@ const Dashboard = () => {
                 Cruise Ships
               </DropdownMenuItem>
               <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("manufacturing-facilities");
-                  setUploadDialogOpen(true);
-                }}
+                onClick={() => setShowManufacturingFacilityDialog(true)}
               >
                 <Factory className="h-4 w-4 mr-2" />
                 Manufacturing Facilities
@@ -661,10 +660,7 @@ const Dashboard = () => {
                   Cruise Ships
                 </DropdownMenuItem>
                 <DropdownMenuItem 
-                  onClick={() => {
-                    setSelectedCategory("manufacturing-facilities");
-                    setUploadDialogOpen(true);
-                  }}
+                  onClick={() => setShowManufacturingFacilityDialog(true)}
                 >
                   <Factory className="h-4 w-4 mr-2" />
                   Manufacturing Facilities
@@ -742,6 +738,11 @@ const Dashboard = () => {
       <MerchantShippingUploadDialog
         open={showMerchantShippingDialog}
         onOpenChange={setShowMerchantShippingDialog}
+      />
+      
+      <ManufacturingFacilityUploadDialog
+        open={showManufacturingFacilityDialog}
+        onOpenChange={setShowManufacturingFacilityDialog}
       />
     </div>
   );
