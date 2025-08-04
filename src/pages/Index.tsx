@@ -39,7 +39,7 @@ const Index = () => {
           {/* FairShare Program Box - Top Right */}
           <div className="absolute top-4 right-4 z-20 hidden md:block">
             <Card className="bg-white/95 backdrop-blur-sm border-primary/20 max-w-xs">
-              <CardContent className="p-4">
+              <CardContent className="p-4 bg-gray-700">
                 <h3 className="text-sm font-bold text-foreground mb-2">
                   <span className="text-primary">FairShare</span> Program
                 </h3>
