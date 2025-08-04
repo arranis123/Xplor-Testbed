@@ -1789,166 +1789,214 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
             <CardContent className="space-y-6">
               {/* 360 Virtual Tours */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">360 Virtual Tours</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                  <div className="text-center space-y-4">
-                    <Upload className="h-12 w-12 mx-auto text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium">Upload 360 virtual tour files</p>
-                      <p className="text-xs text-gray-500">Drag & drop .zip, .html files or click to browse</p>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">360 Virtual Tours</h3>
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Virtual Tour
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {/* Virtual Tour Item */}
+                  <div className="border rounded-lg p-4 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Tour Name</label>
+                        <Input placeholder="e.g., Main Floor Tour" />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Description</label>
+                        <Input placeholder="e.g., Complete walkthrough of main floor" />
+                      </div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      <Upload className="h-4 w-4 mr-2" />
-                      Choose Files
-                    </Button>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className="text-center space-y-2">
+                        <Upload className="h-8 w-8 mx-auto text-gray-400" />
+                        <div>
+                          <p className="text-sm font-medium">Upload 360 virtual tour files</p>
+                          <p className="text-xs text-gray-500">.zip, .html files supported</p>
+                        </div>
+                        <Button variant="outline" size="sm">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Files
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Or Add Link</label>
+                      <Input placeholder="Add links to Matterport, Kuula, 3DVista, etc." />
+                    </div>
                   </div>
                 </div>
-                <FormField
-                  control={form.control}
-                  name="virtualTourLinks"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Virtual Tour Links</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Add links to Matterport, Kuula, 3DVista, etc."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               {/* Photos */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Photos</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                  <div className="text-center space-y-4">
-                    <Camera className="h-12 w-12 mx-auto text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium">Upload property photos</p>
-                      <p className="text-xs text-gray-500">JPG, PNG files supported</p>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Photos</h3>
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Photo Set
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {/* Photo Set Item */}
+                  <div className="border rounded-lg p-4 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Photo Set Name</label>
+                        <Input placeholder="e.g., Exterior Views" />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Description</label>
+                        <Input placeholder="e.g., Front and back exterior shots" />
+                      </div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      <Upload className="h-4 w-4 mr-2" />
-                      Upload Photos
-                    </Button>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className="text-center space-y-2">
+                        <Camera className="h-8 w-8 mx-auto text-gray-400" />
+                        <div>
+                          <p className="text-sm font-medium">Upload property photos</p>
+                          <p className="text-xs text-gray-500">JPG, PNG files supported</p>
+                        </div>
+                        <Button variant="outline" size="sm">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload Photos
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input type="checkbox" id="featured" className="rounded" />
+                      <label htmlFor="featured" className="text-sm">Set as featured image set</label>
+                    </div>
                   </div>
                 </div>
-                <FormField
-                  control={form.control}
-                  name="featuredImageToggle"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base">
-                          Highlight Featured Image
-                        </FormLabel>
-                        <div className="text-[0.8rem] text-muted-foreground">
-                          Mark the main property image
-                        </div>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
               </div>
 
               {/* Videos */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Videos</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                  <div className="text-center space-y-4">
-                    <FileText className="h-12 w-12 mx-auto text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium">Upload property videos</p>
-                      <p className="text-xs text-gray-500">MP4 files supported</p>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Videos</h3>
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Video
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {/* Video Item */}
+                  <div className="border rounded-lg p-4 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Video Name</label>
+                        <Input placeholder="e.g., Property Walkthrough" />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Description</label>
+                        <Input placeholder="e.g., Guided tour of all rooms" />
+                      </div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      <Upload className="h-4 w-4 mr-2" />
-                      Upload Videos
-                    </Button>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className="text-center space-y-2">
+                        <FileText className="h-8 w-8 mx-auto text-gray-400" />
+                        <div>
+                          <p className="text-sm font-medium">Upload property videos</p>
+                          <p className="text-xs text-gray-500">MP4 files supported</p>
+                        </div>
+                        <Button variant="outline" size="sm">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload Videos
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Or Add Link</label>
+                      <Input placeholder="Add YouTube or Vimeo links" />
+                    </div>
                   </div>
                 </div>
-                <FormField
-                  control={form.control}
-                  name="videoLinks"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Video Links</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Add YouTube or Vimeo links"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               {/* Drone Footage */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Drone Footage</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                  <div className="text-center space-y-4">
-                    <FileText className="h-12 w-12 mx-auto text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium">Upload drone footage</p>
-                      <p className="text-xs text-gray-500">MP4 files supported</p>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Drone Footage</h3>
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Drone Footage
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {/* Drone Footage Item */}
+                  <div className="border rounded-lg p-4 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Footage Name</label>
+                        <Input placeholder="e.g., Aerial Property Overview" />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Description</label>
+                        <Input placeholder="e.g., 360° aerial view of property and surroundings" />
+                      </div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      <Upload className="h-4 w-4 mr-2" />
-                      Upload Drone Footage
-                    </Button>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className="text-center space-y-2">
+                        <FileText className="h-8 w-8 mx-auto text-gray-400" />
+                        <div>
+                          <p className="text-sm font-medium">Upload drone footage</p>
+                          <p className="text-xs text-gray-500">MP4 files supported</p>
+                        </div>
+                        <Button variant="outline" size="sm">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload Drone Footage
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Or Add Link</label>
+                      <Input placeholder="Add Dropbox, Vimeo, or other links" />
+                    </div>
                   </div>
                 </div>
-                <FormField
-                  control={form.control}
-                  name="droneFootageLinks"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Drone Footage Links</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Add Dropbox, Vimeo, or other links"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               {/* Documents */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Documents</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Documents</h3>
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Document
+                  </Button>
+                </div>
+                <div className="space-y-3">
                   {[
-                    { label: "Floor Plan PDFs", name: "floorPlans" },
-                    { label: "Brochures", name: "brochures" },
-                    { label: "Energy Certificate", name: "energyCertificate" },
-                    { label: "HOA Documents", name: "hoaDocuments" },
-                    { label: "Purchase/Rental Terms", name: "purchaseRentalTerms" }
-                  ].map((doc) => (
-                    <div key={doc.name} className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                      <div className="text-center space-y-2">
-                        <FileText className="h-8 w-8 mx-auto text-gray-400" />
+                    { label: "Floor Plan PDFs", placeholder: "Main floor plan" },
+                    { label: "Brochures", placeholder: "Property marketing brochure" },
+                    { label: "Energy Certificate", placeholder: "Energy efficiency certificate" },
+                    { label: "HOA Documents", placeholder: "HOA bylaws and regulations" },
+                    { label: "Purchase/Rental Terms", placeholder: "Terms and conditions document" }
+                  ].map((doc, index) => (
+                    <div key={index} className="border rounded-lg p-4 space-y-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <p className="text-sm font-medium">{doc.label}</p>
-                          <Button variant="outline" size="sm" className="mt-2">
-                            <Upload className="h-4 w-4 mr-2" />
-                            Upload
-                          </Button>
+                          <label className="text-sm font-medium mb-2 block">Document Name</label>
+                          <Input placeholder={doc.placeholder} />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Description</label>
+                          <Input placeholder="Brief description of this document" />
+                        </div>
+                      </div>
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                        <div className="text-center space-y-2">
+                          <FileText className="h-8 w-8 mx-auto text-gray-400" />
+                          <div>
+                            <p className="text-sm font-medium">{doc.label}</p>
+                            <Button variant="outline" size="sm" className="mt-2">
+                              <Upload className="h-4 w-4 mr-2" />
+                              Upload
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
