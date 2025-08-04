@@ -673,8 +673,8 @@ export function HotelUploadForm({ form }: HotelUploadFormProps) {
             <TabsTrigger value="location" className="w-full justify-start">Location</TabsTrigger>
             <TabsTrigger value="amenities" className="w-full justify-start">Amenities</TabsTrigger>
             <TabsTrigger value="rooms" className="w-full justify-start">Rooms</TabsTrigger>
-            <TabsTrigger value="submission" className="w-full justify-start">Visibility</TabsTrigger>
             <TabsTrigger value="media" className="w-full justify-start">Media & Files</TabsTrigger>
+            <TabsTrigger value="submission" className="w-full justify-start">Visibility</TabsTrigger>
           </TabsList>
           
           <div className="flex-1">
