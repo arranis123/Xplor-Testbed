@@ -1414,47 +1414,83 @@ export default function SetsStagesVenuesForm() {
                 <CardDescription>Upload visual content and documentation</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div>
                     <h4 className="text-lg font-semibold mb-2">360° Virtual Tours</h4>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <p className="text-muted-foreground">Drag and drop 360° tour files here, or click to browse</p>
-                      <p className="text-sm text-muted-foreground mt-2">Recommended first for immersive experiences</p>
+                    <div className="space-y-3">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Drag and drop 360° tour files here, or click to browse</p>
+                        <p className="text-sm text-muted-foreground mt-2">Recommended first for immersive experiences</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste URL to 360° tour" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Photos</h4>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <p className="text-muted-foreground">Upload interior, stage, equipment, seating, and backstage photos</p>
+                    <div className="space-y-3">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Upload interior, stage, equipment, seating, and backstage photos</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste image URLs" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Videos</h4>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <p className="text-muted-foreground">Upload performance videos, venue walkthroughs, setup videos</p>
+                    <div className="space-y-3">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Upload performance videos, venue walkthroughs, setup videos</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste video URLs (YouTube, Vimeo, etc.)" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Drone Footage</h4>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <p className="text-muted-foreground">Upload aerial footage (if applicable)</p>
+                    <div className="space-y-3">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Upload aerial footage (if applicable)</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste drone footage URLs" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Floor Plans & Technical Layouts</h4>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <p className="text-muted-foreground">Upload PDF or image files of floor plans and technical layouts</p>
+                    <div className="space-y-3">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Upload PDF or image files of floor plans and technical layouts</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste URLs to floor plans/documents" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Documents & Licenses</h4>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <p className="text-muted-foreground">Upload fire safety docs, sound ratings, insurance, venue specifications</p>
+                    <div className="space-y-3">
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <p className="text-muted-foreground">Upload fire safety docs, sound ratings, insurance, venue specifications</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Or paste URLs to documents" className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1561,7 +1597,7 @@ export default function SetsStagesVenuesForm() {
                   <FormLabel>Select Location on Map</FormLabel>
                   <div className="h-[400px] border rounded-lg overflow-hidden">
                     <MapboxLocationPicker
-                      coordinates={form.watch("coordinates") || undefined}
+                      coordinates={form.watch("coordinates") ? { lat: form.watch("coordinates")!.lat, lng: form.watch("coordinates")!.lng } : undefined}
                       onCoordinatesChange={(coords) => coords && form.setValue("coordinates", coords)}
                       zoom={14}
                     />

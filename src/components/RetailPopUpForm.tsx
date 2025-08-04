@@ -815,24 +815,30 @@ export default function RetailPopUpForm() {
                 }).map(([key, title]) => (
                   <div key={key}>
                     <Label className="text-base font-semibold">{title}</Label>
-                    <div className="mt-2 border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
-                      <div className="text-center">
-                        <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <div className="mt-4">
-                          <label htmlFor={`file-${key}`} className="cursor-pointer">
-                            <span className="mt-2 block text-sm font-medium text-foreground">
-                              Drop files here or click to upload
-                            </span>
-                            <input
-                              id={`file-${key}`}
-                              type="file"
-                              className="hidden"
-                              multiple
-                              accept={key === 'documents' ? '.pdf' : 'image/*,video/*'}
-                              onChange={(e) => handleFileUpload(key, e.target.files)}
-                            />
-                          </label>
+                    <div className="space-y-3">
+                      <div className="mt-2 border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                        <div className="text-center">
+                          <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+                          <div className="mt-4">
+                            <label htmlFor={`file-${key}`} className="cursor-pointer">
+                              <span className="mt-2 block text-sm font-medium text-foreground">
+                                Drop files here or click to upload
+                              </span>
+                              <input
+                                id={`file-${key}`}
+                                type="file"
+                                className="hidden"
+                                multiple
+                                accept={key === 'documents' ? '.pdf' : 'image/*,video/*'}
+                                onChange={(e) => handleFileUpload(key, e.target.files)}
+                              />
+                            </label>
+                          </div>
                         </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder={`Or paste URL to ${title.toLowerCase()}`} className="flex-1" />
+                        <Button variant="outline">Add URL</Button>
                       </div>
                     </div>
                     
