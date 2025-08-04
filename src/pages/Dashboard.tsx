@@ -131,6 +131,15 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
+                  setSelectedCategory("marinas-shipyards");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Anchor className="h-4 w-4 mr-2" />
+                Marinas & Shipyards
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
                   setSelectedCategory("hotel-resort");
                   setUploadDialogOpen(true);
                 }}
@@ -243,15 +252,6 @@ const Dashboard = () => {
               >
                 <Anchor className="h-4 w-4 mr-2" />
                 Merchant Shipping
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("marinas-shipyards");
-                  setUploadDialogOpen(true);
-                }}
-              >
-                <Anchor className="h-4 w-4 mr-2" />
-                Marinas & Shipyards
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
@@ -513,6 +513,15 @@ const Dashboard = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
+                    setSelectedCategory("marinas-shipyards");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Marinas & Shipyards
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
                     setSelectedCategory("hotel-resort");
                     setUploadDialogOpen(true);
                   }}
@@ -632,15 +641,6 @@ const Dashboard = () => {
                 >
                   <Anchor className="h-4 w-4 mr-2" />
                   Merchant Shipping
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => {
-                    setSelectedCategory("marinas-shipyards");
-                    setUploadDialogOpen(true);
-                  }}
-                >
-                  <Anchor className="h-4 w-4 mr-2" />
-                  Marinas & Shipyards
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
