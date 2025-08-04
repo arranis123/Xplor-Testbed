@@ -26,6 +26,9 @@ const YachtCrewOffer = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
+          <div className="mt-16">
+            <p className="text-xl text-slate-700">By Xplor</p>
+          </div>
         </div>
       </div>
 
