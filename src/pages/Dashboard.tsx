@@ -169,7 +169,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("offices-showrooms");
+                  setSelectedCategory("offices-showrooms-studios");
                   setUploadDialogOpen(true);
                 }}
               >
@@ -536,7 +536,7 @@ const Dashboard = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
-                    setSelectedCategory("offices-showrooms");
+                    setSelectedCategory("offices-showrooms-studios");
                     setUploadDialogOpen(true);
                   }}
                 >
