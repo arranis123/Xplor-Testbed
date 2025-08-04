@@ -15,6 +15,7 @@ import SetsStagesVenuesUploadDialog from "@/components/SetsStagesVenuesUploadDia
 import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThemeParksUploadDialog";
 import GolfCourseUploadDialog from "@/components/GolfCourseUploadDialog";
 import GovHospitalUploadDialog from "@/components/GovHospitalUploadDialog";
+import MerchantShippingUploadDialog from "@/components/MerchantShippingUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
