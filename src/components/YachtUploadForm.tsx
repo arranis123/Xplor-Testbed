@@ -685,7 +685,7 @@ export function YachtUploadForm({
                 <TabsTrigger value="media-files" className="w-full justify-start">Media & Files</TabsTrigger>
                 <TabsTrigger value="documents" className="w-full justify-start">Documents</TabsTrigger>
                 <TabsTrigger value="brokerage" className="w-full justify-start">Brokerage</TabsTrigger>
-                <TabsTrigger value="management" className="w-full justify-start">Management</TabsTrigger>
+                <TabsTrigger value="management" className="w-full justify-start">Visibility & Management</TabsTrigger>
               </TabsList>
               
               <div className="flex-1">
