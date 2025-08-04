@@ -14,6 +14,7 @@ import HeritageWorshipUploadDialog from "@/components/HeritageWorshipUploadDialo
 import SetsStagesVenuesUploadDialog from "@/components/SetsStagesVenuesUploadDialog";
 import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThemeParksUploadDialog";
 import GolfCourseUploadDialog from "@/components/GolfCourseUploadDialog";
+import GovHospitalUploadDialog from "@/components/GovHospitalUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -29,6 +30,7 @@ const Dashboard = () => {
   const [setsStagesVenuesUploadDialogOpen, setSetsStagesVenuesUploadDialogOpen] = useState(false);
   const [sportsStadiumsThemeParksUploadDialogOpen, setSportsStadiumsThemeParksUploadDialogOpen] = useState(false);
   const [golfCourseUploadDialogOpen, setGolfCourseUploadDialogOpen] = useState(false);
+  const [govHospitalUploadDialogOpen, setGovHospitalUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -228,8 +230,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("government-hospitals");
-                  setUploadDialogOpen(true);
+                  setGovHospitalUploadDialogOpen(true);
                 }}
               >
                 <Building2 className="h-4 w-4 mr-2" />
@@ -594,8 +595,7 @@ const Dashboard = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
-                    setSelectedCategory("government-hospitals");
-                    setUploadDialogOpen(true);
+                    setGovHospitalUploadDialogOpen(true);
                   }}
                 >
                   <Building2 className="h-4 w-4 mr-2" />
@@ -682,6 +682,11 @@ const Dashboard = () => {
       <GolfCourseUploadDialog
         open={golfCourseUploadDialogOpen}
         onOpenChange={setGolfCourseUploadDialogOpen}
+      />
+      
+      <GovHospitalUploadDialog
+        open={govHospitalUploadDialogOpen}
+        onOpenChange={setGovHospitalUploadDialogOpen}
       />
     </div>
   );
