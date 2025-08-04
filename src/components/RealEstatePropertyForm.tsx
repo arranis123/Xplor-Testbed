@@ -425,7 +425,8 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
                     { id: "fireplace", label: "Fireplace" },
                     { id: "smartHome", label: "Smart Home" },
                     { id: "laundryArea", label: "Laundry Area" },
-                    { id: "elevator", label: "Elevator" }
+                    { id: "elevator", label: "Elevator" },
+                    { id: "solarPanels", label: "Solar Panels" }
                   ].map((feature) => (
                     <FormField
                       key={feature.id}
