@@ -12,6 +12,7 @@ import OfficesShowroomsStudiosUploadDialog from "@/components/OfficesShowroomsSt
 import RetailPopUpUploadDialog from "@/components/RetailPopUpUploadDialog";
 import HeritageWorshipUploadDialog from "@/components/HeritageWorshipUploadDialog";
 import SetsStagesVenuesUploadDialog from "@/components/SetsStagesVenuesUploadDialog";
+import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThemeParksUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -25,6 +26,7 @@ const Dashboard = () => {
   const [retailPopUpUploadDialogOpen, setRetailPopUpUploadDialogOpen] = useState(false);
   const [heritageWorshipUploadDialogOpen, setHeritageWorshipUploadDialogOpen] = useState(false);
   const [setsStagesVenuesUploadDialogOpen, setSetsStagesVenuesUploadDialogOpen] = useState(false);
+  const [sportsStadiumsThemeParksUploadDialogOpen, setSportsStadiumsThemeParksUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -208,8 +210,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("sports-theme");
-                  setUploadDialogOpen(true);
+                  setSportsStadiumsThemeParksUploadDialogOpen(true);
                 }}
               >
                 <TreePine className="h-4 w-4 mr-2" />
@@ -671,6 +672,11 @@ const Dashboard = () => {
       <SetsStagesVenuesUploadDialog
         open={setsStagesVenuesUploadDialogOpen}
         onOpenChange={setSetsStagesVenuesUploadDialogOpen}
+      />
+      
+      <SportsStadiumsThemeParksUploadDialog
+        open={sportsStadiumsThemeParksUploadDialogOpen}
+        onOpenChange={setSportsStadiumsThemeParksUploadDialogOpen}
       />
     </div>
   );
