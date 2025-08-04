@@ -406,6 +406,30 @@ export function YachtUploadForm({
   const [yachtDocuments, setYachtDocuments] = useState([]);
   const [spaceMedia, setSpaceMedia] = useState({});
   const [cabinMedia, setCabinMedia] = useState({});
+  
+  // Brokerage state
+  const [brokerageStatus, setBrokerageStatus] = useState({
+    currentBroker: '',
+    brokerageCompany: '',
+    brokerEmail: '',
+    brokerageType: '',
+    agreementStart: '',
+    agreementEnd: '',
+    autoRenew: false
+  });
+  const [brokerageDocuments, setBrokerageDocuments] = useState([]);
+  const [cancellationEnabled, setCancellationEnabled] = useState(false);
+  const [cancellationData, setCancellationData] = useState({
+    reason: '',
+    date: '',
+    documents: []
+  });
+  const [xplorAppointment, setXplorAppointment] = useState({
+    documents: []
+  });
+  const [crewFairShare, setCrewFairShare] = useState({
+    documents: []
+  });
   const form = useForm<YachtUploadFormData>({
     resolver: zodResolver(yachtRulesSchema),
     defaultValues: {
@@ -650,6 +674,7 @@ export function YachtUploadForm({
                 <TabsTrigger value="amenities" className="w-full justify-start">Amenities & Toys</TabsTrigger>
                 <TabsTrigger value="media-files" className="w-full justify-start">Media & Files</TabsTrigger>
                 <TabsTrigger value="documents" className="w-full justify-start">Documents</TabsTrigger>
+                <TabsTrigger value="brokerage" className="w-full justify-start">Brokerage</TabsTrigger>
                 <TabsTrigger value="management" className="w-full justify-start">Management</TabsTrigger>
               </TabsList>
               
@@ -5612,6 +5637,399 @@ export function YachtUploadForm({
                     </div>
                   </div>
 
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="brokerage" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Yacht Brokerage Management</CardTitle>
+                  <CardDescription>
+                    Manage current brokerage status, upload relevant contracts, and configure Xplor's FairShare commission-sharing model
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  
+                  {/* Current Brokerage Status Section */}
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="current-brokerage">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        📋 Current Brokerage Details
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="currentBroker">Current Broker Name</Label>
+                            <Input
+                              id="currentBroker"
+                              value={brokerageStatus.currentBroker}
+                              onChange={(e) => setBrokerageStatus(prev => ({...prev, currentBroker: e.target.value}))}
+                              placeholder="Enter broker's full name"
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="brokerageCompany">Brokerage Company</Label>
+                            <Input
+                              id="brokerageCompany"
+                              value={brokerageStatus.brokerageCompany}
+                              onChange={(e) => setBrokerageStatus(prev => ({...prev, brokerageCompany: e.target.value}))}
+                              placeholder="Enter brokerage company name"
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="brokerEmail">Broker Email</Label>
+                            <Input
+                              id="brokerEmail"
+                              type="email"
+                              value={brokerageStatus.brokerEmail}
+                              onChange={(e) => setBrokerageStatus(prev => ({...prev, brokerEmail: e.target.value}))}
+                              placeholder="broker@company.com"
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="brokerageType">Brokerage Type</Label>
+                            <Select 
+                              value={brokerageStatus.brokerageType} 
+                              onValueChange={(value) => setBrokerageStatus(prev => ({...prev, brokerageType: value}))}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select brokerage type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="exclusive-central">Exclusive Central Agent</SelectItem>
+                                <SelectItem value="non-exclusive-central">Non-Exclusive Central Agent</SelectItem>
+                                <SelectItem value="open-listing">Open Listing (Multiple Brokers)</SelectItem>
+                                <SelectItem value="owner-represented">Owner-Represented (No Broker)</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="agreementStart">Agreement Start Date</Label>
+                            <Input
+                              id="agreementStart"
+                              type="date"
+                              value={brokerageStatus.agreementStart}
+                              onChange={(e) => setBrokerageStatus(prev => ({...prev, agreementStart: e.target.value}))}
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="agreementEnd">Agreement End Date</Label>
+                            <Input
+                              id="agreementEnd"
+                              type="date"
+                              value={brokerageStatus.agreementEnd}
+                              onChange={(e) => setBrokerageStatus(prev => ({...prev, agreementEnd: e.target.value}))}
+                            />
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            id="autoRenew"
+                            checked={brokerageStatus.autoRenew}
+                            onCheckedChange={(checked) => setBrokerageStatus(prev => ({...prev, autoRenew: checked}))}
+                          />
+                          <Label htmlFor="autoRenew">Auto-Renew Clause</Label>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    {/* Upload Existing Brokerage Agreements */}
+                    <AccordionItem value="brokerage-agreements">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        📤 Upload Active Brokerage Agreements
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-1 gap-4">
+                            {['Signed CA Agreement', 'Commission Terms', 'Broker Authorization Letter', 'NDA or Confidentiality Agreements'].map((docType) => (
+                              <div key={docType} className="border rounded-lg p-4 space-y-3">
+                                <div className="flex items-center justify-between">
+                                  <Label className="font-medium">{docType}</Label>
+                                  {docType === 'Signed CA Agreement' && <Badge variant="destructive">Required if active</Badge>}
+                                </div>
+                                
+                                <div className="flex items-center gap-2">
+                                  <Button type="button" variant="outline" size="sm">
+                                    <Upload className="h-4 w-4 mr-2" />
+                                    Upload File
+                                  </Button>
+                                </div>
+                                
+                                <div className="grid grid-cols-3 gap-2 text-sm">
+                                  <div className="flex items-center space-x-2">
+                                    <Switch id={`pin-${docType}`} />
+                                    <Label htmlFor={`pin-${docType}`}>PIN Protection</Label>
+                                  </div>
+                                  
+                                  <Select defaultValue="private">
+                                    <SelectTrigger className="h-8">
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="private">Private</SelectItem>
+                                      <SelectItem value="broker">Broker</SelectItem>
+                                      <SelectItem value="admin">Admin</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  
+                                  <div className="flex items-center space-x-2">
+                                    <Switch id={`share-${docType}`} />
+                                    <Label htmlFor={`share-${docType}`}>Shareable Link</Label>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    {/* Cancellation of Existing Brokerage */}
+                    <AccordionItem value="cancellation">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        ❌ Cancel Existing Agreement & Transition to Xplor FairShare
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                          <div className="flex items-center space-x-2 mb-3">
+                            <Switch
+                              id="enableCancellation"
+                              checked={cancellationEnabled}
+                              onCheckedChange={setCancellationEnabled}
+                            />
+                            <Label htmlFor="enableCancellation" className="font-medium">
+                              ⚠️ Enable if you want to cancel existing brokerage and appoint Xplor as central agent
+                            </Label>
+                          </div>
+                          
+                          {cancellationEnabled && (
+                            <div className="space-y-4 mt-4">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <Label htmlFor="cancellationReason">Cancellation Reason</Label>
+                                  <Select 
+                                    value={cancellationData.reason} 
+                                    onValueChange={(value) => setCancellationData(prev => ({...prev, reason: value}))}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select reason" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="change-strategy">Change of Strategy</SelectItem>
+                                      <SelectItem value="dissatisfaction">Dissatisfaction</SelectItem>
+                                      <SelectItem value="broker-retired">Broker Retired</SelectItem>
+                                      <SelectItem value="other">Other</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                  <Label htmlFor="cancellationDate">Cancellation Date</Label>
+                                  <Input
+                                    id="cancellationDate"
+                                    type="date"
+                                    value={cancellationData.date}
+                                    onChange={(e) => setCancellationData(prev => ({...prev, date: e.target.value}))}
+                                  />
+                                </div>
+                              </div>
+                              
+                              <div className="space-y-3">
+                                {['Cancellation Notice (PDF/Word)', 'Proof of Notification to Broker', 'Legal Release Forms (optional)'].map((docType) => (
+                                  <div key={docType} className="border rounded-lg p-3 space-y-2">
+                                    <div className="flex items-center justify-between">
+                                      <Label className="text-sm font-medium">{docType}</Label>
+                                      {docType.includes('optional') && <Badge variant="secondary">Optional</Badge>}
+                                    </div>
+                                    <Button type="button" variant="outline" size="sm">
+                                      <Upload className="h-4 w-4 mr-2" />
+                                      Upload {docType.split(' ')[0]}
+                                    </Button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    {/* Appointment of Xplor as Central Agent */}
+                    <AccordionItem value="xplor-appointment">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        🤝 Appoint Xplor as Exclusive Central Broker
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="space-y-4">
+                          {[
+                            'Signed Xplor Central Agency Agreement (required PDF)',
+                            'Owner Authorization for Xplor (signed document)', 
+                            'Owner Acknowledgement of FairShare Commission Model',
+                            'Commission Terms Confirmation'
+                          ].map((docType) => (
+                            <div key={docType} className="border rounded-lg p-4 space-y-3">
+                              <div className="flex items-center justify-between">
+                                <Label className="font-medium">{docType}</Label>
+                                {docType.includes('required') && <Badge variant="destructive">Required</Badge>}
+                                {docType.includes('template') && (
+                                  <Button type="button" variant="outline" size="sm">
+                                    <Download className="h-4 w-4 mr-2" />
+                                    Download Template
+                                  </Button>
+                                )}
+                              </div>
+                              
+                              <Button type="button" variant="outline" size="sm">
+                                <Upload className="h-4 w-4 mr-2" />
+                                Upload Document
+                              </Button>
+                              
+                              {docType === 'Commission Terms Confirmation' && (
+                                <Textarea 
+                                  placeholder="Enter commission terms or upload document above"
+                                  className="mt-2"
+                                />
+                              )}
+                            </div>
+                          ))}
+                          
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h4 className="font-semibold text-blue-900 mb-2">Available Templates:</h4>
+                            <div className="grid grid-cols-2 gap-2">
+                              {[
+                                'Xplor CA Agreement',
+                                'FairShare Owner Acknowledgement', 
+                                'Cancellation Notice Template',
+                                'Crew Distribution Spreadsheet'
+                              ].map((template) => (
+                                <Button key={template} type="button" variant="outline" size="sm">
+                                  <Download className="h-4 w-4 mr-2" />
+                                  {template}
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    {/* Crew FairShare Authorization */}
+                    <AccordionItem value="crew-fairshare">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        👩‍✈️ Authorize Crew Participation in FairShare Commission Scheme
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                          <p className="text-green-800 text-sm">
+                            These documents allow the crew to receive 50% of the net charter commission under the FairShare model.
+                          </p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          {[
+                            { name: 'FairShare Crew Incentive Letter (PDF upload – signed by owner or manager)', required: true },
+                            { name: 'Crew List for Commission Distribution (Excel or PDF upload)', template: true },
+                            { name: 'Banking Authorization or Payment Instructions', optional: true },
+                            { name: 'Copy of Crew Contracts / Addenda (if they include commission clauses)', optional: true },
+                            { name: 'Third-Party Payment Authorization for Commission Split', template: true },
+                            { name: 'Legal Waiver or Consent Forms (if required by jurisdiction)', optional: true }
+                          ].map((doc) => (
+                            <div key={doc.name} className="border rounded-lg p-4 space-y-3">
+                              <div className="flex items-center justify-between">
+                                <Label className="font-medium">{doc.name}</Label>
+                                <div className="flex gap-2">
+                                  {doc.required && <Badge variant="destructive">Required</Badge>}
+                                  {doc.optional && <Badge variant="secondary">Optional</Badge>}
+                                  {doc.template && (
+                                    <Button type="button" variant="outline" size="sm">
+                                      <Download className="h-4 w-4 mr-2" />
+                                      Template
+                                    </Button>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <Button type="button" variant="outline" size="sm">
+                                <Upload className="h-4 w-4 mr-2" />
+                                Upload Document
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                          <h4 className="font-semibold text-blue-900 mb-2">FairShare Commission Model Benefits:</h4>
+                          <ul className="text-blue-800 text-sm space-y-1">
+                            <li>• Crew receives 50% of net charter commission</li>
+                            <li>• Increased crew motivation and service quality</li>
+                            <li>• Transparent commission distribution</li>
+                            <li>• Enhanced charter experience for guests</li>
+                          </ul>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    {/* Admin Status Indicator */}
+                    <AccordionItem value="admin-status">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        ✅ Brokerage Status & Admin Controls
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="border rounded-lg p-4 text-center">
+                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                              <span className="text-2xl">❌</span>
+                            </div>
+                            <p className="font-medium">Not Appointed</p>
+                            <p className="text-xs text-muted-foreground">No active brokerage</p>
+                          </div>
+                          
+                          <div className="border rounded-lg p-4 text-center">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                              <span className="text-2xl">⏳</span>
+                            </div>
+                            <p className="font-medium">In Transition</p>
+                            <p className="text-xs text-muted-foreground">Processing documents</p>
+                          </div>
+                          
+                          <div className="border rounded-lg p-4 text-center">
+                            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                              <span className="text-2xl">✅</span>
+                            </div>
+                            <p className="font-medium">Appointed</p>
+                            <p className="text-xs text-muted-foreground">FairShare Active</p>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-gray-50 border rounded-lg p-4">
+                          <h4 className="font-semibold mb-2">Admin Notes & Comments</h4>
+                          <Textarea 
+                            placeholder="Internal notes for admin team..."
+                            className="mb-3"
+                          />
+                          <div className="flex gap-2">
+                            <Button type="button" variant="outline" size="sm">
+                              Add Internal Note
+                            </Button>
+                            <Button type="button" variant="outline" size="sm">
+                              Flag Missing Items
+                            </Button>
+                            <Button type="button" variant="outline" size="sm">
+                              Verify Uploads
+                            </Button>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                  
                 </CardContent>
               </Card>
             </TabsContent>
