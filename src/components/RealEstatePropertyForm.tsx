@@ -2644,7 +2644,7 @@ export function RealEstatePropertyForm({
         <Card>
           <CardHeader>
             <CardTitle>Property Features</CardTitle>
-            <CardDescription>Defining the special features and amenities of your property will automatically create an upload section for each space that you want to showcase to help structure and manage your listing.</CardDescription>
+            <CardDescription>Defining the special features and amenities of your property will automatically create an upload section in the Media & Files tab for each space that you want to showcase.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {propertyFeatures.map((feature, index) => <div key={index} className="border rounded-lg p-4 space-y-4">
