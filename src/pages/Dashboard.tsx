@@ -7,6 +7,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, 
 import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
 import { CarUploadDialog } from "@/components/CarUploadDialog";
 import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
+import { AviationUploadDialog } from "@/components/AviationUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
+  const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -158,8 +160,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("aircraft-jets");
-                  setUploadDialogOpen(true);
+                  setAviationDialogOpen(true);
                 }}
               >
                 <Plane className="h-4 w-4 mr-2" />
@@ -614,6 +615,11 @@ const Dashboard = () => {
       <SchoolEducationUploadDialog 
         open={schoolEducationDialogOpen} 
         onOpenChange={setSchoolEducationDialogOpen}
+      />
+      
+      <AviationUploadDialog 
+        open={aviationDialogOpen} 
+        onOpenChange={setAviationDialogOpen}
       />
     </div>
   );
