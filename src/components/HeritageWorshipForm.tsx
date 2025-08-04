@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Upload, Plus, X, Trash2 } from "lucide-react";
+import MapboxLocationPicker from './MapboxLocationPicker';
 
 interface Subspace {
   id: string;
@@ -96,6 +97,7 @@ interface FormData {
   
   // Location
   address: string;
+  coordinates: { lat: number; lng: number } | null;
   gpsCoordinates: string;
   googlePlusCode: string;
   mapDisplay: string;
@@ -180,6 +182,7 @@ export default function HeritageWorshipForm() {
     eventHosting: false,
     eventDescription: '',
     address: '',
+    coordinates: null,
     gpsCoordinates: '',
     googlePlusCode: '',
     mapDisplay: '',
@@ -1061,6 +1064,45 @@ export default function HeritageWorshipForm() {
                     )}
                   </div>
                 ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="location" className="space-y-6 mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Location Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="address">Address *</Label>
+                  <Input
+                    id="address"
+                    placeholder="Full address of the heritage site"
+                    value={formData.address}
+                    onChange={(e) => handleInputChange('address', e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <Label>Interactive Map</Label>
+                  <p className="text-sm text-muted-foreground mb-2">Click on the map to set the exact location</p>
+                  <MapboxLocationPicker
+                    coordinates={formData.coordinates}
+                    onCoordinatesChange={(coords) => handleInputChange('coordinates', coords)}
+                    className="h-64"
+                  />
+                </div>
+
+                <div>
+                  <Label>Interactive Map</Label>
+                  <p className="text-sm text-muted-foreground mb-2">Click on the map to set the exact location</p>
+                  <MapboxLocationPicker
+                    coordinates={formData.coordinates}
+                    onCoordinatesChange={(coords) => handleInputChange('coordinates', coords)}
+                    className="h-64"
+                  />
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

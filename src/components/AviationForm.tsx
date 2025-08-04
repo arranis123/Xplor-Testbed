@@ -1733,6 +1733,16 @@ export const AviationForm: React.FC<AviationFormProps> = ({ onSubmit, onCancel }
                   )}
                 />
 
+                <div className="space-y-2">
+                  <FormLabel>Interactive Map</FormLabel>
+                  <p className="text-sm text-muted-foreground">Click on the map to set the exact location</p>
+                  <MapboxLocationPicker
+                    coordinates={form.watch('coordinates') ? { lat: form.watch('coordinates').lat, lng: form.watch('coordinates').lng } : null}
+                    onCoordinatesChange={(coords) => form.setValue('coordinates', coords)}
+                    className="h-64"
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}

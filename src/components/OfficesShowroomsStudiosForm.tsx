@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Upload, Plus, X } from "lucide-react";
+import MapboxLocationPicker from './MapboxLocationPicker';
 
 interface FormData {
   // Basic Info
@@ -84,6 +85,7 @@ interface FormData {
   
   // Location
   address: string;
+  coordinates: { lat: number; lng: number } | null;
   city: string;
   region: string;
   country: string;
@@ -166,6 +168,7 @@ export default function OfficesShowroomsStudiosForm() {
     insuranceRequired: false,
     insuranceDescription: '',
     address: '',
+    coordinates: null,
     city: '',
     region: '',
     country: '',
@@ -1036,6 +1039,16 @@ export default function OfficesShowroomsStudiosForm() {
                   placeholder="123 Business Street, Downtown"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
+                />
+              </div>
+
+              <div>
+                <Label>Interactive Map</Label>
+                <p className="text-sm text-muted-foreground mb-2">Click on the map to set the exact location</p>
+                <MapboxLocationPicker
+                  coordinates={formData.coordinates}
+                  onCoordinatesChange={(coords) => handleInputChange('coordinates', coords)}
+                  className="h-64"
                 />
               </div>
 
