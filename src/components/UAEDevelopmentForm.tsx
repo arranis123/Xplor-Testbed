@@ -13,6 +13,8 @@ import { Plus, X, Upload, Link, Image, Video, FileText, Map, Building } from "lu
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import MapboxLocationPicker from './MapboxLocationPicker';
+import MultiImageUpload from './MultiImageUpload';
+import FeaturedImageUpload from './FeaturedImageUpload';
 
 interface MediaItem {
   id: string;
@@ -707,151 +709,30 @@ export default function UAEDevelopmentForm() {
               <CardDescription>Upload images, videos, documents and virtual tours</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div>
-                <Label className="text-base font-medium mb-4 block">Featured Image</Label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setFeaturedImage(file);
-                        toast.success("Featured image uploaded");
-                      }
-                    }}
-                    className="hidden"
-                    id="featured-image"
-                  />
-                  <label htmlFor="featured-image" className="cursor-pointer">
-                    <Image className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                    <p className="text-sm text-gray-600">
-                      {featuredImage ? featuredImage.name : "Click to upload featured image"}
-                    </p>
-                  </label>
-                </div>
-              </div>
+              <FeaturedImageUpload
+                featuredImage={featuredImage}
+                onFeaturedImageChange={setFeaturedImage}
+                label="Featured Image (listing thumbnail)"
+              />
 
               <Separator />
 
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <Label className="text-base font-medium">Media Items</Label>
-                  <div className="flex gap-2">
-                    <Button type="button" onClick={() => addMediaItem('image')} size="sm" variant="outline">
-                      <Image className="h-4 w-4 mr-2" />
-                      Add Image
-                    </Button>
-                    <Button type="button" onClick={() => addMediaItem('video')} size="sm" variant="outline">
-                      <Video className="h-4 w-4 mr-2" />
-                      Add Video
-                    </Button>
-                    <Button type="button" onClick={() => addMediaItem('tour')} size="sm" variant="outline">
-                      <Map className="h-4 w-4 mr-2" />
-                      Add 360° Tour
-                    </Button>
-                    <Button type="button" onClick={() => addMediaItem('document')} size="sm" variant="outline">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Add Document
-                    </Button>
-                  </div>
-                </div>
-
-                {mediaItems.map((item, index) => (
-                  <div key={item.id} className="border rounded-lg p-4 space-y-4 mb-4">
-                    <div className="flex items-center justify-between">
-                      <Badge variant="outline">{item.type.toUpperCase()} {index + 1}</Badge>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeMediaItem(item.id)}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Name</Label>
-                        <Input
-                          placeholder="Media name"
-                          value={item.name}
-                          onChange={(e) => updateMediaItem(item.id, { name: e.target.value })}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label>Component Tag</Label>
-                        <Select onValueChange={(value) => updateMediaItem(item.id, { componentTag: value })}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Tag by component" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="masterplan">Masterplan</SelectItem>
-                            <SelectItem value="tower">Tower</SelectItem>
-                            <SelectItem value="amenities">Amenities</SelectItem>
-                            <SelectItem value="villa">Villa</SelectItem>
-                            <SelectItem value="retail">Retail</SelectItem>
-                            <SelectItem value="lifestyle">Lifestyle</SelectItem>
-                            <SelectItem value="construction">Construction</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Visibility</Label>
-                        <Select onValueChange={(value: any) => updateMediaItem(item.id, { visibility: value })}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select visibility" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="public">Public</SelectItem>
-                            <SelectItem value="admin">Admin Only</SelectItem>
-                            <SelectItem value="pin_protected">PIN Protected</SelectItem>
-                            <SelectItem value="link_only">Link Only</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label>Upload File</Label>
-                        <input
-                          type="file"
-                          accept={item.type === 'image' ? 'image/*' : item.type === 'video' ? 'video/*' : '*'}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              updateMediaItem(item.id, { file });
-                            }
-                          }}
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Or URL</Label>
-                      <Input
-                        placeholder="https://..."
-                        value={item.url || ''}
-                        onChange={(e) => updateMediaItem(item.id, { url: e.target.value })}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Description</Label>
-                      <Textarea
-                        placeholder="Description or caption"
-                        value={item.description || ''}
-                        onChange={(e) => updateMediaItem(item.id, { description: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <MultiImageUpload
+                mediaItems={mediaItems}
+                onMediaItemsChange={setMediaItems}
+                maxFiles={50}
+                showComponentTags={true}
+                componentTagOptions={[
+                  { value: 'masterplan', label: 'Masterplan' },
+                  { value: 'tower', label: 'Tower' },
+                  { value: 'amenities', label: 'Amenities' },
+                  { value: 'villa', label: 'Villa' },
+                  { value: 'retail', label: 'Retail' },
+                  { value: 'lifestyle', label: 'Lifestyle' },
+                  { value: 'construction', label: 'Construction' },
+                  { value: 'location', label: 'Location' }
+                ]}
+              />
             </CardContent>
           </Card>
         </TabsContent>
