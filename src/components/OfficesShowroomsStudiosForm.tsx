@@ -264,16 +264,34 @@ export default function OfficesShowroomsStudiosForm() {
         </p>
       </div>
 
-      <Tabs defaultValue="basic-info" className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
-          <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
-          <TabsTrigger value="space-layout">Space & Layout</TabsTrigger>
-          <TabsTrigger value="features">Features</TabsTrigger>
-          <TabsTrigger value="access-rules">Access & Rules</TabsTrigger>
-          <TabsTrigger value="media">Media & Files</TabsTrigger>
-          <TabsTrigger value="location">Location</TabsTrigger>
-          <TabsTrigger value="visibility">Visibility</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="basic-info" className="w-full flex gap-6">
+        <div className="w-64 shrink-0">
+          <TabsList className="flex flex-col h-auto w-full bg-muted p-1 space-y-1">
+            <TabsTrigger value="basic-info" className="w-full justify-start text-left px-3 py-2">
+              Basic Info
+            </TabsTrigger>
+            <TabsTrigger value="space-layout" className="w-full justify-start text-left px-3 py-2">
+              Space & Layout
+            </TabsTrigger>
+            <TabsTrigger value="features" className="w-full justify-start text-left px-3 py-2">
+              Features
+            </TabsTrigger>
+            <TabsTrigger value="access-rules" className="w-full justify-start text-left px-3 py-2">
+              Access & Rules
+            </TabsTrigger>
+            <TabsTrigger value="media" className="w-full justify-start text-left px-3 py-2">
+              Media & Files
+            </TabsTrigger>
+            <TabsTrigger value="location" className="w-full justify-start text-left px-3 py-2">
+              Location
+            </TabsTrigger>
+            <TabsTrigger value="visibility" className="w-full justify-start text-left px-3 py-2">
+              Visibility
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
+        <div className="flex-1 min-w-0">
 
         <TabsContent value="basic-info" className="space-y-6">
           <Card>
@@ -1218,6 +1236,7 @@ export default function OfficesShowroomsStudiosForm() {
             <Button type="submit" className="bg-primary">Publish Listing</Button>
           </div>
         </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
