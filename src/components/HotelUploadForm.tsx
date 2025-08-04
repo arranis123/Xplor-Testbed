@@ -2735,7 +2735,7 @@ export function HotelUploadForm({
                 <Bed className="h-5 w-5" />
                 Room Types
               </CardTitle>
-              <CardDescription>Adding different room types here will create a media upload box for each room in the media & files</CardDescription>
+              <CardDescription>Adding different room types here will create a media upload box for each room in the media & files section.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="border border-border rounded-lg p-4 space-y-4">
