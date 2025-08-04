@@ -1839,7 +1839,40 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
                     Add Photo Set
                   </Button>
                 </div>
+                
+                {/* Featured Image */}
                 <div className="space-y-3">
+                  <h4 className="text-md font-medium text-primary">Featured Image</h4>
+                  <div className="border rounded-lg p-4 space-y-3 bg-primary/5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Image Name</label>
+                        <Input placeholder="e.g., Main Property View" />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Description</label>
+                        <Input placeholder="e.g., Primary exterior view of the property" />
+                      </div>
+                    </div>
+                    <div className="border-2 border-dashed border-primary/30 rounded-lg p-4 bg-background">
+                      <div className="text-center space-y-2">
+                        <Camera className="h-8 w-8 mx-auto text-primary" />
+                        <div>
+                          <p className="text-sm font-medium">Upload featured image</p>
+                          <p className="text-xs text-muted-foreground">This will be the main image displayed for your property</p>
+                        </div>
+                        <Button variant="outline" size="sm">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload Featured Image
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Photo Sets */}
+                <div className="space-y-3">
+                  <h4 className="text-md font-medium">Additional Photo Sets</h4>
                   {/* Photo Set Item */}
                   <div className="border rounded-lg p-4 space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1864,10 +1897,6 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
                           Upload Photos
                         </Button>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input type="checkbox" id="featured" className="rounded" />
-                      <label htmlFor="featured" className="text-sm">Set as featured image set</label>
                     </div>
                   </div>
                 </div>
