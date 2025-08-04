@@ -13,6 +13,7 @@ import RetailPopUpUploadDialog from "@/components/RetailPopUpUploadDialog";
 import HeritageWorshipUploadDialog from "@/components/HeritageWorshipUploadDialog";
 import SetsStagesVenuesUploadDialog from "@/components/SetsStagesVenuesUploadDialog";
 import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThemeParksUploadDialog";
+import GolfCourseUploadDialog from "@/components/GolfCourseUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const [heritageWorshipUploadDialogOpen, setHeritageWorshipUploadDialogOpen] = useState(false);
   const [setsStagesVenuesUploadDialogOpen, setSetsStagesVenuesUploadDialogOpen] = useState(false);
   const [sportsStadiumsThemeParksUploadDialogOpen, setSportsStadiumsThemeParksUploadDialogOpen] = useState(false);
+  const [golfCourseUploadDialogOpen, setGolfCourseUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -218,8 +220,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("golf-courses");
-                  setUploadDialogOpen(true);
+                  setGolfCourseUploadDialogOpen(true);
                 }}
               >
                 <Golf className="h-4 w-4 mr-2" />
@@ -585,8 +586,7 @@ const Dashboard = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
-                    setSelectedCategory("golf-courses");
-                    setUploadDialogOpen(true);
+                    setGolfCourseUploadDialogOpen(true);
                   }}
                 >
                   <Golf className="h-4 w-4 mr-2" />
@@ -677,6 +677,11 @@ const Dashboard = () => {
       <SportsStadiumsThemeParksUploadDialog
         open={sportsStadiumsThemeParksUploadDialogOpen}
         onOpenChange={setSportsStadiumsThemeParksUploadDialogOpen}
+      />
+      
+      <GolfCourseUploadDialog
+        open={golfCourseUploadDialogOpen}
+        onOpenChange={setGolfCourseUploadDialogOpen}
       />
     </div>
   );

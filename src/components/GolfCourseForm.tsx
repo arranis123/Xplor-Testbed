@@ -1624,7 +1624,7 @@ export default function GolfCourseForm() {
                     <Label>Interactive Map</Label>
                     <p className="text-sm text-muted-foreground mb-2">Click on the map to set the exact location</p>
                     <MapboxLocationPicker
-                      coordinates={form.watch("coordinates") || { lat: 40.7128, lng: -74.0060 }}
+                      coordinates={{ lat: 40.7128, lng: -74.0060, ...form.watch("coordinates") }}
                       onCoordinatesChange={(coords) => form.setValue("coordinates", coords)}
                       className="h-64"
                     />
