@@ -246,6 +246,33 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
+                  setSelectedCategory("marinas-shipyards");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Anchor className="h-4 w-4 mr-2" />
+                Marinas & Shipyards
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("cruise-terminals-docks");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Anchor className="h-4 w-4 mr-2" />
+                Cruise Terminals, Commercial Docks & Lighthouses
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("cruise-ships");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Anchor className="h-4 w-4 mr-2" />
+                Cruise Ships
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
                   setSelectedCategory("manufacturing-facilities");
                   setUploadDialogOpen(true);
                 }}
@@ -605,6 +632,33 @@ const Dashboard = () => {
                 >
                   <Anchor className="h-4 w-4 mr-2" />
                   Merchant Shipping
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("marinas-shipyards");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Marinas & Shipyards
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("cruise-terminals-docks");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Cruise Terminals, Commercial Docks & Lighthouses
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => {
+                    setSelectedCategory("cruise-ships");
+                    setUploadDialogOpen(true);
+                  }}
+                >
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Cruise Ships
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
