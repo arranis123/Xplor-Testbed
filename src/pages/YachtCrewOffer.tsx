@@ -9,18 +9,21 @@ const YachtCrewOffer = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-primary text-white py-16">
-        <div className="max-w-6xl mx-auto px-6 text-center">
+      <div className="relative py-16 bg-background">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/lovable-uploads/45cc1ea1-be70-466b-a97c-c44b69684dfa.png)' }}
+        />
+        <div className="relative max-w-6xl mx-auto px-6 text-center">
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="text-white hover:bg-white/10 mb-8 absolute top-6 left-6"
+            className="text-slate-700 hover:bg-white/10 mb-8 absolute top-6 left-6"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-5xl font-bold mb-4 text-slate-600">FairShare by <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span></h1>
-          <p className="text-xl text-slate-600">Real Recognition. Real Reward.</p>
+          <p className="text-xl text-slate-700 mt-12">Real Recognition. Real Reward.</p>
         </div>
       </div>
 
