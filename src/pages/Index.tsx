@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Ship, Home, Landmark, MapPin } from "lucide-react";
+import { Ship, Home, Landmark, MapPin, Car, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Clapperboard, TreePine, Building2, Anchor, Factory, Train, Utensils, Briefcase, Hotel, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import TourProFinderForm from "@/components/TourProFinderForm";
 import adventureParkImage from "@/assets/adventure-park-hero.jpg";
@@ -108,34 +108,36 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-mobile-lg sm:gap-8">
-               <Link to="/yacht-brokerage">
-                 <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
-                   <CardHeader className="p-mobile-lg sm:p-6">
-                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                       <Ship className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" />
-                     </div>
-                     <CardTitle className="text-mobile-lg sm:text-xl">Yachts</CardTitle>
-                     <CardDescription className="text-mobile-sm sm:text-base">
-                       Charter world-class luxury yachts with professional crews and premium amenities
-                     </CardDescription>
-                   </CardHeader>
-                 </Card>
-               </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-mobile-lg sm:gap-8">
+              <Link to="/yacht-brokerage">
+                <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                  <CardHeader className="p-mobile-lg sm:p-6">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                      <Ship className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-black" />
+                    </div>
+                    <CardTitle className="text-mobile-lg sm:text-xl">Yachts</CardTitle>
+                    <CardDescription className="text-mobile-sm sm:text-base">
+                      Charter world-class luxury yachts with professional crews and premium amenities
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
 
-              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card">
-                <CardHeader className="p-mobile-lg sm:p-6">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-black rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
-                    <Home className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-yellow" />
-                  </div>
-                  <CardTitle className="text-mobile-lg sm:text-xl">Properties</CardTitle>
-                  <CardDescription className="text-mobile-sm sm:text-base">
-                    Stay in extraordinary luxury properties and exclusive architectural marvels
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+              <Link to="/real-estate">
+                <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                  <CardHeader className="p-mobile-lg sm:p-6">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-black rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                      <Home className="w-6 h-6 sm:w-8 sm:h-8 text-xplor-yellow" />
+                    </div>
+                    <CardTitle className="text-mobile-lg sm:text-xl">Real Estate</CardTitle>
+                    <CardDescription className="text-mobile-sm sm:text-base">
+                      Stay in extraordinary luxury properties and exclusive architectural marvels
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
 
-              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card sm:col-span-2 md:col-span-1">
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
                 <CardHeader className="p-mobile-lg sm:p-6">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-xplor-grey rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
                     <Landmark className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
@@ -143,6 +145,212 @@ const Index = () => {
                   <CardTitle className="text-mobile-lg sm:text-xl">Experiences</CardTitle>
                   <CardDescription className="text-mobile-sm sm:text-base">
                     Personalized service and exclusive access to the world's finest experiences
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Link to="/cars-vehicles">
+                <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                  <CardHeader className="p-mobile-lg sm:p-6">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                      <Car className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
+                    </div>
+                    <CardTitle className="text-mobile-lg sm:text-xl">Cars & Vehicles</CardTitle>
+                    <CardDescription className="text-mobile-sm sm:text-base">
+                      Explore luxury vehicles and automotive experiences
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Hotel className="w-6 h-6 sm:w-8 sm:h-8 text-accent-foreground" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Hotels & Resorts</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Luxury accommodations and resort experiences worldwide
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Anchor className="w-6 h-6 sm:w-8 sm:h-8 text-secondary-foreground" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Marinas & Shipyards</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Marine facilities and maritime infrastructure
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Palette className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Museums & Art</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Cultural institutions and artistic venues
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <GraduationCap className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Schools & Education</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Educational institutions and academic facilities
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Plane className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Aviation & Aircraft</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Airports, private jets and aviation facilities
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <ShoppingBag className="w-6 h-6 sm:w-8 sm:h-8 text-secondary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Retail & Pop-Up</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Shopping experiences and retail environments
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-muted/20 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Landmark className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Heritage & Worship</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Historic sites and places of cultural significance
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Clapperboard className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Sets & Venues</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Entertainment venues and production stages
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent/30 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <TreePine className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Sports & Theme Parks</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Stadiums, parks and recreational facilities
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-secondary/30 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Target className="w-6 h-6 sm:w-8 sm:h-8 text-secondary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Golf Courses</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Premium golf facilities and country clubs
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-muted/30 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Government & Hospitals</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Public buildings and healthcare facilities
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/40 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Ship className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Merchant Shipping</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Commercial vessels and shipping operations
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent/40 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Factory className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Manufacturing</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Industrial facilities and production plants
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-secondary/40 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Train className="w-6 h-6 sm:w-8 sm:h-8 text-secondary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Trains & Trams</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Railway systems and public transportation
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-muted/40 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Utensils className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Restaurants & Bars</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Dining establishments and hospitality venues
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="text-center hover:shadow-medium transition-all duration-200 group hover:bg-gradient-card cursor-pointer">
+                <CardHeader className="p-mobile-lg sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/50 rounded-full flex items-center justify-center mx-auto mb-mobile-md sm:mb-4 group-hover:scale-110 transition-transform">
+                    <Briefcase className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-mobile-lg sm:text-xl">Offices & Studios</CardTitle>
+                  <CardDescription className="text-mobile-sm sm:text-base">
+                    Professional workspaces and creative studios
                   </CardDescription>
                 </CardHeader>
               </Card>
