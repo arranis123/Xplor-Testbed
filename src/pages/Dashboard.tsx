@@ -22,6 +22,7 @@ import CruiseShipUploadDialog from "@/components/CruiseShipUploadDialog";
 import TrainTramUploadDialog from "@/components/TrainTramUploadDialog";
 import RestaurantBarUploadDialog from "@/components/RestaurantBarUploadDialog";
 import UAEDevelopmentUploadDialog from "@/components/UAEDevelopmentUploadDialog";
+import DevelopmentUploadDialog from "@/components/DevelopmentUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -36,6 +37,7 @@ const Dashboard = () => {
   const [showTrainTramDialog, setShowTrainTramDialog] = useState(false);
   const [showRestaurantBarDialog, setShowRestaurantBarDialog] = useState(false);
   const [showUAEDevelopmentDialog, setShowUAEDevelopmentDialog] = useState(false);
+  const [showDevelopmentDialog, setShowDevelopmentDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -138,8 +140,7 @@ const Dashboard = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => {
-                      setSelectedCategory("developments");
-                      setUploadDialogOpen(true);
+                      setShowDevelopmentDialog(true);
                     }}
                   >
                     Developments
@@ -527,8 +528,7 @@ const Dashboard = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => {
-                        setSelectedCategory("developments");
-                        setUploadDialogOpen(true);
+                        setShowDevelopmentDialog(true);
                       }}
                     >
                       Developments
@@ -809,6 +809,11 @@ const Dashboard = () => {
       <UAEDevelopmentUploadDialog
         open={showUAEDevelopmentDialog}
         onOpenChange={setShowUAEDevelopmentDialog}
+      />
+      
+      <DevelopmentUploadDialog
+        open={showDevelopmentDialog}
+        onOpenChange={setShowDevelopmentDialog}
       />
     </div>
   );
