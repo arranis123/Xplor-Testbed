@@ -430,6 +430,18 @@ export function YachtUploadForm({
   const [crewFairShare, setCrewFairShare] = useState({
     documents: []
   });
+  
+  // Co-Brokerage states
+  const [areCoBrokersInvolved, setAreCoBrokersInvolved] = useState(false);
+  const [coBrokerType, setCoBrokerType] = useState("");
+  const [coBrokerName, setCoBrokerName] = useState("");
+  const [coBrokerCompany, setCoBrokerCompany] = useState("");
+  const [coBrokerEmail, setCoBrokerEmail] = useState("");
+  const [coBrokerPhone, setCoBrokerPhone] = useState("");
+  const [coBrokerTerritory, setCoBrokerTerritory] = useState("");
+  const [coBrokerLicense, setCoBrokerLicense] = useState("");
+  const [commissionSplit, setCommissionSplit] = useState("");
+  const [coBrokerDocuments, setCoBrokerDocuments] = useState([]);
   const form = useForm<YachtUploadFormData>({
     resolver: zodResolver(yachtRulesSchema),
     defaultValues: {
@@ -5917,6 +5929,189 @@ export function YachtUploadForm({
                             </div>
                           </div>
                         </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    {/* Co-Brokerage Information */}
+                    <AccordionItem value="co-brokerage">
+                      <AccordionTrigger className="text-lg font-semibold">
+                        🤝 Co-Brokerage Information
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                          <p className="text-blue-800 text-sm">
+                            Record details of any co-brokers working in tandem with the central broker on sales or charter transactions.
+                          </p>
+                        </div>
+
+                        {/* Co-Brokers Involved Toggle */}
+                        <div className="space-y-2">
+                          <Label className="text-base font-medium">Are Co-Brokers Involved?</Label>
+                          <div className="flex items-center space-x-2">
+                            <Switch
+                              checked={areCoBrokersInvolved}
+                              onCheckedChange={setAreCoBrokersInvolved}
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              {areCoBrokersInvolved ? 'Yes' : 'No'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {areCoBrokersInvolved && (
+                          <div className="space-y-4 border-t pt-4">
+                            {/* Co-Broker Type */}
+                            <div className="space-y-2">
+                              <Label>Co-Broker Type</Label>
+                              <Select value={coBrokerType} onValueChange={setCoBrokerType}>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select co-broker type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="external">External Co-Broker (Different company)</SelectItem>
+                                  <SelectItem value="internal">Internal Broker (within same company)</SelectItem>
+                                  <SelectItem value="charter-agent">Charter Agent Only</SelectItem>
+                                  <SelectItem value="buyers-rep">Buyer's Representative</SelectItem>
+                                  <SelectItem value="listing-support">Listing Support Agent</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+
+                            {/* Co-Broker Details */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label>Co-Broker Name</Label>
+                                <Input
+                                  value={coBrokerName}
+                                  onChange={(e) => setCoBrokerName(e.target.value)}
+                                  placeholder="Enter co-broker name"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label>Brokerage Company</Label>
+                                <Input
+                                  value={coBrokerCompany}
+                                  onChange={(e) => setCoBrokerCompany(e.target.value)}
+                                  placeholder="Enter brokerage company"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label>Email Address</Label>
+                                <Input
+                                  type="email"
+                                  value={coBrokerEmail}
+                                  onChange={(e) => setCoBrokerEmail(e.target.value)}
+                                  placeholder="Enter email address"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label>Phone Number (Optional)</Label>
+                                <Input
+                                  value={coBrokerPhone}
+                                  onChange={(e) => setCoBrokerPhone(e.target.value)}
+                                  placeholder="Enter phone number"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label>Territory or Client Region (Optional)</Label>
+                                <Input
+                                  value={coBrokerTerritory}
+                                  onChange={(e) => setCoBrokerTerritory(e.target.value)}
+                                  placeholder="Enter territory or region"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label>License Number (Optional)</Label>
+                                <Input
+                                  value={coBrokerLicense}
+                                  onChange={(e) => setCoBrokerLicense(e.target.value)}
+                                  placeholder="Enter license number"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Commission Split Terms */}
+                            <div className="space-y-2">
+                              <Label>Commission Split Terms</Label>
+                              <Input
+                                value={commissionSplit}
+                                onChange={(e) => setCommissionSplit(e.target.value)}
+                                placeholder="e.g., 40% to Co-Broker, 60% to Xplor"
+                              />
+                            </div>
+
+                            {/* Upload Co-Broker Authorization Documents */}
+                            <div className="space-y-4">
+                              <h4 className="font-semibold">Upload Co-Broker Authorization Documents</h4>
+                              
+                              {[
+                                { id: 'co-broker-agreement', label: 'Signed Co-Brokerage Agreement' },
+                                { id: 'commission-agreement', label: 'Commission Agreement' },
+                                { id: 'agency-disclosure', label: 'Agency Disclosure Forms' },
+                                { id: 'cooperation-letter', label: 'Terms of Cooperation Letter' },
+                                { id: 'payment-instructions', label: 'Third-party Payment Instructions' }
+                              ].map((doc) => (
+                                <div key={doc.id} className="border rounded-lg p-4">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <Label className="font-medium">{doc.label}</Label>
+                                  </div>
+                                  
+                                  <div className="space-y-2">
+                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                      <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
+                                      <p className="text-sm text-gray-600">
+                                        Drag and drop your file here or click to browse
+                                      </p>
+                                      <Input
+                                        type="file"
+                                        accept=".pdf,.doc,.docx"
+                                        className="hidden"
+                                        id={`upload-${doc.id}`}
+                                      />
+                                      <label htmlFor={`upload-${doc.id}`} className="cursor-pointer">
+                                        <Button type="button" variant="outline" size="sm" className="mt-2">
+                                          Choose File
+                                        </Button>
+                                      </label>
+                                    </div>
+                                    
+                                    {/* File controls */}
+                                    <div className="flex flex-wrap gap-4 text-sm">
+                                      <div className="flex items-center space-x-2">
+                                        <Checkbox id={`pin-${doc.id}`} />
+                                        <Label htmlFor={`pin-${doc.id}`}>PIN Protection</Label>
+                                      </div>
+                                      
+                                      <div className="flex items-center space-x-2">
+                                        <Label>Visibility:</Label>
+                                        <Select defaultValue="broker">
+                                          <SelectTrigger className="w-auto">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="public">Public</SelectItem>
+                                            <SelectItem value="broker">Broker Only</SelectItem>
+                                            <SelectItem value="admin">Admin Only</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      
+                                      <div className="flex items-center space-x-2">
+                                        <Checkbox id={`share-${doc.id}`} />
+                                        <Label htmlFor={`share-${doc.id}`}>Generate Shareable Link</Label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </AccordionContent>
                     </AccordionItem>
                     
