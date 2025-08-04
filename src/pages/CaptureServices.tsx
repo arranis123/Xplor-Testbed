@@ -22,6 +22,9 @@ import {
 import TourProFinderForm from "@/components/TourProFinderForm";
 import captureHeroImage from "@/assets/capture-services-hero.jpg";
 import pro3CameraImage from "@/assets/pro3-camera.jpg";
+import bangkokVirtualTour from "@/assets/bangkok-virtual-tour.jpg";
+import emiratesIcon from "@/assets/360emirates-icon.png";
+import virtual360nyHero from "@/assets/virtual360ny-hero.jpg";
 import VerificationForm from "@/components/VerificationForm";
 
 const CaptureServices = () => {
@@ -264,28 +267,91 @@ const CaptureServices = () => {
                 
                 {/* Demo Spaces */}
                 <div className="grid md:grid-cols-3 gap-6">
-                  {[
-                    { name: "Springfield Steel (DEMO)", type: "Industrial Space" },
-                    { name: "712 Mission Hill Rd (DEMO)", type: "Residential Property" },
-                    { name: "CRE Facilities Management Demo", type: "Commercial Space" }
-                  ].map((demo) => (
-                    <Card key={demo.name} className="border-border hover:shadow-medium transition-shadow">
-                      <div className="aspect-video bg-gradient-to-br from-xplor-yellow/20 to-xplor-grey/20 rounded-t-lg relative">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Building className="h-12 w-12 text-xplor-yellow" />
-                        </div>
-                      </div>
-                      <CardHeader>
-                        <CardTitle className="text-lg">{demo.name}</CardTitle>
-                        <CardDescription>{demo.type}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button variant="outline" className="w-full">
-                          View 3D portfolio
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  <Card className="border-border hover:shadow-medium transition-shadow">
+                    <div className="aspect-video bg-gradient-to-br from-red-500/20 to-red-700/20 rounded-t-lg relative overflow-hidden">
+                      <img 
+                        src={bangkokVirtualTour} 
+                        alt="Bangkok Virtual Tour 360"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/20"></div>
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Bangkok Virtual Tour 360</CardTitle>
+                      <CardDescription>Professional 3D & 360° Virtual Tours in Thailand</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Specializing in Matterport 3D virtual tours and 360° panoramic photography for real estate and hospitality.
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => window.open('https://www.bangkokvirtualtour360.com/', '_blank')}
+                      >
+                        Visit Website
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-border hover:shadow-medium transition-shadow">
+                    <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-teal-600/20 rounded-t-lg relative overflow-hidden flex items-center justify-center">
+                      <img 
+                        src={emiratesIcon} 
+                        alt="360 Emirates"
+                        className="h-16 w-16 object-contain filter brightness-0 invert"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-teal-600"></div>
+                      <img 
+                        src={emiratesIcon} 
+                        alt="360 Emirates"
+                        className="h-16 w-16 object-contain relative z-10"
+                      />
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="text-lg">360 Emirates</CardTitle>
+                      <CardDescription>Leading 360 VR & 3D Solutions in UAE</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        18+ years experience providing 360° virtual tours, 3D property scans, and VR solutions across the Emirates.
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => window.open('https://360emirates.com/', '_blank')}
+                      >
+                        Visit Website
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-border hover:shadow-medium transition-shadow">
+                    <div className="aspect-video bg-gradient-to-br from-gray-500/20 to-blue-600/20 rounded-t-lg relative overflow-hidden">
+                      <img 
+                        src={virtual360nyHero} 
+                        alt="Virtual360NY"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/30"></div>
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Virtual360NY</CardTitle>
+                      <CardDescription>NYC Commercial & Corporate Virtual Tours</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Architectural photography and Google-authorized virtual tours for NYC commercial properties and corporate spaces.
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => window.open('https://www.virtual360ny.com/', '_blank')}
+                      >
+                        Visit Website
+                      </Button>
+                    </CardContent>
+                  </Card>
                 </div>
               </TabsContent>
             ))}
