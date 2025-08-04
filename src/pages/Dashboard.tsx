@@ -23,6 +23,7 @@ import { useLocation } from "react-router-dom";
 const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
+  const [showMerchantShippingDialog, setShowMerchantShippingDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -238,10 +239,7 @@ const Dashboard = () => {
                 Government Buildings & Hospitals
               </DropdownMenuItem>
               <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("merchant-shipping");
-                  setUploadDialogOpen(true);
-                }}
+                onClick={() => setShowMerchantShippingDialog(true)}
               >
                 <Anchor className="h-4 w-4 mr-2" />
                 Merchant Shipping
@@ -603,10 +601,7 @@ const Dashboard = () => {
                   Government Buildings & Hospitals
                 </DropdownMenuItem>
                 <DropdownMenuItem 
-                  onClick={() => {
-                    setSelectedCategory("merchant-shipping");
-                    setUploadDialogOpen(true);
-                  }}
+                  onClick={() => setShowMerchantShippingDialog(true)}
                 >
                   <Anchor className="h-4 w-4 mr-2" />
                   Merchant Shipping
@@ -688,6 +683,11 @@ const Dashboard = () => {
       <GovHospitalUploadDialog
         open={govHospitalUploadDialogOpen}
         onOpenChange={setGovHospitalUploadDialogOpen}
+      />
+      
+      <MerchantShippingUploadDialog
+        open={showMerchantShippingDialog}
+        onOpenChange={setShowMerchantShippingDialog}
       />
     </div>
   );
