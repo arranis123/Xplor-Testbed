@@ -14,7 +14,7 @@ const YachtCrewOffer = () => {
           className="absolute inset-0 bg-no-repeat bg-center"
           style={{ 
             backgroundImage: 'url(/lovable-uploads/45cc1ea1-be70-466b-a97c-c44b69684dfa.png)',
-            backgroundSize: '80%'
+            backgroundSize: 'contain'
           }}
         />
         <div className="relative max-w-6xl mx-auto px-6 text-center">
