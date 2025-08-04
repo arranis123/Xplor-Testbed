@@ -120,16 +120,30 @@ const Dashboard = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuItem 
-                onClick={() => {
-                  console.log('Real Estate clicked');
-                  setSelectedCategory("real-estate");
-                  setUploadDialogOpen(true);
-                }}
-              >
-                <Home className="h-4 w-4 mr-2" />
-                Real Estate
-              </DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Home className="h-4 w-4 mr-2" />
+                  Real Estate
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      setSelectedCategory("real-estate");
+                      setUploadDialogOpen(true);
+                    }}
+                  >
+                    General Real Estate
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      setSelectedCategory("uae-developments");
+                      setUploadDialogOpen(true);
+                    }}
+                  >
+                    UAE Developments
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuItem 
                 onClick={() => {
                   setSelectedCategory("yacht");
@@ -488,15 +502,30 @@ const Dashboard = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-64">
-                <DropdownMenuItem 
-                  onClick={() => {
-                    setSelectedCategory("real-estate");
-                    setUploadDialogOpen(true);
-                  }}
-                >
-                  <Home className="h-4 w-4 mr-2" />
-                  Real Estate
-                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Home className="h-4 w-4 mr-2" />
+                    Real Estate
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem 
+                      onClick={() => {
+                        setSelectedCategory("real-estate");
+                        setUploadDialogOpen(true);
+                      }}
+                    >
+                      General Real Estate
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => {
+                        setSelectedCategory("uae-developments");
+                        setUploadDialogOpen(true);
+                      }}
+                    >
+                      UAE Developments
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
                 <DropdownMenuItem 
                   onClick={() => {
                     setSelectedCategory("yacht");
