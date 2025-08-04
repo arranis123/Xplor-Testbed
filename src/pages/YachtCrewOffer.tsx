@@ -9,10 +9,13 @@ const YachtCrewOffer = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="relative py-16 bg-background">
+      <div className="relative py-24 bg-background">
         <div 
-          className="absolute inset-0 bg-contain bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/lovable-uploads/45cc1ea1-be70-466b-a97c-c44b69684dfa.png)' }}
+          className="absolute inset-0 bg-no-repeat bg-center"
+          style={{ 
+            backgroundImage: 'url(/lovable-uploads/45cc1ea1-be70-466b-a97c-c44b69684dfa.png)',
+            backgroundSize: '80%'
+          }}
         />
         <div className="relative max-w-6xl mx-auto px-6 text-center">
           <Button 
