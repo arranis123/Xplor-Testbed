@@ -9,6 +9,7 @@ import { CarUploadDialog } from "@/components/CarUploadDialog";
 import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
 import { AviationUploadDialog } from "@/components/AviationUploadDialog";
 import OfficesShowroomsStudiosUploadDialog from "@/components/OfficesShowroomsStudiosUploadDialog";
+import RetailPopUpUploadDialog from "@/components/RetailPopUpUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -652,6 +653,11 @@ const Dashboard = () => {
       
       <OfficesShowroomsStudiosUploadDialog 
         open={uploadDialogOpen && selectedCategory === "offices-showrooms-studios"} 
+        onOpenChange={setUploadDialogOpen}
+      />
+      
+      <RetailPopUpUploadDialog 
+        open={uploadDialogOpen && selectedCategory === "retail-popup"} 
         onOpenChange={setUploadDialogOpen}
       />
     </div>
