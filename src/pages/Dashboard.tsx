@@ -17,6 +17,7 @@ import GolfCourseUploadDialog from "@/components/GolfCourseUploadDialog";
 import GovHospitalUploadDialog from "@/components/GovHospitalUploadDialog";
 import MerchantShippingUploadDialog from "@/components/MerchantShippingUploadDialog";
 import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilityUploadDialog";
+import MaritimeInfrastructureUploadDialog from "@/components/MaritimeInfrastructureUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -26,6 +27,7 @@ const Dashboard = () => {
   const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
   const [showMerchantShippingDialog, setShowMerchantShippingDialog] = useState(false);
   const [showManufacturingFacilityDialog, setShowManufacturingFacilityDialog] = useState(false);
+  const [showMaritimeInfrastructureDialog, setShowMaritimeInfrastructureDialog] = useState(false);
   const [schoolEducationDialogOpen, setSchoolEducationDialogOpen] = useState(false);
   const [aviationDialogOpen, setAviationDialogOpen] = useState(false);
   const [officesShowroomsStudiosUploadDialogOpen, setOfficesShowroomsStudiosUploadDialogOpen] = useState(false);
@@ -256,10 +258,7 @@ const Dashboard = () => {
                 Merchant Shipping
               </DropdownMenuItem>
               <DropdownMenuItem 
-                onClick={() => {
-                  setSelectedCategory("cruise-terminals-docks");
-                  setUploadDialogOpen(true);
-                }}
+                onClick={() => setShowMaritimeInfrastructureDialog(true)}
               >
                 <Anchor className="h-4 w-4 mr-2" />
                 Cruise Terminals, Commercial Docks & Lighthouses
@@ -642,10 +641,7 @@ const Dashboard = () => {
                   Merchant Shipping
                 </DropdownMenuItem>
                 <DropdownMenuItem 
-                  onClick={() => {
-                    setSelectedCategory("cruise-terminals-docks");
-                    setUploadDialogOpen(true);
-                  }}
+                  onClick={() => setShowMaritimeInfrastructureDialog(true)}
                 >
                   <Anchor className="h-4 w-4 mr-2" />
                   Cruise Terminals, Commercial Docks & Lighthouses
@@ -743,6 +739,11 @@ const Dashboard = () => {
       <ManufacturingFacilityUploadDialog
         open={showManufacturingFacilityDialog}
         onOpenChange={setShowManufacturingFacilityDialog}
+      />
+      
+      <MaritimeInfrastructureUploadDialog
+        open={showMaritimeInfrastructureDialog}
+        onOpenChange={setShowMaritimeInfrastructureDialog}
       />
     </div>
   );
