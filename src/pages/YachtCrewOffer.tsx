@@ -23,7 +23,6 @@ const YachtCrewOffer = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <p className="text-xl text-slate-700 mt-12">Real Recognition. Real Reward.</p>
         </div>
       </div>
 
