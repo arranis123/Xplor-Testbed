@@ -551,33 +551,83 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="floorArea"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Floor Area (Sq Ft / Sq M)</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="Floor area" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="floorArea"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Floor Area</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="Floor area" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="plotLotSize"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Plot/Lot Size (Sq Ft / Sq M)</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="Plot/lot size" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="floorAreaUnit"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Unit</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value || "sqft"}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select unit" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="sqft">Sq Ft</SelectItem>
+                            <SelectItem value="sqm">Sq M</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="plotLotSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Plot/Lot Size</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="Plot/lot size" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="plotLotSizeUnit"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Unit</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value || "sqft"}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select unit" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="sqft">Sq Ft</SelectItem>
+                            <SelectItem value="sqm">Sq M</SelectItem>
+                            <SelectItem value="acres">Acres</SelectItem>
+                            <SelectItem value="hectares">Hectares</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <FormField
                   control={form.control}
