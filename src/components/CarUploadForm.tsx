@@ -83,6 +83,7 @@ const carFormSchema = z.object({
   city: z.string().min(1, 'City is required'),
   country: z.string().min(1, 'Country is required'),
   postalCode: z.string().optional(),
+  googlePlusCode: z.string().optional(),
   coordinates: z.object({
     lat: z.number().optional(),
     lng: z.number().optional()
@@ -1268,9 +1269,23 @@ export const CarUploadForm: React.FC<CarUploadFormProps> = ({
                         </FormControl>
                         <FormMessage />
                       </FormItem>
-                    )}
-                  />
-                </div>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="googlePlusCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Google Plus Code (optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., 9G8F+5X New York" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
                 <FormField
                   control={form.control}
