@@ -261,7 +261,7 @@ const Dashboard = () => {
                 onClick={() => setShowMaritimeInfrastructureDialog(true)}
               >
                 <Anchor className="h-4 w-4 mr-2" />
-                Cruise Terminals, Commercial Docks & Lighthouses
+                Maritime Infrastructure
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
@@ -644,7 +644,7 @@ const Dashboard = () => {
                   onClick={() => setShowMaritimeInfrastructureDialog(true)}
                 >
                   <Anchor className="h-4 w-4 mr-2" />
-                  Cruise Terminals, Commercial Docks & Lighthouses
+                  Maritime Infrastructure
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => {
