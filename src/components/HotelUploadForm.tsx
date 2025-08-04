@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Link } from "lucide-react";
+import { Plus, Trash2, Upload, MapPin, Star, Hotel, Camera, Video, FileText, Users, Bed, Wifi, Car, Coffee, Utensils, Waves, Dumbbell, Link, Navigation } from "lucide-react";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 interface HotelUploadFormProps {
@@ -67,6 +67,14 @@ export function HotelUploadForm({
     lng: number;
   } | null>(null);
   const [mapZoom, setMapZoom] = useState<number>(10);
+  const [nearbyPlaces, setNearbyPlaces] = useState<Array<{
+    id: string;
+    name: string;
+    category: string;
+    distance?: string;
+    description?: string;
+    coordinates?: { lat: number; lng: number };
+  }>>([]);
   const [hotelVirtualTours, setHotelVirtualTours] = useState<Array<{
     id: string;
     name: string;
@@ -2249,6 +2257,273 @@ export function HotelUploadForm({
                     }} zoom={mapZoom} onZoomChange={setMapZoom} className="w-full h-full" />
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Proximity to Key Places Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Navigation className="h-5 w-5" />
+                Nearby Places of Interest
+              </CardTitle>
+              <CardDescription>
+                Indicate important landmarks and locations near the hotel that are relevant to potential guests
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Map-Based Selection */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-sm font-medium">Map-Based Selection</h4>
+                    <p className="text-sm text-muted-foreground">Drop pins or search for landmarks near your hotel</p>
+                  </div>
+                </div>
+                <div className="h-96 border rounded-lg overflow-hidden">
+                  <MapboxLocationPicker
+                    coordinates={mapCoordinates}
+                    onCoordinatesChange={(coords) => {
+                      setMapCoordinates(coords);
+                      if (coords) {
+                        form.setValue('latitude', coords.lat.toString());
+                        form.setValue('longitude', coords.lng.toString());
+                      }
+                    }}
+                    zoom={mapZoom}
+                    onZoomChange={setMapZoom}
+                    className="w-full h-full"
+                  />
+                </div>
+              </div>
+
+              {/* Default Suggested Categories */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium">Quick Categories</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { icon: "🏖️", label: "Beach / Waterfront", category: "beach" },
+                    { icon: "🏞️", label: "Park / Natural Area", category: "park" },
+                    { icon: "🛍️", label: "Shopping Center / Market", category: "shopping" },
+                    { icon: "🍽️", label: "Restaurants / Cafés", category: "restaurant" },
+                    { icon: "🏛️", label: "Tourist Attractions / Historic Sites", category: "attraction" },
+                    { icon: "🚌", label: "Public Transport", category: "transport" },
+                    { icon: "🏫", label: "Schools / Universities", category: "education" },
+                    { icon: "🏥", label: "Hospitals / Clinics", category: "medical" },
+                    { icon: "✈️", label: "Airport", category: "airport" },
+                    { icon: "🚕", label: "Taxi / Ride Share Stand", category: "taxi" },
+                    { icon: "🎭", label: "Entertainment Venue", category: "entertainment" },
+                    { icon: "🏋️", label: "Gym / Spa / Wellness Centers", category: "wellness" },
+                    { icon: "🏦", label: "Bank / ATM", category: "bank" },
+                    { icon: "🏪", label: "Supermarket / Convenience Store", category: "retail" },
+                    { icon: "🕌", label: "Place of Worship", category: "worship" }
+                  ].map((item) => (
+                    <div key={item.category} className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id={item.category}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              const newPlace = {
+                                id: Math.random().toString(36).substr(2, 9),
+                                name: '',
+                                category: item.category,
+                                distance: '',
+                                description: ''
+                              };
+                              setNearbyPlaces([...nearbyPlaces, newPlace]);
+                            } else {
+                              setNearbyPlaces(nearbyPlaces.filter(p => p.category !== item.category));
+                            }
+                          }}
+                        />
+                        <label htmlFor={item.category} className="text-sm flex items-center gap-2 cursor-pointer">
+                          <span>{item.icon}</span>
+                          {item.label}
+                        </label>
+                      </div>
+                      {nearbyPlaces.some(p => p.category === item.category) && (
+                        <div className="ml-6 space-y-2">
+                          <Input
+                            placeholder="Place name"
+                            value={nearbyPlaces.find(p => p.category === item.category)?.name || ''}
+                            onChange={(e) => {
+                              setNearbyPlaces(nearbyPlaces.map(p => 
+                                p.category === item.category 
+                                  ? { ...p, name: e.target.value }
+                                  : p
+                              ));
+                            }}
+                          />
+                          <div className="grid grid-cols-2 gap-2">
+                            <Input
+                              placeholder="Distance (e.g., 5 min walk)"
+                              value={nearbyPlaces.find(p => p.category === item.category)?.distance || ''}
+                              onChange={(e) => {
+                                setNearbyPlaces(nearbyPlaces.map(p => 
+                                  p.category === item.category 
+                                    ? { ...p, distance: e.target.value }
+                                    : p
+                                ));
+                              }}
+                            />
+                            <Input
+                              placeholder="Description (optional)"
+                              value={nearbyPlaces.find(p => p.category === item.category)?.description || ''}
+                              onChange={(e) => {
+                                setNearbyPlaces(nearbyPlaces.map(p => 
+                                  p.category === item.category 
+                                    ? { ...p, description: e.target.value }
+                                    : p
+                                ));
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Manual Add Section */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-medium">Custom Places</h4>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const newPlace = {
+                        id: Math.random().toString(36).substr(2, 9),
+                        name: '',
+                        category: 'custom',
+                        distance: '',
+                        description: ''
+                      };
+                      setNearbyPlaces([...nearbyPlaces, newPlace]);
+                    }}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Another Nearby Place
+                  </Button>
+                </div>
+
+                {nearbyPlaces.filter(p => p.category === 'custom').map((place) => (
+                  <div key={place.id} className="border rounded-lg p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h5 className="font-medium">Custom Place</h5>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setNearbyPlaces(nearbyPlaces.filter(p => p.id !== place.id));
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <Input
+                        placeholder="Place name"
+                        value={place.name}
+                        onChange={(e) => {
+                          setNearbyPlaces(nearbyPlaces.map(p => 
+                            p.id === place.id 
+                              ? { ...p, name: e.target.value }
+                              : p
+                          ));
+                        }}
+                      />
+                      <Select
+                        value={place.category}
+                        onValueChange={(value) => {
+                          setNearbyPlaces(nearbyPlaces.map(p => 
+                            p.id === place.id 
+                              ? { ...p, category: value }
+                              : p
+                          ));
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="beach">Beach / Waterfront</SelectItem>
+                          <SelectItem value="park">Park / Natural Area</SelectItem>
+                          <SelectItem value="shopping">Shopping Center</SelectItem>
+                          <SelectItem value="restaurant">Restaurant / Café</SelectItem>
+                          <SelectItem value="attraction">Tourist Attraction</SelectItem>
+                          <SelectItem value="transport">Public Transport</SelectItem>
+                          <SelectItem value="education">School / University</SelectItem>
+                          <SelectItem value="medical">Hospital / Clinic</SelectItem>
+                          <SelectItem value="airport">Airport</SelectItem>
+                          <SelectItem value="entertainment">Entertainment</SelectItem>
+                          <SelectItem value="wellness">Gym / Spa</SelectItem>
+                          <SelectItem value="bank">Bank / ATM</SelectItem>
+                          <SelectItem value="retail">Retail Store</SelectItem>
+                          <SelectItem value="worship">Place of Worship</SelectItem>
+                          <SelectItem value="custom">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <Input
+                        placeholder="Distance from hotel"
+                        value={place.distance}
+                        onChange={(e) => {
+                          setNearbyPlaces(nearbyPlaces.map(p => 
+                            p.id === place.id 
+                              ? { ...p, distance: e.target.value }
+                              : p
+                          ));
+                        }}
+                      />
+                      <Input
+                        placeholder="Description (optional)"
+                        value={place.description}
+                        onChange={(e) => {
+                          setNearbyPlaces(nearbyPlaces.map(p => 
+                            p.id === place.id 
+                              ? { ...p, description: e.target.value }
+                              : p
+                          ));
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {nearbyPlaces.filter(p => p.category === 'custom').length === 0 && (
+                  <div className="text-center py-6 border border-dashed border-border rounded-lg">
+                    <MapPin className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mb-3">No custom places added yet</p>
+                    <p className="text-xs text-muted-foreground">Maximum of 10 nearby places for optimal performance</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Summary */}
+              {nearbyPlaces.length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium">Summary of Nearby Places</h4>
+                  <div className="bg-muted/50 rounded-lg p-4">
+                    <div className="space-y-2">
+                      {nearbyPlaces.map((place) => (
+                        <div key={place.id} className="flex items-center justify-between text-sm">
+                          <span className="font-medium">{place.name || 'Unnamed place'}</span>
+                          <span className="text-muted-foreground">{place.distance || 'Distance not specified'}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-3">
+                      Total places: {nearbyPlaces.length}/10
+                    </p>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
