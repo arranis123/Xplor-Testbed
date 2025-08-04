@@ -138,6 +138,14 @@ const Dashboard = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => {
+                      setSelectedCategory("developments");
+                      setUploadDialogOpen(true);
+                    }}
+                  >
+                    Developments
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => {
                       setShowUAEDevelopmentDialog(true);
                     }}
                   >
@@ -516,6 +524,14 @@ const Dashboard = () => {
                       }}
                     >
                       General Real Estate
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => {
+                        setSelectedCategory("developments");
+                        setUploadDialogOpen(true);
+                      }}
+                    >
+                      Developments
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => {
