@@ -5,12 +5,14 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area, AreaChart } from 'recharts';
 import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
+import { CarUploadDialog } from "@/components/CarUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [carUploadDialogOpen, setCarUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   
@@ -118,8 +120,7 @@ const Dashboard = () => {
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
-                  setSelectedCategory("car");
-                  setUploadDialogOpen(true);
+                  setCarUploadDialogOpen(true);
                 }}
               >
                 <Car className="h-4 w-4 mr-2" />
@@ -602,6 +603,11 @@ const Dashboard = () => {
         open={uploadDialogOpen} 
         onOpenChange={setUploadDialogOpen}
         category={selectedCategory}
+      />
+      
+      <CarUploadDialog 
+        open={carUploadDialogOpen} 
+        onOpenChange={setCarUploadDialogOpen}
       />
     </div>
   );
