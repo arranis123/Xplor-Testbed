@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel, Building2, Anchor, Factory, Train, Utensils } from "lucide-react";
+import { BarChart3, FolderOpen, Camera, Globe, Plus, TrendingUp, Users, Crown, Zap, ChevronDown, Car, MapPin, Compass, Palette, GraduationCap, Plane, Building, ShoppingBag, Landmark, Clapperboard, TreePine, MapPin as Golf, Home, Ship, Hotel, Building2, Anchor, Factory, Train, Utensils, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { UploadSpaceDialog } from "@/components/UploadSpaceDialog";
 import { CarUploadDialog } from "@/components/CarUploadDialog";
 import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
 import { AviationUploadDialog } from "@/components/AviationUploadDialog";
+import OfficesShowroomsStudiosUploadDialog from "@/components/OfficesShowroomsStudiosUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -264,6 +265,15 @@ const Dashboard = () => {
               >
                 <Utensils className="h-4 w-4 mr-2" />
                 Restaurants & Bars
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setSelectedCategory("offices-showrooms-studios");
+                  setUploadDialogOpen(true);
+                }}
+              >
+                <Briefcase className="h-4 w-4 mr-2" />
+                Offices, Showrooms & Studios
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -638,6 +648,11 @@ const Dashboard = () => {
       <AviationUploadDialog 
         open={aviationDialogOpen} 
         onOpenChange={setAviationDialogOpen}
+      />
+      
+      <OfficesShowroomsStudiosUploadDialog 
+        open={uploadDialogOpen && selectedCategory === "offices-showrooms-studios"} 
+        onOpenChange={setUploadDialogOpen}
       />
     </div>
   );
