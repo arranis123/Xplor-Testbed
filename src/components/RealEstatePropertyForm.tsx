@@ -36,8 +36,11 @@ import {
   Camera,
   Check,
   ChevronsUpDown,
-  Clock
+  Clock,
+  Trash2
 } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 
 interface RealEstatePropertyFormProps {
   form: UseFormReturn<any>;
@@ -133,6 +136,21 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
     droneFootage: [],
     documents: []
   });
+
+  // Map and nearby places state
+  const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [mapZoom, setMapZoom] = useState(12);
+  const [nearbyPlaces, setNearbyPlaces] = useState<Array<{
+    id: string;
+    name: string;
+    category: string;
+    distance: string;
+    description: string;
+  }>>([]);
+
+  const handleCoordinatesChange = (coordinates: { lat: number; lng: number }) => {
+    setMapCoordinates(coordinates);
+  };
 
   return (
     <div className="w-full max-w-6xl mx-auto">
@@ -1195,93 +1213,200 @@ export function RealEstatePropertyForm({ form }: RealEstatePropertyFormProps) {
                 </div>
               </div>
 
-              {/* Proximity to Key Locations */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Proximity to Key Locations</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="nearbySchools"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nearby Schools</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="List nearby schools and distances" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              {/* Proximity to Key Places */}
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold">Nearby Places of Interest</h3>
+                
+                {/* Interactive Map for Place Selection */}
+                <div className="space-y-4">
+                  <h4 className="text-md font-medium">Select Places on Map</h4>
+                  <div className="h-96 rounded-lg border border-border overflow-hidden">
+                    <MapboxLocationPicker
+                      coordinates={mapCoordinates}
+                      onCoordinatesChange={handleCoordinatesChange}
+                      zoom={mapZoom}
+                      onZoomChange={setMapZoom}
+                      className="h-full w-full"
+                    />
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Click on the map to add nearby places of interest
+                  </p>
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="nearbyHospitals"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nearby Hospitals</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="List nearby hospitals and distances" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {/* Default Suggested Categories */}
+                <div className="space-y-4">
+                  <h4 className="text-md font-medium">Quick Add Nearby Places</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {[
+                      { id: "beach", label: "⛱️ Beach / Waterfront", category: "Recreation" },
+                      { id: "park", label: "🏞️ Park / Natural Area", category: "Recreation" },
+                      { id: "shopping", label: "🛍️ Shopping Center", category: "Shopping" },
+                      { id: "restaurants", label: "🍽️ Restaurants / Cafés", category: "Dining" },
+                      { id: "attractions", label: "🏛️ Tourist Attractions", category: "Tourism" },
+                      { id: "transport", label: "🚌 Public Transport", category: "Transportation" },
+                      { id: "schools", label: "🏫 Schools", category: "Education" },
+                      { id: "hospitals", label: "🏥 Hospitals", category: "Healthcare" },
+                      { id: "airport", label: "🛫 Airport", category: "Transportation" },
+                      { id: "taxi", label: "🚕 Taxi Stand", category: "Transportation" },
+                      { id: "entertainment", label: "🎭 Entertainment", category: "Entertainment" },
+                      { id: "gym", label: "🏋️ Gym / Spa", category: "Health & Wellness" },
+                      { id: "bank", label: "🏦 Bank / ATM", category: "Finance" },
+                      { id: "supermarket", label: "🏪 Supermarket", category: "Shopping" },
+                      { id: "worship", label: "🕌 Place of Worship", category: "Religious" }
+                    ].map((place) => (
+                      <div key={place.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={place.id}
+                          checked={nearbyPlaces.some(p => p.id === place.id)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setNearbyPlaces([...nearbyPlaces, {
+                                id: place.id,
+                                name: place.label.replace(/^[^\s]+ /, ''), // Remove emoji
+                                category: place.category,
+                                distance: '',
+                                description: ''
+                              }]);
+                            } else {
+                              setNearbyPlaces(nearbyPlaces.filter(p => p.id !== place.id));
+                            }
+                          }}
+                        />
+                        <label
+                          htmlFor={place.id}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          {place.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="publicTransport"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Public Transport</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="List nearby public transport and distances" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {/* Manual Add Places */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-md font-medium">Added Places</h4>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const newPlace = {
+                          id: `custom-${Date.now()}`,
+                          name: '',
+                          category: 'Other',
+                          distance: '',
+                          description: ''
+                        };
+                        setNearbyPlaces([...nearbyPlaces, newPlace]);
+                      }}
+                      className="text-sm"
+                    >
+                      <Plus className="h-4 w-4 mr-1" />
+                      Add Another Place
+                    </Button>
+                  </div>
 
-                  <FormField
-                    control={form.control}
-                    name="nearbyAirport"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nearby Airport</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Distance to nearest airport" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {nearbyPlaces.length > 0 && (
+                    <div className="space-y-4">
+                      {nearbyPlaces.map((place, index) => (
+                        <div key={place.id} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 border rounded-lg">
+                          <div className="space-y-2">
+                            <Label htmlFor={`place-name-${index}`}>Place Name</Label>
+                            <Input
+                              id={`place-name-${index}`}
+                              placeholder="Enter place name"
+                              value={place.name}
+                              onChange={(e) => {
+                                const updated = [...nearbyPlaces];
+                                updated[index].name = e.target.value;
+                                setNearbyPlaces(updated);
+                              }}
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor={`place-category-${index}`}>Category</Label>
+                            <Select
+                              value={place.category}
+                              onValueChange={(value) => {
+                                const updated = [...nearbyPlaces];
+                                updated[index].category = value;
+                                setNearbyPlaces(updated);
+                              }}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Recreation">Recreation</SelectItem>
+                                <SelectItem value="Shopping">Shopping</SelectItem>
+                                <SelectItem value="Dining">Dining</SelectItem>
+                                <SelectItem value="Tourism">Tourism</SelectItem>
+                                <SelectItem value="Transportation">Transportation</SelectItem>
+                                <SelectItem value="Education">Education</SelectItem>
+                                <SelectItem value="Healthcare">Healthcare</SelectItem>
+                                <SelectItem value="Entertainment">Entertainment</SelectItem>
+                                <SelectItem value="Health & Wellness">Health & Wellness</SelectItem>
+                                <SelectItem value="Finance">Finance</SelectItem>
+                                <SelectItem value="Religious">Religious</SelectItem>
+                                <SelectItem value="Other">Other</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor={`place-distance-${index}`}>Distance</Label>
+                            <Input
+                              id={`place-distance-${index}`}
+                              placeholder="e.g., 0.5 km, 5 min walk"
+                              value={place.distance}
+                              onChange={(e) => {
+                                const updated = [...nearbyPlaces];
+                                updated[index].distance = e.target.value;
+                                setNearbyPlaces(updated);
+                              }}
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor={`place-description-${index}`}>Description</Label>
+                            <div className="flex gap-2">
+                              <Input
+                                id={`place-description-${index}`}
+                                placeholder="Optional description"
+                                value={place.description}
+                                onChange={(e) => {
+                                  const updated = [...nearbyPlaces];
+                                  updated[index].description = e.target.value;
+                                  setNearbyPlaces(updated);
+                                }}
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setNearbyPlaces(nearbyPlaces.filter((_, i) => i !== index));
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
-                  <FormField
-                    control={form.control}
-                    name="beachesParks"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Beaches/Parks</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="List nearby beaches and parks" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="shoppingMalls"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Shopping Malls</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="List nearby shopping centers" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {nearbyPlaces.length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <MapPin className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                      <p>No places added yet. Use the checkboxes above or click "Add Another Place" to get started.</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
