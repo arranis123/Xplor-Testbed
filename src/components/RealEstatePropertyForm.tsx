@@ -549,14 +549,257 @@ export function RealEstatePropertyForm({
       form.setValue("plotAreaPricePerUnit", "");
     }
   }, [watchedPrice, watchedSalePrice, watchedPlotSize, form]);
-  return <Tabs defaultValue="property-details" className="w-full">
-      <TabsList className="grid w-full grid-cols-5">
+  return <Tabs defaultValue="basic-info" className="w-full">
+      <TabsList className="grid w-full grid-cols-6">
+        <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
         <TabsTrigger value="property-details">Property Details</TabsTrigger>
         <TabsTrigger value="property-features">Property Features</TabsTrigger>
         <TabsTrigger value="room-types">Room Types</TabsTrigger>
         <TabsTrigger value="media-files">Media & Files</TabsTrigger>
         <TabsTrigger value="agent-info">Agent Info</TabsTrigger>
       </TabsList>
+
+      <TabsContent value="basic-info" className="space-y-8">
+        {/* Basic Property Information */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Home className="h-5 w-5" />
+            Basic Property Information
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="propertyTitle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Property Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., Luxury 3-bedroom villa with sea view" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="realEstatePropertyType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Property Type</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select property type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {propertyTypeOptions.map((category) => (
+                        <SelectGroup key={category.category}>
+                          <SelectLabel>{category.category}</SelectLabel>
+                          {category.options.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="propertyDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Property Description</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Describe the property features, location benefits, and unique selling points..."
+                    className="min-h-[120px]"
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* Location Information */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <MapPin className="h-5 w-5" />
+            Location
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 123 Main Street" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., London" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="region"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Region / State</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., Greater London" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Country</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., United Kingdom" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="postalCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Postal Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., SW1A 1AA" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="availabilityStatus"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Availability Status</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select availability status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {availabilityStatusOptions.map((status) => (
+                        <SelectItem key={status.value} value={status.value}>
+                          {status.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        {/* Pricing Information */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Star className="h-5 w-5" />
+            Pricing
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rental Price (per month)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 2500" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="salePrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sale Price</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 850000" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="currency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Currency</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., GBP, USD, EUR" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="serviceCharges"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Service Charges / HOA Fees</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 150 per month" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+      </TabsContent>
 
       <TabsContent value="property-details" className="space-y-8">
       {/* Rooms & Layout */}
