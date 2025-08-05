@@ -229,7 +229,7 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                Crew, It's Time You Got a <span className="text-xplor-yellow">Fair Share</span>.
+                Crew, It's Time You Got a <span className="text-xplor-yellow">FairShare</span>.
               </h2>
               <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
                 If you're crew on a yacht listed with Xplor for charter — either as the central agent or as a 
