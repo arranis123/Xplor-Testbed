@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Ship, Home, Building, Car, Plane, Utensils, ArrowRight, Check, Users, DollarSign } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const HomeV2 = () => {
+const HomePageTwo = () => {
   const spaceCategories = [
     { title: "Yachts", icon: Ship, url: "/yacht-brokerage" },
     { title: "Villas & Homes", icon: Home, url: "/real-estate" },
@@ -340,4 +340,4 @@ const HomeV2 = () => {
   );
 };
 
-export default HomeV2;
+export default HomePageTwo;
