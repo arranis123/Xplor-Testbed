@@ -54,7 +54,7 @@ const HomePageTwo = () => {
             <h1 className="text-5xl md:text-7xl font-bold mb-6 font-sans text-foreground">
               The World's Most Immersive Virtual Tour Platform
             </h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed text-muted-foreground">
               Discover and share any real-world space — from luxury yachts to boutique hotels. 
               And if you're crew on a yacht, you could start earning through our FairShare charter program.
             </p>
