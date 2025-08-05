@@ -154,7 +154,7 @@ const YachtCrewOffer = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
-              <span className="font-typografix">FairShare</span>: Because Crew Deserve a Cut of the Commission.
+              FairShare: Because Crew Deserve a Cut of the Commission.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
               Xplor is the only platform that shares 50% of net charter commission with active crew members on yachts chartered through us.
