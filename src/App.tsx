@@ -34,6 +34,7 @@ const YachtBrokerage = lazy(() => import("./pages/YachtBrokerage"));
 const YachtCrewOffer = lazy(() => import("./pages/YachtCrewOffer"));
 const YachtOwnersClients = lazy(() => import("./pages/YachtOwnersClients"));
 const CarsVehicles = lazy(() => import("./pages/CarsVehicles"));
+const CarsVehicles2 = lazy(() => import("./pages/CarsVehicles2"));
 const Gigs = lazy(() => import("./pages/Gigs"));
 const RealEstate = lazy(() => import("./pages/RealEstate"));
 const Hotels = lazy(() => import("./pages/Hotels"));
@@ -72,6 +73,7 @@ const App = () => {
               <Route path="/capture-business-signup" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CaptureBusinessSignup /></Suspense></AppLayout>} />
               <Route path="/vr-cameras" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VRCameras /></Suspense></AppLayout>} />
               <Route path="/cars-vehicles" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CarsVehicles /></Suspense></AppLayout>} />
+              <Route path="/cars-vehicles-2" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CarsVehicles2 /></Suspense></AppLayout>} />
               <Route path="/yacht-brokerage" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtBrokerage /></Suspense></AppLayout>} />
               <Route path="/yacht-crew-offer" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtCrewOffer /></Suspense></AppLayout>} />
               <Route path="/yacht-owners-clients" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><YachtOwnersClients /></Suspense></AppLayout>} />
