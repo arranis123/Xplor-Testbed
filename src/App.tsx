@@ -60,7 +60,7 @@ const App = () => {
             <BrowserRouter>
             <Routes>
               <Route path="/home" element={<AppLayout><Index /></AppLayout>} />
-              <Route path="/home-page-2" element={<AppLayout><HomeV2 /></AppLayout>} />
+              {/* <Route path="/home-page-2" element={<AppLayout><HomeV2 /></AppLayout>} /> */}
               <Route path="/trial" element={<Trial />} />
               <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
               
