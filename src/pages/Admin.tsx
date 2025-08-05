@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Users, FileText, Building, Settings, BarChart3, AlertTriangle, RefreshCw, Database, Zap, MapPin } from "lucide-react";
+import { Shield, Users, FileText, Building, Settings, BarChart3, AlertTriangle, RefreshCw, Database, Zap, MapPin, Ship } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ import CategoryManagement from "@/components/admin/CategoryManagement";
 import StorageMonitoring from "@/components/admin/StorageMonitoring";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import SystemSettings from "@/components/admin/SystemSettings";
+import FairShareMembersManagement from "@/components/admin/FairShareMembersManagement";
 
 
 export default function Admin() {
@@ -107,6 +108,7 @@ export default function Admin() {
     { id: "spaces", label: "Spaces", icon: MapPin },
     { id: "tours", label: "Tours", icon: FileText },
     { id: "hotels", label: "Hotels", icon: Building },
+    { id: "fairshare", label: "FairShare Members", icon: Ship },
     { id: "categories", label: "Categories", icon: Settings },
     { id: "storage", label: "Storage", icon: Database },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
@@ -294,6 +296,10 @@ export default function Admin() {
 
           <TabsContent value="hotels" className="m-0">
             <HotelManagement />
+          </TabsContent>
+
+          <TabsContent value="fairshare" className="m-0">
+            <FairShareMembersManagement />
           </TabsContent>
 
           <TabsContent value="categories" className="m-0">
