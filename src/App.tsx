@@ -61,7 +61,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<AppLayout><Index /></AppLayout>} />
               <Route path="/home-page-2" element={<AppLayout><HomePageTwo /></AppLayout>} />
-              <Route path="/trial" element={<Trial />} />
+              <Route path="/trial" element={<AppLayout><Trial /></AppLayout>} />
               <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
               
               {/* Protected workspace routes */}
@@ -91,10 +91,10 @@ const App = () => {
               <Route path="/faqs" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FAQs /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
-              <Route path="/auth" element={<Auth />} />
+              <Route path="/auth" element={<AppLayout><Auth /></AppLayout>} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<AppLayout><NotFound /></AppLayout>} />
             </Routes>
           </BrowserRouter>
         </CartProvider>
