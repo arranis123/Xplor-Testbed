@@ -255,9 +255,7 @@ const YachtOwnersClients = () => {
         <section className="space-y-12">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              <span style={{
-              fontFamily: 'Typografix, sans-serif'
-            }}>FairShare</span>: Why Crew Incentives Create a Better Charter Experience
+              <span className="font-sans">FairShare</span>: Why Crew Incentives Create a Better Charter Experience
             </h2>
           </div>
 
