@@ -12,7 +12,7 @@ const HomePageTwo = () => {
     { title: "Villas & Homes", icon: Home, url: "/real-estate" },
     { title: "Hotels & Resorts", icon: Building, url: "/hotels" },
     { title: "Restaurants & Bars", icon: Utensils, url: "/restaurants-bars" },
-    { title: "Cars & Showrooms", icon: Car, url: "/cars-vehicles" },
+    { title: "Cars & Showrooms", icon: Car, url: "/cars-vehicles-2" },
     { title: "Jets & Aviation", icon: Plane, url: "/spaces" },
   ];
 
