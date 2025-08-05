@@ -9,39 +9,44 @@ import {
   Globe, 
   Zap, 
   Shield, 
-  Headphones,
   ArrowRight,
   Crown,
   Building,
-  Home,
-  Hotel,
-  GraduationCap,
-  ShoppingBag,
+  Upload,
   Calendar,
-  Stethoscope
+  Smartphone,
+  Eye,
+  Share2,
+  Settings,
+  TrendingUp,
+  Palette,
+  Link2,
+  Phone,
+  Unlock,
+  Target,
+  HelpCircle
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Pricing = () => {
   const { user } = useAuth();
+  
   const pricingTiers = [
     {
       name: "Starter",
       price: "Free",
-      storage: "1 GB",
-      maxTours: "1 tour",
-      description: "Perfect for getting started with virtual tours",
+      label: "",
+      description: "Perfect for: Crew, agents, or owners listing a few spaces.",
       features: [
-        "Upload 360 images or VR tours",
-        "Basic listing",
-        "Public profile",
-        "Map view",
-        "Standard visibility",
-        "Mobile-friendly playback",
-        "Global map visibility",
-        "2 Team Members",
-        "Community support"
+        "Upload up to 5 spaces",
+        "Unlimited views",
+        "Matterport, 360°, video & media uploads",
+        "Public exposure on xplor.io",
+        "Booking & contact buttons",
+        "Eligibility for FairShare program (yacht crew only)",
+        "Basic analytics",
+        "Editable listings"
       ],
       buttonText: "Get Started Free",
       buttonVariant: "default" as const,
@@ -50,103 +55,88 @@ const Pricing = () => {
     },
     {
       name: "Pro",
-      price: "€29",
-      period: "/month",
-      storage: "50 GB",
-      maxTours: "50 tours",
-      description: "Ideal for professionals and content creators",
+      price: "Coming Soon",
+      label: "Launching Soon",
+      description: "Perfect for: Agencies, dealerships, photographers, or multi-listing owners.",
       features: [
-        "Tour analytics",
-        "Priority listing",
-        "Custom branding",
-        "Embed on websites",
-        "Analytics dashboard",
-        "Mobile-friendly playback",
-        "Global map visibility",
-        "Public user profile",
-        "5 team Members",
-        "Priority email support"
+        "All Starter features",
+        "Advanced analytics & lead insights",
+        "Calendar integration (for rentals, charters, bookings)",
+        "API plugin support (Resy, Cloudbeds, Turo, CharterPad, etc.)",
+        "White-labeled listing pages (hide Xplor branding)",
+        "Custom branded URLs (e.g. yourbrand.xplor.io)",
+        "Upload up to 100 spaces",
+        "Priority support & onboarding"
       ],
-      buttonText: "Start Free Trial",
-      buttonVariant: "default" as const,
-      popular: true,
+      buttonText: "Join Waitlist",
+      buttonVariant: "outline" as const,
+      popular: false,
       icon: Zap
     },
     {
-      name: "Business",
-      price: "€99",
-      period: "/month",
-      storage: "200 GB",
-      maxTours: "200 tours",
-      description: "Perfect for teams and growing businesses",
+      name: "Enterprise / Custom",
+      price: "Custom",
+      label: "Tailored Solutions",
+      description: "Perfect for: Large brokerages, hotel groups, manufacturers, developers.",
       features: [
-        "Everything in Pro",
-        "Bulk uploads",
-        "10 team members",
-        "Lead tracking",
-        "Advanced analytics",
-        "Team collaboration tools",
-        "Phone & email support"
+        "All Pro features",
+        "Unlimited listings",
+        "Dedicated account manager",
+        "Custom integrations (CRM, PMS, rental systems)",
+        "API & data sync",
+        "SLA support / data protection agreements"
       ],
-      buttonText: "Start Free Trial",
-      buttonVariant: "default" as const,
-      popular: false,
-      icon: Users
-    },
-    {
-      name: "Enterprise",
-      price: "Custom Pricing",
-      storage: "Custom",
-      maxTours: "Unlimited",
-      description: "Tailored solutions for large organizations",
-      features: [
-        "Everything in Business",
-        "API access",
-        "SLA",
-        "Unlimited tours",
-        "CRM integration",
-        "Custom storage tiers"
-      ],
-      buttonText: "Contact Sales",
+      buttonText: "Book a Discovery Call",
       buttonVariant: "default" as const,
       popular: false,
       icon: Building
     }
   ];
 
-  const addOnStorage = [
-    { amount: "50 GB", price: "€10/month" },
-    { amount: "200 GB", price: "€30/month" },
-    { amount: "Bandwidth overage", price: "€5 per 10 GB streamed" }
+  const valueJustifications = [
+    {
+      title: "Always-Free Core",
+      description: "Upload. Share. Explore. Get seen — without limits on viewers.",
+      icon: Unlock
+    },
+    {
+      title: "Premium Tools = Pro Results",
+      description: "Calendar integrations, advanced analytics, and white labeling to help scale faster.",
+      icon: Settings
+    },
+    {
+      title: "FairShare Is Always Free",
+      description: "We never charge crew to join or earn commission.",
+      icon: Share2
+    },
+    {
+      title: "Designed to Grow With You",
+      description: "Whether you're listing one yacht or managing 100 showrooms, we'll match your pace.",
+      icon: TrendingUp
+    }
   ];
 
-  const fairUsagePolicy = [
-    "Free tier limited to 10 active tours shown publicly",
-    "Image size limits: Max 20MB per 360° image, 2GB per Matterport/VR tour",
-    "File types accepted: .obj, .mp4, .glb, .usdz, Matterport links, 360° images",
-    "Accounts inactive >90 days may have content archived (email warnings first)"
-  ];
-
-  const upgradeHints = [
-    "\"You're almost out of storage (9.5/10 GB used). Upgrade now to keep uploading!\"",
-    "\"Unlock analytics and unlimited tour visibility with Pro.\""
-  ];
-
-  const commonFeatures = [
-    "Mobile-friendly playback",
-    "Global map visibility", 
-    "Public user profile",
-    "SSL security",
-    "99.9% uptime guarantee"
-  ];
-
-  const industries = [
-    { name: "Real Estate", icon: Home, description: "Showcase properties with immersive virtual tours" },
-    { name: "Hospitality", icon: Hotel, description: "Give guests a preview of their experience" },
-    { name: "Education", icon: GraduationCap, description: "Virtual campus tours and online learning" },
-    { name: "Retail", icon: ShoppingBag, description: "Create engaging shopping experiences" },
-    { name: "Events", icon: Calendar, description: "Virtual venue tours and event planning" },
-    { name: "Healthcare", icon: Stethoscope, description: "Facility tours for patients and staff" }
+  const faqs = [
+    {
+      question: "Is Xplor free to use?",
+      answer: "Yes. The Starter plan is free and includes generous tools for listing and sharing your spaces."
+    },
+    {
+      question: "Do I need a subscription to earn with FairShare?",
+      answer: "No. Crew can join and earn FairShare commission 100% free."
+    },
+    {
+      question: "What counts as a \"space\"?",
+      answer: "Any unique space with a virtual tour or media package — a yacht, villa, hotel suite, car, jet, restaurant, etc."
+    },
+    {
+      question: "Can I upgrade later?",
+      answer: "Yes — you'll be able to upgrade at any time once Pro is launched."
+    },
+    {
+      question: "Can I use my own booking system?",
+      answer: "Yes — Pro and Enterprise plans support API plugins or custom links."
+    }
   ];
 
   return (
@@ -156,27 +146,22 @@ const Pricing = () => {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
-              Choose Your 
-              <span className="text-xplor-grey font-typografix"> xplor </span>
-              Plan
+              Simple, Fair Pricing for All Types of Spaces.
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Flexible subscription options for individuals, teams, and enterprise clients who want to 
-              publish and manage immersive virtual tours across real-world industries.
+              Xplor is free to get started — with professional tools and global exposure included. 
+              When you're ready for more, unlock advanced features to grow your brand, bookings, and reach.
             </p>
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <Badge className="bg-green-100 text-green-800">
-                <Check className="h-3 w-3 mr-1" />
-                30-day free trial
-              </Badge>
-              <Badge className="bg-blue-100 text-blue-800">
-                <Shield className="h-3 w-3 mr-1" />
-                No setup fees
-              </Badge>
-              <Badge className="bg-purple-100 text-purple-800">
-                <Headphones className="h-3 w-3 mr-1" />
-                24/7 support
-              </Badge>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" asChild>
+                <Link to="/spaces">Upload a Space</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link to="/fair-share-crew">Join FairShare</Link>
+              </Button>
+              <Button size="lg" variant="outline">
+                Talk to Sales
+              </Button>
             </div>
           </div>
         </div>
@@ -185,19 +170,18 @@ const Pricing = () => {
       {/* Pricing Cards */}
       <section className="py-16 -mt-8">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {pricingTiers.map((tier) => (
               <Card 
                 key={tier.name} 
                 className={`relative border-border hover:shadow-medium transition-all duration-300 ${
-                  tier.popular ? 'border-xplor-yellow shadow-medium scale-105' : ''
+                  tier.name === "Starter" ? 'border-green-500 shadow-medium' : ''
                 }`}
               >
-                {tier.popular && (
+                {tier.label && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-xplor-yellow text-xplor-black font-medium px-4 py-1">
-                      <Crown className="h-3 w-3 mr-1" />
-                      Most Popular
+                      {tier.label}
                     </Badge>
                   </div>
                 )}
@@ -209,17 +193,6 @@ const Pricing = () => {
                   <CardTitle className="text-2xl font-bold text-foreground">{tier.name}</CardTitle>
                   <div className="flex items-end justify-center gap-1 mb-2">
                     <span className="text-4xl font-bold text-foreground">{tier.price}</span>
-                    {tier.period && (
-                      <span className="text-muted-foreground text-lg">{tier.period}</span>
-                    )}
-                  </div>
-                  <div className="space-y-1 mb-3">
-                    <div className="text-sm text-muted-foreground">
-                      <strong>Storage:</strong> {tier.storage}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      <strong>Max Tours:</strong> {tier.maxTours}
-                    </div>
                   </div>
                   <CardDescription className="text-center">
                     {tier.description}
@@ -229,29 +202,29 @@ const Pricing = () => {
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
                     {tier.features.map((feature) => (
-                      <div key={feature} className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
+                      <div key={feature} className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-muted-foreground">{feature}</span>
                       </div>
                     ))}
                   </div>
                   
-                   <Button 
+                  <Button 
                     className={`w-full ${
                       tier.buttonVariant === 'default' 
                         ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black' 
-                        : tier.buttonText === 'Start Free Trial' 
-                          ? 'bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black'
-                          : ''
+                        : ''
                     }`}
                     variant={tier.buttonVariant}
-                    asChild={tier.name !== 'Enterprise'}
+                    asChild={tier.name !== 'Enterprise / Custom'}
                   >
-                    {tier.name !== 'Enterprise' ? (
+                    {tier.name !== 'Enterprise / Custom' ? (
                       <Link to={
                         tier.buttonText === 'Get Started Free' 
                           ? (user ? "/dashboard" : "/auth") 
-                          : "/trial"
+                          : tier.buttonText === 'Join Waitlist'
+                            ? "/trial"
+                            : "/trial"
                       }>
                         {tier.buttonText}
                         <ArrowRight className="h-4 w-4 ml-2" />
@@ -270,112 +243,32 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Common Features */}
+      {/* Value Justification Section */}
       <section className="py-16 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-6">
-            All plans include these core features
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            You Only Pay for What Grows Your Business.
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {commonFeatures.map((feature) => (
-              <div key={feature} className="flex items-center gap-2 justify-center p-3 bg-background rounded-lg border border-border">
-                <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-                <span className="text-sm text-foreground font-medium">{feature}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Industries Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Trusted across industries
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              <span className="font-typografix">xplor</span> powers immersive virtual experiences for businesses worldwide
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {industries.map((industry) => (
-              <Card key={industry.name} className="border-border hover:shadow-medium transition-shadow">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {valueJustifications.map((item) => (
+              <Card key={item.title} className="border-border text-center">
                 <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-xplor-yellow/10 rounded-full flex items-center justify-center">
-                      <industry.icon className="h-5 w-5 text-xplor-yellow" />
-                    </div>
-                    <CardTitle className="text-lg text-foreground">{industry.name}</CardTitle>
+                  <div className="w-12 h-12 bg-xplor-yellow/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <item.icon className="h-6 w-6 text-xplor-yellow" />
                   </div>
+                  <CardTitle className="text-lg text-foreground">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{industry.description}</p>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Add-On Storage Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-            Add-On Storage (For Any Paid Plan)
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {addOnStorage.map((addon, index) => (
-              <Card key={index} className="border-border text-center">
-                <CardHeader>
-                  <CardTitle className="text-lg text-foreground">{addon.amount}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold text-xplor-yellow">{addon.price}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Fair Usage & Abuse Prevention */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-            Fair Usage & Abuse Prevention
-          </h2>
-          <div className="space-y-4">
-            {fairUsagePolicy.map((policy, index) => (
-              <div key={index} className="flex items-start gap-3 p-4 bg-muted/30 rounded-lg">
-                <Shield className="h-5 w-5 text-xplor-yellow flex-shrink-0 mt-0.5" />
-                <p className="text-muted-foreground">{policy}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Upgrade Triggers Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-            Upgrade Triggers (UX Hints)
-          </h2>
-          <div className="space-y-4">
-            {upgradeHints.map((hint, index) => (
-              <div key={index} className="flex items-start gap-3 p-4 bg-background rounded-lg border border-border">
-                <Zap className="h-5 w-5 text-xplor-yellow flex-shrink-0 mt-0.5" />
-                <p className="text-muted-foreground italic">{hint}</p>
-              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">
             Frequently Asked Questions
@@ -383,64 +276,49 @@ const Pricing = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Can I change plans anytime?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">What payment methods do you accept?</h3>
-                <p className="text-muted-foreground text-sm">
-                  We accept all major credit cards, PayPal, and bank transfers for Enterprise plans.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Is there a free trial?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Yes, all paid plans come with a 30-day free trial. No credit card required to start.
-                </p>
-              </div>
+              {faqs.slice(0, Math.ceil(faqs.length / 2)).map((faq, index) => (
+                <div key={index}>
+                  <h3 className="font-semibold text-foreground mb-2">{faq.question}</h3>
+                  <p className="text-muted-foreground text-sm">{faq.answer}</p>
+                </div>
+              ))}
             </div>
             <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Do you offer custom integrations?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Enterprise plans include custom integrations and API access for seamless workflow integration.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">What kind of support do you provide?</h3>
-                <p className="text-muted-foreground text-sm">
-                  We offer email support for all plans, with phone support for Business and Enterprise customers.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Can I cancel anytime?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Yes, you can cancel your subscription at any time with no cancellation fees.
-                </p>
-              </div>
+              {faqs.slice(Math.ceil(faqs.length / 2)).map((faq, index) => (
+                <div key={index}>
+                  <h3 className="font-semibold text-foreground mb-2">{faq.question}</h3>
+                  <p className="text-muted-foreground text-sm">{faq.answer}</p>
+                </div>
+              ))}
             </div>
+          </div>
+          
+          <div className="text-center mt-8">
+            <Button variant="outline">
+              Read All FAQs
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16">
+      {/* Final CTA Section */}
+      <section className="py-16 bg-muted/30">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-6">
-            Ready to get started?
+            Start Free. Scale Smart. Xplor as You Grow.
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Join thousands of professionals who trust <span className="font-typografix">xplor</span> for their virtual tour needs.
+            Whether you're listing your first yacht, launching a digital dealership, or managing 50 hotel suites — Xplor is built for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" asChild>
-              <Link to={user ? "/dashboard" : "/trial"}>Start Free Trial</Link>
+              <Link to="/spaces">Upload a Space</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link to="/fair-share-crew">Join FairShare</Link>
             </Button>
             <Button size="lg" variant="outline">
-              Schedule Demo
+              Book a Call
             </Button>
           </div>
         </div>
