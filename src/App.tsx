@@ -9,7 +9,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/AppLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
-import HomePageTwo from "./pages/HomePageTwo";
+import HomeArchive from "./pages/HomeArchive";
 import Pricing from "./pages/Pricing";
 import Dashboard from "./pages/Dashboard";
 import Spaces from "./pages/Spaces";
@@ -60,7 +60,7 @@ const App = () => {
             <BrowserRouter>
             <Routes>
               <Route path="/" element={<AppLayout><Index /></AppLayout>} />
-              <Route path="/home-page-2" element={<AppLayout><HomePageTwo /></AppLayout>} />
+              <Route path="/home-archive" element={<AppLayout><HomeArchive /></AppLayout>} />
               <Route path="/trial" element={<Trial />} />
               <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
               
