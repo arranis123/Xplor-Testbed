@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
 import { Plane, Calendar, Users, Smartphone, Globe, TrendingUp, Star, CheckCircle, Zap, Wrench, GraduationCap, MapPin } from "lucide-react";
+import { AviationUploadDialog } from "@/components/AviationUploadDialog";
 
 const JetsAviation = () => {
-  const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState("cabin");
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
   const handleListAircraft = () => {
-    navigate("/dashboard", { state: { uploadType: "aviation" } });
+    setUploadDialogOpen(true);
   };
 
   const features = [
@@ -396,6 +396,11 @@ const JetsAviation = () => {
           </p>
         </div>
       </section>
+
+      <AviationUploadDialog 
+        open={uploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen} 
+      />
     </div>
   );
 };
