@@ -280,7 +280,7 @@ const YachtOwnersClients = () => {
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
                       <span style={{
                       fontFamily: 'Typografix, sans-serif'
-                    }} className="text-blue-800 font-bold">Xplor</span>
+                    }} className="text-blue-800 font-bold">xplor</span>
                     </div>
                     <p className="text-sm text-muted-foreground">Earns Commission</p>
                   </div>
@@ -530,7 +530,7 @@ const YachtOwnersClients = () => {
               <Phone className="w-5 h-5 mr-2" />
               Contact <span style={{
               fontFamily: 'Typografix, sans-serif'
-            }}>Xplor</span>
+            }}>xplor</span>
             </Button>
           </div>
         </section>
