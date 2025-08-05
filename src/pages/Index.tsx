@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Ship, Home, Building, Car, Plane, Utensils, ArrowRight, Check, Users, DollarSign } from "lucide-react";
+import { Ship, Home, Building, Car, Plane, Utensils, ArrowRight, Check, Users, DollarSign, ChevronDown, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MuseumGalleryUploadDialog } from "@/components/MuseumGalleryUploadDialog";
+import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
+import { AviationUploadDialog } from "@/components/AviationUploadDialog";
+import { ExperienceUploadDialog } from "@/components/ExperienceUploadDialog";
+import CruiseShipUploadDialog from "@/components/CruiseShipUploadDialog";
+import DevelopmentUploadDialog from "@/components/DevelopmentUploadDialog";
+import GolfCourseUploadDialog from "@/components/GolfCourseUploadDialog";
+import TrainTramUploadDialog from "@/components/TrainTramUploadDialog";
+import UAEDevelopmentUploadDialog from "@/components/UAEDevelopmentUploadDialog";
+import RetailPopUpUploadDialog from "@/components/RetailPopUpUploadDialog";
+import GovHospitalUploadDialog from "@/components/GovHospitalUploadDialog";
+import RestaurantBarUploadDialog from "@/components/RestaurantBarUploadDialog";
+import SetsStagesVenuesUploadDialog from "@/components/SetsStagesVenuesUploadDialog";
+import HeritageWorshipUploadDialog from "@/components/HeritageWorshipUploadDialog";
+import MerchantShippingUploadDialog from "@/components/MerchantShippingUploadDialog";
+import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilityUploadDialog";
+import MaritimeInfrastructureUploadDialog from "@/components/MaritimeInfrastructureUploadDialog";
+import OfficesShowroomsStudiosUploadDialog from "@/components/OfficesShowroomsStudiosUploadDialog";
+import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThemeParksUploadDialog";
 
 const Index = () => {
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const spaceCategories = [
     { title: "Yachts", icon: Ship, url: "/yacht-brokerage" },
     { title: "Villas & Homes", icon: Home, url: "/real-estate" },
@@ -131,7 +158,68 @@ const Index = () => {
             </div>
 
             <div className="text-center">
-              <p className="text-muted-foreground text-lg">More coming soon...</p>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="lg" className="bg-background hover:bg-accent">
+                    <Plus className="h-5 w-5 mr-2" />
+                    More Space Categories
+                    <ChevronDown className="h-5 w-5 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="w-80 max-h-96 overflow-y-auto">
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("museums-art"); setUploadDialogOpen(true); }}>
+                    Museums & Art Galleries
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("schools-education"); setUploadDialogOpen(true); }}>
+                    Schools & Education
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("experiences"); setUploadDialogOpen(true); }}>
+                    Experiences & Attractions
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("cruise-ships"); setUploadDialogOpen(true); }}>
+                    Cruise Ships
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("developments"); setUploadDialogOpen(true); }}>
+                    Developments
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("golf-courses"); setUploadDialogOpen(true); }}>
+                    Golf Courses
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("train-tram"); setUploadDialogOpen(true); }}>
+                    Train & Tram
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("uae-developments"); setUploadDialogOpen(true); }}>
+                    UAE Developments
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("retail-popup"); setUploadDialogOpen(true); }}>
+                    Retail & Pop-Up
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("gov-hospital"); setUploadDialogOpen(true); }}>
+                    Government & Hospital
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("sets-stages"); setUploadDialogOpen(true); }}>
+                    Sets, Stages & Venues
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("heritage-worship"); setUploadDialogOpen(true); }}>
+                    Heritage & Worship
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("merchant-shipping"); setUploadDialogOpen(true); }}>
+                    Merchant Shipping
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("manufacturing"); setUploadDialogOpen(true); }}>
+                    Manufacturing Facility
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("maritime-infrastructure"); setUploadDialogOpen(true); }}>
+                    Maritime Infrastructure
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("offices-showrooms"); setUploadDialogOpen(true); }}>
+                    Offices, Showrooms & Studios
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setSelectedCategory("sports-theme-parks"); setUploadDialogOpen(true); }}>
+                    Sports Stadiums & Theme Parks
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </section>
@@ -336,6 +424,59 @@ const Index = () => {
       </main>
 
       <Footer />
+
+      {/* Upload Dialogs */}
+      {selectedCategory === "museums-art" && (
+        <MuseumGalleryUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "schools-education" && (
+        <SchoolEducationUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "experiences" && (
+        <ExperienceUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "cruise-ships" && (
+        <CruiseShipUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "developments" && (
+        <DevelopmentUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "golf-courses" && (
+        <GolfCourseUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "train-tram" && (
+        <TrainTramUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "uae-developments" && (
+        <UAEDevelopmentUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "retail-popup" && (
+        <RetailPopUpUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "gov-hospital" && (
+        <GovHospitalUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "sets-stages" && (
+        <SetsStagesVenuesUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "heritage-worship" && (
+        <HeritageWorshipUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "merchant-shipping" && (
+        <MerchantShippingUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "manufacturing" && (
+        <ManufacturingFacilityUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "maritime-infrastructure" && (
+        <MaritimeInfrastructureUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "offices-showrooms" && (
+        <OfficesShowroomsStudiosUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
+      {selectedCategory === "sports-theme-parks" && (
+        <SportsStadiumsThemeParksUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      )}
     </div>
   );
 };
