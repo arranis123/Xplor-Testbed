@@ -62,6 +62,7 @@ export default {
 				'xplor-black': 'hsl(0 0% 7%)', /* Black 121212 */
 				'xplor-grey': 'hsl(235 14% 63%)', /* Gray 2 9899AC */
 				'xplor-grey-light': 'hsl(235 11% 78%)', /* Gray C1C2CE */
+				'turquoise': 'hsl(174 72% 56%)', /* Turquoise #40E0D0 */
 				'dark-deep': 'hsl(200 9% 18%)', /* Dark Deep 292D32 */
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
