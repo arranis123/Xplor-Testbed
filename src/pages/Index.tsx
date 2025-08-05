@@ -55,7 +55,7 @@ const Index = () => {
             <Card className="bg-white/95 backdrop-blur-sm border-primary/20 max-w-xs">
               <CardContent className="p-4 bg-gray-700">
                 <h3 className="text-sm font-bold text-foreground mb-2">
-                  <span className="text-primary">FairShare</span> Program
+                  <span className="text-primary">FairShare</span> Agreement
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">
                   Crew get 50% of charter commissions
