@@ -1,300 +1,455 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, CheckCircle, Star, Users } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { 
+  ArrowLeft, 
+  Users, 
+  DollarSign, 
+  Ship, 
+  CheckCircle, 
+  Star,
+  ChevronDown,
+  PieChart,
+  Handshake,
+  Award,
+  Shield,
+  Globe,
+  FileText
+} from "lucide-react";
 
 const YachtCrewOffer = () => {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
+
+  const handleFaqToggle = (faqId: string) => {
+    setOpenFaq(openFaq === faqId ? null : faqId);
+  };
+
+  const benefits = [
+    {
+      icon: <DollarSign className="h-6 w-6" />,
+      title: "Commission Payouts",
+      description: "Earn a real share of the deal you helped secure"
+    },
+    {
+      icon: <Users className="h-6 w-6" />,
+      title: "Equal Split",
+      description: "All verified crew split the 50% fairly — no hierarchy"
+    },
+    {
+      icon: <Ship className="h-6 w-6" />,
+      title: "Easy Eligibility",
+      description: "Just be crew on an Xplor-listed charter yacht"
+    },
+    {
+      icon: <Shield className="h-6 w-6" />,
+      title: "Transparent System",
+      description: "You'll see when you're eligible and what you're owed"
+    },
+    {
+      icon: <Globe className="h-6 w-6" />,
+      title: "Global Rollout",
+      description: "Starting in yachting, expanding into other sectors soon"
+    }
+  ];
+
+  const steps = [
+    {
+      number: "1",
+      title: "Yacht is listed for charter with Xplor",
+      description: "You upload or link your yacht profile"
+    },
+    {
+      number: "2", 
+      title: "Xplor secures a booking",
+      description: "As central agent or 3rd-party broker"
+    },
+    {
+      number: "3",
+      title: "FairShare is triggered", 
+      description: "50% of net commission is split evenly among the verified crew"
+    },
+    {
+      number: "4",
+      title: "You get paid",
+      description: "Simple, fair, and direct"
+    }
+  ];
+
+  const joinSteps = [
+    {
+      step: "1",
+      action: "Create or find your yacht's listing",
+      description: "Use Upload a Yacht if needed"
+    },
+    {
+      step: "2",
+      action: "Register as crew",
+      description: "Use the FairShare signup form"
+    },
+    {
+      step: "3", 
+      action: "Upload proof of employment",
+      description: "Valid contract or crew ID"
+    },
+    {
+      step: "4",
+      action: "Stay active and updated",
+      description: "Ensure your yacht and role are current"
+    },
+    {
+      step: "5",
+      action: "Get notified when a charter is booked",
+      description: "Track eligibility via your dashboard"
+    }
+  ];
+
+  const faqs = [
+    {
+      id: "captain",
+      question: "Do I have to be a captain to join FairShare?",
+      answer: "No. All verified crew members share equally."
+    },
+    {
+      id: "listing",
+      question: "What if my yacht is not listed yet?",
+      answer: "You can upload it, or join FairShare and we'll notify you if/when it gets listed."
+    },
+    {
+      id: "license",
+      question: "Do I need a brokerage license?",
+      answer: "No. You just need to be crew on a participating charter yacht."
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="relative py-24 bg-background">
-        <div 
-          className="absolute inset-0 bg-no-repeat bg-center"
-          style={{ 
-            backgroundImage: 'url(/lovable-uploads/45cc1ea1-be70-466b-a97c-c44b69684dfa.png)',
-            backgroundSize: 'contain'
-          }}
-        />
-        <div className="relative max-w-6xl mx-auto px-6 text-center">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate(-1)}
-            className="text-slate-700 hover:bg-white/10 mb-8 absolute top-6 left-6"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
+      {/* Header with Custom FairShare Text */}
+      <div className="border-b bg-card/50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <div className="text-2xl font-bold text-primary" style={{ fontFamily: 'Typografix, sans-serif' }}>
+              fairshare
+            </div>
+            <div></div>
+          </div>
         </div>
       </div>
 
-      {/* By Xplor Text */}
-      <div className="text-center py-8 bg-background">
-        <p className="text-xl text-slate-700">By Xplor</p>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        {/* What is FairShare */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">What is FairShare?</CardTitle>
-            </CardHeader>
-            <CardContent className="text-lg leading-relaxed text-slate-600">
-              <p className="mb-6">
-                FairShare by <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> is a crew-focused commission-sharing program that ensures you don't just work the charter — you share in the success.
-              </p>
-              <p className="mb-6">
-                Whether <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> is appointed as the central charter broker or acts as a third-party introducing broker, we guarantee that <strong>50% of the net commission we receive goes directly to you and your crew</strong> — split evenly and transparently.
-              </p>
-              <div className="bg-muted/30 p-6 rounded-lg">
-                <p className="font-semibold mb-2 text-slate-700">It's not a tip.</p>
-                <p className="font-semibold mb-2 text-slate-700">It's not your salary.</p>
-                <p className="font-semibold text-slate-700">It's a real, contractual bonus for the real work you do.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* You Already Give 100% */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">You Already Give 100%. FairShare Gives Back.</CardTitle>
-            </CardHeader>
-            <CardContent className="text-lg leading-relaxed text-center text-slate-600">
-              <p>
-                As a professional yacht crew member, your time, talent, and service directly shape every guest's experience. While salary provides stability and gratuities reward generosity, <strong>FairShare provides fairness</strong>.
-              </p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* How It Works */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">How It Works</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold text-primary">1</span>
-                  </div>
-                  <h3 className="font-semibold mb-2 text-slate-700">Charter Booked</h3>
-                  <p className="text-sm text-slate-600">A charter is booked through <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> — either as the central broker or as an introducing broker</p>
+      {/* Hero Section */}
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+              FairShare: Because Crew Deserve a Cut of the Commission.
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+              Xplor is the only platform that shares 50% of net charter commission with active crew members on yachts chartered through us.
+              <span className="block mt-2 font-semibold text-foreground">No tiers. No secrets. Just fair.</span>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="text-lg px-8 py-4" onClick={() => navigate('/fairshare-crew')}>
+                Join FairShare Now
+              </Button>
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4" onClick={() => navigate('/crew-instructions')}>
+                Crew Instructions
+              </Button>
+            </div>
+            
+            {/* 50/50 Split Visual */}
+            <div className="mt-12 max-w-md mx-auto">
+              <div className="bg-card border rounded-lg p-6">
+                <div className="flex items-center justify-center mb-4">
+                  <PieChart className="h-8 w-8 text-primary mr-2" />
+                  <span className="text-lg font-semibold">50/50 Commission Split</span>
                 </div>
-                <div className="text-center">
-                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold text-primary">2</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <div className="bg-primary/20 rounded-lg p-3 mb-2">
+                      <span className="text-2xl font-bold text-primary">50%</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">For Crew</span>
                   </div>
-                  <h3 className="font-semibold mb-2 text-slate-700">Commission Earned</h3>
-                  <p className="text-sm text-slate-600"><span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> earns a commission on the charter (typically 10–20% of the charter fee)</p>
-                </div>
-                <div className="text-center">
-                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold text-primary">3</span>
+                  <div className="text-center">
+                    <div className="bg-secondary/20 rounded-lg p-3 mb-2">
+                      <span className="text-2xl font-bold text-secondary">50%</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">For Xplor</span>
                   </div>
-                  <h3 className="font-semibold mb-2 text-slate-700">50% Split</h3>
-                  <p className="text-sm text-slate-600">50% of that net commission is split equally among the active crew onboard during the charter</p>
-                </div>
-                <div className="text-center">
-                  <div className="bg-slate-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold text-primary">4</span>
-                  </div>
-                  <h3 className="font-semibold mb-2 text-slate-700">You Get Paid</h3>
-                  <p className="text-sm text-slate-600">You receive your share directly, with transparent reporting and zero guesswork</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </section>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        {/* FairShare vs Traditional */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">FairShare vs Traditional Chartering</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">&nbsp;</th>
-                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">Traditional Brokers</th>
-                      <th className="text-left p-4 font-semibold text-slate-700 bg-white">FairShare by <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700 bg-white">Commission Sharing</td>
-                      <td className="p-4 text-slate-600 bg-white">None</td>
-                      <td className="p-4 bg-white font-semibold text-slate-700">50% of net commission to crew</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700 bg-white">Transparency</td>
-                      <td className="p-4 text-slate-600 bg-white">Low</td>
-                      <td className="p-4 bg-white font-semibold text-slate-700">Full visibility of payouts</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700 bg-white">Income Sources</td>
-                      <td className="p-4 text-slate-600 bg-white">Salary + Tips</td>
-                      <td className="p-4 bg-white font-semibold text-slate-700">Salary + Tips + Commission</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="p-4 font-medium text-slate-700 bg-white">Recognition for Crew</td>
-                      <td className="p-4 text-slate-600 bg-white">Indirect</td>
-                      <td className="p-4 bg-white font-semibold text-slate-700">Direct, structured, guaranteed</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+      {/* What is FairShare */}
+      <section className="py-16 bg-card/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">What Is FairShare?</h2>
+            <div className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              <p className="mb-4">
+                FairShare is Xplor's commission-sharing program designed for active crew on charter yachts.
+                If your yacht is chartered through Xplor — either as the central agent or a 3rd-party broker — we split 50% of our net commission equally among the crew on board.
+              </p>
+            </div>
 
-        {/* Why It Matters */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">Why It Matters</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Handshake className="h-5 w-5" />
+                  Breakdown of the Model
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg font-semibold text-white">★</span>
+                  {steps.map((step, index) => (
+                    <div key={index} className="flex items-start gap-4">
+                      <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+                        {step.number}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg mb-1">{step.title}</h3>
+                        <p className="text-muted-foreground">{step.description}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold mb-2 text-slate-700">Motivated Crews Deliver Better Charters</h3>
-                      <p className="text-slate-600">When you know you're rewarded fairly, everyone wins — especially the guests.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg font-semibold text-white">↗</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-2 text-slate-700">More Than Tips</h3>
-                      <p className="text-slate-600">Tipping is unpredictable. FairShare is not. It's a guaranteed reward from the charter itself.</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg font-semibold text-white">↻</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-2 text-slate-700">Repeat Guests, Repeat Bonuses</h3>
-                      <p className="text-slate-600">Guests who book again through <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> bring commission back to your team — without middlemen.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-slate-600 w-8 h-8 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
-                      <span className="text-lg font-semibold text-white">■</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-2 text-slate-700">No Extra Cost to the Owner</h3>
-                      <p className="text-slate-600">FairShare comes from <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>'s commission, not the yacht's revenue. It's ethical, sustainable, and owner-approved.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
-        {/* Who Gets Paid */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">Who Gets Paid?</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-lg mb-4 text-slate-600">
-                If you're part of the active crew on board during the charter — regardless of your rank or department — you're part of FairShare. The commission pool is split evenly, from captain to stew to deckhand.
+      {/* Why We Built FairShare */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why FairShare Exists</h2>
+            <div className="text-center mb-8">
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                We've spent decades in the yachting industry. We know the truth:<br />
+                <strong className="text-foreground">Crew help close deals, make guests return, and create unforgettable experiences — yet get nothing from the commission.</strong><br />
+                That's broken. FairShare fixes it.
               </p>
-              <div className="bg-muted/30 p-6 rounded-lg">
-                <p className="font-semibold text-slate-700">No favoritism. No gatekeeping. Just fairness.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+            </div>
 
-        {/* What You Can Do */}
-        <section className="mb-16">
-          <Card className="bg-muted/50">
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4">What You Can Do</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-lg mb-6 text-slate-600">Want to earn more for the work you already do?</p>
-              <p className="mb-8 text-slate-600">Encourage your captain, yacht manager, or owner to appoint <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as the Central Charter Broker.</p>
-              <p className="text-slate-600">We'll handle everything — including contracts, marketing, and commission processing — while ensuring your crew gets rewarded.</p>
-            </CardContent>
-          </Card>
-        </section>
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-red-500">Traditional Model</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li>• Brokerages keep all commission</li>
+                    <li>• Crew get no financial recognition</li>
+                    <li>• Hidden fee structures</li>
+                    <li>• No transparency</li>
+                  </ul>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-green-500">FairShare Model</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li>• 50% commission shared with crew</li>
+                    <li>• Recognition for your contribution</li>
+                    <li>• Complete transparency</li>
+                    <li>• Fair compensation system</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
 
-        {/* Need Help Starting the Conversation */}
-        <section className="mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-8">Need Help Starting the Conversation?</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-lg mb-8 text-slate-600">We've prepared a downloadable message you can send to your captain or management company to help them understand the benefits of working with <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> and enrolling the yacht in the FairShare program.</p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button variant="default" size="lg">
-                  Download Captain Letter Template
-                </Button>
-                <Button variant="outline" size="lg">
-                  Contact Crew Support
-                </Button>
-                <Button variant="outline" size="lg">
-                  See Example Commission Payout Sheet
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+            <Card className="bg-primary/5 border-primary/20">
+              <CardContent className="p-8">
+                <blockquote className="text-lg italic text-center">
+                  "Crew aren't just service providers — they're the reason the charter succeeds. FairShare puts that into action."
+                </blockquote>
+                <div className="text-center mt-4">
+                  <cite className="text-sm text-muted-foreground">— Capt. Johnny Drummond, Founder, Xplor</cite>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
-        {/* Join the Movement */}
-        <section>
-          <Card className="bg-primary text-slate-600">
-            <CardHeader>
-              <CardTitle className="text-3xl text-center mb-4 text-slate-600">Join the Movement</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-lg mb-8 text-slate-600">Thousands of crew worldwide are stepping into a new charter economy — one that recognizes the team that delivers.</p>
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
-                  <span className="text-slate-600">Talk to your Captain or Manager</span>
+      {/* Who Can Join */}
+      <section className="py-16 bg-card/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Who's Eligible for FairShare?</h2>
+            <Card>
+              <CardContent className="p-8">
+                <p className="text-lg mb-6 text-center text-muted-foreground">You qualify for FairShare if:</p>
+                <div className="grid md:grid-cols-2 gap-4 mb-8">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                    <span>You're an active crew member on a yacht</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                    <span>The yacht is listed for charter with Xplor (central agent or 3rd-party broker)</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                    <span>You've registered and uploaded proof of crew status (e.g. contract, ID)</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                    <span>You're on board during a charter booked via Xplor</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
-                  <span className="text-slate-600">Ask to appoint <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span> as the Central Charter Broker</span>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="lg" onClick={() => navigate('/fairshare-crew')}>
+                    Join FairShare Now
+                  </Button>
+                  <Button variant="outline" size="lg" onClick={() => navigate('/crew-instructions')}>
+                    Crew Instructions & Upload Guide
+                  </Button>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-slate-600 flex-shrink-0" />
-                  <span className="text-slate-600">Let us handle the rest</span>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why Join FairShare?</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {benefits.map((benefit, index) => (
+                <Card key={index} className="text-center p-6">
+                  <CardContent className="pt-6">
+                    <div className="flex justify-center mb-4 text-primary">
+                      {benefit.icon}
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">{benefit.title}</h3>
+                    <p className="text-muted-foreground">{benefit.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How to Join */}
+      <section className="py-16 bg-card/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Ready to Join? It's Simple.</h2>
+            <Card>
+              <CardContent className="p-8">
+                <div className="space-y-6">
+                  {joinSteps.map((step, index) => (
+                    <div key={index} className="flex items-start gap-4">
+                      <Badge variant="outline" className="text-lg px-3 py-1">
+                        {step.step}
+                      </Badge>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg mb-1">{step.action}</h3>
+                        <p className="text-muted-foreground">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-              <div className="flex flex-wrap justify-center gap-4 mb-8">
-                <Button variant="secondary" size="lg" className="text-slate-600">
-                  Talk to a FairShare Advisor
-                </Button>
-              </div>
-              <p className="text-slate-600 font-semibold">Fair. Transparent. Guaranteed. Only with <span style={{ fontFamily: 'Typografix, sans-serif' }}>xplor</span>.</p>
-            </CardContent>
-          </Card>
-        </section>
-      </div>
+                <Separator className="my-8" />
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="lg" onClick={() => navigate('/fairshare-crew')}>
+                    Join FairShare Now
+                  </Button>
+                  <Button variant="outline" size="lg" onClick={() => navigate('/crew-instructions')}>
+                    Crew Instructions
+                  </Button>
+                  <Button variant="outline" size="lg" onClick={() => navigate('/yacht-brokerage')}>
+                    Upload Your Yacht
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <Collapsible key={faq.id}>
+                  <CollapsibleTrigger
+                    className="flex items-center justify-between w-full p-4 text-left bg-card rounded-lg border hover:bg-card/80 transition-colors"
+                    onClick={() => handleFaqToggle(faq.id)}
+                  >
+                    <span className="font-semibold">{faq.question}</span>
+                    <ChevronDown 
+                      className={`h-4 w-4 transition-transform ${
+                        openFaq === faq.id ? 'transform rotate-180' : ''
+                      }`} 
+                    />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="px-4 pb-4 text-muted-foreground">
+                    {faq.answer}
+                  </CollapsibleContent>
+                </Collapsible>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Button variant="outline" onClick={() => navigate('/faqs')}>
+                <FileText className="h-4 w-4 mr-2" />
+                View Full FAQs
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-20 bg-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Your Work Deserves a Share of the Reward.
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              "FairShare was built to change how things are done in yachting — and you're the reason we started it."
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="text-lg px-8 py-4" onClick={() => navigate('/fairshare-crew')}>
+                Join FairShare Now
+              </Button>
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4" onClick={() => navigate('/crew-instructions')}>
+                Crew Instructions
+              </Button>
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4" onClick={() => navigate('/yacht-brokerage')}>
+                Upload a Yacht
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
