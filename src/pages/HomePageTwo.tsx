@@ -62,8 +62,10 @@ const HomePageTwo = () => {
               And if you're crew on a yacht, you could start earning through our FairShare charter program.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-xplor-grey text-lg px-8 py-3">
-                Browse Virtual Tours
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-xplor-grey text-lg px-8 py-3" asChild>
+                <a href="https://xplor.io/map" target="_blank" rel="noopener noreferrer">
+                  Browse Virtual Tours
+                </a>
               </Button>
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow/90 text-xplor-black text-lg px-8 py-3" asChild>
                 <Link to="/fairshare-crew">
@@ -262,8 +264,10 @@ const HomePageTwo = () => {
                 <p className="text-xl text-muted-foreground mb-8">
                   Discover amazing spaces or start earning as charter crew
                 </p>
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-xplor-grey">
-                  Browse Spaces on Xplor
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-xplor-grey" asChild>
+                  <a href="https://xplor.io/map" target="_blank" rel="noopener noreferrer">
+                    Browse Spaces on Xplor
+                  </a>
                 </Button>
               </div>
               
