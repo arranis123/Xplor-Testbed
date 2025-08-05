@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import RestaurantBarUploadDialog from "@/components/RestaurantBarUploadDialog";
 import { 
   Utensils, 
   Wine, 
@@ -30,6 +31,8 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function RestaurantsBars() {
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+
   const features = [
     {
       icon: Wine,
@@ -131,10 +134,12 @@ export default function RestaurantsBars() {
                 Xplor lets guests explore your restaurant or bar virtually — before they book. Show off your space, ambiance, and energy in a way photos never could, then connect it to your booking engine with a simple API plugin.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
-                  <RouterLink to="/upload-space" className="flex items-center gap-2">
-                    Add Your Venue <ArrowRight className="w-5 h-5" />
-                  </RouterLink>
+                <Button 
+                  size="lg" 
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setUploadDialogOpen(true)}
+                >
+                  Add Your Venue <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button size="lg" variant="outline" className="flex items-center gap-2">
                   <Play className="w-5 h-5" />
@@ -390,10 +395,12 @@ export default function RestaurantsBars() {
                 Don't just list your venue. Let it come alive. Upload your tour and start accepting bookings today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
-                  <RouterLink to="/upload-space" className="flex items-center gap-2">
-                    List My Restaurant or Bar <ArrowRight className="w-5 h-5" />
-                  </RouterLink>
+                <Button 
+                  size="lg" 
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setUploadDialogOpen(true)}
+                >
+                  List My Restaurant or Bar <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button size="lg" variant="outline">
                   Connect to Booking System
@@ -444,6 +451,11 @@ export default function RestaurantsBars() {
           </div>
         </section>
       </div>
+
+      <RestaurantBarUploadDialog 
+        open={uploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen} 
+      />
     </>
   );
 }
