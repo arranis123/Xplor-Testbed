@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
 import { Car, MapPin, Calendar, Users, Smartphone, Globe, Clock, TrendingUp, Star, CheckCircle } from "lucide-react";
+import { CarUploadDialog } from "@/components/CarUploadDialog";
 
 const CarsVehicles2 = () => {
-  const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState("interior");
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
   const handleAddVehicle = () => {
-    navigate("/dashboard", { state: { uploadType: "car" } });
+    setUploadDialogOpen(true);
   };
 
   const features = [
@@ -360,6 +360,11 @@ const CarsVehicles2 = () => {
           </div>
         </div>
       </section>
+
+      <CarUploadDialog 
+        open={uploadDialogOpen} 
+        onOpenChange={setUploadDialogOpen} 
+      />
     </div>
   );
 };
