@@ -198,9 +198,14 @@ const FairShareCrew = () => {
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto">
             If you're active crew on a yacht listed for charter with Xplor — we'll split 50% of our net commission equally among the crew.
           </p>
-          <Button size="lg" onClick={scrollToForm} className="text-lg px-8 py-6">
-            Join FairShare Crew
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" onClick={scrollToForm} className="text-lg px-8 py-6">
+              Join FairShare Crew
+            </Button>
+            <Button size="lg" variant="outline" asChild className="text-lg px-8 py-6">
+              <a href="/fairshare">What is FairShare?</a>
+            </Button>
+          </div>
         </div>
       </section>
 
