@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 import { 
   CheckCircle, 
   Upload, 
@@ -38,6 +39,12 @@ interface FormData {
   otherCountry?: string;
   city: string;
   timezone: string;
+  
+  // Location Information
+  coordinates: { lat: number; lng: number };
+  latitude: string;
+  longitude: string;
+  plusCode: string;
   
   // Skills & Experience
   professionalTitle: string;
@@ -96,11 +103,19 @@ interface FormData {
 
 const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
   const { toast } = useToast();
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({
+    defaultValues: {
+      coordinates: { lat: 0, lng: 0 },
+      latitude: "",
+      longitude: "",
+      plusCode: ""
+    }
+  });
   const [industriesServed, setIndustriesServed] = useState<string[]>([]);
   const [platformsUsed, setPlatformsUsed] = useState<string[]>([]);
   const [coverageAreas, setCoverageAreas] = useState<string[]>([]);
   const [showOtherCountry, setShowOtherCountry] = useState(false);
+  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
 
   const ownsEquipment = watch("ownsEquipment");
 
@@ -135,6 +150,13 @@ const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
     } else {
       setCoverageAreas(prev => prev.filter(a => a !== area));
     }
+  };
+
+  const handleCoordinatesChange = (newCoordinates: { lat: number; lng: number }) => {
+    setCoordinates(newCoordinates);
+    setValue("coordinates", newCoordinates);
+    setValue("latitude", newCoordinates.lat.toString());
+    setValue("longitude", newCoordinates.lng.toString());
   };
 
   return (
@@ -321,6 +343,76 @@ const VerificationForm = ({ open, onOpenChange }: VerificationFormProps) => {
                         placeholder="Enter your city"
                       />
                       {errors.city && <p className="text-sm text-destructive">{errors.city.message}</p>}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Location Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MapPin className="h-5 w-5" />
+                    Location Information
+                  </CardTitle>
+                  <CardDescription>
+                    Set your location on the map or enter coordinates manually
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="h-64 rounded-lg border">
+                    <MapboxLocationPicker
+                      coordinates={coordinates}
+                      onCoordinatesChange={handleCoordinatesChange}
+                      zoom={10}
+                      className="w-full h-full rounded-lg"
+                    />
+                  </div>
+                  
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <Label htmlFor="latitude">Latitude</Label>
+                      <Input 
+                        id="latitude"
+                        {...register("latitude")}
+                        value={watch("latitude")}
+                        onChange={(e) => {
+                          setValue("latitude", e.target.value);
+                          const lat = parseFloat(e.target.value);
+                          const lng = parseFloat(watch("longitude"));
+                          if (!isNaN(lat) && !isNaN(lng)) {
+                            setCoordinates({ lat, lng });
+                            setValue("coordinates", { lat, lng });
+                          }
+                        }}
+                        placeholder="e.g., 40.7128"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="longitude">Longitude</Label>
+                      <Input 
+                        id="longitude"
+                        {...register("longitude")}
+                        value={watch("longitude")}
+                        onChange={(e) => {
+                          setValue("longitude", e.target.value);
+                          const lng = parseFloat(e.target.value);
+                          const lat = parseFloat(watch("latitude"));
+                          if (!isNaN(lat) && !isNaN(lng)) {
+                            setCoordinates({ lat, lng });
+                            setValue("coordinates", { lat, lng });
+                          }
+                        }}
+                        placeholder="e.g., -74.0060"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="plusCode">Google Plus Code</Label>
+                      <Input 
+                        id="plusCode"
+                        {...register("plusCode")}
+                        placeholder="e.g., 87G8Q23M+GF"
+                      />
                     </div>
                   </div>
                 </CardContent>

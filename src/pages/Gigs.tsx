@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import VerificationForm from "@/components/VerificationForm";
 import TourProFinderForm from "@/components/TourProFinderForm";
+import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 import { Camera, Plane, MapPin, DollarSign, Globe, TrendingUp, GraduationCap, CheckCircle, Users, Star, Download, Briefcase, Clock, Award } from "lucide-react";
 const Gigs = () => {
   const [showFinderForm, setShowFinderForm] = useState(false);
@@ -24,12 +25,25 @@ const Gigs = () => {
     email: "",
     skillLevel: "",
     equipment: "",
-    portfolio: null as File | null
+    portfolio: null as File | null,
+    coordinates: [0, 0] as [number, number],
+    latitude: "",
+    longitude: "",
+    plusCode: ""
   });
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const handleCoordinatesChange = (coordinates: [number, number]) => {
+    setFormData(prev => ({
+      ...prev,
+      coordinates,
+      latitude: coordinates[1].toString(),
+      longitude: coordinates[0].toString()
     }));
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
