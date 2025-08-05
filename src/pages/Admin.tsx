@@ -138,67 +138,72 @@ export default function Admin() {
       </div>
 
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-9">
+      <Tabs value={activeTab} onValueChange={setActiveTab} orientation="vertical" className="flex gap-6">
+        <TabsList className="flex flex-col h-fit w-64 space-y-1">
           {adminTabs.map((tab) => {
             const Icon = tab.icon;
             return (
-              <TabsTrigger key={tab.id} value={tab.id} className="flex items-center gap-2">
+              <TabsTrigger 
+                key={tab.id} 
+                value={tab.id} 
+                className="w-full justify-start gap-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
                 <Icon className="h-4 w-4" />
-                <span className="hidden sm:inline">{tab.label}</span>
+                <span>{tab.label}</span>
               </TabsTrigger>
             );
           })}
         </TabsList>
 
-        <TabsContent value="dashboard" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <Card key={stat.label}>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">{stat.label}</CardTitle>
-                    <Icon className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <Badge variant="secondary" className="text-xs">
-                      {stat.change} from last month
-                    </Badge>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+        <div className="flex-1">
+          <TabsContent value="dashboard" className="space-y-6 m-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {stats.map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <Card key={stat.label}>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-sm font-medium">{stat.label}</CardTitle>
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stat.value}</div>
+                      <Badge variant="secondary" className="text-xs">
+                        {stat.change} from last month
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common administrative tasks</CardDescription>
-              </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-4">
-                <Button onClick={() => setActiveTab("users")} variant="outline" className="justify-start">
-                  <Users className="h-4 w-4 mr-2" />
-                  Manage Users
-                </Button>
-                <Button onClick={() => setActiveTab("spaces")} variant="outline" className="justify-start">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  Manage Spaces
-                </Button>
-                <Button onClick={() => setActiveTab("system")} variant="outline" className="justify-start">
-                  <Settings className="h-4 w-4 mr-2" />
-                  System Settings
-                </Button>
-                <Button onClick={() => setActiveTab("analytics")} variant="outline" className="justify-start">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  View Analytics
-                </Button>
-                <Button 
-                  onClick={() => {
-                    // CSV Download
-                    const csvContent = `Title,Description,Property Type,Bedrooms,Bathrooms,Living Rooms,Dining Area,Kitchen Type,Study/Office,Utility Room/Laundry,Guest WC,Maid's Room,Storage/Pantry,Internal Area,Internal Area Unit,Plot Size,Plot Size Unit,Number of Floors,Ceiling Height,Ceiling Height Unit,Floor Number,Balcony Area,Balcony Area Unit,Built Area Price Per Unit,Built Area Price Unit,Plot Area Price Per Unit,Plot Area Price Unit,Availability Status,Furnishing,Flooring Type,Windows,Heating System,Air Conditioning,Smart Home,Security System,Parking Spaces,View Type,Has Fireplace,Has Elevator,Has Private Garden,Has Basement,Has Garage,Swimming Pool,Year Renovated,Developer,Building Name,Total Floors in Building,Number of Units,Common Areas,Service Charges,Energy Rating,Has Doorman,Pets Allowed,Gated Community,Building Security,Ownership Type,Title Deed Status,Building Permit,Mortgage Availability,Tenancy Info,Tax Info,Open House Dates,Property History,Rental Yield,Energy Utilities,Noise Level,Nearby Schools,Shopping Centers,Public Transport,Healthcare Facilities,Recreational Areas,Unique Selling Points,Additional Notes,Address,Latitude,Longitude,Price,Sale Price,VR Link,Thumbnail URL
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                  <CardDescription>Common administrative tasks</CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 gap-4">
+                  <Button onClick={() => setActiveTab("users")} variant="outline" className="justify-start">
+                    <Users className="h-4 w-4 mr-2" />
+                    Manage Users
+                  </Button>
+                  <Button onClick={() => setActiveTab("spaces")} variant="outline" className="justify-start">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Manage Spaces
+                  </Button>
+                  <Button onClick={() => setActiveTab("system")} variant="outline" className="justify-start">
+                    <Settings className="h-4 w-4 mr-2" />
+                    System Settings
+                  </Button>
+                  <Button onClick={() => setActiveTab("analytics")} variant="outline" className="justify-start">
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    View Analytics
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      // CSV Download
+                      const csvContent = `Title,Description,Property Type,Bedrooms,Bathrooms,Living Rooms,Dining Area,Kitchen Type,Study/Office,Utility Room/Laundry,Guest WC,Maid's Room,Storage/Pantry,Internal Area,Internal Area Unit,Plot Size,Plot Size Unit,Number of Floors,Ceiling Height,Ceiling Height Unit,Floor Number,Balcony Area,Balcony Area Unit,Built Area Price Per Unit,Built Area Price Unit,Plot Area Price Per Unit,Plot Area Price Unit,Availability Status,Furnishing,Flooring Type,Windows,Heating System,Air Conditioning,Smart Home,Security System,Parking Spaces,View Type,Has Fireplace,Has Elevator,Has Private Garden,Has Basement,Has Garage,Swimming Pool,Year Renovated,Developer,Building Name,Total Floors in Building,Number of Units,Common Areas,Service Charges,Energy Rating,Has Doorman,Pets Allowed,Gated Community,Building Security,Ownership Type,Title Deed Status,Building Permit,Mortgage Availability,Tenancy Info,Tax Info,Open House Dates,Property History,Rental Yield,Energy Utilities,Noise Level,Nearby Schools,Shopping Centers,Public Transport,Healthcare Facilities,Recreational Areas,Unique Selling Points,Additional Notes,Address,Latitude,Longitude,Price,Sale Price,VR Link,Thumbnail URL
 "Modern 3BR Apartment in Marina District","Beautiful 3-bedroom apartment with sea views in premium location","apartment-building",3,2,1,"Separate dining room","open",1,"Separate laundry room","1 guest toilet","","Walk-in pantry",120,"sqm",,"","2",3.2,"meters","5th floor",15,"sqm",3500,"sqm",,"","available","semi-furnished","marble","Double-glazed, floor-to-ceiling","central","Central AC, Split units","Smart lighting, security system","24/7 CCTV, alarm system",2,"sea","Yes","Yes","No","No","Yes","private",2023,"ABC Development Group","Marina Towers",20,150,"Gym, Pool, Rooftop Lounge, Kids Area","$500/month","A+ rating","Yes","Yes","Yes","Yes","freehold","clear","Valid certificate available","Bank financing available","","3% transfer tax","Saturdays 2-4 PM","Last sold in 2019, renovated in 2021","6.5% annual yield","$150/month average","Low noise, excellent environmental score","Marina International School within 1km","Dubai Marina Mall 500m","Metro station 300m","American Hospital 2km","Marina Walk, Beach access","Prime location with sea views","Recently renovated to highest standards","Dubai Marina, UAE",25.0772,55.1390,850000,800000,"https://example.com/vr-tour","https://example.com/thumbnail.jpg"
 "Instructions: Please fill out all relevant fields for each property. Use the dropdown values provided in the form when possible.",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "","DROPDOWN VALUES FOR REFERENCE:",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -215,97 +220,98 @@ export default function Admin() {
 "","Ownership Types: freehold, leasehold, co-op",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "","Title Deed Status: clear, in-process, shared",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "","Boolean Fields (Yes/No): Has Fireplace, Has Elevator, Has Private Garden, Has Basement, Has Garage, Has Doorman, Pets Allowed, Gated Community, Building Security",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,`;
-                    
-                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'Real_Estate_Bulk_Upload_Template.csv';
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    toast.success("CSV Template downloaded successfully!");
-                  }}
-                  variant="outline" 
-                  className="justify-start"
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  Download CSV Template
-                </Button>
-                <Button 
-                  onClick={() => {
-                    // Excel Download (if XLSX is available)
-                    toast.info("Excel download requires XLSX library. CSV template available above.");
-                  }}
-                  variant="outline" 
-                  className="justify-start"
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  Download Excel Template
-                </Button>
-              </CardContent>
-            </Card>
+                      
+                      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = 'Real_Estate_Bulk_Upload_Template.csv';
+                      a.style.display = 'none';
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+                      toast.success("CSV Template downloaded successfully!");
+                    }}
+                    variant="outline" 
+                    className="justify-start"
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download CSV Template
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      // Excel Download (if XLSX is available)
+                      toast.info("Excel download requires XLSX library. CSV template available above.");
+                    }}
+                    variant="outline" 
+                    className="justify-start"
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download Excel Template
+                  </Button>
+                </CardContent>
+              </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>System Status</CardTitle>
-                <CardDescription>Platform health overview</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Database</span>
-                  <Badge variant="default">Healthy</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Storage</span>
-                  <Badge variant="default">75% Available</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">CDN</span>
-                  <Badge variant="default">Operational</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Background Jobs</span>
-                  <Badge variant="default">Running</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+              <Card>
+                <CardHeader>
+                  <CardTitle>System Status</CardTitle>
+                  <CardDescription>Platform health overview</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Database</span>
+                    <Badge variant="default">Healthy</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Storage</span>
+                    <Badge variant="default">75% Available</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">CDN</span>
+                    <Badge variant="default">Operational</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Background Jobs</span>
+                    <Badge variant="default">Running</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
 
-        <TabsContent value="users">
-          <UserManagement />
-        </TabsContent>
+          <TabsContent value="users" className="m-0">
+            <UserManagement />
+          </TabsContent>
 
-        <TabsContent value="spaces">
-          <SpaceManagement />
-        </TabsContent>
+          <TabsContent value="spaces" className="m-0">
+            <SpaceManagement />
+          </TabsContent>
 
-        <TabsContent value="tours">
-          <TourManagement />
-        </TabsContent>
+          <TabsContent value="tours" className="m-0">
+            <TourManagement />
+          </TabsContent>
 
-        <TabsContent value="hotels">
-          <HotelManagement />
-        </TabsContent>
+          <TabsContent value="hotels" className="m-0">
+            <HotelManagement />
+          </TabsContent>
 
-        <TabsContent value="categories">
-          <CategoryManagement />
-        </TabsContent>
+          <TabsContent value="categories" className="m-0">
+            <CategoryManagement />
+          </TabsContent>
 
-        <TabsContent value="storage">
-          <StorageMonitoring />
-        </TabsContent>
+          <TabsContent value="storage" className="m-0">
+            <StorageMonitoring />
+          </TabsContent>
 
-        <TabsContent value="analytics">
-          <AnalyticsDashboard />
-        </TabsContent>
+          <TabsContent value="analytics" className="m-0">
+            <AnalyticsDashboard />
+          </TabsContent>
 
-        <TabsContent value="system">
-          <SystemSettings />
-        </TabsContent>
+          <TabsContent value="system" className="m-0">
+            <SystemSettings />
+          </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
