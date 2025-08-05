@@ -10,7 +10,7 @@ const HomePageTwo = () => {
   const spaceCategories = [
     { title: "Yachts", icon: Ship, url: "/yacht-brokerage" },
     { title: "Villas & Homes", icon: Home, url: "/real-estate" },
-    { title: "Hotels & Resorts", icon: Building, url: "/spaces" },
+    { title: "Hotels & Resorts", icon: Building, url: "/hotels" },
     { title: "Restaurants & Bars", icon: Utensils, url: "/spaces" },
     { title: "Cars & Showrooms", icon: Car, url: "/cars-vehicles" },
     { title: "Jets & Aviation", icon: Plane, url: "/spaces" },
