@@ -43,6 +43,7 @@ const RestaurantsBars = lazy(() => import("./pages/RestaurantsBars"));
 const About = lazy(() => import("./pages/About"));
 const FairShareCrew = lazy(() => import("./pages/FairShareCrew"));
 const FAQs = lazy(() => import("./pages/FAQs"));
+const CrewInstructions = lazy(() => import("./pages/CrewInstructions"));
 
 const queryClient = new QueryClient();
 
@@ -86,6 +87,7 @@ const App = () => {
               <Route path="/restaurants-bars" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><RestaurantsBars /></Suspense></AppLayout>} />
               <Route path="/about" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><About /></Suspense></AppLayout>} />
               <Route path="/fairshare-crew" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FairShareCrew /></Suspense></AppLayout>} />
+              <Route path="/crew-instructions" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewInstructions /></Suspense></AppLayout>} />
               <Route path="/faqs" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FAQs /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
