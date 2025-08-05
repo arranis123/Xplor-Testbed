@@ -47,7 +47,7 @@ const baseItems = [
   { title: "Real Estate", url: "/real-estate", icon: Building },
   { title: "Yacht Brokerage", url: "/yacht-brokerage", icon: Anchor },
   { title: "Yacht Owners & Clients", url: "/yacht-owners-clients", icon: Anchor },
-  { title: "Yacht Crew", url: "/yacht-crew-offer", icon: Anchor },
+  { title: "Yacht Crew", url: "/fairshare", icon: Anchor },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

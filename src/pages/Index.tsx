@@ -47,7 +47,7 @@ const Index = () => {
                   Crew get 50% of charter commissions
                 </p>
                 <div className="flex flex-col gap-1">
-                  <Link to="/yacht-crew-offer">
+                  <Link to="/fairshare">
                     <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-full text-xs py-1">
                       Yacht Crew
                     </Button>
