@@ -66,7 +66,7 @@ const HomePageTwo = () => {
                 Browse Virtual Tours
               </Button>
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow/90 text-xplor-black text-lg px-8 py-3" asChild>
-                <Link to="/yacht-crew-offer">
+                <Link to="/fairshare-crew">
                   Join FairShare Crew
                 </Link>
               </Button>
@@ -192,7 +192,7 @@ const HomePageTwo = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="outline">Check Eligibility</Button>
                 <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow/90 text-xplor-black" asChild>
-                  <Link to="/yacht-crew-offer">Join FairShare Now</Link>
+                  <Link to="/fairshare-crew">Join FairShare Now</Link>
                 </Button>
               </div>
             </div>
@@ -273,7 +273,7 @@ const HomePageTwo = () => {
                   Charter crew members can start earning their fair share today
                 </p>
                 <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow/90 text-xplor-black" asChild>
-                  <Link to="/yacht-crew-offer">Join FairShare as Charter Crew</Link>
+                  <Link to="/fairshare-crew">Join FairShare as Charter Crew</Link>
                 </Button>
               </div>
             </div>
