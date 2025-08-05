@@ -528,7 +528,7 @@ const YachtOwnersClients = () => {
             </Button>
             <Button size="lg" variant="outline" onClick={() => setIsContactFormOpen(true)}>
               <Phone className="w-5 h-5 mr-2" />
-              Book a Call With <span style={{
+              Contact <span style={{
               fontFamily: 'Typografix, sans-serif'
             }}>Xplor</span>
             </Button>
