@@ -95,6 +95,16 @@ const Header = () => {
                   Tour Pros
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/faqs" 
+                  className={`w-full text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md ${
+                    location.pathname === "/faqs" ? "bg-muted font-medium" : ""
+                  }`}
+                >
+                  FAQs
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem className="text-popover-foreground hover:bg-muted min-h-touch py-mobile-sm px-mobile-md">
                 Support
               </DropdownMenuItem>
