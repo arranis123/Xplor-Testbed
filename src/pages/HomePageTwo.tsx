@@ -13,7 +13,7 @@ const HomePageTwo = () => {
     { title: "Hotels & Resorts", icon: Building, url: "/hotels" },
     { title: "Restaurants & Bars", icon: Utensils, url: "/restaurants-bars" },
     { title: "Cars & Showrooms", icon: Car, url: "/cars-vehicles-2" },
-    { title: "Jets & Aviation", icon: Plane, url: "/spaces" },
+    { title: "Jets & Aviation", icon: Plane, url: "/jets-aviation" },
   ];
 
   const howItWorksSteps = [
