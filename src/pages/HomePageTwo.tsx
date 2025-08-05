@@ -50,6 +50,37 @@ const HomePageTwo = () => {
             <div className="absolute inset-0 bg-black/20"></div>
           </div>
           
+          {/* FairShare Program Box - Top Right */}
+          <div className="absolute top-4 right-4 z-20 hidden md:block">
+            <Card className="bg-white/95 backdrop-blur-sm border-primary/20 max-w-xs">
+              <CardContent className="p-4 bg-gray-700">
+                <h3 className="text-sm font-bold text-foreground mb-2">
+                  <span className="text-primary">FairShare</span> Program
+                </h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  Crew get 50% of charter commissions
+                </p>
+                <div className="flex flex-col gap-1">
+                  <Link to="/fairshare">
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-full text-xs py-1">
+                      Yacht Crew
+                    </Button>
+                  </Link>
+                  <Link to="/yacht-owners-clients">
+                    <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium w-full text-xs py-1">
+                      Yacht Owners
+                    </Button>
+                  </Link>
+                  <Link to="/yacht-owners-clients">
+                    <Button size="sm" variant="outline" className="font-medium w-full text-xs py-1">
+                      Charter Clients
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
             <h2 className="text-8xl md:text-9xl font-typografix font-bold mb-4 text-foreground">
               xplor
