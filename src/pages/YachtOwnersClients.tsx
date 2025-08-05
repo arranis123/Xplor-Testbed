@@ -2,40 +2,15 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Anchor, 
-  Users, 
-  Award, 
-  DollarSign, 
-  MessageCircle, 
-  Phone, 
-  FileText,
-  Ship,
-  Search,
-  Video,
-  MapPin,
-  CheckCircle,
-  Globe,
-  BarChart,
-  Link2,
-  Star,
-  Camera,
-  Shield,
-  Heart,
-  TrendingUp,
-  ArrowRight
-} from "lucide-react";
+import { Anchor, Users, Award, DollarSign, MessageCircle, Phone, FileText, Ship, Search, Video, MapPin, CheckCircle, Globe, BarChart, Link2, Star, Camera, Shield, Heart, TrendingUp, ArrowRight } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import { YachtUploadDialog } from "@/components/YachtUploadDialog";
 import { useNavigate } from 'react-router-dom';
-
 const YachtOwnersClients = () => {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [isYachtUploadOpen, setIsYachtUploadOpen] = useState(false);
   const navigate = useNavigate();
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 space-y-16">
         {/* Hero Section */}
         <section className="text-center space-y-8 py-12">
@@ -43,32 +18,22 @@ const YachtOwnersClients = () => {
             The Smartest Way to List and Charter a Yacht.
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            From immersive virtual tours to a first-in-class crew rewards model, <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span> offers 
+            From immersive virtual tours to a first-in-class crew rewards model, <span style={{
+            fontFamily: 'Typografix, sans-serif'
+          }}>xplor</span> offers 
             a new standard in exposure, booking, and performance — for both owners and guests.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={() => setIsYachtUploadOpen(true)}
-            >
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setIsYachtUploadOpen(true)}>
               <Ship className="w-5 h-5 mr-2" />
               List Your Yacht
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => navigate('/yacht-brokerage')}
-            >
+            <Button size="lg" variant="outline" onClick={() => navigate('/yacht-brokerage')}>
               <Search className="w-5 h-5 mr-2" />
               Charter With Xplor
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => setIsContactFormOpen(true)}
-            >
+            <Button size="lg" variant="outline" onClick={() => setIsContactFormOpen(true)}>
               <Phone className="w-5 h-5 mr-2" />
               Book a Discovery Call
             </Button>
@@ -172,18 +137,16 @@ const YachtOwnersClients = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span> listings are designed for clarity, credibility, and cross-platform promotion
+                  <span style={{
+                  fontFamily: 'Typografix, sans-serif'
+                }}>Xplor</span> listings are designed for clarity, credibility, and cross-platform promotion
                 </p>
               </CardContent>
             </Card>
           </div>
 
           <div className="text-center">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={() => setIsYachtUploadOpen(true)}
-            >
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setIsYachtUploadOpen(true)}>
               List Your Yacht Now
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -281,11 +244,7 @@ const YachtOwnersClients = () => {
           </div>
 
           <div className="text-center">
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => navigate('/yacht-brokerage')}
-            >
+            <Button size="lg" variant="outline" onClick={() => navigate('/yacht-brokerage')}>
               View Available Charters
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -296,7 +255,9 @@ const YachtOwnersClients = () => {
         <section className="space-y-12">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              <span style={{ fontFamily: 'Typografix, sans-serif' }}>FairShare</span>: Why Crew Incentives Create a Better Charter Experience
+              <span style={{
+              fontFamily: 'Typografix, sans-serif'
+            }}>FairShare</span>: Why Crew Incentives Create a Better Charter Experience
             </h2>
           </div>
 
@@ -304,7 +265,9 @@ const YachtOwnersClients = () => {
             <CardContent className="p-8 space-y-6">
               <div className="text-center space-y-4">
                 <p className="text-lg text-foreground max-w-4xl mx-auto leading-relaxed">
-                  <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span> is the first platform to offer a commission-sharing model where 50% of our net charter commission 
+                  <span style={{
+                  fontFamily: 'Typografix, sans-serif'
+                }}>Xplor</span> is the first platform to offer a commission-sharing model where 50% of our net charter commission 
                   is equally split among the crew — if your yacht is chartered through us.
                 </p>
                 <p className="text-lg font-semibold text-foreground max-w-3xl mx-auto">
@@ -317,7 +280,9 @@ const YachtOwnersClients = () => {
                 <div className="flex items-center justify-center space-x-8 text-center">
                   <div className="flex-1">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <span style={{ fontFamily: 'Typografix, sans-serif' }} className="text-blue-800 font-bold">Xplor</span>
+                      <span style={{
+                      fontFamily: 'Typografix, sans-serif'
+                    }} className="text-blue-800 font-bold">Xplor</span>
                     </div>
                     <p className="text-sm text-muted-foreground">Earns Commission</p>
                   </div>
@@ -408,18 +373,18 @@ const YachtOwnersClients = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">= Comes from <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span>'s brokerage share, not APA or owner share</p>
+                <p className="text-muted-foreground">= Comes from <span style={{
+                  fontFamily: 'Typografix, sans-serif'
+                }}>Xplor</span>'s brokerage share, not APA or owner share</p>
               </CardContent>
             </Card>
           </div>
 
           <div className="text-center">
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => navigate('/fairshare')}
-            >
-              Learn More About <span style={{ fontFamily: 'Typografix, sans-serif' }}>FairShare</span>
+            <Button size="lg" variant="outline" onClick={() => navigate('/fairshare')}>
+              Learn More About <span style={{
+              fontFamily: 'Typografix, sans-serif'
+            }}>FairShare</span>
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
@@ -438,12 +403,12 @@ const YachtOwnersClients = () => {
               <CardContent className="p-8">
                 <div className="space-y-4">
                   <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-current" />
-                    ))}
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
                   </div>
                   <blockquote className="text-lg italic text-blue-900">
-                    "Our guests mentioned how amazing the crew were — and we believe <span style={{ fontFamily: 'Typografix, sans-serif' }}>FairShare</span> had something to do with that."
+                    "Our guests mentioned how amazing the crew were — and we believe <span style={{
+                    fontFamily: 'Typografix, sans-serif'
+                  }}>FairShare</span> had something to do with that."
                   </blockquote>
                   <p className="text-blue-700 font-semibold">
                     – Owner of 43m M/Y ***
@@ -456,9 +421,7 @@ const YachtOwnersClients = () => {
               <CardContent className="p-8">
                 <div className="space-y-4">
                   <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-current" />
-                    ))}
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
                   </div>
                   <blockquote className="text-lg italic text-green-900">
                     "The entire process from tour to booking felt effortless. We knew exactly what we were getting."
@@ -523,21 +486,15 @@ const YachtOwnersClients = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={() => setIsYachtUploadOpen(true)}
-            >
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setIsYachtUploadOpen(true)}>
               <Ship className="w-5 h-5 mr-2" />
               List My Yacht
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => setIsContactFormOpen(true)}
-            >
+            <Button size="lg" variant="outline" onClick={() => setIsContactFormOpen(true)}>
               <MessageCircle className="w-5 h-5 mr-2" />
-              Talk to <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span>
+              Talk to <span style={{
+              fontFamily: 'Typografix, sans-serif'
+            }}>Xplor</span>
             </Button>
           </div>
         </section>
@@ -549,43 +506,33 @@ const YachtOwnersClients = () => {
               Join the Only Platform That Works for Everyone Onboard.
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              List with <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span> and unlock the benefits of immersive exposure, smarter bookings, 
+              List with <span style={{
+              fontFamily: 'Typografix, sans-serif'
+            }}>Xplor</span> and unlock the benefits of immersive exposure, smarter bookings, 
               and an incentivized crew — all without added cost.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={() => setIsYachtUploadOpen(true)}
-            >
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setIsYachtUploadOpen(true)}>
               <Ship className="w-5 h-5 mr-2" />
               List a Yacht
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => navigate('/yacht-brokerage')}
-            >
+            <Button size="lg" variant="outline" onClick={() => navigate('/yacht-brokerage')}>
               <Search className="w-5 h-5 mr-2" />
               Charter a Yacht
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => navigate('/fairshare')}
-            >
+            <Button size="lg" variant="outline" onClick={() => navigate('/fairshare')}>
               <Heart className="w-5 h-5 mr-2" />
-              Learn About <span style={{ fontFamily: 'Typografix, sans-serif' }}>FairShare</span>
+              Learn About <span style={{
+              fontFamily: 'Typografix, sans-serif'
+            }}>FairShare</span>
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => setIsContactFormOpen(true)}
-            >
+            <Button size="lg" variant="outline" onClick={() => setIsContactFormOpen(true)}>
               <Phone className="w-5 h-5 mr-2" />
-              Book a Call With <span style={{ fontFamily: 'Typografix, sans-serif' }}>Xplor</span>
+              Book a Call With <span style={{
+              fontFamily: 'Typografix, sans-serif'
+            }}>Xplor</span>
             </Button>
           </div>
         </section>
@@ -593,8 +540,6 @@ const YachtOwnersClients = () => {
 
       <ContactForm open={isContactFormOpen} onOpenChange={setIsContactFormOpen} />
       <YachtUploadDialog open={isYachtUploadOpen} onOpenChange={setIsYachtUploadOpen} />
-    </div>
-  );
+    </div>;
 };
-
 export default YachtOwnersClients;
