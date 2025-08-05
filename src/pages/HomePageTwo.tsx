@@ -51,7 +51,7 @@ const HomePageTwo = () => {
           </div>
           
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-            <h2 className="text-[32rem] md:text-[36rem] font-typografix font-bold mb-4 text-foreground">
+            <h2 className="text-8xl md:text-9xl font-typografix font-bold mb-4 text-foreground">
               xplor
             </h2>
             <h1 className="text-3xl md:text-5xl font-bold mb-6 font-sans text-foreground">
