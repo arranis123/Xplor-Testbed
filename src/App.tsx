@@ -37,6 +37,7 @@ const CarsVehicles = lazy(() => import("./pages/CarsVehicles"));
 const Gigs = lazy(() => import("./pages/Gigs"));
 const RealEstate = lazy(() => import("./pages/RealEstate"));
 const About = lazy(() => import("./pages/About"));
+const FairShareCrew = lazy(() => import("./pages/FairShareCrew"));
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,7 @@ const App = () => {
               <Route path="/gigs" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><Gigs /></Suspense></AppLayout>} />
               <Route path="/real-estate" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><RealEstate /></Suspense></AppLayout>} />
               <Route path="/about" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><About /></Suspense></AppLayout>} />
+              <Route path="/fairshare-crew" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FairShareCrew /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />
