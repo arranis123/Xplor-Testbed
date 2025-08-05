@@ -56,6 +56,7 @@ const originalItems = [
   { title: "Home Page 2", url: "/home-page-2", icon: Home },
   { title: "About", url: "/about", icon: Info },
   { title: "Pricing", url: "/pricing", icon: FolderOpen },
+  { title: "FAQs", url: "/faqs", icon: Info },
 ];
 
 export function AppSidebar() {
