@@ -51,7 +51,7 @@ const HomePageTwo = () => {
           </div>
           
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 font-sans text-xplor-grey-light">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 font-sans text-xplor-grey">
               The World's Most Immersive Virtual Tour Platform
             </h1>
             <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed text-muted-foreground">
