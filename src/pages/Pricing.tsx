@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import pricingHero from "@/assets/pricing-hero.jpg";
 
 const Pricing = () => {
   const { user } = useAuth();
@@ -142,13 +143,19 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-background to-muted/30">
-        <div className="max-w-7xl mx-auto px-6 text-center">
+      <section className="relative py-20 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${pricingHero})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/40" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6 text-center">
           <div className="max-w-3xl mx-auto">
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
               Simple, Fair Pricing for All Types of Spaces.
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-xl text-white/90 mb-8">
               Xplor is free to get started — with professional tools and global exposure included. 
               When you're ready for more, unlock advanced features to grow your brand, bookings, and reach.
             </p>
@@ -156,10 +163,10 @@ const Pricing = () => {
               <Button size="lg" className="bg-xplor-yellow hover:bg-xplor-yellow-light text-xplor-black" asChild>
                 <Link to="/spaces">Upload a Space</Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20" asChild>
                 <Link to="/fair-share-crew">Join FairShare</Link>
               </Button>
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20">
                 Talk to Sales
               </Button>
             </div>
