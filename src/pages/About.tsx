@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import aboutHero from "@/assets/about-hero.jpg";
 import { 
   Ship, 
   Home, 
@@ -62,8 +63,13 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 text-center bg-gradient-to-br from-primary/10 to-secondary/10">
-        <div className="max-w-4xl mx-auto space-y-6">
+      <section className="relative py-20 px-6 text-center bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${aboutHero})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
+        <div className="relative max-w-4xl mx-auto space-y-6 z-10">
           <h1 className="text-5xl font-bold text-foreground">
             We're Building the World's Most Immersive Map.
           </h1>
