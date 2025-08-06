@@ -29,6 +29,7 @@ import {
   PartyPopper
 } from 'lucide-react';
 import { Link as RouterLink } from 'react-router-dom';
+import restaurantsBarsHero from '@/assets/restaurants-bars-hero.jpg';
 
 export default function RestaurantsBars() {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
@@ -124,13 +125,21 @@ export default function RestaurantsBars() {
 
       <div className="min-h-screen bg-background">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-20">
-          <div className="container mx-auto px-4">
+        <section className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-20 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src={restaurantsBarsHero}
+              alt="Elegant restaurant dining room"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-900/70 via-red-800/60 to-purple-900/70"></div>
+          </div>
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-5xl mx-auto text-center">
-              <h1 className="text-5xl font-bold text-foreground mb-6">
-                Make Them Feel the <span className="text-primary">Vibe</span> Before They Book the Table
+              <h1 className="text-5xl font-bold text-white mb-6">
+                Make Them Feel the <span className="text-orange-200">Vibe</span> Before They Book the Table
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto">
+              <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto">
                 Xplor lets guests explore your restaurant or bar virtually — before they book. Show off your space, ambiance, and energy in a way photos never could, then connect it to your booking engine with a simple API plugin.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
