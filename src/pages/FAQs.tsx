@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import MatterportAdBanner from "@/components/MatterportAdBanner";
 
 interface FAQ {
   question: string;
@@ -200,9 +201,13 @@ export default function FAQs() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Side Navigation */}
-          <div className="lg:w-1/4">
-            <Card className="sticky top-4">
+          {/* Left Sidebar with Ad Banner and Navigation */}
+          <div className="lg:w-1/4 space-y-6">
+            {/* Matterport Ad Banner */}
+            <MatterportAdBanner />
+            
+            {/* Category Navigation */}
+            <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Categories</CardTitle>
               </CardHeader>
