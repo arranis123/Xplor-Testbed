@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Building2, MapPin, Users, Globe, Ruler, Brain, CheckCircle, X, Plus, Mail } from 'lucide-react';
+import developmentsHero from '@/assets/developments-hero.jpg';
 
 export default function Developments() {
   const features = [
@@ -101,7 +102,10 @@ export default function Developments() {
         {/* Hero Section */}
         <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/20" />
-          <div className="absolute inset-0 bg-[url('/lovable-uploads/modern-house.jpg')] bg-cover bg-center opacity-30" />
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-40"
+            style={{ backgroundImage: `url(${developmentsHero})` }}
+          />
           
           <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
             <Badge variant="outline" className="mb-6 bg-white/10 backdrop-blur-sm border-white/20">
