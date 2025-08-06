@@ -222,8 +222,10 @@ const Index = () => {
                       Sets, Stages & Venues
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("heritage-worship"); setUploadDialogOpen(true); }}>
-                    Heritage & Worship
+                  <DropdownMenuItem asChild>
+                    <Link to="/heritage-and-worship" className="cursor-pointer">
+                      Heritage & Worship
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("merchant-shipping"); setUploadDialogOpen(true); }}>
                     Merchant Shipping
