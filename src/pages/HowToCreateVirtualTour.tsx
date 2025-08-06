@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Camera, Settings, Upload, Share2, Play, ExternalLink } from "lucide-react";
+import heroImage from "@/assets/how-to-create-virtual-tour-hero.jpg";
 
 export default function HowToCreateVirtualTour() {
   const steps = [
@@ -94,14 +95,21 @@ export default function HowToCreateVirtualTour() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-primary mb-6">
-            Create Stunning Virtual Tours for Any Space
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            Whether you're showcasing a luxury yacht, a home, or a commercial space, virtual tours are the gold standard for immersive, high-impact marketing. This guide walks you through the tools, techniques, and expert network available on Xplor.
-          </p>
+        {/* Hero Section with Background Image */}
+        <div className="relative overflow-hidden rounded-2xl mb-16">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${heroImage})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/20" />
+          <div className="relative text-center py-32 px-8">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-2xl">
+              Create Stunning Virtual Tours for Any Space
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
+              Whether you're showcasing a luxury yacht, a home, or a commercial space, virtual tours are the gold standard for immersive, high-impact marketing. This guide walks you through the tools, techniques, and expert network available on Xplor.
+            </p>
+          </div>
         </div>
 
         {/* Step-by-Step Guide */}
