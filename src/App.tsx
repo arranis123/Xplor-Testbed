@@ -47,6 +47,7 @@ const FAQs = lazy(() => import("./pages/FAQs"));
 const CrewInstructions = lazy(() => import("./pages/CrewInstructions"));
 const MuseumsGalleries = lazy(() => import("./pages/MuseumsGalleries"));
 const EducationAndSchools = lazy(() => import("./pages/EducationAndSchools"));
+const ExperiencesAttractions = lazy(() => import("./pages/ExperiencesAttractions"));
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ const App = () => {
               <Route path="/faqs" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FAQs /></Suspense></AppLayout>} />
               <Route path="/museums-galleries" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><MuseumsGalleries /></Suspense></AppLayout>} />
               <Route path="/education-and-schools" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><EducationAndSchools /></Suspense></AppLayout>} />
+              <Route path="/experiences-and-attractions" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><ExperiencesAttractions /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />
