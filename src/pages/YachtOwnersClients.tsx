@@ -489,12 +489,7 @@ const YachtOwnersClients = () => {
               <Ship className="w-5 h-5 mr-2" />
               List My Yacht
             </Button>
-            <Button size="lg" variant="outline" onClick={() => setIsContactFormOpen(true)}>
-              <MessageCircle className="w-5 h-5 mr-2" />
-              Talk to <span style={{
-              fontFamily: 'Typografix, sans-serif'
-            }}>xplor</span>
-            </Button>
+            
           </div>
         </section>
 
