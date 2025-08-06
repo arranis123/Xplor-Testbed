@@ -13,23 +13,21 @@ import {
   X,
   AlertTriangle
 } from "lucide-react";
+import trainsTramsHero from "@/assets/trains-trams-hero.jpg";
 
 const TrainsAndTrams = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="w-full h-full bg-gradient-to-br from-slate-900/90 via-slate-800/85 to-blue-900/80 flex items-center justify-center">
-            <div className="text-center text-white/60 font-medium">
-              Train Journey Video Background: Driver's Cab → Carriages → Dining → Observation
-            </div>
-          </div>
-        </div>
+      <section 
+        className="relative h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `linear-gradient(rgba(30, 58, 138, 0.7), rgba(30, 58, 138, 0.7)), url(${trainsTramsHero})`
+        }}
+      >
         
         {/* Hero Content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
             Showcase Every Carriage, Cabin, and 
             <span className="text-blue-300">Corridor — Seamlessly</span>

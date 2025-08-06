@@ -3,17 +3,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ShoppingBag, Store, MapPin, Users, Globe, Smartphone, Check, X, AlertTriangle } from "lucide-react";
+import retailPopupsHero from "@/assets/retail-popups-hero.jpg";
 
 export default function RetailAndPopups() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-br from-background via-background to-accent/5">
+      <section 
+        className="relative py-20 px-4 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${retailPopupsHero})`
+        }}
+      >
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Showcase Your Retail Space — Inside and Out
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
             From flagship stores to pop-up activations, Xplor helps brands, landlords, and retail marketers 
             bring their physical locations to life with immersive 360° experiences — with multiple zones in one listing.
           </p>
@@ -21,7 +27,7 @@ export default function RetailAndPopups() {
             <Button size="lg" className="text-lg px-8 py-6">
               📩 Contact the Xplor Team
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 bg-white/10 border-white/20 text-white hover:bg-white/20">
               ➕ Add a Retail Space
             </Button>
           </div>

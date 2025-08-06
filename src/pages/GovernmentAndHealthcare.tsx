@@ -3,17 +3,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Building2, Heart, MapPin, Shield, Globe, Settings, Check, X, AlertTriangle } from "lucide-react";
+import governmentHealthcareHero from "@/assets/government-healthcare-hero.jpg";
 
 export default function GovernmentAndHealthcare() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-br from-background via-background to-accent/5">
+      <section 
+        className="relative py-20 px-4 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.7), rgba(59, 130, 246, 0.7)), url(${governmentHealthcareHero})`
+        }}
+      >
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Transparent, Accessible, and Immersive — Showcase Your Public Institution in Full Detail
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
             From hospitals to city halls and medical centers to embassies, Xplor lets you create immersive virtual 
             experiences with every department, service point, and space seamlessly connected in one listing.
           </p>
@@ -21,7 +27,7 @@ export default function GovernmentAndHealthcare() {
             <Button size="lg" className="text-lg px-8 py-6">
               📩 Contact the Xplor Team
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 bg-white/10 border-white/20 text-white hover:bg-white/20">
               ➕ Add a Hospital or Government Building
             </Button>
           </div>
