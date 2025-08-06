@@ -518,9 +518,7 @@ const YachtOwnersClients = () => {
             </Button>
             <Button size="lg" variant="outline" onClick={() => navigate('/fairshare')}>
               <Heart className="w-5 h-5 mr-2" />
-              Learn About <span style={{
-              fontFamily: 'Typografix, sans-serif'
-            }}>FairShare</span>
+              Learn About <span className="font-sans">FairShare</span>
             </Button>
             <Button size="lg" variant="outline" onClick={() => setIsContactFormOpen(true)}>
               <Phone className="w-5 h-5 mr-2" />
