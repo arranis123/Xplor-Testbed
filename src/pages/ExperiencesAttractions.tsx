@@ -16,6 +16,7 @@ import {
   Star,
   Users
 } from "lucide-react";
+import experiencesAttractionsHero from "@/assets/experiences-attractions-hero.jpg";
 
 const ExperiencesAttractions = () => {
   const features = [
@@ -152,13 +153,15 @@ const ExperiencesAttractions = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Video/Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/lovable-uploads/adventure-park-hero.jpg')`
-          }}
-        />
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={experiencesAttractionsHero}
+            alt="Exciting experiences and attractions"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-coral-900/70 via-orange-800/60 to-teal-900/70"></div>
+        </div>
         
         {/* Content */}
         <div className="relative z-10 text-center text-white px-4 max-w-6xl">
