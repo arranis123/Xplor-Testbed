@@ -202,8 +202,10 @@ const Index = () => {
                       Train & Tram
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("uae-developments"); setUploadDialogOpen(true); }}>
-                    UAE Developments
+                  <DropdownMenuItem asChild>
+                    <Link to="/uae-developments" className="cursor-pointer">
+                      UAE Developments
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("retail-popup"); setUploadDialogOpen(true); }}>
                     Retail & Pop-Up
