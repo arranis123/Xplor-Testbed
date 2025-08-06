@@ -17,7 +17,8 @@ import {
   ShoppingCart,
   Building,
   Info,
-  GraduationCap
+  GraduationCap,
+  Award
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -57,6 +58,7 @@ const originalItems = [
   { title: "About", url: "/about", icon: Info },
   { title: "Pricing", url: "/pricing", icon: FolderOpen },
   { title: "How to Create Virtual Tour", url: "/how-to-create-virtual-tour", icon: GraduationCap },
+  { title: "Top 20 Virtual Tour Platforms (2025 Guide)", url: "/virtual-tour-platforms", icon: Award },
   { title: "FAQs", url: "/faqs", icon: Info },
 ];
 
