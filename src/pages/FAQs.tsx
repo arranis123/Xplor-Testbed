@@ -201,11 +201,8 @@ export default function FAQs() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Sidebar with Ad Banner and Navigation */}
+          {/* Left Sidebar with Navigation and Ad Banner */}
           <div className="lg:w-1/4 space-y-6">
-            {/* Matterport Ad Banner */}
-            <MatterportAdBanner />
-            
             {/* Category Navigation */}
             <Card>
               <CardHeader>
@@ -237,6 +234,9 @@ export default function FAQs() {
                 ))}
               </CardContent>
             </Card>
+            
+            {/* Matterport Ad Banner */}
+            <MatterportAdBanner />
           </div>
 
           {/* Main Content */}
