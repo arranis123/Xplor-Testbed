@@ -167,8 +167,10 @@ const Index = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="w-80 max-h-96 overflow-y-auto">
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("museums-art"); setUploadDialogOpen(true); }}>
-                    Museums & Art Galleries
+                  <DropdownMenuItem asChild>
+                    <Link to="/museums-galleries" className="cursor-pointer">
+                      Museums & Art Galleries
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("schools-education"); setUploadDialogOpen(true); }}>
                     Schools & Education
