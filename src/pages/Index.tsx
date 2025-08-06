@@ -182,8 +182,10 @@ const Index = () => {
                       Experiences & Attractions
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("cruise-ships"); setUploadDialogOpen(true); }}>
-                    Cruise Ships
+                  <DropdownMenuItem asChild>
+                    <Link to="/cruise-ships" className="cursor-pointer">
+                      Cruise Ships
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("developments"); setUploadDialogOpen(true); }}>
                     Developments
