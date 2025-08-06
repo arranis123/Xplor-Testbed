@@ -242,8 +242,10 @@ const Index = () => {
                       Maritime Infrastructure
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("offices-showrooms"); setUploadDialogOpen(true); }}>
-                    Offices, Showrooms & Studios
+                  <DropdownMenuItem asChild>
+                    <Link to="/offices-showrooms-studios" className="cursor-pointer">
+                      Offices, Showrooms & Studios
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("sports-theme-parks"); setUploadDialogOpen(true); }}>
                     Sports Stadiums & Theme Parks
