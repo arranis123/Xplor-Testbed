@@ -384,9 +384,7 @@ const YachtOwnersClients = () => {
 
           <div className="text-center">
             <Button size="lg" variant="outline" onClick={() => navigate('/fairshare')}>
-              Learn More About <span style={{
-              fontFamily: 'Typografix, sans-serif'
-            }}>FairShare</span>
+              Learn More About <span className="font-sans">FairShare</span>
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
