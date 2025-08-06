@@ -6,6 +6,7 @@ import { Anchor, Users, Award, DollarSign, MessageCircle, Phone, FileText, Ship,
 import ContactForm from "@/components/ContactForm";
 import { YachtUploadDialog } from "@/components/YachtUploadDialog";
 import { useNavigate } from 'react-router-dom';
+import yachtOwnersClientsHero from "@/assets/yacht-owners-clients-hero.jpg";
 const YachtOwnersClients = () => {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [isYachtUploadOpen, setIsYachtUploadOpen] = useState(false);
@@ -39,16 +40,23 @@ const YachtOwnersClients = () => {
             </Button>
           </div>
 
-          {/* Hero Visual Placeholder */}
-          <div className="mt-12 relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 h-64 md:h-96 flex items-center justify-center">
-            <div className="text-center space-y-4">
-              <Video className="w-16 h-16 text-blue-600 mx-auto" />
-              <p className="text-blue-800 font-semibold text-lg">
-                Explore. Book. Reward.
-              </p>
-              <p className="text-blue-600 text-sm max-w-md mx-auto">
-                3D walkthrough of yacht interior • Guests boarding and being welcomed
-              </p>
+          {/* Hero Visual */}
+          <div className="mt-12 relative rounded-2xl overflow-hidden h-64 md:h-96">
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${yachtOwnersClientsHero})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="relative z-10 h-full flex items-center justify-center">
+              <div className="text-center space-y-4">
+                <Video className="w-16 h-16 text-white mx-auto" />
+                <p className="text-white font-semibold text-lg">
+                  Explore. Book. Reward.
+                </p>
+                <p className="text-white/90 text-sm max-w-md mx-auto">
+                  3D walkthrough of yacht interior • Guests boarding and being welcomed
+                </p>
+              </div>
             </div>
           </div>
         </section>
