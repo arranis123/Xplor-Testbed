@@ -61,6 +61,7 @@ const MerchantShipping = lazy(() => import("./pages/MerchantShipping"));
 const ManufacturingFacilities = lazy(() => import("./pages/ManufacturingFacilities"));
 const MaritimeInfrastructure = lazy(() => import("./pages/MaritimeInfrastructure"));
 const OfficesShowroomsStudios = lazy(() => import("./pages/OfficesShowroomsStudios"));
+const SportsStadiumsThemeParks = lazy(() => import("./pages/SportsStadiumsThemeParks"));
 
 const queryClient = new QueryClient();
 
@@ -123,6 +124,7 @@ const App = () => {
               <Route path="/manufacturing-facilities" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><ManufacturingFacilities /></Suspense></AppLayout>} />
               <Route path="/maritime-infrastructure" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><MaritimeInfrastructure /></Suspense></AppLayout>} />
               <Route path="/offices-showrooms-studios" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><OfficesShowroomsStudios /></Suspense></AppLayout>} />
+              <Route path="/sports-stadiums-theme-parks" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><SportsStadiumsThemeParks /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />

@@ -247,8 +247,10 @@ const Index = () => {
                       Offices, Showrooms & Studios
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("sports-theme-parks"); setUploadDialogOpen(true); }}>
-                    Sports Stadiums & Theme Parks
+                  <DropdownMenuItem asChild>
+                    <Link to="/sports-stadiums-theme-parks" className="cursor-pointer">
+                      Sports Stadiums & Theme Parks
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
