@@ -232,8 +232,10 @@ const Index = () => {
                       Merchant Shipping
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("manufacturing"); setUploadDialogOpen(true); }}>
-                    Manufacturing Facility
+                  <DropdownMenuItem asChild>
+                    <Link to="/manufacturing-facilities" className="cursor-pointer">
+                      Manufacturing Facility
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("maritime-infrastructure"); setUploadDialogOpen(true); }}>
                     Maritime Infrastructure
