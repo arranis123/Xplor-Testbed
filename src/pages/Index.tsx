@@ -237,8 +237,10 @@ const Index = () => {
                       Manufacturing Facility
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("maritime-infrastructure"); setUploadDialogOpen(true); }}>
-                    Maritime Infrastructure
+                  <DropdownMenuItem asChild>
+                    <Link to="/maritime-infrastructure" className="cursor-pointer">
+                      Maritime Infrastructure
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("offices-showrooms"); setUploadDialogOpen(true); }}>
                     Offices, Showrooms & Studios

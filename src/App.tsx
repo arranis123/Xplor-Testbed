@@ -59,6 +59,7 @@ const SetsStagesAndVenues = lazy(() => import("./pages/SetsStagesAndVenues"));
 const HeritageAndWorship = lazy(() => import("./pages/HeritageAndWorship"));
 const MerchantShipping = lazy(() => import("./pages/MerchantShipping"));
 const ManufacturingFacilities = lazy(() => import("./pages/ManufacturingFacilities"));
+const MaritimeInfrastructure = lazy(() => import("./pages/MaritimeInfrastructure"));
 
 const queryClient = new QueryClient();
 
@@ -119,6 +120,7 @@ const App = () => {
               <Route path="/heritage-and-worship" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><HeritageAndWorship /></Suspense></AppLayout>} />
               <Route path="/merchant-shipping" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><MerchantShipping /></Suspense></AppLayout>} />
               <Route path="/manufacturing-facilities" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><ManufacturingFacilities /></Suspense></AppLayout>} />
+              <Route path="/maritime-infrastructure" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><MaritimeInfrastructure /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />
