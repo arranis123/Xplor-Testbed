@@ -16,7 +16,8 @@ import {
   UserCheck,
   ShoppingCart,
   Building,
-  Info
+  Info,
+  GraduationCap
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -55,6 +56,7 @@ const originalItems = [
   { title: "Home", url: "/", icon: Home },
   { title: "About", url: "/about", icon: Info },
   { title: "Pricing", url: "/pricing", icon: FolderOpen },
+  { title: "How to Create Virtual Tour", url: "/how-to-create-virtual-tour", icon: GraduationCap },
   { title: "FAQs", url: "/faqs", icon: Info },
 ];
 
