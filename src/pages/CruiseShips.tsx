@@ -16,6 +16,7 @@ import {
   Waves,
   Star
 } from "lucide-react";
+import cruiseShipsHero from "@/assets/cruise-ships-hero.jpg";
 
 const CruiseShips = () => {
   const features = [
@@ -159,12 +160,14 @@ const CruiseShips = () => {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background with ocean theme */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0,33,77,0.7), rgba(0,64,122,0.7)), url('/lovable-uploads/luxury-yacht-1.jpg')`
-          }}
-        />
+        <div className="absolute inset-0 z-0">
+          <img
+            src={cruiseShipsHero}
+            alt="Luxury cruise ship at sea"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-cyan-800/60 to-blue-900/70"></div>
+        </div>
         
         {/* Animated waves overlay */}
         <div className="absolute bottom-0 left-0 w-full">
