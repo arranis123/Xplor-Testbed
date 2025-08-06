@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Eye, Globe, BookOpen, DollarSign, Search, TrendingUp, Upload, Zap, Users } from 'lucide-react';
+import museumsGalleriesHero from '@/assets/museums-galleries-hero.jpg';
 
 const MuseumsGalleries = () => {
   return (
@@ -18,14 +19,21 @@ const MuseumsGalleries = () => {
       <div className="min-h-screen bg-background">
         {/* Hero Section */}
         <section className="relative py-24 lg:py-32 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-background to-muted/20"></div>
+          <div className="absolute inset-0">
+            <img
+              src={museumsGalleriesHero}
+              alt="Elegant art gallery with exhibitions"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/70 via-blue-800/60 to-gray-900/70"></div>
+          </div>
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-8 leading-tight">
+              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight">
                 Showcase Your Museum or Gallery to the World — 
-                <span className="text-primary"> Virtually</span>
+                <span className="text-purple-200"> Virtually</span>
               </h1>
-              <p className="text-xl lg:text-2xl text-muted-foreground mb-12 leading-relaxed">
+              <p className="text-xl lg:text-2xl text-white/90 mb-12 leading-relaxed">
                 Xplor is the world's most advanced platform for immersive cultural experiences. 
                 Elevate your exhibitions, reach global audiences, and preserve your collections in a whole new dimension.
               </p>
