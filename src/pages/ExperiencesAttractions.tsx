@@ -230,7 +230,7 @@ const ExperiencesAttractions = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Perfect for Every Type of{" "}
-              <span className="text-gradient bg-gradient-to-r from-teal-500 to-coral-500 bg-clip-text text-transparent">
+              <span className="text-primary">
                 Experience
               </span>
             </h2>
