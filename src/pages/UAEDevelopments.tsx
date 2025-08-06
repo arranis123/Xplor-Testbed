@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Building2, MapPin, Users, Globe, Ruler, Brain, CheckCircle, X, Plus, Mail, Crown, Zap, Camera } from 'lucide-react';
 import UAEDevelopmentUploadDialog from "@/components/UAEDevelopmentUploadDialog";
+import uaeDevelopmentsHero from '@/assets/uae-developments-hero.jpg';
 
 export default function UAEDevelopments() {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
@@ -108,18 +109,24 @@ export default function UAEDevelopments() {
       <div className="min-h-screen bg-background">
         {/* Hero Section */}
         <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-yellow-500/20" />
-          <div className="absolute inset-0 bg-[url('/lovable-uploads/luxury-property-1.jpg')] bg-cover bg-center opacity-40" />
+          <div className="absolute inset-0">
+            <img
+              src={uaeDevelopmentsHero}
+              alt="UAE luxury development"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-900/70 via-orange-800/60 to-yellow-900/70"></div>
+          </div>
           
           <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-            <Badge variant="outline" className="mb-6 bg-white/10 backdrop-blur-sm border-white/20 text-amber-600">
+            <Badge variant="outline" className="mb-6 bg-white/20 backdrop-blur-sm border-white/30 text-white">
               UAE Development Platform
             </Badge>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-foreground">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white">
               Showcase Your UAE Development
-              <span className="text-primary block">to the World — Virtually</span>
+              <span className="text-amber-200 block">to the World — Virtually</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
               With Xplor, you can present your entire development in stunning 360° — from masterplans and show units to towers, malls, and amenities — all connected in one immersive listing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
