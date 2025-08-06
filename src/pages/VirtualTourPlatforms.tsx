@@ -20,6 +20,7 @@ import {
   DollarSign,
   Smartphone
 } from "lucide-react";
+import heroImage from "@/assets/virtual-tour-platforms-hero.jpg";
 
 export default function VirtualTourPlatforms() {
   const [sortBy, setSortBy] = useState<'rank' | 'rating' | 'name'>('rank');
@@ -240,19 +241,26 @@ export default function VirtualTourPlatforms() {
 
   return (
     <div className="min-h-screen bg-background font-sans">
-      {/* Hero Banner */}
-      <div className="bg-gradient-hero text-white py-16 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-xplor-black drop-shadow-lg">
-            The Top 20 Virtual Tour Platforms
-          </h1>
-          <p className="text-lg md:text-xl mb-8 max-w-4xl mx-auto text-xplor-black/80">
-            (2025 Expert Guide)
-          </p>
-          <p className="text-base md:text-lg max-w-5xl mx-auto text-xplor-black/70">
-            Explore the leading virtual tour software on the market — with ratings, pros and cons, 
-            use cases, and feature comparisons to help you choose the right solution for your project.
-          </p>
+      {/* Hero Banner with Background Image */}
+      <div className="relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
+        <div className="relative text-white py-24 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-2xl">
+              The Top 20 Virtual Tour Platforms
+            </h1>
+            <p className="text-lg md:text-xl mb-8 max-w-4xl mx-auto text-white/90 drop-shadow-lg">
+              (2025 Expert Guide)
+            </p>
+            <p className="text-base md:text-lg max-w-5xl mx-auto text-white/80 drop-shadow-md">
+              Explore the leading virtual tour software on the market — with ratings, pros and cons, 
+              use cases, and feature comparisons to help you choose the right solution for your project.
+            </p>
+          </div>
         </div>
       </div>
 
