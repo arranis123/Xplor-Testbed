@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Helmet } from "react-helmet-async";
 import { Plane, Calendar, Users, Smartphone, Globe, TrendingUp, Star, CheckCircle, Zap, Wrench, GraduationCap, MapPin } from "lucide-react";
 import { AviationUploadDialog } from "@/components/AviationUploadDialog";
+import jetsAviationHero from '@/assets/jets-aviation-hero.jpg';
 
 const JetsAviation = () => {
   const [activeDemo, setActiveDemo] = useState("cabin");
@@ -104,15 +105,23 @@ const JetsAviation = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-24 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <Badge variant="secondary" className="mb-6">
+      <section className="relative py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={jetsAviationHero}
+            alt="Private jets and aviation facilities"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-indigo-800/70 to-purple-900/80"></div>
+        </div>
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <Badge variant="secondary" className="mb-6 bg-white/20 backdrop-blur-sm border-white/30 text-white">
             Aviation Excellence
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Take Clients Inside the Cabin Before They Even Take Off
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            Take Clients Inside the <span className="text-blue-200">Cabin</span> Before They Even Take Off
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
             Xplor helps you showcase aircraft interiors, simulators, hangars, and lounges in 3D — while integrating charter, training, or test flight bookings through simple API plugins.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
