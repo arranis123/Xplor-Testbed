@@ -55,6 +55,7 @@ const GolfCourses = lazy(() => import("./pages/GolfCourses"));
 const TrainsAndTrams = lazy(() => import("./pages/TrainsAndTrams"));
 const RetailAndPopups = lazy(() => import("./pages/RetailAndPopups"));
 const GovernmentAndHealthcare = lazy(() => import("./pages/GovernmentAndHealthcare"));
+const SetsStagesAndVenues = lazy(() => import("./pages/SetsStagesAndVenues"));
 
 const queryClient = new QueryClient();
 
@@ -111,6 +112,7 @@ const App = () => {
               <Route path="/trains-and-trams" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><TrainsAndTrams /></Suspense></AppLayout>} />
               <Route path="/retail-and-popups" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><RetailAndPopups /></Suspense></AppLayout>} />
               <Route path="/government-and-healthcare" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><GovernmentAndHealthcare /></Suspense></AppLayout>} />
+              <Route path="/sets-stages-and-venues" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><SetsStagesAndVenues /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />
