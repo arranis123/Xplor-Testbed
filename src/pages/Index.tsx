@@ -212,8 +212,10 @@ const Index = () => {
                       Retail & Pop-Up
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setSelectedCategory("gov-hospital"); setUploadDialogOpen(true); }}>
-                    Government & Hospital
+                  <DropdownMenuItem asChild>
+                    <Link to="/government-and-healthcare" className="cursor-pointer">
+                      Government & Hospital
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { setSelectedCategory("sets-stages"); setUploadDialogOpen(true); }}>
                     Sets, Stages & Venues
