@@ -11,12 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import yachtIcon from '@/assets/yacht-icon.png';
-import villaHomeIcon from '@/assets/villa-home-icon.png';
-import hotelResortIcon from '@/assets/hotel-resort-icon.png';
-import restaurantBarIcon from '@/assets/restaurant-bar-icon.png';
-import carShowroomIcon from '@/assets/car-showroom-icon.png';
-import jetAviationIcon from '@/assets/jet-aviation-icon.png';
 import { MuseumGalleryUploadDialog } from "@/components/MuseumGalleryUploadDialog";
 import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
 import { AviationUploadDialog } from "@/components/AviationUploadDialog";
@@ -41,12 +35,12 @@ const Index = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const spaceCategories = [
-    { title: "Yachts", image: yachtIcon, url: "/yacht-brokerage" },
-    { title: "Villas & Homes", image: villaHomeIcon, url: "/real-estate" },
-    { title: "Hotels & Resorts", image: hotelResortIcon, url: "/hotels" },
-    { title: "Restaurants & Bars", image: restaurantBarIcon, url: "/restaurants-bars" },
-    { title: "Cars & Showrooms", image: carShowroomIcon, url: "/cars-vehicles-2" },
-    { title: "Jets & Aviation", image: jetAviationIcon, url: "/jets-aviation" },
+    { title: "Yachts", icon: Ship, url: "/yacht-brokerage" },
+    { title: "Villas & Homes", icon: Home, url: "/real-estate" },
+    { title: "Hotels & Resorts", icon: Building, url: "/hotels" },
+    { title: "Restaurants & Bars", icon: Utensils, url: "/restaurants-bars" },
+    { title: "Cars & Showrooms", icon: Car, url: "/cars-vehicles-2" },
+    { title: "Jets & Aviation", icon: Plane, url: "/jets-aviation" },
   ];
 
   const howItWorksSteps = [
@@ -153,12 +147,8 @@ const Index = () => {
                 <Link key={index} to={category.url}>
                   <Card className="text-center hover:shadow-lg transition-all duration-200 group hover:bg-gradient-card cursor-pointer h-full">
                     <CardHeader className="p-6">
-                      <div className="w-16 h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform overflow-hidden">
-                        <img 
-                          src={category.image} 
-                          alt={category.title}
-                          className="w-10 h-10 object-contain"
-                        />
+                      <div className="w-16 h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <category.icon className="w-8 h-8 text-xplor-black" />
                       </div>
                       <CardTitle className="text-lg">{category.title}</CardTitle>
                     </CardHeader>
