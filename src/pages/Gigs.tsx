@@ -13,6 +13,7 @@ import VerificationForm from "@/components/VerificationForm";
 import TourProFinderForm from "@/components/TourProFinderForm";
 import MapboxLocationPicker from "@/components/MapboxLocationPicker";
 import { Camera, Plane, MapPin, DollarSign, Globe, TrendingUp, GraduationCap, CheckCircle, Users, Star, Download, Briefcase, Clock, Award } from "lucide-react";
+import gigsHeroImage from "@/assets/gigs-hero.jpg";
 const Gigs = () => {
   const [showFinderForm, setShowFinderForm] = useState(false);
   const {
@@ -64,7 +65,7 @@ const Gigs = () => {
   return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
-        <div className="absolute inset-0 bg-[url('/lovable-uploads/yacht-hero-man-with-equipment.jpg')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${gigsHeroImage})` }} />
         <div className="relative max-w-7xl mx-auto px-6 py-24 text-center">
           <Dialog open={showFinderForm} onOpenChange={setShowFinderForm}>
             <DialogTrigger asChild>
