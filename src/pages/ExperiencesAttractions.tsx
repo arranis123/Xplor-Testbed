@@ -333,7 +333,7 @@ const ExperiencesAttractions = () => {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             Let the World Step Inside Your{" "}
-            <span className="text-gradient bg-gradient-to-r from-coral-500 to-teal-500 bg-clip-text text-transparent">
+            <span className="text-primary">
               Experience
             </span>
           </h2>
