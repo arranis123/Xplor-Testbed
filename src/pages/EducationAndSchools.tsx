@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Eye, School, Globe, BookOpen, DollarSign, FlaskConical, Shield, Upload, MessageSquare, Users, Star } from 'lucide-react';
+import educationSchoolsHero from '@/assets/education-schools-hero.jpg';
 
 const EducationAndSchools = () => {
   return (
@@ -18,18 +19,25 @@ const EducationAndSchools = () => {
       <div className="min-h-screen bg-background">
         {/* Hero Section */}
         <section className="relative py-24 lg:py-32 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-teal-50/50 dark:from-blue-950/20 dark:to-teal-950/20"></div>
+          <div className="absolute inset-0">
+            <img
+              src={educationSchoolsHero}
+              alt="Modern educational institution"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-blue-800/60 to-teal-900/70"></div>
+          </div>
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary mb-8">
+              <div className="inline-flex items-center px-4 py-2 bg-white/20 rounded-full text-sm font-medium text-white mb-8">
                 <Star className="w-4 h-4 mr-2" />
                 Trusted by Leading Institutions Worldwide
               </div>
-              <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-8 leading-tight">
+              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight">
                 Showcase Your School to the World — 
-                <span className="text-primary"> Virtually</span>
+                <span className="text-blue-200"> Virtually</span>
               </h1>
-              <p className="text-xl lg:text-2xl text-muted-foreground mb-12 leading-relaxed">
+              <p className="text-xl lg:text-2xl text-white/90 mb-12 leading-relaxed">
                 From international schools to elite universities, Xplor connects your institution to parents, 
                 students, and educators everywhere through immersive, interactive tours.
               </p>
