@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building2, MapPin, Users, Globe, Ruler, Brain, CheckCircle, X } from 'lucide-react';
+import { Building2, MapPin, Users, Globe, Ruler, Brain, CheckCircle, X, Plus, Mail } from 'lucide-react';
 
 export default function Developments() {
   const features = [
@@ -115,9 +115,16 @@ export default function Developments() {
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
               Present your entire project with precision — from masterplan to model units, amenities, and everything in between — all in one immersive Xplor listing.
             </p>
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              📩 Contact the Xplor Team
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4">
+                <Mail className="mr-2 h-5 w-5" />
+                Contact the Xplor Team
+              </Button>
+              <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4">
+                <Plus className="mr-2 h-5 w-5" />
+                Add Your Development
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -251,9 +258,16 @@ export default function Developments() {
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Xplor is the only platform that supports complete, immersive, multi-space listings for developments of all sizes.
             </p>
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              📩 Contact Us to Get Started
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4">
+                <Mail className="mr-2 h-5 w-5" />
+                Contact Us to Get Started
+              </Button>
+              <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4">
+                <Plus className="mr-2 h-5 w-5" />
+                Add Your Development
+              </Button>
+            </div>
           </div>
         </section>
       </div>
