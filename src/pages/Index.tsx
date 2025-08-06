@@ -5,12 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Ship, Home, Building, Car, Plane, Utensils, ArrowRight, Check, Users, DollarSign, ChevronDown, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MuseumGalleryUploadDialog } from "@/components/MuseumGalleryUploadDialog";
 import { SchoolEducationUploadDialog } from "@/components/SchoolEducationUploadDialog";
 import { AviationUploadDialog } from "@/components/AviationUploadDialog";
@@ -30,50 +25,55 @@ import ManufacturingFacilityUploadDialog from "@/components/ManufacturingFacilit
 import MaritimeInfrastructureUploadDialog from "@/components/MaritimeInfrastructureUploadDialog";
 import OfficesShowroomsStudiosUploadDialog from "@/components/OfficesShowroomsStudiosUploadDialog";
 import SportsStadiumsThemeParksUploadDialog from "@/components/SportsStadiumsThemeParksUploadDialog";
-
 const Index = () => {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const spaceCategories = [
-    { title: "Yachts", icon: Ship, url: "/yacht-brokerage" },
-    { title: "Villas & Homes", icon: Home, url: "/real-estate" },
-    { title: "Hotels & Resorts", icon: Building, url: "/hotels" },
-    { title: "Restaurants & Bars", icon: Utensils, url: "/restaurants-bars" },
-    { title: "Cars & Showrooms", icon: Car, url: "/cars-vehicles-2" },
-    { title: "Jets & Aviation", icon: Plane, url: "/jets-aviation" },
-  ];
-
-  const howItWorksSteps = [
-    {
-      step: "1",
-      title: "Yacht is listed with Xplor for charter",
-      description: "Your yacht gets added to our charter platform"
-    },
-    {
-      step: "2", 
-      title: "Xplor books a charter as central or 3rd-party agent",
-      description: "We handle the booking process and client management"
-    },
-    {
-      step: "3",
-      title: "You (the crew) get paid a fair share — automatically",
-      description: "50% of our commission is split equally among all crew"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const spaceCategories = [{
+    title: "Yachts",
+    icon: Ship,
+    url: "/yacht-brokerage"
+  }, {
+    title: "Villas & Homes",
+    icon: Home,
+    url: "/real-estate"
+  }, {
+    title: "Hotels & Resorts",
+    icon: Building,
+    url: "/hotels"
+  }, {
+    title: "Restaurants & Bars",
+    icon: Utensils,
+    url: "/restaurants-bars"
+  }, {
+    title: "Cars & Showrooms",
+    icon: Car,
+    url: "/cars-vehicles-2"
+  }, {
+    title: "Jets & Aviation",
+    icon: Plane,
+    url: "/jets-aviation"
+  }];
+  const howItWorksSteps = [{
+    step: "1",
+    title: "Yacht is listed with Xplor for charter",
+    description: "Your yacht gets added to our charter platform"
+  }, {
+    step: "2",
+    title: "Xplor books a charter as central or 3rd-party agent",
+    description: "We handle the booking process and client management"
+  }, {
+    step: "3",
+    title: "You (the crew) get paid a fair share — automatically",
+    description: "50% of our commission is split equally among all crew"
+  }];
+  return <div className="min-h-screen bg-background">
       <Header />
       
       <main>
         {/* Hero Section - Platform-Led, Offer-Aware */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img 
-              src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" 
-              alt="Luxury Properties Worldwide Map" 
-              className="w-full h-full object-cover" 
-            />
+            <img src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" alt="Luxury Properties Worldwide Map" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/20"></div>
           </div>
           
@@ -143,8 +143,7 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
-              {spaceCategories.map((category, index) => (
-                <Link key={index} to={category.url}>
+              {spaceCategories.map((category, index) => <Link key={index} to={category.url}>
                   <Card className="text-center hover:shadow-lg transition-all duration-200 group hover:bg-gradient-card cursor-pointer h-full">
                     <CardHeader className="p-6">
                       <div className="w-16 h-16 bg-xplor-yellow rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
@@ -153,8 +152,7 @@ const Index = () => {
                       <CardTitle className="text-lg">{category.title}</CardTitle>
                     </CardHeader>
                   </Card>
-                </Link>
-              ))}
+                </Link>)}
             </div>
 
             <div className="text-center">
@@ -360,24 +358,20 @@ const Index = () => {
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-foreground mb-4">3 Simple Steps to Earning Your Fair Share</h2>
+              <h2 className="text-4xl font-bold text-foreground mb-4">3 Simple Steps to Earning Your FairShare</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              {howItWorksSteps.map((step, index) => (
-                <Card key={index} className="text-center relative">
+              {howItWorksSteps.map((step, index) => <Card key={index} className="text-center relative">
                   <CardContent className="p-8">
                     <div className="w-12 h-12 bg-xplor-yellow text-xplor-black rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                       {step.step}
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">{step.title}</h3>
                     <p className="text-muted-foreground">{step.description}</p>
-                    {index < howItWorksSteps.length - 1 && (
-                      <ArrowRight className="w-6 h-6 text-muted-foreground absolute -right-3 top-1/2 transform -translate-y-1/2 hidden md:block" />
-                    )}
+                    {index < howItWorksSteps.length - 1 && <ArrowRight className="w-6 h-6 text-muted-foreground absolute -right-3 top-1/2 transform -translate-y-1/2 hidden md:block" />}
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
 
             <div className="text-center">
@@ -462,59 +456,23 @@ const Index = () => {
       <Footer />
 
       {/* Upload Dialogs */}
-      {selectedCategory === "museums-art" && (
-        <MuseumGalleryUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "schools-education" && (
-        <SchoolEducationUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "experiences" && (
-        <ExperienceUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "cruise-ships" && (
-        <CruiseShipUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "developments" && (
-        <DevelopmentUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "golf-courses" && (
-        <GolfCourseUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "train-tram" && (
-        <TrainTramUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "uae-developments" && (
-        <UAEDevelopmentUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "retail-popup" && (
-        <RetailPopUpUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "gov-hospital" && (
-        <GovHospitalUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "sets-stages" && (
-        <SetsStagesVenuesUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "heritage-worship" && (
-        <HeritageWorshipUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "merchant-shipping" && (
-        <MerchantShippingUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "manufacturing" && (
-        <ManufacturingFacilityUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "maritime-infrastructure" && (
-        <MaritimeInfrastructureUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "offices-showrooms" && (
-        <OfficesShowroomsStudiosUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-      {selectedCategory === "sports-theme-parks" && (
-        <SportsStadiumsThemeParksUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
-      )}
-    </div>
-  );
+      {selectedCategory === "museums-art" && <MuseumGalleryUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "schools-education" && <SchoolEducationUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "experiences" && <ExperienceUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "cruise-ships" && <CruiseShipUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "developments" && <DevelopmentUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "golf-courses" && <GolfCourseUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "train-tram" && <TrainTramUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "uae-developments" && <UAEDevelopmentUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "retail-popup" && <RetailPopUpUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "gov-hospital" && <GovHospitalUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "sets-stages" && <SetsStagesVenuesUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "heritage-worship" && <HeritageWorshipUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "merchant-shipping" && <MerchantShippingUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "manufacturing" && <ManufacturingFacilityUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "maritime-infrastructure" && <MaritimeInfrastructureUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "offices-showrooms" && <OfficesShowroomsStudiosUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+      {selectedCategory === "sports-theme-parks" && <SportsStadiumsThemeParksUploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />}
+    </div>;
 };
-
 export default Index;
