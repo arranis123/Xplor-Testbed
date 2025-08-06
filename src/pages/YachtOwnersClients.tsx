@@ -38,10 +38,9 @@ const YachtOwnersClients = () => {
 
           {/* Hero Visual */}
           <div className="mt-12 relative rounded-2xl overflow-hidden h-64 md:h-96">
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${yachtOwnersClientsHero})` }}
-            />
+            <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+            backgroundImage: `url(${yachtOwnersClientsHero})`
+          }} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             <div className="relative z-10 h-full flex items-center justify-center">
               <div className="text-center space-y-4">
@@ -494,7 +493,7 @@ const YachtOwnersClients = () => {
               <MessageCircle className="w-5 h-5 mr-2" />
               Talk to <span style={{
               fontFamily: 'Typografix, sans-serif'
-            }}>Xplor</span>
+            }}>xplor</span>
             </Button>
           </div>
         </section>
