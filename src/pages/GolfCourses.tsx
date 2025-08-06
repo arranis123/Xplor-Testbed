@@ -13,19 +13,21 @@ import {
   X,
   AlertTriangle
 } from "lucide-react";
+import golfCoursesHero from "@/assets/golf-courses-hero.jpg";
 
 const GolfCourses = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Video/Image */}
+        {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <div className="w-full h-full bg-gradient-to-br from-emerald-900/90 via-emerald-800/85 to-emerald-700/80 flex items-center justify-center">
-            <div className="text-center text-white/60 font-medium">
-              Golf Course Flyover Video Background
-            </div>
-          </div>
+          <img
+            src={golfCoursesHero}
+            alt="Golf course aerial view"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/60 via-emerald-800/50 to-emerald-700/40"></div>
         </div>
         
         {/* Hero Content */}
