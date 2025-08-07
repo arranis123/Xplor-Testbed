@@ -14,19 +14,20 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ChevronDown, Upload, Check, X, AlertCircle, Ship, Award, Globe, FileText } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { ChevronDown, Upload, Check, X, AlertCircle, Ship, Award, Globe, FileText, Search, Filter } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 // Form schema
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Valid email is required"),
+  nationality: z.string().min(1, "Nationality is required"),
   currentVessel: z.string().optional(),
   yachtSizeCategory: z.string().min(1, "Yacht size category is required"),
   positionAppliedFor: z.string().min(1, "Position is required"),
   primaryDepartment: z.string().min(1, "Department is required"),
-  highestQualification: z.string().min(1, "Highest qualification is required"),
-  vesselSizeExperience: z.array(z.string()).min(1, "Select at least one vessel size"),
+  primaryCoC: z.string().min(1, "Primary Certificate of Competency is required"),
   totalYearsYachting: z.number().min(0, "Years must be positive"),
   numberOfYachts: z.number().min(0, "Number must be positive"),
   largestGRT: z.number().min(0, "GRT must be positive"),
@@ -40,83 +41,203 @@ const formSchema = z.object({
   panamaTransits: z.number().min(0, "Transits must be positive"),
   corinthTransits: z.number().min(0, "Transits must be positive"),
   charterRevenue: z.number().min(0, "Revenue must be positive"),
-  medicalCertifications: z.string().optional(),
   languagesSpoken: z.string().optional(),
-  technicalCertifications: z.string().optional(),
-  guestServiceTraining: z.string().optional(),
-  foodSafetyLevel: z.string().optional(),
-  aviationHandling: z.string().optional(),
   termsAccepted: z.boolean().refine(val => val, "Terms must be accepted")
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-// Dynamic qualification matrix by vessel size and position
-const qualificationMatrix = {
-  "Under 200 GRT": {
-    Captain: ['STCW Basic Training', 'ENG1 Medical', 'RYA Yachtmaster Offshore', 'VHF Radio License', 'Basic Fire Fighting'],
-    'First Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'VHF Radio License', 'Basic Fire Fighting'],
-    Bosun: ['STCW Basic Training', 'ENG1 Medical', 'PWC License', 'Basic Fire Fighting'],
-    Deckhand: ['STCW Basic Training', 'ENG1 Medical', 'RYA Powerboat Level 2'],
-    Engineer: ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'Basic Fire Fighting'],
-    'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'First Aid'],
-    'Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 1'],
-    Chef: ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'Professional Chef Certificate']
-  },
-  "Under 500 GRT": {
-    Captain: ['STCW Basic Training', 'ENG1 Medical', 'Master <500GT CoC', 'GMDSS GOC', 'Advanced Fire Fighting', 'HELM Course'],
-    'Chief Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'GMDSS GOC', 'Advanced Fire Fighting'],
-    'Second Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'VHF Radio License', 'Basic Fire Fighting'],
-    Bosun: ['STCW Basic Training', 'ENG1 Medical', 'PWC License', 'PDSD', 'Advanced Fire Fighting'],
-    Deckhand: ['STCW Basic Training', 'ENG1 Medical', 'RYA Powerboat Level 2', 'PWC License'],
-    'Chief Engineer': ['STCW Basic Training', 'ENG1 Medical', 'MEOL (Y)', 'AEC 1', 'AEC 2', 'Advanced Fire Fighting'],
-    'Second Engineer': ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'AEC 2', 'Basic Fire Fighting'],
-    'Assistant Engineer': ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'Basic Fire Fighting'],
-    'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'GUEST Course', 'First Aid'],
-    'Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'GUEST Course', 'Food Safety Level 1'],
-    Chef: ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 3', 'Professional Chef Certificate'],
-    Purser: ['STCW Basic Training', 'ENG1 Medical', 'Administration Certificate', 'First Aid']
-  },
-  "Under 3000 GRT": {
-    Captain: ['STCW Basic Training', 'ENG1 Medical', 'Master <3000GT CoC', 'GMDSS GOC', 'ECDIS', 'Advanced Fire Fighting', 'HELM Course', 'Ship Security Officer'],
-    'Chief Officer': ['STCW Basic Training', 'ENG1 Medical', 'Chief Mate <3000GT', 'GMDSS GOC', 'ECDIS', 'Advanced Fire Fighting'],
-    'Second Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <3000GT', 'GMDSS GOC', 'ECDIS', 'Advanced Fire Fighting'],
-    'Third Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'GMDSS GOC', 'Basic Fire Fighting'],
-    Bosun: ['STCW Basic Training', 'ENG1 Medical', 'Yacht Rating Certificate', 'PDSD', 'Advanced Fire Fighting'],
-    Deckhand: ['STCW Basic Training', 'ENG1 Medical', 'Yacht Rating Certificate', 'PWC License'],
-    'Chief Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Y3/Y4 CoC', 'HV Certificate', 'AEC 1', 'AEC 2', 'STCW Advanced Fire Fighting'],
-    'Second Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Y4 CoC', 'AEC 1', 'AEC 2', 'Advanced Fire Fighting'],
-    'Third Engineer': ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'AEC 2', 'Basic Fire Fighting'],
-    ETO: ['STCW Basic Training', 'ENG1 Medical', 'ETO CoC', 'AV/IT Certificates', 'Basic Fire Fighting'],
-    'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 3', 'WSET Level 2-3', 'GUEST Course', 'First Aid'],
-    'Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'WSET Level 1', 'GUEST Course', 'Food Safety Level 1'],
-    Chef: ['STCW Basic Training', 'ENG1 Medical', 'Culinary Diploma', 'HACCP', 'Food Safety Level 3'],
-    'Sous Chef': ['STCW Basic Training', 'ENG1 Medical', 'Professional Chef Certificate', 'Food Safety Level 2'],
-    Purser: ['STCW Basic Training', 'ENG1 Medical', 'Purser Certificate', 'Administration & Accounting', 'First Aid'],
-    'HLO (Helicopter Landing Officer)': ['STCW Basic Training', 'ENG1 Medical', 'HLO Certificate', 'Aviation Fuel Handling', 'Advanced Fire Fighting']
+// Global comprehensive qualification database
+const globalQualifications = {
+  // Mandatory for All Crew
+  mandatoryAll: [
+    "STCW Basic Safety Training (Personal Survival)", 
+    "STCW Basic Safety Training (Fire Prevention)", 
+    "STCW Basic Safety Training (Elementary First Aid)", 
+    "STCW Basic Safety Training (Personal Safety)", 
+    "STCW Basic Safety Training (Security Awareness)",
+    "ENG1 Medical Certificate",
+    "ML5 Medical Certificate (alternative to ENG1)"
+  ],
+  
+  // Deck & Navigation
+  deckNavigation: [
+    "RYA Powerboat Level 2", "RYA Tender Operator", "PWC Proficiency", "PWC Instructor",
+    "RYA VHF Radio License", "RYA Day Skipper Theory", "RYA Day Skipper Practical",
+    "RYA Coastal Skipper Theory", "RYA Coastal Skipper Practical", "RYA Yachtmaster Theory",
+    "RYA Yachtmaster Coastal", "RYA Yachtmaster Offshore", "RYA Yachtmaster Ocean",
+    "EDH (Electronic Chart Display)", "GSK (Global Satellite Knowledge)", "ECDIS Generic",
+    "ECDIS Type Specific", "ARPA (Automatic Radar)", "GMDSS ROC (Radio Operator Certificate)",
+    "GMDSS GOC (General Operator Certificate)", "HELM Personal", "HELM Operational",
+    "HELM Management", "Oral Preparation Course", "PEC (Personal Emergency Communication)",
+    "Business & Law for Masters", "Navigation Assessment", "Radar Assessment",
+    "Celestial Navigation", "Survival Craft", "Security Duties", "Yacht Rating Certificate",
+    "PDSD (Personal Watercraft Delivery)", "OOW <500GT", "OOW <3000GT", "Chief Mate <3000GT",
+    "Master <200GT", "Master <500GT", "Master <3000GT", "Ship Security Officer",
+    "Company Security Officer"
+  ],
+
+  // Engineering & Technical
+  engineering: [
+    "AEC 1 (Approved Engine Course)", "AEC 2 (Approved Engine Course)", "MEOL (Y) Marine Engine Operator",
+    "Y4 Engineer Officer", "Y3 Engineer Officer", "Y2 Engineer Officer", "Y1 Engineer Officer",
+    "MEC 1 (Motor Engineering Certificate)", "MEC 2 (Motor Engineering Certificate)",
+    "General Engineering Science", "SV Courses (Small Vessel)", "GMDSS Maintenance Certificate",
+    "ETO (Electro Technical Officer)", "HV Certificate (High Voltage)", "Low Voltage Certificate",
+    "Refrigeration Systems", "Air Conditioning Systems", "Hydraulic Systems", "Pneumatic Systems",
+    "Diesel Engine Maintenance", "Gas Turbine Systems", "Electrical Systems", "Electronic Systems",
+    "Power Management Systems", "Propulsion Systems", "Automation Systems", "HVAC Systems"
+  ],
+
+  // Medical & Safety
+  medicalSafety: [
+    "Elementary First Aid", "Medical First Aid", "Medical Care Onboard", "Mental Health First Aid",
+    "Mental Health Awareness", "Basic Fire Fighting", "Advanced Fire Fighting", "Updated Fire Fighting",
+    "Crowd Management", "Crisis Management & Human Behaviour", "Personal Safety & Social Responsibility",
+    "Survival Craft & Rescue Boats", "Fast Rescue Boats", "Polar Waters Basic", "Polar Waters Advanced",
+    "Ship Security Awareness", "Designated Security Duties", "Security Awareness (Port Facility)",
+    "ISPS Code Training", "Anti-Piracy Awareness", "Enclosed Space Entry", "Confined Space Entry",
+    "Hot Work Permits", "Risk Assessment", "Permit to Work Systems", "COSHH Awareness",
+    "Manual Handling", "Working at Height", "Ladder Safety", "Lifting Operations"
+  ],
+
+  // Leadership & Law
+  leadership: [
+    "HELM Personal", "HELM Operational", "HELM Management", "Leadership & Teamwork",
+    "Maritime Law", "MLC (Maritime Labour Convention)", "PPR (Personal Protective Equipment)",
+    "Environmental Awareness", "Waste Management", "MARPOL Awareness", "Ballast Water Management",
+    "Oil Pollution Prevention", "Sewage Systems", "Garbage Management", "SOx Compliance",
+    "NOx Compliance", "Carbon Footprint Reduction", "Green Technology", "Sustainable Practices"
+  ],
+
+  // Interior & Service
+  interior: [
+    "Food Safety Level 1", "Food Safety Level 2", "Food Safety Level 3", "HACCP Principles",
+    "Allergen Awareness", "Nutrition Awareness", "Menu Planning", "Cost Control",
+    "Silver Service", "Butler Service", "Concierge Training", "Guest Relations",
+    "Hospitality Management", "Event Planning", "Table Setting", "Wine Service",
+    "Cocktail Preparation", "Mixology Advanced", "Floristry Basic", "Floristry Advanced",
+    "Interior Design Awareness", "Fabric Care", "Laundry Management", "Housekeeping Standards",
+    "Guest Service (GUEST Course)", "Cultural Awareness", "Etiquette & Protocol",
+    "WSET Level 1 (Wine)", "WSET Level 2 (Wine)", "WSET Level 3 (Wine)", "Sake Professional",
+    "Sommelier Certificate", "Barista Training", "Tea Specialist"
+  ],
+
+  // Wellness & Special Roles
+  wellness: [
+    "Spa Therapy Certificate", "Massage Therapy", "Aromatherapy", "Reflexology",
+    "Fitness Instructor", "Personal Trainer", "Yoga Instructor", "Pilates Instructor",
+    "Aqua Fitness", "Sports Therapy", "Nutrition Counseling", "Meditation Instructor",
+    "Mindfulness Training", "Stress Management", "Wellness Coaching", "Beauty Therapy",
+    "Nail Technician", "Hair Styling", "Makeup Artist", "Skincare Specialist"
+  ],
+
+  // Water Sports & Recreation
+  waterSports: [
+    "Dive Instructor (PADI)", "Dive Instructor (SSI)", "Dive Instructor (BSAC)",
+    "Divemaster", "Rescue Diver", "Advanced Open Water", "Open Water Diver",
+    "Technical Diving", "Nitrox Specialty", "Deep Diving Specialty", "Wreck Diving",
+    "Underwater Photography", "Marine Biology", "Shark Diving Specialty",
+    "Jet Ski Instructor", "Water Ski Instructor", "Wakeboard Instructor", "Kite Surf Instructor",
+    "Wind Surf Instructor", "SUP Instructor", "Sailing Instructor", "Kayak Guide",
+    "Snorkel Guide", "Fishing Guide", "Tender Driving", "Beach Club Operations"
+  ],
+
+  // Aviation & Helicopter Operations
+  aviation: [
+    "HLO (Helicopter Landing Officer)", "Aviation Fuel Handling", "Ground Handling",
+    "Aviation Security", "Helicopter Underwater Escape Training", "Aviation First Aid",
+    "Dangerous Goods (Aviation)", "Load Planning", "Weight & Balance", "Flight Planning Support",
+    "Aviation Weather", "Communication Procedures", "Emergency Response", "Fire & Rescue (Aviation)",
+    "Pilot License (Private)", "Pilot License (Commercial)", "Drone Operations", "UAV Pilot License"
+  ],
+
+  // Technical & IT
+  technical: [
+    "AV Systems Basic", "AV Systems Advanced", "Home Automation", "Network Administration",
+    "Cybersecurity Awareness", "Data Protection", "GDPR Compliance", "Satellite Communications",
+    "IT Support", "Computer Repair", "Software Installation", "Database Management",
+    "WiFi Management", "Streaming Systems", "Gaming Systems", "Virtual Reality Setup",
+    "Smart Home Integration", "Security Systems", "CCTV Operations", "Access Control",
+    "Entertainment Systems", "Karaoke Systems", "Lighting Control", "Climate Control"
+  ],
+
+  // Certifications of Competency (CoCs)
+  certificatesOfCompetency: {
+    "Under 200 GRT": [
+      "RYA Yachtmaster Offshore", "Master <200GT", "OOW <200GT", "Engineer <200GT", 
+      "MEOL (Y)", "AEC 1", "Chief Steward Certificate", "Chef Certificate"
+    ],
+    "Under 500 GRT": [
+      "Master <500GT", "Chief Mate <500GT", "OOW <500GT", "Chief Engineer <500GT",
+      "Second Engineer <500GT", "MEOL (Y)", "AEC 1", "AEC 2", "ETO <500GT",
+      "Chief Steward Certificate", "Purser Certificate", "Chef Certificate"
+    ],
+    "Under 3000 GRT": [
+      "Master <3000GT", "Chief Mate <3000GT", "Second Mate <3000GT", "OOW <3000GT",
+      "Chief Engineer <3000GT", "Second Engineer <3000GT", "Third Engineer <3000GT",
+      "Y1 Engineer", "Y2 Engineer", "Y3 Engineer", "Y4 Engineer", "ETO <3000GT",
+      "Chief Steward Certificate", "Purser Certificate", "Chef Certificate", "HLO Certificate"
+    ]
   }
+};
+
+// CoC prerequisite mapping
+const cocPrerequisites = {
+  "Master <3000GT": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "GMDSS GOC (General Operator Certificate)", "ECDIS Generic", "HELM Management", "Advanced Fire Fighting", "Medical Care Onboard", "Ship Security Officer"],
+  "Chief Mate <3000GT": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "GMDSS GOC (General Operator Certificate)", "ECDIS Generic", "Advanced Fire Fighting", "Medical First Aid"],
+  "Master <500GT": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "GMDSS GOC (General Operator Certificate)", "HELM Operational", "Advanced Fire Fighting", "Medical First Aid"],
+  "OOW <3000GT": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "GMDSS GOC (General Operator Certificate)", "ECDIS Generic", "Advanced Fire Fighting"],
+  "Y3 Engineer": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "AEC 1 (Approved Engine Course)", "AEC 2 (Approved Engine Course)", "Advanced Fire Fighting", "HV Certificate (High Voltage)"],
+  "MEOL (Y)": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "AEC 1 (Approved Engine Course)", "Basic Fire Fighting"],
+  "ETO <3000GT": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "AV Systems Advanced", "Network Administration", "Basic Fire Fighting"],
+  "RYA Yachtmaster Offshore": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "RYA VHF Radio License", "RYA Day Skipper Theory", "RYA Coastal Skipper Theory"]
+};
+
+// Position mapping by vessel size
+const positionsByVesselSize = {
+  "Under 200 GRT": ["Captain", "First Officer", "Bosun", "Deckhand", "Engineer", "Chief Steward(ess)", "Steward(ess)", "Chef"],
+  "Under 500 GRT": ["Captain", "Chief Officer", "Second Officer", "Bosun", "Deckhand", "Chief Engineer", "Second Engineer", "Assistant Engineer", "Chief Steward(ess)", "Steward(ess)", "Chef", "Purser"],
+  "Under 3000 GRT": ["Captain", "Chief Officer", "Second Officer", "Third Officer", "Bosun", "Deckhand", "Chief Engineer", "Second Engineer", "Third Engineer", "ETO", "Chief Steward(ess)", "Steward(ess)", "Chef", "Sous Chef", "Purser", "HLO (Helicopter Landing Officer)"]
 };
 
 const departments = ['Deck', 'Engineering', 'Interior', 'AV/IT', 'Wellness', 'Hospitality', 'Aviation'];
 const vesselSizes = ['Under 200 GRT', 'Under 500 GRT', 'Under 3000 GRT'];
+const nationalities = ["Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Argentinian", "Armenian", "Australian", "Austrian", "Azerbaijani", "Bahamian", "Bahraini", "Bangladeshi", "Barbadian", "Belarusian", "Belgian", "Belizean", "Beninese", "Bhutanese", "Bolivian", "Bosnian", "Brazilian", "British", "Bruneian", "Bulgarian", "Burkinabe", "Burmese", "Burundian", "Cambodian", "Cameroonian", "Canadian", "Cape Verdean", "Central African", "Chadian", "Chilean", "Chinese", "Colombian", "Comoran", "Congolese", "Costa Rican", "Croatian", "Cuban", "Cypriot", "Czech", "Danish", "Djiboutian", "Dominican", "Dutch", "East Timorese", "Ecuadorean", "Egyptian", "Emirian", "Equatorial Guinean", "Eritrean", "Estonian", "Ethiopian", "Fijian", "Filipino", "Finnish", "French", "Gabonese", "Gambian", "Georgian", "German", "Ghanaian", "Greek", "Grenadian", "Guatemalan", "Guinea-Bissauan", "Guinean", "Guyanese", "Haitian", "Herzegovinian", "Honduran", "Hungarian", "I-Kiribati", "Icelander", "Indian", "Indonesian", "Iranian", "Iraqi", "Irish", "Israeli", "Italian", "Ivorian", "Jamaican", "Japanese", "Jordanian", "Kazakhstani", "Kenyan", "Kittian and Nevisian", "Kuwaiti", "Kyrgyz", "Laotian", "Latvian", "Lebanese", "Liberian", "Libyan", "Liechtensteiner", "Lithuanian", "Luxembourgish", "Macedonian", "Malagasy", "Malawian", "Malaysian", "Maldivan", "Malian", "Maltese", "Marshallese", "Mauritanian", "Mauritian", "Mexican", "Micronesian", "Moldovan", "Monacan", "Mongolian", "Moroccan", "Mosotho", "Motswana", "Mozambican", "Namibian", "Nauruan", "Nepalese", "New Zealander", "Ni-Vanuatu", "Nicaraguan", "Nigerian", "Nigerien", "North Korean", "Northern Irish", "Norwegian", "Omani", "Pakistani", "Palauan", "Palestinian", "Panamanian", "Papua New Guinean", "Paraguayan", "Peruvian", "Polish", "Portuguese", "Qatari", "Romanian", "Russian", "Rwandan", "Saint Lucian", "Salvadoran", "Samoan", "San Marinese", "Sao Tomean", "Saudi", "Scottish", "Senegalese", "Serbian", "Seychellois", "Sierra Leonean", "Singaporean", "Slovakian", "Slovenian", "Solomon Islander", "Somali", "South African", "South Korean", "Spanish", "Sri Lankan", "Sudanese", "Surinamer", "Swazi", "Swedish", "Swiss", "Syrian", "Taiwanese", "Tajik", "Tanzanian", "Thai", "Togolese", "Tongan", "Trinidadian", "Tunisian", "Turkish", "Tuvaluan", "Ugandan", "Ukrainian", "Uruguayan", "Uzbekistani", "Venezuelan", "Vietnamese", "Welsh", "Yemenite", "Zambian", "Zimbabwean"];
 
 export default function FairShareJoin() {
   const [selectedYachtSize, setSelectedYachtSize] = useState<string>("");
   const [selectedPosition, setSelectedPosition] = useState<string>("");
-  const [certificationStatus, setCertificationStatus] = useState<{ [key: string]: 'valid' | 'invalid' | 'pending' }>({});
+  const [selectedCoC, setSelectedCoC] = useState<string>("");
+  const [qualificationStatus, setQualificationStatus] = useState<{ [key: string]: { status: 'valid' | 'expired' | 'in-progress' | 'not-held'; hasFile: boolean } }>({});
   const [showTerms, setShowTerms] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("all");
+  const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
+    mandatoryAll: true,
+    prerequisites: true,
+    deckNavigation: false,
+    engineering: false,
+    medicalSafety: false,
+    leadership: false,
+    interior: false,
+    wellness: false,
+    waterSports: false,
+    aviation: false,
+    technical: false
+  });
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
       email: "",
+      nationality: "",
       currentVessel: "",
       yachtSizeCategory: "",
       positionAppliedFor: "",
       primaryDepartment: "",
-      highestQualification: "",
-      vesselSizeExperience: [],
+      primaryCoC: "",
       totalYearsYachting: 0,
       numberOfYachts: 0,
       largestGRT: 0,
@@ -130,18 +251,28 @@ export default function FairShareJoin() {
       panamaTransits: 0,
       corinthTransits: 0,
       charterRevenue: 0,
-      medicalCertifications: "",
       languagesSpoken: "",
-      technicalCertifications: "",
-      guestServiceTraining: "",
-      foodSafetyLevel: "",
-      aviationHandling: "",
       termsAccepted: false
     }
   });
 
   const onSubmit = (data: FormData) => {
-    console.log("FairShare application submitted:", data);
+    // Check if required prerequisites are valid
+    const prerequisites = selectedCoC ? cocPrerequisites[selectedCoC as keyof typeof cocPrerequisites] || [] : [];
+    const invalidPrerequisites = prerequisites.filter(cert => 
+      !qualificationStatus[cert] || qualificationStatus[cert].status !== 'valid'
+    );
+
+    if (invalidPrerequisites.length > 0) {
+      toast({
+        title: "Missing Required Qualifications",
+        description: `Please mark the following as valid: ${invalidPrerequisites.slice(0, 3).join(', ')}${invalidPrerequisites.length > 3 ? '...' : ''}`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    console.log("FairShare application submitted:", { ...data, qualifications: qualificationStatus });
     toast({
       title: "Application Submitted!",
       description: "Your FairShare application has been sent for review. You'll receive a confirmation email shortly.",
@@ -151,41 +282,126 @@ export default function FairShareJoin() {
   const handleYachtSizeChange = (size: string) => {
     setSelectedYachtSize(size);
     form.setValue("yachtSizeCategory", size);
-    // Reset position and certification status when yacht size changes
+    // Reset dependent fields when yacht size changes
     setSelectedPosition("");
+    setSelectedCoC("");
     form.setValue("positionAppliedFor", "");
-    setCertificationStatus({});
+    form.setValue("primaryCoC", "");
   };
 
   const handlePositionChange = (position: string) => {
     setSelectedPosition(position);
     form.setValue("positionAppliedFor", position);
-    // Reset certification status when position changes
-    setCertificationStatus({});
+    // Reset CoC when position changes
+    setSelectedCoC("");
+    form.setValue("primaryCoC", "");
   };
 
-  const handleCertificationStatus = (cert: string, status: 'valid' | 'invalid' | 'pending') => {
-    setCertificationStatus(prev => ({ ...prev, [cert]: status }));
+  const handleCoCChange = (coc: string) => {
+    setSelectedCoC(coc);
+    form.setValue("primaryCoC", coc);
+  };
+
+  const handleQualificationStatus = (qual: string, status: 'valid' | 'expired' | 'in-progress' | 'not-held', hasFile: boolean = false) => {
+    setQualificationStatus(prev => ({ 
+      ...prev, 
+      [qual]: { status, hasFile } 
+    }));
+  };
+
+  const toggleSection = (section: string) => {
+    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
   // Get available positions based on selected yacht size
-  const availablePositions = selectedYachtSize && qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix] 
-    ? Object.keys(qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix]) 
-    : [];
+  const availablePositions = selectedYachtSize ? positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize] || [] : [];
 
-  // Get required certifications based on selected yacht size and position
-  const requiredCertifications = selectedYachtSize && selectedPosition && qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix]
-    ? (qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix] as any)[selectedPosition] || []
-    : [];
+  // Get available CoCs based on selected yacht size
+  const availableCoCs = selectedYachtSize ? globalQualifications.certificatesOfCompetency[selectedYachtSize as keyof typeof globalQualifications.certificatesOfCompetency] || [] : [];
 
-  const validCertifications = Object.values(certificationStatus).filter(status => status === 'valid').length;
-  const allCertificationsValid = requiredCertifications.length > 0 && validCertifications === requiredCertifications.length;
+  // Get required prerequisites for selected CoC
+  const requiredPrerequisites = selectedCoC ? cocPrerequisites[selectedCoC as keyof typeof cocPrerequisites] || [] : [];
+
+  // Filter qualifications based on search and category
+  const filterQualifications = (qualList: string[]) => {
+    let filtered = qualList;
+    
+    if (searchTerm) {
+      filtered = filtered.filter(qual => 
+        qual.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    return filtered;
+  };
+
+  // Calculate completion progress
+  const totalPrerequisites = requiredPrerequisites.length;
+  const validPrerequisites = requiredPrerequisites.filter(cert => 
+    qualificationStatus[cert]?.status === 'valid'
+  ).length;
+  const completionPercentage = totalPrerequisites > 0 ? (validPrerequisites / totalPrerequisites) * 100 : 0;
+
+  // Qualification status component
+  const QualificationItem = ({ qualification, isRequired = false }: { qualification: string; isRequired?: boolean }) => {
+    const status = qualificationStatus[qualification];
+    const getStatusIcon = () => {
+      switch (status?.status) {
+        case 'valid': return <Check className="h-4 w-4 text-green-600" />;
+        case 'expired': return <X className="h-4 w-4 text-red-600" />;
+        case 'in-progress': return <AlertCircle className="h-4 w-4 text-yellow-600" />;
+        default: return <X className="h-4 w-4 text-muted-foreground" />;
+      }
+    };
+
+    const getStatusColor = () => {
+      switch (status?.status) {
+        case 'valid': return 'border-green-200 bg-green-50';
+        case 'expired': return 'border-red-200 bg-red-50';
+        case 'in-progress': return 'border-yellow-200 bg-yellow-50';
+        default: return 'border-muted bg-background';
+      }
+    };
+
+    return (
+      <div className={`p-3 rounded-lg border ${getStatusColor()} ${isRequired ? 'ring-2 ring-primary/20' : ''}`}>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            {getStatusIcon()}
+            <span className="text-sm font-medium">{qualification}</span>
+            {isRequired && <Badge variant="secondary" className="text-xs">Required</Badge>}
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <Select 
+            value={status?.status || 'not-held'} 
+            onValueChange={(value) => handleQualificationStatus(qualification, value as any)}
+          >
+            <SelectTrigger className="h-8 text-xs">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="valid">✅ Valid</SelectItem>
+              <SelectItem value="expired">❌ Expired</SelectItem>
+              <SelectItem value="in-progress">🟡 In Progress</SelectItem>
+              <SelectItem value="not-held">⚪ Not Held</SelectItem>
+            </SelectContent>
+          </Select>
+          
+          <Button variant="outline" size="sm" className="h-8">
+            <Upload className="h-3 w-3" />
+          </Button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
       <Helmet>
-        <title>Join FairShare – Yacht Crew Registration & Qualification Validation | Xplor</title>
-        <meta name="description" content="Join the FairShare crew network and share in yacht charter revenue. Verify your qualifications and become part of the Xplor crew community." />
+        <title>Join FairShare – Crew Qualification & Revenue Share Application | Xplor</title>
+        <meta name="description" content="Join the FairShare crew network with comprehensive qualification validation. Verify your maritime certificates and become part of the exclusive yacht crew revenue sharing program." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
@@ -193,25 +409,25 @@ export default function FairShareJoin() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Join FairShare – Yacht Crew Registration & Qualification Validation
+              Join FairShare – Crew Qualification & Revenue Share Application
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Join the exclusive FairShare crew network where your expertise translates to revenue sharing. 
-              Verify your qualifications, showcase your experience, and become part of the Xplor crew community.
+              Join the exclusive FairShare crew network where your qualifications and experience translate to revenue sharing opportunities. 
+              Complete our comprehensive qualification validation and become part of the Xplor crew community.
             </p>
           </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              {/* Crew Info Section */}
+              {/* Personal Info Section */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Ship className="h-5 w-5" />
-                    Crew Information
+                    Personal Information
                   </CardTitle>
                   <CardDescription>
-                    Tell us about yourself and your current position
+                    Tell us about yourself and your background
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -244,19 +460,45 @@ export default function FairShareJoin() {
                     />
                   </div>
                   
-                  <FormField
-                    control={form.control}
-                    name="currentVessel"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Current Vessel (Optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="M/Y Example" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="nationality"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nationality *</FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select nationality" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="max-h-[200px]">
+                              {nationalities.map((nationality) => (
+                                <SelectItem key={nationality} value={nationality}>
+                                  {nationality}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="currentVessel"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Current Vessel (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="M/Y Example" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
                   <FormField
                     control={form.control}
@@ -285,21 +527,21 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
-              {/* Yacht Size Selection */}
+              {/* Yacht Experience Section */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Yacht Size Category (GRT)</CardTitle>
+                  <CardTitle>Yacht Experience</CardTitle>
                   <CardDescription>
-                    Select the yacht size category you want to apply for. This will determine available positions and required qualifications.
+                    Select your target yacht size category and position. This will determine available qualifications.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-6">
                   <FormField
                     control={form.control}
                     name="yachtSizeCategory"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Yacht Size Category *</FormLabel>
+                        <FormLabel>Yacht Size Category (GRT) *</FormLabel>
                         <Select onValueChange={handleYachtSizeChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
@@ -318,19 +560,9 @@ export default function FairShareJoin() {
                       </FormItem>
                     )}
                   />
-                </CardContent>
-              </Card>
 
-              {/* Position Selection - Only show when yacht size is selected */}
-              {selectedYachtSize && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Position Applied For</CardTitle>
-                    <CardDescription>
-                      Available positions for {selectedYachtSize} vessels
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
+                  {/* Position Selection - Only show when yacht size is selected */}
+                  {selectedYachtSize && (
                     <FormField
                       control={form.control}
                       name="positionAppliedFor"
@@ -355,169 +587,289 @@ export default function FairShareJoin() {
                         </FormItem>
                       )}
                     />
-                  </CardContent>
-                </Card>
-              )}
+                  )}
 
-              {/* Primary Certificate Selection - Only show when position is selected */}
-              {selectedPosition && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Primary Certificate</CardTitle>
-                    <CardDescription>
-                      What is your highest certificate held for this role?
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
+                  {/* CoC Selection - Only show when yacht size is selected */}
+                  {selectedYachtSize && (
                     <FormField
                       control={form.control}
-                      name="highestQualification"
+                      name="primaryCoC"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Highest CoC / Qualification *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., Master 3000 GT CoC" {...field} />
-                          </FormControl>
+                          <FormLabel>Primary Certificate of Competency *</FormLabel>
+                          <Select onValueChange={handleCoCChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select your highest CoC" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {availableCoCs.map((coc) => (
+                                <SelectItem key={coc} value={coc}>
+                                  {coc}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Vessel Size Experience */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Vessel Size Experience</CardTitle>
-                  <CardDescription>
-                    Select all vessel sizes you have experience working on
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="vesselSizeExperience"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          {vesselSizes.map((size) => (
-                            <div key={size} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={size}
-                                checked={field.value.includes(size)}
-                                onCheckedChange={(checked) => {
-                                  if (checked) {
-                                    field.onChange([...field.value, size]);
-                                  } else {
-                                    field.onChange(field.value.filter((s) => s !== size));
-                                  }
-                                }}
-                              />
-                              <Label htmlFor={size} className="text-sm font-medium">
-                                {size}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  )}
                 </CardContent>
               </Card>
 
-              {/* Required Certifications - Dynamic based on yacht size and position */}
-              {selectedYachtSize && selectedPosition && requiredCertifications.length > 0 && (
+              {/* Prerequisites Section - Only show when CoC is selected */}
+              {selectedCoC && requiredPrerequisites.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Award className="h-5 w-5" />
-                      Required Certifications for {selectedPosition} on {selectedYachtSize} Vessels
+                      Required Prerequisites for {selectedCoC}
                     </CardTitle>
                     <CardDescription>
-                      Please confirm your certification status for the required qualifications
+                      These qualifications are mandatory for your selected Certificate of Competency
                     </CardDescription>
+                    <div className="flex items-center gap-4 mt-4">
+                      <Progress value={completionPercentage} className="flex-1" />
+                      <span className="text-sm font-medium">
+                        {validPrerequisites}/{totalPrerequisites} Complete
+                      </span>
+                    </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      {requiredCertifications.map((cert: string) => (
-                        <div key={cert} className="flex items-center justify-between p-3 border rounded-lg">
-                          <span className="font-medium">{cert}</span>
-                          <div className="flex items-center gap-2">
-                            <Button
-                              type="button"
-                              variant={certificationStatus[cert] === 'valid' ? 'default' : 'outline'}
-                              size="sm"
-                              onClick={() => handleCertificationStatus(cert, 'valid')}
-                              className="h-8"
-                            >
-                              <Check className="h-3 w-3 mr-1" />
-                              Valid
-                            </Button>
-                            <Button
-                              type="button"
-                              variant={certificationStatus[cert] === 'invalid' ? 'destructive' : 'outline'}
-                              size="sm"
-                              onClick={() => handleCertificationStatus(cert, 'invalid')}
-                              className="h-8"
-                            >
-                              <X className="h-3 w-3 mr-1" />
-                              Expired
-                            </Button>
-                            <Button
-                              type="button"
-                              variant={certificationStatus[cert] === 'pending' ? 'secondary' : 'outline'}
-                              size="sm"
-                              onClick={() => handleCertificationStatus(cert, 'pending')}
-                              className="h-8"
-                            >
-                              <AlertCircle className="h-3 w-3 mr-1" />
-                              In Progress
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              className="h-8"
-                            >
-                              <Upload className="h-3 w-3 mr-1" />
-                              Upload
-                            </Button>
-                          </div>
-                        </div>
+                    <div className="grid gap-3">
+                      {requiredPrerequisites.map((qual) => (
+                        <QualificationItem key={qual} qualification={qual} isRequired />
                       ))}
-                      
-                      {allCertificationsValid ? (
-                        <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-                          <Check className="h-4 w-4 text-green-600" />
-                          <span className="text-green-700 font-medium">All required qualifications confirmed</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                          <AlertCircle className="h-4 w-4 text-amber-600" />
-                          <span className="text-amber-700 font-medium">Some required qualifications are missing or invalid</span>
-                        </div>
-                      )}
                     </div>
                   </CardContent>
                 </Card>
               )}
 
+              {/* Global Qualifications Checklist */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe className="h-5 w-5" />
+                    Complete Qualification Checklist
+                  </CardTitle>
+                  <CardDescription>
+                    Declare all your qualifications and certifications. Use the search and filter options to find specific qualifications.
+                  </CardDescription>
+                  
+                  {/* Search and Filter */}
+                  <div className="flex gap-4 mt-4">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Search qualifications..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+                    <Select value={filterCategory} onValueChange={setFilterCategory}>
+                      <SelectTrigger className="w-[200px]">
+                        <Filter className="h-4 w-4 mr-2" />
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Categories</SelectItem>
+                        <SelectItem value="deck">Deck & Navigation</SelectItem>
+                        <SelectItem value="engineering">Engineering</SelectItem>
+                        <SelectItem value="medical">Medical & Safety</SelectItem>
+                        <SelectItem value="interior">Interior & Service</SelectItem>
+                        <SelectItem value="wellness">Wellness</SelectItem>
+                        <SelectItem value="watersports">Water Sports</SelectItem>
+                        <SelectItem value="aviation">Aviation</SelectItem>
+                        <SelectItem value="technical">Technical & IT</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Mandatory for All Crew */}
+                  <Collapsible open={openSections.mandatoryAll} onOpenChange={() => toggleSection('mandatoryAll')}>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-muted/50 rounded-lg hover:bg-muted/70">
+                      <h3 className="font-semibold text-red-600">💠 Mandatory for All Crew</h3>
+                      <ChevronDown className={`h-4 w-4 transition-transform ${openSections.mandatoryAll ? 'rotate-180' : ''}`} />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3">
+                      <div className="grid gap-3">
+                        {filterQualifications(globalQualifications.mandatoryAll).map((qual) => (
+                          <QualificationItem key={qual} qualification={qual} />
+                        ))}
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Deck & Navigation */}
+                  {(filterCategory === 'all' || filterCategory === 'deck') && (
+                    <Collapsible open={openSections.deckNavigation} onOpenChange={() => toggleSection('deckNavigation')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-blue-50 rounded-lg hover:bg-blue-100">
+                        <h3 className="font-semibold text-blue-600">🔹 Deck & Navigation</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.deckNavigation ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.deckNavigation).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Engineering & Technical */}
+                  {(filterCategory === 'all' || filterCategory === 'engineering') && (
+                    <Collapsible open={openSections.engineering} onOpenChange={() => toggleSection('engineering')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-red-50 rounded-lg hover:bg-red-100">
+                        <h3 className="font-semibold text-red-600">🔧 Engineering & Technical</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.engineering ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.engineering).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Medical & Safety */}
+                  {(filterCategory === 'all' || filterCategory === 'medical') && (
+                    <Collapsible open={openSections.medicalSafety} onOpenChange={() => toggleSection('medicalSafety')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-green-50 rounded-lg hover:bg-green-100">
+                        <h3 className="font-semibold text-green-600">🆘 Medical & Safety</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.medicalSafety ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.medicalSafety).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Leadership & Law */}
+                  <Collapsible open={openSections.leadership} onOpenChange={() => toggleSection('leadership')}>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-purple-50 rounded-lg hover:bg-purple-100">
+                      <h3 className="font-semibold text-purple-600">⚖️ Leadership & Law</h3>
+                      <ChevronDown className={`h-4 w-4 transition-transform ${openSections.leadership ? 'rotate-180' : ''}`} />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3">
+                      <div className="grid gap-3">
+                        {filterQualifications(globalQualifications.leadership).map((qual) => (
+                          <QualificationItem key={qual} qualification={qual} />
+                        ))}
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Interior & Service */}
+                  {(filterCategory === 'all' || filterCategory === 'interior') && (
+                    <Collapsible open={openSections.interior} onOpenChange={() => toggleSection('interior')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100">
+                        <h3 className="font-semibold text-yellow-600">🎓 Interior & Service</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.interior ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.interior).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Wellness & Special Roles */}
+                  {(filterCategory === 'all' || filterCategory === 'wellness') && (
+                    <Collapsible open={openSections.wellness} onOpenChange={() => toggleSection('wellness')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-teal-50 rounded-lg hover:bg-teal-100">
+                        <h3 className="font-semibold text-teal-600">🧘 Wellness & Special Roles</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.wellness ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.wellness).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Water Sports & Recreation */}
+                  {(filterCategory === 'all' || filterCategory === 'watersports') && (
+                    <Collapsible open={openSections.waterSports} onOpenChange={() => toggleSection('waterSports')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-cyan-50 rounded-lg hover:bg-cyan-100">
+                        <h3 className="font-semibold text-cyan-600">🏄 Water Sports & Recreation</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.waterSports ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.waterSports).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Aviation & Helicopter Operations */}
+                  {(filterCategory === 'all' || filterCategory === 'aviation') && (
+                    <Collapsible open={openSections.aviation} onOpenChange={() => toggleSection('aviation')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100">
+                        <h3 className="font-semibold text-indigo-600">✈️ Aviation & Helicopter Operations</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.aviation ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.aviation).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+
+                  {/* Technical & IT */}
+                  {(filterCategory === 'all' || filterCategory === 'technical') && (
+                    <Collapsible open={openSections.technical} onOpenChange={() => toggleSection('technical')}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                        <h3 className="font-semibold text-gray-600">💻 Technical & IT</h3>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${openSections.technical ? 'rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-3">
+                        <div className="grid gap-3">
+                          {filterQualifications(globalQualifications.technical).map((qual) => (
+                            <QualificationItem key={qual} qualification={qual} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+                </CardContent>
+              </Card>
 
               {/* Experience Section */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Globe className="h-5 w-5" />
-                    Experience & Performance
+                    <FileText className="h-5 w-5" />
+                    Yachting Experience
                   </CardTitle>
                   <CardDescription>
-                    Provide details about your yachting experience and achievements
+                    Provide details about your yachting experience and career progression
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="totalYearsYachting"
@@ -527,6 +879,7 @@ export default function FairShareJoin() {
                           <FormControl>
                             <Input 
                               type="number" 
+                              min="0" 
                               {...field} 
                               onChange={(e) => field.onChange(Number(e.target.value))}
                             />
@@ -535,7 +888,6 @@ export default function FairShareJoin() {
                         </FormItem>
                       )}
                     />
-                    
                     <FormField
                       control={form.control}
                       name="numberOfYachts"
@@ -545,6 +897,7 @@ export default function FairShareJoin() {
                           <FormControl>
                             <Input 
                               type="number" 
+                              min="0" 
                               {...field} 
                               onChange={(e) => field.onChange(Number(e.target.value))}
                             />
@@ -553,7 +906,9 @@ export default function FairShareJoin() {
                         </FormItem>
                       )}
                     />
-                    
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="largestGRT"
@@ -563,6 +918,8 @@ export default function FairShareJoin() {
                           <FormControl>
                             <Input 
                               type="number" 
+                              min="0" 
+                              placeholder="e.g., 3000"
                               {...field} 
                               onChange={(e) => field.onChange(Number(e.target.value))}
                             />
@@ -571,16 +928,17 @@ export default function FairShareJoin() {
                         </FormItem>
                       )}
                     />
-                    
                     <FormField
                       control={form.control}
-                      name="longevityLastYacht"
+                      name="seaMilesLogged"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Longevity on Last Yacht (months)</FormLabel>
+                          <FormLabel>Sea Miles Logged</FormLabel>
                           <FormControl>
                             <Input 
                               type="number" 
+                              min="0" 
+                              placeholder="e.g., 50000"
                               {...field} 
                               onChange={(e) => field.onChange(Number(e.target.value))}
                             />
@@ -591,165 +949,129 @@ export default function FairShareJoin() {
                     />
                   </div>
 
-                  <Separator />
-
-                  <div className="space-y-4">
-                    <h4 className="font-semibold">Navigation Experience</h4>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="seaMilesLogged"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Sea Miles Logged</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="number" 
-                                {...field} 
-                                onChange={(e) => field.onChange(Number(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="atlanticCrossings"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Atlantic Crossings</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="number" 
-                                {...field} 
-                                onChange={(e) => field.onChange(Number(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="mediterraneanCrossings"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Mediterranean Crossings</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="number" 
-                                {...field} 
-                                onChange={(e) => field.onChange(Number(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="charterRevenue"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Charter Revenue Generated (€)</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="number" 
-                                {...field} 
-                                onChange={(e) => field.onChange(Number(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="atlanticCrossings"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Atlantic Crossings</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="mediterraneanCrossings"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mediterranean Crossings</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="suezTransits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Suez Canal Transits</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="panamaTransits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Panama Canal Transits</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
+
+                  <FormField
+                    control={form.control}
+                    name="charterRevenue"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Approximate Charter Revenue Generated (USD)</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="number" 
+                            min="0" 
+                            placeholder="e.g., 500000"
+                            {...field} 
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="languagesSpoken"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Languages Spoken</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="e.g., English (Native), Spanish (Fluent), French (Conversational)"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </CardContent>
               </Card>
 
-              {/* Specialist Skills */}
+              {/* Legal Declaration */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Specialist Skills & Additional Certifications</CardTitle>
+                  <CardTitle>Legal Declaration</CardTitle>
                   <CardDescription>
-                    Optional additional skills and certifications that enhance your profile
+                    Please confirm your agreement to the terms and conditions
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="medicalCertifications"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Medical Certifications</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., EMT, RN, First Aid" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="languagesSpoken"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Languages Spoken</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., English, French, Spanish" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="technicalCertifications"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Technical Certifications</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., AV/IT, Dive Instructor" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="aviationHandling"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Aviation/Heli Ops</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., HLO Certificate" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Legal Acknowledgement */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
-                    Legal Acknowledgement
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent>
                   <FormField
                     control={form.control}
                     name="termsAccepted"
@@ -762,29 +1084,31 @@ export default function FairShareJoin() {
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>
-                            I confirm the above information is true and I accept the terms of FairShare crew membership. *
+                          <FormLabel className="text-sm font-normal">
+                            I confirm that the above information is true and accurate. I understand that this will be reviewed for FairShare eligibility and accept the terms of FairShare crew membership.
                           </FormLabel>
                         </div>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
-                  
+                  <FormMessage />
+
                   <Collapsible open={showTerms} onOpenChange={setShowTerms}>
-                    <CollapsibleTrigger asChild>
-                      <Button variant="outline" type="button" className="w-full">
-                        Read Terms & Conditions
-                        <ChevronDown className="h-4 w-4 ml-2" />
-                      </Button>
+                    <CollapsibleTrigger className="text-sm text-primary hover:underline mt-2">
+                      Read Terms & Conditions
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="space-y-2 mt-4 p-4 border rounded-lg bg-muted/50">
-                      <h4 className="font-semibold">FairShare Terms & Conditions</h4>
-                      <p className="text-sm text-muted-foreground">
-                        By joining FairShare, you agree to participate in the revenue sharing program based on your 
-                        verified qualifications and performance metrics. All information provided must be accurate 
-                        and verifiable. Xplor reserves the right to verify all certifications and experience claims.
+                    <CollapsibleContent className="mt-4 p-4 bg-muted rounded-lg text-sm">
+                      <h4 className="font-semibold mb-2">FairShare Terms & Conditions</h4>
+                      <p className="mb-2">
+                        By joining FairShare, you agree to:
                       </p>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>Provide accurate and truthful information about your qualifications</li>
+                        <li>Maintain valid certifications as required for your position</li>
+                        <li>Participate in the revenue sharing program as outlined</li>
+                        <li>Comply with yacht safety and operational standards</li>
+                        <li>Allow verification of submitted qualifications and experience</li>
+                      </ul>
                     </CollapsibleContent>
                   </Collapsible>
                 </CardContent>
@@ -794,9 +1118,9 @@ export default function FairShareJoin() {
               <div className="flex justify-center">
                 <Button 
                   type="submit" 
-                  size="lg"
-                  className="min-w-[200px]"
-                  disabled={!allCertificationsValid && selectedPosition !== ""}
+                  size="lg" 
+                  className="px-12"
+                  disabled={!form.getValues("termsAccepted")}
                 >
                   Join FairShare Now
                 </Button>
