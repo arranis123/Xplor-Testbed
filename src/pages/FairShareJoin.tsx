@@ -723,9 +723,9 @@ export default function FairShareJoin() {
               {/* Yacht Experience Section */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Yacht Experience</CardTitle>
+                  <CardTitle>Current Position & Certificate of Competancy</CardTitle>
                   <CardDescription>
-                    Select your target yacht size category and position. This will determine available qualifications.
+                    select your yacht size, position and valid CoC
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
