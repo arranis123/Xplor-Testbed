@@ -629,8 +629,8 @@ export default function FairShareJoin() {
                               min="0" 
                               max="50"
                               placeholder="0"
-                              {...field}
-                              onChange={(e) => field.onChange(Number(e.target.value))}
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(Number(e.target.value) || 0)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -650,8 +650,8 @@ export default function FairShareJoin() {
                               min="0" 
                               max="100"
                               placeholder="0"
-                              {...field}
-                              onChange={(e) => field.onChange(Number(e.target.value))}
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(Number(e.target.value) || 0)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -671,8 +671,8 @@ export default function FairShareJoin() {
                               min="0" 
                               max="10000"
                               placeholder="0"
-                              {...field}
-                              onChange={(e) => field.onChange(Number(e.target.value))}
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(Number(e.target.value) || 0)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -692,8 +692,8 @@ export default function FairShareJoin() {
                               min="0" 
                               max="120"
                               placeholder="0"
-                              {...field}
-                              onChange={(e) => field.onChange(Number(e.target.value))}
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(Number(e.target.value) || 0)}
                             />
                           </FormControl>
                           <FormMessage />

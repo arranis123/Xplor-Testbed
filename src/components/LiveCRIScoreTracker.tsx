@@ -81,13 +81,13 @@ export function LiveCRIScoreTracker({
       "Bosun": 5
     },
     "Under 3000 GRT": {
-      "Master <3000GT": 10,
-      "Chief Mate <3000GT": 9,
-      "Chief Engineer <3000GT": 9,
+      "Master <3000 GT": 10,
+      "Chief Mate <3000 GT": 9,
+      "Chief Engineer <3000 GT": 9,
       "Executive Chef": 8,
       "Chief Steward/Stewardess": 7,
-      "OOW <3000GT": 7,
-      "Second Engineer <3000GT": 8,
+      "OOW <3000 GT": 7,
+      "Second Engineer <3000 GT": 8,
       "Purser": 6
     }
   };
