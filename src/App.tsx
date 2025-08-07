@@ -48,6 +48,7 @@ const CrewInstructions = lazy(() => import("./pages/CrewInstructions"));
 const CrewRating = lazy(() => import("./pages/CrewRating"));
 const CrewQualifications = lazy(() => import("./pages/CrewQualifications"));
 const FairShareJoin = lazy(() => import("./pages/FairShareJoin"));
+const CRICalculator = lazy(() => import("./pages/CRICalculator"));
 const MuseumsGalleries = lazy(() => import("./pages/MuseumsGalleries"));
 const EducationAndSchools = lazy(() => import("./pages/EducationAndSchools"));
 const ExperiencesAttractions = lazy(() => import("./pages/ExperiencesAttractions"));
@@ -112,6 +113,7 @@ const App = () => {
               <Route path="/fairshare-crew" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FairShareCrew /></Suspense></AppLayout>} />
               <Route path="/fairshare-eligibility" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FairShareEligibility /></Suspense></AppLayout>} />
               <Route path="/fairshare/join" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FairShareJoin /></Suspense></AppLayout>} />
+              <Route path="/fairshare/cri-calculator" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CRICalculator /></Suspense></AppLayout>} />
               <Route path="/crew-instructions" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewInstructions /></Suspense></AppLayout>} />
               <Route path="/crew-rating" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewRating /></Suspense></AppLayout>} />
               <Route path="/crew/minimum-qualifications" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewQualifications /></Suspense></AppLayout>} />

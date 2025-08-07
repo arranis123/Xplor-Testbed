@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { ChevronDown, Upload, Check, X, AlertCircle, Ship, Award, Globe, FileText, Search, Filter, Plus, Clock, RotateCcw } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 // Form schema
 const formSchema = z.object({
@@ -130,6 +131,7 @@ interface YachtExperience {
   durationMonths?: number;
 }
 export default function FairShareJoin() {
+  const navigate = useNavigate();
   const [selectedYachtSize, setSelectedYachtSize] = useState<string>("");
   const [selectedPosition, setSelectedPosition] = useState<string>("");
   const [selectedCoC, setSelectedCoC] = useState<string>("");
@@ -1395,11 +1397,30 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
-              {/* Submit Button */}
+              {/* Action Buttons */}
               <div className="flex justify-center">
-                <Button type="submit" size="lg" className="px-12" disabled={!form.getValues("termsAccepted") || !form.getValues("criAccepted")}>
-                  Join FairShare Now
-                </Button>
+                <div className="grid md:grid-cols-2 gap-4 w-full max-w-lg">
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="px-12" 
+                    disabled={!form.getValues("termsAccepted") || !form.getValues("criAccepted")}
+                  >
+                    Join FairShare Now
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    onClick={() => {
+                      const formData = form.getValues();
+                      navigate('/fairshare/cri-calculator', { state: { crewData: formData } });
+                    }}
+                    className="border-primary text-primary hover:bg-primary/10 px-12"
+                  >
+                    Calculate CRI+ Score
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>
