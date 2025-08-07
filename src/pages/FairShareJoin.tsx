@@ -165,16 +165,16 @@ const globalQualifications = {
 
   // Certifications of Competency (CoCs)
   certificatesOfCompetency: {
-    "<200 GRT": [
+    "Under 200 GRT": [
       "RYA Yachtmaster Offshore", "Master <200GT", "OOW <200GT", "Engineer <200GT", 
       "MEOL (Y)", "AEC 1", "Chief Steward Certificate", "Chef Certificate"
     ],
-    "<500 GRT": [
+    "Under 500 GRT": [
       "Master <500GT", "Chief Mate <500GT", "OOW <500GT", "Chief Engineer <500GT",
       "Second Engineer <500GT", "MEOL (Y)", "AEC 1", "AEC 2", "ETO <500GT",
       "Chief Steward Certificate", "Purser Certificate", "Chef Certificate"
     ],
-    "<3000 GRT": [
+    "Under 3000 GRT": [
       "Master <3000GT", "Chief Mate <3000GT", "Second Mate <3000GT", "OOW <3000GT",
       "Chief Engineer <3000GT", "Second Engineer <3000GT", "Third Engineer <3000GT",
       "Y1 Engineer", "Y2 Engineer", "Y3 Engineer", "Y4 Engineer", "ETO <3000GT",
@@ -305,6 +305,20 @@ const departments = ['Deck', 'Engineering', 'Interior', 'AV/IT', 'Wellness', 'Ho
 const vesselSizes = ['<200 GRT', '<500 GRT', '<3000 GRT'];
 const nationalities = ["Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Argentinian", "Armenian", "Australian", "Austrian", "Azerbaijani", "Bahamian", "Bahraini", "Bangladeshi", "Barbadian", "Belarusian", "Belgian", "Belizean", "Beninese", "Bhutanese", "Bolivian", "Bosnian", "Brazilian", "British", "Bruneian", "Bulgarian", "Burkinabe", "Burmese", "Burundian", "Cambodian", "Cameroonian", "Canadian", "Cape Verdean", "Central African", "Chadian", "Chilean", "Chinese", "Colombian", "Comoran", "Congolese", "Costa Rican", "Croatian", "Cuban", "Cypriot", "Czech", "Danish", "Djiboutian", "Dominican", "Dutch", "East Timorese", "Ecuadorean", "Egyptian", "Emirian", "Equatorial Guinean", "Eritrean", "Estonian", "Ethiopian", "Fijian", "Filipino", "Finnish", "French", "Gabonese", "Gambian", "Georgian", "German", "Ghanaian", "Greek", "Grenadian", "Guatemalan", "Guinea-Bissauan", "Guinean", "Guyanese", "Haitian", "Herzegovinian", "Honduran", "Hungarian", "I-Kiribati", "Icelander", "Indian", "Indonesian", "Iranian", "Iraqi", "Irish", "Israeli", "Italian", "Ivorian", "Jamaican", "Japanese", "Jordanian", "Kazakhstani", "Kenyan", "Kittian and Nevisian", "Kuwaiti", "Kyrgyz", "Laotian", "Latvian", "Lebanese", "Liberian", "Libyan", "Liechtensteiner", "Lithuanian", "Luxembourgish", "Macedonian", "Malagasy", "Malawian", "Malaysian", "Maldivan", "Malian", "Maltese", "Marshallese", "Mauritanian", "Mauritian", "Mexican", "Micronesian", "Moldovan", "Monacan", "Mongolian", "Moroccan", "Mosotho", "Motswana", "Mozambican", "Namibian", "Nauruan", "Nepalese", "New Zealander", "Ni-Vanuatu", "Nicaraguan", "Nigerian", "Nigerien", "North Korean", "Northern Irish", "Norwegian", "Omani", "Pakistani", "Palauan", "Palestinian", "Panamanian", "Papua New Guinean", "Paraguayan", "Peruvian", "Polish", "Portuguese", "Qatari", "Romanian", "Russian", "Rwandan", "Saint Lucian", "Salvadoran", "Samoan", "San Marinese", "Sao Tomean", "Saudi", "Scottish", "Senegalese", "Serbian", "Seychellois", "Sierra Leonean", "Singaporean", "Slovakian", "Slovenian", "Solomon Islander", "Somali", "South African", "South Korean", "Spanish", "Sri Lankan", "Sudanese", "Surinamer", "Swazi", "Swedish", "Swiss", "Syrian", "Taiwanese", "Tajik", "Tanzanian", "Thai", "Togolese", "Tongan", "Trinidadian", "Tunisian", "Turkish", "Tuvaluan", "Ugandan", "Ukrainian", "Uruguayan", "Uzbekistani", "Venezuelan", "Vietnamese", "Welsh", "Yemenite", "Zambian", "Zimbabwean"];
 
+// Define yacht experience entry type
+interface YachtExperience {
+  id: string;
+  yachtName: string;
+  position: string;
+  yachtType: 'Charter' | 'Private';
+  crewCount: number;
+  startDate: string;
+  endDate: string;
+  rotationSchedule?: string;
+  roleType: 'Full-Time' | 'Part-Time' | 'Rotational';
+  yachtSizeCategory?: string;
+  durationMonths?: number;
+}
 
 export default function FairShareJoin() {
   const [selectedYachtSize, setSelectedYachtSize] = useState<string>("");
@@ -315,6 +329,10 @@ export default function FairShareJoin() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
   
+  // Yacht experience state
+  const [yachtExperiences, setYachtExperiences] = useState<YachtExperience[]>([]);
+  const [showAddForm, setShowAddForm] = useState<'Full-Time' | 'Part-Time' | 'Rotational' | null>(null);
+  const [newExperience, setNewExperience] = useState<Partial<YachtExperience>>({});
   
   // Navigation experience state
   const [navigationExperience, setNavigationExperience] = useState<{
@@ -445,6 +463,70 @@ export default function FairShareJoin() {
     return filtered;
   };
 
+  // Yacht experience functions
+  const addYachtExperience = (type: 'Full-Time' | 'Part-Time' | 'Rotational') => {
+    setShowAddForm(type);
+    setNewExperience({ roleType: type });
+  };
+
+  const saveYachtExperience = () => {
+    if (!newExperience.yachtName || !newExperience.position || !newExperience.yachtType || 
+        !newExperience.crewCount || !newExperience.startDate || !newExperience.endDate) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const startDate = new Date(newExperience.startDate!);
+    const endDate = new Date(newExperience.endDate!);
+    const durationMonths = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
+
+    const experience: YachtExperience = {
+      id: Date.now().toString(),
+      yachtName: newExperience.yachtName!,
+      position: newExperience.position!,
+      yachtType: newExperience.yachtType!,
+      crewCount: newExperience.crewCount!,
+      startDate: newExperience.startDate!,
+      endDate: newExperience.endDate!,
+      rotationSchedule: newExperience.rotationSchedule,
+      roleType: newExperience.roleType!,
+      durationMonths
+    };
+
+    setYachtExperiences([...yachtExperiences, experience]);
+    setShowAddForm(null);
+    setNewExperience({});
+    
+    toast({
+      title: "Experience Added",
+      description: `${experience.roleType} position on ${experience.yachtName} has been added`,
+    });
+  };
+
+  const removeYachtExperience = (id: string) => {
+    setYachtExperiences(yachtExperiences.filter(exp => exp.id !== id));
+  };
+
+  // Calculate experience summary
+  const experienceSummary = {
+    fullTime: yachtExperiences.filter(exp => exp.roleType === 'Full-Time'),
+    partTime: yachtExperiences.filter(exp => exp.roleType === 'Part-Time'),
+    rotational: yachtExperiences.filter(exp => exp.roleType === 'Rotational'),
+    avgCrewSize: yachtExperiences.length > 0 ? 
+      Math.round(yachtExperiences.reduce((sum, exp) => sum + exp.crewCount, 0) / yachtExperiences.length) : 0,
+    charterCount: yachtExperiences.filter(exp => exp.yachtType === 'Charter').length,
+    privateCount: yachtExperiences.filter(exp => exp.yachtType === 'Private').length
+  };
+
+  const getAvgDuration = (experiences: YachtExperience[], inWeeks = false) => {
+    if (experiences.length === 0) return 0;
+    const avgMonths = experiences.reduce((sum, exp) => sum + (exp.durationMonths || 0), 0) / experiences.length;
+    return inWeeks ? Math.round(avgMonths * 4.33) : Math.round(avgMonths * 10) / 10;
+  };
 
   // Calculate completion progress
   const totalPrerequisites = requiredPrerequisites.length;
@@ -979,6 +1061,358 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
+              {/* Crew Experience & Longevity Tracker */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Crew Experience & Longevity Tracker
+                  </CardTitle>
+                  <CardDescription>
+                    Track your detailed work history across all yacht positions to calculate your CRI+ score
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Full-Time Positions */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">⛵ Full-Time Positions</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => addYachtExperience('Full-Time')}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Full-Time Position
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Permanent roles with standard employment contracts
+                    </div>
+                    
+                    {/* Full-time position entries */}
+                    {experienceSummary.fullTime.length === 0 ? (
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-muted-foreground">No full-time positions added yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click "Add Full-Time Position" to get started</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {experienceSummary.fullTime.map((exp) => (
+                          <Card key={exp.id} className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-semibold">{exp.yachtName}</h4>
+                                <p className="text-sm text-muted-foreground">{exp.position} | {exp.yachtType} | {exp.crewCount} crew</p>
+                                <p className="text-xs text-muted-foreground">{exp.startDate} to {exp.endDate} ({exp.durationMonths} months)</p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeYachtExperience(exp.id)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Part-Time / Temp Positions */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">⏰ Part-Time / Temp Positions</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => addYachtExperience('Part-Time')}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Temp Position
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Short-term roles, freelance work, or fill-in positions
+                    </div>
+                    
+                    {experienceSummary.partTime.length === 0 ? (
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <Clock className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-muted-foreground">No temp positions added yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click "Add Temp Position" to get started</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {experienceSummary.partTime.map((exp) => (
+                          <Card key={exp.id} className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-semibold">{exp.yachtName}</h4>
+                                <p className="text-sm text-muted-foreground">{exp.position} | {exp.yachtType} | {exp.crewCount} crew</p>
+                                <p className="text-xs text-muted-foreground">{exp.startDate} to {exp.endDate} ({Math.round((exp.durationMonths || 0) * 4.33)} weeks)</p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeYachtExperience(exp.id)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Rotational Positions */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">🔄 Rotational Positions</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => addYachtExperience('Rotational')}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Rotational Position
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Positions with scheduled rotation patterns (e.g., 2:1, 3:3, 10:10)
+                    </div>
+                    
+                    {experienceSummary.rotational.length === 0 ? (
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <RotateCcw className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-muted-foreground">No rotational positions added yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click "Add Rotational Position" to get started</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {experienceSummary.rotational.map((exp) => (
+                          <Card key={exp.id} className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-semibold">{exp.yachtName}</h4>
+                                <p className="text-sm text-muted-foreground">{exp.position} | {exp.yachtType} | {exp.crewCount} crew</p>
+                                <p className="text-xs text-muted-foreground">
+                                  {exp.startDate} to {exp.endDate} ({exp.durationMonths} months)
+                                  {exp.rotationSchedule && ` | ${exp.rotationSchedule} rotation`}
+                                </p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeYachtExperience(exp.id)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Real-Time Summary Panel */}
+                  <Card className="bg-muted/50">
+                    <CardHeader>
+                      <CardTitle className="text-lg">📊 Experience Summary</CardTitle>
+                      <CardDescription>Auto-calculated metrics for your CRI+ score</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-background rounded-lg">
+                          <div className="text-2xl font-bold text-blue-600">{experienceSummary.fullTime.length}</div>
+                          <div className="text-sm text-muted-foreground">Full-Time Roles</div>
+                          <div className="text-xs text-muted-foreground">Avg: {getAvgDuration(experienceSummary.fullTime)} months</div>
+                        </div>
+                        <div className="text-center p-4 bg-background rounded-lg">
+                          <div className="text-2xl font-bold text-orange-600">{experienceSummary.partTime.length}</div>
+                          <div className="text-sm text-muted-foreground">Temp Positions</div>
+                          <div className="text-xs text-muted-foreground">Avg: {getAvgDuration(experienceSummary.partTime, true)} weeks</div>
+                        </div>
+                        <div className="text-center p-4 bg-background rounded-lg">
+                          <div className="text-2xl font-bold text-green-600">{experienceSummary.rotational.length}</div>
+                          <div className="text-sm text-muted-foreground">Rotational Roles</div>
+                          <div className="text-xs text-muted-foreground">Avg: {getAvgDuration(experienceSummary.rotational)} months</div>
+                        </div>
+                      </div>
+                      <div className="mt-4 pt-4 border-t">
+                        <div className="flex justify-between text-sm">
+                          <span>Average Crew Size:</span>
+                          <span className="font-medium">{experienceSummary.avgCrewSize}</span>
+                        </div>
+                        <div className="flex justify-between text-sm mt-1">
+                          <span>Charter vs Private:</span>
+                          <span className="font-medium">{experienceSummary.charterCount} Charter | {experienceSummary.privateCount} Private</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Yacht Experience Form Dialog */}
+                  {showAddForm && (
+                    <Card className="border-2 border-primary">
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          <span>Add {showAddForm} Position</span>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => setShowAddForm(null)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </CardTitle>
+                        <CardDescription>
+                          Enter details for your {showAddForm.toLowerCase()} yacht position
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {/* Yacht Size Selection */}
+                        <div>
+                          <Label htmlFor="formYachtSize">Yacht Size (GRT) *</Label>
+                          <Select 
+                            value={newExperience.yachtSizeCategory || ''} 
+                            onValueChange={(value) => setNewExperience({...newExperience, yachtSizeCategory: value, position: ''})}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select yacht size category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="<200 GRT">⚪ &lt;200 GRT (Small yachts)</SelectItem>
+                              <SelectItem value="<500 GRT">⚫ &lt;500 GRT (Medium to large yachts)</SelectItem>
+                              <SelectItem value="<3000 GRT">⚫ &lt;3000 GRT (Large commercial yachts)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="yachtName">Yacht Name *</Label>
+                            <Input
+                              id="yachtName"
+                              placeholder="e.g., M/Y Eclipse"
+                              value={newExperience.yachtName || ''}
+                              onChange={(e) => setNewExperience({...newExperience, yachtName: e.target.value})}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="position">Position Held *</Label>
+                            <Select value={newExperience.position || ''} onValueChange={(value) => setNewExperience({...newExperience, position: value})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select position" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {newExperience.yachtSizeCategory && positionsByVesselSize[newExperience.yachtSizeCategory as keyof typeof positionsByVesselSize] && 
+                                  Object.entries(positionsByVesselSize[newExperience.yachtSizeCategory as keyof typeof positionsByVesselSize]).map(([department, positions]) => (
+                                    <div key={department}>
+                                      <div className="px-2 py-1.5 text-sm font-semibold text-muted-foreground">{department}</div>
+                                      {(positions as string[]).map((pos) => (
+                                        <SelectItem key={pos} value={pos} className="pl-6">{pos}</SelectItem>
+                                      ))}
+                                    </div>
+                                  ))
+                                }
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="yachtType">Yacht Type *</Label>
+                            <Select value={newExperience.yachtType || ''} onValueChange={(value) => setNewExperience({...newExperience, yachtType: value as 'Charter' | 'Private'})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Charter">⛵ Charter</SelectItem>
+                                <SelectItem value="Private">🛥 Private</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor="crewCount">Number of Crew Onboard *</Label>
+                            <Input
+                              id="crewCount"
+                              type="number"
+                              min="1"
+                              placeholder="e.g., 12"
+                              value={newExperience.crewCount || ''}
+                              onChange={(e) => setNewExperience({...newExperience, crewCount: parseInt(e.target.value)})}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="startDate">Start Date *</Label>
+                            <Input
+                              id="startDate"
+                              type="date"
+                              value={newExperience.startDate || ''}
+                              onChange={(e) => setNewExperience({...newExperience, startDate: e.target.value})}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="endDate">End Date *</Label>
+                            <Input
+                              id="endDate"
+                              type="date"
+                              value={newExperience.endDate || ''}
+                              onChange={(e) => setNewExperience({...newExperience, endDate: e.target.value})}
+                            />
+                          </div>
+                        </div>
+
+                        {showAddForm === 'Rotational' && (
+                          <div>
+                            <Label htmlFor="rotationSchedule">Rotation Schedule</Label>
+                            <Select value={newExperience.rotationSchedule || ''} onValueChange={(value) => setNewExperience({...newExperience, rotationSchedule: value})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select rotation pattern" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="2:1">2:1 (2 months on, 1 month off)</SelectItem>
+                                <SelectItem value="3:3">3:3 (3 months on, 3 months off)</SelectItem>
+                                <SelectItem value="4:2">4:2 (4 months on, 2 months off)</SelectItem>
+                                <SelectItem value="6:6">6:6 (6 months on, 6 months off)</SelectItem>
+                                <SelectItem value="10:10">10:10 (10 weeks on, 10 weeks off)</SelectItem>
+                                <SelectItem value="Custom">Custom Schedule</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+
+                        <div className="flex justify-end gap-2 pt-4">
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            onClick={() => setShowAddForm(null)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button 
+                            type="button" 
+                            onClick={saveYachtExperience}
+                          >
+                            Save Position
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </CardContent>
+              </Card>
 
               {/* Global Navigation & Voyage Checklist */}
               <Card>
@@ -1300,6 +1734,211 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
+              {/* Experience Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Additional Experience Details
+                  </CardTitle>
+                  <CardDescription>
+                    Provide additional details about your yachting experience
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="totalYearsYachting"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Total Years in Yachting</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="numberOfYachts"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Number of Yachts Worked On</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="largestGRT"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Largest GRT Vessel Worked</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              placeholder="e.g., 3000"
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="seaMilesLogged"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Sea Miles Logged</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              placeholder="e.g., 50000"
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="atlanticCrossings"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Atlantic Crossings</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="mediterraneanCrossings"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mediterranean Crossings</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="suezTransits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Suez Canal Transits</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="panamaTransits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Panama Canal Transits</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              {...field} 
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="charterRevenue"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Approximate Charter Revenue Generated (USD)</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="number" 
+                            min="0" 
+                            placeholder="e.g., 500000"
+                            {...field} 
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="languagesSpoken"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Languages Spoken</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="e.g., English (Native), Spanish (Fluent), French (Conversational)"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
 
               {/* Legal Declaration */}
               <Card>
