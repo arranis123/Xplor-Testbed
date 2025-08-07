@@ -533,7 +533,7 @@ export default function FairShareJoin() {
                   {selectedYachtSize && <FormField control={form.control} name="positionAppliedFor" render={({
                   field
                 }) => <FormItem>
-                          <FormLabel>Position Applied For *</FormLabel>
+                          <FormLabel>Position *</FormLabel>
                           <Select onValueChange={handlePositionChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
