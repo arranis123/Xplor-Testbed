@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,14 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calculator, Award } from 'lucide-react';
+import { Calculator, Award, CheckCircle, AlertTriangle, Download } from 'lucide-react';
+import jsPDF from 'jspdf';
 
 interface FormData {
+  position: string;
+  crewName: string;
   yearsInYachting: string;
   seaMiles: string;
   contractsCompleted: string;
   stcwLevel: string;
   additionalCerts: string[];
+  requiredQualifications: string[];
   specializedTraining: string[];
   totalCharters: string;
   avgTipsPerCharter: string;
@@ -35,13 +39,44 @@ interface FormData {
   canalTransits: string[];
 }
 
+// Position and qualification data
+const positions = [
+  'Captain', 'Chief Officer', 'Second Officer', 'Bosun', 'Deckhand',
+  'Chief Engineer', 'Second Engineer', 'ETO', 'Assistant Engineer',
+  'Chief Steward(ess)', '2nd Steward(ess)', '3rd Steward(ess)',
+  'Chef', 'Sous Chef', 'Purser', 'Medic/Security', 'HLO (Helicopter Landing Officer)'
+];
+
+const positionQualifications: { [key: string]: string[] } = {
+  'Captain': ['STCW Basic Training', 'ENG1 Medical', 'Master 3000 GT CoC', 'GMDSS GOC', 'Advanced Fire Fighting', 'ECDIS Certification'],
+  'Chief Officer': ['STCW Basic Training', 'ENG1 Medical', 'Officer of the Watch 3000 GT', 'GMDSS GOC', 'Advanced Fire Fighting', 'ECDIS Certification'],
+  'Second Officer': ['STCW Basic Training', 'ENG1 Medical', 'Officer of the Watch 500 GT', 'GMDSS GOC', 'Basic Fire Fighting'],
+  'Bosun': ['STCW Basic Training', 'ENG1 Medical', 'Proficiency in Survival Craft', 'Basic Fire Fighting'],
+  'Deckhand': ['STCW Basic Training', 'ENG1 Medical', 'Basic Fire Fighting'],
+  'Chief Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Chief Engineer Motor 3000kW', 'Advanced Fire Fighting'],
+  'Second Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Second Engineer Motor 3000kW', 'Basic Fire Fighting'],
+  'ETO': ['STCW Basic Training', 'ENG1 Medical', 'Electro-Technical Officer Certificate', 'Basic Fire Fighting'],
+  'Assistant Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Marine Engineering Certificate', 'Basic Fire Fighting'],
+  'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'First Aid'],
+  '2nd Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 1', 'First Aid'],
+  '3rd Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 1'],
+  'Chef': ['STCW Basic Training', 'ENG1 Medical', 'Professional Chef Certificate', 'Food Safety Level 3'],
+  'Sous Chef': ['STCW Basic Training', 'ENG1 Medical', 'Professional Chef Certificate', 'Food Safety Level 2'],
+  'Purser': ['STCW Basic Training', 'ENG1 Medical', 'Ship Security Officer', 'Administration Certificate'],
+  'Medic/Security': ['STCW Basic Training', 'ENG1 Medical', 'Ship Security Officer', 'Medical Care Provider', 'First Aid'],
+  'HLO (Helicopter Landing Officer)': ['STCW Basic Training', 'ENG1 Medical', 'Helicopter Landing Officer Certificate', 'Basic Fire Fighting']
+};
+
 export const YCIScoringForm = () => {
   const [formData, setFormData] = useState<FormData>({
+    position: '',
+    crewName: '',
     yearsInYachting: '',
     seaMiles: '',
     contractsCompleted: '',
     stcwLevel: '',
     additionalCerts: [],
+    requiredQualifications: [],
     specializedTraining: [],
     totalCharters: '',
     avgTipsPerCharter: '',
@@ -65,6 +100,16 @@ export const YCIScoringForm = () => {
 
   const [calculatedScore, setCalculatedScore] = useState<number | null>(null);
   const [badge, setBadge] = useState<string>('');
+  const [positionRequirements, setPositionRequirements] = useState<string[]>([]);
+
+  // Update required qualifications when position changes
+  useEffect(() => {
+    if (formData.position && positionQualifications[formData.position]) {
+      setPositionRequirements(positionQualifications[formData.position]);
+    } else {
+      setPositionRequirements([]);
+    }
+  }, [formData.position]);
 
   const calculateScore = () => {
     let totalScore = 0;
@@ -81,8 +126,18 @@ export const YCIScoringForm = () => {
     // Qualifications & Training (20 points)
     const stcwPoints = formData.stcwLevel === 'advanced' ? 8 : formData.stcwLevel === 'basic' ? 4 : 0;
     totalScore += stcwPoints;
-    totalScore += formData.additionalCerts.length * 2; // Up to 6 points
-    totalScore += formData.specializedTraining.length * 2; // Up to 6 points
+    
+    // Position-based qualification score
+    if (positionRequirements.length > 0) {
+      const completedRequiredQuals = formData.requiredQualifications.length;
+      const totalRequiredQuals = positionRequirements.length;
+      const qualificationScore = (completedRequiredQuals / totalRequiredQuals) * 10;
+      totalScore += qualificationScore;
+    } else {
+      totalScore += formData.additionalCerts.length * 2; // Fallback to old system
+    }
+    
+    totalScore += formData.specializedTraining.length * 1; // Reduced from 2 to balance
 
     // Charter Performance (15 points)
     const charters = parseInt(formData.totalCharters) || 0;
@@ -167,6 +222,41 @@ export const YCIScoringForm = () => {
     }
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    
+    // Header
+    doc.setFontSize(20);
+    doc.text('YCI+ Crew Rating Report', 20, 30);
+    
+    // Crew details
+    doc.setFontSize(12);
+    doc.text(`Crew Name: ${formData.crewName || 'Not specified'}`, 20, 50);
+    doc.text(`Position: ${formData.position || 'Not specified'}`, 20, 60);
+    doc.text(`YCI+ Score: ${calculatedScore || 'Not calculated'}`, 20, 70);
+    doc.text(`Badge Level: ${badge || 'Not assigned'}`, 20, 80);
+    
+    // Required qualifications
+    if (positionRequirements.length > 0) {
+      doc.text('Required Qualifications:', 20, 100);
+      let yPos = 110;
+      positionRequirements.forEach((qual) => {
+        const status = formData.requiredQualifications.includes(qual) ? '✓' : '✗';
+        doc.text(`${status} ${qual}`, 25, yPos);
+        yPos += 10;
+      });
+      
+      const completedCount = formData.requiredQualifications.length;
+      const totalCount = positionRequirements.length;
+      doc.text(`Completed: ${completedCount}/${totalCount} required qualifications`, 20, yPos + 10);
+    }
+    
+    // Footer
+    doc.text('Generated by Xplor YCI+ System', 20, 270);
+    
+    doc.save(`YCI_Report_${formData.crewName || 'Crew'}.pdf`);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -176,6 +266,74 @@ export const YCIScoringForm = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-8">
+        {/* Position and Name */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold border-b pb-2">Crew Information</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="crewName">Crew Name</Label>
+              <Input
+                id="crewName"
+                value={formData.crewName}
+                onChange={(e) => setFormData(prev => ({ ...prev, crewName: e.target.value }))}
+                placeholder="Enter your name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="position">Position on Yacht</Label>
+              <Select value={formData.position} onValueChange={(value) => setFormData(prev => ({ ...prev, position: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select your position" />
+                </SelectTrigger>
+                <SelectContent>
+                  {positions.map((position) => (
+                    <SelectItem key={position} value={position}>{position}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        {/* Required Qualifications */}
+        {positionRequirements.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold border-b pb-2">Required Qualifications</h3>
+            <div className="border rounded-lg p-4 bg-muted/20">
+              <div className="space-y-3">
+                {positionRequirements.map((qualification) => (
+                  <div key={qualification} className="flex items-center space-x-3">
+                    <Checkbox
+                      id={qualification}
+                      checked={formData.requiredQualifications.includes(qualification)}
+                      onCheckedChange={(checked) => handleCheckboxChange(qualification, 'requiredQualifications', !!checked)}
+                    />
+                    <Label htmlFor={qualification} className="text-sm flex-1">{qualification}</Label>
+                    {formData.requiredQualifications.includes(qualification) && (
+                      <CheckCircle className="h-4 w-4 text-green-600" />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 p-3 rounded-md bg-background">
+                {formData.requiredQualifications.length === positionRequirements.length ? (
+                  <div className="flex items-center gap-2 text-green-600">
+                    <CheckCircle className="h-4 w-4" />
+                    <span className="text-sm font-medium">All required qualifications confirmed</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-amber-600">
+                    <AlertTriangle className="h-4 w-4" />
+                    <span className="text-sm font-medium">
+                      {positionRequirements.length - formData.requiredQualifications.length} required qualifications missing
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Experience & Longevity */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">Experience & Longevity (25 points)</h3>
@@ -381,6 +539,12 @@ export const YCIScoringForm = () => {
                   This score is based on the information you provided. For official verification, 
                   join the Xplor crew network.
                 </p>
+                {calculatedScore !== null && (
+                  <Button onClick={exportToPDF} variant="outline" className="mt-4">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export as PDF
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
