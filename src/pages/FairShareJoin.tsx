@@ -165,16 +165,16 @@ const globalQualifications = {
 
   // Certifications of Competency (CoCs)
   certificatesOfCompetency: {
-    "Under 200 GRT": [
+    "<200 GRT": [
       "RYA Yachtmaster Offshore", "Master <200GT", "OOW <200GT", "Engineer <200GT", 
       "MEOL (Y)", "AEC 1", "Chief Steward Certificate", "Chef Certificate"
     ],
-    "Under 500 GRT": [
+    "<500 GRT": [
       "Master <500GT", "Chief Mate <500GT", "OOW <500GT", "Chief Engineer <500GT",
       "Second Engineer <500GT", "MEOL (Y)", "AEC 1", "AEC 2", "ETO <500GT",
       "Chief Steward Certificate", "Purser Certificate", "Chef Certificate"
     ],
-    "Under 3000 GRT": [
+    "<3000 GRT": [
       "Master <3000GT", "Chief Mate <3000GT", "Second Mate <3000GT", "OOW <3000GT",
       "Chief Engineer <3000GT", "Second Engineer <3000GT", "Third Engineer <3000GT",
       "Y1 Engineer", "Y2 Engineer", "Y3 Engineer", "Y4 Engineer", "ETO <3000GT",
