@@ -949,9 +949,9 @@ export default function FairShareJoin() {
                               <SelectValue placeholder="Select yacht size category" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="<200 GRT">⚪ &lt;200 GRT (Small yachts)</SelectItem>
-                              <SelectItem value="<500 GRT">⚫ &lt;500 GRT (Medium to large yachts)</SelectItem>
-                              <SelectItem value="<3000 GRT">⚫ &lt;3000 GRT (Large commercial yachts)</SelectItem>
+                               <SelectItem value="Under 200 GRT">⚪ &lt;200 GRT (Small yachts)</SelectItem>
+                               <SelectItem value="Under 500 GRT">⚫ &lt;500 GRT (Medium to large yachts)</SelectItem>
+                               <SelectItem value="Under 3000 GRT">⚫ &lt;3000 GRT (Large commercial yachts)</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
