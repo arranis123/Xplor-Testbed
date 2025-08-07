@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Trophy, Star, Award, Target, TrendingUp, Eye, Lightbulb } from "lucide-react";
+import { differenceInYears, differenceInMonths, parseISO } from "date-fns";
 
 interface CRIScoreBreakdown {
   experience: number;
@@ -122,37 +123,63 @@ export function LiveCRIScoreTracker({
   const calculateExperience = (): number => {
     let score = 0;
     
-    // Debug logging
-    console.log("CRI+ Experience Calculation - Form Data:", {
-      totalYearsYachting: formData.totalYearsYachting,
-      longevityLastYacht: formData.longevityLastYacht,
-      numberOfYachts: formData.numberOfYachts,
-      largestGRT: formData.largestGRT
+    // Calculate total years from yacht experiences
+    let totalYears = 0;
+    let rotationalCount = 0;
+    let longTermCount = 0;
+    let grtCategories = new Set<string>();
+    
+    yachtExperiences.forEach(exp => {
+      if (exp.startDate && exp.endDate) {
+        try {
+          const start = parseISO(exp.startDate);
+          const end = parseISO(exp.endDate);
+          const months = differenceInMonths(end, start);
+          const years = months / 12;
+          totalYears += years;
+          
+          // Track rotational vs long-term
+          if (exp.roleType === 'Rotational' || months < 12) {
+            rotationalCount++;
+          } else if (months >= 12) {
+            longTermCount++;
+          }
+          
+          // Track GRT categories
+          if (exp.yachtSizeCategory) {
+            grtCategories.add(exp.yachtSizeCategory);
+          }
+        } catch (error) {
+          console.warn("Error parsing dates for experience:", exp);
+        }
+      }
+    });
+    
+    console.log("CRI+ Experience Calculation - Yacht Experiences:", {
+      totalYears: totalYears.toFixed(2),
+      rotationalCount,
+      longTermCount,
+      grtCategories: Array.from(grtCategories),
+      numberOfYachts: yachtExperiences.length
     });
     
     // +1 per full year yachting (max 10)
-    const years = formData.totalYearsYachting || 0;
-    score += Math.min(years, 10);
-    console.log("Years score:", Math.min(years, 10));
+    const yearsScore = Math.min(Math.floor(totalYears), 10);
+    score += yearsScore;
+    console.log("Years score:", yearsScore);
     
-    // +2 per rotational role (up to 2) - assuming if longevity < 12 months, it's rotational
-    const longevity = formData.longevityLastYacht || 0;
-    if (longevity < 12 && longevity > 0) {
-      score += Math.min(2, 2); // Up to 2 rotational roles
-      console.log("Rotational score added:", 2);
-    }
+    // +2 per rotational role (up to 2)
+    const rotationalScore = Math.min(rotationalCount * 2, 4);
+    score += rotationalScore;
+    console.log("Rotational score added:", rotationalScore);
     
     // +1 per yacht served over 12 months (up to 5)
-    if (longevity >= 12) {
-      const longTermScore = Math.min(Math.floor(longevity / 12), 5);
-      score += longTermScore;
-      console.log("Long-term score added:", longTermScore);
-    }
+    const longTermScore = Math.min(longTermCount, 5);
+    score += longTermScore;
+    console.log("Long-term score added:", longTermScore);
     
     // +1 for experience on 3+ GRT categories
-    const largestGRT = formData.largestGRT || 0;
-    const yachtCount = formData.numberOfYachts || 0;
-    if (yachtCount >= 3 && largestGRT > 0) {
+    if (grtCategories.size >= 3) {
       score += 1;
       console.log("GRT categories score added:", 1);
     }
