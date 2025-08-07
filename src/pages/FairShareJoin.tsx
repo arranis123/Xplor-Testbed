@@ -980,12 +980,35 @@ export default function FairShareJoin() {
                       Permanent roles with standard employment contracts
                     </div>
                     
-                    {/* Full-time position entries would go here */}
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-muted-foreground">No full-time positions added yet</p>
-                      <p className="text-sm text-muted-foreground mt-1">Click "Add Full-Time Position" to get started</p>
-                    </div>
+                    {/* Full-time position entries */}
+                    {experienceSummary.fullTime.length === 0 ? (
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-muted-foreground">No full-time positions added yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click "Add Full-Time Position" to get started</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {experienceSummary.fullTime.map((exp) => (
+                          <Card key={exp.id} className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-semibold">{exp.yachtName}</h4>
+                                <p className="text-sm text-muted-foreground">{exp.position} | {exp.yachtType} | {exp.crewCount} crew</p>
+                                <p className="text-xs text-muted-foreground">{exp.startDate} to {exp.endDate} ({exp.durationMonths} months)</p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeYachtExperience(exp.id)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Part-Time / Temp Positions */}
@@ -1006,11 +1029,34 @@ export default function FairShareJoin() {
                       Short-term roles, freelance work, or fill-in positions
                     </div>
                     
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <Clock className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-muted-foreground">No temp positions added yet</p>
-                      <p className="text-sm text-muted-foreground mt-1">Click "Add Temp Position" to get started</p>
-                    </div>
+                    {experienceSummary.partTime.length === 0 ? (
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <Clock className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-muted-foreground">No temp positions added yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click "Add Temp Position" to get started</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {experienceSummary.partTime.map((exp) => (
+                          <Card key={exp.id} className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-semibold">{exp.yachtName}</h4>
+                                <p className="text-sm text-muted-foreground">{exp.position} | {exp.yachtType} | {exp.crewCount} crew</p>
+                                <p className="text-xs text-muted-foreground">{exp.startDate} to {exp.endDate} ({Math.round((exp.durationMonths || 0) * 4.33)} weeks)</p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeYachtExperience(exp.id)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Rotational Positions */}
@@ -1031,11 +1077,37 @@ export default function FairShareJoin() {
                       Positions with scheduled rotation patterns (e.g., 2:1, 3:3, 10:10)
                     </div>
                     
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                      <RotateCcw className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-muted-foreground">No rotational positions added yet</p>
-                      <p className="text-sm text-muted-foreground mt-1">Click "Add Rotational Position" to get started</p>
-                    </div>
+                    {experienceSummary.rotational.length === 0 ? (
+                      <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                        <RotateCcw className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-muted-foreground">No rotational positions added yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click "Add Rotational Position" to get started</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {experienceSummary.rotational.map((exp) => (
+                          <Card key={exp.id} className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-semibold">{exp.yachtName}</h4>
+                                <p className="text-sm text-muted-foreground">{exp.position} | {exp.yachtType} | {exp.crewCount} crew</p>
+                                <p className="text-xs text-muted-foreground">
+                                  {exp.startDate} to {exp.endDate} ({exp.durationMonths} months)
+                                  {exp.rotationSchedule && ` | ${exp.rotationSchedule} rotation`}
+                                </p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeYachtExperience(exp.id)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Real-Time Summary Panel */}
@@ -1047,33 +1119,162 @@ export default function FairShareJoin() {
                     <CardContent>
                       <div className="grid md:grid-cols-3 gap-4">
                         <div className="text-center p-4 bg-background rounded-lg">
-                          <div className="text-2xl font-bold text-blue-600">0</div>
+                          <div className="text-2xl font-bold text-blue-600">{experienceSummary.fullTime.length}</div>
                           <div className="text-sm text-muted-foreground">Full-Time Roles</div>
-                          <div className="text-xs text-muted-foreground">Avg: 0 months</div>
+                          <div className="text-xs text-muted-foreground">Avg: {getAvgDuration(experienceSummary.fullTime)} months</div>
                         </div>
                         <div className="text-center p-4 bg-background rounded-lg">
-                          <div className="text-2xl font-bold text-orange-600">0</div>
+                          <div className="text-2xl font-bold text-orange-600">{experienceSummary.partTime.length}</div>
                           <div className="text-sm text-muted-foreground">Temp Positions</div>
-                          <div className="text-xs text-muted-foreground">Avg: 0 weeks</div>
+                          <div className="text-xs text-muted-foreground">Avg: {getAvgDuration(experienceSummary.partTime, true)} weeks</div>
                         </div>
                         <div className="text-center p-4 bg-background rounded-lg">
-                          <div className="text-2xl font-bold text-green-600">0</div>
+                          <div className="text-2xl font-bold text-green-600">{experienceSummary.rotational.length}</div>
                           <div className="text-sm text-muted-foreground">Rotational Roles</div>
-                          <div className="text-xs text-muted-foreground">Avg: 0 months</div>
+                          <div className="text-xs text-muted-foreground">Avg: {getAvgDuration(experienceSummary.rotational)} months</div>
                         </div>
                       </div>
                       <div className="mt-4 pt-4 border-t">
                         <div className="flex justify-between text-sm">
                           <span>Average Crew Size:</span>
-                          <span className="font-medium">0</span>
+                          <span className="font-medium">{experienceSummary.avgCrewSize}</span>
                         </div>
                         <div className="flex justify-between text-sm mt-1">
                           <span>Charter vs Private:</span>
-                          <span className="font-medium">0 Charter | 0 Private</span>
+                          <span className="font-medium">{experienceSummary.charterCount} Charter | {experienceSummary.privateCount} Private</span>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
+
+                  {/* Yacht Experience Form Dialog */}
+                  {showAddForm && (
+                    <Card className="border-2 border-primary">
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          <span>Add {showAddForm} Position</span>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => setShowAddForm(null)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </CardTitle>
+                        <CardDescription>
+                          Enter details for your {showAddForm.toLowerCase()} yacht position
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="yachtName">Yacht Name *</Label>
+                            <Input
+                              id="yachtName"
+                              placeholder="e.g., M/Y Eclipse"
+                              value={newExperience.yachtName || ''}
+                              onChange={(e) => setNewExperience({...newExperience, yachtName: e.target.value})}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="position">Position Held *</Label>
+                            <Select value={newExperience.position || ''} onValueChange={(value) => setNewExperience({...newExperience, position: value})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select position" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {selectedYachtSize && positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize]?.map((pos) => (
+                                  <SelectItem key={pos} value={pos}>{pos}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="yachtType">Yacht Type *</Label>
+                            <Select value={newExperience.yachtType || ''} onValueChange={(value) => setNewExperience({...newExperience, yachtType: value as 'Charter' | 'Private'})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Charter">⛵ Charter</SelectItem>
+                                <SelectItem value="Private">🛥 Private</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor="crewCount">Number of Crew Onboard *</Label>
+                            <Input
+                              id="crewCount"
+                              type="number"
+                              min="1"
+                              placeholder="e.g., 12"
+                              value={newExperience.crewCount || ''}
+                              onChange={(e) => setNewExperience({...newExperience, crewCount: parseInt(e.target.value)})}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="startDate">Start Date *</Label>
+                            <Input
+                              id="startDate"
+                              type="date"
+                              value={newExperience.startDate || ''}
+                              onChange={(e) => setNewExperience({...newExperience, startDate: e.target.value})}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="endDate">End Date *</Label>
+                            <Input
+                              id="endDate"
+                              type="date"
+                              value={newExperience.endDate || ''}
+                              onChange={(e) => setNewExperience({...newExperience, endDate: e.target.value})}
+                            />
+                          </div>
+                        </div>
+
+                        {showAddForm === 'Rotational' && (
+                          <div>
+                            <Label htmlFor="rotationSchedule">Rotation Schedule</Label>
+                            <Select value={newExperience.rotationSchedule || ''} onValueChange={(value) => setNewExperience({...newExperience, rotationSchedule: value})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select rotation pattern" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="2:1">2:1 (2 months on, 1 month off)</SelectItem>
+                                <SelectItem value="3:3">3:3 (3 months on, 3 months off)</SelectItem>
+                                <SelectItem value="4:2">4:2 (4 months on, 2 months off)</SelectItem>
+                                <SelectItem value="6:6">6:6 (6 months on, 6 months off)</SelectItem>
+                                <SelectItem value="10:10">10:10 (10 weeks on, 10 weeks off)</SelectItem>
+                                <SelectItem value="Custom">Custom Schedule</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+
+                        <div className="flex justify-end gap-2 pt-4">
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            onClick={() => setShowAddForm(null)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button 
+                            type="button" 
+                            onClick={saveYachtExperience}
+                          >
+                            Save Position
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                 </CardContent>
               </Card>
 
