@@ -234,6 +234,11 @@ export default function FairShareJoin() {
   const [showAddForm, setShowAddForm] = useState<'Full-Time' | 'Part-Time' | 'Rotational' | null>(null);
   const [newExperience, setNewExperience] = useState<Partial<YachtExperience>>({});
   
+  // Navigation experience state
+  const [navigationExperience, setNavigationExperience] = useState<{
+    [key: string]: { checked: boolean; year?: string; documentation?: File; }
+  }>({});
+  
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
     mandatoryAll: true,
     prerequisites: true,
@@ -1275,6 +1280,326 @@ export default function FairShareJoin() {
                       </CardContent>
                     </Card>
                   )}
+                </CardContent>
+              </Card>
+
+              {/* Global Navigation & Voyage Checklist */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe className="h-5 w-5" />
+                    Navigated Waters & Significant Voyages
+                  </CardTitle>
+                  <CardDescription>
+                    Claim all oceans, seas, and significant yacht passages you've navigated to enhance your CRI+ score
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Major Oceans */}
+                  <Collapsible>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-muted rounded-lg hover:bg-muted/80">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <span className="font-medium">🌊 Major Oceans</span>
+                      </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3 space-y-2">
+                      {['Atlantic Ocean', 'Pacific Ocean', 'Indian Ocean', 'Arctic Ocean', 'Southern Ocean'].map((ocean) => (
+                        <div key={ocean} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={navigationExperience[ocean]?.checked || false}
+                              onCheckedChange={(checked) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [ocean]: { ...prev[ocean], checked: !!checked }
+                                }))
+                              }
+                            />
+                            <span>{ocean}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="text"
+                              placeholder="YYYY"
+                              className="w-20"
+                              value={navigationExperience[ocean]?.year || ''}
+                              onChange={(e) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [ocean]: { ...prev[ocean], year: e.target.value }
+                                }))
+                              }
+                            />
+                            <Button variant="outline" size="sm">
+                              <Upload className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Notable Seas */}
+                  <Collapsible>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-muted rounded-lg hover:bg-muted/80">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-emerald-500 rounded-full"></div>
+                        <span className="font-medium">🗺 Notable Seas (Mediterranean & Europe)</span>
+                      </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3 space-y-2">
+                      {['Mediterranean Sea', 'Adriatic Sea', 'Aegean Sea', 'Ionian Sea', 'North Sea', 'Baltic Sea', 'English Channel'].map((sea) => (
+                        <div key={sea} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={navigationExperience[sea]?.checked || false}
+                              onCheckedChange={(checked) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [sea]: { ...prev[sea], checked: !!checked }
+                                }))
+                              }
+                            />
+                            <span>{sea}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="text"
+                              placeholder="YYYY"
+                              className="w-20"
+                              value={navigationExperience[sea]?.year || ''}
+                              onChange={(e) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [sea]: { ...prev[sea], year: e.target.value }
+                                }))
+                              }
+                            />
+                            <Button variant="outline" size="sm">
+                              <Upload className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Caribbean & Americas */}
+                  <Collapsible>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-muted rounded-lg hover:bg-muted/80">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-cyan-500 rounded-full"></div>
+                        <span className="font-medium">🏝 Caribbean & Americas</span>
+                      </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3 space-y-2">
+                      {['Caribbean Sea', 'Gulf of Mexico', 'Bahamas Banks', 'Florida Straits'].map((region) => (
+                        <div key={region} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={navigationExperience[region]?.checked || false}
+                              onCheckedChange={(checked) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [region]: { ...prev[region], checked: !!checked }
+                                }))
+                              }
+                            />
+                            <span>{region}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="text"
+                              placeholder="YYYY"
+                              className="w-20"
+                              value={navigationExperience[region]?.year || ''}
+                              onChange={(e) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [region]: { ...prev[region], year: e.target.value }
+                                }))
+                              }
+                            />
+                            <Button variant="outline" size="sm">
+                              <Upload className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Canal & Strategic Passages */}
+                  <Collapsible>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-muted rounded-lg hover:bg-muted/80">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        <span className="font-medium">🚢 Canal & Strategic Passages</span>
+                      </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3 space-y-2">
+                      {['Panama Canal', 'Suez Canal', 'Corinth Canal', 'Kiel Canal', 'Strait of Magellan', 'Beagle Channel'].map((passage) => (
+                        <div key={passage} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={navigationExperience[passage]?.checked || false}
+                              onCheckedChange={(checked) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [passage]: { ...prev[passage], checked: !!checked }
+                                }))
+                              }
+                            />
+                            <span>{passage}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="text"
+                              placeholder="YYYY"
+                              className="w-20"
+                              value={navigationExperience[passage]?.year || ''}
+                              onChange={(e) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [passage]: { ...prev[passage], year: e.target.value }
+                                }))
+                              }
+                            />
+                            <Button variant="outline" size="sm">
+                              <Upload className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Polar & Expedition Areas */}
+                  <Collapsible>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-muted rounded-lg hover:bg-muted/80">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-gray-200 rounded-full border border-gray-400"></div>
+                        <span className="font-medium">❄️ Polar & Expedition Areas</span>
+                      </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3 space-y-2">
+                      {['Antarctic Peninsula', 'Ross Sea', 'Svalbard / Spitsbergen', 'Greenland Coast', 'Arctic Circle'].map((polar) => (
+                        <div key={polar} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={navigationExperience[polar]?.checked || false}
+                              onCheckedChange={(checked) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [polar]: { ...prev[polar], checked: !!checked }
+                                }))
+                              }
+                            />
+                            <span>{polar}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="text"
+                              placeholder="YYYY"
+                              className="w-20"
+                              value={navigationExperience[polar]?.year || ''}
+                              onChange={(e) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [polar]: { ...prev[polar], year: e.target.value }
+                                }))
+                              }
+                            />
+                            <Button variant="outline" size="sm">
+                              <Upload className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Major Yacht Voyages */}
+                  <Collapsible>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-muted rounded-lg hover:bg-muted/80">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
+                        <span className="font-medium">⛵ Significant Yacht Voyages</span>
+                      </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-3 space-y-2">
+                      {['Atlantic Crossing (West to East)', 'Atlantic Crossing (East to West)', 'Pacific Crossing', 'Indian Ocean Crossing', 'Full Circumnavigation', 'Trans-Canal Delivery'].map((voyage) => (
+                        <div key={voyage} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={navigationExperience[voyage]?.checked || false}
+                              onCheckedChange={(checked) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [voyage]: { ...prev[voyage], checked: !!checked }
+                                }))
+                              }
+                            />
+                            <span>{voyage}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="text"
+                              placeholder="YYYY"
+                              className="w-20"
+                              value={navigationExperience[voyage]?.year || ''}
+                              onChange={(e) => 
+                                setNavigationExperience(prev => ({
+                                  ...prev,
+                                  [voyage]: { ...prev[voyage], year: e.target.value }
+                                }))
+                              }
+                            />
+                            <Button variant="outline" size="sm">
+                              <Upload className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  {/* Global Experience Summary */}
+                  <div className="bg-muted/50 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Globe className="h-4 w-4" />
+                      🌐 Global Experience Summary
+                    </h4>
+                    <div className="grid md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-medium">Total Regions Claimed: </span>
+                        <span className="text-primary font-semibold">
+                          {Object.values(navigationExperience).filter(exp => exp.checked).length}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="font-medium">Oceans: </span>
+                        <span className="text-blue-600 font-semibold">
+                          {['Atlantic Ocean', 'Pacific Ocean', 'Indian Ocean', 'Arctic Ocean', 'Southern Ocean']
+                            .filter(ocean => navigationExperience[ocean]?.checked).length}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="font-medium">Canal Passages: </span>
+                        <span className="text-yellow-600 font-semibold">
+                          {['Panama Canal', 'Suez Canal', 'Corinth Canal', 'Kiel Canal', 'Strait of Magellan', 'Beagle Channel']
+                            .filter(canal => navigationExperience[canal]?.checked).length}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
 
