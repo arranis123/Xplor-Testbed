@@ -22,6 +22,7 @@ const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Valid email is required"),
   currentVessel: z.string().optional(),
+  yachtSizeCategory: z.string().min(1, "Yacht size category is required"),
   positionAppliedFor: z.string().min(1, "Position is required"),
   primaryDepartment: z.string().min(1, "Department is required"),
   highestQualification: z.string().min(1, "Highest qualification is required"),
@@ -50,32 +51,57 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-// Qualification matrix
-const qualificationMatrix: { [position: string]: string[] } = {
-  'Captain': ['STCW Basic Training', 'ENG1 Medical', 'Master 3000 GT CoC', 'GMDSS GOC', 'ECDIS Certification', 'Advanced Fire Fighting', 'Ship Security Officer'],
-  'Chief Officer': ['STCW Basic Training', 'ENG1 Medical', 'Officer of the Watch 3000 GT', 'GMDSS GOC', 'ECDIS Certification', 'Advanced Fire Fighting'],
-  'Second Officer': ['STCW Basic Training', 'ENG1 Medical', 'Officer of the Watch 500 GT', 'GMDSS GOC', 'Basic Fire Fighting'],
-  'Bosun': ['STCW Basic Training', 'ENG1 Medical', 'Proficiency in Survival Craft', 'Advanced Fire Fighting'],
-  'Deckhand': ['STCW Basic Training', 'ENG1 Medical', 'Basic Fire Fighting'],
-  'Chief Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Chief Engineer Motor 3000kW', 'Advanced Fire Fighting'],
-  'Second Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Second Engineer Motor 3000kW', 'Basic Fire Fighting'],
-  'ETO': ['STCW Basic Training', 'ENG1 Medical', 'Electro-Technical Officer Certificate', 'Basic Fire Fighting'],
-  'Assistant Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Basic Fire Fighting'],
-  'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'First Aid', 'Ship Security Awareness'],
-  '2nd Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 1', 'First Aid'],
-  '3rd Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 1'],
-  'Chef': ['STCW Basic Training', 'ENG1 Medical', 'Professional Chef Certificate', 'Food Safety Level 3'],
-  'Sous Chef': ['STCW Basic Training', 'ENG1 Medical', 'Professional Chef Certificate', 'Food Safety Level 2'],
-  'Purser': ['STCW Basic Training', 'ENG1 Medical', 'Ship Security Officer', 'Administration Certificate'],
-  'Medic/Security': ['STCW Basic Training', 'ENG1 Medical', 'Ship Security Officer', 'Medical Care Provider', 'First Aid'],
-  'HLO (Helicopter Landing Officer)': ['STCW Basic Training', 'ENG1 Medical', 'Helicopter Landing Officer Certificate', 'Aviation Fuel Handling']
+// Dynamic qualification matrix by vessel size and position
+const qualificationMatrix = {
+  "Under 200 GRT": {
+    Captain: ['STCW Basic Training', 'ENG1 Medical', 'RYA Yachtmaster Offshore', 'VHF Radio License', 'Basic Fire Fighting'],
+    'First Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'VHF Radio License', 'Basic Fire Fighting'],
+    Bosun: ['STCW Basic Training', 'ENG1 Medical', 'PWC License', 'Basic Fire Fighting'],
+    Deckhand: ['STCW Basic Training', 'ENG1 Medical', 'RYA Powerboat Level 2'],
+    Engineer: ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'Basic Fire Fighting'],
+    'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'First Aid'],
+    'Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 1'],
+    Chef: ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'Professional Chef Certificate']
+  },
+  "Under 500 GRT": {
+    Captain: ['STCW Basic Training', 'ENG1 Medical', 'Master <500GT CoC', 'GMDSS GOC', 'Advanced Fire Fighting', 'HELM Course'],
+    'Chief Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'GMDSS GOC', 'Advanced Fire Fighting'],
+    'Second Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'VHF Radio License', 'Basic Fire Fighting'],
+    Bosun: ['STCW Basic Training', 'ENG1 Medical', 'PWC License', 'PDSD', 'Advanced Fire Fighting'],
+    Deckhand: ['STCW Basic Training', 'ENG1 Medical', 'RYA Powerboat Level 2', 'PWC License'],
+    'Chief Engineer': ['STCW Basic Training', 'ENG1 Medical', 'MEOL (Y)', 'AEC 1', 'AEC 2', 'Advanced Fire Fighting'],
+    'Second Engineer': ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'AEC 2', 'Basic Fire Fighting'],
+    'Assistant Engineer': ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'Basic Fire Fighting'],
+    'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 2', 'GUEST Course', 'First Aid'],
+    'Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'GUEST Course', 'Food Safety Level 1'],
+    Chef: ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 3', 'Professional Chef Certificate'],
+    Purser: ['STCW Basic Training', 'ENG1 Medical', 'Administration Certificate', 'First Aid']
+  },
+  "Under 3000 GRT": {
+    Captain: ['STCW Basic Training', 'ENG1 Medical', 'Master <3000GT CoC', 'GMDSS GOC', 'ECDIS', 'Advanced Fire Fighting', 'HELM Course', 'Ship Security Officer'],
+    'Chief Officer': ['STCW Basic Training', 'ENG1 Medical', 'Chief Mate <3000GT', 'GMDSS GOC', 'ECDIS', 'Advanced Fire Fighting'],
+    'Second Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <3000GT', 'GMDSS GOC', 'ECDIS', 'Advanced Fire Fighting'],
+    'Third Officer': ['STCW Basic Training', 'ENG1 Medical', 'OOW <500GT', 'GMDSS GOC', 'Basic Fire Fighting'],
+    Bosun: ['STCW Basic Training', 'ENG1 Medical', 'Yacht Rating Certificate', 'PDSD', 'Advanced Fire Fighting'],
+    Deckhand: ['STCW Basic Training', 'ENG1 Medical', 'Yacht Rating Certificate', 'PWC License'],
+    'Chief Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Y3/Y4 CoC', 'HV Certificate', 'AEC 1', 'AEC 2', 'STCW Advanced Fire Fighting'],
+    'Second Engineer': ['STCW Basic Training', 'ENG1 Medical', 'Y4 CoC', 'AEC 1', 'AEC 2', 'Advanced Fire Fighting'],
+    'Third Engineer': ['STCW Basic Training', 'ENG1 Medical', 'AEC 1', 'AEC 2', 'Basic Fire Fighting'],
+    ETO: ['STCW Basic Training', 'ENG1 Medical', 'ETO CoC', 'AV/IT Certificates', 'Basic Fire Fighting'],
+    'Chief Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'Food Safety Level 3', 'WSET Level 2-3', 'GUEST Course', 'First Aid'],
+    'Steward(ess)': ['STCW Basic Training', 'ENG1 Medical', 'WSET Level 1', 'GUEST Course', 'Food Safety Level 1'],
+    Chef: ['STCW Basic Training', 'ENG1 Medical', 'Culinary Diploma', 'HACCP', 'Food Safety Level 3'],
+    'Sous Chef': ['STCW Basic Training', 'ENG1 Medical', 'Professional Chef Certificate', 'Food Safety Level 2'],
+    Purser: ['STCW Basic Training', 'ENG1 Medical', 'Purser Certificate', 'Administration & Accounting', 'First Aid'],
+    'HLO (Helicopter Landing Officer)': ['STCW Basic Training', 'ENG1 Medical', 'HLO Certificate', 'Aviation Fuel Handling', 'Advanced Fire Fighting']
+  }
 };
 
-const positions = Object.keys(qualificationMatrix);
-const departments = ['Deck', 'Engineering', 'Interior', 'Hospitality', 'AVIT', 'Specialist'];
+const departments = ['Deck', 'Engineering', 'Interior', 'AV/IT', 'Wellness', 'Hospitality', 'Aviation'];
 const vesselSizes = ['Under 200 GRT', 'Under 500 GRT', 'Under 3000 GRT'];
 
 export default function FairShareJoin() {
+  const [selectedYachtSize, setSelectedYachtSize] = useState<string>("");
   const [selectedPosition, setSelectedPosition] = useState<string>("");
   const [certificationStatus, setCertificationStatus] = useState<{ [key: string]: 'valid' | 'invalid' | 'pending' }>({});
   const [showTerms, setShowTerms] = useState(false);
@@ -86,6 +112,7 @@ export default function FairShareJoin() {
       fullName: "",
       email: "",
       currentVessel: "",
+      yachtSizeCategory: "",
       positionAppliedFor: "",
       primaryDepartment: "",
       highestQualification: "",
@@ -121,6 +148,15 @@ export default function FairShareJoin() {
     });
   };
 
+  const handleYachtSizeChange = (size: string) => {
+    setSelectedYachtSize(size);
+    form.setValue("yachtSizeCategory", size);
+    // Reset position and certification status when yacht size changes
+    setSelectedPosition("");
+    form.setValue("positionAppliedFor", "");
+    setCertificationStatus({});
+  };
+
   const handlePositionChange = (position: string) => {
     setSelectedPosition(position);
     form.setValue("positionAppliedFor", position);
@@ -132,14 +168,23 @@ export default function FairShareJoin() {
     setCertificationStatus(prev => ({ ...prev, [cert]: status }));
   };
 
-  const requiredCertifications = selectedPosition ? qualificationMatrix[selectedPosition] || [] : [];
+  // Get available positions based on selected yacht size
+  const availablePositions = selectedYachtSize && qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix] 
+    ? Object.keys(qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix]) 
+    : [];
+
+  // Get required certifications based on selected yacht size and position
+  const requiredCertifications = selectedYachtSize && selectedPosition && qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix]
+    ? (qualificationMatrix[selectedYachtSize as keyof typeof qualificationMatrix] as any)[selectedPosition] || []
+    : [];
+
   const validCertifications = Object.values(certificationStatus).filter(status => status === 'valid').length;
   const allCertificationsValid = requiredCertifications.length > 0 && validCertifications === requiredCertifications.length;
 
   return (
     <>
       <Helmet>
-        <title>Join FairShare – Crew Revenue Share & Qualification Verification | Xplor</title>
+        <title>Join FairShare – Yacht Crew Registration & Qualification Validation | Xplor</title>
         <meta name="description" content="Join the FairShare crew network and share in yacht charter revenue. Verify your qualifications and become part of the Xplor crew community." />
       </Helmet>
 
@@ -148,7 +193,7 @@ export default function FairShareJoin() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Join FairShare – Crew Revenue Share & Qualification Verification
+              Join FairShare – Yacht Crew Registration & Qualification Validation
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Join the exclusive FairShare crew network where your expertise translates to revenue sharing. 
@@ -213,7 +258,79 @@ export default function FairShareJoin() {
                     )}
                   />
 
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="primaryDepartment"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Primary Department *</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select department" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {departments.map((dept) => (
+                              <SelectItem key={dept} value={dept}>
+                                {dept}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Yacht Size Selection */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Yacht Size Category (GRT)</CardTitle>
+                  <CardDescription>
+                    Select the yacht size category you want to apply for. This will determine available positions and required qualifications.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FormField
+                    control={form.control}
+                    name="yachtSizeCategory"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Yacht Size Category *</FormLabel>
+                        <Select onValueChange={handleYachtSizeChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select yacht size category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {vesselSizes.map((size) => (
+                              <SelectItem key={size} value={size}>
+                                {size}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Position Selection - Only show when yacht size is selected */}
+              {selectedYachtSize && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Position Applied For</CardTitle>
+                    <CardDescription>
+                      Available positions for {selectedYachtSize} vessels
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
                     <FormField
                       control={form.control}
                       name="positionAppliedFor"
@@ -227,7 +344,7 @@ export default function FairShareJoin() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {positions.map((position) => (
+                              {availablePositions.map((position) => (
                                 <SelectItem key={position} value={position}>
                                   {position}
                                 </SelectItem>
@@ -238,48 +355,36 @@ export default function FairShareJoin() {
                         </FormItem>
                       )}
                     />
-                    
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Primary Certificate Selection - Only show when position is selected */}
+              {selectedPosition && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Primary Certificate</CardTitle>
+                    <CardDescription>
+                      What is your highest certificate held for this role?
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
                     <FormField
                       control={form.control}
-                      name="primaryDepartment"
+                      name="highestQualification"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Primary Department *</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select department" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {departments.map((dept) => (
-                                <SelectItem key={dept} value={dept}>
-                                  {dept}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <FormLabel>Highest CoC / Qualification *</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Master 3000 GT CoC" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="highestQualification"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Highest CoC / Qualification *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., Master 3000 GT CoC" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Vessel Size Experience */}
               <Card>
@@ -322,13 +427,13 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
-              {/* Certification Validation */}
-              {selectedPosition && requiredCertifications.length > 0 && (
+              {/* Required Certifications - Dynamic based on yacht size and position */}
+              {selectedYachtSize && selectedPosition && requiredCertifications.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Award className="h-5 w-5" />
-                      Required Certifications for {selectedPosition}
+                      Required Certifications for {selectedPosition} on {selectedYachtSize} Vessels
                     </CardTitle>
                     <CardDescription>
                       Please confirm your certification status for the required qualifications
@@ -336,7 +441,7 @@ export default function FairShareJoin() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {requiredCertifications.map((cert) => (
+                      {requiredCertifications.map((cert: string) => (
                         <div key={cert} className="flex items-center justify-between p-3 border rounded-lg">
                           <span className="font-medium">{cert}</span>
                           <div className="flex items-center gap-2">
@@ -358,7 +463,17 @@ export default function FairShareJoin() {
                               className="h-8"
                             >
                               <X className="h-3 w-3 mr-1" />
-                              Invalid
+                              Expired
+                            </Button>
+                            <Button
+                              type="button"
+                              variant={certificationStatus[cert] === 'pending' ? 'secondary' : 'outline'}
+                              size="sm"
+                              onClick={() => handleCertificationStatus(cert, 'pending')}
+                              className="h-8"
+                            >
+                              <AlertCircle className="h-3 w-3 mr-1" />
+                              In Progress
                             </Button>
                             <Button
                               type="button"
@@ -388,6 +503,7 @@ export default function FairShareJoin() {
                   </CardContent>
                 </Card>
               )}
+
 
               {/* Experience Section */}
               <Card>
