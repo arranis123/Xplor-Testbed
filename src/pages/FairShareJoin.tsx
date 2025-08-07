@@ -206,6 +206,20 @@ const departments = ['Deck', 'Engineering', 'Interior', 'AV/IT', 'Wellness', 'Ho
 const vesselSizes = ['Under 200 GRT', 'Under 500 GRT', 'Under 3000 GRT'];
 const nationalities = ["Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Argentinian", "Armenian", "Australian", "Austrian", "Azerbaijani", "Bahamian", "Bahraini", "Bangladeshi", "Barbadian", "Belarusian", "Belgian", "Belizean", "Beninese", "Bhutanese", "Bolivian", "Bosnian", "Brazilian", "British", "Bruneian", "Bulgarian", "Burkinabe", "Burmese", "Burundian", "Cambodian", "Cameroonian", "Canadian", "Cape Verdean", "Central African", "Chadian", "Chilean", "Chinese", "Colombian", "Comoran", "Congolese", "Costa Rican", "Croatian", "Cuban", "Cypriot", "Czech", "Danish", "Djiboutian", "Dominican", "Dutch", "East Timorese", "Ecuadorean", "Egyptian", "Emirian", "Equatorial Guinean", "Eritrean", "Estonian", "Ethiopian", "Fijian", "Filipino", "Finnish", "French", "Gabonese", "Gambian", "Georgian", "German", "Ghanaian", "Greek", "Grenadian", "Guatemalan", "Guinea-Bissauan", "Guinean", "Guyanese", "Haitian", "Herzegovinian", "Honduran", "Hungarian", "I-Kiribati", "Icelander", "Indian", "Indonesian", "Iranian", "Iraqi", "Irish", "Israeli", "Italian", "Ivorian", "Jamaican", "Japanese", "Jordanian", "Kazakhstani", "Kenyan", "Kittian and Nevisian", "Kuwaiti", "Kyrgyz", "Laotian", "Latvian", "Lebanese", "Liberian", "Libyan", "Liechtensteiner", "Lithuanian", "Luxembourgish", "Macedonian", "Malagasy", "Malawian", "Malaysian", "Maldivan", "Malian", "Maltese", "Marshallese", "Mauritanian", "Mauritian", "Mexican", "Micronesian", "Moldovan", "Monacan", "Mongolian", "Moroccan", "Mosotho", "Motswana", "Mozambican", "Namibian", "Nauruan", "Nepalese", "New Zealander", "Ni-Vanuatu", "Nicaraguan", "Nigerian", "Nigerien", "North Korean", "Northern Irish", "Norwegian", "Omani", "Pakistani", "Palauan", "Palestinian", "Panamanian", "Papua New Guinean", "Paraguayan", "Peruvian", "Polish", "Portuguese", "Qatari", "Romanian", "Russian", "Rwandan", "Saint Lucian", "Salvadoran", "Samoan", "San Marinese", "Sao Tomean", "Saudi", "Scottish", "Senegalese", "Serbian", "Seychellois", "Sierra Leonean", "Singaporean", "Slovakian", "Slovenian", "Solomon Islander", "Somali", "South African", "South Korean", "Spanish", "Sri Lankan", "Sudanese", "Surinamer", "Swazi", "Swedish", "Swiss", "Syrian", "Taiwanese", "Tajik", "Tanzanian", "Thai", "Togolese", "Tongan", "Trinidadian", "Tunisian", "Turkish", "Tuvaluan", "Ugandan", "Ukrainian", "Uruguayan", "Uzbekistani", "Venezuelan", "Vietnamese", "Welsh", "Yemenite", "Zambian", "Zimbabwean"];
 
+// Define yacht experience entry type
+interface YachtExperience {
+  id: string;
+  yachtName: string;
+  position: string;
+  yachtType: 'Charter' | 'Private';
+  crewCount: number;
+  startDate: string;
+  endDate: string;
+  rotationSchedule?: string;
+  roleType: 'Full-Time' | 'Part-Time' | 'Rotational';
+  durationMonths?: number;
+}
+
 export default function FairShareJoin() {
   const [selectedYachtSize, setSelectedYachtSize] = useState<string>("");
   const [selectedPosition, setSelectedPosition] = useState<string>("");
@@ -214,6 +228,12 @@ export default function FairShareJoin() {
   const [showTerms, setShowTerms] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
+  
+  // Yacht experience state
+  const [yachtExperiences, setYachtExperiences] = useState<YachtExperience[]>([]);
+  const [showAddForm, setShowAddForm] = useState<'Full-Time' | 'Part-Time' | 'Rotational' | null>(null);
+  const [newExperience, setNewExperience] = useState<Partial<YachtExperience>>({});
+  
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
     mandatoryAll: true,
     prerequisites: true,
@@ -335,6 +355,71 @@ export default function FairShareJoin() {
     }
     
     return filtered;
+  };
+
+  // Yacht experience functions
+  const addYachtExperience = (type: 'Full-Time' | 'Part-Time' | 'Rotational') => {
+    setShowAddForm(type);
+    setNewExperience({ roleType: type });
+  };
+
+  const saveYachtExperience = () => {
+    if (!newExperience.yachtName || !newExperience.position || !newExperience.yachtType || 
+        !newExperience.crewCount || !newExperience.startDate || !newExperience.endDate) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const startDate = new Date(newExperience.startDate!);
+    const endDate = new Date(newExperience.endDate!);
+    const durationMonths = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
+
+    const experience: YachtExperience = {
+      id: Date.now().toString(),
+      yachtName: newExperience.yachtName!,
+      position: newExperience.position!,
+      yachtType: newExperience.yachtType!,
+      crewCount: newExperience.crewCount!,
+      startDate: newExperience.startDate!,
+      endDate: newExperience.endDate!,
+      rotationSchedule: newExperience.rotationSchedule,
+      roleType: newExperience.roleType!,
+      durationMonths
+    };
+
+    setYachtExperiences([...yachtExperiences, experience]);
+    setShowAddForm(null);
+    setNewExperience({});
+    
+    toast({
+      title: "Experience Added",
+      description: `${experience.roleType} position on ${experience.yachtName} has been added`,
+    });
+  };
+
+  const removeYachtExperience = (id: string) => {
+    setYachtExperiences(yachtExperiences.filter(exp => exp.id !== id));
+  };
+
+  // Calculate experience summary
+  const experienceSummary = {
+    fullTime: yachtExperiences.filter(exp => exp.roleType === 'Full-Time'),
+    partTime: yachtExperiences.filter(exp => exp.roleType === 'Part-Time'),
+    rotational: yachtExperiences.filter(exp => exp.roleType === 'Rotational'),
+    avgCrewSize: yachtExperiences.length > 0 ? 
+      Math.round(yachtExperiences.reduce((sum, exp) => sum + exp.crewCount, 0) / yachtExperiences.length) : 0,
+    charterCount: yachtExperiences.filter(exp => exp.yachtType === 'Charter').length,
+    privateCount: yachtExperiences.filter(exp => exp.yachtType === 'Private').length
+  };
+
+  const getAvgDuration = (experiences: YachtExperience[], inWeeks = false) => {
+    if (experiences.length === 0) return 0;
+    const avgMonths = experiences.reduce((sum, exp) => sum + (exp.durationMonths || 0), 0) / experiences.length;
+    return inWeeks ? Math.round(avgMonths * 4.33) : Math.round(avgMonths * 10) / 10;
   };
 
   // Calculate completion progress
@@ -885,7 +970,7 @@ export default function FairShareJoin() {
                         type="button" 
                         variant="outline" 
                         size="sm"
-                        onClick={() => {/* Add full-time position logic */}}
+                        onClick={() => addYachtExperience('Full-Time')}
                       >
                         <Plus className="h-4 w-4 mr-2" />
                         Add Full-Time Position
@@ -911,7 +996,7 @@ export default function FairShareJoin() {
                         type="button" 
                         variant="outline" 
                         size="sm"
-                        onClick={() => {/* Add temp position logic */}}
+                        onClick={() => addYachtExperience('Part-Time')}
                       >
                         <Plus className="h-4 w-4 mr-2" />
                         Add Temp Position
@@ -936,7 +1021,7 @@ export default function FairShareJoin() {
                         type="button" 
                         variant="outline" 
                         size="sm"
-                        onClick={() => {/* Add rotational position logic */}}
+                        onClick={() => addYachtExperience('Rotational')}
                       >
                         <Plus className="h-4 w-4 mr-2" />
                         Add Rotational Position
