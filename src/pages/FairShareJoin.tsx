@@ -15,7 +15,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
-import { ChevronDown, Upload, Check, X, AlertCircle, Ship, Award, Globe, FileText, Search, Filter } from "lucide-react";
+import { ChevronDown, Upload, Check, X, AlertCircle, Ship, Award, Globe, FileText, Search, Filter, Plus, Clock, RotateCcw } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 // Form schema
@@ -865,15 +865,142 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
+              {/* Crew Experience & Longevity Tracker */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Crew Experience & Longevity Tracker
+                  </CardTitle>
+                  <CardDescription>
+                    Track your detailed work history across all yacht positions to calculate your CRI+ score
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Full-Time Positions */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">⛵ Full-Time Positions</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {/* Add full-time position logic */}}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Full-Time Position
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Permanent roles with standard employment contracts
+                    </div>
+                    
+                    {/* Full-time position entries would go here */}
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                      <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-muted-foreground">No full-time positions added yet</p>
+                      <p className="text-sm text-muted-foreground mt-1">Click "Add Full-Time Position" to get started</p>
+                    </div>
+                  </div>
+
+                  {/* Part-Time / Temp Positions */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">⏰ Part-Time / Temp Positions</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {/* Add temp position logic */}}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Temp Position
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Short-term roles, freelance work, or fill-in positions
+                    </div>
+                    
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                      <Clock className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-muted-foreground">No temp positions added yet</p>
+                      <p className="text-sm text-muted-foreground mt-1">Click "Add Temp Position" to get started</p>
+                    </div>
+                  </div>
+
+                  {/* Rotational Positions */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">🔄 Rotational Positions</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {/* Add rotational position logic */}}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Rotational Position
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Positions with scheduled rotation patterns (e.g., 2:1, 3:3, 10:10)
+                    </div>
+                    
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                      <RotateCcw className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-muted-foreground">No rotational positions added yet</p>
+                      <p className="text-sm text-muted-foreground mt-1">Click "Add Rotational Position" to get started</p>
+                    </div>
+                  </div>
+
+                  {/* Real-Time Summary Panel */}
+                  <Card className="bg-muted/50">
+                    <CardHeader>
+                      <CardTitle className="text-lg">📊 Experience Summary</CardTitle>
+                      <CardDescription>Auto-calculated metrics for your CRI+ score</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-background rounded-lg">
+                          <div className="text-2xl font-bold text-blue-600">0</div>
+                          <div className="text-sm text-muted-foreground">Full-Time Roles</div>
+                          <div className="text-xs text-muted-foreground">Avg: 0 months</div>
+                        </div>
+                        <div className="text-center p-4 bg-background rounded-lg">
+                          <div className="text-2xl font-bold text-orange-600">0</div>
+                          <div className="text-sm text-muted-foreground">Temp Positions</div>
+                          <div className="text-xs text-muted-foreground">Avg: 0 weeks</div>
+                        </div>
+                        <div className="text-center p-4 bg-background rounded-lg">
+                          <div className="text-2xl font-bold text-green-600">0</div>
+                          <div className="text-sm text-muted-foreground">Rotational Roles</div>
+                          <div className="text-xs text-muted-foreground">Avg: 0 months</div>
+                        </div>
+                      </div>
+                      <div className="mt-4 pt-4 border-t">
+                        <div className="flex justify-between text-sm">
+                          <span>Average Crew Size:</span>
+                          <span className="font-medium">0</span>
+                        </div>
+                        <div className="flex justify-between text-sm mt-1">
+                          <span>Charter vs Private:</span>
+                          <span className="font-medium">0 Charter | 0 Private</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </Card>
+
               {/* Experience Section */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5" />
-                    Yachting Experience
+                    Additional Experience Details
                   </CardTitle>
                   <CardDescription>
-                    Provide details about your yachting experience and career progression
+                    Provide additional details about your yachting experience
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
