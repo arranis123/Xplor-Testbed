@@ -46,6 +46,7 @@ const FairShareEligibility = lazy(() => import("./pages/FairShareEligibility"));
 const FAQs = lazy(() => import("./pages/FAQs"));
 const CrewInstructions = lazy(() => import("./pages/CrewInstructions"));
 const CrewRating = lazy(() => import("./pages/CrewRating"));
+const CrewQualifications = lazy(() => import("./pages/CrewQualifications"));
 const MuseumsGalleries = lazy(() => import("./pages/MuseumsGalleries"));
 const EducationAndSchools = lazy(() => import("./pages/EducationAndSchools"));
 const ExperiencesAttractions = lazy(() => import("./pages/ExperiencesAttractions"));
@@ -111,6 +112,7 @@ const App = () => {
               <Route path="/fairshare-eligibility" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FairShareEligibility /></Suspense></AppLayout>} />
               <Route path="/crew-instructions" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewInstructions /></Suspense></AppLayout>} />
               <Route path="/crew-rating" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewRating /></Suspense></AppLayout>} />
+              <Route path="/crew/minimum-qualifications" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><CrewQualifications /></Suspense></AppLayout>} />
               <Route path="/faqs" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><FAQs /></Suspense></AppLayout>} />
               <Route path="/museums-galleries" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><MuseumsGalleries /></Suspense></AppLayout>} />
               <Route path="/education-and-schools" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><EducationAndSchools /></Suspense></AppLayout>} />
