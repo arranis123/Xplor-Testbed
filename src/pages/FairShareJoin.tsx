@@ -600,6 +600,106 @@ export default function FairShareJoin() {
                 </CardContent>
               </Card>
 
+              {/* Experience & Longevity Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Ship className="h-5 w-5" />
+                    Professional Experience & Longevity
+                  </CardTitle>
+                  <CardDescription>
+                    Provide details about your yachting experience to calculate your CRI+ score
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="totalYearsYachting"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Total Years in Yachting</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              max="50"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="numberOfYachts"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Number of Yachts Served</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              max="100"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="largestGRT"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Largest Yacht GRT</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              max="10000"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="longevityLastYacht"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Months on Last Yacht</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              min="0" 
+                              max="120"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) => field.onChange(Number(e.target.value))}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Prerequisites Section - Only show when CoC is selected */}
               {selectedCoC && requiredPrerequisites.length > 0 && <Card>
                   <CardHeader>
