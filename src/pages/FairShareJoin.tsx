@@ -195,11 +195,110 @@ const cocPrerequisites = {
   "RYA Yachtmaster Offshore": ["STCW Basic Safety Training (Personal Survival)", "STCW Basic Safety Training (Fire Prevention)", "STCW Basic Safety Training (Elementary First Aid)", "STCW Basic Safety Training (Personal Safety)", "STCW Basic Safety Training (Security Awareness)", "ENG1 Medical Certificate", "RYA VHF Radio License", "RYA Day Skipper Theory", "RYA Coastal Skipper Theory"]
 };
 
-// Position mapping by vessel size
+// Position mapping by vessel size with department grouping
 const positionsByVesselSize = {
-  "Under 200 GRT": ["Captain", "First Officer", "Bosun", "Deckhand", "Engineer", "Chief Steward(ess)", "Steward(ess)", "Chef"],
-  "Under 500 GRT": ["Captain", "Chief Officer", "Second Officer", "Bosun", "Deckhand", "Chief Engineer", "Second Engineer", "Assistant Engineer", "Chief Steward(ess)", "Steward(ess)", "Chef", "Purser"],
-  "Under 3000 GRT": ["Captain", "Chief Officer", "Second Officer", "Third Officer", "Bosun", "Deckhand", "Chief Engineer", "Second Engineer", "Third Engineer", "ETO", "Chief Steward(ess)", "Steward(ess)", "Chef", "Sous Chef", "Purser", "HLO (Helicopter Landing Officer)"]
+  "Under 200 GRT": {
+    "Deck": [
+      "Master (200 GT)",
+      "Mate", 
+      "Deckhand",
+      "Bosun",
+      "Tender Driver",
+      "Watersports Instructor"
+    ],
+    "Engineering": [
+      "Sole Engineer",
+      "AEC Engineer", 
+      "Electrician/Mechanic (dual-role)"
+    ],
+    "Interior": [
+      "Steward/Stewardess",
+      "Cook/Stew",
+      "Chef (Solo or dual-role)",
+      "Housekeeper"
+    ],
+    "Other": [
+      "Nanny",
+      "Masseuse", 
+      "Dive Instructor",
+      "Personal Trainer"
+    ]
+  },
+  "Under 500 GRT": {
+    "Deck": [
+      "Master <500 GT",
+      "Chief Officer",
+      "Second Officer", 
+      "Bosun",
+      "Lead Deckhand",
+      "Deckhand",
+      "Dive/Watersports Instructor"
+    ],
+    "Engineering": [
+      "Chief Engineer (MEOL(Y), Y4, Y3)",
+      "Second Engineer",
+      "AEC 1 & 2 Engineer",
+      "ETO (optional)"
+    ],
+    "Interior": [
+      "Chief Stewardess",
+      "Second Steward/Stewardess",
+      "Laundry Stewardess", 
+      "Housekeeper",
+      "Cook / Chef",
+      "Masseuse / Beautician",
+      "Butler (optional)",
+      "Purser (optional)"
+    ],
+    "Other": [
+      "AV/IT Support (dual-role)",
+      "Fitness Trainer",
+      "Medical Officer (on large private yachts)"
+    ]
+  },
+  "Under 3000 GRT": {
+    "Deck": [
+      "Master <3000 GT",
+      "Chief Officer (Unlimited or Yacht)",
+      "Second Officer",
+      "Third Officer",
+      "Bosun", 
+      "Lead Deckhand",
+      "Deckhand",
+      "Dive Master / Jet Ski Instructor",
+      "Security Officer (ISPS/Designated)"
+    ],
+    "Engineering": [
+      "Chief Engineer Y1–Y3 or MEC 2",
+      "Second Engineer",
+      "Third Engineer",
+      "Sole ETO / IT Officer", 
+      "AV/IT Manager",
+      "HVAC Technician",
+      "Motorman (optional)"
+    ],
+    "Interior": [
+      "Purser",
+      "Chief Stewardess",
+      "Second Stewardess",
+      "Third Stewardess",
+      "Laundry Supervisor",
+      "Spa Therapist / Beautician",
+      "Hairdresser",
+      "Butler / Valet",
+      "Housekeeper", 
+      "Private Chef",
+      "Head Chef / Sous Chef",
+      "Pastry Chef"
+    ],
+    "Other": [
+      "Aviation Officer / Heli Ops (if helipad)",
+      "Medical Officer / Nurse",
+      "Yacht Security Team (on high-risk itineraries)",
+      "Dive Instructor / Expedition Guide",
+      "Specialist Roles (Videographer, Photographer, etc.)"
+    ]
+  }
 };
 
 const departments = ['Deck', 'Engineering', 'Interior', 'AV/IT', 'Wellness', 'Hospitality', 'Aviation'];
@@ -341,7 +440,8 @@ export default function FairShareJoin() {
   };
 
   // Get available positions based on selected yacht size
-  const availablePositions = selectedYachtSize ? positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize] || [] : [];
+  const availablePositions = selectedYachtSize ? 
+    Object.values(positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize] || {}).flat() : [];
 
   // Get available CoCs based on selected yacht size
   const availableCoCs = selectedYachtSize ? globalQualifications.certificatesOfCompetency[selectedYachtSize as keyof typeof globalQualifications.certificatesOfCompetency] || [] : [];
@@ -668,11 +768,16 @@ export default function FairShareJoin() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {availablePositions.map((position) => (
-                                <SelectItem key={position} value={position}>
-                                  {position}
-                                </SelectItem>
-                              ))}
+                              {selectedYachtSize && positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize] && 
+                                Object.entries(positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize]).map(([department, positions]) => (
+                                  <div key={department}>
+                                    <div className="px-2 py-1.5 text-sm font-semibold text-muted-foreground">{department}</div>
+                                    {(positions as string[]).map((position) => (
+                                      <SelectItem key={position} value={position} className="pl-6">{position}</SelectItem>
+                                    ))}
+                                  </div>
+                                ))
+                              }
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -1188,9 +1293,16 @@ export default function FairShareJoin() {
                                 <SelectValue placeholder="Select position" />
                               </SelectTrigger>
                               <SelectContent>
-                                {selectedYachtSize && positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize]?.map((pos) => (
-                                  <SelectItem key={pos} value={pos}>{pos}</SelectItem>
-                                ))}
+                                {selectedYachtSize && positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize] && 
+                                  Object.entries(positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize]).map(([department, positions]) => (
+                                    <div key={department}>
+                                      <div className="px-2 py-1.5 text-sm font-semibold text-muted-foreground">{department}</div>
+                                      {(positions as string[]).map((pos) => (
+                                        <SelectItem key={pos} value={pos} className="pl-6">{pos}</SelectItem>
+                                      ))}
+                                    </div>
+                                  ))
+                                }
                               </SelectContent>
                             </Select>
                           </div>
