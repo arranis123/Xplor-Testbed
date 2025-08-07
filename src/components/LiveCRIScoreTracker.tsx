@@ -93,6 +93,12 @@ export function LiveCRIScoreTracker({
   };
 
   useEffect(() => {
+    console.log("CRI+ useEffect triggered with:", {
+      formData,
+      selectedYachtSize,
+      selectedPosition,
+      selectedCoC
+    });
     calculateCRIScore();
   }, [formData, qualificationStatus, yachtExperiences, navigationExperience, selectedYachtSize, selectedPosition, selectedCoC]);
 
@@ -186,12 +192,26 @@ export function LiveCRIScoreTracker({
   };
 
   const calculatePositionWeight = (): number => {
-    if (!selectedYachtSize || !selectedPosition) return 0;
+    console.log("CRI+ Position Weight Calculation:", {
+      selectedYachtSize,
+      selectedPosition,
+      availableWeights: positionWeights
+    });
+    
+    if (!selectedYachtSize || !selectedPosition) {
+      console.log("Missing yacht size or position");
+      return 0;
+    }
     
     const weights = positionWeights[selectedYachtSize as keyof typeof positionWeights];
-    if (!weights) return 0;
+    if (!weights) {
+      console.log("No weights found for yacht size:", selectedYachtSize);
+      return 0;
+    }
     
-    return weights[selectedPosition as keyof typeof weights] || 0;
+    const positionScore = weights[selectedPosition as keyof typeof weights] || 0;
+    console.log("Position score calculated:", positionScore);
+    return positionScore;
   };
 
   const calculateNavigation = (): number => {
