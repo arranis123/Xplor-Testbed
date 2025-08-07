@@ -316,6 +316,7 @@ interface YachtExperience {
   endDate: string;
   rotationSchedule?: string;
   roleType: 'Full-Time' | 'Part-Time' | 'Rotational';
+  yachtSizeCategory?: string;
   durationMonths?: number;
 }
 
@@ -1276,6 +1277,24 @@ export default function FairShareJoin() {
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-4">
+                        {/* Yacht Size Selection */}
+                        <div>
+                          <Label htmlFor="formYachtSize">Yacht Size (GRT) *</Label>
+                          <Select 
+                            value={newExperience.yachtSizeCategory || ''} 
+                            onValueChange={(value) => setNewExperience({...newExperience, yachtSizeCategory: value, position: ''})}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select yacht size category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="<200 GRT">⚪ &lt;200 GRT (Small yachts)</SelectItem>
+                              <SelectItem value="<500 GRT">⚫ &lt;500 GRT (Medium to large yachts)</SelectItem>
+                              <SelectItem value="<3000 GRT">⚫ &lt;3000 GRT (Large commercial yachts)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
                         <div className="grid md:grid-cols-2 gap-4">
                           <div>
                             <Label htmlFor="yachtName">Yacht Name *</Label>
@@ -1293,8 +1312,8 @@ export default function FairShareJoin() {
                                 <SelectValue placeholder="Select position" />
                               </SelectTrigger>
                               <SelectContent>
-                                {selectedYachtSize && positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize] && 
-                                  Object.entries(positionsByVesselSize[selectedYachtSize as keyof typeof positionsByVesselSize]).map(([department, positions]) => (
+                                {newExperience.yachtSizeCategory && positionsByVesselSize[newExperience.yachtSizeCategory as keyof typeof positionsByVesselSize] && 
+                                  Object.entries(positionsByVesselSize[newExperience.yachtSizeCategory as keyof typeof positionsByVesselSize]).map(([department, positions]) => (
                                     <div key={department}>
                                       <div className="px-2 py-1.5 text-sm font-semibold text-muted-foreground">{department}</div>
                                       {(positions as string[]).map((pos) => (
