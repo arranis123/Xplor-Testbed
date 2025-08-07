@@ -424,7 +424,7 @@ export default function FairShareJoin() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Ship className="h-5 w-5" />
-                    Personal Information
+                    Basic Info
                   </CardTitle>
                   <CardDescription>
                     Tell us about yourself and your background
