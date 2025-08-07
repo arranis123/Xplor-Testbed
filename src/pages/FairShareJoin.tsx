@@ -402,6 +402,10 @@ export default function FairShareJoin() {
         </div>
       </div>;
   };
+
+  // Watch form values for real-time CRI+ updates
+  const watchedFormData = form.watch();
+
   return <>
       <Helmet>
         <title>Join FairShare – Crew Qualification & Revenue Share Application | Xplor</title>
@@ -411,7 +415,7 @@ export default function FairShareJoin() {
       <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
         {/* Live CRI+ Score Tracker */}
         <LiveCRIScoreTracker
-          formData={form.getValues()}
+          formData={watchedFormData}
           qualificationStatus={qualificationStatus}
           yachtExperiences={yachtExperiences}
           navigationExperience={navigationExperience}
