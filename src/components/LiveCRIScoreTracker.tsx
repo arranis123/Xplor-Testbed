@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Trophy, Star, Award, Target } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Trophy, Star, Award, Target, TrendingUp, Eye, Lightbulb } from "lucide-react";
 
 interface CRIScoreBreakdown {
   experience: number;
@@ -115,23 +116,27 @@ export function LiveCRIScoreTracker({
   const calculateExperience = (): number => {
     let score = 0;
     
-    // Years of experience (0-8 points)
+    // +1 per full year yachting (max 10)
     const years = formData.totalYearsYachting || 0;
-    score += Math.min(years * 1.5, 8);
+    score += Math.min(years, 10);
     
-    // Number of yachts (diversity) (0-5 points)
-    const yachtCount = formData.numberOfYachts || 0;
-    score += Math.min(yachtCount * 0.8, 5);
-    
-    // Longevity on last yacht (0-4 points)
+    // +2 per rotational role (up to 2) - assuming if longevity < 12 months, it's rotational
     const longevity = formData.longevityLastYacht || 0;
-    score += Math.min(longevity * 0.3, 4);
+    if (longevity < 12 && longevity > 0) {
+      score += Math.min(2, 2); // Up to 2 rotational roles
+    }
     
-    // Large yacht experience (0-3 points)
+    // +1 per yacht served over 12 months (up to 5)
+    if (longevity >= 12) {
+      score += Math.min(Math.floor(longevity / 12), 5);
+    }
+    
+    // +1 for experience on 3+ GRT categories
     const largestGRT = formData.largestGRT || 0;
-    if (largestGRT >= 3000) score += 3;
-    else if (largestGRT >= 500) score += 2;
-    else if (largestGRT >= 200) score += 1;
+    const yachtCount = formData.numberOfYachts || 0;
+    if (yachtCount >= 3 && largestGRT > 0) {
+      score += 1;
+    }
 
     return Math.min(Math.round(score), 20);
   };
@@ -139,19 +144,29 @@ export function LiveCRIScoreTracker({
   const calculateCertifications = (): number => {
     let score = 0;
     
-    // CoC selected (0-8 points)
-    if (selectedCoC) {
-      if (selectedCoC.includes("Master")) score += 8;
-      else if (selectedCoC.includes("Chief")) score += 6;
-      else if (selectedCoC.includes("OOW")) score += 5;
-      else score += 3;
-    }
+    // +5 = STCW + ENG1
+    const hasSTCW = Object.keys(qualificationStatus).some(cert => 
+      cert.includes("STCW") && qualificationStatus[cert]?.status === 'valid'
+    );
+    const hasENG1 = qualificationStatus["ENG1 Medical Certificate"]?.status === 'valid';
+    if (hasSTCW && hasENG1) score += 5;
     
-    // Valid certifications (0-12 points)
-    const validCerts = Object.values(qualificationStatus).filter(
-      cert => cert.status === 'valid'
+    // +5 = Valid CoC
+    if (selectedCoC) score += 5;
+    
+    // +5 = 2+ advanced role certs (EDH, AEC, HELM)
+    const advancedCerts = Object.keys(qualificationStatus).filter(cert => 
+      (cert.includes("EDH") || cert.includes("AEC") || cert.includes("HELM")) &&
+      qualificationStatus[cert]?.status === 'valid'
     ).length;
-    score += Math.min(validCerts * 0.8, 12);
+    if (advancedCerts >= 2) score += 5;
+    
+    // +5 = Flag endorsements
+    const flagCerts = Object.keys(qualificationStatus).filter(cert => 
+      (cert.includes("Marshall") || cert.includes("Cayman") || cert.includes("USCG")) &&
+      qualificationStatus[cert]?.status === 'valid'
+    ).length;
+    if (flagCerts > 0) score += 5;
 
     return Math.min(Math.round(score), 20);
   };
@@ -168,19 +183,20 @@ export function LiveCRIScoreTracker({
   const calculateNavigation = (): number => {
     let score = 0;
     
-    // Sea miles (0-4 points)
-    const seaMiles = formData.seaMilesLogged || 0;
-    if (seaMiles >= 100000) score += 4;
-    else if (seaMiles >= 50000) score += 3;
-    else if (seaMiles >= 25000) score += 2;
-    else if (seaMiles >= 10000) score += 1;
+    // +1 per major zone (Atlantic, Med, Pacific, etc.)
+    const zones = [
+      formData.atlanticCrossings || 0,
+      formData.mediterraneanCrossings || 0,
+      formData.indianCrossings || 0,
+      formData.pacificCrossings || 0
+    ].filter(zone => zone > 0).length;
+    score += zones;
     
-    // Ocean crossings (0-6 points)
-    const crossings = (formData.atlanticCrossings || 0) + 
-                     (formData.mediterraneanCrossings || 0) + 
-                     (formData.indianCrossings || 0) + 
-                     (formData.pacificCrossings || 0);
-    score += Math.min(crossings * 1.2, 6);
+    // +1 for each canal transit (Panama, Suez, etc.)
+    const transits = (formData.suezTransits || 0) + 
+                     (formData.panamaTransits || 0) + 
+                     (formData.corinthTransits || 0);
+    score += transits;
 
     return Math.min(Math.round(score), 10);
   };
@@ -188,16 +204,22 @@ export function LiveCRIScoreTracker({
   const calculateAvailability = (): number => {
     let score = 0;
     
-    // ENG1 Medical (5 points if valid)
+    // +2 = ENG1 valid
     if (qualificationStatus["ENG1 Medical Certificate"]?.status === 'valid') {
-      score += 5;
+      score += 2;
     }
     
-    // Basic availability factors (5 points total)
-    if (formData.nationality) score += 1;
-    if (formData.email) score += 1;
-    if (formData.languagesSpoken) score += 1;
-    score += 2; // Assume ready to deploy and vaccinations
+    // +2 = Ready to deploy within 48h (assumed if form completed)
+    if (formData.email) score += 2;
+    
+    // +2 = Dual passport or long-term visa (assumed if nationality provided)
+    if (formData.nationality) score += 2;
+    
+    // +2 = Up-to-date vaccinations (assumed)
+    score += 2;
+    
+    // +2 = Port/airport proximity (assumed)
+    score += 2;
 
     return Math.min(score, 10);
   };
@@ -208,83 +230,109 @@ export function LiveCRIScoreTracker({
 
   return (
     <>
-      {/* Desktop: Fixed right sidebar */}
-      <div className="hidden lg:block fixed right-4 top-1/2 transform -translate-y-1/2 w-80 z-50">
-        <Card className="shadow-lg border-primary/20">
+      {/* Desktop: Floating right-side panel */}
+      <div className="hidden lg:block fixed right-6 top-1/2 transform -translate-y-1/2 w-80 z-50">
+        <Card className="shadow-xl border-primary/30 bg-gradient-to-br from-background via-background to-primary/5">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-primary">
-              <currentTier.icon className="h-5 w-5" />
-              Your CRI+ Score
+              <TrendingUp className="h-5 w-5" />
+              Live CRI+ Score
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Score Circle */}
+            {/* Large Score Display */}
             <div className="text-center">
-              <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full border-4 border-primary/20">
-                <div className={`absolute inset-0 rounded-full ${currentTier.color} opacity-10`} />
-                <div className="text-2xl font-bold text-primary">{totalScore}</div>
-                <div className="absolute -bottom-1 text-xs text-muted-foreground">/100</div>
+              <div className="relative inline-flex items-center justify-center w-28 h-28 rounded-full border-4 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5">
+                <div className="text-3xl font-bold text-primary">{totalScore}</div>
+                <div className="absolute -bottom-2 text-sm text-muted-foreground">/100</div>
               </div>
             </div>
 
             {/* Tier Badge */}
-            <div className="text-center">
-              <Badge variant="outline" className={`${currentTier.color} text-white border-none`}>
+            <div className="text-center space-y-2">
+              <Badge variant="outline" className={`${currentTier.color} text-white border-none px-3 py-1`}>
+                <currentTier.icon className="h-3 w-3 mr-1" />
                 {currentTier.name}
               </Badge>
               {nextTier && (
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground">
+                  <TrendingUp className="h-3 w-3 inline mr-1" />
                   {nextTier.min - totalScore} points to {nextTier.name}
                 </p>
               )}
             </div>
 
-            {/* Progress Bars */}
+            {/* Visual Score Breakdown */}
             <div className="space-y-2">
-              <ScoreItem label="Experience" current={scoreBreakdown.experience} max={20} />
-              <ScoreItem label="Certifications" current={scoreBreakdown.certifications} max={20} />
-              <ScoreItem label="Position Weight" current={scoreBreakdown.positionWeight} max={10} />
-              <ScoreItem label="Navigation" current={scoreBreakdown.navigation} max={10} />
-              <ScoreItem label="Availability" current={scoreBreakdown.availability} max={10} />
-              <ScoreItem label="Engagement" current={scoreBreakdown.engagement} max={15} />
-              <ScoreItem label="Social" current={scoreBreakdown.social} max={10} />
-              <ScoreItem label="Charter" current={scoreBreakdown.charter} max={5} />
-              <ScoreItem label="Training" current={scoreBreakdown.training} max={5} />
+              <ScoreItem label="Experience & Longevity" current={scoreBreakdown.experience} max={20} />
+              <ScoreItem label="Certifications & Qualifications" current={scoreBreakdown.certifications} max={20} />
+              <ScoreItem label="Position & GRT Weighting" current={scoreBreakdown.positionWeight} max={10} />
+              <ScoreItem label="Navigation Zones & Sea Time" current={scoreBreakdown.navigation} max={10} />
+              <ScoreItem label="Availability & Compliance" current={scoreBreakdown.availability} max={10} />
+              <ScoreItem label="Platform Engagement" current={scoreBreakdown.engagement} max={15} />
+              <ScoreItem label="Social & Community" current={scoreBreakdown.social} max={10} />
+              <ScoreItem label="Charter Participation" current={scoreBreakdown.charter} max={5} />
+              <ScoreItem label="Training & Badges" current={scoreBreakdown.training} max={5} />
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="space-y-2 pt-2">
+              <Button variant="outline" size="sm" className="w-full text-xs">
+                <Eye className="h-3 w-3 mr-1" />
+                View Full Breakdown
+              </Button>
+              <Button variant="ghost" size="sm" className="w-full text-xs text-primary">
+                <Lightbulb className="h-3 w-3 mr-1" />
+                Improve My Score
+              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Mobile: Sticky footer */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
+      {/* Mobile: Sticky expandable bar at bottom */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-background via-background to-background/95 border-t border-primary/20">
         <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
-          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between">
+          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between bg-gradient-to-r from-primary/5 to-primary/10">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <currentTier.icon className="h-5 w-5 text-primary" />
+                <TrendingUp className="h-5 w-5 text-primary" />
                 <span className="font-semibold">CRI+ Score: {totalScore}/100</span>
               </div>
-              <Badge variant="outline" className={`${currentTier.color} text-white border-none text-xs`}>
+              <Badge variant="outline" className={`${currentTier.color} text-white border-none text-xs px-2`}>
+                <currentTier.icon className="h-3 w-3 mr-1" />
                 {currentTier.name}
               </Badge>
             </div>
-            <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`h-4 w-4 transition-transform text-primary ${isExpanded ? 'rotate-180' : ''}`} />
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="p-4 pt-0 max-h-64 overflow-y-auto">
+          <CollapsibleContent className="p-4 pt-0 max-h-72 overflow-y-auto bg-background/95">
             <div className="space-y-2">
-              <ScoreItem label="Experience" current={scoreBreakdown.experience} max={20} />
-              <ScoreItem label="Certifications" current={scoreBreakdown.certifications} max={20} />
-              <ScoreItem label="Position Weight" current={scoreBreakdown.positionWeight} max={10} />
-              <ScoreItem label="Navigation" current={scoreBreakdown.navigation} max={10} />
-              <ScoreItem label="Availability" current={scoreBreakdown.availability} max={10} />
-              <ScoreItem label="Engagement" current={scoreBreakdown.engagement} max={15} />
+              <ScoreItem label="Experience & Longevity" current={scoreBreakdown.experience} max={20} />
+              <ScoreItem label="Certifications & Qualifications" current={scoreBreakdown.certifications} max={20} />
+              <ScoreItem label="Position & GRT Weighting" current={scoreBreakdown.positionWeight} max={10} />
+              <ScoreItem label="Navigation Zones & Sea Time" current={scoreBreakdown.navigation} max={10} />
+              <ScoreItem label="Availability & Compliance" current={scoreBreakdown.availability} max={10} />
+              <ScoreItem label="Platform Engagement" current={scoreBreakdown.engagement} max={15} />
+              <ScoreItem label="Social & Community" current={scoreBreakdown.social} max={10} />
             </div>
             {nextTier && (
               <p className="text-xs text-muted-foreground mt-3 text-center">
+                <TrendingUp className="h-3 w-3 inline mr-1" />
                 {nextTier.min - totalScore} more points to reach {nextTier.name}
               </p>
             )}
+            <div className="flex gap-2 mt-3">
+              <Button variant="outline" size="sm" className="flex-1 text-xs">
+                <Eye className="h-3 w-3 mr-1" />
+                View Full
+              </Button>
+              <Button variant="ghost" size="sm" className="flex-1 text-xs text-primary">
+                <Lightbulb className="h-3 w-3 mr-1" />
+                Improve
+              </Button>
+            </div>
           </CollapsibleContent>
         </Collapsible>
       </div>
