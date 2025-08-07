@@ -42,7 +42,8 @@ const formSchema = z.object({
   corinthTransits: z.number().min(0, "Transits must be positive"),
   charterRevenue: z.number().min(0, "Revenue must be positive"),
   languagesSpoken: z.string().optional(),
-  termsAccepted: z.boolean().refine(val => val, "Terms must be accepted")
+  termsAccepted: z.boolean().refine(val => val, "Terms must be accepted"),
+  criAccepted: z.boolean().refine(val => val, "CRI+ agreement must be accepted")
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -252,7 +253,8 @@ export default function FairShareJoin() {
       corinthTransits: 0,
       charterRevenue: 0,
       languagesSpoken: "",
-      termsAccepted: false
+      termsAccepted: false,
+      criAccepted: false
     }
   });
 
@@ -1099,6 +1101,27 @@ export default function FairShareJoin() {
                   />
                   <FormMessage />
 
+                  <FormField
+                    control={form.control}
+                    name="criAccepted"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm font-normal">
+                            I understand and agree that this information will be used to generate your CRI+ (Crew Rating Index) score, a performance-based metric that reflects your qualifications, experience, and contributions. Your CRI+ score will directly influence your eligibility and share of charter income under the xplor FairShare Agreement.
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormMessage />
+
                   <Collapsible open={showTerms} onOpenChange={setShowTerms}>
                     <CollapsibleTrigger className="text-sm text-primary hover:underline mt-2">
                       Read Terms & Conditions
@@ -1126,7 +1149,7 @@ export default function FairShareJoin() {
                   type="submit" 
                   size="lg" 
                   className="px-12"
-                  disabled={!form.getValues("termsAccepted")}
+                  disabled={!form.getValues("termsAccepted") || !form.getValues("criAccepted")}
                 >
                   Join FairShare Now
                 </Button>
