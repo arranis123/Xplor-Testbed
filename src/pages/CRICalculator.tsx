@@ -194,12 +194,68 @@ export default function CRICalculator() {
     }
   });
 
-  // Load crew data from location state
+  // Load crew data from location state and auto-populate form
   useEffect(() => {
     if (location.state?.crewData) {
-      setCrewData(location.state.crewData);
+      const fairshareData = location.state.crewData;
+      setCrewData(fairshareData);
+      
+      // Auto-populate form with available data from FairShare
+      const zones = [];
+      if (fairshareData.atlanticCrossings > 0) zones.push("Atlantic Crossing");
+      if (fairshareData.mediterraneanCrossings > 0) zones.push("Mediterranean");  
+      if (fairshareData.indianCrossings > 0) zones.push("Indian Ocean");
+      if (fairshareData.pacificCrossings > 0) zones.push("Pacific");
+      if (fairshareData.suezTransits > 0) zones.push("Suez Canal");
+      if (fairshareData.panamaTransits > 0) zones.push("Panama Canal");
+      if (fairshareData.corinthTransits > 0) zones.push("Red Sea");
+      
+      // Auto-populate yacht history if available
+      const yachtHistory = [];
+      if (fairshareData.currentVessel && fairshareData.positionAppliedFor) {
+        yachtHistory.push({
+          name: fairshareData.currentVessel,
+          position: fairshareData.positionAppliedFor,
+          grtCategory: fairshareData.yachtSizeCategory?.includes("200") ? "<200" :
+                      fairshareData.yachtSizeCategory?.includes("500") ? "<500" : "<3000",
+          charterType: "charter" as const,
+          crewSize: "10-20",
+          timeServed: fairshareData.longevityLastYacht?.toString() || "12",
+          employmentType: "full-time" as const
+        });
+      }
+      
+      // Update form with auto-populated data
+      form.reset({
+        yachts: yachtHistory,
+        qualifications: {
+          coc: fairshareData.primaryCoC,
+          stcw: true,
+          eng1: true,
+        },
+        navigation: {
+          zones: zones,
+          seaMiles: fairshareData.seaMilesLogged?.toString(),
+          chartersCompleted: "0"
+        },
+        readiness: {
+          certValid: true,
+          dualPassport: false,
+          quickDeploy: true,
+          vaccinations: true
+        },
+        engagement: {},
+        social: { socialShares: [] },
+        charter: {},
+        training: { verifiedBadges: [] }
+      });
+      
+      toast({
+        title: "Data Imported Successfully",
+        description: "Your FairShare profile data has been imported. Complete additional fields to improve your CRI+ score.",
+      });
     }
-  }, [location.state]);
+  }, [location.state, form]);
 
   // Calculate comprehensive CRI+ score
   const calculateCRIScore = (crew: CrewData, formData: CRIFormData): CRIScoreBreakdown => {
