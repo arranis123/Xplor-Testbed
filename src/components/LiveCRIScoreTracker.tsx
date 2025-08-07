@@ -116,19 +116,31 @@ export function LiveCRIScoreTracker({
   const calculateExperience = (): number => {
     let score = 0;
     
+    // Debug logging
+    console.log("CRI+ Experience Calculation - Form Data:", {
+      totalYearsYachting: formData.totalYearsYachting,
+      longevityLastYacht: formData.longevityLastYacht,
+      numberOfYachts: formData.numberOfYachts,
+      largestGRT: formData.largestGRT
+    });
+    
     // +1 per full year yachting (max 10)
     const years = formData.totalYearsYachting || 0;
     score += Math.min(years, 10);
+    console.log("Years score:", Math.min(years, 10));
     
     // +2 per rotational role (up to 2) - assuming if longevity < 12 months, it's rotational
     const longevity = formData.longevityLastYacht || 0;
     if (longevity < 12 && longevity > 0) {
       score += Math.min(2, 2); // Up to 2 rotational roles
+      console.log("Rotational score added:", 2);
     }
     
     // +1 per yacht served over 12 months (up to 5)
     if (longevity >= 12) {
-      score += Math.min(Math.floor(longevity / 12), 5);
+      const longTermScore = Math.min(Math.floor(longevity / 12), 5);
+      score += longTermScore;
+      console.log("Long-term score added:", longTermScore);
     }
     
     // +1 for experience on 3+ GRT categories
@@ -136,8 +148,10 @@ export function LiveCRIScoreTracker({
     const yachtCount = formData.numberOfYachts || 0;
     if (yachtCount >= 3 && largestGRT > 0) {
       score += 1;
+      console.log("GRT categories score added:", 1);
     }
 
+    console.log("Total experience score:", Math.min(Math.round(score), 20));
     return Math.min(Math.round(score), 20);
   };
 
