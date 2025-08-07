@@ -704,6 +704,12 @@ export default function FairShareJoin() {
                     </CollapsibleContent>
                   </Collapsible>
 
+                  {/* Additional Qualifications Section Header */}
+                  <div className="mt-6 mb-4">
+                    <h2 className="text-xl font-semibold text-foreground">Additional Qualifications</h2>
+                    <p className="text-sm text-muted-foreground">Optional qualifications to enhance your profile</p>
+                  </div>
+
                   {/* Deck & Navigation */}
                   {(filterCategory === 'all' || filterCategory === 'deck') && (
                     <Collapsible open={openSections.deckNavigation} onOpenChange={() => toggleSection('deckNavigation')}>
