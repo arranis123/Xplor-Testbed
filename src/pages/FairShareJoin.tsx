@@ -23,6 +23,7 @@ const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Valid email is required"),
   nationality: z.string().min(1, "Nationality is required"),
+  yachtLength: z.string().optional(),
   currentVessel: z.string().optional(),
   yachtSizeCategory: z.string().min(1, "Yacht size category is required"),
   positionAppliedFor: z.string().min(1, "Position is required"),
@@ -471,7 +472,7 @@ export default function FairShareJoin() {
                           </Select>
                           <FormMessage />
                         </FormItem>} />
-                    <FormField control={form.control} name="currentVessel" render={({
+                     <FormField control={form.control} name="currentVessel" render={({
                     field
                   }) => <FormItem>
                           <FormLabel>Current Vessel (Optional)</FormLabel>
@@ -480,6 +481,19 @@ export default function FairShareJoin() {
                           </FormControl>
                           <FormMessage />
                         </FormItem>} />
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 gap-4">
+                     <FormField control={form.control} name="yachtLength" render={({
+                    field
+                  }) => <FormItem>
+                          <FormLabel>Yacht Length (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g. 50m, 164ft" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>} />
+                     <div></div>
                   </div>
 
                   <FormField control={form.control} name="primaryDepartment" render={({
