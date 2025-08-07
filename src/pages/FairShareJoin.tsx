@@ -18,6 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import { ChevronDown, Upload, Check, X, AlertCircle, Ship, Award, Globe, FileText, Search, Filter, Plus, Clock, RotateCcw } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { LiveCRIScoreTracker } from "@/components/LiveCRIScoreTracker";
 
 // Form schema
 const formSchema = z.object({
@@ -408,7 +409,18 @@ export default function FairShareJoin() {
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
-        <div className="container mx-auto px-4 py-12">
+        {/* Live CRI+ Score Tracker */}
+        <LiveCRIScoreTracker
+          formData={form.getValues()}
+          qualificationStatus={qualificationStatus}
+          yachtExperiences={yachtExperiences}
+          navigationExperience={navigationExperience}
+          selectedYachtSize={selectedYachtSize}
+          selectedPosition={selectedPosition}
+          selectedCoC={selectedCoC}
+        />
+        
+        <div className="container mx-auto px-4 py-12 lg:pr-96">
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-4">
@@ -1425,6 +1437,9 @@ export default function FairShareJoin() {
             </form>
           </Form>
         </div>
+        
+        {/* Bottom padding for mobile sticky footer */}
+        <div className="lg:hidden h-20" />
       </div>
     </>;
 }
