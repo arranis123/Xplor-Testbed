@@ -102,7 +102,7 @@ const HomeArchive = () => {
         <section className="py-mobile-2xl sm:py-20 bg-background">
           <div className="container mx-auto px-mobile-md sm:px-4">
             <div className="text-center mb-mobile-2xl sm:mb-16">
-              <h2 className="text-mobile-3xl sm:text-4xl font-bold text-foreground mb-mobile-md sm:mb-4">XPLOR FIND UPLOAD SHOWCASE SELL RENT BUY CHARTER DESIGN DREAM</h2>
+              <h2 className="text-mobile-3xl sm:text-4xl font-bold text-foreground mb-mobile-md sm:mb-4">XPLOR FIND UPLOAD SHOWCASE SELL RENT BUY CHARTER DESIGN DREA</h2>
               <p className="text-mobile-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                 From exclusive yachts to stunning properties, curate your perfect luxury getaway
               </p>
