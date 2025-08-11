@@ -424,6 +424,45 @@ export type Database = {
         }
         Relationships: []
       }
+      role_change_audit: {
+        Row: {
+          action: string
+          admin_user_email: string | null
+          admin_user_id: string | null
+          created_at: string
+          id: string
+          ip_address: unknown | null
+          role_assigned: Database["public"]["Enums"]["app_role"]
+          target_user_email: string
+          target_user_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          admin_user_email?: string | null
+          admin_user_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          role_assigned: Database["public"]["Enums"]["app_role"]
+          target_user_email: string
+          target_user_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          admin_user_email?: string | null
+          admin_user_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          role_assigned?: Database["public"]["Enums"]["app_role"]
+          target_user_email?: string
+          target_user_id?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       system_settings: {
         Row: {
           description: string | null
