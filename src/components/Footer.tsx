@@ -38,8 +38,8 @@ const Footer = () => {
               <Link to="#" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Experiences
               </Link>
-              <Link to="#" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Eco Tours
+              <Link to="/electric-charging-stations" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Electric Charging
               </Link>
             </div>
           </div>

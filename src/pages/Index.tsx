@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Ship, Home, Building, Car, Plane, Utensils, ArrowRight, Check, Users, DollarSign, ChevronDown, Plus } from "lucide-react";
+import { Ship, Home, Building, Car, Plane, Utensils, ArrowRight, Check, Users, DollarSign, ChevronDown, Plus, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MuseumGalleryUploadDialog } from "@/components/MuseumGalleryUploadDialog";
@@ -52,6 +52,10 @@ const Index = () => {
     title: "Jets & Aviation",
     icon: Plane,
     url: "/jets-aviation"
+  }, {
+    title: "Electric Charging",
+    icon: Zap,
+    url: "/electric-charging-stations"
   }];
   const howItWorksSteps = [{
     step: "1",
@@ -245,12 +249,17 @@ const Index = () => {
                       Offices, Showrooms & Studios
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/sports-stadiums-theme-parks" className="cursor-pointer">
-                      Sports Stadiums & Theme Parks
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+                   <DropdownMenuItem asChild>
+                     <Link to="/sports-stadiums-theme-parks" className="cursor-pointer">
+                       Sports Stadiums & Theme Parks
+                     </Link>
+                   </DropdownMenuItem>
+                   <DropdownMenuItem asChild>
+                     <Link to="/electric-charging-stations" className="cursor-pointer">
+                       Electric Charging Stations
+                     </Link>
+                   </DropdownMenuItem>
+                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>

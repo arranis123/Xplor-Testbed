@@ -69,6 +69,7 @@ const OfficesShowroomsStudios = lazy(() => import("./pages/OfficesShowroomsStudi
 const SportsStadiumsThemeParks = lazy(() => import("./pages/SportsStadiumsThemeParks"));
 const HowToCreateVirtualTour = lazy(() => import("./pages/HowToCreateVirtualTour"));
 const VirtualTourPlatforms = lazy(() => import("./pages/VirtualTourPlatforms"));
+const ElectricChargingStations = lazy(() => import("./pages/ElectricChargingStations"));
 
 const queryClient = new QueryClient();
 
@@ -139,6 +140,7 @@ const App = () => {
               <Route path="/sports-stadiums-theme-parks" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><SportsStadiumsThemeParks /></Suspense></AppLayout>} />
               <Route path="/how-to-create-virtual-tour" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><HowToCreateVirtualTour /></Suspense></AppLayout>} />
               <Route path="/virtual-tour-platforms" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><VirtualTourPlatforms /></Suspense></AppLayout>} />
+              <Route path="/electric-charging-stations" element={<AppLayout><Suspense fallback={<div className="p-6"><Skeleton className="h-8 w-64 mb-4" /><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-3/4" /></div>}><ElectricChargingStations /></Suspense></AppLayout>} />
               <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AppLayout><Admin /></AppLayout></ProtectedRoute>} />
               <Route path="/auth" element={<Auth />} />

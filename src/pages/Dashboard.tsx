@@ -23,6 +23,7 @@ import TrainTramUploadDialog from "@/components/TrainTramUploadDialog";
 import RestaurantBarUploadDialog from "@/components/RestaurantBarUploadDialog";
 import UAEDevelopmentUploadDialog from "@/components/UAEDevelopmentUploadDialog";
 import DevelopmentUploadDialog from "@/components/DevelopmentUploadDialog";
+import { ChargeStationUploadDialog } from "@/components/ChargeStationUploadDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -46,6 +47,7 @@ const Dashboard = () => {
   const [sportsStadiumsThemeParksUploadDialogOpen, setSportsStadiumsThemeParksUploadDialogOpen] = useState(false);
   const [golfCourseUploadDialogOpen, setGolfCourseUploadDialogOpen] = useState(false);
   const [govHospitalUploadDialogOpen, setGovHospitalUploadDialogOpen] = useState(false);
+  const [chargeStationUploadDialogOpen, setChargeStationUploadDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const location = useLocation();
   console.log('Dashboard state:', {
@@ -58,6 +60,8 @@ const Dashboard = () => {
     if (location.state?.openUpload && location.state?.category) {
       setSelectedCategory(location.state.category);
       setUploadDialogOpen(true);
+    } else if (location.state?.openChargeStationUpload) {
+      setChargeStationUploadDialogOpen(true);
     }
   }, [location.state]);
   const stats = [{
@@ -217,6 +221,13 @@ const Dashboard = () => {
             }}>
                 <Car className="h-4 w-4 mr-2" />
                 Cars & Vehicles
+              </DropdownMenuItem>
+              
+              <DropdownMenuItem onClick={() => {
+              setChargeStationUploadDialogOpen(true);
+            }}>
+                <Zap className="h-4 w-4 mr-2" />
+                Electric Charging Stations
               </DropdownMenuItem>
               
               <DropdownMenuItem onClick={() => {
@@ -672,6 +683,8 @@ const Dashboard = () => {
       <UAEDevelopmentUploadDialog open={showUAEDevelopmentDialog} onOpenChange={setShowUAEDevelopmentDialog} />
       
       <DevelopmentUploadDialog open={showDevelopmentDialog} onOpenChange={setShowDevelopmentDialog} />
+      
+      <ChargeStationUploadDialog open={chargeStationUploadDialogOpen} onOpenChange={setChargeStationUploadDialogOpen} />
     </div>;
 };
 export default Dashboard;
