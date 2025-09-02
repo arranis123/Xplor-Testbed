@@ -77,7 +77,7 @@ const Index = () => {
         {/* Hero Section - Platform-Led, Offer-Aware */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="/lovable-uploads/aa974283-f5dc-4cca-bfc2-703fe4393e5c.png" alt="Luxury Properties Worldwide Map" className="w-full h-full object-cover" />
+            <img src="/src/assets/xplor-hero-immersive.jpg" alt="Immersive Virtual Tour Experience - Real Estate, Yachts, Developments, Galleries, Sports, Retail, Aviation, Automotive, Hospitality" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/20"></div>
           </div>
           
